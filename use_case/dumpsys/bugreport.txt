@@ -1,0 +1,81 @@
+========================================================
+== dumpstate: 1970-01-07 05:42:40
+========================================================
+
+Build: msm8996-userdebug 6.0.1 MMB29M eng.lnxbuild.20151222.163931 test-keys
+Build fingerprint: 'Android/msm8996/msm8996:6.0.1/MMB29M/lnxbuild12221640:userdebug/test-keys'
+Bootloader: unknown
+Radio: msm
+Network: ,
+Kernel: Linux version 3.18.20-g5a85abd (lnxbuild@abait39-lnx) (gcc version 4.9.x-google 20140827 (prerelease) (GCC) ) #1 SMP PREEMPT Tue Dec 22 16:42:11 MST 2015
+Command line: sched_enable_hmp=1 sched_enable_power_aware=1 console=ttyHSL0,115200,n8 androidboot.console=ttyHSL0 androidboot.hardware=qcom user_debug=31 msm_rtb.filter=0x237 ehci-hcd.park=3 lpm_levels.sleep_disabled=1 cma=16M@0-0xffffffff androidboot.bootdevice=7464900.sdhci androidboot.verifiedbootstate=orange androidboot.veritymode=enforcing androidboot.serialno=459d2ef8 androidboot.baseband=msm mdss_mdp.panel=1:dsi:0:qcom,mdss_dsi_sharp_wqxga_video:config0:1:qcom,mdss_dsi_sharp_wqxga_video:config0:cfg:split_dsi
+
+------ UPTIME (uptime) ------
+up time: 17:00:26, idle time: 05:35:57, sleep time: 15:19:54
+[uptime: 0.013s elapsed]
+
+------ UPTIME MMC PERF (/sys/block/mmcblk0/) ------
+stat:     7745     3516  1668426    26670    38866    48338 18457992   222760        0   129000   249380
+stat: read: 32029KB/s write: 42424KB/s
+mmcblk0p15/stat:       57        0    58368      430        0        0        0        0        0      270      430
+mmcblk0p15/stat: read: 69498KB/s write: 0KB/s
+mmcblk0p16/stat:     4616       68  1196706    17580        0        0        0        0        0     8200    17590
+mmcblk0p16/stat: read: 34852KB/s write: 0KB/s
+mmcblk0p23/stat:     1329     3379   145577     3210        0        0        0        0        0     1210     3200
+mmcblk0p23/stat: read: 23219KB/s write: 0KB/s
+mmcblk0p24/stat:       43        5     1522      120        5        1       48        0        0      120      120
+mmcblk0p24/stat: read: 6493KB/s write: 0KB/s
+mmcblk0p26/stat:        1        0       32        0        0        0        0        0        0        0        0
+mmcblk0p26/stat: read: 0KB/s write: 0KB/s
+mmcblk0p34/stat:       33        0       33        0        0        0        0        0        0        0        0
+mmcblk0p34/stat: read: 0KB/s write: 0KB/s
+mmcblk0p36/stat:        1        0       16       10        0        0        0        0        0       10       10
+mmcblk0p36/stat: read: 819KB/s write: 0KB/s
+mmcblk0p37/stat:        1        0       32       10      192    24384   196608    18010        0     6750    18020
+mmcblk0p37/stat: read: 1638KB/s write: 5589KB/s
+mmcblk0p38/stat:        8        0     4096      230      188    23876   192512    16820        0     6560    17050
+mmcblk0p38/stat: read: 9118KB/s write: 5860KB/s
+mmcblk0p39/stat:       11       32      338       10        6        2       64        0        0       10       10
+mmcblk0p39/stat: read: 17305KB/s write: 0KB/s
+mmcblk0p40/stat:       41       32      626      660       70       75     1208      120        0      560      780
+mmcblk0p40/stat: read: 485KB/s write: 5154KB/s
+mmcblk0p46/stat:     1598        0   261032     4410    16625        0 18067552   131030        0    51960   135410
+mmcblk0p46/stat: read: 30305KB/s write: 70598KB/s
+
+------ MEMORY INFO (/proc/meminfo) ------
+MemTotal:        2711684 kB
+MemFree:          604024 kB
+MemAvailable:    1427628 kB
+Buffers:           24680 kB
+Cached:           894208 kB
+SwapCached:            0 kB
+Active:           777388 kB
+Inactive:         620484 kB
+Active(anon):     480928 kB
+Inactive(anon):     8900 kB
+Active(file):     296460 kB
+Inactive(file):   611584 kB
+Unevictable:           0 kB
+Mlocked:               0 kB
+SwapTotal:        524284 kB
+SwapFree:         524284 kB
+Dirty:                24 kB
+Writeback:             0 kB
+AnonPages:        478940 kB
+Mapped:           371132 kB
+Shmem:             10912 kB
+Slab:             136928 kB
+SReclaimable:      49404 kB
+SUnreclaim:        87524 kB
+KernelStack:       25424 kB
+PageTables:        25944 kB
+NFS_Unstable:          0 kB
+Bounce:                0 kB
+WritebackTmp:          0 kB
+CommitLimit:     1880124 kB
+Committed_AS:   53585660 kB
+VmallocTotal:   244318144 kB
+VmallocUsed:      183492 kB
+VmallocChunk:   244028628 kB
+
+------ CPU INFO (top -n 1 -d 1 -m 30 -t) ------

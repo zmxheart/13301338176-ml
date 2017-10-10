@@ -1,0 +1,98 @@
+////////////////////////////////
+
+
+https://github.com/ericjang/tdb
+
+
+https://github.com/wookayin/tensorflow-talk-debugging
+
+
+http://weibo.com/ttarticle/p/show?id=2309404071108071548638
+
+
+http://www.aimechanic.com/2016/10/15/d243-guide-debugging-tensorflow-neural-networks/
+
+
+//////////////////////
+
+d243: Guide for Debugging TensorFlow Neural Networks
+A Practical Guide for Debugging Tensorflow Codes by Jongwook Choi
+
+    Code: https://github.com/wookayin/TensorflowKR-2016-talk-debugging
+    Slides: https://wookayin.github.io/TensorflowKR-2016-talk-debugging/#1
+    Video (in Korean):
+
+
+Tensor Debugger (TDB) – a visual debugger for deep learning
+
+    https://github.com/ericjang/tdb
+    MNIST Visualization Example (ipynb): https://github.com/ericjang/tdb/blob/master/notebooks/mnist_demo.ipynb
+    Discussion on Hacker News: https://news.ycombinator.com/item?id=10734724
+    Example visualisation of Tensor Debugger running on MNIST model implemented in TensorFlow:
+
+
+Additional reading on TensorFlow debugging
+
+    What features does TensorFlow have for Debugging Neural Networks?
+    How to debug Tensorflow Network weights/outputs/cost per input sample?
+    General Guide to Faster, Less Frustrating Debugging
+
+Share this:
+
+    TwitterFacebookGoogle
+
+Related
+
+d221: SVHN TensorFlow examples and source codeSeptember 22, 2016In "Study"
+
+d242: TensorFlow CIFAR-10 tutorial, detailed step-by-step review, Part 1October 13, 2016In "Study"
+
+d97: TensorFlow Deep Learning books and examplesMay 23, 2016In "Sources"
+Categories SourcesTags TensorFlow	
+
+
+d221: SVHN TensorFlow examples and source code
+
+SVHN TensorFlow: Study materials, questions and answers, examples and source code related to work with The Street View House Numbers Dataset in TensorFlow.
+
+SVHN tensorflow
+
+The Street View House Numbers (SVHN) Dataset: http://ufldl.stanford.edu/housenumbers/ (Non-commercial use only) [“SVHN is a real-world image dataset for developing machine learning and object recognition algorithms with minimal requirement on data preprocessing and formatting.”]
+
+Convolutional Neural Networks (tensorflow tutorial): https://www.tensorflow.org/versions/r0.10/tutorials/deep_cnn/index.html [‘Fork the CIFAR-10 tutorial and swap in the SVHN as the input data’]
+
+How to get SVHN into tensorflow: https://groups.google.com/a/tensorflow.org/forum/#!topic/discuss/2TGYnPQP5hE
+
+SVHN based on the CIFAR10 TensorFlow example: https://github.com/jkschin/svhn
+
+SVHN TensorFlow Source code example: https://github.com/ppwwyyxx/tensorpack/blob/master/tensorpack/dataflow/dataset/svhn.py
+
+SVHN TensorFlow Example: http://jkschin.github.io/2016/01/13/svhn-tensorflow.html
+
+Issue with “TensorFlow Indices are not valid (out of bounds)”: http://stackoverflow.com/questions/34759227/tensorflow-cifar10-example/34763642#34763642 (‘Given 10 classes, the labels should range 0-9. The error happened because the labels ranged 1-10.’)
+
+Reshaping SVHN data for TensorFlow: http://stackoverflow.com/questions/36384618/tensorflow-getting-data-into-it-svhn
+
+Source code, “SVHN-classification-using-Tensorflow”: https://github.com/codemukul95/SVHN-classification-using-Tensorflow
+
+Converting “.mat” to “.bin” with fix to labels (1-10 becomes 0-9): http://stackoverflow.com/questions/35756236/tensorflow-tried-svhn-by-editing-label-0-9-still-not-working
+
+Multi-digit Number Recognition from Street View Imagery using Deep Convolutional Neural Networks [Paper, PDF]: http://static.googleusercontent.com/media/research.google.com/en//pubs/archive/42241.pdf [‘recognizing arbitrary multi-digit numbers from Street View imagery‘]
+
+Udacity Deep Learning Capstone Project: https://docs.google.com/document/d/1L11EjK0uObqjaBhHNcVPxeyIripGHSUaoEWGypuuVtk/pub [‘In this project, you will train a model that can decode sequences of digits from natural images, and create an app that prints the numbers it sees in real time. You may choose to implement your project as a simple Python script, a web app/service or an Android app.‘]
+
+Number plate recognition with Tensorflow: http://matthewearl.github.io/2016/05/06/cnn-anpr/ (Source code: Deep ANPR)
+
+SUN Database: Scene Categorization Benchmark: http://vision.princeton.edu/projects/2010/SUN/ [‘Scene categorization is a fundamental problem in computer vision.  Scene UNderstanding (SUN) database contains 899 categories and 130,519 images.’]
+
+TensorFlow discuss: https://groups.google.com/a/tensorflow.org/forum/#!forum/discuss [‘General discussions about TensorFlow development and directions’]
+
+TensorFlow Tagged Questions: https://stackoverflow.com/questions/tagged/tensorflow
+
+A curated list of deep learning resources for computer vision: https://github.com/kjw0612/awesome-deep-vision
+
+A curated list of awesome computer vision resources: https://github.com/jbhuang0604/awesome-computer-vision
+
+Deep Learning Capstone Project (FedorSulaev/DeepLearningCameraApp): https://github.com/FedorSulaev/DeepLearningCameraApp
+
+Ian Goodfellow: Multi-digit Number Recognition from Street View Imagery using ConvNets:

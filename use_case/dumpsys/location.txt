@@ -1,0 +1,72 @@
+Current Location Manager state:
+  Location Listeners:
+    Reciever[c64f18d listener UpdateRecord[passive android(1000) Request[POWER_NONE passive fastest=0]]]
+    Reciever[8a1ff42 listener UpdateRecord[network android(1000) Request[POWER_LOW network requested=+24h0m0s0ms fastest=+24h0m0s0ms]]]
+    Reciever[7cbfb53 listener UpdateRecord[passive com.amap.android.location(10033) Request[POWER_NONE passive fastest=+1s0ms]]]
+    Reciever[d9f7c90 listener UpdateRecord[passive com.amap.android.location(10033) Request[POWER_NONE passive fastest=+1s0ms]]]
+    Reciever[c3c1989 listener UpdateRecord[passive android(1000) Request[POWER_NONE passive fastest=0]]]
+    Reciever[e54cd8e listener UpdateRecord[passive android(1000) Request[POWER_NONE passive fastest=0]]]
+    Reciever[a90f9af listener UpdateRecord[passive com.qualcomm.location(1000) Request[POWER_NONE passive fastest=0]]]
+  Active Records by Provider:
+    network:
+      UpdateRecord[network android(1000) Request[POWER_LOW network requested=+24h0m0s0ms fastest=+24h0m0s0ms]]
+    gps:
+    passive:
+      UpdateRecord[passive android(1000) Request[POWER_NONE passive fastest=0]]
+      UpdateRecord[passive android(1000) Request[POWER_NONE passive fastest=0]]
+      UpdateRecord[passive android(1000) Request[POWER_NONE passive fastest=0]]
+      UpdateRecord[passive com.qualcomm.location(1000) Request[POWER_NONE passive fastest=0]]
+      UpdateRecord[passive com.amap.android.location(10033) Request[POWER_NONE passive fastest=+1s0ms]]
+      UpdateRecord[passive com.amap.android.location(10033) Request[POWER_NONE passive fastest=+1s0ms]]
+  Historical Records by Provider:
+    com.xiaomi.smarthome: gps: Interval 0 seconds: Duration requested 0 out of the last 6169 minutes
+    com.zcbl.bjjj_driving: passive: Interval 9 seconds: Duration requested 0 out of the last 1284 minutes
+    com.moji.mjweather: passive: Interval 1 seconds: Duration requested 0 out of the last 3418 minutes
+    com.miui.securitycenter: network: Interval 5 seconds: Duration requested 0 out of the last 5908 minutes
+    com.miui.yellowpage: network: Interval 5 seconds: Duration requested 0 out of the last 4001 minutes
+    so.ofo.labofo: gps: Interval 0 seconds: Duration requested 1 out of the last 1277 minutes
+    android: network: Interval 86400 seconds: Duration requested 6710 out of the last 6710 minutes: Currently active
+    com.zcbl.bjjj_driving: gps: Interval 1 seconds: Duration requested 0 out of the last 1284 minutes
+    com.dianping.v1: passive: Interval 1 seconds: Duration requested 1 out of the last 5624 minutes
+    com.moji.mjweather: gps: Interval 0 seconds: Duration requested 0 out of the last 6245 minutes
+    com.qualcomm.location: passive: Interval 0 seconds: Duration requested 6710 out of the last 6710 minutes: Currently active
+    com.android.camera: network: Interval 1 seconds: Duration requested 5 out of the last 5967 minutes
+    com.mobike.mobikeapp: passive: Interval 9 seconds: Duration requested 1 out of the last 5700 minutes
+    com.miui.analytics: network: Interval 600 seconds: Duration requested 1464 out of the last 6710 minutes
+    com.android.camera: gps: Interval 1 seconds: Duration requested 5 out of the last 5967 minutes
+    com.baidu.BaiduMap: passive: Min interval 5 seconds: Max interval 9 seconds: Duration requested 573 out of the last 6710 minutes
+    android: passive: Interval 0 seconds: Duration requested 6710 out of the last 6710 minutes: Currently active
+    com.xiaomi.smarthome: network: Interval 0 seconds: Duration requested 0 out of the last 6169 minutes
+    so.ofo.labofo: passive: Interval 1 seconds: Duration requested 1 out of the last 1277 minutes
+    com.moji.mjweather: network: Min interval 0 seconds: Max interval 0 seconds: Duration requested 0 out of the last 4447 minutes
+    com.amap.android.location: passive: Interval 1 seconds: Duration requested 6617 out of the last 6710 minutes: Currently active
+    com.autonavi.minimap: passive: Interval 1 seconds: Duration requested 769 out of the last 5993 minutes
+    com.baidu.searchbox: network: Interval 10 seconds: Duration requested 0 out of the last 5650 minutes
+    com.dianping.v1: gps: Interval 1 seconds: Duration requested 0 out of the last 5624 minutes
+    com.tencent.mm: gps: Interval 1 seconds: Duration requested 0 out of the last 1471 minutes
+    com.autonavi.minimap: gps: Interval 1 seconds: Duration requested 19 out of the last 5993 minutes
+    com.zcbl.bjjj_driving: network: Interval 2 seconds: Duration requested 0 out of the last 1284 minutes
+    com.taobao.taobao: gps: Interval 0 seconds: Duration requested 0 out of the last 4568 minutes
+    com.mobike.mobikeapp: gps: Min interval 1 seconds: Max interval 5 seconds: Duration requested 22 out of the last 5700 minutes
+  Last Known Locations:
+    network: Location[network 39.965695,116.404621 acc=29 et=+4d15h34m20s858ms {Bundle[{retype=-1, amap=1}]}]
+    passive: Location[network 39.965695,116.404621 acc=29 et=+4d15h34m20s858ms {Bundle[{retype=-1, amap=1}]}]
+  Last Known Locations Coarse Intervals:
+    network: Location[network 39.965743,116.404563 acc=35 et=+4d15h34m10s959ms {Bundle[{retype=-1, amap=1}]}]
+    passive: Location[network 39.965743,116.404563 acc=35 et=+4d15h34m10s959ms {Bundle[{retype=-1, amap=1}]}]
+  Geofences:
+  Enabled Providers:
+    fused
+    passive
+  mWhitelist=[] mBlacklist=[]
+  fudger: offset: 288, -229 (meters)
+passive Internal State:
+mReportLocation=true
+gps Internal State:
+  mFixInterval=1000
+  mDisableGps (battery saver mode)=false
+  mEngineCapabilities=0x31 (SCHED ON_DEMAND_TIME )
+nullnetwork Internal State (com.amap.android.location):
+REMOTE SERVICE name=network pkg=com.amap.android.location version=2147483647
+fused Internal State (com.qualcomm.location):
+REMOTE SERVICE name=fused pkg=com.qualcomm.location version=1

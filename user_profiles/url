@@ -1,0 +1,117 @@
+https://juejin.im/entry/587369cc61ff4b006d4acefb
+http://www.cnblogs.com/0616--ataozhijia/p/5202384.html
+
+
+此时我们不妨乐观的假设，这两个值分别就是UsageStats.mLastEvent中的1和2，从名字上就能看得出含义，正是我们需要的值。
+带着假设去源码中寻找答案，会发现源码中充斥着类似下面的代码：
+
+//下面代码来自com.android.server.usage.IntervalStats
+private boolean isStatefulEvent(int eventType) {
+   switch (eventType) {
+       case UsageEvents.Event.MOVE_TO_FOREGROUND:
+       case UsageEvents.Event.MOVE_TO_BACKGROUND:
+       case UsageEvents.Event.END_OF_DAY:
+       case UsageEvents.Event.CONTINUE_PREVIOUS_DAY:
+           return true;
+   }
+   return false;
+}
+
+void update(String packageName, long timeStamp, int eventType) {
+  UsageStats usageStats = getOrCreateUsageStats(packageName);
+
+  // TODO(adamlesinski): Ensure that we recover from incorrect event sequences
+   // like double MOVE_TO_BACKGROUND, etc.
+   if (eventType == UsageEvents.Event.MOVE_TO_BACKGROUND ||
+           eventType == UsageEvents.Event.END_OF_DAY) {
+       if (usageStats.mLastEvent == UsageEvents.Event.MOVE_TO_FOREGROUND ||
+               usageStats.mLastEvent == UsageEvents.Event.CONTINUE_PREVIOUS_DAY) {
+           usageStats.mTotalTimeInForeground += timeStamp - usageStats.mLastTimeUsed;
+       }
+   }
+
+   if (isStatefulEvent(eventType)) {
+       usageStats.mLastEvent = eventType;
+   }
+
+   if (eventType != UsageEvents.Event.SYSTEM_INTERACTION) {
+       usageStats.mLastTimeUsed = timeStamp;
+   }
+   usageStats.mLastTimeSystemUsed = timeStamp;
+   usageStats.mEndTimeStamp = timeStamp;
+
+   if (eventType == UsageEvents.Event.MOVE_TO_FOREGROUND) {
+       usageStats.mLaunchCount += 1;
+   }
+
+   endTime = timeStamp;
+}
+可见 usageStats.mLastEvent就对应着UsageEvents.Event中的常量。那么我们要做的就很简单了，只要将queryUsageStats()方法得到的结果按最后使用时间降序排列，然后取第一个mLastEvent ==1的元素即可。代码和效果图如下
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//改进版本的通过使用量统计功能获取前台应用
+UsageStatsManager mUsageStatsManager = (UsageStatsManager)context.getApplicationContext().getSystemService(Context.USAGE_STATS_SERVICE);
+long time = System.currentTimeMillis();
+List<UsageStats> stats ;
+if (isFirst){
+    stats = mUsageStatsManager.queryUsageStats(UsageStatsManager.INTERVAL_DAILY, time - TWENTYSECOND, time);
+}else {
+    stats = mUsageStatsManager.queryUsageStats(UsageStatsManager.INTERVAL_DAILY, time - THIRTYSECOND, time);
+}
+// Sort the stats by the last time used
+if(stats != null) {
+    TreeMap<Long,UsageStats> mySortedMap = new TreeMap<Long,UsageStats>();
+    start=System.currentTimeMillis();
+    for (UsageStats usageStats : stats) {
+        mySortedMap.put(usageStats.getLastTimeUsed(),usageStats);
+    }
+    LogUtil.e(TAG,"isFirst="+isFirst+",mySortedMap cost:"+ (System.currentTimeMillis()-start));
+    if(mySortedMap != null && !mySortedMap.isEmpty()) {                   
+
+        NavigableSet<Long> keySet=mySortedMap.navigableKeySet();
+        Iterator iterator=keySet.descendingIterator();
+        while(iterator.hasNext()){
+            UsageStats usageStats = mySortedMap.get(iterator.next());
+            if (mLastEventField==null) {
+                try {
+                    mLastEventField = UsageStats.class.getField("mLastEvent");
+                } catch (NoSuchFieldException e) {
+                    break;
+                }
+            }
+            if (mLastEventField!=null) {
+                int lastEvent = 0;
+                try {
+                    lastEvent = mLastEventField.getInt(usageStats);
+                } catch (IllegalAccessException e) {
+                    break;
+                }
+                if (lastEvent==1){
+                    topPackageName=usageStats.getPackageName();
+                    break;
+                }
+            }else {
+                break;
+            }
+        }    
+        if (topPackageName==null){
+            topPackageName =  mySortedMap.get(mySortedMap.lastKey()).getPackageName();
+        }
+        runningTopActivity=new ComponentName(topPackageName,"");
+        if (LogUtil.isDebug())LogUtil.d(TAG,topPackageName);
+    }
+}

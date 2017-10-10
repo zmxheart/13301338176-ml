@@ -1,0 +1,1 @@
+09-26 14:14:10.906  4236  4236 D StatusBar.NetworkController: onSignalStrengthsChanged received on slotId :1signalStrength=SignalStrength: 99 0 -80 -70 -120 -1 -1 21 -97 -7 186 2147483647 2147483647 gsm|lte level=5 cdmdlevel=5 evdolevel=0

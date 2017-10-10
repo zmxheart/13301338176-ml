@@ -1,0 +1,6 @@
+09-26 14:14:00.437   694   694 I MSM-irqbalance: Decided to move IRQ203 from CPU0 to CPU1
+09-26 14:14:00.668  4236  4236 D StatusBar.NetworkController: onSignalStrengthsChanged received on slotId :1signalStrength=SignalStrength: 99 0 -73 -70 -120 -1 -1 21 -97 -7 188 2147483647 2147483647 gsm|lte level=5 cdmdlevel=5 evdolevel=0
+09-26 14:14:03.222  4236  4236 D StatusBar.NetworkController: onSignalStrengthsChanged received on slotId :1signalStrength=SignalStrength: 99 0 -75 -70 -120 -1 -1 21 -97 -7 188 2147483647 2147483647 gsm|lte level=5 cdmdlevel=5 evdolevel=0
+09-26 14:14:05.437   694   694 I MSM-irqbalance: Decided to move IRQ200 from CPU0 to CPU1
+09-26 14:14:05.786  4236  4236 D StatusBar.NetworkController: onSignalStrengthsChanged received on slotId :1signalStrength=SignalStrength: 99 0 -75 -70 -120 -1 -1 21 -97 -9 148 2147483647 2147483647 gsm|lte level=5 cdmdlevel=5 evdolevel=0
+09-26 14:14:07.065  4236  4236 D StatusBar.NetworkController: onSignalStrengthsChanged received on slotId :1signalStrength=SignalStrength: 99 0 -75 -70 -120 -1 -1 21 -97 -7 186 2147483647 2147483647 gsm|lte level=5 cdmdlevel=5 evdolevel=0

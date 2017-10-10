@@ -1,0 +1,390 @@
+
+WINDOW MANAGER LAST ANR (dumpsys window lastanr)
+  <no ANR has occurred since boot>
+
+WINDOW MANAGER POLICY STATE (dumpsys window policy)
+    mSafeMode=false mSystemReady=true mSystemBooted=true
+    mLidState=1 mLidOpenRotation=-1 mCameraLensCoverState=-1 mHdmiPlugged=false
+    mLastSystemUiFlags=0x42000000 mResettingSystemUiFlags=0x0 mForceClearedSystemUiFlags=0x0
+    mWakeGestureEnabledSetting=true
+    mSupportAutoRotation=true
+    mUiMode=14 mDockMode=0 mCarDockRotation=-1 mDeskDockRotation=-1
+    mUserRotationMode=0 mUserRotation=0 mAllowAllRotations=1
+    mCurrentAppOrientation=1
+    mCarDockEnablesAccelerometer=true mDeskDockEnablesAccelerometer=true
+    mLidKeyboardAccessibility=0 mLidNavigationAccessibility=0 mLidControlsSleep=true
+    mShortPressOnPowerBehavior=1 mLongPressOnPowerBehavior=1
+    mDoublePressOnPowerBehavior=0 mTriplePressOnPowerBehavior=0
+    mHasSoftInput=true
+    mAwake=false
+    mScreenOnEarly=false mScreenOnFully=false
+    mKeyguardDrawComplete=false mWindowManagerDrawComplete=false
+    mOrientationSensorEnabled=false
+    mOverscanScreen=(0,0) 1080x1920
+    mRestrictedOverscanScreen=(0,0) 1080x1920
+    mUnrestrictedScreen=(0,0) 1080x1920
+    mRestrictedScreen=(0,0) 1080x1920
+    mStableFullscreen=(0,0)-(1080,1920)
+    mStable=(0,55)-(1080,1920)
+    mSystem=(0,0)-(1080,1920)
+    mCur=(0,55)-(1080,1920)
+    mContent=(0,55)-(1080,1920)
+    mVoiceContent=(0,55)-(1080,1920)
+    mDock=(0,55)-(1080,1920)
+    mDockLayer=268435456 mStatusBarLayer=161000
+    mShowingLockscreen=false mShowingDream=false mDreamingLockscreen=false mDreamingSleepToken=null
+    mStatusBar=Window{a3195ea u0 StatusBar} isStatusBarKeyguard=true
+    mFocusedWindow=Window{f9219f8 u0 Keyguard}
+    mTopFullscreenOpaqueWindowState=Window{7ccc220 u0 com.tencent.mm/com.tencent.mm.ui.LauncherUI}
+    mTopFullscreenOpaqueOrDimmingWindowState=Window{7ccc220 u0 com.tencent.mm/com.tencent.mm.ui.LauncherUI}
+    mTopIsFullscreen=false mHideLockScreen=false
+    mForceStatusBar=true mForceStatusBarFromKeyguard=false
+    mDismissKeyguard=0 mWinDismissingKeyguard=null mHomePressed=false
+    mAllowLockscreenWhenOn=false mLockScreenTimeout=300000 mLockScreenTimerActive=false
+    mEndcallBehavior=2 mIncallPowerBehavior=1 mLongPressOnHomeBehavior=0
+    mLandscapeRotation=1 mSeascapeRotation=3
+    mPortraitRotation=0 mUpsideDownRotation=2
+    mDemoHdmiRotation=1 mDemoHdmiRotationLock=false
+    mUndockedHdmiRotation=-1
+    mKeyMapping.size=0
+    BarController.StatusBar
+      mState=WINDOW_STATE_SHOWING
+      mTransientBar=TRANSIENT_BAR_NONE
+    PolicyControl.sImmersiveStatusFilter=null
+    PolicyControl.sImmersiveNavigationFilter=null
+    PolicyControl.sImmersivePreconfirmationsFilter=null
+    WakeGestureListener
+      mTriggerRequested=false
+      mSensor=null
+    WindowOrientationListener
+      mEnabled=false
+      mCurrentRotation=0
+      mSensorType=@0
+      mSensor={Sensor name="BMI160 Accelerometer", vendor="BOSCH", version=1173700, type=1, maxRange=39.22661, resolution=0.0011901855, power=0.18, minDelay=5000}
+      mRate=2
+      AccelSensorJudge
+        mProposedRotation=-1
+        mPredictedRotation=-1
+        mLastFilteredX=0.1509747
+        mLastFilteredY=0.12190715
+        mLastFilteredZ=9.672183
+        mLastFilteredTimestampNanos=405685265149559 (32252.086ms ago)
+        mTiltHistory={last: 89.0}
+        mFlat=true
+        mSwinging=false
+        mAccelerating=false
+        mOverhead=false
+        mTouched=false
+        mTiltToleranceConfig=[[-25, 70], [-25, 65], [-25, 60], [-25, 65]]
+    KeyguardServiceDelegate
+      showing=true
+      showingAndNotOccluded=true
+      inputRestricted=false
+      occluded=false
+      secure=true
+      dreaming=false
+      systemIsReady=true
+      deviceHasKeyguard=true
+      enabled=true
+      offReason=3
+      currentUser=0
+      bootCompleted=true
+      screenState=0
+      interactiveState=0
+      KeyguardStateMonitor
+        mIsShowing=true
+        mSimSecure=false
+        mInputRestricted=true
+        mCurrentUserId=0
+
+WINDOW MANAGER ANIMATOR STATE (dumpsys window animator)
+    DisplayContentsAnimator #0:
+      Window #0: WindowStateAnimator{e0a8539 com.android.systemui.ImageWallpaper}
+      Window #1: WindowStateAnimator{4b006ae com.miui.home/com.miui.home.launcher.Launcher}
+      Window #2: WindowStateAnimator{90561d1 com.android.incallui/com.android.incallui.InCallActivity}
+      Window #3: WindowStateAnimator{3be8436 com.yiqizuoye.jzt/com.yiqizuoye.jzt.activity.MainActivity}
+      Window #4: WindowStateAnimator{c2aef37 com.yiqizuoye.jzt/com.yiqizuoye.jzt.activity.MainActivity}
+      Window #5: WindowStateAnimator{eb4cca4 com.tencent.mm/com.tencent.mm.ui.LauncherUI}
+      Window #6: WindowStateAnimator{42d4a0d InputMethod}
+      Window #7: WindowStateAnimator{6e6adc2 AppNotificationPanel}
+      Window #8: WindowStateAnimator{f3547d3 Keyguard}
+      Window #9: WindowStateAnimator{5c40f10 KeyguardScrim}
+      Window #10: WindowStateAnimator{7717a09 StatusBarBlur}
+      Window #11: WindowStateAnimator{b6cba32 StatusBar}
+      Window #12: WindowStateAnimator{a75e40e FloatNotificationPanel}
+      Window #13: WindowStateAnimator{828e2f RecentsPanel}
+
+
+    mBulkUpdateParams=0x8 ORIENTATION_CHANGE_COMPLETE
+
+WINDOW MANAGER SESSIONS (dumpsys window sessions)
+  Session Session{826f70 5804:u0a10000}:
+    mNumWindow=0 mClientDead=false mSurfaceSession=android.view.SurfaceSession@6430c3c
+  Session Session{348c730 4236:1000}:
+    mNumWindow=7 mClientDead=false mSurfaceSession=android.view.SurfaceSession@aaeadc5
+  Session Session{4c74427 18473:u0a10091}:
+    mNumWindow=0 mClientDead=false mSurfaceSession=android.view.SurfaceSession@b0331a
+  Session Session{592ffbd 1265:1000}:
+    mNumWindow=1 mClientDead=false mSurfaceSession=android.view.SurfaceSession@ab3de4b
+  Session Session{73f3918 5900:u0a10109}:
+    mNumWindow=1 mClientDead=false mSurfaceSession=android.view.SurfaceSession@552b028
+  Session Session{7e442c7 4875:u0a10013}:
+    mNumWindow=1 mClientDead=false mSurfaceSession=android.view.SurfaceSession@cd16141
+  Session Session{961db74 4670:1001}:
+    mNumWindow=0 mClientDead=false mSurfaceSession=android.view.SurfaceSession@a0e66e6
+  Session Session{98b2add 19259:u0a10111}:
+    mNumWindow=1 mClientDead=false mSurfaceSession=android.view.SurfaceSession@7601427
+  Session Session{af1caf0 24049:u0a10020}:
+    mNumWindow=1 mClientDead=false mSurfaceSession=android.view.SurfaceSession@736a6d4
+  Session Session{b7ce824 19413:u0a10095}:
+    mNumWindow=2 mClientDead=false mSurfaceSession=android.view.SurfaceSession@511d07d
+
+
+WINDOW MANAGER DISPLAY CONTENTS (dumpsys window displays)
+  Display: mDisplayId=0
+    init=1080x1920 440dpi cur=1080x1920 app=1080x1920 rng=1080x1025-1920x1865
+    deferred=false layoutNeeded=false
+  mStacks[1]1
+    mStackId=1
+    mDeferDetach=false
+    {taskId=13037 appTokens=[AppWindowToken{af96481 token=Token{d9f14d ActivityRecord{99a88e4 u0 com.android.htmlviewer/com.android.settings.wifi.openwifi.OpenWifiLogin t13037}}}] mdr=false}
+    {taskId=12887 appTokens=[AppWindowToken{5d228f5 token=Token{307b62c ActivityRecord{88e9df u0 com.android.incallui/.InCallActivity t12887}}}] mdr=false}
+    {taskId=12999 appTokens=[AppWindowToken{a357248 token=Token{97dd4eb ActivityRecord{563603a u0 com.tencent.mm/.plugin.wallet_index.ui.OrderHandlerUI t12999}}}, AppWindowToken{bd3121d token=Token{5536af4 ActivityRecord{be2d4c7 u0 com.tencent.mm/.plugin.wallet.pay.ui.WalletPayUI t12999}}}, AppWindowToken{779e238 token=Token{caf4e9b ActivityRecord{2ccf2aa u0 com.tencent.mm/.plugin.wallet_core.ui.WalletOrderInfoNewUI t12999}}}] mdr=false}
+    {taskId=13114 appTokens=[AppWindowToken{3dfea9a token=Token{5749345 ActivityRecord{98317bc u0 com.yiqizuoye.jzt/.activity.MainActivity t13114}}}] mdr=false}
+    {taskId=13109 appTokens=[AppWindowToken{4578f87 token=Token{e5333c6 ActivityRecord{1e7d5a1 u0 com.tencent.mm/.ui.LauncherUI t13109}}}] mdr=false}
+  mStacks[0]0
+    mStackId=0
+    mDeferDetach=false
+    {taskId=12857 appTokens=[AppWindowToken{d7b5057 token=Token{431c998 ActivityRecord{702b77b u0 com.miui.home/.launcher.Launcher t12857}}}] mdr=false}
+
+  Application tokens in top down Z order:
+  mStackId=1
+    mTaskId=13109
+    Activity #0 AppWindowToken{4578f87 token=Token{e5333c6 ActivityRecord{1e7d5a1 u0 com.tencent.mm/.ui.LauncherUI t13109}}}:
+      windows=[Window{7ccc220 u0 com.tencent.mm/com.tencent.mm.ui.LauncherUI}]
+      windowType=2 hidden=false hasVisible=true
+      app=true voiceInteraction=false
+      allAppWindows=[Window{7ccc220 u0 com.tencent.mm/com.tencent.mm.ui.LauncherUI}]
+      task={taskId=13109 appTokens=[AppWindowToken{4578f87 token=Token{e5333c6 ActivityRecord{1e7d5a1 u0 com.tencent.mm/.ui.LauncherUI t13109}}}] mdr=false}
+       appFullscreen=true requestedOrientation=-1
+      hiddenRequested=false clientHidden=false willBeHidden=false reportedDrawn=true reportedVisible=true
+      numInterestingWindows=1 numDrawnWindows=1 inPendingTransaction=false allDrawn=true (animator=true)
+      startingData=null removed=false firstWindowDrawn=true mIsExiting=false
+    mTaskId=13114
+    Activity #0 AppWindowToken{3dfea9a token=Token{5749345 ActivityRecord{98317bc u0 com.yiqizuoye.jzt/.activity.MainActivity t13114}}}:
+      windows=[Window{1d01ec1 u0 com.yiqizuoye.jzt/com.yiqizuoye.jzt.activity.MainActivity}, Window{e72e516 u0 com.yiqizuoye.jzt/com.yiqizuoye.jzt.activity.MainActivity}]
+      windowType=2 hidden=true hasVisible=true
+      app=true voiceInteraction=false
+      allAppWindows=[Window{1d01ec1 u0 com.yiqizuoye.jzt/com.yiqizuoye.jzt.activity.MainActivity}, Window{e72e516 u0 com.yiqizuoye.jzt/com.yiqizuoye.jzt.activity.MainActivity}]
+      task={taskId=13114 appTokens=[AppWindowToken{3dfea9a token=Token{5749345 ActivityRecord{98317bc u0 com.yiqizuoye.jzt/.activity.MainActivity t13114}}}] mdr=false}
+       appFullscreen=true requestedOrientation=1
+      hiddenRequested=true clientHidden=true willBeHidden=false reportedDrawn=false reportedVisible=false
+      numInterestingWindows=2 numDrawnWindows=2 inPendingTransaction=false allDrawn=true (animator=true)
+      startingData=null removed=false firstWindowDrawn=true mIsExiting=false
+    mTaskId=12999
+    Activity #2 AppWindowToken{779e238 token=Token{caf4e9b ActivityRecord{2ccf2aa u0 com.tencent.mm/.plugin.wallet_core.ui.WalletOrderInfoNewUI t12999}}}:
+      windows=[]
+      windowType=2 hidden=true hasVisible=true
+      app=true voiceInteraction=false
+      task={taskId=12999 appTokens=[AppWindowToken{a357248 token=Token{97dd4eb ActivityRecord{563603a u0 com.tencent.mm/.plugin.wallet_index.ui.OrderHandlerUI t12999}}}, AppWindowToken{bd3121d token=Token{5536af4 ActivityRecord{be2d4c7 u0 com.tencent.mm/.plugin.wallet.pay.ui.WalletPayUI t12999}}}, AppWindowToken{779e238 token=Token{caf4e9b ActivityRecord{2ccf2aa u0 com.tencent.mm/.plugin.wallet_core.ui.WalletOrderInfoNewUI t12999}}}] mdr=false}
+       appFullscreen=false requestedOrientation=-1
+      hiddenRequested=true clientHidden=true willBeHidden=false reportedDrawn=false reportedVisible=false
+      numInterestingWindows=1 numDrawnWindows=1 inPendingTransaction=false allDrawn=true (animator=true)
+    Activity #1 AppWindowToken{bd3121d token=Token{5536af4 ActivityRecord{be2d4c7 u0 com.tencent.mm/.plugin.wallet.pay.ui.WalletPayUI t12999}}}:
+      windows=[]
+      windowType=2 hidden=true hasVisible=true
+      app=true voiceInteraction=false
+      task={taskId=12999 appTokens=[AppWindowToken{a357248 token=Token{97dd4eb ActivityRecord{563603a u0 com.tencent.mm/.plugin.wallet_index.ui.OrderHandlerUI t12999}}}, AppWindowToken{bd3121d token=Token{5536af4 ActivityRecord{be2d4c7 u0 com.tencent.mm/.plugin.wallet.pay.ui.WalletPayUI t12999}}}, AppWindowToken{779e238 token=Token{caf4e9b ActivityRecord{2ccf2aa u0 com.tencent.mm/.plugin.wallet_core.ui.WalletOrderInfoNewUI t12999}}}] mdr=false}
+       appFullscreen=false requestedOrientation=1
+      hiddenRequested=true clientHidden=true willBeHidden=false reportedDrawn=false reportedVisible=false
+      numInterestingWindows=2 numDrawnWindows=2 inPendingTransaction=false allDrawn=true (animator=true)
+    Activity #0 AppWindowToken{a357248 token=Token{97dd4eb ActivityRecord{563603a u0 com.tencent.mm/.plugin.wallet_index.ui.OrderHandlerUI t12999}}}:
+      windows=[]
+      windowType=2 hidden=true hasVisible=true
+      app=true voiceInteraction=false
+      task={taskId=12999 appTokens=[AppWindowToken{a357248 token=Token{97dd4eb ActivityRecord{563603a u0 com.tencent.mm/.plugin.wallet_index.ui.OrderHandlerUI t12999}}}, AppWindowToken{bd3121d token=Token{5536af4 ActivityRecord{be2d4c7 u0 com.tencent.mm/.plugin.wallet.pay.ui.WalletPayUI t12999}}}, AppWindowToken{779e238 token=Token{caf4e9b ActivityRecord{2ccf2aa u0 com.tencent.mm/.plugin.wallet_core.ui.WalletOrderInfoNewUI t12999}}}] mdr=false}
+       appFullscreen=false requestedOrientation=-1
+      hiddenRequested=true clientHidden=true willBeHidden=false reportedDrawn=false reportedVisible=false
+      numInterestingWindows=1 numDrawnWindows=1 inPendingTransaction=false allDrawn=true (animator=true)
+    mTaskId=12887
+    Activity #0 AppWindowToken{5d228f5 token=Token{307b62c ActivityRecord{88e9df u0 com.android.incallui/.InCallActivity t12887}}}:
+      windows=[Window{79c8292 u0 com.android.incallui/com.android.incallui.InCallActivity}]
+      windowType=2 hidden=true hasVisible=true
+      app=true voiceInteraction=false
+      allAppWindows=[Window{79c8292 u0 com.android.incallui/com.android.incallui.InCallActivity}]
+      task={taskId=12887 appTokens=[AppWindowToken{5d228f5 token=Token{307b62c ActivityRecord{88e9df u0 com.android.incallui/.InCallActivity t12887}}}] mdr=false}
+       appFullscreen=true requestedOrientation=5
+      hiddenRequested=true clientHidden=true willBeHidden=false reportedDrawn=false reportedVisible=false
+      numInterestingWindows=1 numDrawnWindows=1 inPendingTransaction=false allDrawn=true (animator=true)
+      startingData=null removed=false firstWindowDrawn=true mIsExiting=false
+    mTaskId=13037
+    Activity #0 AppWindowToken{af96481 token=Token{d9f14d ActivityRecord{99a88e4 u0 com.android.htmlviewer/com.android.settings.wifi.openwifi.OpenWifiLogin t13037}}}:
+      windows=[]
+      windowType=2 hidden=true hasVisible=true
+      app=true voiceInteraction=false
+      task={taskId=13037 appTokens=[AppWindowToken{af96481 token=Token{d9f14d ActivityRecord{99a88e4 u0 com.android.htmlviewer/com.android.settings.wifi.openwifi.OpenWifiLogin t13037}}}] mdr=false}
+       appFullscreen=true requestedOrientation=1
+      hiddenRequested=true clientHidden=true willBeHidden=false reportedDrawn=false reportedVisible=false
+      numInterestingWindows=1 numDrawnWindows=1 inPendingTransaction=false allDrawn=true (animator=true)
+  mStackId=0
+    mTaskId=12857
+    Activity #0 AppWindowToken{d7b5057 token=Token{431c998 ActivityRecord{702b77b u0 com.miui.home/.launcher.Launcher t12857}}}:
+      windows=[Window{c89f1bd u0 com.miui.home/com.miui.home.launcher.Launcher}]
+      windowType=2 hidden=true hasVisible=true
+      app=true voiceInteraction=false
+      allAppWindows=[Window{c89f1bd u0 com.miui.home/com.miui.home.launcher.Launcher}]
+      task={taskId=12857 appTokens=[AppWindowToken{d7b5057 token=Token{431c998 ActivityRecord{702b77b u0 com.miui.home/.launcher.Launcher t12857}}}] mdr=false}
+       appFullscreen=true requestedOrientation=1
+      hiddenRequested=true clientHidden=true willBeHidden=false reportedDrawn=false reportedVisible=false
+      numInterestingWindows=1 numDrawnWindows=1 inPendingTransaction=false allDrawn=true (animator=true)
+      startingData=null removed=false firstWindowDrawn=true mIsExiting=false
+
+
+
+WINDOW MANAGER TOKENS (dumpsys window tokens)
+  All tokens:
+  WindowToken{76b023d null}
+  WindowToken{3ca0b72 android.os.Binder@fa10687}
+  AppWindowToken{5d228f5 token=Token{307b62c ActivityRecord{88e9df u0 com.android.incallui/.InCallActivity t12887}}}
+  AppWindowToken{a357248 token=Token{97dd4eb ActivityRecord{563603a u0 com.tencent.mm/.plugin.wallet_index.ui.OrderHandlerUI t12999}}}
+  AppWindowToken{af96481 token=Token{d9f14d ActivityRecord{99a88e4 u0 com.android.htmlviewer/com.android.settings.wifi.openwifi.OpenWifiLogin t13037}}}
+  AppWindowToken{3dfea9a token=Token{5749345 ActivityRecord{98317bc u0 com.yiqizuoye.jzt/.activity.MainActivity t13114}}}
+  AppWindowToken{779e238 token=Token{caf4e9b ActivityRecord{2ccf2aa u0 com.tencent.mm/.plugin.wallet_core.ui.WalletOrderInfoNewUI t12999}}}
+  WindowToken{31a8900 android.os.Binder@9fa58a}
+  AppWindowToken{d7b5057 token=Token{431c998 ActivityRecord{702b77b u0 com.miui.home/.launcher.Launcher t12857}}}
+  AppWindowToken{bd3121d token=Token{5536af4 ActivityRecord{be2d4c7 u0 com.tencent.mm/.plugin.wallet.pay.ui.WalletPayUI t12999}}}
+  AppWindowToken{4578f87 token=Token{e5333c6 ActivityRecord{1e7d5a1 u0 com.tencent.mm/.ui.LauncherUI t13109}}}
+
+  Wallpaper tokens:
+  Wallpaper #0 WindowToken{31a8900 android.os.Binder@9fa58a}
+
+WINDOW MANAGER WINDOWS (dumpsys window windows)
+  Window #13 Window{91aa148 u0 RecentsPanel}:
+    mDisplayId=0 stackId=1 mSession=Session{348c730 4236:1000} mClient=android.os.BinderProxy@30e5feb
+    mOwnerUid=1000 mShowToOwnerOnly=false package=com.android.systemui appop=NONE
+    mAttrs=WM.LayoutParams{(0,0)(fillxfill) gr=#53 sim=#31 ty=2014 fl=#1820100 extfl=#0 fmt=-3 wanim=0x7f0f000e or=14}
+    Requested w=1080 h=1920 mLayoutSeq=45654
+    mHasSurface=false mShownFrame=[0.0,0.0][1080.0,1920.0] isReadyForDisplay()=false
+    WindowStateAnimator{828e2f RecentsPanel}:
+  Window #12 Window{ad65c29 u0 FloatNotificationPanel}:
+    mDisplayId=0 stackId=1 mSession=Session{348c730 4236:1000} mClient=android.os.BinderProxy@144a5b0
+    mOwnerUid=1000 mShowToOwnerOnly=false package=com.android.systemui appop=NONE
+    mAttrs=WM.LayoutParams{(0,0)(fillxwrap) gr=#31 sim=#20 ty=2014 fl=#1800208 extfl=#0 fmt=-2}
+    Requested w=1080 h=240 mLayoutSeq=46170
+    mHasSurface=false mShownFrame=[0.0,0.0][1080.0,240.0] isReadyForDisplay()=false
+    WindowStateAnimator{a75e40e FloatNotificationPanel}:
+  Window #11 Window{a3195ea u0 StatusBar}:
+    mDisplayId=0 stackId=1 mSession=Session{348c730 4236:1000} mClient=android.os.BinderProxy@8bf99d5
+    mOwnerUid=1000 mShowToOwnerOnly=false package=com.android.systemui appop=NONE
+    mAttrs=WM.LayoutParams{(0,0)(fillx55) gr=#37 sim=#10 ty=2000 fl=#1800048 extfl=#0 fmt=-3 vsysui=0x80000}
+    Requested w=1080 h=55 mLayoutSeq=46237
+    mHasSurface=true mShownFrame=[0.0,0.0][1080.0,55.0] isReadyForDisplay()=true
+    WindowStateAnimator{b6cba32 StatusBar}:
+      mAnimating=false mLocalAnimating=false mAnimationIsEntrance=true mAnimation=null
+      Surface: shown=true layer=161000 alpha=1.0 rect=(0.0,0.0) 1080.0 x 55.0
+    mLastFreezeDuration=+358ms
+  Window #10 Window{8755778 u0 StatusBarBlur}:
+    mDisplayId=0 stackId=1 mSession=Session{348c730 4236:1000} mClient=android.os.BinderProxy@fc650db
+    mOwnerUid=1000 mShowToOwnerOnly=false package=com.android.systemui appop=NONE
+    mAttrs=WM.LayoutParams{(0,0)(fillxfill) gr=#37 sim=#20 ty=2017 fl=#100010c extfl=#0 fmt=-3 wanim=0x7f0f000f}
+    Requested w=1080 h=1920 mLayoutSeq=25865
+    mHasSurface=false mShownFrame=[0.0,0.0][1080.0,1920.0] isReadyForDisplay()=false
+    WindowStateAnimator{7717a09 StatusBarBlur}:
+      mShownAlpha=1.0 mAlpha=1.0 mLastAlpha=0.0
+  Window #9 Window{b0ac480 u0 KeyguardScrim}:
+    mDisplayId=0 stackId=1 mSession=Session{592ffbd 1265:1000} mClient=android.view.ViewRootImpl$W@a98ad03
+    mOwnerUid=1000 mShowToOwnerOnly=false package=android appop=NONE
+    mAttrs=WM.LayoutParams{(0,0)(fillxfill) sim=#10 ty=2029 fl=#1110900 extfl=#0 pfl=0x1 fmt=-3 or=5 vsysui=0x3610000}
+    Requested w=1080 h=1920 mLayoutSeq=30
+    mHasSurface=false mShownFrame=[0.0,0.0][1080.0,1920.0] isReadyForDisplay()=false
+    WindowStateAnimator{5c40f10 KeyguardScrim}:
+  Window #8 Window{f9219f8 u0 Keyguard}:
+    mDisplayId=0 stackId=1 mSession=Session{348c730 4236:1000} mClient=android.os.BinderProxy@32a8d5b
+    mOwnerUid=1000 mShowToOwnerOnly=false package=com.android.keyguard appop=NONE
+    mAttrs=WM.LayoutParams{(0,0)(fillxfill) sim=#10 ty=2004 fl=#21020900 extfl=#1 pfl=0x8000012 or=1 vsysui=0x2000000 if=0x4 userActivityTimeout=10000}
+    Requested w=1080 h=1920 mLayoutSeq=46237
+    mHasSurface=true mShownFrame=[0.0,0.0][1080.0,1920.0] isReadyForDisplay()=true
+    WindowStateAnimator{f3547d3 Keyguard}:
+      Surface: shown=true layer=131000 alpha=1.0 rect=(0.0,0.0) 1080.0 x 1920.0
+    mLastFreezeDuration=+1h41m48s515ms
+  Window #7 Window{45d8d06 u0 AppNotificationPanel}:
+    mDisplayId=0 stackId=1 mSession=Session{348c730 4236:1000} mClient=android.os.BinderProxy@32acbe1
+    mOwnerUid=1000 mShowToOwnerOnly=true package=com.android.systemui appop=SYSTEM_ALERT_WINDOW
+    mAttrs=WM.LayoutParams{(0,0)(fillxfill) gr=#11 sim=#31 ty=2003 fl=#1820104 extfl=#0 fmt=-3 wanim=0x7f0f0010}
+    Requested w=0 h=0 mLayoutSeq=45471
+    mHasSurface=false mShownFrame=[0.0,0.0][0.0,0.0] isReadyForDisplay()=false
+    WindowStateAnimator{6e6adc2 AppNotificationPanel}:
+      mShownAlpha=0.0 mAlpha=1.0 mLastAlpha=0.0
+  Window #6 Window{55d25d7 u0 InputMethod}:
+    mDisplayId=0 stackId=1 mSession=Session{73f3918 5900:u0a10109} mClient=android.os.BinderProxy@652f156
+    mOwnerUid=10109 mShowToOwnerOnly=true package=com.baidu.input_miv6 appop=NONE
+    mAttrs=WM.LayoutParams{(0,0)(fillxwrap) gr=#50 sim=#20 ty=2011 fl=#800108 extfl=#0 fmt=-2 wanim=0x1030056 vsysui=0x300 needsMenuKey=2}
+    Requested w=1080 h=1920 mLayoutSeq=44577
+    mIsImWindow=true mIsWallpaper=false mIsFloatingLayer=true mWallpaperVisible=false
+    mHasSurface=false mShownFrame=[0.0,55.0][1080.0,1920.0] isReadyForDisplay()=false
+    WindowStateAnimator{42d4a0d InputMethod}:
+  Window #5 Window{7ccc220 u0 com.tencent.mm/com.tencent.mm.ui.LauncherUI}:
+    mDisplayId=0 stackId=1 mSession=Session{98b2add 19259:u0a10111} mClient=android.os.BinderProxy@f939d23
+    mOwnerUid=10111 mShowToOwnerOnly=true package=com.tencent.mm appop=NONE
+    mAttrs=WM.LayoutParams{(0,0)(fillxfill) sim=#112 ty=1 fl=#81810100 extfl=#0 wanim=0x7f0c003b vsysui=0x700 needsMenuKey=2}
+    Requested w=1080 h=1920 mLayoutSeq=46237
+    mHasSurface=true mShownFrame=[0.0,0.0][1080.0,1920.0] isReadyForDisplay()=true
+    WindowStateAnimator{eb4cca4 com.tencent.mm/com.tencent.mm.ui.LauncherUI}:
+      Surface: shown=true layer=21025 alpha=1.0 rect=(0.0,0.0) 1080.0 x 1920.0
+    mLastFreezeDuration=+34m22s718ms
+  Window #4 Window{e72e516 u0 com.yiqizuoye.jzt/com.yiqizuoye.jzt.activity.MainActivity}:
+    mDisplayId=0 stackId=1 mSession=Session{b7ce824 19413:u0a10095} mClient=android.os.BinderProxy@8fd3a31
+    mOwnerUid=10095 mShowToOwnerOnly=true package=com.yiqizuoye.jzt appop=NONE
+    mAttrs=WM.LayoutParams{(0,0)(wrapxwrap) gr=#11 sim=#120 ty=2 fl=#1800002 extfl=#0 fmt=-2 wanim=0x1030002 needsMenuKey=2}
+    Requested w=880 h=894 mLayoutSeq=46199
+    mHasSurface=false mShownFrame=[100.0,540.0][980.0,1434.0] isReadyForDisplay()=false
+    WindowStateAnimator{c2aef37 com.yiqizuoye.jzt/com.yiqizuoye.jzt.activity.MainActivity}:
+      mShownAlpha=1.0 mAlpha=1.0 mLastAlpha=0.0
+    mLastFreezeDuration=+1h36m17s704ms
+  Window #3 Window{1d01ec1 u0 com.yiqizuoye.jzt/com.yiqizuoye.jzt.activity.MainActivity}:
+    mDisplayId=0 stackId=1 mSession=Session{b7ce824 19413:u0a10095} mClient=android.os.BinderProxy@747f3a8
+    mOwnerUid=10095 mShowToOwnerOnly=true package=com.yiqizuoye.jzt appop=NONE
+    mAttrs=WM.LayoutParams{(0,0)(fillxfill) sim=#120 ty=1 fl=#1810100 extfl=#0 wanim=0x1030001 needsMenuKey=2}
+    Requested w=1080 h=1920 mLayoutSeq=46199
+    mHasSurface=false mShownFrame=[0.0,0.0][1080.0,1920.0] isReadyForDisplay()=false
+    WindowStateAnimator{3be8436 com.yiqizuoye.jzt/com.yiqizuoye.jzt.activity.MainActivity}:
+    mLastFreezeDuration=+1h36m17s702ms
+  Window #2 Window{79c8292 u0 com.android.incallui/com.android.incallui.InCallActivity}:
+    mDisplayId=0 stackId=1 mSession=Session{7e442c7 4875:u0a10013} mClient=android.os.BinderProxy@95301d
+    mOwnerUid=10013 mShowToOwnerOnly=true package=com.android.incallui appop=NONE
+    mAttrs=WM.LayoutParams{(0,0)(fillxfill) sim=#120 ty=1 fl=#5a98100 extfl=#0 wanim=0x7f0b0006 vsysui=0x500 needsMenuKey=2}
+    Requested w=1080 h=1920 mLayoutSeq=32174
+    mHasSurface=false mShownFrame=[0.0,0.0][1080.0,1920.0] isReadyForDisplay()=false
+    WindowStateAnimator{90561d1 com.android.incallui/com.android.incallui.InCallActivity}:
+      mShownAlpha=1.0 mAlpha=1.0 mLastAlpha=0.0
+    mOrientationChanging=false mAppFreezing=false mTurnOnScreen=true
+  Window #1 Window{c89f1bd u0 com.miui.home/com.miui.home.launcher.Launcher}:
+    mDisplayId=0 stackId=0 mSession=Session{af1caf0 24049:u0a10020} mClient=android.os.BinderProxy@7618514
+    mOwnerUid=10020 mShowToOwnerOnly=true package=com.miui.home appop=NONE
+    mAttrs=WM.LayoutParams{(0,0)(fillxfill) sim=#123 ty=1 fl=#5900100 extfl=#1 fmt=1 wanim=0x10303e5 vsysui=0x500 needsMenuKey=2}
+    Requested w=1080 h=1920 mLayoutSeq=46142
+    mHasSurface=false mShownFrame=[0.0,0.0][1080.0,1920.0] isReadyForDisplay()=false
+    WindowStateAnimator{4b006ae com.miui.home/com.miui.home.launcher.Launcher}:
+    mLastFreezeDuration=+1h10m48s706ms
+    mWallpaperX=0.0 mWallpaperY=0.0
+    mWallpaperXStep=0.0 mWallpaperYStep=0.0
+  Window #0 Window{efc8652 u0 com.android.systemui.ImageWallpaper}:
+    mDisplayId=0 stackId=1 mSession=Session{348c730 4236:1000} mClient=android.os.BinderProxy@2a7eadd
+    mOwnerUid=1000 mShowToOwnerOnly=true package=com.android.systemui appop=NONE
+    mAttrs=WM.LayoutParams{(0,0)(1080x1920) gr=#800033 ty=2013 fl=#318 extfl=#0 fmt=2 wanim=0x10302ea}
+    Requested w=1080 h=1920 mLayoutSeq=46149
+    mIsImWindow=false mIsWallpaper=true mIsFloatingLayer=true mWallpaperVisible=false
+    mHasSurface=true mShownFrame=[0.0,0.0][1080.0,1920.0] isReadyForDisplay()=false
+    WindowStateAnimator{e0a8539 com.android.systemui.ImageWallpaper}:
+      Surface: shown=false layer=21000 alpha=1.0 rect=(0.0,0.0) 1080.0 x 1920.0
+    mLastFreezeDuration=+2s590ms
+    mWallpaperX=0.0 mWallpaperY=0.0
+    mWallpaperXStep=0.0 mWallpaperYStep=0.0
+
+  mCurConfiguration={1.32 460mcc3mnc zh_CN ldltr sw392dp w392dp h678dp 440dpi nrml long port uimode=14 finger -keyb/v/h -nav/h s.64 themeChanged=0 themeChangedFlags=0}
+  mHasPermanentDpad=false
+  mCurrentFocus=Window{f9219f8 u0 Keyguard}
+  mFocusedApp=AppWindowToken{4578f87 token=Token{e5333c6 ActivityRecord{1e7d5a1 u0 com.tencent.mm/.ui.LauncherUI t13109}}}
+  mInputMethodTarget=Window{495d22c u0 com.ximalaya.ting.android/com.ximalaya.ting.android.activity.MainActivity}
+  mInTouchMode=true mLayoutSeq=46237
+  mLastDisplayFreezeDuration=+376ms due to Window{f9219f8 u0 Keyguard}

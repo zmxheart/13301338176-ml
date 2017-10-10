@@ -1,0 +1,572 @@
+user=0 
+  In-memory daily stats
+  timeRange="2017/9/26 上午8:00至下午4:28" 
+    packages
+      package=com.android.providers.calendar totalTime="00:00" lastTime="1970/1/1 上午8:00" lastTimeSystem="2017/9/26 下午1:56" inactiveTime="1:14:16" 
+      package=com.yiqizuoye.jzt totalTime="00:30" lastTime="2017/9/26 下午4:28" lastTimeSystem="2017/9/26 下午4:28" inactiveTime="00:11" 
+      package=com.android.providers.media totalTime="00:00" lastTime="1970/1/1 上午8:00" lastTimeSystem="2017/9/26 下午3:52" inactiveTime="04:15" 
+      package=com.milink.service totalTime="00:00" lastTime="1970/1/1 上午8:00" lastTimeSystem="2017/9/26 下午2:30" inactiveTime="1:12:51" 
+      package=com.xiaomi.account totalTime="00:00" lastTime="1970/1/1 上午8:00" lastTimeSystem="2017/9/26 下午3:54" inactiveTime="02:35" 
+      package=com.miui.gallery totalTime="02:10" lastTime="2017/9/26 下午2:32" lastTimeSystem="2017/9/26 下午2:32" inactiveTime="1:10:41" 
+      package=com.android.providers.downloads totalTime="00:00" lastTime="1970/1/1 上午8:00" lastTimeSystem="2017/9/26 下午3:52" inactiveTime="04:15" 
+      package=com.miui.securitycenter totalTime="00:00" lastTime="2017/9/26 下午2:45" lastTimeSystem="2017/9/26 下午3:52" inactiveTime="04:15" 
+      package=com.android.providers.applications totalTime="00:00" lastTime="1970/1/1 上午8:00" lastTimeSystem="2017/9/26 下午3:43" inactiveTime="09:33" 
+      package=com.baidu.input_miv6 totalTime="00:00" lastTime="1970/1/1 上午8:00" lastTimeSystem="2017/9/26 下午12:15" inactiveTime="1:21:33" 
+      package=com.miui.guardprovider totalTime="00:00" lastTime="1970/1/1 上午8:00" lastTimeSystem="2017/9/26 下午2:29" inactiveTime="1:13:24" 
+      package=com.tencent.mm totalTime="13:25" lastTime="2017/9/26 下午4:25" lastTimeSystem="2017/9/26 下午4:25" inactiveTime="02:28" 
+      package=com.baidu.searchbox totalTime="33:33" lastTime="2017/9/26 下午3:45" lastTimeSystem="2017/9/26 下午3:45" inactiveTime="07:34" 
+      package=com.google.android.gsf totalTime="00:00" lastTime="1970/1/1 上午8:00" lastTimeSystem="2017/9/26 下午4:25" inactiveTime="02:21" 
+      package=com.svox.pico totalTime="00:00" lastTime="1970/1/1 上午8:00" lastTimeSystem="2017/9/26 下午3:52" inactiveTime="04:20" 
+      package=com.ctrip.ct totalTime="00:02" lastTime="2017/9/26 下午4:26" lastTimeSystem="2017/9/26 下午4:26" inactiveTime="02:20" 
+      package=com.qualcomm.qtl.context_fusion_service totalTime="16:29" lastTime="2017/9/26 下午3:18" lastTimeSystem="2017/9/26 下午3:18" inactiveTime="26:04" 
+      package=com.xiaomi.market totalTime="00:00" lastTime="1970/1/1 上午8:00" lastTimeSystem="2017/9/26 下午3:51" inactiveTime="04:51" 
+      package=com.miui.cloudservice totalTime="00:00" lastTime="1970/1/1 上午8:00" lastTimeSystem="2017/9/26 下午3:52" inactiveTime="03:51" 
+      package=com.ximalaya.ting.android totalTime="06:30" lastTime="2017/9/26 下午3:52" lastTimeSystem="2017/9/26 下午3:52" inactiveTime="04:19" 
+      package=com.baidu.BaiduMap totalTime="00:00" lastTime="1970/1/1 上午8:00" lastTimeSystem="2017/9/26 上午11:53" inactiveTime="1:33:54" 
+      package=com.android.settings totalTime="02:12" lastTime="2017/9/26 下午3:52" lastTimeSystem="2017/9/26 下午4:25" inactiveTime="02:28" 
+      package=com.jingdong.app.mall totalTime="00:49" lastTime="2017/9/26 下午2:58" lastTimeSystem="2017/9/26 下午2:58" inactiveTime="46:25" 
+      package=com.miui.yellowpage totalTime="00:00" lastTime="1970/1/1 上午8:00" lastTimeSystem="2017/9/26 下午3:43" inactiveTime="09:35" 
+      package=com.android.email totalTime="00:00" lastTime="1970/1/1 上午8:00" lastTimeSystem="2017/9/26 下午3:52" inactiveTime="03:51" 
+      package=com.android.providers.userdictionary totalTime="00:00" lastTime="1970/1/1 上午8:00" lastTimeSystem="2017/9/26 下午3:43" inactiveTime="09:33" 
+      package=com.android.systemui totalTime="00:14" lastTime="2017/9/26 下午3:52" lastTimeSystem="2017/9/26 下午3:52" inactiveTime="03:43" 
+      package=com.android.thememanager totalTime="00:00" lastTime="1970/1/1 上午8:00" lastTimeSystem="2017/9/26 下午3:52" inactiveTime="04:15" 
+      package=com.lbe.security.miui totalTime="00:00" lastTime="2017/9/26 下午3:18" lastTimeSystem="2017/9/26 下午3:18" inactiveTime="25:50" 
+      package=com.android.providers.contacts totalTime="00:00" lastTime="1970/1/1 上午8:00" lastTimeSystem="2017/9/26 下午3:43" inactiveTime="09:33" 
+      package=com.miui.home totalTime="24:51" lastTime="2017/9/26 下午4:28" lastTimeSystem="2017/9/26 下午4:28" inactiveTime="00:16" 
+      package=com.miui.voip totalTime="00:00" lastTime="1970/1/1 上午8:00" lastTimeSystem="2017/9/26 上午11:44" inactiveTime="1:39:41" 
+    configurations
+      config=mcc460-mnc3-zh-rCN-ldltr-sw392dp-w392dp-h678dp-normal-long-notround-port-notnight-440dpi-finger-keysexposed-nokeys-navhidden-nonav-v23 totalTime="00:00" lastTime="2017/9/26 下午3:14" count=1 
+      config=mcc460-mnc3-zh-rCN-ldltr-sw392dp-w698dp-h372dp-normal-long-notround-land-notnight-440dpi-finger-keysexposed-nokeys-navhidden-nonav-v23 totalTime="00:01" lastTime="2017/9/26 下午3:14" count=1 
+    events
+      time="2017/9/26 上午11:31" type=MOVE_TO_BACKGROUND package=com.tencent.mm class=com.tencent.mm.ui.LauncherUI 
+      time="2017/9/26 上午11:31" type=MOVE_TO_FOREGROUND package=com.tencent.mm class=com.tencent.mm.ui.LauncherUI 
+      time="2017/9/26 上午11:31" type=MOVE_TO_FOREGROUND package=com.tencent.mm class=com.tencent.mm.ui.LauncherUI 
+      time="2017/9/26 上午11:32" type=MOVE_TO_BACKGROUND package=com.tencent.mm class=com.tencent.mm.ui.LauncherUI 
+      time="2017/9/26 上午11:32" type=MOVE_TO_FOREGROUND package=com.miui.home class=com.miui.home.launcher.Launcher 
+      time="2017/9/26 上午11:32" type=MOVE_TO_BACKGROUND package=com.miui.home class=com.miui.home.launcher.Launcher 
+      time="2017/9/26 上午11:32" type=MOVE_TO_FOREGROUND package=com.baidu.searchbox class=com.baidu.searchbox.SplashActivity 
+      time="2017/9/26 上午11:32" type=MOVE_TO_BACKGROUND package=com.baidu.searchbox class=com.baidu.searchbox.SplashActivity 
+      time="2017/9/26 上午11:32" type=MOVE_TO_FOREGROUND package=com.baidu.searchbox class=com.baidu.searchbox.MainActivity 
+      time="2017/9/26 上午11:33" type=MOVE_TO_BACKGROUND package=com.baidu.searchbox class=com.baidu.searchbox.MainActivity 
+      time="2017/9/26 上午11:33" type=MOVE_TO_FOREGROUND package=com.baidu.searchbox class=com.baidu.searchbox.home.feed.FeedDetailActivity 
+      time="2017/9/26 上午11:33" type=MOVE_TO_BACKGROUND package=com.baidu.searchbox class=com.baidu.searchbox.home.feed.FeedDetailActivity 
+      time="2017/9/26 上午11:33" type=MOVE_TO_FOREGROUND package=com.baidu.searchbox class=com.baidu.searchbox.MainActivity 
+      time="2017/9/26 上午11:33" type=MOVE_TO_BACKGROUND package=com.baidu.searchbox class=com.baidu.searchbox.MainActivity 
+      time="2017/9/26 上午11:33" type=MOVE_TO_FOREGROUND package=com.baidu.searchbox class=com.baidu.searchbox.home.feed.FeedDetailActivity 
+      time="2017/9/26 上午11:34" type=MOVE_TO_BACKGROUND package=com.baidu.searchbox class=com.baidu.searchbox.home.feed.FeedDetailActivity 
+      time="2017/9/26 上午11:34" type=MOVE_TO_FOREGROUND package=com.baidu.searchbox class=com.baidu.searchbox.MainActivity 
+      time="2017/9/26 上午11:35" type=MOVE_TO_BACKGROUND package=com.baidu.searchbox class=com.baidu.searchbox.MainActivity 
+      time="2017/9/26 上午11:35" type=MOVE_TO_FOREGROUND package=com.baidu.searchbox class=com.baidu.searchbox.home.feed.FeedDetailActivity 
+      time="2017/9/26 上午11:35" type=MOVE_TO_BACKGROUND package=com.baidu.searchbox class=com.baidu.searchbox.home.feed.FeedDetailActivity 
+      time="2017/9/26 上午11:35" type=MOVE_TO_FOREGROUND package=com.baidu.searchbox class=com.baidu.searchbox.MainActivity 
+      time="2017/9/26 上午11:35" type=MOVE_TO_BACKGROUND package=com.baidu.searchbox class=com.baidu.searchbox.MainActivity 
+      time="2017/9/26 上午11:35" type=MOVE_TO_FOREGROUND package=com.baidu.searchbox class=com.baidu.searchbox.home.feed.FeedDetailActivity 
+      time="2017/9/26 上午11:35" type=MOVE_TO_BACKGROUND package=com.baidu.searchbox class=com.baidu.searchbox.home.feed.FeedDetailActivity 
+      time="2017/9/26 上午11:47" type=MOVE_TO_FOREGROUND package=com.baidu.searchbox class=com.baidu.searchbox.home.feed.FeedDetailActivity 
+      time="2017/9/26 上午11:47" type=MOVE_TO_BACKGROUND package=com.baidu.searchbox class=com.baidu.searchbox.home.feed.FeedDetailActivity 
+      time="2017/9/26 上午11:47" type=MOVE_TO_FOREGROUND package=com.baidu.searchbox class=com.baidu.searchbox.MainActivity 
+      time="2017/9/26 上午11:47" type=MOVE_TO_BACKGROUND package=com.baidu.searchbox class=com.baidu.searchbox.MainActivity 
+      time="2017/9/26 上午11:47" type=MOVE_TO_FOREGROUND package=com.baidu.searchbox class=com.baidu.searchbox.home.feed.FeedDetailActivity 
+      time="2017/9/26 上午11:49" type=MOVE_TO_BACKGROUND package=com.baidu.searchbox class=com.baidu.searchbox.home.feed.FeedDetailActivity 
+      time="2017/9/26 上午11:49" type=MOVE_TO_FOREGROUND package=com.baidu.searchbox class=com.baidu.searchbox.MainActivity 
+      time="2017/9/26 上午11:50" type=MOVE_TO_BACKGROUND package=com.baidu.searchbox class=com.baidu.searchbox.MainActivity 
+      time="2017/9/26 上午11:50" type=MOVE_TO_FOREGROUND package=com.baidu.searchbox class=com.baidu.searchbox.home.feed.FeedDetailActivity 
+      time="2017/9/26 上午11:50" type=MOVE_TO_BACKGROUND package=com.baidu.searchbox class=com.baidu.searchbox.home.feed.FeedDetailActivity 
+      time="2017/9/26 上午11:50" type=MOVE_TO_FOREGROUND package=com.baidu.searchbox class=com.baidu.searchbox.MainActivity 
+      time="2017/9/26 上午11:50" type=MOVE_TO_BACKGROUND package=com.baidu.searchbox class=com.baidu.searchbox.MainActivity 
+      time="2017/9/26 上午11:50" type=MOVE_TO_FOREGROUND package=com.baidu.searchbox class=com.baidu.searchbox.home.feed.FeedDetailActivity 
+      time="2017/9/26 上午11:51" type=MOVE_TO_BACKGROUND package=com.baidu.searchbox class=com.baidu.searchbox.home.feed.FeedDetailActivity 
+      time="2017/9/26 上午11:51" type=MOVE_TO_FOREGROUND package=com.baidu.searchbox class=com.baidu.searchbox.MainActivity 
+      time="2017/9/26 上午11:52" type=MOVE_TO_BACKGROUND package=com.baidu.searchbox class=com.baidu.searchbox.MainActivity 
+      time="2017/9/26 上午11:52" type=MOVE_TO_FOREGROUND package=com.baidu.searchbox class=com.baidu.searchbox.home.feed.FeedDetailActivity 
+      time="2017/9/26 上午11:53" type=MOVE_TO_BACKGROUND package=com.baidu.searchbox class=com.baidu.searchbox.home.feed.FeedDetailActivity 
+      time="2017/9/26 上午11:53" type=MOVE_TO_FOREGROUND package=com.baidu.searchbox class=com.baidu.searchbox.MainActivity 
+      time="2017/9/26 上午11:54" type=MOVE_TO_BACKGROUND package=com.baidu.searchbox class=com.baidu.searchbox.MainActivity 
+      time="2017/9/26 上午11:54" type=MOVE_TO_FOREGROUND package=com.baidu.searchbox class=com.baidu.searchbox.home.feed.FeedDetailActivity 
+      time="2017/9/26 上午11:54" type=MOVE_TO_BACKGROUND package=com.baidu.searchbox class=com.baidu.searchbox.home.feed.FeedDetailActivity 
+      time="2017/9/26 上午11:54" type=MOVE_TO_FOREGROUND package=com.baidu.searchbox class=com.baidu.searchbox.MainActivity 
+      time="2017/9/26 上午11:54" type=MOVE_TO_BACKGROUND package=com.baidu.searchbox class=com.baidu.searchbox.MainActivity 
+      time="2017/9/26 上午11:54" type=MOVE_TO_FOREGROUND package=com.baidu.searchbox class=com.baidu.searchbox.home.feed.FeedDetailActivity 
+      time="2017/9/26 上午11:54" type=MOVE_TO_BACKGROUND package=com.baidu.searchbox class=com.baidu.searchbox.home.feed.FeedDetailActivity 
+      time="2017/9/26 上午11:54" type=MOVE_TO_FOREGROUND package=com.baidu.searchbox class=com.baidu.searchbox.MainActivity 
+      time="2017/9/26 上午11:54" type=MOVE_TO_BACKGROUND package=com.baidu.searchbox class=com.baidu.searchbox.MainActivity 
+      time="2017/9/26 上午11:54" type=MOVE_TO_FOREGROUND package=com.baidu.searchbox class=com.baidu.searchbox.home.feed.FeedDetailActivity 
+      time="2017/9/26 上午11:54" type=MOVE_TO_BACKGROUND package=com.baidu.searchbox class=com.baidu.searchbox.home.feed.FeedDetailActivity 
+      time="2017/9/26 上午11:54" type=MOVE_TO_FOREGROUND package=com.baidu.searchbox class=com.baidu.searchbox.MainActivity 
+      time="2017/9/26 上午11:54" type=MOVE_TO_BACKGROUND package=com.baidu.searchbox class=com.baidu.searchbox.MainActivity 
+      time="2017/9/26 上午11:54" type=MOVE_TO_FOREGROUND package=com.baidu.searchbox class=com.baidu.searchbox.home.feed.FeedDetailActivity 
+      time="2017/9/26 上午11:54" type=MOVE_TO_BACKGROUND package=com.baidu.searchbox class=com.baidu.searchbox.home.feed.FeedDetailActivity 
+      time="2017/9/26 上午11:54" type=MOVE_TO_FOREGROUND package=com.baidu.searchbox class=com.baidu.searchbox.MainActivity 
+      time="2017/9/26 上午11:55" type=MOVE_TO_BACKGROUND package=com.baidu.searchbox class=com.baidu.searchbox.MainActivity 
+      time="2017/9/26 上午11:55" type=MOVE_TO_FOREGROUND package=com.baidu.searchbox class=com.baidu.searchbox.home.feed.FeedDetailActivity 
+      time="2017/9/26 上午11:55" type=MOVE_TO_BACKGROUND package=com.baidu.searchbox class=com.baidu.searchbox.home.feed.FeedDetailActivity 
+      time="2017/9/26 上午11:55" type=MOVE_TO_FOREGROUND package=com.baidu.searchbox class=com.baidu.searchbox.MainActivity 
+      time="2017/9/26 上午11:55" type=MOVE_TO_BACKGROUND package=com.baidu.searchbox class=com.baidu.searchbox.MainActivity 
+      time="2017/9/26 上午11:55" type=MOVE_TO_FOREGROUND package=com.baidu.searchbox class=com.baidu.searchbox.home.feed.FeedDetailActivity 
+      time="2017/9/26 上午11:56" type=MOVE_TO_BACKGROUND package=com.baidu.searchbox class=com.baidu.searchbox.home.feed.FeedDetailActivity 
+      time="2017/9/26 上午11:56" type=MOVE_TO_FOREGROUND package=com.baidu.searchbox class=com.baidu.searchbox.MainActivity 
+      time="2017/9/26 上午11:57" type=MOVE_TO_BACKGROUND package=com.baidu.searchbox class=com.baidu.searchbox.MainActivity 
+      time="2017/9/26 上午11:57" type=MOVE_TO_FOREGROUND package=com.baidu.searchbox class=com.baidu.searchbox.home.feed.FeedDetailActivity 
+      time="2017/9/26 上午11:58" type=MOVE_TO_BACKGROUND package=com.baidu.searchbox class=com.baidu.searchbox.home.feed.FeedDetailActivity 
+      time="2017/9/26 上午11:58" type=MOVE_TO_FOREGROUND package=com.baidu.searchbox class=com.baidu.searchbox.MainActivity 
+      time="2017/9/26 上午11:58" type=MOVE_TO_BACKGROUND package=com.baidu.searchbox class=com.baidu.searchbox.MainActivity 
+      time="2017/9/26 上午11:58" type=MOVE_TO_FOREGROUND package=com.baidu.searchbox class=com.baidu.searchbox.home.feed.FeedDetailActivity 
+      time="2017/9/26 上午11:59" type=MOVE_TO_BACKGROUND package=com.baidu.searchbox class=com.baidu.searchbox.home.feed.FeedDetailActivity 
+      time="2017/9/26 上午11:59" type=MOVE_TO_FOREGROUND package=com.baidu.searchbox class=com.baidu.searchbox.MainActivity 
+      time="2017/9/26 下午12:04" type=MOVE_TO_BACKGROUND package=com.baidu.searchbox class=com.baidu.searchbox.MainActivity 
+      time="2017/9/26 下午12:14" type=MOVE_TO_FOREGROUND package=com.baidu.searchbox class=com.baidu.searchbox.MainActivity 
+      time="2017/9/26 下午12:14" type=MOVE_TO_BACKGROUND package=com.baidu.searchbox class=com.baidu.searchbox.MainActivity 
+      time="2017/9/26 下午12:14" type=MOVE_TO_FOREGROUND package=com.miui.home class=com.miui.home.launcher.Launcher 
+      time="2017/9/26 下午12:14" type=MOVE_TO_BACKGROUND package=com.miui.home class=com.miui.home.launcher.Launcher 
+      time="2017/9/26 下午12:14" type=MOVE_TO_FOREGROUND package=com.ximalaya.ting.android class=com.ximalaya.ting.android.main.activity.account.WelComeActivity 
+      time="2017/9/26 下午12:14" type=MOVE_TO_BACKGROUND package=com.ximalaya.ting.android class=com.ximalaya.ting.android.main.activity.account.WelComeActivity 
+      time="2017/9/26 下午12:14" type=MOVE_TO_FOREGROUND package=com.ximalaya.ting.android class=com.ximalaya.ting.android.activity.MainActivity 
+      time="2017/9/26 下午12:14" type=MOVE_TO_BACKGROUND package=com.ximalaya.ting.android class=com.ximalaya.ting.android.activity.MainActivity 
+      time="2017/9/26 下午12:14" type=MOVE_TO_FOREGROUND package=com.ximalaya.ting.android class=com.ximalaya.ting.android.host.activity.web.WebActivity 
+      time="2017/9/26 下午12:14" type=MOVE_TO_BACKGROUND package=com.ximalaya.ting.android class=com.ximalaya.ting.android.host.activity.web.WebActivity 
+      time="2017/9/26 下午12:14" type=MOVE_TO_FOREGROUND package=com.ximalaya.ting.android class=com.ximalaya.ting.android.activity.MainActivity 
+      time="2017/9/26 下午12:15" type=MOVE_TO_BACKGROUND package=com.ximalaya.ting.android class=com.ximalaya.ting.android.activity.MainActivity 
+      time="2017/9/26 下午1:49" type=MOVE_TO_FOREGROUND package=com.ximalaya.ting.android class=com.ximalaya.ting.android.activity.MainActivity 
+      time="2017/9/26 下午1:49" type=MOVE_TO_BACKGROUND package=com.ximalaya.ting.android class=com.ximalaya.ting.android.activity.MainActivity 
+      time="2017/9/26 下午1:49" type=MOVE_TO_FOREGROUND package=com.ximalaya.ting.android class=com.ximalaya.ting.android.main.activity.account.WelComeActivity 
+      time="2017/9/26 下午1:49" type=MOVE_TO_BACKGROUND package=com.ximalaya.ting.android class=com.ximalaya.ting.android.main.activity.account.WelComeActivity 
+      time="2017/9/26 下午1:49" type=MOVE_TO_FOREGROUND package=com.miui.home class=com.miui.home.launcher.Launcher 
+      time="2017/9/26 下午1:49" type=MOVE_TO_BACKGROUND package=com.miui.home class=com.miui.home.launcher.Launcher 
+      time="2017/9/26 下午1:49" type=MOVE_TO_FOREGROUND package=com.ximalaya.ting.android class=com.ximalaya.ting.android.activity.MainActivity 
+      time="2017/9/26 下午1:50" type=MOVE_TO_BACKGROUND package=com.ximalaya.ting.android class=com.ximalaya.ting.android.activity.MainActivity 
+      time="2017/9/26 下午1:50" type=MOVE_TO_FOREGROUND package=com.miui.home class=com.miui.home.launcher.Launcher 
+      time="2017/9/26 下午1:50" type=MOVE_TO_BACKGROUND package=com.miui.home class=com.miui.home.launcher.Launcher 
+      time="2017/9/26 下午1:50" type=MOVE_TO_FOREGROUND package=com.android.settings class=com.android.settings.MiuiSettings 
+      time="2017/9/26 下午1:50" type=MOVE_TO_BACKGROUND package=com.android.settings class=com.android.settings.MiuiSettings 
+      time="2017/9/26 下午1:50" type=MOVE_TO_FOREGROUND package=com.android.settings class=com.android.settings.SubSettings 
+      time="2017/9/26 下午1:50" type=MOVE_TO_BACKGROUND package=com.android.settings class=com.android.settings.SubSettings 
+      time="2017/9/26 下午1:50" type=MOVE_TO_FOREGROUND package=com.android.settings class=com.android.settings.SubSettings 
+      time="2017/9/26 下午1:50" type=MOVE_TO_BACKGROUND package=com.android.settings class=com.android.settings.SubSettings 
+      time="2017/9/26 下午1:51" type=MOVE_TO_FOREGROUND package=com.android.systemui class=com.android.systemui.usb.UsbDebuggingActivity 
+      time="2017/9/26 下午1:51" type=MOVE_TO_BACKGROUND package=com.android.systemui class=com.android.systemui.usb.UsbDebuggingActivity 
+      time="2017/9/26 下午1:51" type=MOVE_TO_FOREGROUND package=com.android.systemui class=com.android.systemui.usb.UsbDebuggingActivity 
+      time="2017/9/26 下午1:51" type=MOVE_TO_BACKGROUND package=com.android.systemui class=com.android.systemui.usb.UsbDebuggingActivity 
+      time="2017/9/26 下午1:51" type=MOVE_TO_FOREGROUND package=com.android.settings class=com.android.settings.SubSettings 
+      time="2017/9/26 下午1:52" type=MOVE_TO_BACKGROUND package=com.android.settings class=com.android.settings.SubSettings 
+      time="2017/9/26 下午1:52" type=MOVE_TO_FOREGROUND package=com.miui.home class=com.miui.home.launcher.Launcher 
+      time="2017/9/26 下午1:57" type=MOVE_TO_BACKGROUND package=com.miui.home class=com.miui.home.launcher.Launcher 
+      time="2017/9/26 下午2:29" type=MOVE_TO_FOREGROUND package=com.miui.home class=com.miui.home.launcher.Launcher 
+      time="2017/9/26 下午2:30" type=MOVE_TO_BACKGROUND package=com.miui.home class=com.miui.home.launcher.Launcher 
+      time="2017/9/26 下午2:30" type=MOVE_TO_FOREGROUND package=com.miui.gallery class=com.miui.gallery.app.Gallery 
+      time="2017/9/26 下午2:32" type=MOVE_TO_BACKGROUND package=com.miui.gallery class=com.miui.gallery.app.Gallery 
+      time="2017/9/26 下午2:32" type=MOVE_TO_FOREGROUND package=com.miui.home class=com.miui.home.launcher.Launcher 
+      time="2017/9/26 下午2:32" type=MOVE_TO_BACKGROUND package=com.miui.home class=com.miui.home.launcher.Launcher 
+      time="2017/9/26 下午2:32" type=MOVE_TO_FOREGROUND package=com.tencent.mm class=com.tencent.mm.ui.LauncherUI 
+      time="2017/9/26 下午2:32" type=MOVE_TO_BACKGROUND package=com.tencent.mm class=com.tencent.mm.ui.LauncherUI 
+      time="2017/9/26 下午2:32" type=MOVE_TO_FOREGROUND package=com.miui.home class=com.miui.home.launcher.Launcher 
+      time="2017/9/26 下午2:42" type=MOVE_TO_BACKGROUND package=com.miui.home class=com.miui.home.launcher.Launcher 
+      time="2017/9/26 下午2:43" type=MOVE_TO_FOREGROUND package=com.miui.home class=com.miui.home.launcher.Launcher 
+      time="2017/9/26 下午2:45" type=MOVE_TO_BACKGROUND package=com.miui.home class=com.miui.home.launcher.Launcher 
+      time="2017/9/26 下午2:45" type=MOVE_TO_FOREGROUND package=com.android.systemui class=com.android.systemui.usb.UsbDebuggingActivity 
+      time="2017/9/26 下午2:45" type=MOVE_TO_BACKGROUND package=com.android.systemui class=com.android.systemui.usb.UsbDebuggingActivity 
+      time="2017/9/26 下午2:45" type=MOVE_TO_FOREGROUND package=com.miui.home class=com.miui.home.launcher.Launcher 
+      time="2017/9/26 下午2:45" type=MOVE_TO_BACKGROUND package=com.miui.home class=com.miui.home.launcher.Launcher 
+      time="2017/9/26 下午2:45" type=MOVE_TO_FOREGROUND package=com.miui.securitycenter class=com.miui.permcenter.install.AdbInstallActivity 
+      time="2017/9/26 下午2:45" type=MOVE_TO_BACKGROUND package=com.miui.securitycenter class=com.miui.permcenter.install.AdbInstallActivity 
+      time="2017/9/26 下午2:45" type=MOVE_TO_FOREGROUND package=com.miui.home class=com.miui.home.launcher.Launcher 
+      time="2017/9/26 下午2:45" type=MOVE_TO_BACKGROUND package=com.miui.home class=com.miui.home.launcher.Launcher 
+      time="2017/9/26 下午2:45" type=MOVE_TO_FOREGROUND package=com.qualcomm.qtl.context_fusion_service class=com.qualcomm.qtl.context_fusion_service.MainActivity 
+      time="2017/9/26 下午2:50" type=MOVE_TO_BACKGROUND package=com.qualcomm.qtl.context_fusion_service class=com.qualcomm.qtl.context_fusion_service.MainActivity 
+      time="2017/9/26 下午2:51" type=MOVE_TO_FOREGROUND package=com.qualcomm.qtl.context_fusion_service class=com.qualcomm.qtl.context_fusion_service.MainActivity 
+      time="2017/9/26 下午2:51" type=MOVE_TO_BACKGROUND package=com.qualcomm.qtl.context_fusion_service class=com.qualcomm.qtl.context_fusion_service.MainActivity 
+      time="2017/9/26 下午2:51" type=MOVE_TO_FOREGROUND package=com.miui.home class=com.miui.home.launcher.Launcher 
+      time="2017/9/26 下午2:52" type=MOVE_TO_BACKGROUND package=com.miui.home class=com.miui.home.launcher.Launcher 
+      time="2017/9/26 下午2:52" type=MOVE_TO_FOREGROUND package=com.qualcomm.qtl.context_fusion_service class=com.qualcomm.qtl.context_fusion_service.MainActivity 
+      time="2017/9/26 下午2:53" type=MOVE_TO_BACKGROUND package=com.qualcomm.qtl.context_fusion_service class=com.qualcomm.qtl.context_fusion_service.MainActivity 
+      time="2017/9/26 下午2:53" type=MOVE_TO_FOREGROUND package=com.miui.home class=com.miui.home.launcher.Launcher 
+      time="2017/9/26 下午2:53" type=MOVE_TO_BACKGROUND package=com.miui.home class=com.miui.home.launcher.Launcher 
+      time="2017/9/26 下午2:53" type=MOVE_TO_FOREGROUND package=com.qualcomm.qtl.context_fusion_service class=com.qualcomm.qtl.context_fusion_service.MainActivity 
+      time="2017/9/26 下午2:56" type=MOVE_TO_BACKGROUND package=com.qualcomm.qtl.context_fusion_service class=com.qualcomm.qtl.context_fusion_service.MainActivity 
+      time="2017/9/26 下午2:56" type=MOVE_TO_FOREGROUND package=com.miui.home class=com.miui.home.launcher.Launcher 
+      time="2017/9/26 下午2:56" type=MOVE_TO_BACKGROUND package=com.miui.home class=com.miui.home.launcher.Launcher 
+      time="2017/9/26 下午2:56" type=MOVE_TO_FOREGROUND package=com.qualcomm.qtl.context_fusion_service class=com.qualcomm.qtl.context_fusion_service.MainActivity 
+      time="2017/9/26 下午2:56" type=MOVE_TO_BACKGROUND package=com.qualcomm.qtl.context_fusion_service class=com.qualcomm.qtl.context_fusion_service.MainActivity 
+      time="2017/9/26 下午2:56" type=MOVE_TO_FOREGROUND package=com.miui.home class=com.miui.home.launcher.Launcher 
+      time="2017/9/26 下午2:56" type=MOVE_TO_BACKGROUND package=com.miui.home class=com.miui.home.launcher.Launcher 
+      time="2017/9/26 下午2:56" type=MOVE_TO_FOREGROUND package=com.yiqizuoye.jzt class=com.yiqizuoye.jzt.activity.WelcomeActivity 
+      time="2017/9/26 下午2:56" type=MOVE_TO_BACKGROUND package=com.yiqizuoye.jzt class=com.yiqizuoye.jzt.activity.WelcomeActivity 
+      time="2017/9/26 下午2:56" type=MOVE_TO_FOREGROUND package=com.yiqizuoye.jzt class=com.yiqizuoye.jzt.activity.GuideActivity 
+      time="2017/9/26 下午2:57" type=MOVE_TO_BACKGROUND package=com.yiqizuoye.jzt class=com.yiqizuoye.jzt.activity.GuideActivity 
+      time="2017/9/26 下午2:57" type=MOVE_TO_FOREGROUND package=com.miui.home class=com.miui.home.launcher.Launcher 
+      time="2017/9/26 下午2:57" type=MOVE_TO_BACKGROUND package=com.miui.home class=com.miui.home.launcher.Launcher 
+      time="2017/9/26 下午2:57" type=MOVE_TO_FOREGROUND package=com.jingdong.app.mall class=com.jingdong.app.mall.main.MainActivity 
+      time="2017/9/26 下午2:58" type=MOVE_TO_BACKGROUND package=com.jingdong.app.mall class=com.jingdong.app.mall.main.MainActivity 
+      time="2017/9/26 下午2:58" type=MOVE_TO_FOREGROUND package=com.android.settings class=com.android.settings.applications.InstalledAppDetails 
+      time="2017/9/26 下午2:58" type=MOVE_TO_BACKGROUND package=com.android.settings class=com.android.settings.applications.InstalledAppDetails 
+      time="2017/9/26 下午2:58" type=MOVE_TO_FOREGROUND package=com.jingdong.app.mall class=com.jingdong.app.mall.main.MainActivity 
+      time="2017/9/26 下午2:58" type=MOVE_TO_BACKGROUND package=com.jingdong.app.mall class=com.jingdong.app.mall.main.MainActivity 
+      time="2017/9/26 下午2:58" type=MOVE_TO_FOREGROUND package=com.android.settings class=com.android.settings.applications.InstalledAppDetails 
+      time="2017/9/26 下午2:58" type=MOVE_TO_BACKGROUND package=com.android.settings class=com.android.settings.applications.InstalledAppDetails 
+      time="2017/9/26 下午2:58" type=MOVE_TO_FOREGROUND package=com.jingdong.app.mall class=com.jingdong.app.mall.main.MainActivity 
+      time="2017/9/26 下午2:58" type=MOVE_TO_BACKGROUND package=com.jingdong.app.mall class=com.jingdong.app.mall.main.MainActivity 
+      time="2017/9/26 下午2:58" type=MOVE_TO_FOREGROUND package=com.android.settings class=com.android.settings.applications.InstalledAppDetails 
+      time="2017/9/26 下午2:58" type=MOVE_TO_BACKGROUND package=com.android.settings class=com.android.settings.applications.InstalledAppDetails 
+      time="2017/9/26 下午2:58" type=MOVE_TO_FOREGROUND package=com.miui.home class=com.miui.home.launcher.Launcher 
+      time="2017/9/26 下午2:58" type=MOVE_TO_BACKGROUND package=com.miui.home class=com.miui.home.launcher.Launcher 
+      time="2017/9/26 下午2:58" type=MOVE_TO_FOREGROUND package=com.tencent.mm class=com.tencent.mm.ui.LauncherUI 
+      time="2017/9/26 下午3:00" type=MOVE_TO_BACKGROUND package=com.tencent.mm class=com.tencent.mm.ui.LauncherUI 
+      time="2017/9/26 下午3:00" type=MOVE_TO_FOREGROUND package=com.qualcomm.qtl.context_fusion_service class=com.qualcomm.qtl.context_fusion_service.MainActivity 
+      time="2017/9/26 下午3:03" type=MOVE_TO_BACKGROUND package=com.qualcomm.qtl.context_fusion_service class=com.qualcomm.qtl.context_fusion_service.MainActivity 
+      time="2017/9/26 下午3:03" type=MOVE_TO_FOREGROUND package=com.tencent.mm class=com.tencent.mm.ui.LauncherUI 
+      time="2017/9/26 下午3:03" type=MOVE_TO_BACKGROUND package=com.tencent.mm class=com.tencent.mm.ui.LauncherUI 
+      time="2017/9/26 下午3:03" type=MOVE_TO_FOREGROUND package=com.qualcomm.qtl.context_fusion_service class=com.qualcomm.qtl.context_fusion_service.MainActivity 
+      time="2017/9/26 下午3:05" type=MOVE_TO_BACKGROUND package=com.qualcomm.qtl.context_fusion_service class=com.qualcomm.qtl.context_fusion_service.MainActivity 
+      time="2017/9/26 下午3:05" type=MOVE_TO_FOREGROUND package=com.tencent.mm class=com.tencent.mm.ui.LauncherUI 
+      time="2017/9/26 下午3:07" type=MOVE_TO_BACKGROUND package=com.tencent.mm class=com.tencent.mm.ui.LauncherUI 
+      time="2017/9/26 下午3:07" type=MOVE_TO_FOREGROUND package=com.tencent.mm class=com.tencent.mm.ui.chatting.gallery.ImageGalleryUI 
+      time="2017/9/26 下午3:07" type=MOVE_TO_BACKGROUND package=com.tencent.mm class=com.tencent.mm.ui.chatting.gallery.ImageGalleryUI 
+      time="2017/9/26 下午3:07" type=MOVE_TO_FOREGROUND package=com.tencent.mm class=com.tencent.mm.ui.LauncherUI 
+      time="2017/9/26 下午3:11" type=MOVE_TO_BACKGROUND package=com.tencent.mm class=com.tencent.mm.ui.LauncherUI 
+      time="2017/9/26 下午3:11" type=MOVE_TO_FOREGROUND package=com.tencent.mm class=com.tencent.mm.ui.chatting.gallery.ImageGalleryUI 
+      time="2017/9/26 下午3:12" type=MOVE_TO_BACKGROUND package=com.tencent.mm class=com.tencent.mm.ui.chatting.gallery.ImageGalleryUI 
+      time="2017/9/26 下午3:12" type=MOVE_TO_FOREGROUND package=com.tencent.mm class=com.tencent.mm.ui.LauncherUI 
+      time="2017/9/26 下午3:12" type=MOVE_TO_BACKGROUND package=com.tencent.mm class=com.tencent.mm.ui.LauncherUI 
+      time="2017/9/26 下午3:12" type=MOVE_TO_FOREGROUND package=com.tencent.mm class=com.tencent.mm.plugin.gallery.ui.AlbumPreviewUI 
+      time="2017/9/26 下午3:12" type=MOVE_TO_BACKGROUND package=com.tencent.mm class=com.tencent.mm.plugin.gallery.ui.AlbumPreviewUI 
+      time="2017/9/26 下午3:12" type=MOVE_TO_FOREGROUND package=com.tencent.mm class=com.tencent.mm.ui.LauncherUI 
+      time="2017/9/26 下午3:13" type=MOVE_TO_BACKGROUND package=com.tencent.mm class=com.tencent.mm.ui.LauncherUI 
+      time="2017/9/26 下午3:13" type=MOVE_TO_FOREGROUND package=com.tencent.mm class=com.tencent.mm.plugin.profile.ui.ContactInfoUI 
+      time="2017/9/26 下午3:13" type=MOVE_TO_BACKGROUND package=com.tencent.mm class=com.tencent.mm.plugin.profile.ui.ContactInfoUI 
+      time="2017/9/26 下午3:13" type=MOVE_TO_FOREGROUND package=com.tencent.mm class=com.tencent.mm.ui.LauncherUI 
+      time="2017/9/26 下午3:13" type=MOVE_TO_BACKGROUND package=com.tencent.mm class=com.tencent.mm.ui.LauncherUI 
+      time="2017/9/26 下午3:13" type=MOVE_TO_FOREGROUND package=com.tencent.mm class=com.tencent.mm.plugin.mmsight.ui.SightCaptureUI 
+      time="2017/9/26 下午3:13" type=MOVE_TO_BACKGROUND package=com.tencent.mm class=com.tencent.mm.plugin.mmsight.ui.SightCaptureUI 
+      time="2017/9/26 下午3:13" type=MOVE_TO_FOREGROUND package=com.tencent.mm class=com.tencent.mm.ui.LauncherUI 
+      time="2017/9/26 下午3:13" type=MOVE_TO_BACKGROUND package=com.tencent.mm class=com.tencent.mm.ui.LauncherUI 
+      time="2017/9/26 下午3:13" type=MOVE_TO_FOREGROUND package=com.tencent.mm class=com.tencent.mm.ui.chatting.gallery.ImageGalleryUI 
+      time="2017/9/26 下午3:13" type=MOVE_TO_BACKGROUND package=com.tencent.mm class=com.tencent.mm.ui.chatting.gallery.ImageGalleryUI 
+      time="2017/9/26 下午3:13" type=MOVE_TO_FOREGROUND package=com.tencent.mm class=com.tencent.mm.ui.LauncherUI 
+      time="2017/9/26 下午3:13" type=MOVE_TO_BACKGROUND package=com.tencent.mm class=com.tencent.mm.ui.LauncherUI 
+      time="2017/9/26 下午3:13" type=MOVE_TO_FOREGROUND package=com.tencent.mm class=com.tencent.mm.plugin.chatroom.ui.ChatroomInfoUI 
+      time="2017/9/26 下午3:13" type=MOVE_TO_BACKGROUND package=com.tencent.mm class=com.tencent.mm.plugin.chatroom.ui.ChatroomInfoUI 
+      time="2017/9/26 下午3:13" type=MOVE_TO_FOREGROUND package=com.tencent.mm class=com.tencent.mm.ui.LauncherUI 
+      time="2017/9/26 下午3:14" type=CONFIGURATION_CHANGE package=android config=mcc460-mnc3-zh-rCN-ldltr-sw392dp-w698dp-h372dp-normal-long-notround-land-notnight-440dpi-finger-keysexposed-nokeys-navhidden-nonav-v23 
+      time="2017/9/26 下午3:14" type=CONFIGURATION_CHANGE package=android config=w392dp-h678dp-port-v23 
+      time="2017/9/26 下午3:14" type=MOVE_TO_BACKGROUND package=com.tencent.mm class=com.tencent.mm.ui.LauncherUI 
+      time="2017/9/26 下午3:14" type=MOVE_TO_FOREGROUND package=com.miui.home class=com.miui.home.launcher.Launcher 
+      time="2017/9/26 下午3:15" type=MOVE_TO_BACKGROUND package=com.miui.home class=com.miui.home.launcher.Launcher 
+      time="2017/9/26 下午3:15" type=MOVE_TO_FOREGROUND package=com.qualcomm.qtl.context_fusion_service class=com.qualcomm.qtl.context_fusion_service.MainActivity 
+      time="2017/9/26 下午3:16" type=MOVE_TO_BACKGROUND package=com.qualcomm.qtl.context_fusion_service class=com.qualcomm.qtl.context_fusion_service.MainActivity 
+      time="2017/9/26 下午3:16" type=MOVE_TO_FOREGROUND package=com.android.systemui class=com.android.systemui.usb.UsbDebuggingActivity 
+      time="2017/9/26 下午3:16" type=MOVE_TO_BACKGROUND package=com.android.systemui class=com.android.systemui.usb.UsbDebuggingActivity 
+      time="2017/9/26 下午3:16" type=MOVE_TO_FOREGROUND package=com.qualcomm.qtl.context_fusion_service class=com.qualcomm.qtl.context_fusion_service.MainActivity 
+      time="2017/9/26 下午3:16" type=MOVE_TO_BACKGROUND package=com.qualcomm.qtl.context_fusion_service class=com.qualcomm.qtl.context_fusion_service.MainActivity 
+      time="2017/9/26 下午3:16" type=MOVE_TO_FOREGROUND package=com.miui.home class=com.miui.home.launcher.Launcher 
+      time="2017/9/26 下午3:17" type=MOVE_TO_BACKGROUND package=com.miui.home class=com.miui.home.launcher.Launcher 
+      time="2017/9/26 下午3:17" type=MOVE_TO_FOREGROUND package=com.android.settings class=com.android.settings.MiuiSettings 
+      time="2017/9/26 下午3:17" type=MOVE_TO_BACKGROUND package=com.android.settings class=com.android.settings.MiuiSettings 
+      time="2017/9/26 下午3:17" type=MOVE_TO_FOREGROUND package=com.android.settings class=com.android.settings.SubSettings 
+      time="2017/9/26 下午3:17" type=MOVE_TO_BACKGROUND package=com.android.settings class=com.android.settings.SubSettings 
+      time="2017/9/26 下午3:17" type=MOVE_TO_FOREGROUND package=com.android.settings class=com.android.settings.SubSettings 
+      time="2017/9/26 下午3:17" type=MOVE_TO_BACKGROUND package=com.android.settings class=com.android.settings.SubSettings 
+      time="2017/9/26 下午3:17" type=MOVE_TO_FOREGROUND package=com.android.settings class=com.android.settings.SubSettings 
+      time="2017/9/26 下午3:17" type=MOVE_TO_BACKGROUND package=com.android.settings class=com.android.settings.SubSettings 
+      time="2017/9/26 下午3:17" type=MOVE_TO_FOREGROUND package=com.android.systemui class=com.android.systemui.usb.UsbDebuggingActivity 
+      time="2017/9/26 下午3:17" type=MOVE_TO_BACKGROUND package=com.android.systemui class=com.android.systemui.usb.UsbDebuggingActivity 
+      time="2017/9/26 下午3:17" type=MOVE_TO_FOREGROUND package=com.android.settings class=com.android.settings.SubSettings 
+      time="2017/9/26 下午3:17" type=MOVE_TO_BACKGROUND package=com.android.settings class=com.android.settings.SubSettings 
+      time="2017/9/26 下午3:17" type=MOVE_TO_FOREGROUND package=com.miui.home class=com.miui.home.launcher.Launcher 
+      time="2017/9/26 下午3:17" type=MOVE_TO_BACKGROUND package=com.miui.home class=com.miui.home.launcher.Launcher 
+      time="2017/9/26 下午3:17" type=MOVE_TO_FOREGROUND package=com.qualcomm.qtl.context_fusion_service class=com.qualcomm.qtl.context_fusion_service.MainActivity 
+      time="2017/9/26 下午3:18" type=MOVE_TO_BACKGROUND package=com.qualcomm.qtl.context_fusion_service class=com.qualcomm.qtl.context_fusion_service.MainActivity 
+      time="2017/9/26 下午3:18" type=MOVE_TO_FOREGROUND package=com.miui.home class=com.miui.home.launcher.Launcher 
+      time="2017/9/26 下午3:18" type=MOVE_TO_BACKGROUND package=com.miui.home class=com.miui.home.launcher.Launcher 
+      time="2017/9/26 下午3:18" type=MOVE_TO_FOREGROUND package=com.ximalaya.ting.android class=com.ximalaya.ting.android.main.activity.account.WelComeActivity 
+      time="2017/9/26 下午3:18" type=MOVE_TO_BACKGROUND package=com.ximalaya.ting.android class=com.ximalaya.ting.android.main.activity.account.WelComeActivity 
+      time="2017/9/26 下午3:18" type=MOVE_TO_FOREGROUND package=com.ximalaya.ting.android class=com.ximalaya.ting.android.activity.MainActivity 
+      time="2017/9/26 下午3:18" type=MOVE_TO_BACKGROUND package=com.ximalaya.ting.android class=com.ximalaya.ting.android.activity.MainActivity 
+      time="2017/9/26 下午3:18" type=MOVE_TO_FOREGROUND package=com.lbe.security.miui class=com.android.packageinstaller.permission.ui.GrantPermissionsActivity 
+      time="2017/9/26 下午3:18" type=MOVE_TO_BACKGROUND package=com.lbe.security.miui class=com.android.packageinstaller.permission.ui.GrantPermissionsActivity 
+      time="2017/9/26 下午3:18" type=MOVE_TO_FOREGROUND package=com.ximalaya.ting.android class=com.ximalaya.ting.android.activity.MainActivity 
+      time="2017/9/26 下午3:24" type=MOVE_TO_BACKGROUND package=com.ximalaya.ting.android class=com.ximalaya.ting.android.activity.MainActivity 
+      time="2017/9/26 下午3:32" type=MOVE_TO_FOREGROUND package=com.ximalaya.ting.android class=com.ximalaya.ting.android.activity.MainActivity 
+      time="2017/9/26 下午3:32" type=MOVE_TO_BACKGROUND package=com.ximalaya.ting.android class=com.ximalaya.ting.android.activity.MainActivity 
+      time="2017/9/26 下午3:32" type=MOVE_TO_FOREGROUND package=com.miui.home class=com.miui.home.launcher.Launcher 
+      time="2017/9/26 下午3:32" type=MOVE_TO_BACKGROUND package=com.miui.home class=com.miui.home.launcher.Launcher 
+      time="2017/9/26 下午3:32" type=MOVE_TO_FOREGROUND package=com.baidu.searchbox class=com.baidu.searchbox.SplashActivity 
+      time="2017/9/26 下午3:32" type=MOVE_TO_BACKGROUND package=com.baidu.searchbox class=com.baidu.searchbox.SplashActivity 
+      time="2017/9/26 下午3:32" type=MOVE_TO_FOREGROUND package=com.baidu.searchbox class=com.baidu.searchbox.MainActivity 
+      time="2017/9/26 下午3:45" type=MOVE_TO_BACKGROUND package=com.baidu.searchbox class=com.baidu.searchbox.MainActivity 
+      time="2017/9/26 下午3:45" type=MOVE_TO_FOREGROUND package=com.miui.home class=com.miui.home.launcher.Launcher 
+      time="2017/9/26 下午3:45" type=MOVE_TO_BACKGROUND package=com.miui.home class=com.miui.home.launcher.Launcher 
+      time="2017/9/26 下午3:45" type=MOVE_TO_FOREGROUND package=com.tencent.mm class=com.tencent.mm.ui.LauncherUI 
+      time="2017/9/26 下午3:45" type=MOVE_TO_BACKGROUND package=com.tencent.mm class=com.tencent.mm.ui.LauncherUI 
+      time="2017/9/26 下午3:45" type=MOVE_TO_FOREGROUND package=com.tencent.mm class=com.tencent.mm.ui.chatting.gallery.ImageGalleryUI 
+      time="2017/9/26 下午3:45" type=MOVE_TO_BACKGROUND package=com.tencent.mm class=com.tencent.mm.ui.chatting.gallery.ImageGalleryUI 
+      time="2017/9/26 下午3:45" type=MOVE_TO_FOREGROUND package=com.tencent.mm class=com.tencent.mm.ui.LauncherUI 
+      time="2017/9/26 下午3:46" type=MOVE_TO_BACKGROUND package=com.tencent.mm class=com.tencent.mm.ui.LauncherUI 
+      time="2017/9/26 下午3:49" type=MOVE_TO_FOREGROUND package=com.tencent.mm class=com.tencent.mm.ui.LauncherUI 
+      time="2017/9/26 下午3:49" type=MOVE_TO_BACKGROUND package=com.tencent.mm class=com.tencent.mm.ui.LauncherUI 
+      time="2017/9/26 下午3:49" type=MOVE_TO_FOREGROUND package=com.miui.home class=com.miui.home.launcher.Launcher 
+      time="2017/9/26 下午3:49" type=MOVE_TO_BACKGROUND package=com.miui.home class=com.miui.home.launcher.Launcher 
+      time="2017/9/26 下午3:50" type=MOVE_TO_FOREGROUND package=com.miui.home class=com.miui.home.launcher.Launcher 
+      time="2017/9/26 下午3:51" type=MOVE_TO_BACKGROUND package=com.miui.home class=com.miui.home.launcher.Launcher 
+      time="2017/9/26 下午3:51" type=MOVE_TO_FOREGROUND package=com.android.systemui class=com.android.systemui.usb.UsbDebuggingActivity 
+      time="2017/9/26 下午3:51" type=MOVE_TO_BACKGROUND package=com.android.systemui class=com.android.systemui.usb.UsbDebuggingActivity 
+      time="2017/9/26 下午3:51" type=MOVE_TO_FOREGROUND package=com.miui.home class=com.miui.home.launcher.Launcher 
+      time="2017/9/26 下午3:51" type=MOVE_TO_BACKGROUND package=com.miui.home class=com.miui.home.launcher.Launcher 
+      time="2017/9/26 下午3:51" type=MOVE_TO_FOREGROUND package=com.ximalaya.ting.android class=com.ximalaya.ting.android.activity.MainActivity 
+      time="2017/9/26 下午3:51" type=MOVE_TO_BACKGROUND package=com.ximalaya.ting.android class=com.ximalaya.ting.android.activity.MainActivity 
+      time="2017/9/26 下午3:51" type=MOVE_TO_FOREGROUND package=com.ximalaya.ting.android class=com.ximalaya.ting.android.main.activity.account.WelComeActivity 
+      time="2017/9/26 下午3:51" type=MOVE_TO_BACKGROUND package=com.ximalaya.ting.android class=com.ximalaya.ting.android.main.activity.account.WelComeActivity 
+      time="2017/9/26 下午3:51" type=MOVE_TO_FOREGROUND package=com.ximalaya.ting.android class=com.ximalaya.ting.android.host.activity.web.WebActivity 
+      time="2017/9/26 下午3:52" type=MOVE_TO_BACKGROUND package=com.ximalaya.ting.android class=com.ximalaya.ting.android.host.activity.web.WebActivity 
+      time="2017/9/26 下午3:52" type=MOVE_TO_FOREGROUND package=com.ximalaya.ting.android class=com.ximalaya.ting.android.activity.MainActivity 
+      time="2017/9/26 下午3:52" type=MOVE_TO_BACKGROUND package=com.ximalaya.ting.android class=com.ximalaya.ting.android.activity.MainActivity 
+      time="2017/9/26 下午3:52" type=MOVE_TO_FOREGROUND package=com.ximalaya.ting.android class=com.ximalaya.ting.android.activity.MainActivity 
+      time="2017/9/26 下午3:52" type=MOVE_TO_BACKGROUND package=com.ximalaya.ting.android class=com.ximalaya.ting.android.activity.MainActivity 
+      time="2017/9/26 下午3:52" type=MOVE_TO_FOREGROUND package=com.ximalaya.ting.android class=com.ximalaya.ting.android.activity.MainActivity 
+      time="2017/9/26 下午3:52" type=MOVE_TO_BACKGROUND package=com.ximalaya.ting.android class=com.ximalaya.ting.android.activity.MainActivity 
+      time="2017/9/26 下午3:52" type=MOVE_TO_FOREGROUND package=com.miui.home class=com.miui.home.launcher.Launcher 
+      time="2017/9/26 下午3:52" type=MOVE_TO_BACKGROUND package=com.miui.home class=com.miui.home.launcher.Launcher 
+      time="2017/9/26 下午3:52" type=MOVE_TO_FOREGROUND package=com.android.settings class=com.android.settings.MiuiSettings 
+      time="2017/9/26 下午3:52" type=MOVE_TO_BACKGROUND package=com.android.settings class=com.android.settings.MiuiSettings 
+      time="2017/9/26 下午3:52" type=MOVE_TO_FOREGROUND package=com.android.settings class=com.android.settings.SubSettings 
+      time="2017/9/26 下午3:52" type=MOVE_TO_BACKGROUND package=com.android.settings class=com.android.settings.SubSettings 
+      time="2017/9/26 下午3:52" type=MOVE_TO_FOREGROUND package=com.android.settings class=com.android.settings.SubSettings 
+      time="2017/9/26 下午3:52" type=MOVE_TO_BACKGROUND package=com.android.settings class=com.android.settings.SubSettings 
+      time="2017/9/26 下午3:52" type=MOVE_TO_FOREGROUND package=com.miui.home class=com.miui.home.launcher.Launcher 
+      time="2017/9/26 下午3:52" type=MOVE_TO_BACKGROUND package=com.miui.home class=com.miui.home.launcher.Launcher 
+      time="2017/9/26 下午3:52" type=MOVE_TO_FOREGROUND package=com.android.systemui class=com.android.systemui.usb.UsbDebuggingActivity 
+      time="2017/9/26 下午3:52" type=MOVE_TO_BACKGROUND package=com.android.systemui class=com.android.systemui.usb.UsbDebuggingActivity 
+      time="2017/9/26 下午3:52" type=MOVE_TO_FOREGROUND package=com.miui.home class=com.miui.home.launcher.Launcher 
+      time="2017/9/26 下午3:54" type=MOVE_TO_BACKGROUND package=com.miui.home class=com.miui.home.launcher.Launcher 
+      time="2017/9/26 下午4:25" type=MOVE_TO_FOREGROUND package=com.tencent.mm class=com.tencent.mm.ui.LauncherUI 
+      time="2017/9/26 下午4:25" type=MOVE_TO_FOREGROUND package=com.tencent.mm class=com.tencent.mm.ui.LauncherUI 
+      time="2017/9/26 下午4:25" type=MOVE_TO_BACKGROUND package=com.tencent.mm class=com.tencent.mm.ui.LauncherUI 
+      time="2017/9/26 下午4:25" type=MOVE_TO_FOREGROUND package=com.miui.home class=com.miui.home.launcher.Launcher 
+      time="2017/9/26 下午4:25" type=MOVE_TO_BACKGROUND package=com.miui.home class=com.miui.home.launcher.Launcher 
+      time="2017/9/26 下午4:25" type=MOVE_TO_FOREGROUND package=com.ctrip.ct class=com.ctrip.ct.controller.activity.BusinessActivity 
+      time="2017/9/26 下午4:26" type=MOVE_TO_BACKGROUND package=com.ctrip.ct class=com.ctrip.ct.controller.activity.BusinessActivity 
+      time="2017/9/26 下午4:26" type=MOVE_TO_FOREGROUND package=com.miui.home class=com.miui.home.launcher.Launcher 
+      time="2017/9/26 下午4:28" type=MOVE_TO_BACKGROUND package=com.miui.home class=com.miui.home.launcher.Launcher 
+      time="2017/9/26 下午4:28" type=MOVE_TO_FOREGROUND package=com.yiqizuoye.jzt class=com.yiqizuoye.jzt.activity.WelcomeActivity 
+      time="2017/9/26 下午4:28" type=MOVE_TO_BACKGROUND package=com.yiqizuoye.jzt class=com.yiqizuoye.jzt.activity.WelcomeActivity 
+      time="2017/9/26 下午4:28" type=MOVE_TO_FOREGROUND package=com.yiqizuoye.jzt class=com.yiqizuoye.jzt.activity.MainActivity 
+  In-memory weekly stats
+  timeRange="2017/9/21 上午8:00 – 2017/9/26 下午4:28" 
+    packages
+      package=com.android.providers.calendar totalTime="00:00" lastTime="1970/1/1 上午8:00" lastTimeSystem="2017/9/26 下午1:56" inactiveTime="1:14:16" 
+      package=com.yiqizuoye.jzt totalTime="00:30" lastTime="2017/9/26 下午4:28" lastTimeSystem="2017/9/26 下午4:28" inactiveTime="00:11" 
+      package=com.android.providers.media totalTime="00:00" lastTime="1970/1/1 上午8:00" lastTimeSystem="2017/9/26 下午3:52" inactiveTime="04:15" 
+      package=com.milink.service totalTime="00:00" lastTime="1970/1/1 上午8:00" lastTimeSystem="2017/9/26 下午2:30" inactiveTime="1:12:51" 
+      package=com.xiaomi.account totalTime="00:00" lastTime="1970/1/1 上午8:00" lastTimeSystem="2017/9/26 下午3:54" inactiveTime="02:35" 
+      package=com.miui.gallery totalTime="02:10" lastTime="2017/9/26 下午2:32" lastTimeSystem="2017/9/26 下午2:32" inactiveTime="1:10:41" 
+      package=com.android.providers.downloads totalTime="00:00" lastTime="1970/1/1 上午8:00" lastTimeSystem="2017/9/26 下午3:52" inactiveTime="04:15" 
+      package=com.miui.securitycenter totalTime="00:00" lastTime="2017/9/26 下午2:45" lastTimeSystem="2017/9/26 下午3:52" inactiveTime="04:15" 
+      package=com.android.providers.applications totalTime="00:00" lastTime="1970/1/1 上午8:00" lastTimeSystem="2017/9/26 下午3:43" inactiveTime="09:33" 
+      package=com.baidu.input_miv6 totalTime="00:00" lastTime="1970/1/1 上午8:00" lastTimeSystem="2017/9/26 下午12:15" inactiveTime="1:21:33" 
+      package=com.miui.guardprovider totalTime="00:00" lastTime="1970/1/1 上午8:00" lastTimeSystem="2017/9/26 下午2:29" inactiveTime="1:13:24" 
+      package=com.tencent.mm totalTime="13:25" lastTime="2017/9/26 下午4:25" lastTimeSystem="2017/9/26 下午4:25" inactiveTime="02:28" 
+      package=com.baidu.searchbox totalTime="33:33" lastTime="2017/9/26 下午3:45" lastTimeSystem="2017/9/26 下午3:45" inactiveTime="07:34" 
+      package=com.google.android.gsf totalTime="00:00" lastTime="1970/1/1 上午8:00" lastTimeSystem="2017/9/26 下午4:25" inactiveTime="02:21" 
+      package=com.svox.pico totalTime="00:00" lastTime="1970/1/1 上午8:00" lastTimeSystem="2017/9/26 下午3:52" inactiveTime="04:20" 
+      package=com.ctrip.ct totalTime="00:02" lastTime="2017/9/26 下午4:26" lastTimeSystem="2017/9/26 下午4:26" inactiveTime="02:20" 
+      package=com.qualcomm.qtl.context_fusion_service totalTime="16:29" lastTime="2017/9/26 下午3:18" lastTimeSystem="2017/9/26 下午3:18" inactiveTime="26:04" 
+      package=com.xiaomi.market totalTime="00:00" lastTime="1970/1/1 上午8:00" lastTimeSystem="2017/9/26 下午3:51" inactiveTime="04:51" 
+      package=com.miui.cloudservice totalTime="00:00" lastTime="1970/1/1 上午8:00" lastTimeSystem="2017/9/26 下午3:52" inactiveTime="03:51" 
+      package=com.ximalaya.ting.android totalTime="06:30" lastTime="2017/9/26 下午3:52" lastTimeSystem="2017/9/26 下午3:52" inactiveTime="04:19" 
+      package=com.baidu.BaiduMap totalTime="00:00" lastTime="1970/1/1 上午8:00" lastTimeSystem="2017/9/26 上午11:53" inactiveTime="1:33:54" 
+      package=com.android.settings totalTime="02:12" lastTime="2017/9/26 下午3:52" lastTimeSystem="2017/9/26 下午4:25" inactiveTime="02:28" 
+      package=com.jingdong.app.mall totalTime="00:49" lastTime="2017/9/26 下午2:58" lastTimeSystem="2017/9/26 下午2:58" inactiveTime="46:25" 
+      package=com.miui.yellowpage totalTime="00:00" lastTime="1970/1/1 上午8:00" lastTimeSystem="2017/9/26 下午3:43" inactiveTime="09:35" 
+      package=com.android.email totalTime="00:00" lastTime="1970/1/1 上午8:00" lastTimeSystem="2017/9/26 下午3:52" inactiveTime="03:51" 
+      package=com.android.providers.userdictionary totalTime="00:00" lastTime="1970/1/1 上午8:00" lastTimeSystem="2017/9/26 下午3:43" inactiveTime="09:33" 
+      package=com.android.systemui totalTime="00:14" lastTime="2017/9/26 下午3:52" lastTimeSystem="2017/9/26 下午3:52" inactiveTime="03:43" 
+      package=com.android.thememanager totalTime="00:00" lastTime="1970/1/1 上午8:00" lastTimeSystem="2017/9/26 下午3:52" inactiveTime="04:15" 
+      package=com.lbe.security.miui totalTime="00:00" lastTime="2017/9/26 下午3:18" lastTimeSystem="2017/9/26 下午3:18" inactiveTime="25:50" 
+      package=com.android.providers.contacts totalTime="00:00" lastTime="1970/1/1 上午8:00" lastTimeSystem="2017/9/26 下午3:43" inactiveTime="09:33" 
+      package=com.miui.home totalTime="24:51" lastTime="2017/9/26 下午4:28" lastTimeSystem="2017/9/26 下午4:28" inactiveTime="00:16" 
+      package=com.miui.voip totalTime="00:00" lastTime="1970/1/1 上午8:00" lastTimeSystem="2017/9/26 上午11:44" inactiveTime="1:39:41" 
+    configurations
+      config=mcc460-mnc3-zh-rCN-ldltr-sw392dp-w392dp-h678dp-normal-long-notround-port-notnight-440dpi-finger-keysexposed-nokeys-navhidden-nonav-v23 totalTime="00:00" lastTime="2017/9/26 下午3:14" count=1 
+      config=mcc460-mnc3-zh-rCN-ldltr-sw392dp-w698dp-h372dp-normal-long-notround-land-notnight-440dpi-finger-keysexposed-nokeys-navhidden-nonav-v23 totalTime="00:01" lastTime="2017/9/26 下午3:14" count=1 
+    events
+  In-memory monthly stats
+  timeRange="2017/9/21 上午8:00 – 2017/9/26 下午4:28" 
+    packages
+      package=com.android.providers.calendar totalTime="00:00" lastTime="1970/1/1 上午8:00" lastTimeSystem="2017/9/26 下午1:56" inactiveTime="1:14:16" 
+      package=com.yiqizuoye.jzt totalTime="00:30" lastTime="2017/9/26 下午4:28" lastTimeSystem="2017/9/26 下午4:28" inactiveTime="00:11" 
+      package=com.android.providers.media totalTime="00:00" lastTime="1970/1/1 上午8:00" lastTimeSystem="2017/9/26 下午3:52" inactiveTime="04:15" 
+      package=com.milink.service totalTime="00:00" lastTime="1970/1/1 上午8:00" lastTimeSystem="2017/9/26 下午2:30" inactiveTime="1:12:51" 
+      package=com.xiaomi.account totalTime="00:00" lastTime="1970/1/1 上午8:00" lastTimeSystem="2017/9/26 下午3:54" inactiveTime="02:35" 
+      package=com.miui.gallery totalTime="02:10" lastTime="2017/9/26 下午2:32" lastTimeSystem="2017/9/26 下午2:32" inactiveTime="1:10:41" 
+      package=com.android.providers.downloads totalTime="00:00" lastTime="1970/1/1 上午8:00" lastTimeSystem="2017/9/26 下午3:52" inactiveTime="04:15" 
+      package=com.miui.securitycenter totalTime="00:00" lastTime="2017/9/26 下午2:45" lastTimeSystem="2017/9/26 下午3:52" inactiveTime="04:15" 
+      package=com.android.providers.applications totalTime="00:00" lastTime="1970/1/1 上午8:00" lastTimeSystem="2017/9/26 下午3:43" inactiveTime="09:33" 
+      package=com.baidu.input_miv6 totalTime="00:00" lastTime="1970/1/1 上午8:00" lastTimeSystem="2017/9/26 下午12:15" inactiveTime="1:21:33" 
+      package=com.miui.guardprovider totalTime="00:00" lastTime="1970/1/1 上午8:00" lastTimeSystem="2017/9/26 下午2:29" inactiveTime="1:13:24" 
+      package=com.tencent.mm totalTime="13:25" lastTime="2017/9/26 下午4:25" lastTimeSystem="2017/9/26 下午4:25" inactiveTime="02:28" 
+      package=com.baidu.searchbox totalTime="33:33" lastTime="2017/9/26 下午3:45" lastTimeSystem="2017/9/26 下午3:45" inactiveTime="07:34" 
+      package=com.google.android.gsf totalTime="00:00" lastTime="1970/1/1 上午8:00" lastTimeSystem="2017/9/26 下午4:25" inactiveTime="02:21" 
+      package=com.svox.pico totalTime="00:00" lastTime="1970/1/1 上午8:00" lastTimeSystem="2017/9/26 下午3:52" inactiveTime="04:20" 
+      package=com.ctrip.ct totalTime="00:02" lastTime="2017/9/26 下午4:26" lastTimeSystem="2017/9/26 下午4:26" inactiveTime="02:20" 
+      package=com.qualcomm.qtl.context_fusion_service totalTime="16:29" lastTime="2017/9/26 下午3:18" lastTimeSystem="2017/9/26 下午3:18" inactiveTime="26:04" 
+      package=com.xiaomi.market totalTime="00:00" lastTime="1970/1/1 上午8:00" lastTimeSystem="2017/9/26 下午3:51" inactiveTime="04:51" 
+      package=com.miui.cloudservice totalTime="00:00" lastTime="1970/1/1 上午8:00" lastTimeSystem="2017/9/26 下午3:52" inactiveTime="03:51" 
+      package=com.ximalaya.ting.android totalTime="06:30" lastTime="2017/9/26 下午3:52" lastTimeSystem="2017/9/26 下午3:52" inactiveTime="04:19" 
+      package=com.baidu.BaiduMap totalTime="00:00" lastTime="1970/1/1 上午8:00" lastTimeSystem="2017/9/26 上午11:53" inactiveTime="1:33:54" 
+      package=com.android.settings totalTime="02:12" lastTime="2017/9/26 下午3:52" lastTimeSystem="2017/9/26 下午4:25" inactiveTime="02:28" 
+      package=com.jingdong.app.mall totalTime="00:49" lastTime="2017/9/26 下午2:58" lastTimeSystem="2017/9/26 下午2:58" inactiveTime="46:25" 
+      package=com.miui.yellowpage totalTime="00:00" lastTime="1970/1/1 上午8:00" lastTimeSystem="2017/9/26 下午3:43" inactiveTime="09:35" 
+      package=com.android.email totalTime="00:00" lastTime="1970/1/1 上午8:00" lastTimeSystem="2017/9/26 下午3:52" inactiveTime="03:51" 
+      package=com.android.providers.userdictionary totalTime="00:00" lastTime="1970/1/1 上午8:00" lastTimeSystem="2017/9/26 下午3:43" inactiveTime="09:33" 
+      package=com.android.systemui totalTime="00:14" lastTime="2017/9/26 下午3:52" lastTimeSystem="2017/9/26 下午3:52" inactiveTime="03:43" 
+      package=com.android.thememanager totalTime="00:00" lastTime="1970/1/1 上午8:00" lastTimeSystem="2017/9/26 下午3:52" inactiveTime="04:15" 
+      package=com.lbe.security.miui totalTime="00:00" lastTime="2017/9/26 下午3:18" lastTimeSystem="2017/9/26 下午3:18" inactiveTime="25:50" 
+      package=com.android.providers.contacts totalTime="00:00" lastTime="1970/1/1 上午8:00" lastTimeSystem="2017/9/26 下午3:43" inactiveTime="09:33" 
+      package=com.miui.home totalTime="24:51" lastTime="2017/9/26 下午4:28" lastTimeSystem="2017/9/26 下午4:28" inactiveTime="00:16" 
+      package=com.miui.voip totalTime="00:00" lastTime="1970/1/1 上午8:00" lastTimeSystem="2017/9/26 上午11:44" inactiveTime="1:39:41" 
+    configurations
+      config=mcc460-mnc3-zh-rCN-ldltr-sw392dp-w392dp-h678dp-normal-long-notround-port-notnight-440dpi-finger-keysexposed-nokeys-navhidden-nonav-v23 totalTime="00:00" lastTime="2017/9/26 下午3:14" count=1 
+      config=mcc460-mnc3-zh-rCN-ldltr-sw392dp-w698dp-h372dp-normal-long-notround-land-notnight-440dpi-finger-keysexposed-nokeys-navhidden-nonav-v23 totalTime="00:01" lastTime="2017/9/26 下午3:14" count=1 
+    events
+  In-memory yearly stats
+  timeRange="2016/12/20 上午8:00 – 2017/9/26 下午4:28" 
+    packages
+      package=com.android.providers.calendar totalTime="00:00" lastTime="1970/1/1 上午8:00" lastTimeSystem="2017/9/26 下午1:56" inactiveTime="1:14:16" 
+      package=com.yiqizuoye.jzt totalTime="00:30" lastTime="2017/9/26 下午4:28" lastTimeSystem="2017/9/26 下午4:28" inactiveTime="00:11" 
+      package=com.android.providers.media totalTime="00:00" lastTime="1970/1/1 上午8:00" lastTimeSystem="2017/9/26 下午3:52" inactiveTime="04:15" 
+      package=com.milink.service totalTime="00:00" lastTime="1970/1/1 上午8:00" lastTimeSystem="2017/9/26 下午2:30" inactiveTime="1:12:51" 
+      package=com.xiaomi.account totalTime="00:00" lastTime="1970/1/1 上午8:00" lastTimeSystem="2017/9/26 下午3:54" inactiveTime="02:35" 
+      package=com.miui.gallery totalTime="02:10" lastTime="2017/9/26 下午2:32" lastTimeSystem="2017/9/26 下午2:32" inactiveTime="1:10:41" 
+      package=com.android.providers.downloads totalTime="00:00" lastTime="1970/1/1 上午8:00" lastTimeSystem="2017/9/26 下午3:52" inactiveTime="04:15" 
+      package=com.miui.securitycenter totalTime="00:00" lastTime="2017/9/26 下午2:45" lastTimeSystem="2017/9/26 下午3:52" inactiveTime="04:15" 
+      package=com.android.providers.applications totalTime="00:00" lastTime="1970/1/1 上午8:00" lastTimeSystem="2017/9/26 下午3:43" inactiveTime="09:33" 
+      package=com.baidu.input_miv6 totalTime="00:00" lastTime="1970/1/1 上午8:00" lastTimeSystem="2017/9/26 下午12:15" inactiveTime="1:21:33" 
+      package=com.miui.guardprovider totalTime="00:00" lastTime="1970/1/1 上午8:00" lastTimeSystem="2017/9/26 下午2:29" inactiveTime="1:13:24" 
+      package=com.tencent.mm totalTime="13:25" lastTime="2017/9/26 下午4:25" lastTimeSystem="2017/9/26 下午4:25" inactiveTime="02:28" 
+      package=com.baidu.searchbox totalTime="33:33" lastTime="2017/9/26 下午3:45" lastTimeSystem="2017/9/26 下午3:45" inactiveTime="07:34" 
+      package=com.google.android.gsf totalTime="00:00" lastTime="1970/1/1 上午8:00" lastTimeSystem="2017/9/26 下午4:25" inactiveTime="02:21" 
+      package=com.svox.pico totalTime="00:00" lastTime="1970/1/1 上午8:00" lastTimeSystem="2017/9/26 下午3:52" inactiveTime="04:20" 
+      package=com.ctrip.ct totalTime="00:02" lastTime="2017/9/26 下午4:26" lastTimeSystem="2017/9/26 下午4:26" inactiveTime="02:20" 
+      package=com.qualcomm.qtl.context_fusion_service totalTime="16:29" lastTime="2017/9/26 下午3:18" lastTimeSystem="2017/9/26 下午3:18" inactiveTime="26:04" 
+      package=com.xiaomi.market totalTime="00:00" lastTime="1970/1/1 上午8:00" lastTimeSystem="2017/9/26 下午3:51" inactiveTime="04:51" 
+      package=com.miui.cloudservice totalTime="00:00" lastTime="1970/1/1 上午8:00" lastTimeSystem="2017/9/26 下午3:52" inactiveTime="03:51" 
+      package=com.ximalaya.ting.android totalTime="06:30" lastTime="2017/9/26 下午3:52" lastTimeSystem="2017/9/26 下午3:52" inactiveTime="04:19" 
+      package=com.baidu.BaiduMap totalTime="00:00" lastTime="1970/1/1 上午8:00" lastTimeSystem="2017/9/26 上午11:53" inactiveTime="1:33:54" 
+      package=com.android.settings totalTime="02:12" lastTime="2017/9/26 下午3:52" lastTimeSystem="2017/9/26 下午4:25" inactiveTime="02:28" 
+      package=com.jingdong.app.mall totalTime="00:49" lastTime="2017/9/26 下午2:58" lastTimeSystem="2017/9/26 下午2:58" inactiveTime="46:25" 
+      package=com.miui.yellowpage totalTime="00:00" lastTime="1970/1/1 上午8:00" lastTimeSystem="2017/9/26 下午3:43" inactiveTime="09:35" 
+      package=com.android.email totalTime="00:00" lastTime="1970/1/1 上午8:00" lastTimeSystem="2017/9/26 下午3:52" inactiveTime="03:51" 
+      package=com.android.providers.userdictionary totalTime="00:00" lastTime="1970/1/1 上午8:00" lastTimeSystem="2017/9/26 下午3:43" inactiveTime="09:33" 
+      package=com.android.systemui totalTime="00:14" lastTime="2017/9/26 下午3:52" lastTimeSystem="2017/9/26 下午3:52" inactiveTime="03:43" 
+      package=com.android.thememanager totalTime="00:00" lastTime="1970/1/1 上午8:00" lastTimeSystem="2017/9/26 下午3:52" inactiveTime="04:15" 
+      package=com.lbe.security.miui totalTime="00:00" lastTime="2017/9/26 下午3:18" lastTimeSystem="2017/9/26 下午3:18" inactiveTime="25:50" 
+      package=com.android.providers.contacts totalTime="00:00" lastTime="1970/1/1 上午8:00" lastTimeSystem="2017/9/26 下午3:43" inactiveTime="09:33" 
+      package=com.miui.home totalTime="24:51" lastTime="2017/9/26 下午4:28" lastTimeSystem="2017/9/26 下午4:28" inactiveTime="00:16" 
+      package=com.miui.voip totalTime="00:00" lastTime="1970/1/1 上午8:00" lastTimeSystem="2017/9/26 上午11:44" inactiveTime="1:39:41" 
+    configurations
+      config=mcc460-mnc3-zh-rCN-ldltr-sw392dp-w392dp-h678dp-normal-long-notround-port-notnight-440dpi-finger-keysexposed-nokeys-navhidden-nonav-v23 totalTime="00:00" lastTime="2017/9/26 下午3:14" count=1 
+      config=mcc460-mnc3-zh-rCN-ldltr-sw392dp-w698dp-h372dp-normal-long-notround-land-notnight-440dpi-finger-keysexposed-nokeys-navhidden-nonav-v23 totalTime="00:01" lastTime="2017/9/26 下午3:14" count=1 
+    events
+  AppIdleRollingWindow cache
+  timeRange="2017/9/22 上午7:59 – 2017/9/26 下午4:28" 
+    packages
+      package=so.ofo.labofo totalTime="00:36" lastTime="2017/9/25 下午6:49" lastTimeSystem="2017/9/25 下午6:49" inactiveTime="4:05:37" 
+      package=com.homelink.android totalTime="02:44" lastTime="2017/9/24 上午7:28" lastTimeSystem="2017/9/24 上午7:28" inactiveTime="8:46:46" 
+      package=com.android.providers.telephony totalTime="00:00" lastTime="1970/1/1 上午7:59" lastTimeSystem="2017/9/26 上午12:20" inactiveTime="2:51:13" 
+      package=com.miui.powerkeeper totalTime="00:00" lastTime="1970/1/1 上午7:59" lastTimeSystem="2017/9/26 上午12:20" inactiveTime="2:51:13" 
+      package=com.zcbl.bjjj_driving totalTime="00:56" lastTime="2017/9/25 下午6:43" lastTimeSystem="2017/9/25 下午6:43" inactiveTime="4:12:26" 
+      package=com.android.providers.calendar totalTime="00:00" lastTime="1970/1/1 上午7:59" lastTimeSystem="2017/9/26 下午1:56" inactiveTime="1:14:16" 
+      package=com.yiqizuoye.jzt totalTime="00:30" lastTime="2017/9/26 下午4:28" lastTimeSystem="2017/9/26 下午4:28" inactiveTime="00:11" 
+      package=com.android.providers.media totalTime="00:00" lastTime="1970/1/1 上午7:59" lastTimeSystem="2017/9/26 下午3:52" inactiveTime="04:15" 
+      package=com.milink.service totalTime="00:00" lastTime="1970/1/1 上午7:59" lastTimeSystem="2017/9/26 下午2:30" inactiveTime="1:12:51" 
+      package=com.xiaomi.account totalTime="00:00" lastTime="1970/1/1 上午7:59" lastTimeSystem="2017/9/26 下午3:54" inactiveTime="02:35" 
+      package=com.quicinc.cne.CNEService totalTime="00:00" lastTime="1970/1/1 上午7:59" lastTimeSystem="2017/9/26 上午12:20" inactiveTime="2:51:13" 
+      package=com.android.documentsui totalTime="03:17" lastTime="2017/9/23 下午7:18" lastTimeSystem="2017/9/23 下午7:18" inactiveTime="9:37:40" 
+      package=com.android.externalstorage totalTime="00:00" lastTime="1970/1/1 上午7:59" lastTimeSystem="2017/9/23 下午7:12" inactiveTime="9:44:26" 
+      package=com.android.htmlviewer totalTime="00:01" lastTime="2017/9/25 下午6:44" lastTimeSystem="2017/9/25 下午6:44" inactiveTime="4:11:19" 
+      package=com.miui.gallery totalTime="02:49" lastTime="2017/9/26 下午2:32" lastTimeSystem="2017/9/26 下午2:32" inactiveTime="1:10:41" 
+      package=com.android.quicksearchbox totalTime="00:08" lastTime="2017/9/25 下午3:33" lastTimeSystem="2017/9/25 下午3:33" inactiveTime="4:31:56" 
+      package=com.android.mms.service totalTime="00:00" lastTime="1970/1/1 上午7:59" lastTimeSystem="2017/9/26 上午12:20" inactiveTime="2:51:13" 
+      package=com.android.providers.downloads totalTime="00:00" lastTime="1970/1/1 上午7:59" lastTimeSystem="2017/9/26 下午3:52" inactiveTime="04:15" 
+      package=com.miui.securitycenter totalTime="00:03" lastTime="2017/9/26 下午2:45" lastTimeSystem="2017/9/26 下午3:52" inactiveTime="04:15" 
+      package=com.MobileTicket totalTime="04:06" lastTime="2017/9/23 下午7:24" lastTimeSystem="2017/9/23 下午7:24" inactiveTime="9:31:57" 
+      package=com.android.providers.applications totalTime="00:00" lastTime="1970/1/1 上午7:59" lastTimeSystem="2017/9/26 下午3:43" inactiveTime="09:33" 
+      package=com.baidu.input_miv6 totalTime="00:00" lastTime="1970/1/1 上午7:59" lastTimeSystem="2017/9/26 下午12:15" inactiveTime="1:21:33" 
+      package=com.android.defcontainer totalTime="00:00" lastTime="1970/1/1 上午7:59" lastTimeSystem="2017/9/26 上午12:20" inactiveTime="2:51:13" 
+      package=com.miui.guardprovider totalTime="00:00" lastTime="1970/1/1 上午7:59" lastTimeSystem="2017/9/26 下午2:29" inactiveTime="1:13:24" 
+      package=com.tencent.mm totalTime="2:20:48" lastTime="2017/9/26 下午4:25" lastTimeSystem="2017/9/26 下午4:25" inactiveTime="02:28" 
+      package=android totalTime="00:05" lastTime="2017/9/23 下午7:17" lastTimeSystem="2017/9/23 下午7:17" inactiveTime="9:39:16" 
+      package=com.android.contacts totalTime="01:07" lastTime="2017/9/24 下午7:32" lastTimeSystem="2017/9/24 下午7:32" inactiveTime="6:38:28" 
+      package=cn.amazon.mShop.android totalTime="00:52" lastTime="2017/9/25 下午8:52" lastTimeSystem="2017/9/25 下午8:52" inactiveTime="2:51:14" 
+      package=com.baidu.searchbox totalTime="4:53:57" lastTime="2017/9/26 下午3:45" lastTimeSystem="2017/9/26 下午3:45" inactiveTime="07:34" 
+      package=com.android.mms totalTime="03:18" lastTime="2017/9/25 上午9:53" lastTimeSystem="2017/9/25 上午9:53" inactiveTime="5:30:43" 
+      package=com.android.stk totalTime="00:00" lastTime="1970/1/1 上午7:59" lastTimeSystem="2017/9/26 上午12:20" inactiveTime="2:51:13" 
+      package=org.codeaurora.ims totalTime="00:00" lastTime="1970/1/1 上午7:59" lastTimeSystem="2017/9/26 上午12:20" inactiveTime="2:51:13" 
+      package=com.qti.primarycardcontroller totalTime="00:00" lastTime="1970/1/1 上午7:59" lastTimeSystem="2017/9/26 上午12:20" inactiveTime="2:51:13" 
+      package=com.qualcomm.qcrilmsgtunnel totalTime="00:00" lastTime="1970/1/1 上午7:59" lastTimeSystem="2017/9/26 上午12:20" inactiveTime="2:51:13" 
+      package=com.android.incallui totalTime="05:23" lastTime="1970/1/1 上午7:59" lastTimeSystem="2017/9/26 上午12:20" inactiveTime="2:51:13" 
+      package=com.duokan.phone.remotecontroller totalTime="00:00" lastTime="1970/1/1 上午7:59" lastTimeSystem="2017/9/24 上午11:26" inactiveTime="8:15:20" 
+      package=com.android.fileexplorer totalTime="01:23" lastTime="1970/1/1 上午7:59" lastTimeSystem="2017/9/25 上午9:53" inactiveTime="5:30:50" 
+      package=com.qti.xdivert totalTime="00:00" lastTime="1970/1/1 上午7:59" lastTimeSystem="2017/9/26 上午12:20" inactiveTime="2:51:13" 
+      package=com.miui.stepsprovider totalTime="00:00" lastTime="1970/1/1 上午7:59" lastTimeSystem="2017/9/26 上午12:20" inactiveTime="2:51:13" 
+      package=com.xiaomi.metok totalTime="00:00" lastTime="1970/1/1 上午7:59" lastTimeSystem="2017/9/26 上午12:20" inactiveTime="2:51:13" 
+      package=com.android.server.telecom totalTime="00:00" lastTime="2017/9/24 下午5:13" lastTimeSystem="2017/9/24 下午5:13" inactiveTime="6:41:35" 
+      package=com.android.keyguard totalTime="00:00" lastTime="1970/1/1 上午7:59" lastTimeSystem="2017/9/26 上午12:20" inactiveTime="2:51:13" 
+      package=com.android.camera totalTime="02:45" lastTime="2017/9/26 上午9:20" lastTimeSystem="2017/9/26 上午9:20" inactiveTime="1:46:20" 
+      package=com.xiaomi.xmsf totalTime="00:00" lastTime="1970/1/1 上午7:59" lastTimeSystem="2017/9/26 上午12:20" inactiveTime="2:51:13" 
+      package=com.google.android.packageinstaller totalTime="00:08" lastTime="2017/9/26 上午7:08" lastTimeSystem="2017/9/26 上午7:08" inactiveTime="2:14:33" 
+      package=com.google.android.gsf totalTime="00:00" lastTime="1970/1/1 上午7:59" lastTimeSystem="2017/9/26 下午4:25" inactiveTime="02:21" 
+      package=com.fingerprints.serviceext totalTime="00:00" lastTime="1970/1/1 上午7:59" lastTimeSystem="2017/9/26 上午12:20" inactiveTime="2:51:13" 
+      package=com.svox.pico totalTime="00:00" lastTime="1970/1/1 上午7:59" lastTimeSystem="2017/9/26 下午3:52" inactiveTime="04:20" 
+      package=com.xiaomi.finddevice totalTime="00:00" lastTime="1970/1/1 上午7:59" lastTimeSystem="2017/9/26 上午12:20" inactiveTime="2:51:13" 
+      package=com.ctrip.ct totalTime="00:02" lastTime="2017/9/26 下午4:26" lastTimeSystem="2017/9/26 下午4:26" inactiveTime="02:20" 
+      package=com.qualcomm.qtl.context_fusion_service totalTime="16:29" lastTime="2017/9/26 下午3:18" lastTimeSystem="2017/9/26 下午3:18" inactiveTime="26:04" 
+      package=com.miui.mipub totalTime="00:00" lastTime="1970/1/1 上午7:59" lastTimeSystem="2017/9/25 上午9:53" inactiveTime="5:30:50" 
+      package=com.xiaomi.market totalTime="00:01" lastTime="1970/1/1 上午7:59" lastTimeSystem="2017/9/26 下午3:51" inactiveTime="04:51" 
+      package=com.miui.cloudservice totalTime="00:00" lastTime="1970/1/1 上午7:59" lastTimeSystem="2017/9/26 下午3:52" inactiveTime="03:51" 
+      package=com.ximalaya.ting.android totalTime="38:54" lastTime="2017/9/26 下午3:52" lastTimeSystem="2017/9/26 下午3:52" inactiveTime="04:19" 
+      package=com.baidu.BaiduMap totalTime="00:00" lastTime="1970/1/1 上午7:59" lastTimeSystem="2017/9/26 上午11:53" inactiveTime="1:33:54" 
+      package=com.android.smspush totalTime="00:00" lastTime="1970/1/1 上午7:59" lastTimeSystem="2017/9/26 上午12:20" inactiveTime="2:51:13" 
+      package=org.mozilla.firefox totalTime="04:04" lastTime="2017/9/26 上午7:45" lastTimeSystem="2017/9/26 上午7:45" inactiveTime="2:00:29" 
+      package=com.mobike.mobikeapp totalTime="04:47" lastTime="2017/9/26 上午8:38" lastTimeSystem="2017/9/26 上午8:38" inactiveTime="1:49:29" 
+      package=com.qualcomm.qti.telephony.vodafonepack totalTime="00:00" lastTime="1970/1/1 上午7:59" lastTimeSystem="2017/9/26 上午12:20" inactiveTime="2:51:13" 
+      package=com.miui.cleanmaster totalTime="00:00" lastTime="1970/1/1 上午7:59" lastTimeSystem="2017/9/25 上午9:53" inactiveTime="5:30:50" 
+      package=com.android.settings totalTime="04:08" lastTime="2017/9/26 下午3:52" lastTimeSystem="2017/9/26 下午4:25" inactiveTime="02:28" 
+      package=com.miui.weather2 totalTime="00:00" lastTime="1970/1/1 上午7:59" lastTimeSystem="2017/9/26 上午7:07" inactiveTime="2:15:27" 
+      package=com.jingdong.app.mall totalTime="00:49" lastTime="2017/9/26 下午2:58" lastTimeSystem="2017/9/26 下午2:58" inactiveTime="46:25" 
+      package=com.autonavi.minimap totalTime="16:49" lastTime="2017/9/23 上午8:43" lastTimeSystem="2017/9/23 上午11:58" inactiveTime="11:08:52" 
+      package=com.miui.yellowpage totalTime="00:00" lastTime="1970/1/1 上午7:59" lastTimeSystem="2017/9/26 下午3:43" inactiveTime="09:35" 
+      package=com.miui.antispam totalTime="00:00" lastTime="1970/1/1 上午7:59" lastTimeSystem="2017/9/26 上午12:20" inactiveTime="2:51:13" 
+      package=com.qualcomm.qti.services.secureui totalTime="00:00" lastTime="1970/1/1 上午7:59" lastTimeSystem="2017/9/26 上午12:20" inactiveTime="2:51:13" 
+      package=com.moji.mjweather totalTime="02:50" lastTime="2017/9/26 上午7:21" lastTimeSystem="2017/9/26 上午7:21" inactiveTime="2:02:39" 
+      package=com.android.email totalTime="01:38" lastTime="1970/1/1 上午7:59" lastTimeSystem="2017/9/26 下午3:52" inactiveTime="03:51" 
+      package=com.android.phone totalTime="00:00" lastTime="1970/1/1 上午7:59" lastTimeSystem="2017/9/26 上午12:20" inactiveTime="2:51:13" 
+      package=com.android.shell totalTime="00:00" lastTime="1970/1/1 上午7:59" lastTimeSystem="2017/9/23 下午7:12" inactiveTime="9:44:26" 
+      package=com.android.providers.userdictionary totalTime="00:00" lastTime="1970/1/1 上午7:59" lastTimeSystem="2017/9/26 下午3:43" inactiveTime="09:33" 
+      package=com.android.deskclock totalTime="02:39" lastTime="2017/9/23 上午9:31" lastTimeSystem="2017/9/23 上午9:31" inactiveTime="11:38:38" 
+      package=com.android.systemui totalTime="00:14" lastTime="2017/9/26 下午3:52" lastTimeSystem="2017/9/26 下午3:52" inactiveTime="03:43" 
+      package=com.android.thememanager totalTime="00:01" lastTime="1970/1/1 上午7:59" lastTimeSystem="2017/9/26 下午3:52" inactiveTime="04:15" 
+      package=com.taobao.taobao totalTime="49:17" lastTime="2017/9/25 下午8:51" lastTimeSystem="2017/9/25 下午8:51" inactiveTime="2:52:09" 
+      package=com.xiaomi.smarthome totalTime="00:01" lastTime="2017/9/25 下午8:44" lastTimeSystem="2017/9/25 下午8:44" inactiveTime="2:55:39" 
+      package=com.lbe.security.miui totalTime="00:06" lastTime="2017/9/26 下午3:18" lastTimeSystem="2017/9/26 下午3:18" inactiveTime="25:50" 
+      package=com.miui.whetstone totalTime="00:00" lastTime="1970/1/1 上午7:59" lastTimeSystem="2017/9/26 上午12:20" inactiveTime="2:51:13" 
+      package=com.android.bluetooth totalTime="00:00" lastTime="1970/1/1 上午7:59" lastTimeSystem="2017/9/25 下午8:44" inactiveTime="2:55:41" 
+      package=com.android.providers.contacts totalTime="00:00" lastTime="1970/1/1 上午7:59" lastTimeSystem="2017/9/26 下午3:43" inactiveTime="09:33" 
+      package=cn.wps.moffice_eng totalTime="03:32" lastTime="2017/9/23 下午7:07" lastTimeSystem="2017/9/23 下午7:07" inactiveTime="9:46:04" 
+      package=com.miui.core totalTime="00:00" lastTime="1970/1/1 上午7:59" lastTimeSystem="2017/9/26 上午12:20" inactiveTime="2:51:13" 
+      package=com.miui.home totalTime="52:42" lastTime="2017/9/26 下午4:28" lastTimeSystem="2017/9/26 下午4:28" inactiveTime="00:16" 
+      package=com.miui.voip totalTime="00:00" lastTime="1970/1/1 上午7:59" lastTimeSystem="2017/9/26 上午11:44" inactiveTime="1:39:41" 
+    configurations
+    events
+  
+Screen On Timebase: 4601003821 (+53d6h3m23s821ms)
+
+Settings:
+  mAppIdleDurationMillis=+12h0m0s0ms
+  mAppIdleWallclockThresholdMillis=+2d0h0m0s0ms
+  mCheckIdleIntervalMillis=+3h0m0s0ms
+  mAppIdleParoleIntervalMillis=+24h0m0s0ms
+  mAppIdleParoleDurationMillis=+10m0s0ms
+
+mAppIdleEnabled=false mAppIdleParoled=false mScreenOn=true
+mLastAppIdleParoledTime=0
+mScreenOnTime=+53d6h0m48s613ms
+mLastScreenOnEventRealtime=+4d16h10m25s751ms

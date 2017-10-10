@@ -1,0 +1,10 @@
+$ adb logcat -d > 3.txt^C
+haijunz@haijunz-HP-Z230-SFF-Workstation:/media/haijunz/27a263b4-e313-4b58-a422-0201e4cb11ed/13301338176_ML/use_case/logcat$ adb logcat -b all -c
+haijunz@haijunz-HP-Z230-SFF-Workstation:/media/haijunz/27a263b4-e313-4b58-a422-0201e4cb11ed/13301338176_ML/use_case/logcat$ adb logcat -b main -d > 1.txt
+haijunz@haijunz-HP-Z230-SFF-Workstation:/media/haijunz/27a263b4-e313-4b58-a422-0201e4cb11ed/13301338176_ML/use_case/logcat$ adb logcat -b all -c
+haijunz@haijunz-HP-Z230-SFF-Workstation:/media/haijunz/27a263b4-e313-4b58-a422-0201e4cb11ed/13301338176_ML/use_case/logcat$ adb logcat -b main -d > 2.txt
+haijunz@haijunz-HP-Z230-SFF-Workstation:/media/haijunz/27a263b4-e313-4b58-a422-0201e4cb11ed/13301338176_ML/use_case/logcat$ adb logcat -b all -c
+haijunz@haijunz-HP-Z230-SFF-Workstation:/media/haijunz/27a263b4-e313-4b58-a422-0201e4cb11ed/13301338176_ML/use_case/logcat$ adb logcat -b main -d > 3.txt
+haijunz@haijunz-HP-Z230-SFF-Workstation:/media/haijunz/27a263b4-e313-4b58-a422-0201e4cb11ed/13301338176_ML/use_case/logcat$ ls -ltr
+总用量 2088
+

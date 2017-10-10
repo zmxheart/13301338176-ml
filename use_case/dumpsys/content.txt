@@ -1,0 +1,659 @@
+data connected: true
+auto sync: u0=true 
+memory low: false
+device idle: false
+accounts: 9
+now: 402928082 (2017-09-26 16:10:46)
+offset: 14:10:26 (HH:MM:SS)
+uptime: 111:55:28 (HH:MM:SS)
+time spent syncing: 19:34 (HH:MM:SS), sync not in progress
+next alarm time: 403807648 (14:39 (HH:MM:SS) from now)
+
+Active Syncs: 0
+
+SyncQueue: 0 operation(s)
+Pending Ops: 0 operation(s)
+
+Sync Status
+Account 墨迹天气 u0 com.moji.mjweather.authaccount
+=======================================================================
+Authority                   Syncable  Enabled  Delay  Loc  Poll  Per  Serv  User  Tot  Time   Last Sync            Periodic  
+-------------------------------------------------------------------------------------------------------------------------------------------------
+com.moji.mjweather.account  1         true            0    54    6    1     0     854  03:54  PERIODIC SUCCESS     [p:3600 s, f: 144 s] Bundle[]  
+                                                                                              2017-09-25 06:25:28  Next sync: 2017-09-26 17:10:26  
+Account default_account u0 miui.yellowpage
+=======================================================================
+Authority        Syncable  Enabled  Delay  Loc  Poll  Per  Serv  User  Tot   Time   Last Sync            Periodic  
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+miui.yellowpage  1         true            0    120   49   0     0     1539  31:44  PERIODIC SUCCESS     [p:86400 s, f: 3456 s] Bundle[]  
+                                                                                    2017-09-26 01:34:12  Next sync: 2017-09-26 21:25:26  
+                                                                                                         [p:86400 s, f: 3456 s] Bundle[{immortal=true, triggered_by_push=true, content={"type":"ugc"}}]  
+                                                                                                         Next sync: 2017-09-26 21:25:26  
+                                                                                                         [p:172800 s, f: 3456 s] Bundle[{immortal=true, triggered_by_push=true, content={"type":"subscriber"}}]  
+                                                                                                         Next sync: 2017-09-26 21:42:29  
+                                                                                                         [p:172800 s, f: 3456 s] Bundle[{immortal=true, triggered_by_push=true, content={"type":"pull_task_daemon"}}]  
+                                                                                                         Next sync: 2017-09-26 21:42:29  
+Account 250071010 u0 com.xiaomi
+=======================================================================
+Authority                        Syncable  Enabled  Delay  Loc  Poll  Per  Serv  User  Tot   Time   Last Sync            Periodic  
+--------------------------------------------------------------------------------------------------------------------------------------------------------
+antispam                         1         true            0    111   4    2     0     215   03:14  PERIODIC SUCCESS     [p:86400 s, f: 3456 s] Bundle[]  
+                                                                                                    2017-09-25 21:25:30  Next sync: 2017-09-26 21:25:26  
+call_log                         1         true            697  143   4    29    0     972   43:39  PERIODIC SUCCESS     [p:86400 s, f: 3456 s] Bundle[]  
+                                                                                                    2017-09-25 21:25:27  Next sync: 2017-09-26 21:25:26  
+com.android.calendar             1         true            8    122   4    3     0     235   14:48  PERIODIC SUCCESS     [p:86400 s, f: 3456 s] Bundle[]  
+                                                                                                    2017-09-25 21:25:30  Next sync: 2017-09-26 21:25:26  
+com.android.contacts             1         true            33   112   4    5     0     254   14:51  PERIODIC SUCCESS     [p:86400 s, f: 3456 s] Bundle[]  
+                                                                                                    2017-09-25 21:25:32  Next sync: 2017-09-26 21:25:26  
+com.miui.browser                 1         true            2    125   4    2860  0     3089  40:36  PERIODIC SUCCESS     [p:86400 s, f: 3456 s] Bundle[]  
+                                                                                                    2017-09-25 21:25:30  Next sync: 2017-09-26 21:25:26  
+com.miui.gallery.cloud.provider  1         false           0    1     0    16    1     18    01:18  SERVER SUCCESS       [p:86400 s, f: 3456 s] Bundle[]  
+                                                                                                    2016-12-21 21:29:13  Next sync: 2016-12-22 21:26:27  
+com.miui.player                  1         true            0    111   4    39    0     252   10:45  PERIODIC SUCCESS     [p:86400 s, f: 3456 s] Bundle[]  
+                                                                                                    2017-09-25 21:25:34  Next sync: 2017-09-26 21:25:26  
+notes                            1         true            0    110   4    49    0     263   05:06  PERIODIC SUCCESS     [p:86400 s, f: 3456 s] Bundle[]  
+                                                                                                    2017-09-25 21:25:32  Next sync: 2017-09-26 21:25:26  
+records                          1         true            4    110   4    2     0     219   05:21  PERIODIC SUCCESS     [p:86400 s, f: 3456 s] Bundle[]  
+                                                                                                    2017-09-25 21:25:30  Next sync: 2017-09-26 21:25:26  
+sms                              1         false           0    2     0    55    1     60    01:54  USER SUCCESS         [p:86400 s, f: 3456 s] Bundle[]  
+                                                                                                    2016-12-24 10:16:35  Next sync: 2016-12-24 21:15:46  
+wifi                             1         true            0    128   4    49    0     279   09:58  PERIODIC SUCCESS     [p:86400 s, f: 3456 s] Bundle[]  
+                                                                                                    2017-09-25 21:25:27  Next sync: 2017-09-26 21:25:26  
+Account 大头Alice-869 u0 com.sina.weibo.account
+=======================================================================
+Authority                      Syncable  Enabled  Delay  Loc  Poll  Per  Serv  User  Tot  Time   Last Sync            Periodic  
+-----------------------------------------------------------------------------------------------------------------------------------------------------
+com.android.contacts           1         true            0    0     0    0     0     0    00:00                       [p:86400 s, f: 3456 s] Bundle[]  
+                                                                                                                      Next sync: 2017-09-26 21:25:26  
+com.sina.weibo.sync.authority  1         true            0    0     4    0     3     26   00:10  PERIODIC SUCCESS     [p:3600 s, f: 144 s] Bundle[]  
+                                                                                                 2017-09-26 01:33:59  Next sync: 2017-09-26 17:10:26  
+Account 优酷主帐号 u0 com.youku.auth
+=======================================================================
+Authority                Syncable  Enabled  Delay  Loc  Poll  Per  Serv  User  Tot  Time   Last Sync            Periodic  
+----------------------------------------------------------------------------------------------------------------------------------------------
+com.youku.auth.provider  1         true            0    0     0    0     0     97   00:09  PERIODIC SUCCESS     [p:1800 s, f: 72 s] Bundle[]  
+                                                                                           2017-08-20 18:40:27  Next sync: 2017-09-26 16:40:26  
+Account haijunz@sina.com u0 com.android.email
+=======================================================================
+Authority                   Syncable  Enabled  Delay  Loc  Poll  Per  Serv  User  Tot   Time     Last Sync            Periodic  
+----------------------------------------------------------------------------------------------------------------------------------------------------
+com.android.email.provider  1         true            0    37    97   7     19    1105  1:56:58  PERIODIC SUCCESS     [p:3600 s, f: 144 s] Bundle[]  
+                                                                                                 2017-09-26 15:40:30  Next sync: 2017-09-26 16:40:26  
+Account 今日头条 u0 com.ss.android.article.lite
+=======================================================================
+Authority                                 Syncable  Enabled  Delay  Loc  Poll  Per  Serv  User  Tot  Time   Last Sync            Periodic  
+---------------------------------------------------------------------------------------------------------------------------------------------------------------
+com.ss.android.account.AccountProvider35  1         true            0    0     0    0     0     222  00:18  PERIODIC SUCCESS     [p:900 s, f: 36 s] Bundle[]  
+                                                                                                            2017-09-21 23:40:26  Next sync: 2017-09-26 16:25:26  
+Account 支付宝主账号 u0 com.alipay
+=======================================================================
+Authority  Syncable  Enabled  Delay  Loc  Poll  Per  Serv  User  Tot  Time  Last Sync  Periodic  
+-----------------------------------------------------------------------------------------------
+Account Haijun u0 com.tencent.mm.account
+=======================================================================
+Authority             Syncable  Enabled  Delay  Loc  Poll  Per  Serv  User  Tot  Time   Last Sync            Periodic  
+--------------------------------------------------------------------------------------------------------------------------------------------
+com.android.contacts  1         true            0    1     5    15    0     24   00:51  PERIODIC SUCCESS     [p:86400 s, f: 3456 s] Bundle[]  
+                                                                                        2017-09-26 07:10:29  Next sync: 2017-09-27 07:10:26  
+
+Detailed Statistics (Recent history):  100 (# of times) 41s (sync time)
+--------------------------------------------------------------------
+  com.ss.android.account.AccountProvider35   : 42/42%     0s/0%      
+    今日头条/com.ss.android.article.lite u0      :   42/42%     0s/0%      
+--------------------------------------------------------------------
+  com.youku.auth.provider                    : 22/22%     0s/0%      
+    优酷主帐号/com.youku.auth u0                  :   22/22%     0s/0%      
+--------------------------------------------------------------------
+  com.moji.mjweather.account                 : 13/13%     0s/0%      
+    墨迹天气/com.moji.mjweather.authaccount u0   :   13/13%     0s/0%      
+--------------------------------------------------------------------
+  com.sina.weibo.sync.authority              : 13/13%     0s/0%      
+    大头Alice-869/com.sina.weibo.account u0    :   13/13%     0s/0%      
+--------------------------------------------------------------------
+  com.android.email.provider                 : 9/9%       38s/92%    
+    haijunz@sina.com/com.android.email u0    :   9/9%       38s/92%    
+--------------------------------------------------------------------
+  com.android.contacts                       : 1/1%       3s/7%      
+    Haijun/com.tencent.mm.account u0         :   1/1%       3s/7%      
+--------------------------------------------------------------------
+
+Recent Sync History
+  #1  : 2017-09-26 16:10:26 PERIODIC    0.0s            大头Alice-869/com.sina.weibo.account u0   com.sina.weibo.sync.authority            Periodic
+    event=0 upstreamActivity=0 downstreamActivity=0
+  #2  : 2017-09-26 16:10:26 PERIODIC    0.0s            墨迹天气/com.moji.mjweather.authaccount u0  com.moji.mjweather.account               Periodic
+    event=0 upstreamActivity=0 downstreamActivity=0
+  #3  : 2017-09-26 16:10:26 PERIODIC    0.0s            今日头条/com.ss.android.article.lite u0     com.ss.android.account.AccountProvider35 Periodic
+    event=0 upstreamActivity=0 downstreamActivity=0
+  #4  : 2017-09-26 16:10:26 PERIODIC    0.0s            优酷主帐号/com.youku.auth u0                 com.youku.auth.provider                  Periodic
+    event=0 upstreamActivity=0 downstreamActivity=0
+  #5  : 2017-09-26 15:40:30 PERIODIC    0.0s     29:56  今日头条/com.ss.android.article.lite u0     com.ss.android.account.AccountProvider35 Periodic
+    event=0 upstreamActivity=0 downstreamActivity=0
+  #6  : 2017-09-26 15:40:26 PERIODIC    3.9s            haijunz@sina.com/com.android.email u0   com.android.email.provider               Periodic
+  #7  : 2017-09-26 15:31:55 PERIODIC    0.0s     38:30  优酷主帐号/com.youku.auth u0                 com.youku.auth.provider                  Periodic
+    event=0 upstreamActivity=0 downstreamActivity=0
+  #8  : 2017-09-26 15:25:26 PERIODIC    0.0s     15:03  今日头条/com.ss.android.article.lite u0     com.ss.android.account.AccountProvider35 Periodic
+    event=0 upstreamActivity=0 downstreamActivity=0
+  #9  : 2017-09-26 15:10:26 PERIODIC    0.0s     15:00  今日头条/com.ss.android.article.lite u0     com.ss.android.account.AccountProvider35 Periodic
+    event=0 upstreamActivity=0 downstreamActivity=0
+  #10 : 2017-09-26 15:10:26 PERIODIC    0.0s  01:00:00  大头Alice-869/com.sina.weibo.account u0   com.sina.weibo.sync.authority            Periodic
+    event=0 upstreamActivity=0 downstreamActivity=0
+  #11 : 2017-09-26 15:10:26 PERIODIC    0.0s     59:59  墨迹天气/com.moji.mjweather.authaccount u0  com.moji.mjweather.account               Periodic
+    event=0 upstreamActivity=0 downstreamActivity=0
+  #12 : 2017-09-26 14:55:55 PERIODIC    0.0s     35:59  优酷主帐号/com.youku.auth u0                 com.youku.auth.provider                  Periodic
+    event=0 upstreamActivity=0 downstreamActivity=0
+  #13 : 2017-09-26 14:55:25 PERIODIC    0.0s     15:00  今日头条/com.ss.android.article.lite u0     com.ss.android.account.AccountProvider35 Periodic
+    event=0 upstreamActivity=0 downstreamActivity=0
+  #14 : 2017-09-26 14:40:26 PERIODIC    0.0s     14:59  今日头条/com.ss.android.article.lite u0     com.ss.android.account.AccountProvider35 Periodic
+    event=0 upstreamActivity=0 downstreamActivity=0
+  #15 : 2017-09-26 14:40:26 PERIODIC    2.9s     59:59  haijunz@sina.com/com.android.email u0   com.android.email.provider               Periodic
+  #16 : 2017-09-26 14:25:26 PERIODIC    0.0s     30:29  优酷主帐号/com.youku.auth u0                 com.youku.auth.provider                  Periodic
+    event=0 upstreamActivity=0 downstreamActivity=0
+  #17 : 2017-09-26 14:25:26 PERIODIC    0.0s     15:00  今日头条/com.ss.android.article.lite u0     com.ss.android.account.AccountProvider35 Periodic
+    event=0 upstreamActivity=0 downstreamActivity=0
+  #18 : 2017-09-26 14:10:25 PERIODIC    0.0s     15:00  今日头条/com.ss.android.article.lite u0     com.ss.android.account.AccountProvider35 Periodic
+    event=0 upstreamActivity=0 downstreamActivity=0
+  #19 : 2017-09-26 14:10:25 PERIODIC    0.0s  01:00:00  大头Alice-869/com.sina.weibo.account u0   com.sina.weibo.sync.authority            Periodic
+    event=0 upstreamActivity=0 downstreamActivity=0
+  #20 : 2017-09-26 14:10:25 PERIODIC    0.0s  01:00:00  墨迹天气/com.moji.mjweather.authaccount u0  com.moji.mjweather.account               Periodic
+    event=0 upstreamActivity=0 downstreamActivity=0
+  #21 : 2017-09-26 13:55:26 PERIODIC    0.0s     30:00  优酷主帐号/com.youku.auth u0                 com.youku.auth.provider                  Periodic
+    event=0 upstreamActivity=0 downstreamActivity=0
+  #22 : 2017-09-26 13:55:26 PERIODIC    0.0s     14:59  今日头条/com.ss.android.article.lite u0     com.ss.android.account.AccountProvider35 Periodic
+    event=0 upstreamActivity=0 downstreamActivity=0
+  #23 : 2017-09-26 13:40:25 PERIODIC    0.0s     15:00  今日头条/com.ss.android.article.lite u0     com.ss.android.account.AccountProvider35 Periodic
+    event=0 upstreamActivity=0 downstreamActivity=0
+  #24 : 2017-09-26 13:40:25 PERIODIC    2.7s  01:00:00  haijunz@sina.com/com.android.email u0   com.android.email.provider               Periodic
+  #25 : 2017-09-26 13:25:26 PERIODIC    0.0s     29:59  优酷主帐号/com.youku.auth u0                 com.youku.auth.provider                  Periodic
+    event=0 upstreamActivity=0 downstreamActivity=0
+  #26 : 2017-09-26 13:25:26 PERIODIC    0.0s     14:59  今日头条/com.ss.android.article.lite u0     com.ss.android.account.AccountProvider35 Periodic
+    event=0 upstreamActivity=0 downstreamActivity=0
+  #27 : 2017-09-26 13:10:25 PERIODIC    0.0s     15:00  今日头条/com.ss.android.article.lite u0     com.ss.android.account.AccountProvider35 Periodic
+    event=0 upstreamActivity=0 downstreamActivity=0
+  #28 : 2017-09-26 13:10:25 PERIODIC    0.0s     59:59  大头Alice-869/com.sina.weibo.account u0   com.sina.weibo.sync.authority            Periodic
+    event=0 upstreamActivity=0 downstreamActivity=0
+  #29 : 2017-09-26 13:10:25 PERIODIC    0.0s     59:59  墨迹天气/com.moji.mjweather.authaccount u0  com.moji.mjweather.account               Periodic
+    event=0 upstreamActivity=0 downstreamActivity=0
+  #30 : 2017-09-26 12:55:26 PERIODIC    0.0s     14:59  今日头条/com.ss.android.article.lite u0     com.ss.android.account.AccountProvider35 Periodic
+    event=0 upstreamActivity=0 downstreamActivity=0
+  #31 : 2017-09-26 12:55:26 PERIODIC    0.0s     30:00  优酷主帐号/com.youku.auth u0                 com.youku.auth.provider                  Periodic
+    event=0 upstreamActivity=0 downstreamActivity=0
+  #32 : 2017-09-26 12:40:26 PERIODIC    0.0s     15:00  今日头条/com.ss.android.article.lite u0     com.ss.android.account.AccountProvider35 Periodic
+    event=0 upstreamActivity=0 downstreamActivity=0
+  #33 : 2017-09-26 12:25:26 PERIODIC    4.0s  01:14:59  haijunz@sina.com/com.android.email u0   com.android.email.provider               Periodic
+  #34 : 2017-09-26 12:25:26 PERIODIC    0.0s     14:59  今日头条/com.ss.android.article.lite u0     com.ss.android.account.AccountProvider35 Periodic
+    event=0 upstreamActivity=0 downstreamActivity=0
+  #35 : 2017-09-26 12:25:26 PERIODIC    0.0s     29:59  优酷主帐号/com.youku.auth u0                 com.youku.auth.provider                  Periodic
+    event=0 upstreamActivity=0 downstreamActivity=0
+  #36 : 2017-09-26 12:10:26 PERIODIC    0.0s     59:59  大头Alice-869/com.sina.weibo.account u0   com.sina.weibo.sync.authority            Periodic
+    event=0 upstreamActivity=0 downstreamActivity=0
+  #37 : 2017-09-26 12:10:26 PERIODIC    0.0s     59:59  墨迹天气/com.moji.mjweather.authaccount u0  com.moji.mjweather.account               Periodic
+    event=0 upstreamActivity=0 downstreamActivity=0
+  #38 : 2017-09-26 11:57:00 PERIODIC    0.0s     28:25  今日头条/com.ss.android.article.lite u0     com.ss.android.account.AccountProvider35 Periodic
+    event=0 upstreamActivity=0 downstreamActivity=0
+  #39 : 2017-09-26 11:40:26 PERIODIC    0.0s     16:33  今日头条/com.ss.android.article.lite u0     com.ss.android.account.AccountProvider35 Periodic
+    event=0 upstreamActivity=0 downstreamActivity=0
+  #40 : 2017-09-26 11:40:26 PERIODIC    0.0s     44:59  优酷主帐号/com.youku.auth u0                 com.youku.auth.provider                  Periodic
+    event=0 upstreamActivity=0 downstreamActivity=0
+  #41 : 2017-09-26 11:25:26 PERIODIC    7.8s  01:00:00  haijunz@sina.com/com.android.email u0   com.android.email.provider               Periodic
+  #42 : 2017-09-26 11:25:26 PERIODIC    0.0s     15:00  今日头条/com.ss.android.article.lite u0     com.ss.android.account.AccountProvider35 Periodic
+    event=0 upstreamActivity=0 downstreamActivity=0
+  #43 : 2017-09-26 11:10:25 PERIODIC    0.0s     15:00  今日头条/com.ss.android.article.lite u0     com.ss.android.account.AccountProvider35 Periodic
+    event=0 upstreamActivity=0 downstreamActivity=0
+  #44 : 2017-09-26 11:10:25 PERIODIC    0.0s     30:01  优酷主帐号/com.youku.auth u0                 com.youku.auth.provider                  Periodic
+    event=0 upstreamActivity=0 downstreamActivity=0
+  #45 : 2017-09-26 11:10:25 PERIODIC    0.0s  01:00:00  大头Alice-869/com.sina.weibo.account u0   com.sina.weibo.sync.authority            Periodic
+    event=0 upstreamActivity=0 downstreamActivity=0
+  #46 : 2017-09-26 11:10:25 PERIODIC    0.0s  01:00:00  墨迹天气/com.moji.mjweather.authaccount u0  com.moji.mjweather.account               Periodic
+    event=0 upstreamActivity=0 downstreamActivity=0
+  #47 : 2017-09-26 10:40:26 PERIODIC    0.0s     29:58  今日头条/com.ss.android.article.lite u0     com.ss.android.account.AccountProvider35 Periodic
+    event=0 upstreamActivity=0 downstreamActivity=0
+  #48 : 2017-09-26 10:25:26 PERIODIC    0.0s     44:59  优酷主帐号/com.youku.auth u0                 com.youku.auth.provider                  Periodic
+    event=0 upstreamActivity=0 downstreamActivity=0
+  #49 : 2017-09-26 10:25:26 PERIODIC    2.8s     59:59  haijunz@sina.com/com.android.email u0   com.android.email.provider               Periodic
+  #50 : 2017-09-26 10:25:26 PERIODIC    0.0s     15:00  今日头条/com.ss.android.article.lite u0     com.ss.android.account.AccountProvider35 Periodic
+    event=0 upstreamActivity=0 downstreamActivity=0
+  #51 : 2017-09-26 10:10:25 PERIODIC    0.0s     15:00  今日头条/com.ss.android.article.lite u0     com.ss.android.account.AccountProvider35 Periodic
+    event=0 upstreamActivity=0 downstreamActivity=0
+  #52 : 2017-09-26 10:10:25 PERIODIC    0.0s     59:59  大头Alice-869/com.sina.weibo.account u0   com.sina.weibo.sync.authority            Periodic
+    event=0 upstreamActivity=0 downstreamActivity=0
+  #53 : 2017-09-26 10:10:25 PERIODIC    0.0s  01:00:00  墨迹天气/com.moji.mjweather.authaccount u0  com.moji.mjweather.account               Periodic
+    event=0 upstreamActivity=0 downstreamActivity=0
+  #54 : 2017-09-26 09:55:26 PERIODIC    0.0s     30:00  优酷主帐号/com.youku.auth u0                 com.youku.auth.provider                  Periodic
+    event=0 upstreamActivity=0 downstreamActivity=0
+  #55 : 2017-09-26 09:55:26 PERIODIC    0.0s     14:59  今日头条/com.ss.android.article.lite u0     com.ss.android.account.AccountProvider35 Periodic
+    event=0 upstreamActivity=0 downstreamActivity=0
+  #56 : 2017-09-26 09:25:29 PERIODIC    0.0s     29:56  今日头条/com.ss.android.article.lite u0     com.ss.android.account.AccountProvider35 Periodic
+    event=0 upstreamActivity=0 downstreamActivity=0
+  #57 : 2017-09-26 09:25:26 PERIODIC    3.5s     59:59  haijunz@sina.com/com.android.email u0   com.android.email.provider               Periodic
+  #58 : 2017-09-26 09:25:26 PERIODIC    0.0s     30:00  优酷主帐号/com.youku.auth u0                 com.youku.auth.provider                  Periodic
+    event=0 upstreamActivity=0 downstreamActivity=0
+  #59 : 2017-09-26 09:10:26 PERIODIC    0.0s     15:02  今日头条/com.ss.android.article.lite u0     com.ss.android.account.AccountProvider35 Periodic
+    event=0 upstreamActivity=0 downstreamActivity=0
+  #60 : 2017-09-26 09:10:26 PERIODIC    0.0s     59:58  大头Alice-869/com.sina.weibo.account u0   com.sina.weibo.sync.authority            Periodic
+    event=0 upstreamActivity=0 downstreamActivity=0
+  #61 : 2017-09-26 09:10:26 PERIODIC    0.0s     59:58  墨迹天气/com.moji.mjweather.authaccount u0  com.moji.mjweather.account               Periodic
+    event=0 upstreamActivity=0 downstreamActivity=0
+  #62 : 2017-09-26 08:55:26 PERIODIC    0.0s     30:00  优酷主帐号/com.youku.auth u0                 com.youku.auth.provider                  Periodic
+    event=0 upstreamActivity=0 downstreamActivity=0
+  #63 : 2017-09-26 08:41:00 PERIODIC    0.0s     29:25  今日头条/com.ss.android.article.lite u0     com.ss.android.account.AccountProvider35 Periodic
+    event=0 upstreamActivity=0 downstreamActivity=0
+  #64 : 2017-09-26 08:25:25 PERIODIC    0.0s     15:35  今日头条/com.ss.android.article.lite u0     com.ss.android.account.AccountProvider35 Periodic
+    event=0 upstreamActivity=0 downstreamActivity=0
+  #65 : 2017-09-26 08:25:25 PERIODIC    0.0s     30:00  优酷主帐号/com.youku.auth u0                 com.youku.auth.provider                  Periodic
+    event=0 upstreamActivity=0 downstreamActivity=0
+  #66 : 2017-09-26 08:10:27 PERIODIC    0.0s     14:58  今日头条/com.ss.android.article.lite u0     com.ss.android.account.AccountProvider35 Periodic
+    event=0 upstreamActivity=0 downstreamActivity=0
+  #67 : 2017-09-26 08:10:27 PERIODIC    5.7s  01:14:58  haijunz@sina.com/com.android.email u0   com.android.email.provider               Periodic
+  #68 : 2017-09-26 07:56:00 PERIODIC    0.0s  01:14:26  大头Alice-869/com.sina.weibo.account u0   com.sina.weibo.sync.authority            Periodic
+    event=0 upstreamActivity=0 downstreamActivity=0
+  #69 : 2017-09-26 07:56:00 PERIODIC    0.0s  01:14:26  墨迹天气/com.moji.mjweather.authaccount u0  com.moji.mjweather.account               Periodic
+    event=0 upstreamActivity=0 downstreamActivity=0
+  #70 : 2017-09-26 07:52:51 PERIODIC    0.0s     17:35  今日头条/com.ss.android.article.lite u0     com.ss.android.account.AccountProvider35 Periodic
+    event=0 upstreamActivity=0 downstreamActivity=0
+  #71 : 2017-09-26 07:40:55 PERIODIC    0.0s     44:30  优酷主帐号/com.youku.auth u0                 com.youku.auth.provider                  Periodic
+    event=0 upstreamActivity=0 downstreamActivity=0
+  #72 : 2017-09-26 07:37:33 PERIODIC    0.0s     15:17  今日头条/com.ss.android.article.lite u0     com.ss.android.account.AccountProvider35 Periodic
+    event=0 upstreamActivity=0 downstreamActivity=0
+  #73 : 2017-09-26 07:10:29 PERIODIC    0.0s     27:04  今日头条/com.ss.android.article.lite u0     com.ss.android.account.AccountProvider35 Periodic
+    event=0 upstreamActivity=0 downstreamActivity=0
+  #74 : 2017-09-26 07:10:26 PERIODIC    3.1s            Haijun/com.tencent.mm.account u0        com.android.contacts                     Periodic
+  #75 : 2017-09-26 07:10:26 PERIODIC    0.0s     30:29  优酷主帐号/com.youku.auth u0                 com.youku.auth.provider                  Periodic
+    event=0 upstreamActivity=0 downstreamActivity=0
+  #76 : 2017-09-26 07:00:11 PERIODIC    4.7s  01:10:15  haijunz@sina.com/com.android.email u0   com.android.email.provider               Periodic
+  #77 : 2017-09-26 06:55:28 PERIODIC    0.0s     15:00  今日头条/com.ss.android.article.lite u0     com.ss.android.account.AccountProvider35 Periodic
+    event=0 upstreamActivity=0 downstreamActivity=0
+  #78 : 2017-09-26 06:55:28 PERIODIC    0.0s  01:00:32  大头Alice-869/com.sina.weibo.account u0   com.sina.weibo.sync.authority            Periodic
+    event=0 upstreamActivity=0 downstreamActivity=0
+  #79 : 2017-09-26 06:55:28 PERIODIC    0.0s  01:00:32  墨迹天气/com.moji.mjweather.authaccount u0  com.moji.mjweather.account               Periodic
+    event=0 upstreamActivity=0 downstreamActivity=0
+  #80 : 2017-09-26 06:40:26 PERIODIC    0.0s     15:02  今日头条/com.ss.android.article.lite u0     com.ss.android.account.AccountProvider35 Periodic
+    event=0 upstreamActivity=0 downstreamActivity=0
+  #81 : 2017-09-26 06:40:26 PERIODIC    0.0s     29:59  优酷主帐号/com.youku.auth u0                 com.youku.auth.provider                  Periodic
+    event=0 upstreamActivity=0 downstreamActivity=0
+  #82 : 2017-09-26 06:25:26 PERIODIC    0.0s     15:00  今日头条/com.ss.android.article.lite u0     com.ss.android.account.AccountProvider35 Periodic
+    event=0 upstreamActivity=0 downstreamActivity=0
+  #83 : 2017-09-26 05:55:27 PERIODIC    0.0s     29:59  今日头条/com.ss.android.article.lite u0     com.ss.android.account.AccountProvider35 Periodic
+    event=0 upstreamActivity=0 downstreamActivity=0
+  #84 : 2017-09-26 05:55:26 PERIODIC    0.0s     44:59  优酷主帐号/com.youku.auth u0                 com.youku.auth.provider                  Periodic
+    event=0 upstreamActivity=0 downstreamActivity=0
+  #85 : 2017-09-26 05:55:26 PERIODIC    0.0s  01:00:01  大头Alice-869/com.sina.weibo.account u0   com.sina.weibo.sync.authority            Periodic
+    event=0 upstreamActivity=0 downstreamActivity=0
+  #86 : 2017-09-26 05:55:26 PERIODIC    0.0s  01:00:01  墨迹天气/com.moji.mjweather.authaccount u0  com.moji.mjweather.account               Periodic
+    event=0 upstreamActivity=0 downstreamActivity=0
+  #87 : 2017-09-26 05:40:26 PERIODIC    0.0s     15:00  今日头条/com.ss.android.article.lite u0     com.ss.android.account.AccountProvider35 Periodic
+    event=0 upstreamActivity=0 downstreamActivity=0
+  #88 : 2017-09-26 05:25:26 PERIODIC    0.0s     30:00  优酷主帐号/com.youku.auth u0                 com.youku.auth.provider                  Periodic
+    event=0 upstreamActivity=0 downstreamActivity=0
+  #89 : 2017-09-26 05:10:26 PERIODIC    0.0s     29:59  今日头条/com.ss.android.article.lite u0     com.ss.android.account.AccountProvider35 Periodic
+    event=0 upstreamActivity=0 downstreamActivity=0
+  #90 : 2017-09-26 04:55:26 PERIODIC    0.0s  01:00:00  大头Alice-869/com.sina.weibo.account u0   com.sina.weibo.sync.authority            Periodic
+    event=0 upstreamActivity=0 downstreamActivity=0
+  #91 : 2017-09-26 04:55:26 PERIODIC    0.0s  01:00:00  墨迹天气/com.moji.mjweather.authaccount u0  com.moji.mjweather.account               Periodic
+    event=0 upstreamActivity=0 downstreamActivity=0
+  #92 : 2017-09-26 04:41:06 PERIODIC    0.0s     29:19  今日头条/com.ss.android.article.lite u0     com.ss.android.account.AccountProvider35 Periodic
+    event=0 upstreamActivity=0 downstreamActivity=0
+  #93 : 2017-09-26 04:41:06 PERIODIC    0.0s     44:19  优酷主帐号/com.youku.auth u0                 com.youku.auth.provider                  Periodic
+    event=0 upstreamActivity=0 downstreamActivity=0
+  #94 : 2017-09-26 04:25:25 PERIODIC    0.0s     15:41  今日头条/com.ss.android.article.lite u0     com.ss.android.account.AccountProvider35 Periodic
+    event=0 upstreamActivity=0 downstreamActivity=0
+  #95 : 2017-09-26 04:10:26 PERIODIC    0.0s     30:40  优酷主帐号/com.youku.auth u0                 com.youku.auth.provider                  Periodic
+    event=0 upstreamActivity=0 downstreamActivity=0
+  #96 : 2017-09-26 04:10:26 PERIODIC    0.0s     14:59  今日头条/com.ss.android.article.lite u0     com.ss.android.account.AccountProvider35 Periodic
+    event=0 upstreamActivity=0 downstreamActivity=0
+  #97 : 2017-09-26 03:55:25 PERIODIC    0.0s     15:00  今日头条/com.ss.android.article.lite u0     com.ss.android.account.AccountProvider35 Periodic
+    event=0 upstreamActivity=0 downstreamActivity=0
+  #98 : 2017-09-26 03:55:25 PERIODIC    0.0s  01:00:00  大头Alice-869/com.sina.weibo.account u0   com.sina.weibo.sync.authority            Periodic
+    event=0 upstreamActivity=0 downstreamActivity=0
+  #99 : 2017-09-26 03:55:25 PERIODIC    0.0s  01:00:00  墨迹天气/com.moji.mjweather.authaccount u0  com.moji.mjweather.account               Periodic
+    event=0 upstreamActivity=0 downstreamActivity=0
+  #100: 2017-09-26 03:40:26 PERIODIC    0.0s     14:59  今日头条/com.ss.android.article.lite u0     com.ss.android.account.AccountProvider35 Periodic
+    event=0 upstreamActivity=0 downstreamActivity=0
+
+Recent Sync History Extras
+
+Sync Statistics
+  Today:  Success (8 for 33.2s avg=4.1s) Failure (0)
+  Day-1:  Success (32 for 101.1s avg=3.1s) Failure (11 for 11.0s avg=1.0s)
+  Day-2:  Success (29 for 83.1s avg=2.8s) Failure (43 for 595.0s avg=13.8s)
+  Day-3:  Success (39 for 124.8s avg=3.2s) Failure (1 for 10.4s avg=10.4s)
+  Day-4:  Success (38 for 85.8s avg=2.2s) Failure (22 for 166.3s avg=7.5s)
+  Day-5:  Success (39 for 152.7s avg=3.9s) Failure (15 for 65.5s avg=4.3s)
+  Day-6:  Success (31 for 102.5s avg=3.3s) Failure (1 for 4.5s avg=4.5s)
+  Week-1: Success (402 for 862.3s avg=2.1s) Failure (77 for 268.3s avg=3.4s)
+  Week-2: Success (453 for 880.5s avg=1.9s) Failure (130 for 653.3s avg=5.0s)
+  Week-3: Success (340 for 958.0s avg=2.8s) Failure (134 for 398.5s avg=2.9s)
+
+Sync adapters for UserInfo{0:机主:13}:
+  ServiceInfo: SyncAdapterType {name=com.android.calendar, type=com.android.exchange, userVisible=true, supportsUploading=true, isAlwaysSyncable=false, allowParallelSyncs=true, settingsActivity=null}, ComponentInfo{com.android.email/com.kingsoft.exchange.service.CalendarSyncAdapterService}, uid 10044
+  ServiceInfo: SyncAdapterType {name=cn.wps.moffice_eng.sync.provider, type=cn.wps.moffice, userVisible=true, supportsUploading=false, isAlwaysSyncable=true, allowParallelSyncs=false, settingsActivity=null}, ComponentInfo{cn.wps.moffice_eng/cn.wps.moffice.service.SyncService}, uid 10103
+  ServiceInfo: SyncAdapterType {name=sms, type=com.xiaomi, userVisible=true, supportsUploading=true, isAlwaysSyncable=true, allowParallelSyncs=false, settingsActivity=null}, ComponentInfo{com.miui.cloudservice/com.miui.cloudservice.mms.MmsSmsSyncService}, uid 10041
+  ServiceInfo: SyncAdapterType {name=org.mozilla.firefox.db.browser, type=org.mozilla.firefox_fxaccount, userVisible=true, supportsUploading=true, isAlwaysSyncable=true, allowParallelSyncs=false, settingsActivity=null}, ComponentInfo{org.mozilla.firefox/org.mozilla.gecko.fxa.sync.FxAccountSyncService}, uid 10153
+  ServiceInfo: SyncAdapterType {name=com.android.contacts, type=com.android.exchange, userVisible=true, supportsUploading=true, isAlwaysSyncable=false, allowParallelSyncs=true, settingsActivity=null}, ComponentInfo{com.android.email/com.kingsoft.exchange.service.ContactsSyncAdapterService}, uid 10044
+  ServiceInfo: SyncAdapterType {name=com.ss.android.account.AccountProvider35, type=com.ss.android.article.lite, userVisible=true, supportsUploading=false, isAlwaysSyncable=true, allowParallelSyncs=false, settingsActivity=null}, ComponentInfo{com.ss.android.article.lite/com.ss.android.account.AccountSyncService}, uid 10147
+  ServiceInfo: SyncAdapterType {name=com.miui.player, type=com.xiaomi, userVisible=true, supportsUploading=true, isAlwaysSyncable=true, allowParallelSyncs=false, settingsActivity=null}, ComponentInfo{com.miui.player/com.miui.player.cloud.MusicSyncService}, uid 10022
+  ServiceInfo: SyncAdapterType {name=wifi, type=com.xiaomi, userVisible=true, supportsUploading=true, isAlwaysSyncable=true, allowParallelSyncs=false, settingsActivity=null}, ComponentInfo{com.miui.cloudservice/com.miui.cloudservice.wifi.WifiSyncService}, uid 10041
+  ServiceInfo: SyncAdapterType {name=com.android.calendar, type=com.xiaomi, userVisible=true, supportsUploading=true, isAlwaysSyncable=true, allowParallelSyncs=false, settingsActivity=null}, ComponentInfo{com.miui.cloudservice/com.miui.cloudservice.calendar.CalendarSyncService}, uid 10041
+  ServiceInfo: SyncAdapterType {name=call_log, type=com.xiaomi, userVisible=true, supportsUploading=true, isAlwaysSyncable=true, allowParallelSyncs=false, settingsActivity=null}, ComponentInfo{com.miui.cloudservice/com.miui.cloudservice.calllog.CallLogSyncService}, uid 10041
+  ServiceInfo: SyncAdapterType {name=com.android.contacts, type=com.sina.weibo.account, userVisible=true, supportsUploading=false, isAlwaysSyncable=false, allowParallelSyncs=false, settingsActivity=null}, ComponentInfo{com.sina.weibo/com.sina.weibo.sync.contact.ContactsSyncService}, uid 10092
+  ServiceInfo: SyncAdapterType {name=com.google.android.apps.inputmethod.pinyin.user_dictionary, type=com.google, userVisible=false, supportsUploading=false, isAlwaysSyncable=false, allowParallelSyncs=false, settingsActivity=null}, ComponentInfo{com.google.android.inputmethod.pinyin/com.google.android.apps.inputmethod.pinyin.preference.SyncService}, uid 10048
+  ServiceInfo: SyncAdapterType {name=records, type=com.xiaomi, userVisible=true, supportsUploading=true, isAlwaysSyncable=true, allowParallelSyncs=false, settingsActivity=null}, ComponentInfo{com.miui.cloudservice/com.miui.cloudservice.soundrecorder.RecordSyncService}, uid 10041
+  ServiceInfo: SyncAdapterType {name=com.miui.gallery.cloud.provider, type=com.xiaomi, userVisible=true, supportsUploading=true, isAlwaysSyncable=false, allowParallelSyncs=false, settingsActivity=null}, ComponentInfo{com.miui.gallery/com.miui.gallery.cloud.GallerySyncService}, uid 10019
+  ServiceInfo: SyncAdapterType {name=subscribedfeeds, type=com.google, userVisible=false, supportsUploading=true, isAlwaysSyncable=false, allowParallelSyncs=false, settingsActivity=null}, ComponentInfo{com.google.android.gsf/com.google.android.gsf.subscribedfeeds.SubscribedFeedsSyncAdapterService}, uid 10169
+  ServiceInfo: SyncAdapterType {name=com.android.contacts, type=com.tencent.mm.account, userVisible=true, supportsUploading=false, isAlwaysSyncable=false, allowParallelSyncs=false, settingsActivity=null}, ComponentInfo{com.tencent.mm/com.tencent.mm.plugin.accountsync.model.ContactsSyncService}, uid 10111
+  ServiceInfo: SyncAdapterType {name=${applicationId}.keepalive, type=com.hipu.yidian.news, userVisible=true, supportsUploading=false, isAlwaysSyncable=true, allowParallelSyncs=false, settingsActivity=null}, ComponentInfo{com.yidian.dress/com.yidian.dress.util.fetchnews.KeepAliveSyncService}, uid 10133
+  ServiceInfo: SyncAdapterType {name=com.android.contacts, type=com.xiaomi, userVisible=true, supportsUploading=true, isAlwaysSyncable=true, allowParallelSyncs=false, settingsActivity=null}, ComponentInfo{com.miui.cloudservice/com.miui.cloudservice.contacts.ContactsSyncService}, uid 10041
+  ServiceInfo: SyncAdapterType {name=com.eg.android.AlipayGphone.account.syncprovider, type=com.eg.android.AlipayGphone, userVisible=true, supportsUploading=false, isAlwaysSyncable=true, allowParallelSyncs=false, settingsActivity=null}, ComponentInfo{com.eg.android.AlipayGphone/com.alipay.mobile.healthcommon.accountsync.SyncService}, uid 10115
+  ServiceInfo: SyncAdapterType {name=miui.yellowpage, type=miui.yellowpage, userVisible=false, supportsUploading=true, isAlwaysSyncable=true, allowParallelSyncs=false, settingsActivity=null}, ComponentInfo{com.miui.yellowpage/com.miui.yellowpage.sync.SyncService}, uid 10005
+  ServiceInfo: SyncAdapterType {name=com.sina.weibo.sync.authority, type=com.sina.weibo.account, userVisible=false, supportsUploading=false, isAlwaysSyncable=true, allowParallelSyncs=false, settingsActivity=null}, ComponentInfo{com.sina.weibo/com.sina.weibo.sync.guard.GuardSyncService}, uid 10092
+  ServiceInfo: SyncAdapterType {name=notes, type=com.xiaomi, userVisible=true, supportsUploading=true, isAlwaysSyncable=true, allowParallelSyncs=false, settingsActivity=null}, ComponentInfo{com.miui.cloudservice/com.miui.cloudservice.notes.NotesSyncService}, uid 10041
+  ServiceInfo: SyncAdapterType {name=com.miui.browser, type=com.xiaomi, userVisible=true, supportsUploading=true, isAlwaysSyncable=true, allowParallelSyncs=false, settingsActivity=null}, ComponentInfo{com.android.browser/miui.browser.cloud.BrowserSyncService}, uid 10002
+  ServiceInfo: SyncAdapterType {name=com.moji.mjweather.account, type=com.moji.mjweather.authaccount, userVisible=false, supportsUploading=false, isAlwaysSyncable=true, allowParallelSyncs=false, settingsActivity=null}, ComponentInfo{com.moji.mjweather/com.moji.appwidget.daemon.syncaccount.SyncService}, uid 10126
+  ServiceInfo: SyncAdapterType {name=com.android.email.provider, type=com.android.email, userVisible=true, supportsUploading=false, isAlwaysSyncable=false, allowParallelSyncs=false, settingsActivity=null}, ComponentInfo{com.android.email/com.kingsoft.email.service.LegacyImapSyncAdapterService}, uid 10044
+  ServiceInfo: SyncAdapterType {name=com.youku.auth.provider, type=com.youku.auth, userVisible=false, supportsUploading=false, isAlwaysSyncable=true, allowParallelSyncs=false, settingsActivity=null}, ComponentInfo{com.youku.phone/com.youku.service.authentication.SyncService}, uid 10152
+  ServiceInfo: SyncAdapterType {name=com.android.email.provider, type=com.android.exchange, userVisible=true, supportsUploading=false, isAlwaysSyncable=false, allowParallelSyncs=true, settingsActivity=null}, ComponentInfo{com.android.email/com.kingsoft.exchange.service.EmailSyncAdapterService}, uid 10044
+  ServiceInfo: SyncAdapterType {name=antispam, type=com.xiaomi, userVisible=true, supportsUploading=true, isAlwaysSyncable=true, allowParallelSyncs=false, settingsActivity=null}, ComponentInfo{com.miui.cloudservice/com.miui.cloudservice.antispam.AntiSpamSyncService}, uid 10041
+
+
+Observer tree:
+  settings/secure/long_press_timeout: pid=1265 uid=1000 user=0 target=deafa7b
+  settings/secure/show_ime_with_hard_keyboard: pid=1265 uid=1000 user=-1 target=b805098
+  settings/secure/show_ime_with_hard_keyboard: pid=1265 uid=1000 user=0 target=bc0d0f1
+  settings/secure/accessibility_display_inversion_enabled: pid=1265 uid=1000 user=-1 target=b805098
+  settings/secure/accessibility_display_inversion_enabled: pid=1265 uid=1000 user=-1 target=c2894d6
+  settings/secure/incall_power_button_behavior: pid=1265 uid=1000 user=-1 target=e24c357
+  settings/secure/wake_gesture_enabled: pid=1265 uid=1000 user=-1 target=e24c357
+  settings/secure/default_input_method: pid=1265 uid=1000 user=-1 target=e24c357
+  settings/secure/default_input_method: pid=1265 uid=1000 user=0 target=bc0d0f1
+  settings/secure/default_input_method: pid=6429 uid=1000 user=0 target=575de44
+  settings/secure/immersive_mode_confirmations: pid=1265 uid=1000 user=-1 target=e24c357
+  settings/secure/screen_buttons_state: pid=1265 uid=1000 user=-1 target=9808b2d
+  settings/secure/screen_buttons_state: pid=4236 uid=1000 user=-1 target=7f12862
+  settings/secure/screen_buttons_state: pid=4236 uid=1000 user=-1 target=9c83df3
+  settings/secure/screen_buttons_state: pid=1265 uid=1000 user=0 target=a149ab0
+  settings/secure/screen_buttons_state: pid=24049 uid=10020 user=0 target=607ad29
+  settings/secure/enabled_input_methods: pid=1265 uid=1000 user=0 target=bc0d0f1
+  settings/secure/selected_input_method_subtype: pid=1265 uid=1000 user=0 target=bc0d0f1
+  settings/secure/accessibility_enabled: pid=1265 uid=1000 user=-1 target=c2894d6
+  settings/secure/touch_exploration_enabled: pid=1265 uid=1000 user=-1 target=c2894d6
+  settings/secure/accessibility_display_magnification_enabled: pid=1265 uid=1000 user=-1 target=c2894d6
+  settings/secure/enabled_accessibility_services: pid=1265 uid=1000 user=-1 target=c2894d6
+  settings/secure/touch_exploration_granted_accessibility_services: pid=1265 uid=1000 user=-1 target=c2894d6
+  settings/secure/accessibility_script_injection: pid=1265 uid=1000 user=-1 target=c2894d6
+  settings/secure/accessibility_display_daltonizer_enabled: pid=1265 uid=1000 user=-1 target=c2894d6
+  settings/secure/accessibility_display_daltonizer: pid=1265 uid=1000 user=-1 target=c2894d6
+  settings/secure/high_text_contrast_enabled: pid=1265 uid=1000 user=-1 target=c2894d6
+  settings/secure/enabled_notification_listeners: pid=1265 uid=1000 user=0 target=ebd68ae
+  settings/secure/enabled_notification_listeners: pid=1265 uid=1000 user=-1 target=11ec64f
+  settings/secure/enabled_notification_listeners: pid=1265 uid=1000 user=-1 target=aa0b1dc
+  settings/secure/pubkey_blacklist: pid=1265 uid=1000 user=0 target=8c4f2e5
+  settings/secure/serial_blacklist: pid=1265 uid=1000 user=0 target=ffb61ba
+  settings/secure/enabled_print_services: pid=1265 uid=1000 user=-1 target=5ab786b
+  settings/secure/user_setup_complete: pid=1265 uid=1000 user=-1 target=6750fc8
+  settings/secure/screensaver_enabled: pid=1265 uid=1000 user=-1 target=756d861
+  settings/secure/screensaver_activate_on_sleep: pid=1265 uid=1000 user=-1 target=756d861
+  settings/secure/screensaver_activate_on_dock: pid=1265 uid=1000 user=-1 target=756d861
+  settings/secure/sleep_timeout: pid=1265 uid=1000 user=-1 target=756d861
+  settings/secure/double_tap_to_wake: pid=1265 uid=1000 user=-1 target=756d861
+  settings/secure/sms_default_application: pid=1265 uid=1000 user=-1 target=1eddf86
+  settings/secure/dialer_default_application: pid=1265 uid=1000 user=-1 target=1eddf86
+  settings/secure/location_providers_allowed: pid=4236 uid=1000 user=-1 target=4073047
+  settings/secure/location_providers_allowed: pid=1265 uid=1000 user=-1 target=5af6074
+  settings/secure/location_providers_allowed: pid=1265 uid=1000 user=-1 target=8c7999d
+  settings/secure/location_providers_allowed: pid=1265 uid=1000 user=-1 target=8c7999d
+  settings/secure/location_providers_allowed: pid=24152 uid=10033 user=0 target=a386e12
+  settings/secure/location_providers_allowed: pid=24049 uid=10020 user=0 target=f7c89e3
+  settings/secure/mobile_policy: pid=4236 uid=1000 user=-1 target=29c0fe0
+  settings/secure/mobile_policy: pid=5559 uid=1000 user=0 target=893299
+  settings/secure/mobile_policy: pid=24049 uid=10020 user=0 target=32b595e
+  settings/secure/privacy_mode_enabled: pid=4236 uid=1000 user=-1 target=b63e13f
+  settings/secure/privacy_mode_enabled: pid=24049 uid=10020 user=0 target=de24a0c
+  settings/secure/privacy_mode_enabled: pid=16660 uid=10063 user=0 target=ab10066
+  settings/secure/lock_screen_show_notifications: pid=4236 uid=1000 user=-1 target=d315f55
+  settings/secure/lock_screen_allow_private_notifications: pid=4236 uid=1000 user=-1 target=9cfad6a
+  settings/secure/enabled_condition_providers: pid=1265 uid=1000 user=-1 target=e3f525b
+  settings/secure/volume_controller_service_component: pid=1265 uid=1000 user=0 target=96ffaf8
+  settings/secure/voice_interaction_service: pid=1265 uid=1000 user=-1 target=6f59bd1
+  settings/secure/locationCoarseAccuracy: pid=1265 uid=1000 user=0 target=b33636
+  settings/secure/locationPackagePrefixBlacklist: pid=1265 uid=1000 user=-1 target=a96b937
+  settings/secure/enhLocationServices_on: pid=1265 uid=1000 user=-1 target=8c7999d
+  settings/secure/enhLocationServices_on: pid=1265 uid=1000 user=-1 target=8c7999d
+  settings/secure/enhLocationServices_on: pid=1265 uid=1000 user=-1 target=8c7999d
+  settings/secure/enhLocationServices_on: pid=1265 uid=1000 user=-1 target=8c7999d
+  settings/secure/camera_gesture_disabled: pid=1265 uid=1000 user=0 target=625cea4
+  settings/secure/camera_double_tap_power_gesture_disabled: pid=1265 uid=1000 user=0 target=625cea4
+  settings/secure/screen_buttons_turn_on: pid=1265 uid=1000 user=0 target=9e7240d
+  settings/secure/battery_light_turn_on: pid=1265 uid=1000 user=0 target=3747fc2
+  settings/secure/enabled_widgets: pid=6429 uid=1000 user=0 target=993b1d3
+  settings/secure/children_mode_deny_sms_permission: pid=5804 uid=10000 user=0 target=433110
+  settings/secure/children_mode_enabled: pid=24049 uid=10020 user=0 target=7eef409
+  settings/secure/enable_mikey_mode: pid=4236 uid=1000 user=0 target=606fa7
+  settings/system/time_12_24: pid=1265 uid=1000 user=0 target=deafa7b
+  settings/system/end_button_behavior: pid=1265 uid=1000 user=-1 target=e24c357
+  settings/system/accelerometer_rotation: pid=1265 uid=1000 user=-1 target=e24c357
+  settings/system/accelerometer_rotation: pid=4236 uid=1000 user=-1 target=6924e3c
+  settings/system/accelerometer_rotation: pid=24049 uid=10020 user=0 target=e89c7c5
+  settings/system/user_rotation: pid=1265 uid=1000 user=-1 target=e24c357
+  settings/system/screen_off_timeout: pid=1265 uid=1000 user=-1 target=e24c357
+  settings/system/screen_off_timeout: pid=1265 uid=1000 user=-1 target=756d861
+  settings/system/pointer_location: pid=1265 uid=1000 user=-1 target=e24c357
+  settings/system/trackball_wake_screen: pid=1265 uid=1000 user=0 target=9808b2d
+  settings/system/camera_key_preferred_action_type: pid=1265 uid=1000 user=0 target=9808b2d
+  settings/system/camera_key_preferred_action_shortcut_id: pid=1265 uid=1000 user=0 target=9808b2d
+  settings/system/volumekey_wake_screen: pid=1265 uid=1000 user=0 target=9808b2d
+  settings/system/haptic_feedback_level: pid=1265 uid=1000 user=0 target=2e6451a
+  settings/system/haptic_feedback_level: pid=4236 uid=1000 user=0 target=135884b
+  settings/system/haptic_feedback_level: pid=24049 uid=10020 user=0 target=8541228
+  settings/system/screen_key_press_app_switch: pid=1265 uid=1000 user=0 target=c441b41
+  settings/system/pointer_speed: pid=1265 uid=1000 user=-1 target=e9398e6
+  settings/system/show_touches: pid=1265 uid=1000 user=-1 target=5525e27
+  settings/system/handy_mode_size: pid=1265 uid=1000 user=0 target=5ec28d4
+  settings/system/ui_mode_scale: pid=1265 uid=1000 user=0 target=1f62a7d
+  settings/system/disable_wifi_auto_connect_ssid: pid=1265 uid=1000 user=0 target=705d72
+  settings/system/wifi_auto_connect_type: pid=1265 uid=1000 user=0 target=47cb5c3
+  settings/system/mode_ringer_streams_affected: pid=1265 uid=1000 user=0 target=4cfe40
+  settings/system/vibrate_input_devices: pid=1265 uid=1000 user=-1 target=bbff179
+  settings/system/screen_buttons_timeout: pid=1265 uid=1000 user=-1 target=8e2debe
+  settings/system/screen_brightness: pid=1265 uid=1000 user=-1 target=756d861
+  settings/system/screen_brightness: pid=4236 uid=1000 user=-1 target=d6aeb1f
+  settings/system/screen_brightness: pid=24049 uid=10020 user=0 target=323be6c
+  settings/system/screen_brightness: pid=18473 uid=10091 user=0 target=dc52c35
+  settings/system/screen_brightness_mode: pid=1265 uid=1000 user=-1 target=756d861
+  settings/system/screen_brightness_mode: pid=4236 uid=1000 user=-1 target=d6aeb1f
+  settings/system/screen_brightness_mode: pid=24049 uid=10020 user=0 target=323be6c
+  settings/system/screen_brightness_mode: pid=18473 uid=10091 user=0 target=dc52c35
+  settings/system/screen_auto_brightness_adj: pid=1265 uid=1000 user=-1 target=756d861
+  settings/system/screen_auto_brightness_adj: pid=4236 uid=1000 user=-1 target=d6aeb1f
+  settings/system/screen_auto_brightness_adj: pid=24049 uid=10020 user=0 target=323be6c
+  settings/system/screen_auto_brightness_adj: pid=18473 uid=10091 user=0 target=dc52c35
+  settings/system/POWER_SAVE_MODE_OPEN: pid=1265 uid=1000 user=0 target=66a28ca
+  settings/system/status_bar_toggle_list_order: pid=4236 uid=1000 user=-1 target=9dd1a3b
+  settings/system/status_bar_toggle_list_order: pid=24049 uid=10020 user=0 target=5c45558
+  settings/system/status_bar_toggle_page_order: pid=4236 uid=1000 user=-1 target=9dd1a3b
+  settings/system/status_bar_toggle_page_order: pid=24049 uid=10020 user=0 target=5c45558
+  settings/system/vibrate_in_silent: pid=4236 uid=1000 user=-1 target=a956b1
+  settings/system/vibrate_in_silent: pid=24049 uid=10020 user=0 target=e6a0796
+  settings/system/vibrate_in_normal: pid=4236 uid=1000 user=-1 target=a956b1
+  settings/system/vibrate_in_normal: pid=24049 uid=10020 user=0 target=e6a0796
+  settings/system/power_mode: pid=4236 uid=1000 user=-1 target=5791f17
+  settings/system/power_mode: pid=24049 uid=10020 user=0 target=ed56f04
+  settings/system/screen_paper_mode_enabled: pid=4236 uid=1000 user=-1 target=9cbaced
+  settings/system/screen_paper_mode_enabled: pid=1265 uid=1000 user=0 target=6b70722
+  settings/system/screen_paper_mode_enabled: pid=24049 uid=10020 user=0 target=66695b3
+  settings/system/key_midrop_enabled: pid=4236 uid=1000 user=-1 target=6bc7770
+  settings/system/key_midrop_enabled: pid=24049 uid=10020 user=0 target=b432ae9
+  settings/system/battery_indicator_style: pid=4236 uid=1000 user=-1 target=be2736e
+  settings/system/status_bar_custom_carrier0: pid=4236 uid=1000 user=0 target=3aada0f
+  settings/system/status_bar_custom_carrier1: pid=4236 uid=1000 user=0 target=4c99a9c
+  settings/system/disable_usb_by_sim: pid=4236 uid=1000 user=0 target=79a8ca5
+  settings/system/status_bar_window_loaded: pid=4236 uid=1000 user=0 target=46587a
+  settings/system/status_bar_show_custom_carrier: pid=4236 uid=1000 user=0 target=545082b
+  settings/system/status_bar_show_notification_icon: pid=4236 uid=1000 user=0 target=323c488
+  settings/system/is_small_window: pid=4236 uid=1000 user=0 target=54c4e21
+  settings/system/is_small_window: pid=4875 uid=10013 user=0 target=fd18246
+  settings/system/is_small_window: pid=4875 uid=10013 user=0 target=a09fc07
+  settings/system/is_small_window: pid=4875 uid=10013 user=0 target=a09fc07
+  settings/system/is_small_window: pid=4875 uid=10013 user=0 target=574a134
+  settings/system/is_small_window: pid=4875 uid=10013 user=0 target=574a134
+  settings/system/is_small_window: pid=4875 uid=10013 user=0 target=dfeab5d
+  settings/system/is_small_window: pid=4875 uid=10013 user=0 target=dfeab5d
+  settings/system/is_small_window: pid=4875 uid=10013 user=0 target=4937cd2
+  settings/system/is_small_window: pid=4875 uid=10013 user=0 target=f4051a3
+  settings/system/is_small_window: pid=4875 uid=10013 user=0 target=e549ca0
+  settings/system/is_small_window: pid=4875 uid=10013 user=0 target=57fa059
+  settings/system/is_small_window: pid=4875 uid=10013 user=0 target=808941e
+  settings/system/is_small_window: pid=4875 uid=10013 user=0 target=808941e
+  settings/system/is_small_window: pid=4875 uid=10013 user=0 target=808941e
+  settings/system/is_small_window: pid=4875 uid=10013 user=0 target=5fc64ff
+  settings/system/is_small_window: pid=4875 uid=10013 user=0 target=5fc64ff
+  settings/system/is_small_window: pid=4236 uid=1000 user=0 target=d3e9c54
+  settings/system/is_small_window: pid=4236 uid=1000 user=0 target=44257fd
+  settings/system/is_small_window: pid=4236 uid=1000 user=0 target=1bcbcf2
+  settings/system/status_bar_show_network_speed: pid=4236 uid=1000 user=0 target=f76e2cc
+  settings/system/status_bar_show_network_speed: pid=4236 uid=1000 user=0 target=480e915
+  settings/system/status_bar_network_speed_interval: pid=4236 uid=1000 user=0 target=f76e2cc
+  settings/system/status_bar_network_speed_interval: pid=4236 uid=1000 user=0 target=480e915
+  settings/system/notification_light_pulse: pid=1265 uid=1000 user=-1 target=d25d42a
+  settings/system/status_bar_show_network_assistant: pid=4236 uid=1000 user=0 target=23c521b
+  settings/system/status_bar_collapse_after_clicked: pid=4236 uid=1000 user=0 target=955fb8
+  settings/system/battery_level_low_customized: pid=4236 uid=1000 user=0 target=3140191
+  settings/system/breathing_light_color: pid=1265 uid=1000 user=0 target=f2508f6
+  settings/system/call_breathing_light_color: pid=1265 uid=1000 user=0 target=fc3f4f7
+  settings/system/mms_breathing_light_color: pid=1265 uid=1000 user=0 target=91cbf64
+  settings/system/screen_paper_mode: pid=1265 uid=1000 user=0 target=ee625cd
+  settings/system/screen_paper_mode_white_list: pid=1265 uid=1000 user=0 target=110be82
+  settings/system/enable_telocation: pid=4875 uid=10013 user=0 target=8b8e993
+  settings/system/lock_wallpaper_provider_authority: pid=24049 uid=10020 user=0 target=8986dd0
+  settings/system/lock_wallpaper_provider_authority: pid=4236 uid=1000 user=0 target=41a5f43
+  settings/system/drive_mode_drive_mode: pid=17437 uid=1000 user=0 target=91329c0
+  settings/global: pid=1265 uid=1000 user=0 target=a1040ce
+  settings/global/debug_view_attributes: pid=1265 uid=1000 user=0 target=deafa7b
+  settings/global/policy_control: pid=1265 uid=1000 user=-1 target=e24c357
+  settings/global/torch_state: pid=1265 uid=1000 user=0 target=9fe8bef
+  settings/global/torch_state: pid=4236 uid=1000 user=0 target=9de96fc
+  settings/global/torch_state: pid=24049 uid=10020 user=0 target=8af4185
+  settings/global/torch_state: pid=4236 uid=1000 user=0 target=e6176f9
+  settings/global/ble_scan_always_enabled: pid=1265 uid=1000 user=0 target=a739bda
+  settings/global/device_idle_constants: pid=1265 uid=1000 user=0 target=151f80b
+  settings/global/wifi_suspend_optimizations_enabled: pid=1265 uid=1000 user=0 target=cfc26e8
+  settings/global/wifi_networks_available_notification_on: pid=1265 uid=1000 user=0 target=aa77101
+  settings/global/stay_on_while_plugged_in: pid=1265 uid=1000 user=0 target=57f9ba6
+  settings/global/stay_on_while_plugged_in: pid=1265 uid=1000 user=-1 target=756d861
+  settings/global/wifi_idle_ms: pid=1265 uid=1000 user=0 target=12609e7
+  settings/global/wifi_sleep_policy: pid=1265 uid=1000 user=0 target=3e0c994
+  settings/global/http_proxy: pid=1265 uid=1000 user=0 target=991c3d
+  settings/global/mobile_data_always_on: pid=1265 uid=1000 user=0 target=991c3d
+  settings/global/nsd_on: pid=1265 uid=1000 user=0 target=bf9cc32
+  settings/global/zen_mode: pid=1265 uid=1000 user=0 target=63f5d83
+  settings/global/zen_mode: pid=4236 uid=1000 user=0 target=dcaeb00
+  settings/global/zen_mode: pid=4236 uid=1000 user=0 target=dcaeb00
+  settings/global/zen_mode: pid=24049 uid=10020 user=0 target=5003f39
+  settings/global/dock_audio_media_enabled: pid=1265 uid=1000 user=0 target=4cfe40
+  settings/global/adb_enabled: pid=1265 uid=1000 user=0 target=374797e
+  settings/global/sampling_profiler_ms: pid=1265 uid=1000 user=0 target=b104edf
+  settings/global/app_idle_constants: pid=1265 uid=1000 user=0 target=d73b72c
+  settings/global/alarm_manager_constants: pid=1265 uid=1000 user=0 target=41c95f5
+  settings/global/wifi_scan_always_enabled: pid=1265 uid=1000 user=0 target=65aaf8a
+  settings/global/wifi_scan_always_enabled: pid=1265 uid=1000 user=-1 target=8c7999d
+  settings/global/wifi_scan_always_enabled: pid=1265 uid=1000 user=-1 target=8c7999d
+  settings/global/wifi_scan_always_enabled: pid=1265 uid=1000 user=-1 target=8c7999d
+  settings/global/wifi_watchdog_poor_network_test_enabled: pid=1265 uid=1000 user=0 target=4d4f9fb
+  settings/global/wifi_watchdog_on: pid=1265 uid=1000 user=0 target=5fb1a18
+  settings/global/device_provisioned: pid=1265 uid=1000 user=0 target=46d9c71
+  settings/global/device_provisioned: pid=4236 uid=1000 user=0 target=8bc3a56
+  settings/global/device_provisioned: pid=5559 uid=1000 user=0 target=66f3ad7
+  settings/global/low_power: pid=1265 uid=1000 user=-1 target=756d861
+  settings/global/low_power_trigger_level: pid=1265 uid=1000 user=-1 target=756d861
+  settings/global/low_power_trigger_level: pid=1265 uid=1000 user=-1 target=a93bfc4
+  settings/global/theater_mode_on: pid=1265 uid=1000 user=-1 target=756d861
+  settings/global/overlay_display_devices: pid=1265 uid=1000 user=0 target=aee8ead
+  settings/global/wifi_display_on: pid=1265 uid=1000 user=0 target=dd9a5e2
+  settings/global/wifi_display_certification_on: pid=1265 uid=1000 user=0 target=dd9a5e2
+  settings/global/wifi_display_wps_config: pid=1265 uid=1000 user=0 target=dd9a5e2
+  settings/global/airplane_mode_on: pid=4236 uid=1000 user=0 target=502ad73
+  settings/global/airplane_mode_on: pid=24049 uid=10020 user=0 target=cef1430
+  settings/global/mobile_data: pid=4236 uid=1000 user=0 target=71268a9
+  settings/global/mobile_data: pid=4596 uid=1000 user=0 target=a703e2e
+  settings/global/mobile_data: pid=5559 uid=1000 user=0 target=a50adcf
+  settings/global/mobile_data: pid=24049 uid=10020 user=0 target=669435c
+  settings/global/mobile_data: pid=17437 uid=1000 user=0 target=91329c0
+  settings/global/mobile_data0: pid=4236 uid=1000 user=0 target=71268a9
+  settings/global/mobile_data0: pid=24049 uid=10020 user=0 target=669435c
+  settings/global/mobile_data0: pid=13907 uid=10021 user=0 target=27fe665
+  settings/global/mobile_data1: pid=4236 uid=1000 user=0 target=71268a9
+  settings/global/mobile_data1: pid=24049 uid=10020 user=0 target=669435c
+  settings/global/mobile_data1: pid=13907 uid=10021 user=0 target=27fe665
+  settings/global/systemui_volume_controller: pid=4236 uid=1000 user=0 target=fc60f3a
+  settings/global/auto_time: pid=1265 uid=1000 user=0 target=d457eb
+  settings/global/auto_time: pid=4670 uid=1001 user=0 target=7f53948
+  settings/global/auto_time: pid=4670 uid=1001 user=0 target=8d83e1
+  settings/global/wifi_on: pid=1265 uid=1000 user=-1 target=8c7999d
+  settings/global/wifi_on: pid=1265 uid=1000 user=-1 target=8c7999d
+  settings/global/wifi_on: pid=1265 uid=1000 user=-1 target=8c7999d
+  settings/global/assisted_gps_enabled: pid=1265 uid=1000 user=-1 target=8c7999d
+  settings/global/sms_short_code_confirmation: pid=4670 uid=1001 user=0 target=b75e506
+  settings/global/sms_short_code_confirmation: pid=4670 uid=1001 user=0 target=59e87c7
+  settings/global/sms_short_code_confirmation: pid=4670 uid=1001 user=0 target=cc8a1f4
+  settings/global/sms_short_code_confirmation: pid=4670 uid=1001 user=0 target=97d7d1d
+  settings/global/auto_time_zone: pid=4670 uid=1001 user=0 target=7fb4b92
+  settings/global/auto_time_zone: pid=4670 uid=1001 user=0 target=bf1d963
+  settings/global/sms_short_code_rule: pid=4670 uid=1001 user=0 target=bc7e960
+  settings/global/sms_short_code_rule: pid=4670 uid=1001 user=0 target=d79ce19
+  settings/global/sms_short_code_rule: pid=4670 uid=1001 user=0 target=9fe8ede
+  settings/global/sms_short_code_rule: pid=4670 uid=1001 user=0 target=e9ea8bf
+  settings/global/sms_short_code_rule: pid=4670 uid=1001 user=0 target=3b23b8c
+  settings/global/sms_short_code_rule: pid=4670 uid=1001 user=0 target=b5032d5
+  settings/global/multi_sim_data_call: pid=4670 uid=1001 user=0 target=660baea
+  settings/global/data_roaming: pid=4670 uid=1001 user=0 target=b1f11db
+  settings/global/data_roaming: pid=4670 uid=1001 user=0 target=e0d8478
+  settings/global/always_enable_mms: pid=13907 uid=10021 user=0 target=27fe665
+  com.android.contacts/contacts: pid=1265 uid=1000 user=-1 target=6ee2751
+  com.android.contacts/contacts: pid=19046 uid=10111 user=0 target=d079bb6
+  com.android.quicksearchbox.xiaomi/suggest_last_access_hint: pid=4236 uid=1000 user=0 target=272f0b7
+  com.android.calendar/instances/when: pid=1265 uid=1000 user=0 target=4d27024
+  com.android.calendar/events: pid=1265 uid=1000 user=0 target=4d27024
+  com.android.calendar/calendars: pid=1265 uid=1000 user=0 target=4d27024
+  telephony/carriers: pid=4670 uid=1001 user=0 target=b9ce78d
+  telephony/carriers: pid=4670 uid=1001 user=0 target=469bd42
+  telephony/carriers/preferapn: pid=1265 uid=1000 user=0 target=bbbe153
+  keyguard.notification/notifications: pid=4236 uid=1000 user=0 target=6d86a90
+  com.miui.powerkeeper.configure: pid=6429 uid=1000 user=0 target=5fd6f89
+  com.miui.powerkeeper.configure/userTable: pid=6429 uid=1000 user=0 target=1da6b8e
+  telocation/customlocations: pid=4875 uid=10013 user=0 target=4993faf
+  downloads/all_downloads: pid=6294 uid=10010 user=0 target=7019fbc
+  downloads/my_downloads: pid=6294 uid=10010 user=0 target=1c47b45
+  downloads/my_downloads: pid=16233 uid=10060 user=0 target=f55b63e
+  com.miui.home.launcher.settings/appWidgetReset: pid=24049 uid=10020 user=0 target=b4427cb
+  com.miui.home.launcher.settings/screens: pid=24049 uid=10020 user=0 target=226fba8
+  com.miui.gallery.cloud.provider/uploadState: pid=6362 uid=10041 user=0 target=73686c1
+  weather/weather: pid=24049 uid=10020 user=0 target=98c5e66
+  com.android.bluetooth.ble.settingsprovider/devices: pid=8525 uid=1002 user=0 target=e6b75a7
+  com.google.settings/partner/use_webview_data_reduction_proxy: pid=8448 uid=10097 user=0 target=7c42a54
+  com.google.settings/partner/use_webview_data_reduction_proxy: pid=18473 uid=10091 user=0 target=463cdfd
+  com.android.email.uinotifications/uiaccts: pid=13926 uid=10044 user=0 target=5effaf2
+  com.android.email.notifier/message: pid=13926 uid=10044 user=0 target=ecfc543
+  com.android.email.notifier/account: pid=13926 uid=10044 user=0 target=16397c0
+
+  pid 1265: 132 observers
+  pid 4236: 51 observers
+  pid 24049: 27 observers
+  pid 4670: 19 observers
+  pid 4875: 18 observers
+  pid 6429: 4 observers
+  pid 18473: 4 observers
+  pid 5559: 3 observers
+  pid 13907: 3 observers
+  pid 13926: 3 observers
+  pid 6294: 2 observers
+  pid 17437: 2 observers
+  pid 4596: 1 observers
+  pid 5804: 1 observers
+  pid 6362: 1 observers
+  pid 8448: 1 observers
+  pid 8525: 1 observers
+  pid 16233: 1 observers
+  pid 16660: 1 observers
+  pid 19046: 1 observers
+  pid 24152: 1 observers
+
+ Total number of nodes: 192
+ Total number of observers: 277

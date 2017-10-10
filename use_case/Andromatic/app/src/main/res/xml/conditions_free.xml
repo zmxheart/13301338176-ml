@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <PreferenceScreen android:title="Call state...">
+        <Preference
+            android:key="Condition.NoCall"
+            android:title="No call"/>
+        <PreferenceScreen android:title="Call incoming...">
+            <Preference
+                android:key="Condition.AnyIncomingCall"
+                android:title="Any"/>
+            <Preference
+                android:key="Condition.IncomingCallByCaller"
+                android:summary="Premium only"
+                android:title="By caller..."/>
+        </PreferenceScreen>
+        <PreferenceScreen android:title="Call in progress...">
+            <Preference
+                android:key="Condition.AnyCall"
+                android:title="Any"/>
+            <Preference
+                android:key="Condition.CallByCaller"
+                android:summary="Premium only"
+                android:title="By caller..."/>
+        </PreferenceScreen>
+    </PreferenceScreen>
+    <PreferenceScreen android:title="Miscellaneous...">
+        <Preference
+            android:key="Condition.BatteryPercentage"
+            android:summary="Premium only"
+            android:title="Battery percentage..."/>
+        <PreferenceScreen android:title="Charger...">
+            <Preference
+                android:key="Condition.PhoneCharging"
+                android:title="Charger connected"/>
+            <Preference
+                android:key="Condition.PhoneNotCharging"
+                android:title="Charger not connected"/>
+        </PreferenceScreen>
+        <Preference
+            android:key="Condition.TimePeriod"
+            android:title="Time period..."/>
+    </PreferenceScreen>
+    <PreferenceScreen android:title="Network...">
+        <Preference
+            android:key="Condition.MobileDataActive"
+            android:title="Mobile data enabled"/>
+        <Preference
+            android:key="Condition.MobileDataInactive"
+            android:title="Mobile data disabled"/>
+        <PreferenceScreen android:title="Wifi connected...">
+            <Preference
+                android:key="Condition.WifiConnected"
+                android:title="Any"/>
+            <Preference
+                android:key="Condition.WifiConnectedBySSID"
+                android:summary="Premium only"
+                android:title="By SSID..."/>
+        </PreferenceScreen>
+        <Preference
+            android:key="Condition.WifiNotConnected"
+            android:title="Wifi not connected"/>
+    </PreferenceScreen>
+    <PreferenceScreen
+        android:title="Sensors...">
+        <Preference
+            android:key="Condition.FaceUp"
+            android:summary="Premium only"
+            android:title="Phone face-up"/>
+        <Preference
+            android:key="Condition.FaceDown"
+            android:summary="Premium only"
+            android:title="Phone face-down"/>
+    </PreferenceScreen>
+</PreferenceScreen>

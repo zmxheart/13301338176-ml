@@ -1,0 +1,149 @@
+POWER MANAGER (dumpsys power)
+
+Power Manager State:
+  mDirty=0x0
+  mWakefulness=Asleep
+  mWakefulnessChanging=false
+  mIsPowered=true
+  mPlugType=2
+  mBatteryLevel=100
+  mBatteryLevelWhenDreamStarted=0
+  mDockState=0
+  mStayOn=false
+  mProximityPositive=false
+  mBootCompleted=true
+  mSystemReady=true
+  mHalAutoSuspendModeEnabled=true
+  mHalInteractiveModeEnabled=false
+  mWakeLockSummary=0x1
+  mUserActivitySummary=0x0
+  mRequestWaitForNegativeProximity=false
+  mSandmanScheduled=false
+  mSandmanSummoned=false
+  mLowPowerModeEnabled=false
+  mBatteryLevelLow=false
+  mDeviceIdleMode=false
+  mDeviceIdleWhitelist=[10000, 10001, 10003, 10004, 10005, 10006, 10007, 10008, 10009, 10010, 10011, 10012, 10013, 10014, 10015, 10016, 10017, 10018, 10020, 10021, 10023, 10024, 10025, 10026, 10027, 10028, 10029, 10030, 10032, 10033, 10034, 10035, 10036, 10037, 10038, 10039, 10040, 10041, 10042, 10043, 10045, 10046, 10047, 10048, 10049, 10050, 10051, 10052, 10053, 10054, 10055, 10056, 10057, 10058, 10059, 10060, 10062, 10063, 10064, 10065, 10066, 10067, 10068, 10069, 10070, 10071, 10072, 10073, 10074, 10075, 10076, 10077, 10078, 10079, 10080, 10081, 10082, 10083, 10084, 10085, 10086, 10087, 10088, 10109]
+  mDeviceIdleTempWhitelist=[]
+  mLastWakeTime=133849418 (577543 ms ago)
+  mLastSleepTime=133958242 (468719 ms ago)
+  mLastUserActivityTime=133890169 (536792 ms ago)
+  mLastUserActivityTimeNoChangeLights=133853094 (573867 ms ago)
+  mLastInteractivePowerHintTime=133890169 (536792 ms ago)
+  mLastScreenBrightnessBoostTime=0 (134426961 ms ago)
+  mScreenBrightnessBoostInProgress=false
+  mDisplayReady=true
+  mHoldingWakeLockSuspendBlocker=true
+  mHoldingDisplaySuspendBlocker=false
+
+Settings and Configuration:
+  mDecoupleHalAutoSuspendModeFromDisplayConfig=false
+  mDecoupleHalInteractiveModeFromDisplayConfig=true
+  mWakeUpWhenPluggedOrUnpluggedConfig=true
+  mWakeUpWhenPluggedOrUnpluggedInTheaterModeConfig=false
+  mTheaterModeEnabled=false
+  mSuspendWhenScreenOffDueToProximityConfig=true
+  mDreamsSupportedConfig=true
+  mDreamsEnabledByDefaultConfig=true
+  mDreamsActivatedOnSleepByDefaultConfig=false
+  mDreamsActivatedOnDockByDefaultConfig=true
+  mDreamsEnabledOnBatteryConfig=false
+  mDreamsBatteryLevelMinimumWhenPoweredConfig=-1
+  mDreamsBatteryLevelMinimumWhenNotPoweredConfig=15
+  mDreamsBatteryLevelDrainCutoffConfig=5
+  mDreamsEnabledSetting=true
+  mDreamsActivateOnSleepSetting=false
+  mDreamsActivateOnDockSetting=true
+  mDozeAfterScreenOffConfig=true
+  mLowPowerModeSetting=false
+  mAutoLowPowerModeConfigured=false
+  mAutoLowPowerModeSnoozing=false
+  mMinimumScreenOffTimeoutConfig=10000
+  mMaximumScreenDimDurationConfig=7000
+  mMaximumScreenDimRatioConfig=0.20000005
+  mScreenOffTimeoutSetting=300000
+  mSleepTimeoutSetting=-1
+  mMaximumScreenOffTimeoutFromDeviceAdmin=2147483647 (enforced=false)
+  mStayOnWhilePluggedInSetting=0
+  mScreenBrightnessSetting=255
+  mScreenAutoBrightnessAdjustmentSetting=-0.8
+  mScreenBrightnessModeSetting=1
+  mScreenBrightnessOverrideFromWindowManager=-1
+  mUserActivityTimeoutOverrideFromWindowManager=10000
+  mTemporaryScreenBrightnessSettingOverride=-1
+  mTemporaryScreenAutoBrightnessAdjustmentSettingOverride=-0.8031496
+  mDozeScreenStateOverrideFromDreamManager=0
+  mDozeScreenBrightnessOverrideFromDreamManager=-1
+  mScreenBrightnessSettingMinimum=1
+  mScreenBrightnessSettingMaximum=255
+  mScreenBrightnessSettingDefault=128
+  mDoubleTapWakeEnabled=false
+
+Sleep timeout: -1 ms
+Screen off timeout: 10000 ms
+Screen dim duration: 2000 ms
+
+UID states:
+  UID 1000: 0
+  UID 1001: 0
+  UID 1002: 10
+  UID 1037: 16
+  UID 9801: 10
+  UID u0a0: 6
+  UID u0a5: 4
+  UID u0a8: 10
+  UID u0a9: 6
+  UID u0a10: 10
+  UID u0a12: 0
+  UID u0a13: 3
+  UID u0a17: 16
+  UID u0a20: 5
+  UID u0a21: 10
+  UID u0a22: 10
+  UID u0a33: 7
+  UID u0a34: 10
+  UID u0a41: 10
+  UID u0a44: 10
+  UID u0a45: 16
+  UID u0a49: 10
+  UID u0a55: 6
+  UID u0a56: 16
+  UID u0a60: 16
+  UID u0a61: 16
+  UID u0a63: 16
+  UID u0a68: 4
+  UID u0a78: 6
+  UID u0a81: 16
+  UID u0a82: 0
+  UID u0a85: 0
+  UID u0a91: 4
+  UID u0a95: 10
+  UID u0a97: 10
+  UID u0a101: 16
+  UID u0a109: 7
+  UID u0a111: 10
+  UID u0a164: 10
+
+Wake Locks: size=1
+  PARTIAL_WAKE_LOCK              'AudioMix' (uid=1013, pid=0, ws=WorkSource{10091})
+
+Suspend Blockers: size=4
+  PowerManagerService.WakeLocks: ref count=1
+  PowerManagerService.Display: ref count=0
+  PowerManagerService.Broadcasts: ref count=0
+  PowerManagerService.WirelessChargerDetector: ref count=0
+
+Display Power: state=OFF
+
+Wireless Charger Detector State:
+  mGravitySensor={Sensor name="Gravity", vendor="QTI", version=2, type=9, maxRange=39.22661, resolution=0.0011901855, power=1.0799866, minDelay=5000}
+  mPoweredWirelessly=false
+  mAtRest=false
+  mRestX=0.0, mRestY=0.0, mRestZ=0.0
+  mDetectionInProgress=false
+  mDetectionStartTime=0 (never)
+  mMustUpdateRestPosition=false
+  mTotalSamples=0
+  mMovingSamples=0
+  mFirstSampleX=0.0, mFirstSampleY=0.0, mFirstSampleZ=0.0
+  mLastSampleX=0.0, mLastSampleY=0.0, mLastSampleZ=0.0

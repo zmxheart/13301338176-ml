@@ -1,0 +1,106 @@
+CallsManager: 
+  mCalls: 
+  mForegroundCall: none
+  mCallAudioManager:
+    mAudioState: [AudioState isMuted: false, route: EARPIECE, supportedRouteMask: EARPIECE, SPEAKER]
+    mBluetoothManager:
+      isBluetoothAvailable: false
+      isBluetoothAudioConnected: false
+      isBluetoothAudioConnectedOrPending: false
+      mBluetoothHeadset is null
+    mWiredHeadsetManager:
+      mIsPluggedIn: true
+    mAudioFocusStreamType: STEAM_NONE
+    mIsRinging: false
+    mIsTonePlaying: false
+    mWasSpeakerOn: false
+    mMostRecentlyUsedMode: MODE_NORMAL
+  mTtyManager:
+    mCurrentTtyMode: 0
+  mInCallController:
+    mInCallServices (InCalls registered):
+      ComponentInfo{com.android.incallui/com.android.incallui.InCallServiceImpl}
+    mServiceConnections (InCalls bound):
+      ComponentInfo{com.android.incallui/com.android.incallui.InCallServiceImpl}
+  mConnectionServiceRepository:
+    mServiceCache:
+      ComponentInfo{com.android.phone/com.android.services.telephony.TelephonyConnectionService}
+PhoneAccountRegistrar: 
+  xmlVersion: 8
+  defaultOutgoing: ComponentInfo{com.android.phone/com.android.services.telephony.TelephonyConnectionService}, [356a192b7913b04c54574d18c28d46e6395428ab], UserHandle{0}
+  simCallManager: null
+  phoneAccounts:
+    [[X] PhoneAccount: ComponentInfo{com.android.phone/com.android.services.telephony.TelephonyConnectionService}, [356a192b7913b04c54574d18c28d46e6395428ab], UserHandle{0} Capabilities: 54 Schemes: tel voicemail ]
+Historical Calls:
+  Call 13 [11:24:11.008](MO - outgoing)
+    To address: tel:***********
+    11:24:11.010 - CREATED
+    11:24:11.015 - SET_CONNECTING (ComponentInfo{com.android.phone/com.android.services.telephony.TelephonyConnectionService}, [356a192b7913b04c54574d18c28d46e6395428ab], UserHandle{0})
+    11:24:11.047 - AUDIO_ROUTE (EARPIECE)
+    11:24:11.534 - BIND_CS (ComponentInfo{com.android.phone/com.android.services.telephony.TelephonyConnectionService})
+    11:24:11.539 - CS_BOUND (ComponentInfo{com.android.phone/com.android.services.telephony.TelephonyConnectionService}), time since BIND_CS: 5 ms
+    11:24:11.539 - START_CONNECTION (tel:***********)
+    11:24:11.636 - SET_DIALING (successful outgoing call), time since START_CONNECTION: 97 ms
+    11:24:13.641 - SET_ACTIVE (active set explicitly)
+    11:24:13.909 - AUDIO_ROUTE (SPEAKER)
+    11:25:14.915 - SET_DISCONNECTED (disconnected set explicitly> DisconnectCause [ Code: (REMOTE) Label: () Description: () Reason: (Normal call clearing, NORMAL) Tone: (27) ])
+    11:25:14.930 - AUDIO_ROUTE (EARPIECE)
+    11:25:14.961 - DESTROYED
+  Call 14 [11:25:25.889](MO - outgoing)
+    To address: tel:***********
+    11:25:25.891 - CREATED
+    11:25:25.894 - SET_CONNECTING (ComponentInfo{com.android.phone/com.android.services.telephony.TelephonyConnectionService}, [356a192b7913b04c54574d18c28d46e6395428ab], UserHandle{0})
+    11:25:25.904 - AUDIO_ROUTE (EARPIECE)
+    11:25:26.182 - BIND_CS (ComponentInfo{com.android.phone/com.android.services.telephony.TelephonyConnectionService})
+    11:25:26.186 - CS_BOUND (ComponentInfo{com.android.phone/com.android.services.telephony.TelephonyConnectionService}), time since BIND_CS: 4 ms
+    11:25:26.186 - START_CONNECTION (tel:***********)
+    11:25:26.275 - SET_DIALING (successful outgoing call), time since START_CONNECTION: 89 ms
+    11:25:28.977 - SET_ACTIVE (active set explicitly)
+    11:25:41.294 - AUDIO_ROUTE (SPEAKER)
+    11:26:27.073 - SET_DISCONNECTED (disconnected set explicitly> DisconnectCause [ Code: (REMOTE) Label: () Description: () Reason: (Normal call clearing, NORMAL) Tone: (27) ])
+    11:26:27.085 - AUDIO_ROUTE (EARPIECE)
+    11:26:27.123 - DESTROYED
+  Call 15 [17:13:59.798](MO - outgoing)
+    To address: tel:***********
+    17:13:59.800 - CREATED
+    17:13:59.808 - SET_CONNECTING (ComponentInfo{com.android.phone/com.android.services.telephony.TelephonyConnectionService}, [356a192b7913b04c54574d18c28d46e6395428ab], UserHandle{0})
+    17:13:59.907 - AUDIO_ROUTE (EARPIECE)
+    17:14:00.297 - BIND_CS (ComponentInfo{com.android.phone/com.android.services.telephony.TelephonyConnectionService})
+    17:14:00.318 - CS_BOUND (ComponentInfo{com.android.phone/com.android.services.telephony.TelephonyConnectionService}), time since BIND_CS: 21 ms
+    17:14:00.318 - START_CONNECTION (tel:***********)
+    17:14:00.398 - SET_DIALING (successful outgoing call), time since START_CONNECTION: 80 ms
+    17:14:01.941 - AUDIO_ROUTE (SPEAKER)
+    17:14:02.311 - SET_ACTIVE (active set explicitly)
+    17:14:06.655 - REQUEST_DISCONNECT
+    17:14:06.823 - SET_DISCONNECTED (disconnected set explicitly> DisconnectCause [ Code: (LOCAL) Label: () Description: () Reason: (LOCAL) Tone: (27) ]), time since REQUEST_DISCONNECT: 168 ms
+    17:14:06.829 - AUDIO_ROUTE (EARPIECE)
+    17:14:06.854 - DESTROYED
+  Call 16 [17:14:08.684](MO - outgoing)
+    To address: tel:***********
+    17:14:08.687 - CREATED
+    17:14:08.691 - SET_CONNECTING (ComponentInfo{com.android.phone/com.android.services.telephony.TelephonyConnectionService}, [356a192b7913b04c54574d18c28d46e6395428ab], UserHandle{0})
+    17:14:08.707 - AUDIO_ROUTE (EARPIECE)
+    17:14:08.904 - BIND_CS (ComponentInfo{com.android.phone/com.android.services.telephony.TelephonyConnectionService})
+    17:14:08.907 - CS_BOUND (ComponentInfo{com.android.phone/com.android.services.telephony.TelephonyConnectionService}), time since BIND_CS: 3 ms
+    17:14:08.908 - START_CONNECTION (tel:***********)
+    17:14:08.945 - SET_DIALING (successful outgoing call), time since START_CONNECTION: 37 ms
+    17:14:10.639 - SET_ACTIVE (active set explicitly)
+    17:14:16.777 - AUDIO_ROUTE (SPEAKER)
+    17:14:18.394 - AUDIO_ROUTE (EARPIECE)
+    17:14:19.609 - AUDIO_ROUTE (SPEAKER)
+    17:16:08.091 - REQUEST_DISCONNECT
+    17:16:08.262 - SET_DISCONNECTED (disconnected set explicitly> DisconnectCause [ Code: (LOCAL) Label: () Description: () Reason: (LOCAL) Tone: (27) ]), time since REQUEST_DISCONNECT: 171 ms
+    17:16:08.272 - AUDIO_ROUTE (EARPIECE)
+    17:16:08.293 - DESTROYED
+  Call 17 [18:36:34.135](MT - incoming)
+    To address: tel:***********
+    18:36:34.139 - CREATED
+    18:36:34.164 - BIND_CS (ComponentInfo{com.android.phone/com.android.services.telephony.TelephonyConnectionService})
+    18:36:34.176 - CS_BOUND (ComponentInfo{com.android.phone/com.android.services.telephony.TelephonyConnectionService}), time since BIND_CS: 12 ms
+    18:36:34.176 - START_CONNECTION (tel:***********)
+    18:36:34.748 - SET_RINGING (successful incoming call)
+    18:36:35.356 - START_RINGER
+    18:36:54.606 - STOP_RINGER (No more ringing calls found)
+    18:36:54.608 - REQUEST_REJECT
+    18:36:54.649 - SET_DISCONNECTED (disconnected set explicitly> DisconnectCause [ Code: (REJECTED) Label: () Description: () Reason: (INCOMING_REJECTED) Tone: (-1) ]), time since REQUEST_REJECT: 41 ms
+    18:36:54.670 - DESTROYED

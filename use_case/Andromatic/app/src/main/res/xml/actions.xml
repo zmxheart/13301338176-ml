@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <PreferenceScreen android:title="Communication...">
+        <PreferenceScreen android:title="Call management...">
+            <Preference
+                android:key="Action.StartCall"
+                android:title="Start call..."/>
+            <Preference
+                android:key="Action.AcceptCall"
+                android:title="Accept incoming call"/>
+            <Preference
+                android:key="Action.EndCall"
+                android:title="End call"/>
+        </PreferenceScreen>
+        <PreferenceScreen android:title="Speakerphone mode...">
+            <Preference
+                android:key="Action.SpeakerphoneEnable"
+                android:title="Enable speakerphone"/>
+            <Preference
+                android:key="Action.SpeakerphoneToggle"
+                android:title="Toggle speakerphone"/>
+            <Preference
+                android:key="Action.SpeakerphoneDisable"
+                android:title="Disable speakerphone"/>
+        </PreferenceScreen>
+        <PreferenceScreen android:title="Microphone mode...">
+            <Preference
+                android:key="Action.MicDisable"
+                android:title="Mute microphone"/>
+            <Preference
+                android:key="Action.MicToggle"
+                android:title="Toggle microphone"/>
+            <Preference
+                android:key="Action.MicEnable"
+                android:title="Unmute microphone"/>
+        </PreferenceScreen>
+        <Preference
+            android:key="Action.SendSMS"
+            android:title="Send SMS message..."/>
+    </PreferenceScreen>
+
+    <PreferenceScreen android:title="Media...">
+        <Preference
+            android:key="Action.MediaPlay"
+            android:title="Media play"/>
+        <Preference
+            android:key="Action.MediaPause"
+            android:title="Media pause"/>
+        <Preference
+            android:key="Action.MediaPlayPause"
+            android:title="Media play/pause"/>
+        <Preference
+            android:key="Action.MediaSkip"
+            android:title="Media skip"/>
+        <Preference
+            android:key="Action.MediaVolume"
+            android:title="Set media volume..."/>
+    </PreferenceScreen>
+
+    <PreferenceScreen android:title="Miscellaneous...">
+        <Preference
+            android:key="Action.LaunchApp"
+            android:title="Launch app..."/>
+        <Preference
+            android:key="Action.Vibrate"
+            android:title="Vibrate"/>
+        <PreferenceScreen android:title="Play sound...">
+            <Preference
+                android:key="Action.PlaySoundNotification"
+                android:title="Notification..."/>
+            <Preference
+                android:key="Action.PlaySoundCustom"
+                android:title="Custom..."/>
+        </PreferenceScreen>
+        <Preference
+            android:key="Action.ShowNotification"
+            android:title="Show notification..."/>
+        <PreferenceScreen android:title="Text to speech...">
+            <Preference
+                android:key="Action.TTSTime"
+                android:title="Current time..."/>
+            <Preference
+                android:key="Action.TTSSMS"
+                android:title="Last SMS received..."/>
+            <Preference
+                android:key="Action.TTSCustom"
+                android:title="Custom..."/>
+        </PreferenceScreen>
+    </PreferenceScreen>
+
+    <PreferenceScreen android:title="Network...">
+        <PreferenceScreen android:title="Bluetooth mode...">
+            <Preference
+                android:key="Action.BluetoothEnable"
+                android:title="Enable bluetooth"/>
+            <Preference
+                android:key="Action.BluetoothToggle"
+                android:title="Toggle bluetooth"/>
+            <Preference
+                android:key="Action.BluetoothDisable"
+                android:title="Disable bluetooth"/>
+        </PreferenceScreen>
+        <PreferenceScreen android:title="Wifi mode...">
+            <Preference
+                android:key="Action.WifiEnable"
+                android:title="Enable wifi"/>
+            <Preference
+                android:key="Action.WifiToggle"
+                android:title="Toggle wifi"/>
+            <Preference
+                android:key="Action.WifiDisable"
+                android:title="Disable wifi"/>
+        </PreferenceScreen>
+    </PreferenceScreen>
+
+    <PreferenceScreen android:title="Phone settings...">
+        <PreferenceScreen android:title="Set lock mode...">
+            <Preference
+                android:key="Action.LockModeNone"
+                android:title="None"/>
+            <Preference
+                android:key="Action.LockModePin"
+                android:title="PIN..."/>
+            <Preference
+                android:key="Action.LockModePassword"
+                android:title="Password..."/>
+        </PreferenceScreen>
+        <Preference
+            android:key="Action.Timeout"
+            android:title="Set screen timeout..."/>
+        <Preference
+            android:key="Action.RingerVolume"
+            android:title="Set ringer volume..."/>
+        <Preference
+            android:key="Action.NotificationVolume"
+            android:title="Set notification volume..."/>
+    </PreferenceScreen>
+
+    <PreferenceScreen android:title="Social media...">
+        <Preference
+            android:key="Action.SendTweet"
+            android:summary="Not logged in"
+            android:title="Update Twitter status..."/>
+        <Preference
+            android:key="Action.TwitterMessage"
+            android:summary="Not logged in"
+            android:title="Send Twitter message..."/>
+    </PreferenceScreen>
+
+</PreferenceScreen>

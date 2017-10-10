@@ -1,0 +1,2 @@
+model_checkpoint_path: "/home/haijunz/tensor-src/zhj/tf-model/zhjmodel_tflean1"
+all_model_checkpoint_paths: "/home/haijunz/tensor-src/zhj/tf-model/zhjmodel_tflean1"

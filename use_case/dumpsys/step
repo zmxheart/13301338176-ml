@@ -1,0 +1,65 @@
+adb shell dumpsys activity -h
+adb shell dumpsys package -h  
+
+adb shell screencap /sdcard/screen.png
+adb shell screenrecord   /sdcard/screen.mp4
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    ADB Debugging
+    adb devices
+    adb forward
+    adb kill-server
+    Wireless
+    adb connect
+    adb usb
+    Package Manager
+    adb install
+    adb uninstall
+    adb shell pm list packages
+    adb shell pm path
+    adb shell pm clear
+    File Manager
+    adb pull
+    adb push
+    adb shell ls
+    adb shell cd
+    adb shell rm
+    adb shell mkdir
+    adb shell touch
+    adb shell pwd
+    adb shell cp
+    adb shell mv
+    Network
+    adb shell netstat
+    adb shell ping
+    adb shell netcfg
+    adb shell ip
+    Logcat
+    adb logcat
+    adb shell dumpsys
+    adb shell dumpstate
+    Screenshot
+    adb shell screencap
+    adb shell screenrecord [4.4+]
+    System
+    adb root
+    adb sideload
+    adb shell ps
+    adb shell top
+    adb shell getprop
+    adb shell setprop
+
+

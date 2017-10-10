@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <ListPreference
+        android:defaultValue="1"
+        android:entries="@array/ToastDuration"
+        android:entryValues="@array/ToastDurationIntervalValues"
+        android:key="toastDuration"
+        android:summary="Time for toast alerts to remain on screen"
+        android:title="Toast duration"/>
+    <ListPreference
+        android:defaultValue="1"
+        android:entries="@array/TaskThrottle"
+        android:entryValues="@array/TaskThrottleValues"
+        android:key="taskThrottle"
+        android:summary="Time in seconds before a task can run again"
+        android:title="Task throttle"/>
+    <ListPreference
+        android:defaultValue="2"
+        android:entries="@array/ShakeSensitivity"
+        android:entryValues="@array/ShakeSensitivityValues"
+        android:key="shakeSensitivity"
+        android:summary="Required motion level for shake trigger"
+        android:title="Shake sensitivity"/>
+    <ListPreference
+        android:defaultValue="15"
+        android:entries="@array/SocialMedia"
+        android:entryValues="@array/SocialMediaValues"
+        android:key="socialMediaCheckInterval"
+        android:summary="How often social media triggers should check for updates"
+        android:title="Social media update rate"/>
+    <Preference
+        android:key="twitterAccount"
+        android:summary="Link your Twitter to enable related triggers and actions"
+        android:title="Twitter account"/>
+</PreferenceScreen>

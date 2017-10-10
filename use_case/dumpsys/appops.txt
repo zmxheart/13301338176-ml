@@ -1,0 +1,2296 @@
+Current AppOps Service state:
+  Op mode watchers:
+    Op COARSE_LOCATION:
+      #0: com.android.server.AppOpsService$Callback@8a363b9
+    Op SYSTEM_ALERT_WINDOW:
+      #0: com.android.server.AppOpsService$Callback@a03fe
+    Op PLAY_AUDIO:
+      #0: com.android.server.AppOpsService$Callback@5ef475f
+    Op TOAST_WINDOW:
+      #0: com.android.server.AppOpsService$Callback@a03fe
+  Package mode watchers:
+    Pkg com.android.systemui:
+      #0: com.android.server.AppOpsService$Callback@5ef475f
+  All mode watchers:
+    android.os.BinderProxy@9323c9d -> com.android.server.AppOpsService$Callback@5ef475f
+    android.app.AppOpsManager$1@d650bcf -> com.android.server.AppOpsService$Callback@8a363b9
+    android.app.AppOpsManager$1@f698733 -> com.android.server.AppOpsService$Callback@a03fe
+  Clients:
+    android.os.Binder@104a665:
+      ClientState{mAppToken=android.os.Binder@104a665, local}
+    android.os.BinderProxy@2f8209a:
+      ClientState{mAppToken=android.os.BinderProxy@2f8209a, pid=535}
+
+  Uid 0:
+    Package root:
+      AUDIO_VOICE_VOLUME: mode=0; time=+1d23h3m31s509ms ago
+      AUDIO_RING_VOLUME: mode=0; time=+2d1h58m17s49ms ago
+      AUDIO_MEDIA_VOLUME: mode=0; time=+2h28m20s702ms ago
+  Uid 1000:
+    Package com.miui.powerkeeper:
+      WRITE_SETTINGS: mode=0; time=+214d14h35m20s721ms ago
+      READ_EXTERNAL_STORAGE: mode=0; time=+4d16h0m34s579ms ago
+      WRITE_EXTERNAL_STORAGE: mode=0; time=+4d16h0m34s579ms ago
+      GET_ACCOUNTS: mode=0; time=+4d16h0m23s872ms ago
+    Package com.quicinc.cne.CNEService:
+      READ_EXTERNAL_STORAGE: mode=0; time=+4d16h0m49s153ms ago
+      WRITE_EXTERNAL_STORAGE: mode=0; time=+4d16h0m49s153ms ago
+    Package com.qualcomm.sta:
+      WRITE_SETTINGS: mode=0; time=+260d0h43m21s997ms ago
+      READ_EXTERNAL_STORAGE: mode=0; time=+4d16h0m26s160ms ago
+      WRITE_EXTERNAL_STORAGE: mode=0; time=+4d16h0m26s160ms ago
+    Package com.qualcomm.svi:
+      READ_EXTERNAL_STORAGE: mode=0; time=+9h10m28s560ms ago
+      WRITE_EXTERNAL_STORAGE: mode=0; time=+9h10m28s560ms ago
+    Package com.miui.securitycenter:
+      COARSE_LOCATION: mode=0
+      FINE_LOCATION: mode=0; time=+27m52s771ms ago
+      VIBRATE: mode=0; time=+228d22h57m38s504ms ago; duration=+354ms
+      POST_NOTIFICATION: mode=0; time=+58m58s807ms ago
+      WRITE_SMS: mode=0; time=+88d15h3m41s237ms ago
+      RECEIVE_SMS: mode=0; time=+34m15s679ms ago
+      MONITOR_LOCATION: mode=0; time=+4d2h38m12s698ms ago; duration=+991ms
+      READ_EXTERNAL_STORAGE: mode=0; time=+59m0s834ms ago
+      WRITE_EXTERNAL_STORAGE: mode=0; time=+59m0s834ms ago
+      GET_ACCOUNTS: mode=0; time=+27m14s739ms ago
+      Unknown(10001): mode=0; time=+4d3h12m8s921ms ago
+    Package com.xiaomi.android.dm.service:
+      READ_EXTERNAL_STORAGE: mode=0; time=+4d16h0m13s122ms ago
+      WRITE_EXTERNAL_STORAGE: mode=0; time=+4d16h0m13s122ms ago
+    Package com.qualcomm.cabl:
+      READ_EXTERNAL_STORAGE: mode=0; time=+3d3h32m46s4ms ago
+      WRITE_EXTERNAL_STORAGE: mode=0; time=+3d3h32m46s4ms ago
+    Package android:
+      COARSE_LOCATION: mode=0
+      FINE_LOCATION: mode=0; time=+27m40s362ms ago
+      VIBRATE: mode=0; time=+1d8h2m18s223ms ago; duration=+4ms
+      READ_CONTACTS: mode=0; time=+34m14s504ms ago
+      READ_CALENDAR: mode=0; time=+2h20m45s497ms ago
+      WIFI_SCAN: mode=0; time=+24d1h43m44s863ms ago
+      POST_NOTIFICATION: mode=0; time=+27m20s129ms ago
+      SYSTEM_ALERT_WINDOW: mode=0; time=+4d16h5m56s133ms ago; duration=+2s256ms
+      AUDIO_VOICE_VOLUME: mode=0; time=+48d22h10m32s561ms ago
+      AUDIO_RING_VOLUME: mode=0; time=+14h2m7s135ms ago
+      AUDIO_MEDIA_VOLUME: mode=0; time=+14h2m3s105ms ago
+      WAKE_LOCK: mode=0; time=+41s198ms ago; duration=+123ms
+      MONITOR_LOCATION: mode=0; time=+4d16h0m48s915ms ago (running)
+      OP_READ_PHONE_STATE: mode=0; time=+1d21h40m42s169ms ago
+      PROCESS_OUTGOING_CALLS: mode=0; time=+1d23h3m28s121ms ago
+      READ_EXTERNAL_STORAGE: mode=0; time=+2d21h0m3s187ms ago
+      WRITE_EXTERNAL_STORAGE: mode=0; time=+2d21h0m3s187ms ago
+      TURN_ON_SCREEN: mode=0; time=+25m19s248ms ago
+      GET_ACCOUNTS: mode=0; time=+4d16h0m33s709ms ago
+    Package com.android.provision:
+      USE_FINGERPRINT: mode=0; time=+317d0h52m18s765ms ago
+      READ_EXTERNAL_STORAGE: mode=0; time=+317d0h54m30s790ms ago
+      WRITE_EXTERNAL_STORAGE: mode=0; time=+317d0h54m30s790ms ago
+      GET_ACCOUNTS: mode=0; time=+317d0h52m25s588ms ago
+    Package com.miui.cit:
+      RECORD_AUDIO: mode=0; time=+222d3h27m52s59ms ago
+      AUDIO_MEDIA_VOLUME: mode=0; time=+222d3h27m49s762ms ago
+      READ_EXTERNAL_STORAGE: mode=0; time=+222d3h27m53s277ms ago
+      WRITE_EXTERNAL_STORAGE: mode=0; time=+222d3h27m53s277ms ago
+    Package com.miui.bugreport:
+      WAKE_LOCK: mode=0; time=+317d0h53m15s107ms ago; duration=+8ms
+      READ_EXTERNAL_STORAGE: mode=0; time=+27m12s836ms ago
+      WRITE_EXTERNAL_STORAGE: mode=0; time=+27m12s836ms ago
+    Package com.miui.stepsprovider:
+      READ_EXTERNAL_STORAGE: mode=0; time=+4d16h0m49s136ms ago
+      WRITE_EXTERNAL_STORAGE: mode=0; time=+4d16h0m49s136ms ago
+    Package com.android.server.telecom:
+      VIBRATE: mode=0; time=+1d23h3m15s404ms ago; duration=+103ms
+      READ_CONTACTS: mode=0; time=+1d21h41m2s692ms ago
+      READ_CALL_LOG: mode=0; time=+3d0h11m42s600ms ago
+      WRITE_CALL_LOG: mode=0; time=+1d20h44m40s926ms ago
+      POST_NOTIFICATION: mode=0; time=+3d0h11m42s583ms ago
+      TAKE_AUDIO_FOCUS: mode=0; time=+1d21h41m1s463ms ago
+      AUDIO_RING_VOLUME: mode=0; time=+1d21h40m42s234ms ago
+      MUTE_MICROPHONE: mode=0; time=+80d22h37m26s579ms ago
+      READ_EXTERNAL_STORAGE: mode=0; time=+1d23h3m37s142ms ago
+      WRITE_EXTERNAL_STORAGE: mode=0; time=+1d23h3m37s142ms ago
+    Package com.android.keychain:
+      READ_EXTERNAL_STORAGE: mode=0; time=+1h25m29s353ms ago
+      WRITE_EXTERNAL_STORAGE: mode=0; time=+1h25m29s353ms ago
+    Package com.android.keyguard:
+      VIBRATE: mode=0; time=+1d0h28m50s764ms ago; duration=+150ms
+      WAKE_LOCK: mode=0; time=+23m29s962ms ago; duration=+445ms
+      OP_READ_PHONE_STATE: mode=0; time=+1d21h40m42s168ms ago
+      TURN_ON_SCREEN: mode=0; time=+2h0m56s59ms ago
+      GET_ACCOUNTS: mode=0; time=+23m30s94ms ago
+    Package com.fingerprints.serviceext:
+      READ_EXTERNAL_STORAGE: mode=0; time=+4d16h0m49s120ms ago
+      WRITE_EXTERNAL_STORAGE: mode=0; time=+4d16h0m49s120ms ago
+    Package com.miui.touchassistant:
+      READ_EXTERNAL_STORAGE: mode=0; time=+27m28s910ms ago
+      WRITE_EXTERNAL_STORAGE: mode=0; time=+27m28s910ms ago
+    Package com.miui.cleanmaster:
+      COARSE_LOCATION: mode=0
+      FINE_LOCATION: mode=0; time=+277d9h49m16s639ms ago
+      POST_NOTIFICATION: mode=0; time=+9d15h13m2s640ms ago
+      WRITE_SETTINGS: mode=0; time=+42d15h40m34s920ms ago
+      WAKE_LOCK: mode=0; time=+3d17h28m23s454ms ago; duration=+1m24s191ms
+      READ_EXTERNAL_STORAGE: mode=0; time=+26m57s51ms ago
+      WRITE_EXTERNAL_STORAGE: mode=0; time=+26m57s51ms ago
+      GET_ACCOUNTS: mode=0; time=+277d9h49m16s775ms ago
+    Package com.android.settings:
+      COARSE_LOCATION: mode=0; time=+46d18h16m24s761ms ago
+      VIBRATE: mode=0; time=+316d17h1m58s694ms ago; duration=+151ms
+      WIFI_SCAN: mode=0; time=+25m16s326ms ago
+      POST_NOTIFICATION: mode=0; time=+4h20m16s781ms ago
+      WRITE_SMS: mode=0; time=+4h20m21s830ms ago
+      TAKE_AUDIO_FOCUS: mode=0; time=+316d17h1m56s561ms ago
+      WAKE_LOCK: mode=0; time=+46d18h16m13s865ms ago; duration=+29ms
+      TOAST_WINDOW: mode=0; time=+4h20m14s442ms ago; duration=+2s306ms
+      USE_FINGERPRINT: mode=0; time=+25m11s46ms ago
+      READ_EXTERNAL_STORAGE: mode=0; time=+17m59s195ms ago
+      WRITE_EXTERNAL_STORAGE: mode=0; time=+17m59s195ms ago
+      GET_ACCOUNTS: mode=0; time=+25m8s196ms ago
+      Unknown(10001): mode=0; time=+14d23h12m16s556ms ago
+      Unknown(10002): mode=0; time=+48d2h58m49s71ms ago
+    Package com.qualcomm.location:
+      COARSE_LOCATION: mode=0
+      FINE_LOCATION: mode=0; time=+27m57s627ms ago
+      WAKE_LOCK: mode=0; time=+28m11s457ms ago
+      PROCESS_OUTGOING_CALLS: mode=0; time=+1d23h3m27s981ms ago
+    Package com.miui.networkassistant:
+      WRITE_SETTINGS: mode=0; time=+278d17h38m55s321ms ago
+    Package com.miui.antispam:
+      READ_CONTACTS: mode=0; time=+34m16s393ms ago
+      READ_CALL_LOG: mode=0; time=+7d4h43m9s822ms ago
+      POST_NOTIFICATION: mode=0; time=+1d3h28m12s622ms ago
+      READ_SMS: mode=0
+      WRITE_SMS: mode=0; time=+1d0h10m40s421ms ago
+      READ_ICC_SMS: mode=0; time=+1d3h28m12s632ms ago
+      WRITE_ICC_SMS: mode=0; time=+39d6h25m33s801ms ago
+      READ_EXTERNAL_STORAGE: mode=0; time=+1d0h10m40s181ms ago
+      WRITE_EXTERNAL_STORAGE: mode=0; time=+1d0h10m40s181ms ago
+      GET_ACCOUNTS: mode=0; time=+105d7h18m36s633ms ago
+      Unknown(10005): mode=0; time=+39d6h25m18s902ms ago
+    Package com.qualcomm.qti.services.secureui:
+      WRITE_SETTINGS: mode=0; time=+317d0h27m52s505ms ago
+      OP_READ_PHONE_STATE: mode=0; time=+1d21h40m42s156ms ago
+      READ_EXTERNAL_STORAGE: mode=0; time=+4d16h0m49s91ms ago
+      WRITE_EXTERNAL_STORAGE: mode=0; time=+4d16h0m49s91ms ago
+    Package com.android.systemui:
+      VIBRATE: mode=0; time=+14h2m2s852ms ago; duration=+301ms
+      POST_NOTIFICATION: mode=0; time=+59m10s90ms ago
+      SYSTEM_ALERT_WINDOW: mode=0; time=+4d16h0m49s795ms ago (running)
+      TAKE_AUDIO_FOCUS: mode=0; time=+1d20h27m20s862ms ago
+      AUDIO_RING_VOLUME: mode=0; time=+80d23h1m43s174ms ago
+      AUDIO_MEDIA_VOLUME: mode=0; time=+1d20h7m14s368ms ago
+      WAKE_LOCK: mode=0; time=+1d20h26m13s240ms ago; duration=+57ms
+      TOAST_WINDOW: mode=0; time=+59m7s755ms ago; duration=+2s329ms
+      OP_READ_PHONE_STATE: mode=0; time=+317d0h54m23s520ms ago
+      READ_EXTERNAL_STORAGE: mode=0; time=+2d19h35m55s36ms ago
+      WRITE_EXTERNAL_STORAGE: mode=0; time=+2d19h35m52s696ms ago
+      TURN_ON_SCREEN: mode=0; time=+2h28m43s972ms ago
+    Package com.qualcomm.fastdormancy:
+      READ_EXTERNAL_STORAGE: mode=0; time=+4d16h0m1s667ms ago
+      WRITE_EXTERNAL_STORAGE: mode=0; time=+4d16h0m1s667ms ago
+    Package com.qualcomm.timeservice:
+      WRITE_SETTINGS: mode=0; time=+88d20h14m11s229ms ago
+      READ_EXTERNAL_STORAGE: mode=0; time=+2h20m39s885ms ago
+      WRITE_EXTERNAL_STORAGE: mode=0; time=+2h20m39s885ms ago
+  Uid 1001:
+    Package org.codeaurora.ims:
+      WAKE_LOCK: mode=0; time=+3d22h39m31s562ms ago; duration=+4ms
+      READ_EXTERNAL_STORAGE: mode=0; time=+3d22h38m10s306ms ago
+      WRITE_EXTERNAL_STORAGE: mode=0; time=+3d22h38m10s306ms ago
+    Package com.qualcomm.qcrilmsgtunnel:
+      WAKE_LOCK: mode=0; time=+45m43s752ms ago; duration=+2ms
+      READ_EXTERNAL_STORAGE: mode=0; time=+4d16h0m47s277ms ago
+      WRITE_EXTERNAL_STORAGE: mode=0; time=+4d16h0m47s277ms ago
+    Package com.android.phone:
+      VIBRATE: mode=0; time=+97d3h23m52s579ms ago; duration=+64ms
+      READ_CONTACTS: mode=0; time=+1d20h31m22s883ms ago
+      READ_SMS: mode=0
+      WRITE_SMS: mode=0; time=+25m11s61ms ago
+      READ_ICC_SMS: mode=0; time=+34m14s991ms ago
+      WRITE_ICC_SMS: mode=0; time=+23m25s191ms ago
+      WAKE_LOCK: mode=0; time=+15m20s41ms ago; duration=+11ms
+      READ_EXTERNAL_STORAGE: mode=0; time=+4d16h0m46s939ms ago
+      WRITE_EXTERNAL_STORAGE: mode=0; time=+4d16h0m46s939ms ago
+      GET_ACCOUNTS: mode=0; time=+34m10s458ms ago
+      Unknown(10005): mode=0; time=+34m15s435ms ago
+      Unknown(10006): mode=0; time=+23m25s183ms ago
+    Package com.miui.voip:
+      READ_CONTACTS: mode=0; time=+24m41s608ms ago
+      READ_CALL_LOG: mode=0; time=+273d2h53m3s133ms ago
+      WRITE_CALL_LOG: mode=0; time=+273d2h52m44s806ms ago
+      POST_NOTIFICATION: mode=0; time=+273d2h52m44s877ms ago
+      TAKE_AUDIO_FOCUS: mode=0; time=+273d2h53m3s69ms ago
+      AUDIO_MEDIA_VOLUME: mode=0; time=+273d2h52m44s889ms ago
+      WAKE_LOCK: mode=0; time=+4m3s541ms ago; duration=+5s7ms
+      READ_EXTERNAL_STORAGE: mode=0; time=+4d15h58m49s713ms ago
+      WRITE_EXTERNAL_STORAGE: mode=0; time=+4d15h58m49s712ms ago
+  Uid 1002:
+    Package com.android.bluetooth:
+      POST_NOTIFICATION: mode=0; time=+105d22h58m2s777ms ago
+      WAKE_LOCK: mode=0; time=+46d18h16m22s171ms ago; duration=+198ms
+      TOAST_WINDOW: mode=0; time=+106d23h10m16s371ms ago; duration=+2s325ms
+      READ_EXTERNAL_STORAGE: mode=0; time=+9h7m37s680ms ago
+      WRITE_EXTERNAL_STORAGE: mode=0; time=+9h7m37s680ms ago
+      TURN_ON_SCREEN: mode=0; time=+115d23h6m24s229ms ago
+      Unknown(10002): mode=0; time=+278d19h10m37s721ms ago
+  Uid 1013:
+    Package media:
+      CAMERA: mode=0; time=+4d2h34m7s361ms ago; duration=+271ms
+      WAKE_LOCK: mode=0; time=+5m1s153ms ago; duration=+781ms
+  Uid 2000:
+    Package com.android.shell:
+      READ_EXTERNAL_STORAGE: mode=0; time=+2d21h5m12s200ms ago
+      WRITE_EXTERNAL_STORAGE: mode=0; time=+2d21h5m12s199ms ago
+  Uid 9800:
+    Package com.miui.backup:
+      OP_READ_PHONE_STATE: mode=0; time=+2h20m37s971ms ago
+      READ_EXTERNAL_STORAGE: mode=0; time=+2h20m39s764ms ago
+      WRITE_EXTERNAL_STORAGE: mode=0; time=+2h20m39s764ms ago
+      GET_ACCOUNTS: mode=0; time=+2h20m37s964ms ago
+  Uid 9801:
+    Package com.android.thememanager:
+      POST_NOTIFICATION: mode=0; time=+278d19h9m32s615ms ago
+      OP_READ_PHONE_STATE: mode=0; time=+2d22h45m42s54ms ago
+      READ_EXTERNAL_STORAGE: mode=0; time=+9h10m14s15ms ago
+      WRITE_EXTERNAL_STORAGE: mode=0; time=+9h10m14s15ms ago
+      GET_ACCOUNTS: mode=0; time=+9h10m22s155ms ago
+  Uid 9802:
+    Package com.android.updater:
+      POST_NOTIFICATION: mode=0; time=+21h35m15s178ms ago
+      OP_READ_PHONE_STATE: mode=0; time=+14h56m32s248ms ago
+      READ_EXTERNAL_STORAGE: mode=0; time=+27m5s198ms ago
+      WRITE_EXTERNAL_STORAGE: mode=0; time=+27m5s198ms ago
+      GET_ACCOUNTS: mode=0; time=+14h56m32s327ms ago
+  Uid u0a0:
+    Package com.lbe.security.miui:
+      POST_NOTIFICATION: mode=0; time=+17d5h18m43s988ms ago
+      SYSTEM_ALERT_WINDOW: mode=0; time=+4d2h38m22s394ms ago; duration=+2s567ms
+      TOAST_WINDOW: mode=0; time=+17d5h18m40s116ms ago; duration=+3s481ms
+      READ_EXTERNAL_STORAGE: mode=0; time=+9h11m5s308ms ago
+      WRITE_EXTERNAL_STORAGE: mode=0; time=+9h11m5s308ms ago
+  Uid u0a2:
+    Package com.android.browser:
+      COARSE_LOCATION: mode=0; time=+4d3h54m57s875ms ago
+      FINE_LOCATION: mode=0; time=+4d3h54m58s81ms ago
+      POST_NOTIFICATION: mode=0; time=+66d20h54m4s950ms ago
+      WRITE_SETTINGS: mode=0; time=+4d18h19m46s211ms ago
+      READ_CLIPBOARD: mode=0; time=+4d18h21m2s403ms ago
+      WRITE_CLIPBOARD: mode=0; time=+195d10h28m29s169ms ago
+      TAKE_AUDIO_FOCUS: mode=0; time=+85d7h10m14s482ms ago
+      WAKE_LOCK: mode=0; time=+48d22h9m48s17ms ago; duration=+398ms
+      MONITOR_LOCATION: mode=0; time=+65d5h17m50s295ms ago; duration=+2m49s122ms
+      TOAST_WINDOW: mode=0; time=+66d20h54m2s606ms ago; duration=+2s319ms
+      OP_READ_PHONE_STATE: mode=0; time=+317d0h25m12s671ms ago
+      READ_EXTERNAL_STORAGE: mode=0; time=+18h52m9s107ms ago
+      WRITE_EXTERNAL_STORAGE: mode=0; time=+18h52m9s107ms ago
+      GET_ACCOUNTS: mode=0; time=+18h52m5s775ms ago
+  Uid u0a3:
+    Package com.android.calendar:
+      COARSE_LOCATION: mode=0
+      FINE_LOCATION: mode=0; time=+1d7h6m21s179ms ago
+      READ_CONTACTS: mode=0; time=+242d5h8m0s819ms ago
+      READ_CALENDAR: mode=0; time=+2h20m37s911ms ago
+      WRITE_CALENDAR: mode=0; time=+13d7h57m42s865ms ago
+      POST_NOTIFICATION: mode=0; time=+3d7h46m20s396ms ago
+      RECEIVE_SMS: mode=0; time=+125d17h37m12s195ms ago
+      WAKE_LOCK: mode=0; time=+187d20h31m50s493ms ago; duration=+2s5ms
+      READ_EXTERNAL_STORAGE: mode=0; time=+26m47s122ms ago
+      WRITE_EXTERNAL_STORAGE: mode=0; time=+26m47s122ms ago
+      GET_ACCOUNTS: mode=0; time=+26m47s149ms ago
+  Uid u0a4:
+    Package com.android.providers.calendar:
+      READ_CALENDAR: mode=0; time=+2h20m37s911ms ago
+      WRITE_CALENDAR: mode=0; time=+18h52m6s613ms ago
+      WAKE_LOCK: mode=0; time=+12h3m20s583ms ago; duration=+31ms
+      READ_EXTERNAL_STORAGE: mode=0; time=+2h20m45s786ms ago
+      WRITE_EXTERNAL_STORAGE: mode=0; time=+2h20m45s786ms ago
+      GET_ACCOUNTS: mode=0; time=+2h20m45s505ms ago
+  Uid u0a5:
+    Package com.android.contacts:
+      READ_CONTACTS: mode=0; time=+1d20h31m22s883ms ago
+      POST_NOTIFICATION: mode=0; time=+23d23h38m51s524ms ago
+      READ_CLIPBOARD: mode=0; time=+46d22h42m34s413ms ago
+      TOAST_WINDOW: mode=0; time=+23d23h38m49s181ms ago; duration=+2s324ms
+      OP_READ_PHONE_STATE: mode=0; time=+1d23h3m45s575ms ago
+      READ_EXTERNAL_STORAGE: mode=0; time=+1d23h3m45s982ms ago
+      WRITE_EXTERNAL_STORAGE: mode=0; time=+1d23h3m45s982ms ago
+      GET_ACCOUNTS: mode=0; time=+1d20h31m22s901ms ago
+    Package com.miui.yellowpage:
+      COARSE_LOCATION: mode=0
+      FINE_LOCATION: mode=0; time=+1d9h42m15s19ms ago
+      WIFI_SCAN: mode=0; time=+46d20h56m32s492ms ago
+      CALL_PHONE: mode=0; time=+271d21h16m6s640ms ago
+      MONITOR_LOCATION: mode=0; time=+1d9h42m14s958ms ago; duration=+2s545ms
+      OP_READ_PHONE_STATE: mode=0; time=+14h43m24s306ms ago
+      READ_EXTERNAL_STORAGE: mode=0; time=+34m15s902ms ago
+      WRITE_EXTERNAL_STORAGE: mode=0; time=+34m15s902ms ago
+      GET_ACCOUNTS: mode=0; time=+34m15s390ms ago
+    Package com.android.providers.contacts:
+      READ_CONTACTS: mode=0; time=+23m25s176ms ago
+      WRITE_CONTACTS: mode=0; time=+18h52m4s584ms ago
+      READ_CALL_LOG: mode=0; time=+9h10m38s734ms ago
+      WRITE_CALL_LOG: mode=0; time=+18h52m9s397ms ago
+      POST_NOTIFICATION: mode=0; time=+9h17m32s412ms ago
+      ADD_VOICEMAIL: mode=0; time=+36d2h49m26s554ms ago
+      READ_EXTERNAL_STORAGE: mode=0; time=+9h18m30s221ms ago
+      WRITE_EXTERNAL_STORAGE: mode=0; time=+9h18m30s220ms ago
+      GET_ACCOUNTS: mode=0; time=+9h17m32s212ms ago
+  Uid u0a6:
+    Package com.android.carrierconfig:
+      READ_EXTERNAL_STORAGE: mode=0; time=+281d20h30m54s969ms ago
+      WRITE_EXTERNAL_STORAGE: mode=0; time=+281d20h30m54s969ms ago
+  Uid u0a7:
+    Package com.android.cellbroadcastreceiver:
+      RECEIVE_SMS: mode=0
+      RECEIVE_EMERGECY_SMS: mode=0; time=+317d0h54m23s520ms ago
+      READ_EXTERNAL_STORAGE: mode=0; time=+317d0h53m40s754ms ago
+      WRITE_EXTERNAL_STORAGE: mode=0; time=+317d0h53m40s754ms ago
+  Uid u0a8:
+    Package com.miui.cloudbackup:
+      POST_NOTIFICATION: mode=0; time=+277d8h41m14s476ms ago
+      OP_READ_PHONE_STATE: mode=0; time=+9h10m39s528ms ago
+      READ_EXTERNAL_STORAGE: mode=0; time=+9h10m39s377ms ago
+      WRITE_EXTERNAL_STORAGE: mode=0; time=+9h10m39s377ms ago
+      GET_ACCOUNTS: mode=0; time=+2h20m41s840ms ago
+  Uid u0a9:
+    Package com.android.defcontainer:
+      READ_EXTERNAL_STORAGE: mode=0; time=+4d16h0m45s279ms ago
+      WRITE_EXTERNAL_STORAGE: mode=0; time=+4d16h0m45s279ms ago
+  Uid u0a10:
+    Package com.android.providers.media:
+      WAKE_LOCK: mode=0; time=+7h4m45s700ms ago; duration=+40s435ms
+      READ_EXTERNAL_STORAGE: mode=0; time=+20h2m18s266ms ago
+      WRITE_EXTERNAL_STORAGE: mode=0; time=+20h2m18s266ms ago
+    Package com.android.providers.downloads:
+      POST_NOTIFICATION: mode=0; time=+9d8h15m2s104ms ago
+      OP_READ_PHONE_STATE: mode=0; time=+36d5h9m18s655ms ago
+      READ_EXTERNAL_STORAGE: mode=0; time=+27m4s607ms ago
+      WRITE_EXTERNAL_STORAGE: mode=0; time=+27m19s912ms ago
+      GET_ACCOUNTS: mode=0; time=+9h10m52s563ms ago
+    Package com.android.providers.downloads.ui:
+      OP_READ_PHONE_STATE: mode=0; time=+36d2h51m32s320ms ago
+      READ_EXTERNAL_STORAGE: mode=0; time=+1h25m26s629ms ago
+      WRITE_EXTERNAL_STORAGE: mode=0; time=+1h25m26s629ms ago
+      GET_ACCOUNTS: mode=0; time=+37d22h16m4s32ms ago
+  Uid u0a11:
+    Package com.android.externalstorage:
+      READ_EXTERNAL_STORAGE: mode=0; time=+2d21h5m12s319ms ago
+      WRITE_EXTERNAL_STORAGE: mode=0; time=+2d21h5m12s319ms ago
+  Uid u0a12:
+    Package com.xiaomi.finddevice:
+      POST_NOTIFICATION: mode=0; time=+234d21h34m45s369ms ago
+      WAKE_LOCK: mode=0; time=+15h51m0s750ms ago; duration=+1s403ms
+      TOAST_WINDOW: mode=0; time=+234d21h34m41s857ms ago; duration=+3s491ms
+      OP_READ_PHONE_STATE: mode=0; time=+3d22h38m9s199ms ago
+      READ_EXTERNAL_STORAGE: mode=0; time=+4d16h0m24s892ms ago
+      WRITE_EXTERNAL_STORAGE: mode=0; time=+4d16h0m24s892ms ago
+      GET_ACCOUNTS: mode=0; time=+15m23s78ms ago
+  Uid u0a13:
+    Package com.android.incallui:
+      READ_CONTACTS: mode=0; time=+1d21h41m0s476ms ago
+      POST_NOTIFICATION: mode=0; time=+1d21h41m1s413ms ago
+      RECORD_AUDIO: mode=0; time=+54d5h39m24s398ms ago
+      READ_EXTERNAL_STORAGE: mode=0; time=+4d2h34m7s990ms ago
+      WRITE_EXTERNAL_STORAGE: mode=0; time=+4d2h34m7s990ms ago
+  Uid u0a14:
+    Package com.android.managedprovisioning:
+      READ_EXTERNAL_STORAGE: mode=0; time=+4d16h0m25s772ms ago
+      WRITE_EXTERNAL_STORAGE: mode=0; time=+4d16h0m25s772ms ago
+  Uid u0a15:
+    Package com.xiaomi.midrop:
+      COARSE_LOCATION: mode=0
+      FINE_LOCATION: mode=0; time=+278d17h31m8s280ms ago
+      WIFI_SCAN: mode=0; time=+278d17h31m8s280ms ago
+      POST_NOTIFICATION: mode=0; time=+278d17h37m31s753ms ago
+      WRITE_SETTINGS: mode=0; time=+278d17h31m3s770ms ago
+      SYSTEM_ALERT_WINDOW: mode=0; time=+278d17h38m55s230ms ago; duration=+6s707ms
+      WAKE_LOCK: mode=0; time=+278d17h33m21s238ms ago; duration=+5s888ms
+      OP_READ_PHONE_STATE: mode=0; time=+278d18h0m57s613ms ago
+      READ_EXTERNAL_STORAGE: mode=0; time=+4d15h59m56s369ms ago
+      WRITE_EXTERNAL_STORAGE: mode=0; time=+4d15h59m56s368ms ago
+      GET_ACCOUNTS: mode=0; time=+278d17h33m27s153ms ago
+      Unknown(10001): mode=0; time=+278d17h31m3s772ms ago
+  Uid u0a16:
+    Package com.xiaomi.gamecenter.sdk.service:
+      OP_READ_PHONE_STATE: mode=0; time=+27m20s169ms ago
+      READ_EXTERNAL_STORAGE: mode=0; time=+27m19s842ms ago
+      WRITE_EXTERNAL_STORAGE: mode=0; time=+27m19s842ms ago
+      GET_ACCOUNTS: mode=0; time=+27m19s665ms ago
+  Uid u0a17:
+    Package com.miui.mipub:
+      READ_SMS: mode=0
+      WRITE_SMS: mode=0
+      READ_ICC_SMS: mode=0; time=+163d1h24m59s561ms ago
+      WRITE_ICC_SMS: mode=0; time=+163d1h24m57s298ms ago
+      OP_READ_PHONE_STATE: mode=0; time=+26m44s948ms ago
+      READ_EXTERNAL_STORAGE: mode=0; time=+26m45s10ms ago
+      WRITE_EXTERNAL_STORAGE: mode=0; time=+26m45s10ms ago
+      GET_ACCOUNTS: mode=0; time=+4d15h58m37s195ms ago
+  Uid u0a18:
+    Package com.android.camera:
+      COARSE_LOCATION: mode=0
+      FINE_LOCATION: mode=0; time=+6h56m52s496ms ago
+      GPS: mode=0; time=+4d3h37m31s412ms ago; duration=+6s358ms
+      POST_NOTIFICATION: mode=0; time=+18d2h1m38s679ms ago
+      CAMERA: mode=0; time=+6h56m52s529ms ago; duration=+2s248ms
+      RECORD_AUDIO: mode=0; time=+45d1h8m41s859ms ago
+      TAKE_AUDIO_FOCUS: mode=0; time=+45d1h8m42s583ms ago
+      MONITOR_LOCATION: mode=0; time=+6h56m52s486ms ago; duration=+2s341ms
+      MONITOR_HIGH_POWER_LOCATION: mode=0; time=+4d3h37m31s433ms ago; duration=+6s337ms
+      TOAST_WINDOW: mode=0; time=+18d2h1m35s986ms ago; duration=+2s682ms
+      READ_EXTERNAL_STORAGE: mode=0; time=+6h56m54s768ms ago
+      WRITE_EXTERNAL_STORAGE: mode=0; time=+7h5m29s274ms ago
+  Uid u0a19:
+    Package com.miui.gallery:
+      VIBRATE: mode=0; time=+5d9h15m56s970ms ago; duration=+44ms
+      POST_NOTIFICATION: mode=0; time=+15d6h54m28s714ms ago
+      WRITE_SETTINGS: mode=0; time=+1h46m3s70ms ago
+      WAKE_LOCK: mode=0; time=+15d6h54m28s627ms ago; duration=+117ms
+      READ_EXTERNAL_STORAGE: mode=0; time=+27m4s358ms ago
+      WRITE_EXTERNAL_STORAGE: mode=0; time=+27m4s358ms ago
+      GET_ACCOUNTS: mode=0; time=+1h46m4s965ms ago
+  Uid u0a20:
+    Package com.miui.home:
+      VIBRATE: mode=0; time=+27d4h25m8s872ms ago; duration=+45ms
+      POST_NOTIFICATION: mode=0; time=+10h4m57s673ms ago
+      OP_READ_PHONE_STATE: mode=0; time=+465d13h4m9s728ms ago
+      READ_EXTERNAL_STORAGE: mode=0; time=+9h10m22s430ms ago
+      WRITE_EXTERNAL_STORAGE: mode=0; time=+9h10m22s430ms ago
+  Uid u0a21:
+    Package com.android.mms:
+      VIBRATE: mode=0; time=+34m14s134ms ago; duration=+369ms
+      READ_CONTACTS: mode=0; time=+34m14s495ms ago
+      WRITE_CONTACTS: mode=0; time=+18d1h53m34s276ms ago
+      READ_CALL_LOG: mode=0; time=+18d1h53m48s192ms ago
+      POST_NOTIFICATION: mode=0; time=+34m14s510ms ago
+      CALL_PHONE: mode=0; time=+94d6h29m9s910ms ago
+      READ_SMS: mode=0
+      WRITE_SMS: mode=0; time=+4h19m32s504ms ago
+      RECEIVE_SMS: mode=0; time=+34m15s720ms ago
+      RECEIVE_MMS: mode=0; time=+6h51m21s407ms ago
+      SEND_SMS: mode=0; time=+4h18m32s981ms ago
+      READ_ICC_SMS: mode=0; time=+34m14s990ms ago
+      WRITE_ICC_SMS: mode=0; time=+23m25s191ms ago
+      CAMERA: mode=0; time=+56d3h54m2s653ms ago
+      READ_CLIPBOARD: mode=0; time=+228d9h16m7s402ms ago
+      WRITE_CLIPBOARD: mode=0; time=+237d22h53m53s532ms ago
+      WAKE_LOCK: mode=0; time=+34m14s427ms ago; duration=+1s265ms
+      TOAST_WINDOW: mode=0; time=+2d22h45m31s768ms ago; duration=+2s336ms
+      OP_READ_PHONE_STATE: mode=0; time=+4h19m30s145ms ago
+      READ_EXTERNAL_STORAGE: mode=0; time=+23m25s135ms ago
+      WRITE_EXTERNAL_STORAGE: mode=0; time=+23m25s135ms ago
+      GET_ACCOUNTS: mode=0; time=+4h19m30s136ms ago
+      Unknown(10004): mode=0; time=+6h51m7s738ms ago
+      Unknown(10005): mode=0; time=+34m15s435ms ago
+      Unknown(10006): mode=0; time=+23m25s183ms ago
+  Uid u0a22:
+    Package com.miui.player:
+      POST_NOTIFICATION: mode=0; time=+35d18h49m56s277ms ago
+      WRITE_SETTINGS: mode=0; time=+28d20h10m50s80ms ago
+      TAKE_AUDIO_FOCUS: mode=0; time=+35d18h50m20s71ms ago
+      AUDIO_MEDIA_VOLUME: mode=0; time=+149d5h26m18s683ms ago
+      WAKE_LOCK: mode=0; time=+4m4s647ms ago; duration=+3s809ms
+      TOAST_WINDOW: mode=0; time=+149d20h29m51s309ms ago; duration=+2s322ms
+      OP_READ_PHONE_STATE: mode=0; time=+317d0h25m15s959ms ago
+      READ_EXTERNAL_STORAGE: mode=0; time=+4m7s996ms ago
+      WRITE_EXTERNAL_STORAGE: mode=0; time=+4m7s996ms ago
+      GET_ACCOUNTS: mode=0; time=+26m44s277ms ago
+  Uid u0a23:
+    Package com.android.musicfx:
+      READ_EXTERNAL_STORAGE: mode=0; time=+1h25m33s119ms ago
+      WRITE_EXTERNAL_STORAGE: mode=0; time=+1h25m33s119ms ago
+  Uid u0a24:
+    Package com.android.onetimeinitializer:
+      READ_EXTERNAL_STORAGE: mode=0; time=+4d16h0m21s546ms ago
+      WRITE_EXTERNAL_STORAGE: mode=0; time=+4d16h0m21s546ms ago
+  Uid u0a25:
+    Package com.google.android.packageinstaller:
+      POST_NOTIFICATION: mode=0; time=+36d2h49m26s806ms ago
+      TOAST_WINDOW: mode=0; time=+36d2h49m22s969ms ago; duration=+3s809ms
+      READ_EXTERNAL_STORAGE: mode=0; time=+9h10m49s765ms ago
+      WRITE_EXTERNAL_STORAGE: mode=0; time=+9h10m49s765ms ago
+  Uid u0a28:
+    Package com.android.statementservice:
+      READ_EXTERNAL_STORAGE: mode=0; time=+128d6h19m44s163ms ago
+      WRITE_EXTERNAL_STORAGE: mode=0; time=+128d6h19m44s163ms ago
+  Uid u0a31:
+    Package com.miui.weather2:
+      OP_READ_PHONE_STATE: mode=0; time=+61d19h17m13s371ms ago
+      READ_EXTERNAL_STORAGE: mode=0; time=+8m49s502ms ago
+      WRITE_EXTERNAL_STORAGE: mode=0; time=+8m49s502ms ago
+  Uid u0a32:
+    Package com.miui.providers.weather:
+      READ_EXTERNAL_STORAGE: mode=0; time=+61d19h17m13s508ms ago
+      WRITE_EXTERNAL_STORAGE: mode=0; time=+61d19h17m13s508ms ago
+  Uid u0a33:
+    Package com.amap.android.location:
+      COARSE_LOCATION: mode=0; time=+28m0s412ms ago
+      FINE_LOCATION: mode=0; time=+25m16s321ms ago
+      WIFI_SCAN: mode=0; time=+25m16s321ms ago
+      NEIGHBORING_CELLS: mode=0; time=+100d5h0m17s506ms ago
+      MONITOR_LOCATION: mode=0; time=+45m42s33ms ago (running)
+      OP_READ_PHONE_STATE: mode=0; time=+27m57s992ms ago
+      READ_EXTERNAL_STORAGE: mode=0; time=+27m57s664ms ago
+      WRITE_EXTERNAL_STORAGE: mode=0; time=+27m57s664ms ago
+  Uid u0a34:
+    Package com.miui.analytics:
+      COARSE_LOCATION: mode=0; time=+27m40s364ms ago
+      WIFI_SCAN: mode=0; time=+107d9h44m30s868ms ago
+      MONITOR_LOCATION: mode=0; time=+27m40s362ms ago; duration=+20s53ms
+      READ_EXTERNAL_STORAGE: mode=0; time=+4h19m44s995ms ago
+      WRITE_EXTERNAL_STORAGE: mode=0; time=+4h19m44s995ms ago
+      GET_ACCOUNTS: mode=0; time=+14h48m30s954ms ago
+  Uid u0a35:
+    Package com.miui.barcodescanner:
+      CAMERA: mode=0; time=+181d12h1m36s53ms ago; duration=+8s521ms
+      READ_EXTERNAL_STORAGE: mode=0; time=+153d18h23m54s241ms ago
+      WRITE_EXTERNAL_STORAGE: mode=0; time=+153d18h23m54s241ms ago
+  Uid u0a38:
+    Package com.android.calculator2:
+      READ_EXTERNAL_STORAGE: mode=0; time=+17d3h4m0s884ms ago
+      WRITE_EXTERNAL_STORAGE: mode=0; time=+17d3h4m0s884ms ago
+  Uid u0a41:
+    Package com.miui.cloudservice:
+      VIBRATE: mode=0; time=+130d4h32m27s600ms ago; duration=+957ms
+      READ_CONTACTS: mode=0; time=+23m25s176ms ago
+      WRITE_CONTACTS: mode=0; time=+18h52m4s584ms ago
+      READ_CALL_LOG: mode=0; time=+9h10m38s734ms ago
+      WRITE_CALL_LOG: mode=0; time=+18h52m9s397ms ago
+      READ_CALENDAR: mode=0; time=+18h52m6s541ms ago
+      WRITE_CALENDAR: mode=0; time=+18h52m6s613ms ago
+      POST_NOTIFICATION: mode=0; time=+7m10s645ms ago
+      READ_SMS: mode=0
+      WRITE_SMS: mode=0
+      READ_ICC_SMS: mode=0; time=+5d1h7m13s570ms ago
+      WRITE_ICC_SMS: mode=0; time=+276d6h21m44s394ms ago
+      WAKE_LOCK: mode=0; time=+23m25s108ms ago; duration=+129ms
+      READ_EXTERNAL_STORAGE: mode=0; time=+26m46s907ms ago
+      WRITE_EXTERNAL_STORAGE: mode=0; time=+26m46s906ms ago
+      GET_ACCOUNTS: mode=0; time=+7m10s592ms ago
+      Unknown(10005): mode=0; time=+5d1h7m13s544ms ago
+      Unknown(10006): mode=0; time=+276d6h21m44s382ms ago
+  Uid u0a42:
+    Package com.android.deskclock:
+      VIBRATE: mode=0; time=+43d22h33m21s429ms ago; duration=+11s612ms
+      READ_CONTACTS: mode=0; time=+43d22h33m33s60ms ago
+      READ_CALENDAR: mode=0; time=+43d23h34m10s470ms ago
+      POST_NOTIFICATION: mode=0; time=+43d22h33m33s88ms ago
+      TAKE_AUDIO_FOCUS: mode=0; time=+43d22h33m33s87ms ago
+      AUDIO_ALARM_VOLUME: mode=0; time=+43d22h33m21s432ms ago
+      WAKE_LOCK: mode=0; time=+2h20m41s869ms ago; duration=+65ms
+      TOAST_WINDOW: mode=0; time=+43d23h33m45s122ms ago; duration=+3s491ms
+      OP_READ_PHONE_STATE: mode=0; time=+43d22h33m33s96ms ago
+      READ_EXTERNAL_STORAGE: mode=0; time=+2h20m43s720ms ago
+      WRITE_EXTERNAL_STORAGE: mode=0; time=+2h20m43s720ms ago
+  Uid u0a43:
+    Package com.android.documentsui:
+      READ_EXTERNAL_STORAGE: mode=0; time=+2d21h5m12s352ms ago
+      WRITE_EXTERNAL_STORAGE: mode=0; time=+2d21h5m12s352ms ago
+  Uid u0a44:
+    Package com.android.email:
+      VIBRATE: mode=0; time=+3h52m6s580ms ago; duration=+354ms
+      READ_CONTACTS: mode=0; time=+2d20h57m48s868ms ago
+      POST_NOTIFICATION: mode=0; time=+3h52m6s949ms ago
+      WAKE_LOCK: mode=0; time=+3h52m4s18ms ago; duration=+2ms
+      TOAST_WINDOW: mode=0; time=+2d20h58m9s188ms ago; duration=+3s854ms
+      OP_READ_PHONE_STATE: mode=0; time=+3h6m50s724ms ago
+      READ_EXTERNAL_STORAGE: mode=0; time=+3h52m3s663ms ago
+      WRITE_EXTERNAL_STORAGE: mode=0; time=+3h52m3s663ms ago
+      GET_ACCOUNTS: mode=0; time=+28m6s382ms ago
+  Uid u0a45:
+    Package com.android.fileexplorer:
+      POST_NOTIFICATION: mode=0; time=+189d21h23m49s462ms ago
+      TOAST_WINDOW: mode=0; time=+189d21h23m47s118ms ago; duration=+2s326ms
+      READ_EXTERNAL_STORAGE: mode=0; time=+26m46s933ms ago
+      WRITE_EXTERNAL_STORAGE: mode=0; time=+26m46s933ms ago
+      GET_ACCOUNTS: mode=0; time=+26m58s248ms ago
+  Uid u0a46:
+    Package com.android.galaxy4:
+      READ_EXTERNAL_STORAGE: mode=0; time=+273d7h18m30s119ms ago
+      WRITE_EXTERNAL_STORAGE: mode=0; time=+273d7h18m30s119ms ago
+  Uid u0a47:
+    Package com.xiaomi.gamecenter:
+      OP_READ_PHONE_STATE: mode=0; time=+317d0h38m24s78ms ago
+      READ_EXTERNAL_STORAGE: mode=0; time=+27m7s89ms ago
+      WRITE_EXTERNAL_STORAGE: mode=0; time=+27m7s89ms ago
+      GET_ACCOUNTS: mode=0; time=+27m4s938ms ago
+  Uid u0a48:
+    Package com.google.android.inputmethod.pinyin:
+      READ_EXTERNAL_STORAGE: mode=0; time=+4d15h59m52s540ms ago
+      WRITE_EXTERNAL_STORAGE: mode=0; time=+4d15h59m52s540ms ago
+  Uid u0a49:
+    Package com.miui.guardprovider:
+      OP_READ_PHONE_STATE: mode=0; time=+1h47m37s439ms ago
+      READ_EXTERNAL_STORAGE: mode=0; time=+1h47m29s186ms ago
+      WRITE_EXTERNAL_STORAGE: mode=0; time=+1h47m29s186ms ago
+  Uid u0a50:
+    Package com.android.htmlviewer:
+      POST_NOTIFICATION: mode=0; time=+21h33m15s460ms ago
+      READ_EXTERNAL_STORAGE: mode=0; time=+26m51s293ms ago
+      WRITE_EXTERNAL_STORAGE: mode=0; time=+26m51s293ms ago
+  Uid u0a52:
+    Package com.cleanmaster.sdk:
+      READ_EXTERNAL_STORAGE: mode=0; time=+88d23h57m50s313ms ago
+      WRITE_EXTERNAL_STORAGE: mode=0; time=+88d23h57m50s313ms ago
+  Uid u0a54:
+    Package com.android.wallpaper.livepicker:
+      READ_EXTERNAL_STORAGE: mode=0; time=+273d7h18m40s308ms ago
+      WRITE_EXTERNAL_STORAGE: mode=0; time=+273d7h18m40s308ms ago
+  Uid u0a55:
+    Package com.xiaomi.metok:
+      COARSE_LOCATION: mode=0; time=+15m20s74ms ago
+      FINE_LOCATION: mode=0; time=+25m16s332ms ago
+      WIFI_SCAN: mode=0; time=+25m16s332ms ago
+      OP_READ_PHONE_STATE: mode=0; time=+3d22h39m32s481ms ago
+      READ_EXTERNAL_STORAGE: mode=0; time=+4d16h0m34s614ms ago
+      WRITE_EXTERNAL_STORAGE: mode=0; time=+4d16h0m34s614ms ago
+  Uid u0a56:
+    Package com.milink.service:
+      READ_EXTERNAL_STORAGE: mode=0; time=+1h47m15s430ms ago
+      WRITE_EXTERNAL_STORAGE: mode=0; time=+1h47m15s430ms ago
+  Uid u0a58:
+    Package com.mipay.wallet:
+      RECEIVE_SMS: mode=0; time=+34m15s611ms ago
+      OP_READ_PHONE_STATE: mode=0; time=+269d3h3m10s880ms ago
+      READ_EXTERNAL_STORAGE: mode=0; time=+27m27s4ms ago
+      WRITE_EXTERNAL_STORAGE: mode=0; time=+27m27s4ms ago
+      GET_ACCOUNTS: mode=0; time=+4d6h8m20s794ms ago
+  Uid u0a60:
+    Package com.xiaomi.market:
+      COARSE_LOCATION: mode=0; time=+204d20h31m12s188ms ago
+      VIBRATE: mode=0; time=+144d19h38m47s288ms ago; duration=+355ms
+      POST_NOTIFICATION: mode=0; time=+3d12h54m57s424ms ago
+      WRITE_SETTINGS: mode=0; time=+26m59s339ms ago
+      READ_CLIPBOARD: mode=0; time=+61d19h38m41s978ms ago
+      WAKE_LOCK: mode=0; time=+3d12h55m49s793ms ago; duration=+57s883ms
+      OP_READ_PHONE_STATE: mode=0; time=+317d0h40m27s805ms ago
+      READ_EXTERNAL_STORAGE: mode=0; time=+23m29s561ms ago
+      WRITE_EXTERNAL_STORAGE: mode=0; time=+23m29s561ms ago
+      GET_ACCOUNTS: mode=0; time=+26m49s143ms ago
+  Uid u0a61:
+    Package com.miui.video:
+      COARSE_LOCATION: mode=0; time=+142d1h28m49s664ms ago
+      POST_NOTIFICATION: mode=0; time=+8d21h3m29s966ms ago
+      WRITE_SMS: mode=0; time=+8d22h28m37s576ms ago
+      WRITE_SETTINGS: mode=0; time=+317d0h49m29s974ms ago
+      TAKE_AUDIO_FOCUS: mode=0; time=+8d21h3m33s791ms ago
+      AUDIO_MEDIA_VOLUME: mode=0; time=+8d22h25m33s337ms ago
+      TOAST_WINDOW: mode=0; time=+8d21h3m27s618ms ago; duration=+2s272ms
+      OP_READ_PHONE_STATE: mode=0; time=+26m51s232ms ago
+      READ_EXTERNAL_STORAGE: mode=0; time=+26m51s521ms ago
+      WRITE_EXTERNAL_STORAGE: mode=0; time=+26m51s521ms ago
+      GET_ACCOUNTS: mode=0; time=+26m51s186ms ago
+      Unknown(10017): mode=0; time=+229d15h31m58s558ms ago
+  Uid u0a62:
+    Package com.android.noisefield:
+      READ_EXTERNAL_STORAGE: mode=0; time=+273d7h18m35s821ms ago
+      WRITE_EXTERNAL_STORAGE: mode=0; time=+273d7h18m35s821ms ago
+  Uid u0a63:
+    Package com.miui.notes:
+      WRITE_SETTINGS: mode=0; time=+279d17h36m2s504ms ago
+      OP_READ_PHONE_STATE: mode=0; time=+279d17h36m2s498ms ago
+      READ_EXTERNAL_STORAGE: mode=0; time=+26m44s743ms ago
+      WRITE_EXTERNAL_STORAGE: mode=0; time=+26m44s743ms ago
+      GET_ACCOUNTS: mode=0; time=+16d1h57m59s23ms ago
+  Uid u0a65:
+    Package com.xiaomi.payment:
+      OP_READ_PHONE_STATE: mode=0; time=+223d23h44m20s365ms ago
+      READ_EXTERNAL_STORAGE: mode=0; time=+27m24s589ms ago
+      WRITE_EXTERNAL_STORAGE: mode=0; time=+27m24s589ms ago
+  Uid u0a66:
+    Package com.android.phasebeam:
+      READ_EXTERNAL_STORAGE: mode=0; time=+273d7h18m21s223ms ago
+      WRITE_EXTERNAL_STORAGE: mode=0; time=+273d7h18m21s222ms ago
+  Uid u0a68:
+    Package com.svox.pico:
+      READ_EXTERNAL_STORAGE: mode=0; time=+9h7m57s724ms ago
+      WRITE_EXTERNAL_STORAGE: mode=0; time=+9h7m57s724ms ago
+  Uid u0a69:
+    Package com.android.printspooler:
+      READ_EXTERNAL_STORAGE: mode=0; time=+4d16h0m48s988ms ago
+      WRITE_EXTERNAL_STORAGE: mode=0; time=+4d16h0m48s988ms ago
+  Uid u0a71:
+    Package com.android.quicksearchbox:
+      COARSE_LOCATION: mode=0
+      FINE_LOCATION: mode=0; time=+1d0h43m48s625ms ago
+      READ_CONTACTS: mode=0; time=+1d0h43m48s449ms ago
+      OP_READ_PHONE_STATE: mode=0; time=+1h25m24s500ms ago
+      READ_EXTERNAL_STORAGE: mode=0; time=+1h25m26s290ms ago
+      WRITE_EXTERNAL_STORAGE: mode=0; time=+1h25m26s289ms ago
+  Uid u0a74:
+    Package com.miui.securityadd:
+      OP_READ_PHONE_STATE: mode=0; time=+317d0h53m48s220ms ago
+      READ_EXTERNAL_STORAGE: mode=0; time=+4d15h58m35s440ms ago
+      WRITE_EXTERNAL_STORAGE: mode=0; time=+4d15h58m35s440ms ago
+      GET_ACCOUNTS: mode=0; time=+4d15h58m33s498ms ago
+  Uid u0a75:
+    Package com.android.soundrecorder:
+      POST_NOTIFICATION: mode=0; time=+175d8h25m25s27ms ago
+      RECORD_AUDIO: mode=0; time=+175d8h25m24s942ms ago
+      TAKE_AUDIO_FOCUS: mode=0; time=+175d7h49m41s160ms ago
+      AUDIO_RING_VOLUME: mode=0; time=+175d8h30m9s317ms ago
+      AUDIO_MEDIA_VOLUME: mode=0; time=+175d8h25m42s792ms ago
+      WAKE_LOCK: mode=0; time=+175d8h21m49s265ms ago; duration=+3m35s621ms
+      OP_READ_PHONE_STATE: mode=0; time=+175d7h49m41s186ms ago
+      READ_EXTERNAL_STORAGE: mode=0; time=+2h26m29s503ms ago
+      WRITE_EXTERNAL_STORAGE: mode=0; time=+2h26m29s502ms ago
+      GET_ACCOUNTS: mode=0; time=+175d8h25m27s87ms ago
+  Uid u0a76:
+    Package com.trafficctr.miui:
+      WRITE_SETTINGS: mode=0; time=+32m10s908ms ago
+      READ_EXTERNAL_STORAGE: mode=0; time=+32m10s930ms ago
+      WRITE_EXTERNAL_STORAGE: mode=0; time=+32m10s929ms ago
+  Uid u0a77:
+    Package com.miui.voiceassist:
+      OP_READ_PHONE_STATE: mode=0; time=+219d16h33m4s462ms ago
+      READ_EXTERNAL_STORAGE: mode=0; time=+4d16h6m0s276ms ago
+      WRITE_EXTERNAL_STORAGE: mode=0; time=+4d16h6m0s276ms ago
+  Uid u0a78:
+    Package com.android.smspush:
+      READ_EXTERNAL_STORAGE: mode=0; time=+4d16h0m47s404ms ago
+      WRITE_EXTERNAL_STORAGE: mode=0; time=+4d16h0m47s404ms ago
+  Uid u0a80:
+    Package com.xiaomi.pass:
+      OP_READ_PHONE_STATE: mode=0; time=+20h32m25s912ms ago
+      READ_EXTERNAL_STORAGE: mode=0; time=+26m56s944ms ago
+      WRITE_EXTERNAL_STORAGE: mode=0; time=+26m56s944ms ago
+      GET_ACCOUNTS: mode=0; time=+26m56s987ms ago
+  Uid u0a81:
+    Package com.xiaomi.account:
+      COARSE_LOCATION: mode=0; time=+278d18h51m23s15ms ago
+      FINE_LOCATION: mode=0; time=+278d18h51m22s993ms ago
+      OP_READ_PHONE_STATE: mode=0; time=+25m28s698ms ago
+      READ_EXTERNAL_STORAGE: mode=0; time=+25m29s327ms ago
+      WRITE_EXTERNAL_STORAGE: mode=0; time=+25m29s327ms ago
+      GET_ACCOUNTS: mode=0; time=+25m28s731ms ago
+  Uid u0a82:
+    Package com.xiaomi.xmsf:
+      VIBRATE: mode=0; time=+2h43m12s232ms ago; duration=+356ms
+      POST_NOTIFICATION: mode=0; time=+2h43m12s601ms ago
+      WRITE_SMS: mode=0; time=+67d10h4m13s804ms ago
+      OP_READ_PHONE_STATE: mode=0; time=+11m46s862ms ago
+      READ_EXTERNAL_STORAGE: mode=0; time=+4d16h0m39s730ms ago
+      WRITE_EXTERNAL_STORAGE: mode=0; time=+4d16h0m39s730ms ago
+      GET_ACCOUNTS: mode=0; time=+3d22h39m33s765ms ago
+  Uid u0a83:
+    Package com.xiaomi.vip:
+      VIBRATE: mode=0; time=+14d4h4m36s139ms ago; duration=+354ms
+      POST_NOTIFICATION: mode=0; time=+2d3h56m52s320ms ago
+      OP_READ_PHONE_STATE: mode=0; time=+317d0h45m23s652ms ago
+      READ_EXTERNAL_STORAGE: mode=0; time=+1h31m54s987ms ago
+      WRITE_EXTERNAL_STORAGE: mode=0; time=+1h31m54s987ms ago
+      GET_ACCOUNTS: mode=0; time=+1h14m29s502ms ago
+  Uid u0a84:
+    Package com.qcom.matcli:
+      READ_EXTERNAL_STORAGE: mode=0; time=+4d16h0m26s54ms ago
+      WRITE_EXTERNAL_STORAGE: mode=0; time=+4d16h0m26s54ms ago
+  Uid u0a85:
+    Package com.miui.core:
+      OP_READ_PHONE_STATE: mode=0; time=+2h26m25s604ms ago
+      READ_EXTERNAL_STORAGE: mode=0; time=+4d2h5m37s165ms ago
+      WRITE_EXTERNAL_STORAGE: mode=0; time=+4d2h5m37s164ms ago
+  Uid u0a86:
+    Package com.qualcomm.shutdownlistner:
+      READ_EXTERNAL_STORAGE: mode=0; time=+4d16h1m55s470ms ago
+      WRITE_EXTERNAL_STORAGE: mode=0; time=+4d16h1m55s470ms ago
+  Uid u0a89:
+    Package com.xiaomi.apps.videodaily:
+      READ_SMS: mode=4
+      RECEIVE_SMS: mode=4
+      SEND_SMS: mode=4
+      OP_READ_PHONE_STATE: mode=4
+      READ_EXTERNAL_STORAGE: mode=0
+      WRITE_EXTERNAL_STORAGE: mode=0
+      GET_ACCOUNTS: mode=4
+      Unknown(10004): mode=4
+      Unknown(10005): mode=4
+      Unknown(10008): mode=1
+  Uid u0a90:
+    Package com.iflytek.speechcloud:
+      READ_CONTACTS: mode=0
+      READ_CALL_LOG: mode=0
+      WRITE_SETTINGS: mode=0
+      RECORD_AUDIO: mode=0
+      OP_READ_PHONE_STATE: mode=0; time=+17d5h18m14s492ms ago
+      READ_EXTERNAL_STORAGE: mode=0; time=+17d5h18m13s822ms ago
+      WRITE_EXTERNAL_STORAGE: mode=0; time=+17d5h18m13s822ms ago
+      Unknown(10001): mode=0
+      Unknown(10004): mode=0
+      Unknown(10008): mode=1
+  Uid u0a91:
+    Package com.ximalaya.ting.android:
+      COARSE_LOCATION: mode=1; rejectTime=+200d4h32m36s211ms ago
+      FINE_LOCATION: mode=0; rejectTime=+202d1h6m4s847ms ago
+      VIBRATE: mode=0; time=+42d22h27m9s405ms ago; duration=+408ms
+      READ_CONTACTS: mode=4
+      POST_NOTIFICATION: mode=0; time=+5m1s117ms ago
+      WRITE_SMS: mode=1; rejectTime=+6h56m5s342ms ago
+      WRITE_SETTINGS: mode=0; time=+35d19h37m39s318ms ago
+      SYSTEM_ALERT_WINDOW: mode=1
+      CAMERA: mode=4
+      RECORD_AUDIO: mode=0; time=+35d19h32m19s830ms ago
+      TAKE_AUDIO_FOCUS: mode=0; time=+5m1s196ms ago
+      WAKE_LOCK: mode=0; time=+44d5h14m25s37ms ago; duration=+1m12s475ms
+      TOAST_WINDOW: mode=0; time=+27d6h35m26s96ms ago; duration=+2s323ms
+      OP_READ_PHONE_STATE: mode=0; time=+18s186ms ago
+      PROCESS_OUTGOING_CALLS: mode=4
+      READ_EXTERNAL_STORAGE: mode=0; time=+25m38s868ms ago
+      WRITE_EXTERNAL_STORAGE: mode=0; time=+25m38s868ms ago
+      GET_ACCOUNTS: mode=4
+      Unknown(10001): mode=4
+      Unknown(10002): mode=4
+      Unknown(10004): mode=4
+      Unknown(10008): mode=1
+      Unknown(10017): mode=1; rejectTime=+86d22h2m19s953ms ago
+  Uid u0a92:
+    Package com.sina.weibo:
+      COARSE_LOCATION: mode=0; time=+79d8h8m59s191ms ago
+      FINE_LOCATION: mode=0; time=+79d8h8m59s204ms ago
+      VIBRATE: mode=0; time=+20h27m15s468ms ago; duration=+163ms
+      READ_CONTACTS: mode=4
+      WRITE_CONTACTS: mode=4
+      READ_CALL_LOG: mode=4
+      READ_CALENDAR: mode=0
+      WRITE_CALENDAR: mode=0
+      WIFI_SCAN: mode=0; time=+79d8h8m59s204ms ago
+      POST_NOTIFICATION: mode=0; time=+7h26m29s97ms ago
+      NEIGHBORING_CELLS: mode=0; time=+79d8h8m59s216ms ago
+      CALL_PHONE: mode=4
+      READ_SMS: mode=4
+      WRITE_SMS: mode=1; rejectTime=+7h38m10s827ms ago
+      RECEIVE_SMS: mode=4
+      SEND_SMS: mode=4
+      WRITE_SETTINGS: mode=0
+      SYSTEM_ALERT_WINDOW: mode=1
+      CAMERA: mode=0
+      RECORD_AUDIO: mode=0
+      TAKE_AUDIO_FOCUS: mode=0; time=+177d19h45m19s911ms ago
+      WAKE_LOCK: mode=0; time=+7h28m34s955ms ago; duration=+22ms
+      TOAST_WINDOW: mode=0; time=+260d19h28m38s369ms ago; duration=+2s351ms
+      OP_READ_PHONE_STATE: mode=0; time=+7h26m28s844ms ago
+      READ_EXTERNAL_STORAGE: mode=0; time=+7h26m28s749ms ago
+      WRITE_EXTERNAL_STORAGE: mode=0; time=+7h26m28s749ms ago
+      GET_ACCOUNTS: mode=4
+      Unknown(10001): mode=4
+      Unknown(10002): mode=4
+      Unknown(10004): mode=4
+      Unknown(10005): mode=4
+      Unknown(10008): mode=1
+      Unknown(10017): mode=0
+  Uid u0a93:
+    Package com.xtc.watch:
+      COARSE_LOCATION: mode=0; time=+23d23h42m6s613ms ago
+      FINE_LOCATION: mode=0; time=+23d23h41m15s788ms ago
+      GPS: mode=0; time=+23d23h42m7s459ms ago; duration=+1s734ms
+      VIBRATE: mode=0; time=+23d23h47m34s981ms ago; duration=+959ms
+      READ_CONTACTS: mode=4
+      WIFI_SCAN: mode=0; time=+23d23h41m15s788ms ago
+      POST_NOTIFICATION: mode=0; time=+23d23h41m56s309ms ago
+      CALL_PHONE: mode=4; time=+23d23h45m57s27ms ago
+      READ_SMS: mode=0
+      WRITE_SMS: mode=1; rejectTime=+23d23h50m18s828ms ago
+      RECEIVE_SMS: mode=0
+      READ_ICC_SMS: mode=0; time=+23d23h49m54s723ms ago
+      WRITE_SETTINGS: mode=0
+      SYSTEM_ALERT_WINDOW: mode=1
+      CAMERA: mode=0; time=+23d23h47m50s625ms ago; duration=+55s421ms
+      RECORD_AUDIO: mode=0; time=+23d23h41m45s560ms ago
+      TAKE_AUDIO_FOCUS: mode=0; time=+23d23h41m43s592ms ago
+      WAKE_LOCK: mode=0; time=+23d23h41m28s725ms ago; duration=+34ms
+      MONITOR_LOCATION: mode=0; time=+23d23h42m7s460ms ago; duration=+1s733ms
+      MONITOR_HIGH_POWER_LOCATION: mode=0; time=+23d23h42m7s460ms ago; duration=+1s733ms
+      TOAST_WINDOW: mode=0; time=+23d23h41m53s972ms ago; duration=+2s318ms
+      OP_READ_PHONE_STATE: mode=0; time=+23d23h42m8s878ms ago
+      PROCESS_OUTGOING_CALLS: mode=0; time=+23d23h45m56s305ms ago
+      READ_EXTERNAL_STORAGE: mode=0; time=+23d23h41m28s673ms ago
+      WRITE_EXTERNAL_STORAGE: mode=0; time=+23d23h41m28s673ms ago
+      Unknown(10001): mode=4
+      Unknown(10002): mode=0
+      Unknown(10004): mode=4
+      Unknown(10005): mode=4
+      Unknown(10008): mode=1
+      Unknown(10017): mode=4
+  Uid u0a94:
+    Package com.xiaomi.o2o:
+      COARSE_LOCATION: mode=0
+      READ_SMS: mode=0
+      RECEIVE_SMS: mode=0
+      WRITE_SETTINGS: mode=0
+      OP_READ_PHONE_STATE: mode=0; time=+8d9h52m25s736ms ago
+      READ_EXTERNAL_STORAGE: mode=0; time=+27m17s314ms ago
+      WRITE_EXTERNAL_STORAGE: mode=0; time=+27m17s314ms ago
+      GET_ACCOUNTS: mode=0; time=+27m16s992ms ago
+      Unknown(10001): mode=0
+      Unknown(10004): mode=0
+      Unknown(10005): mode=0
+      Unknown(10008): mode=1
+  Uid u0a95:
+    Package com.yiqizuoye.jzt:
+      COARSE_LOCATION: mode=0; time=+9d8h11m51s894ms ago
+      FINE_LOCATION: mode=0; time=+9d8h3m7s132ms ago
+      GPS: mode=0; time=+9d8h11m51s868ms ago; duration=+31ms
+      READ_CONTACTS: mode=4
+      WIFI_SCAN: mode=0; time=+9d8h11m51s952ms ago
+      POST_NOTIFICATION: mode=0; time=+9d8h8m39s670ms ago
+      CALL_PHONE: mode=4
+      READ_SMS: mode=0
+      WRITE_SMS: mode=1; rejectTime=+58m41s274ms ago
+      RECEIVE_SMS: mode=0; time=+34m15s650ms ago
+      SEND_SMS: mode=1
+      WRITE_SETTINGS: mode=0
+      SYSTEM_ALERT_WINDOW: mode=1
+      CAMERA: mode=4
+      RECORD_AUDIO: mode=4
+      MONITOR_LOCATION: mode=0; time=+9d8h11m51s869ms ago; duration=+31ms
+      MONITOR_HIGH_POWER_LOCATION: mode=0; time=+9d8h11m51s869ms ago; duration=+31ms
+      TOAST_WINDOW: mode=0; time=+9d8h8m37s319ms ago; duration=+2s344ms
+      OP_READ_PHONE_STATE: mode=0; time=+58m41s271ms ago
+      READ_EXTERNAL_STORAGE: mode=0; time=+58m41s425ms ago
+      WRITE_EXTERNAL_STORAGE: mode=0; time=+58m41s425ms ago
+      Unknown(10001): mode=4
+      Unknown(10004): mode=4
+      Unknown(10008): mode=0
+      Unknown(10017): mode=0
+  Uid u0a96:
+    Package com.qualcomm.qtl.context_fusion_service:
+      COARSE_LOCATION: mode=4
+      READ_CONTACTS: mode=4
+      WRITE_CONTACTS: mode=4
+      READ_CALL_LOG: mode=4
+      WRITE_CALL_LOG: mode=4
+      READ_CALENDAR: mode=4
+      WRITE_CALENDAR: mode=4
+      POST_NOTIFICATION: mode=0; time=+59m42s131ms ago
+      CALL_PHONE: mode=4
+      READ_SMS: mode=4
+      WRITE_SMS: mode=4
+      RECEIVE_SMS: mode=4
+      SEND_SMS: mode=4
+      WRITE_SETTINGS: mode=0
+      SYSTEM_ALERT_WINDOW: mode=1
+      CAMERA: mode=4
+      RECORD_AUDIO: mode=4
+      TOAST_WINDOW: mode=0; time=+59m38s282ms ago; duration=+3s841ms
+      OP_READ_PHONE_STATE: mode=4
+      ADD_VOICEMAIL: mode=4
+      USE_SIP: mode=4
+      PROCESS_OUTGOING_CALLS: mode=4
+      READ_EXTERNAL_STORAGE: mode=0; time=+1h14m28s544ms ago
+      WRITE_EXTERNAL_STORAGE: mode=0; time=+1h14m28s544ms ago
+      GET_ACCOUNTS: mode=4
+      Unknown(10001): mode=4
+      Unknown(10002): mode=4
+      Unknown(10004): mode=4
+      Unknown(10005): mode=4
+      Unknown(10006): mode=4
+      Unknown(10008): mode=1
+      Unknown(10010): mode=4
+      Unknown(10011): mode=4
+      Unknown(10013): mode=4
+  Uid u0a97:
+    Package com.xiaomi.smarthome:
+      COARSE_LOCATION: mode=0; time=+7h29m53s767ms ago
+      FINE_LOCATION: mode=0; time=+7h29m54s848ms ago
+      GPS: mode=0; time=+4d6h58m58s362ms ago; duration=+4s292ms
+      READ_CONTACTS: mode=0
+      WRITE_CONTACTS: mode=0
+      READ_CALL_LOG: mode=0
+      WRITE_CALL_LOG: mode=0
+      WIFI_SCAN: mode=0; time=+7h29m53s774ms ago
+      POST_NOTIFICATION: mode=0; time=+60d21h45m14s344ms ago
+      NEIGHBORING_CELLS: mode=0; time=+124d19h12m38s573ms ago
+      CALL_PHONE: mode=0
+      READ_SMS: mode=0
+      RECEIVE_SMS: mode=0; time=+34m15s619ms ago
+      SEND_SMS: mode=0
+      WRITE_SETTINGS: mode=0
+      SYSTEM_ALERT_WINDOW: mode=0
+      CAMERA: mode=0
+      RECORD_AUDIO: mode=0
+      TAKE_AUDIO_FOCUS: mode=0; time=+19h33m14s930ms ago
+      MONITOR_LOCATION: mode=0; time=+7h29m54s912ms ago; duration=+403ms
+      MONITOR_HIGH_POWER_LOCATION: mode=0; time=+4d6h58m58s364ms ago; duration=+4s290ms
+      OP_READ_PHONE_STATE: mode=0; time=+7h29m54s435ms ago
+      PROCESS_OUTGOING_CALLS: mode=0; time=+1d23h3m27s963ms ago
+      READ_EXTERNAL_STORAGE: mode=0; time=+7h29m53s443ms ago
+      WRITE_EXTERNAL_STORAGE: mode=0; time=+7h29m53s443ms ago
+      GET_ACCOUNTS: mode=0; time=+9h7m7s693ms ago
+      Unknown(10001): mode=0
+      Unknown(10002): mode=0
+      Unknown(10004): mode=0
+      Unknown(10008): mode=0
+      Unknown(10013): mode=0
+      Unknown(10017): mode=0
+  Uid u0a100:
+    Package com.tuniu.app.ui:
+      COARSE_LOCATION: mode=0; time=+36d2h34m15s847ms ago
+      FINE_LOCATION: mode=0; time=+36d2h34m15s830ms ago
+      GPS: mode=0; time=+172d4h8m52s481ms ago; duration=+690ms
+      READ_CONTACTS: mode=4
+      WIFI_SCAN: mode=0; time=+36d2h34m18s626ms ago
+      POST_NOTIFICATION: mode=0; time=+172d4h8m50s936ms ago
+      NEIGHBORING_CELLS: mode=0; time=+172d4h8m51s298ms ago
+      CALL_PHONE: mode=4
+      READ_SMS: mode=4
+      WRITE_SMS: mode=1; rejectTime=+172d4h8m51s227ms ago
+      RECEIVE_SMS: mode=4
+      SEND_SMS: mode=4
+      WRITE_SETTINGS: mode=0
+      SYSTEM_ALERT_WINDOW: mode=1
+      CAMERA: mode=0
+      RECORD_AUDIO: mode=0
+      WAKE_LOCK: mode=0; time=+36d2h39m54s396ms ago; duration=+7ms
+      MONITOR_LOCATION: mode=0; time=+172d4h8m52s483ms ago; duration=+689ms
+      MONITOR_HIGH_POWER_LOCATION: mode=0; time=+172d4h8m52s483ms ago; duration=+689ms
+      TOAST_WINDOW: mode=0; time=+172d4h8m49s661ms ago; duration=+993ms
+      OP_READ_PHONE_STATE: mode=0; time=+36d2h34m15s749ms ago
+      READ_EXTERNAL_STORAGE: mode=0; time=+36d2h34m15s740ms ago
+      WRITE_EXTERNAL_STORAGE: mode=0; time=+36d2h34m15s740ms ago
+      Unknown(10001): mode=4
+      Unknown(10002): mode=4
+      Unknown(10004): mode=4
+      Unknown(10005): mode=4
+      Unknown(10008): mode=1
+      Unknown(10017): mode=1; rejectTime=+172d4h7m46s702ms ago
+  Uid u0a101:
+    Package com.baidu.BaiduMap:
+      COARSE_LOCATION: mode=0; time=+4d6h17m30s57ms ago
+      FINE_LOCATION: mode=0; time=+4d6h17m26s564ms ago
+      GPS: mode=0; time=+47d6h15m43s12ms ago; duration=+1m29s930ms
+      READ_CONTACTS: mode=4
+      READ_CALL_LOG: mode=4
+      READ_CALENDAR: mode=4
+      WRITE_CALENDAR: mode=4
+      WIFI_SCAN: mode=0; time=+4d6h17m30s124ms ago
+      POST_NOTIFICATION: mode=0; time=+47d6h20m14s628ms ago
+      NEIGHBORING_CELLS: mode=0; time=+4d6h17m30s69ms ago
+      CALL_PHONE: mode=4
+      READ_SMS: mode=4
+      WRITE_SMS: mode=1; rejectTime=+9d8h3m6s892ms ago
+      RECEIVE_SMS: mode=4
+      SEND_SMS: mode=1
+      WRITE_SETTINGS: mode=0; time=+4d6h40m9s748ms ago
+      SYSTEM_ALERT_WINDOW: mode=1
+      CAMERA: mode=0
+      RECORD_AUDIO: mode=0
+      READ_CLIPBOARD: mode=0; time=+92d9h27m38s586ms ago
+      WAKE_LOCK: mode=0; time=+46d20h56m24s111ms ago; duration=+2s597ms
+      MONITOR_LOCATION: mode=0; time=+4d6h17m26s563ms ago; duration=+2h56m55s675ms
+      MONITOR_HIGH_POWER_LOCATION: mode=0; time=+47d6h15m43s32ms ago; duration=+1m29s912ms
+      TOAST_WINDOW: mode=0; time=+92d9h26m22s969ms ago; duration=+2s198ms
+      OP_READ_PHONE_STATE: mode=0; time=+4h44m11s40ms ago
+      PROCESS_OUTGOING_CALLS: mode=0
+      READ_EXTERNAL_STORAGE: mode=0; time=+26m56s109ms ago
+      WRITE_EXTERNAL_STORAGE: mode=0; time=+26m56s109ms ago
+      GET_ACCOUNTS: mode=4
+      Unknown(10001): mode=4
+      Unknown(10002): mode=4
+      Unknown(10004): mode=4
+      Unknown(10005): mode=4
+      Unknown(10008): mode=1
+      Unknown(10017): mode=1
+  Uid u0a102:
+    Package com.qiyi.video:
+      COARSE_LOCATION: mode=4
+      READ_CONTACTS: mode=4
+      READ_CALENDAR: mode=0
+      WRITE_CALENDAR: mode=0
+      POST_NOTIFICATION: mode=0; time=+233d2h57m31s838ms ago
+      CALL_PHONE: mode=4
+      READ_SMS: mode=4
+      RECEIVE_SMS: mode=4
+      SEND_SMS: mode=4
+      WRITE_SETTINGS: mode=0
+      SYSTEM_ALERT_WINDOW: mode=1
+      CAMERA: mode=4
+      RECORD_AUDIO: mode=4
+      READ_CLIPBOARD: mode=0; time=+231d17h47m32s875ms ago
+      TAKE_AUDIO_FOCUS: mode=0; time=+231d17h47m22s709ms ago
+      AUDIO_MEDIA_VOLUME: mode=0; time=+231d17h48m5s606ms ago
+      WAKE_LOCK: mode=0; time=+233d2h35m28s773ms ago; duration=+50m25s589ms
+      TOAST_WINDOW: mode=0; time=+233d2h57m30s734ms ago; duration=+7s565ms
+      OP_READ_PHONE_STATE: mode=0; time=+6d6h47m41s330ms ago
+      PROCESS_OUTGOING_CALLS: mode=4
+      READ_EXTERNAL_STORAGE: mode=0; time=+6d6h47m25s479ms ago
+      WRITE_EXTERNAL_STORAGE: mode=0; time=+6d6h47m25s479ms ago
+      GET_ACCOUNTS: mode=4
+      Unknown(10001): mode=4
+      Unknown(10004): mode=4
+      Unknown(10005): mode=4
+      Unknown(10008): mode=1
+      Unknown(10017): mode=1; rejectTime=+233d3h25m50s709ms ago
+  Uid u0a103:
+    Package cn.wps.moffice_eng:
+      COARSE_LOCATION: mode=0; time=+53d7h32m20s49ms ago
+      FINE_LOCATION: mode=0; time=+53d7h32m17s929ms ago
+      VIBRATE: mode=0; time=+100d12h5m58s359ms ago; duration=+355ms
+      READ_CONTACTS: mode=4
+      READ_CALENDAR: mode=0
+      WRITE_CALENDAR: mode=0
+      WIFI_SCAN: mode=0; time=+53d7h32m20s452ms ago
+      POST_NOTIFICATION: mode=0; time=+81d21h13m0s918ms ago
+      SYSTEM_ALERT_WINDOW: mode=1
+      CAMERA: mode=4
+      RECORD_AUDIO: mode=4
+      MONITOR_LOCATION: mode=0; time=+53d7h32m17s181ms ago; duration=+3s286ms
+      TOAST_WINDOW: mode=0; time=+101d22h46m45s994ms ago; duration=+2s333ms
+      OP_READ_PHONE_STATE: mode=0; time=+2d20h31m51s712ms ago
+      READ_EXTERNAL_STORAGE: mode=0; time=+2d20h31m51s956ms ago
+      WRITE_EXTERNAL_STORAGE: mode=0; time=+2d20h31m51s956ms ago
+      GET_ACCOUNTS: mode=4
+      Unknown(10001): mode=4
+      Unknown(10004): mode=4
+      Unknown(10008): mode=1
+      Unknown(10017): mode=0; rejectTime=+103d8h33m27s349ms ago
+  Uid u0a105:
+    Package com.xiaomi.shop:
+      COARSE_LOCATION: mode=0; time=+55d10h52m11s894ms ago
+      FINE_LOCATION: mode=0; time=+58d5h26m16s745ms ago
+      GPS: mode=0; time=+58d5h31m10s918ms ago; duration=+2s445ms
+      READ_CONTACTS: mode=0
+      READ_CALENDAR: mode=4
+      WRITE_CALENDAR: mode=4
+      WIFI_SCAN: mode=0; time=+58d5h26m16s745ms ago
+      POST_NOTIFICATION: mode=0; time=+102d21h7m25s450ms ago
+      NEIGHBORING_CELLS: mode=0; time=+90d4h20m46s597ms ago
+      SEND_SMS: mode=0
+      WRITE_SETTINGS: mode=0; time=+317d0h48m17s392ms ago
+      SYSTEM_ALERT_WINDOW: mode=1
+      CAMERA: mode=4
+      RECORD_AUDIO: mode=4
+      WAKE_LOCK: mode=0; time=+55d10h52m3s887ms ago; duration=+8s22ms
+      MONITOR_LOCATION: mode=0; time=+58d5h31m10s937ms ago; duration=+2s429ms
+      MONITOR_HIGH_POWER_LOCATION: mode=0; time=+58d5h31m10s937ms ago; duration=+2s428ms
+      TOAST_WINDOW: mode=0; time=+102d21h7m23s92ms ago; duration=+2s352ms
+      OP_READ_PHONE_STATE: mode=0; time=+55d10h52m12s46ms ago
+      READ_EXTERNAL_STORAGE: mode=0; time=+55d10h52m12s128ms ago
+      WRITE_EXTERNAL_STORAGE: mode=0; time=+55d10h52m12s128ms ago
+      GET_ACCOUNTS: mode=0; time=+55d19h9m45s481ms ago
+      Unknown(10001): mode=0
+      Unknown(10002): mode=4
+      Unknown(10004): mode=0
+      Unknown(10008): mode=1
+  Uid u0a106:
+    Package com.duokan.phone.remotecontroller:
+      COARSE_LOCATION: mode=0
+      READ_CONTACTS: mode=0
+      CALL_PHONE: mode=0
+      SEND_SMS: mode=0
+      WRITE_SETTINGS: mode=0
+      SYSTEM_ALERT_WINDOW: mode=0
+      CAMERA: mode=0
+      RECORD_AUDIO: mode=0
+      OP_READ_PHONE_STATE: mode=0; time=+27m16s823ms ago
+      READ_EXTERNAL_STORAGE: mode=0; time=+27m16s862ms ago
+      WRITE_EXTERNAL_STORAGE: mode=0; time=+27m16s862ms ago
+      GET_ACCOUNTS: mode=0; time=+36d0h5m24s128ms ago
+      Unknown(10001): mode=0
+      Unknown(10002): mode=0
+      Unknown(10004): mode=0
+      Unknown(10008): mode=1
+      Unknown(10017): mode=0
+  Uid u0a108:
+    Package com.xiaomi.jr:
+      COARSE_LOCATION: mode=0
+      READ_CONTACTS: mode=0
+      READ_CALL_LOG: mode=0
+      READ_CALENDAR: mode=0
+      WRITE_CALENDAR: mode=0
+      CALL_PHONE: mode=4
+      READ_SMS: mode=0
+      RECEIVE_SMS: mode=0
+      WRITE_SETTINGS: mode=0
+      CAMERA: mode=0
+      RECORD_AUDIO: mode=0
+      OP_READ_PHONE_STATE: mode=0; time=+169d7h30m22s341ms ago
+      READ_EXTERNAL_STORAGE: mode=0; time=+35d20h48m32s507ms ago
+      WRITE_EXTERNAL_STORAGE: mode=0; time=+35d20h48m32s507ms ago
+      GET_ACCOUNTS: mode=0; time=+101d22h45m37s63ms ago
+      Unknown(10002): mode=0
+      Unknown(10004): mode=4
+      Unknown(10005): mode=0
+      Unknown(10008): mode=1
+      Unknown(10017): mode=1
+  Uid u0a109:
+    Package com.baidu.input_miv6:
+      COARSE_LOCATION: mode=0
+      FINE_LOCATION: mode=0; time=+223d10h17m31s80ms ago
+      VIBRATE: mode=0; time=+19h42m5s63ms ago; duration=+33ms
+      READ_CONTACTS: mode=0
+      WIFI_SCAN: mode=0; time=+223d10h17m31s80ms ago
+      POST_NOTIFICATION: mode=0; time=+2d21h5m30s211ms ago
+      WRITE_SMS: mode=1; rejectTime=+20h3m18s805ms ago
+      WRITE_SETTINGS: mode=0; time=+1d23h55m8s153ms ago
+      SYSTEM_ALERT_WINDOW: mode=1
+      CAMERA: mode=0
+      RECORD_AUDIO: mode=0; time=+19h42m8s727ms ago
+      READ_CLIPBOARD: mode=0; time=+1d4h15m47s999ms ago
+      WRITE_CLIPBOARD: mode=0; time=+127d4h33m27s180ms ago
+      AUDIO_MEDIA_VOLUME: mode=0; time=+84d5h6m11s647ms ago
+      TOAST_WINDOW: mode=0; time=+2d21h5m28s177ms ago; duration=+2s25ms
+      OP_READ_PHONE_STATE: mode=0; time=+9h11m3s392ms ago
+      READ_EXTERNAL_STORAGE: mode=0; time=+2h21m39s834ms ago
+      WRITE_EXTERNAL_STORAGE: mode=0; time=+2h21m39s833ms ago
+      GET_ACCOUNTS: mode=0
+      Unknown(10001): mode=0
+      Unknown(10004): mode=0
+      Unknown(10008): mode=1
+      Unknown(10017): mode=1
+  Uid u0a110:
+    Package com.dianping.v1:
+      COARSE_LOCATION: mode=0; time=+3d21h43m25s290ms ago
+      FINE_LOCATION: mode=0; time=+3d21h43m24s884ms ago
+      GPS: mode=0; time=+10d4h24m57s895ms ago; duration=+903ms
+      VIBRATE: mode=0; time=+15d3h19m29s85ms ago; duration=+354ms
+      READ_CONTACTS: mode=4
+      WIFI_SCAN: mode=0; time=+3d21h43m24s884ms ago
+      POST_NOTIFICATION: mode=0; time=+3d21h53m15s483ms ago
+      NEIGHBORING_CELLS: mode=0; time=+279d20h10m48s196ms ago
+      CALL_PHONE: mode=4
+      READ_SMS: mode=0
+      WRITE_SMS: mode=1; rejectTime=+3d21h54m4s599ms ago
+      RECEIVE_SMS: mode=0
+      READ_ICC_SMS: mode=0; time=+52d19h3m39s994ms ago
+      WRITE_SETTINGS: mode=0; time=+143d8h52m27s96ms ago
+      SYSTEM_ALERT_WINDOW: mode=1
+      CAMERA: mode=0
+      RECORD_AUDIO: mode=0
+      WRITE_CLIPBOARD: mode=0; time=+237d22h57m21s413ms ago
+      TAKE_AUDIO_FOCUS: mode=0; time=+54d18h8m29s212ms ago
+      WAKE_LOCK: mode=0; time=+277d20h58m5s530ms ago; duration=+3ms
+      MONITOR_LOCATION: mode=0; time=+3d21h52m56s155ms ago; duration=+1m8s136ms
+      MONITOR_HIGH_POWER_LOCATION: mode=0; time=+10d4h24m57s896ms ago; duration=+906ms
+      TOAST_WINDOW: mode=0; time=+3d21h53m13s101ms ago; duration=+2s374ms
+      OP_READ_PHONE_STATE: mode=0; time=+3d21h49m38s498ms ago
+      READ_EXTERNAL_STORAGE: mode=0; time=+3d21h40m54s9ms ago
+      WRITE_EXTERNAL_STORAGE: mode=0; time=+3d21h40m54s9ms ago
+      GET_ACCOUNTS: mode=4
+      Unknown(10001): mode=4
+      Unknown(10002): mode=0
+      Unknown(10004): mode=4
+      Unknown(10005): mode=4
+      Unknown(10008): mode=1
+      Unknown(10017): mode=1
+  Uid u0a111:
+    Package com.tencent.mm:
+      COARSE_LOCATION: mode=0; time=+28m0s506ms ago
+      FINE_LOCATION: mode=0; time=+28m0s613ms ago
+      GPS: mode=0; time=+4d20h25m21s138ms ago; duration=+4s970ms
+      VIBRATE: mode=0; time=+24m55s204ms ago; duration=+1s3ms
+      READ_CONTACTS: mode=0; time=+9h7m5s910ms ago
+      WRITE_CONTACTS: mode=0; time=+8d9h52m10s45ms ago
+      WIFI_SCAN: mode=0; time=+28m0s613ms ago
+      POST_NOTIFICATION: mode=0; time=+24m56s187ms ago
+      NEIGHBORING_CELLS: mode=0; time=+1d0h42m15s485ms ago
+      READ_SMS: mode=4
+      WRITE_SMS: mode=1; rejectTime=+58m41s234ms ago
+      RECEIVE_SMS: mode=4
+      WRITE_SETTINGS: mode=0; time=+4h46m12s468ms ago
+      SYSTEM_ALERT_WINDOW: mode=1
+      CAMERA: mode=0; time=+1h4m16s148ms ago; duration=+11s885ms
+      RECORD_AUDIO: mode=0; time=+1h4m16s774ms ago
+      READ_CLIPBOARD: mode=0; time=+20h48m5s351ms ago
+      WRITE_CLIPBOARD: mode=0; time=+1d4h15m48s2ms ago
+      TAKE_AUDIO_FOCUS: mode=0; time=+2d2h43m42s375ms ago
+      AUDIO_VOICE_VOLUME: mode=0; time=+48d22h10m32s788ms ago
+      AUDIO_RING_VOLUME: mode=0; time=+5d18h34m56s851ms ago
+      AUDIO_MEDIA_VOLUME: mode=0; time=+2d19h35m59s545ms ago
+      WAKE_LOCK: mode=0; time=+31m32s552ms ago; duration=+504ms
+      MONITOR_LOCATION: mode=0; time=+4d20h24m36s24ms ago; duration=+45s91ms
+      MONITOR_HIGH_POWER_LOCATION: mode=0; time=+4d20h25m21s139ms ago; duration=+4s969ms
+      TOAST_WINDOW: mode=0; time=+8h22m24s664ms ago; duration=+3s509ms
+      OP_READ_PHONE_STATE: mode=0; time=+26m43s251ms ago
+      BODY_SENSORS: mode=4
+      READ_EXTERNAL_STORAGE: mode=0; time=+24m55s152ms ago
+      WRITE_EXTERNAL_STORAGE: mode=0; time=+24m55s152ms ago
+      GET_ACCOUNTS: mode=4
+      Unknown(10001): mode=4
+      Unknown(10002): mode=4
+      Unknown(10004): mode=4
+      Unknown(10005): mode=4
+      Unknown(10008): mode=0
+      Unknown(10017): mode=1; rejectTime=+317d0h35m2s711ms ago
+  Uid u0a112:
+    Package com.suning.mobile.ebuy:
+      COARSE_LOCATION: mode=0; time=+16d17h49m9s596ms ago
+      FINE_LOCATION: mode=0; time=+16d17h49m9s730ms ago
+      GPS: mode=0; time=+16d17h49m8s960ms ago; duration=+2s458ms
+      READ_CONTACTS: mode=4
+      READ_CALENDAR: mode=4
+      WRITE_CALENDAR: mode=4
+      WIFI_SCAN: mode=0; time=+16d17h49m9s730ms ago
+      POST_NOTIFICATION: mode=0; time=+16d17h24m34s218ms ago
+      NEIGHBORING_CELLS: mode=0; time=+70d3h44m10s530ms ago
+      CALL_PHONE: mode=4
+      READ_SMS: mode=4
+      WRITE_SMS: mode=1; rejectTime=+16d17h49m12s257ms ago
+      RECEIVE_SMS: mode=4
+      WRITE_SETTINGS: mode=0; time=+17d5h18m37s793ms ago
+      SYSTEM_ALERT_WINDOW: mode=1; rejectTime=+16d17h49m12s604ms ago
+      CAMERA: mode=0
+      RECORD_AUDIO: mode=0
+      READ_CLIPBOARD: mode=0; time=+16d17h24m35s474ms ago
+      WAKE_LOCK: mode=0; time=+16d17h19m49s428ms ago; duration=+20ms
+      MONITOR_LOCATION: mode=0; time=+16d17h49m8s910ms ago; duration=+2s522ms
+      MONITOR_HIGH_POWER_LOCATION: mode=0; time=+16d17h49m8s964ms ago; duration=+2s454ms
+      TOAST_WINDOW: mode=0; time=+16d17h24m31s841ms ago; duration=+2s370ms
+      OP_READ_PHONE_STATE: mode=0; time=+16d17h24m35s301ms ago
+      PROCESS_OUTGOING_CALLS: mode=0
+      READ_EXTERNAL_STORAGE: mode=0; time=+16d17h19m50s488ms ago
+      WRITE_EXTERNAL_STORAGE: mode=0; time=+16d17h19m50s488ms ago
+      GET_ACCOUNTS: mode=0; time=+16d17h49m8s566ms ago
+      Unknown(10001): mode=4
+      Unknown(10002): mode=4
+      Unknown(10004): mode=4
+      Unknown(10005): mode=4
+      Unknown(10006): mode=1
+      Unknown(10008): mode=1
+      Unknown(10010): mode=1
+      Unknown(10011): mode=1
+      Unknown(10017): mode=1
+  Uid u0a113:
+    Package com.zcbl.bjjj_driving:
+      COARSE_LOCATION: mode=0; time=+14h38m48s519ms ago
+      FINE_LOCATION: mode=0; time=+14h38m48s525ms ago
+      GPS: mode=0; time=+5d9h10m57s262ms ago; duration=+1m5s881ms
+      VIBRATE: mode=0; time=+19d20h36m26s450ms ago; duration=+952ms
+      WIFI_SCAN: mode=0; time=+14h38m48s525ms ago
+      POST_NOTIFICATION: mode=0; time=+21h35m14s352ms ago
+      NEIGHBORING_CELLS: mode=0; time=+14h45m57s897ms ago
+      CALL_PHONE: mode=4
+      READ_SMS: mode=4
+      RECEIVE_SMS: mode=4
+      SEND_SMS: mode=4
+      WRITE_SETTINGS: mode=0; time=+19h17m11s855ms ago
+      SYSTEM_ALERT_WINDOW: mode=1
+      CAMERA: mode=4
+      RECORD_AUDIO: mode=4
+      WAKE_LOCK: mode=0; time=+14h42m4s388ms ago; duration=+1ms
+      MONITOR_LOCATION: mode=0; time=+21h34m24s263ms ago; duration=+21ms
+      MONITOR_HIGH_POWER_LOCATION: mode=0; time=+5d9h10m57s265ms ago; duration=+1m5s879ms
+      TOAST_WINDOW: mode=0; time=+21h35m11s974ms ago; duration=+2s218ms
+      OP_READ_PHONE_STATE: mode=0; time=+14h45m57s755ms ago
+      PROCESS_OUTGOING_CALLS: mode=0
+      READ_EXTERNAL_STORAGE: mode=0; time=+14h45m59s896ms ago
+      WRITE_EXTERNAL_STORAGE: mode=0; time=+14h45m59s896ms ago
+      Unknown(10001): mode=4
+      Unknown(10004): mode=4
+      Unknown(10005): mode=4
+      Unknown(10008): mode=1
+  Uid u0a114:
+    Package ctrip.android.view:
+      COARSE_LOCATION: mode=0; time=+23d8h5m59s938ms ago
+      FINE_LOCATION: mode=0; time=+23d8h5m21s667ms ago
+      GPS: mode=0; time=+48d20h19m54s907ms ago; duration=+184ms
+      VIBRATE: mode=0; time=+243d15h38m55s93ms ago; duration=+1s803ms
+      READ_CONTACTS: mode=4
+      WRITE_CONTACTS: mode=4
+      READ_CALENDAR: mode=0
+      WRITE_CALENDAR: mode=0
+      WIFI_SCAN: mode=0; time=+23d8h5m59s608ms ago
+      POST_NOTIFICATION: mode=0; time=+23d8h6m3s913ms ago
+      NEIGHBORING_CELLS: mode=0; time=+23d8h6m9s314ms ago
+      CALL_PHONE: mode=0; time=+56d18h44m48s771ms ago
+      READ_SMS: mode=4
+      WRITE_SMS: mode=1; rejectTime=+48d20h19m55s524ms ago
+      RECEIVE_SMS: mode=4
+      WRITE_SETTINGS: mode=0
+      SYSTEM_ALERT_WINDOW: mode=1
+      CAMERA: mode=0; time=+273d8h18m0s986ms ago; duration=+442ms
+      RECORD_AUDIO: mode=0; time=+138d4h2m29s822ms ago
+      AUDIO_VOICE_VOLUME: mode=0; time=+92d22h36m38s632ms ago
+      MONITOR_LOCATION: mode=0; time=+48d20h11m32s868ms ago; duration=+274ms
+      MONITOR_HIGH_POWER_LOCATION: mode=0; time=+48d20h19m54s913ms ago; duration=+178ms
+      TOAST_WINDOW: mode=0; time=+48d20h11m32s604ms ago; duration=+2s27ms
+      OP_READ_PHONE_STATE: mode=0; time=+23d8h5m21s221ms ago
+      USE_FINGERPRINT: mode=0; time=+243d4h35m39s836ms ago
+      READ_EXTERNAL_STORAGE: mode=0; time=+23d8h5m27s970ms ago
+      WRITE_EXTERNAL_STORAGE: mode=0; time=+23d8h5m27s970ms ago
+      GET_ACCOUNTS: mode=4
+      Unknown(10002): mode=4
+      Unknown(10004): mode=4
+      Unknown(10005): mode=4
+      Unknown(10008): mode=1
+      Unknown(10017): mode=1
+  Uid u0a115:
+    Package com.eg.android.AlipayGphone:
+      COARSE_LOCATION: mode=0; time=+19h20m36s445ms ago
+      FINE_LOCATION: mode=0; time=+19h20m36s349ms ago
+      VIBRATE: mode=0; time=+3d3h28m6s749ms ago; duration=+954ms
+      READ_CONTACTS: mode=1; rejectTime=+89d18h16m12s47ms ago
+      WRITE_CONTACTS: mode=4
+      WIFI_SCAN: mode=0; time=+19h20m36s349ms ago
+      POST_NOTIFICATION: mode=0; time=+3d3h28m7s715ms ago
+      NEIGHBORING_CELLS: mode=0; time=+8d22h56m56s803ms ago
+      CALL_PHONE: mode=4
+      READ_SMS: mode=4
+      WRITE_SMS: mode=1; rejectTime=+19h25m24s533ms ago
+      RECEIVE_SMS: mode=4
+      WRITE_SETTINGS: mode=0
+      SYSTEM_ALERT_WINDOW: mode=1
+      CAMERA: mode=0; time=+163d4h38m40s104ms ago; duration=+4s12ms
+      RECORD_AUDIO: mode=0
+      READ_CLIPBOARD: mode=0; time=+18d1h58m24s954ms ago
+      WRITE_CLIPBOARD: mode=0; time=+25d20h25m56s311ms ago
+      MONITOR_LOCATION: mode=0; time=+217d2h24m45s759ms ago; duration=+3ms
+      TOAST_WINDOW: mode=0; time=+72d7h41m54s359ms ago; duration=+5s553ms
+      OP_READ_PHONE_STATE: mode=0; time=+19h20m5s772ms ago
+      USE_FINGERPRINT: mode=0; time=+19h25m24s513ms ago
+      BODY_SENSORS: mode=4
+      READ_EXTERNAL_STORAGE: mode=0; time=+19h20m2s506ms ago
+      WRITE_EXTERNAL_STORAGE: mode=0; time=+19h20m2s506ms ago
+      GET_ACCOUNTS: mode=1; rejectTime=+88d23h6m53s206ms ago
+      Unknown(10001): mode=4
+      Unknown(10002): mode=4
+      Unknown(10004): mode=4
+      Unknown(10005): mode=4
+      Unknown(10008): mode=1
+      Unknown(10017): mode=4
+  Uid u0a116:
+    Package com.autonavi.minimap:
+      COARSE_LOCATION: mode=0; time=+3d0h11m42s583ms ago
+      FINE_LOCATION: mode=0; time=+3d7h28m43s217ms ago
+      GPS: mode=0; time=+4d3h57m49s255ms ago; duration=+1s844ms
+      VIBRATE: mode=0; time=+22d7h14m27s717ms ago; duration=+502ms
+      READ_CONTACTS: mode=4
+      WIFI_SCAN: mode=0; time=+3d7h28m43s216ms ago
+      POST_NOTIFICATION: mode=0; time=+3d7h50m33s474ms ago
+      NEIGHBORING_CELLS: mode=0; time=+39d20h31m55s42ms ago
+      READ_SMS: mode=4
+      WRITE_SMS: mode=1
+      RECEIVE_SMS: mode=4
+      SEND_SMS: mode=1
+      WRITE_SETTINGS: mode=0; time=+3d3h5m28s638ms ago
+      SYSTEM_ALERT_WINDOW: mode=1
+      CAMERA: mode=0
+      RECORD_AUDIO: mode=0; time=+4d4h2m12s708ms ago
+      READ_CLIPBOARD: mode=0; time=+4d20h48m43s846ms ago
+      TAKE_AUDIO_FOCUS: mode=0; time=+4d4h2m8s711ms ago
+      AUDIO_MEDIA_VOLUME: mode=0; time=+4d21h8m59s760ms ago
+      WAKE_LOCK: mode=0; time=+3d2h28m11s348ms ago; duration=+375ms
+      MONITOR_LOCATION: mode=0; time=+3d13h0m57s299ms ago; duration=+6h38m42s375ms
+      MONITOR_HIGH_POWER_LOCATION: mode=0; time=+4d3h57m49s256ms ago; duration=+1s847ms
+      TOAST_WINDOW: mode=0; time=+3d7h50m33s466ms ago; duration=+1s437ms
+      OP_READ_PHONE_STATE: mode=0; time=+3d0h11m42s603ms ago
+      PROCESS_OUTGOING_CALLS: mode=0; time=+3d6h8m7s844ms ago
+      READ_EXTERNAL_STORAGE: mode=0; time=+2d23h5m24s69ms ago
+      WRITE_EXTERNAL_STORAGE: mode=0; time=+2d23h5m24s69ms ago
+      GET_ACCOUNTS: mode=4
+      Unknown(10001): mode=4
+      Unknown(10002): mode=4
+      Unknown(10004): mode=4
+      Unknown(10005): mode=4
+      Unknown(10006): mode=1
+      Unknown(10008): mode=1
+      Unknown(10010): mode=1
+      Unknown(10011): mode=1
+      Unknown(10017): mode=1
+  Uid u0a117:
+    Package com.ctrip.ct:
+      COARSE_LOCATION: mode=1; rejectTime=+29d2h41m11s304ms ago
+      FINE_LOCATION: mode=0; rejectTime=+29d2h41m11s337ms ago
+      VIBRATE: mode=0; time=+89d0h45m4s324ms ago; duration=+1s805ms
+      READ_CONTACTS: mode=4
+      WIFI_SCAN: mode=0; rejectTime=+29d2h41m11s337ms ago
+      POST_NOTIFICATION: mode=0; time=+89d0h45m6s140ms ago
+      CALL_PHONE: mode=4
+      WRITE_SETTINGS: mode=3
+      CAMERA: mode=0
+      WAKE_LOCK: mode=0; time=+89d0h45m6s246ms ago; duration=+5ms
+      OP_READ_PHONE_STATE: mode=0; time=+29d2h41m11s142ms ago
+      READ_EXTERNAL_STORAGE: mode=0; time=+29d2h37m45s600ms ago
+      WRITE_EXTERNAL_STORAGE: mode=0; time=+29d2h37m45s600ms ago
+      TURN_ON_SCREEN: mode=0; time=+89d0h45m6s252ms ago
+      Unknown(10001): mode=4
+      Unknown(10004): mode=4
+      Unknown(10008): mode=1
+      Unknown(10017): mode=4
+  Uid u0a118:
+    Package com.baidu.searchbox:
+      COARSE_LOCATION: mode=0; time=+28m7s937ms ago
+      FINE_LOCATION: mode=0; time=+25m16s318ms ago
+      GPS: mode=0; time=+4d20h40m59s421ms ago; duration=+136ms
+      VIBRATE: mode=0; time=+1d19h42m2s459ms ago; duration=+1s2ms
+      READ_CONTACTS: mode=4
+      WRITE_CONTACTS: mode=4
+      WIFI_SCAN: mode=0; time=+25m16s318ms ago
+      POST_NOTIFICATION: mode=0; time=+32m16s816ms ago
+      NEIGHBORING_CELLS: mode=0; time=+28m16s717ms ago
+      CALL_PHONE: mode=4
+      READ_SMS: mode=4
+      WRITE_SMS: mode=1; rejectTime=+44m42s199ms ago
+      RECEIVE_SMS: mode=4
+      SEND_SMS: mode=4
+      WRITE_SETTINGS: mode=0; time=+6d8h55m59s914ms ago
+      SYSTEM_ALERT_WINDOW: mode=1; rejectTime=+4d20h40m54s191ms ago
+      CAMERA: mode=0; time=+4d20h1m25s156ms ago; duration=+3s342ms
+      RECORD_AUDIO: mode=0; time=+21h28m13s881ms ago
+      READ_CLIPBOARD: mode=0; time=+11h52m26s327ms ago
+      WRITE_CLIPBOARD: mode=0; time=+4d16h31m34s149ms ago
+      TAKE_AUDIO_FOCUS: mode=0; time=+7h47m21s81ms ago
+      AUDIO_MEDIA_VOLUME: mode=0; time=+17d17h52m5s433ms ago
+      WAKE_LOCK: mode=0; time=+2d21h14m19s310ms ago; duration=+11s426ms
+      MONITOR_LOCATION: mode=0; time=+11h44m55s180ms ago; duration=+2s292ms
+      MONITOR_HIGH_POWER_LOCATION: mode=0; time=+4d20h40m59s421ms ago; duration=+136ms
+      TOAST_WINDOW: mode=0; time=+32m14s555ms ago; duration=+2s225ms
+      OP_READ_PHONE_STATE: mode=1; time=+32d10h5m23s443ms ago
+      READ_EXTERNAL_STORAGE: mode=0; time=+26m56s609ms ago
+      WRITE_EXTERNAL_STORAGE: mode=0; time=+26m56s608ms ago
+      GET_ACCOUNTS: mode=4
+      Unknown(10001): mode=4
+      Unknown(10004): mode=4
+      Unknown(10005): mode=4
+      Unknown(10008): mode=1
+      Unknown(10017): mode=1; rejectTime=+254d7h46m19s212ms ago
+  Uid u0a119:
+    Package com.MobileTicket:
+      COARSE_LOCATION: mode=0
+      FINE_LOCATION: mode=0; time=+2d20h56m33s814ms ago
+      GPS: mode=0; time=+144d19h41m54s509ms ago; duration=+2s493ms
+      VIBRATE: mode=0; time=+316d23h39m7s408ms ago; duration=+301ms
+      READ_CONTACTS: mode=4
+      READ_CALL_LOG: mode=4
+      WIFI_SCAN: mode=0; time=+2d20h56m33s814ms ago
+      POST_NOTIFICATION: mode=0; time=+2d20h34m39s713ms ago
+      WRITE_SMS: mode=1; rejectTime=+144d19h41m57s27ms ago
+      SYSTEM_ALERT_WINDOW: mode=1
+      CAMERA: mode=4
+      RECORD_AUDIO: mode=4
+      WAKE_LOCK: mode=0; time=+2d20h34m39s812ms ago; duration=+6ms
+      MONITOR_LOCATION: mode=0; time=+144d19h41m54s510ms ago; duration=+2s546ms
+      MONITOR_HIGH_POWER_LOCATION: mode=0; time=+144d19h41m54s510ms ago; duration=+2s546ms
+      OP_READ_PHONE_STATE: mode=0; time=+2d20h53m17s235ms ago
+      READ_EXTERNAL_STORAGE: mode=0; time=+2d20h53m17s42ms ago
+      WRITE_EXTERNAL_STORAGE: mode=0; time=+2d20h53m17s41ms ago
+      GET_ACCOUNTS: mode=0
+      Unknown(10001): mode=4
+      Unknown(10002): mode=4
+      Unknown(10004): mode=4
+      Unknown(10008): mode=1
+  Uid u0a120:
+    Package cn.com.fetion:
+      COARSE_LOCATION: mode=0
+      READ_CONTACTS: mode=1; rejectTime=+59d8h40m39s542ms ago
+      WRITE_CONTACTS: mode=4
+      READ_CALL_LOG: mode=4
+      WRITE_CALL_LOG: mode=1
+      CALL_PHONE: mode=4
+      READ_SMS: mode=1
+      WRITE_SMS: mode=1
+      RECEIVE_SMS: mode=1; rejectTime=+59d22h13m25s417ms ago
+      SEND_SMS: mode=1
+      WRITE_SETTINGS: mode=0; time=+59d8h41m28s421ms ago
+      SYSTEM_ALERT_WINDOW: mode=1
+      CAMERA: mode=0
+      RECORD_AUDIO: mode=0
+      AUDIO_MEDIA_VOLUME: mode=0; time=+59d8h39m45s972ms ago
+      WAKE_LOCK: mode=0; time=+59d8h39m44s483ms ago; duration=+24ms
+      OP_READ_PHONE_STATE: mode=0; time=+59d8h39m44s539ms ago
+      PROCESS_OUTGOING_CALLS: mode=0; time=+59d8h40m49s366ms ago
+      READ_EXTERNAL_STORAGE: mode=0; time=+59d8h37m55s19ms ago
+      WRITE_EXTERNAL_STORAGE: mode=0; time=+59d8h37m55s19ms ago
+      GET_ACCOUNTS: mode=0
+      Unknown(10001): mode=4
+      Unknown(10004): mode=4
+      Unknown(10005): mode=4
+      Unknown(10006): mode=1
+      Unknown(10008): mode=1
+      Unknown(10010): mode=1
+      Unknown(10011): mode=1
+      Unknown(10013): mode=1
+      Unknown(10017): mode=4
+  Uid u0a121:
+    Package cmb.pb:
+      COARSE_LOCATION: mode=0; time=+10d5h13m14s763ms ago
+      FINE_LOCATION: mode=0; time=+10d5h13m14s782ms ago
+      GPS: mode=0; time=+10d5h24m58s571ms ago; duration=+40s177ms
+      READ_CONTACTS: mode=4
+      WRITE_CONTACTS: mode=4
+      READ_CALL_LOG: mode=1; rejectTime=+23d19h52m21s144ms ago
+      WRITE_CALL_LOG: mode=4
+      WIFI_SCAN: mode=0; time=+10d5h13m14s782ms ago
+      POST_NOTIFICATION: mode=0; time=+23d19h52m13s156ms ago
+      NEIGHBORING_CELLS: mode=0; time=+10d5h25m38s703ms ago
+      CALL_PHONE: mode=4
+      READ_SMS: mode=1
+      WRITE_SMS: mode=1; rejectTime=+10d5h13m14s726ms ago
+      RECEIVE_SMS: mode=1
+      READ_ICC_SMS: mode=0; rejectTime=+23d19h52m21s121ms ago
+      WRITE_SETTINGS: mode=0
+      SYSTEM_ALERT_WINDOW: mode=1
+      CAMERA: mode=4
+      RECORD_AUDIO: mode=4
+      WAKE_LOCK: mode=0; time=+23d19h48m5s494ms ago; duration=+4ms
+      MONITOR_LOCATION: mode=0; time=+10d5h24m58s563ms ago; duration=+40s200ms
+      MONITOR_HIGH_POWER_LOCATION: mode=0; time=+10d5h24m58s573ms ago; duration=+40s175ms
+      TOAST_WINDOW: mode=0; time=+23d19h52m12s432ms ago; duration=+699ms
+      OP_READ_PHONE_STATE: mode=0; time=+10d5h13m14s724ms ago
+      PROCESS_OUTGOING_CALLS: mode=0
+      USE_FINGERPRINT: mode=0; time=+231d18h2m45s866ms ago
+      READ_EXTERNAL_STORAGE: mode=0; time=+10d5h13m14s831ms ago
+      WRITE_EXTERNAL_STORAGE: mode=0; time=+10d5h13m14s831ms ago
+      GET_ACCOUNTS: mode=0
+      Unknown(10001): mode=4
+      Unknown(10004): mode=4
+      Unknown(10005): mode=4
+      Unknown(10008): mode=1
+      Unknown(10013): mode=4
+      Unknown(10017): mode=1
+  Uid u0a123:
+    Package com.taobao.taobao:
+      COARSE_LOCATION: mode=0; time=+19h26m3s64ms ago
+      FINE_LOCATION: mode=0; time=+19h26m3s72ms ago
+      GPS: mode=0; time=+4d17h56m25s216ms ago; duration=+1s92ms
+      VIBRATE: mode=0; time=+23d4h42m13s408ms ago; duration=+388ms
+      READ_CONTACTS: mode=1; rejectTime=+279d9h34m10s977ms ago
+      READ_CALL_LOG: mode=4
+      WIFI_SCAN: mode=0; time=+19h26m3s72ms ago
+      POST_NOTIFICATION: mode=0; time=+19h25m45s683ms ago
+      WRITE_SMS: mode=1; rejectTime=+19h25m31s489ms ago
+      WRITE_SETTINGS: mode=0
+      SYSTEM_ALERT_WINDOW: mode=1
+      CAMERA: mode=0; time=+32d19h53m25s753ms ago; duration=+2s310ms
+      RECORD_AUDIO: mode=0; time=+10d4h46m31s101ms ago
+      READ_CLIPBOARD: mode=0; time=+19h26m8s946ms ago
+      WRITE_CLIPBOARD: mode=0; time=+3d3h7m5s984ms ago
+      TAKE_AUDIO_FOCUS: mode=0; time=+16d22h23m2s867ms ago
+      WAKE_LOCK: mode=0; time=+19h21m2s277ms ago; duration=+2m13s67ms
+      MONITOR_LOCATION: mode=0; time=+4d17h56m25s217ms ago; duration=+1s92ms
+      MONITOR_HIGH_POWER_LOCATION: mode=0; time=+4d17h56m25s217ms ago; duration=+1s92ms
+      TOAST_WINDOW: mode=0; time=+19h25m43s341ms ago; duration=+2s320ms
+      OP_READ_PHONE_STATE: mode=0; time=+19h24m7s824ms ago
+      USE_FINGERPRINT: mode=0; time=+19h25m31s450ms ago
+      READ_EXTERNAL_STORAGE: mode=0; time=+19h25m13s507ms ago
+      WRITE_EXTERNAL_STORAGE: mode=0; time=+19h25m13s507ms ago
+      GET_ACCOUNTS: mode=1; rejectTime=+278d19h38m56s427ms ago
+      Unknown(10001): mode=4
+      Unknown(10002): mode=4
+      Unknown(10004): mode=4
+      Unknown(10008): mode=1
+      Unknown(10017): mode=1
+  Uid u0a124:
+    Package cn.amazon.mShop.android:
+      COARSE_LOCATION: mode=0
+      VIBRATE: mode=0; time=+58d6h3m27s810ms ago; duration=+54ms
+      READ_CONTACTS: mode=4
+      POST_NOTIFICATION: mode=0; time=+58d3h16m29s888ms ago
+      READ_SMS: mode=4
+      WRITE_SMS: mode=1; rejectTime=+10d3h25m35s446ms ago
+      RECEIVE_SMS: mode=4
+      CAMERA: mode=0
+      READ_CLIPBOARD: mode=0; time=+10d3h31m7s983ms ago
+      WRITE_CLIPBOARD: mode=0; time=+58d6h1m39s296ms ago
+      WAKE_LOCK: mode=0; time=+14h38m45s39ms ago; duration=+6ms
+      TOAST_WINDOW: mode=0; time=+165d23h26m19s66ms ago; duration=+3s812ms
+      OP_READ_PHONE_STATE: mode=0; time=+14h48m21s227ms ago
+      READ_EXTERNAL_STORAGE: mode=0; time=+18h25m46s102ms ago
+      WRITE_EXTERNAL_STORAGE: mode=0; time=+18h25m46s101ms ago
+      GET_ACCOUNTS: mode=4
+      Unknown(10001): mode=4
+      Unknown(10004): mode=4
+      Unknown(10008): mode=1
+      Unknown(10017): mode=1; rejectTime=+312d7h20m44s624ms ago
+  Uid u0a125:
+    Package com.amazon.kindlefc:
+      VIBRATE: mode=0; time=+26d19h17m50s237ms ago; duration=+353ms
+      POST_NOTIFICATION: mode=0; time=+10d3h31m57s602ms ago
+      WRITE_SETTINGS: mode=0
+      WAKE_LOCK: mode=0; time=+14h38m45s40ms ago; duration=+1ms
+      TOAST_WINDOW: mode=0; time=+10d3h31m55s261ms ago; duration=+2s315ms
+      OP_READ_PHONE_STATE: mode=0; time=+14h47m13s453ms ago
+      READ_EXTERNAL_STORAGE: mode=0; time=+14h47m3s331ms ago
+      WRITE_EXTERNAL_STORAGE: mode=0; time=+14h47m3s331ms ago
+      GET_ACCOUNTS: mode=4
+      Unknown(10001): mode=4
+      Unknown(10004): mode=4
+      Unknown(10008): mode=1
+  Uid u0a126:
+    Package com.moji.mjweather:
+      COARSE_LOCATION: mode=0; time=+8h56m23s879ms ago
+      FINE_LOCATION: mode=0; time=+8h54m15s103ms ago
+      GPS: mode=0; time=+4d8h14m57s439ms ago; duration=+5s7ms
+      VIBRATE: mode=0; time=+4d7h56m45s105ms ago; duration=+354ms
+      READ_CONTACTS: mode=4
+      WIFI_SCAN: mode=0; time=+8h54m15s103ms ago
+      POST_NOTIFICATION: mode=0; time=+8h56m16s458ms ago
+      WRITE_SMS: mode=1; rejectTime=+8h56m44s680ms ago
+      WRITE_SETTINGS: mode=0
+      SYSTEM_ALERT_WINDOW: mode=1
+      CAMERA: mode=0; time=+100d23h44m50s459ms ago; duration=+177ms
+      READ_CLIPBOARD: mode=0; time=+8h56m50s637ms ago
+      TAKE_AUDIO_FOCUS: mode=0; time=+6d7h33m53s550ms ago
+      MONITOR_LOCATION: mode=0; time=+8h56m50s10ms ago; duration=+77ms
+      MONITOR_HIGH_POWER_LOCATION: mode=0; time=+4d8h14m57s441ms ago; duration=+5s5ms
+      TOAST_WINDOW: mode=0; time=+46d6h52m32s7ms ago; duration=+5s344ms
+      OP_READ_PHONE_STATE: mode=0; time=+8h56m16s711ms ago
+      READ_EXTERNAL_STORAGE: mode=0; time=+8h48m28s764ms ago
+      WRITE_EXTERNAL_STORAGE: mode=0; time=+8h48m28s764ms ago
+      GET_ACCOUNTS: mode=4
+      Unknown(10001): mode=4
+      Unknown(10004): mode=4
+      Unknown(10008): mode=1
+      Unknown(10017): mode=1
+  Uid u0a127:
+    Package com.qiyi.video.sdkplayer:
+      OP_READ_PHONE_STATE: mode=0; time=+11d17h39m13s512ms ago
+      READ_EXTERNAL_STORAGE: mode=0; time=+11d17h39m37s568ms ago
+      WRITE_EXTERNAL_STORAGE: mode=0; time=+11d17h39m37s567ms ago
+      Unknown(10004): mode=4
+      Unknown(10008): mode=1
+  Uid u0a128:
+    Package com.yipiao:
+      COARSE_LOCATION: mode=0
+      READ_CONTACTS: mode=4
+      WRITE_CONTACTS: mode=4
+      READ_CALENDAR: mode=4
+      WRITE_CALENDAR: mode=4
+      CALL_PHONE: mode=4
+      WRITE_SETTINGS: mode=0; time=+36d2h22m9s705ms ago
+      SYSTEM_ALERT_WINDOW: mode=1
+      CAMERA: mode=4
+      RECORD_AUDIO: mode=4
+      OP_READ_PHONE_STATE: mode=0; time=+36d2h22m9s659ms ago
+      READ_EXTERNAL_STORAGE: mode=0; time=+36d2h22m9s695ms ago
+      WRITE_EXTERNAL_STORAGE: mode=0; time=+36d2h22m9s694ms ago
+      GET_ACCOUNTS: mode=0
+      Unknown(10001): mode=4
+      Unknown(10004): mode=4
+      Unknown(10008): mode=1
+  Uid u0a129:
+    Package com.homelink.android:
+      COARSE_LOCATION: mode=0; time=+2d8h48m11s869ms ago
+      FINE_LOCATION: mode=0; time=+2d8h45m23s987ms ago
+      GPS: mode=0; time=+11d15h48m25s888ms ago; duration=+384ms
+      VIBRATE: mode=0; time=+67d0h34m24s336ms ago; duration=+957ms
+      WIFI_SCAN: mode=0; time=+2d8h45m23s987ms ago
+      POST_NOTIFICATION: mode=0; time=+5d20h11m8s270ms ago
+      NEIGHBORING_CELLS: mode=0; time=+11d15h48m26s209ms ago
+      CALL_PHONE: mode=4
+      READ_SMS: mode=4
+      RECEIVE_SMS: mode=4
+      SEND_SMS: mode=1
+      WRITE_SETTINGS: mode=0; time=+88d0h50m11s447ms ago
+      SYSTEM_ALERT_WINDOW: mode=1
+      CAMERA: mode=4
+      READ_CLIPBOARD: mode=0; time=+177d18h11m45s330ms ago
+      WAKE_LOCK: mode=0; time=+2d8h39m30s814ms ago; duration=+563ms
+      MONITOR_LOCATION: mode=0; time=+11d15h48m25s885ms ago; duration=+423ms
+      MONITOR_HIGH_POWER_LOCATION: mode=0; time=+11d15h48m25s890ms ago; duration=+384ms
+      TOAST_WINDOW: mode=0; time=+5d20h11m5s912ms ago; duration=+2s339ms
+      OP_READ_PHONE_STATE: mode=0; time=+2d8h51m14s974ms ago
+      READ_EXTERNAL_STORAGE: mode=0; time=+2d8h51m14s855ms ago
+      WRITE_EXTERNAL_STORAGE: mode=0; time=+2d8h51m14s855ms ago
+      Unknown(10001): mode=4
+      Unknown(10004): mode=4
+      Unknown(10008): mode=1
+  Uid u0a130:
+    Package com.miui.video.plugin:
+      OP_READ_PHONE_STATE: mode=4; time=+250d5h35m29s556ms ago
+      READ_EXTERNAL_STORAGE: mode=0; time=+8d1h17m28s97ms ago
+      WRITE_EXTERNAL_STORAGE: mode=0; time=+8d1h17m28s97ms ago
+      Unknown(10004): mode=4
+      Unknown(10008): mode=1
+  Uid u0a132:
+    Package com.funshion.video.player:
+      OP_READ_PHONE_STATE: mode=1; rejectTime=+85d7h11m7s701ms ago
+      READ_EXTERNAL_STORAGE: mode=0; time=+85d7h11m7s830ms ago
+      WRITE_EXTERNAL_STORAGE: mode=0; time=+85d7h11m7s830ms ago
+      Unknown(10004): mode=4
+      Unknown(10008): mode=1
+  Uid u0a133:
+    Package com.yidian.dress:
+      COARSE_LOCATION: mode=1; rejectTime=+90d9h24m11s78ms ago
+      FINE_LOCATION: mode=0; rejectTime=+90d9h24m11s51ms ago
+      READ_CONTACTS: mode=4
+      WIFI_SCAN: mode=0; rejectTime=+94d23h45m18s83ms ago
+      POST_NOTIFICATION: mode=0; time=+94d23h45m33s545ms ago
+      READ_SMS: mode=4
+      WRITE_SMS: mode=1; rejectTime=+94d23h45m37s99ms ago
+      RECEIVE_SMS: mode=4
+      WRITE_SETTINGS: mode=0
+      CAMERA: mode=4
+      WAKE_LOCK: mode=0; time=+36d2h34m21s633ms ago; duration=+2ms
+      TOAST_WINDOW: mode=0; time=+94d23h45m31s203ms ago; duration=+2s328ms
+      OP_READ_PHONE_STATE: mode=0; time=+36d2h34m29s195ms ago
+      READ_EXTERNAL_STORAGE: mode=0; time=+36d2h41m37s29ms ago
+      WRITE_EXTERNAL_STORAGE: mode=0; time=+36d2h41m37s28ms ago
+      GET_ACCOUNTS: mode=4
+      Unknown(10001): mode=4
+      Unknown(10004): mode=4
+      Unknown(10005): mode=4
+      Unknown(10008): mode=1
+      Unknown(10017): mode=4
+  Uid u0a134:
+    Package org.tensorflow.demo:
+      POST_NOTIFICATION: mode=0; time=+231d18h15m1s329ms ago
+      CAMERA: mode=0; time=+89d18h34m16s568ms ago; duration=+25s918ms
+      TOAST_WINDOW: mode=0; time=+231d18h14m57s477ms ago; duration=+3s836ms
+      READ_EXTERNAL_STORAGE: mode=0; time=+89d18h35m25s991ms ago
+      WRITE_EXTERNAL_STORAGE: mode=0; time=+89d18h35m25s991ms ago
+      Unknown(10008): mode=1
+  Uid u0a135:
+    Package com.sdu.didi.psnger:
+      COARSE_LOCATION: mode=0; time=+89d0h9m46s875ms ago
+      FINE_LOCATION: mode=0; time=+89d0h9m46s876ms ago
+      GPS: mode=0; time=+89d0h18m58s206ms ago; duration=+43s546ms
+      VIBRATE: mode=0; time=+201d10h25m28s768ms ago; duration=+389ms
+      READ_CONTACTS: mode=4
+      WRITE_CONTACTS: mode=4
+      READ_CALL_LOG: mode=4
+      WRITE_CALL_LOG: mode=1
+      WIFI_SCAN: mode=0; time=+89d0h9m46s879ms ago
+      POST_NOTIFICATION: mode=0; time=+89d0h18m59s328ms ago
+      NEIGHBORING_CELLS: mode=0; time=+89d0h19m10s123ms ago
+      CALL_PHONE: mode=4
+      READ_SMS: mode=0
+      WRITE_SMS: mode=1; rejectTime=+89d0h27m39s669ms ago
+      RECEIVE_SMS: mode=0
+      SEND_SMS: mode=4
+      READ_ICC_SMS: mode=0; time=+237d19h4m15s957ms ago
+      WRITE_SETTINGS: mode=0; time=+236d20h9m57s130ms ago
+      SYSTEM_ALERT_WINDOW: mode=1
+      CAMERA: mode=4
+      RECORD_AUDIO: mode=0
+      READ_CLIPBOARD: mode=0; time=+112d16h3m12s695ms ago
+      WAKE_LOCK: mode=0; time=+89d0h16m15s108ms ago; duration=+15ms
+      MONITOR_LOCATION: mode=0; time=+89d0h18m58s304ms ago; duration=+43s493ms
+      MONITOR_HIGH_POWER_LOCATION: mode=0; time=+89d0h18m58s304ms ago; duration=+43s447ms
+      TOAST_WINDOW: mode=0; time=+89d0h18m57s977ms ago; duration=+1s322ms
+      OP_READ_PHONE_STATE: mode=0; time=+89d0h18m56s886ms ago
+      READ_EXTERNAL_STORAGE: mode=0; time=+89d0h16m41s608ms ago
+      WRITE_EXTERNAL_STORAGE: mode=0; time=+89d0h16m41s608ms ago
+      GET_ACCOUNTS: mode=0
+      Unknown(10001): mode=4; time=+237d19h2m45s477ms ago
+      Unknown(10002): mode=4
+      Unknown(10004): mode=4
+      Unknown(10005): mode=4
+      Unknown(10008): mode=1
+      Unknown(10013): mode=1
+      Unknown(10017): mode=1
+  Uid u0a136:
+    Package com.qualcomm.qti.snpe.imageclassifiers:
+      POST_NOTIFICATION: mode=0; time=+228d1h48m22s795ms ago
+      TOAST_WINDOW: mode=0; time=+228d1h48m20s446ms ago; duration=+2s336ms
+      READ_EXTERNAL_STORAGE: mode=0; time=+102d0h43m19s10ms ago
+      WRITE_EXTERNAL_STORAGE: mode=0; time=+102d0h43m19s9ms ago
+      Unknown(10008): mode=1
+  Uid u0a137:
+    Package com.tencent.qqlivexiaomi:
+      COARSE_LOCATION: mode=0
+      WIFI_SCAN: mode=0; time=+37d0h14m5s992ms ago
+      POST_NOTIFICATION: mode=0; time=+49d19h17m43s818ms ago
+      WRITE_SMS: mode=1; rejectTime=+229d15h32m1s33ms ago
+      SEND_SMS: mode=4
+      WRITE_SETTINGS: mode=0
+      SYSTEM_ALERT_WINDOW: mode=1
+      TAKE_AUDIO_FOCUS: mode=0; time=+37d0h13m8s769ms ago
+      AUDIO_MEDIA_VOLUME: mode=0; time=+37d0h13m5s533ms ago
+      TOAST_WINDOW: mode=0; time=+49d19h17m41s436ms ago; duration=+2s202ms
+      OP_READ_PHONE_STATE: mode=0; time=+37d0h13m3s701ms ago
+      READ_EXTERNAL_STORAGE: mode=0; time=+37d0h13m4s986ms ago
+      WRITE_EXTERNAL_STORAGE: mode=0; time=+37d0h13m4s986ms ago
+      GET_ACCOUNTS: mode=0
+      Unknown(10004): mode=4
+      Unknown(10008): mode=1
+  Uid u0a138:
+    Package shiji.szkingdom.android.newphone:
+      COARSE_LOCATION: mode=0
+      WIFI_SCAN: mode=0; time=+17d15h43m7s878ms ago
+      POST_NOTIFICATION: mode=0; time=+54d7h23m44s765ms ago
+      CALL_PHONE: mode=4
+      READ_SMS: mode=0
+      WRITE_SMS: mode=4
+      RECEIVE_SMS: mode=0
+      SEND_SMS: mode=4
+      READ_ICC_SMS: mode=0; time=+228d22h53m23s130ms ago
+      WRITE_SETTINGS: mode=0
+      TOAST_WINDOW: mode=0; time=+54d7h23m40s875ms ago; duration=+3s880ms
+      OP_READ_PHONE_STATE: mode=0; time=+17d15h38m24s464ms ago
+      READ_EXTERNAL_STORAGE: mode=0; time=+17d15h38m24s553ms ago
+      WRITE_EXTERNAL_STORAGE: mode=0; time=+17d15h38m24s553ms ago
+      Unknown(10004): mode=4
+      Unknown(10005): mode=4
+      Unknown(10006): mode=4
+      Unknown(10008): mode=1
+      Unknown(10010): mode=4
+      Unknown(10011): mode=4
+  Uid u0a139:
+    Package com.mindorks.tensorflowexample:
+      CAMERA: mode=0; time=+36d2h23m31s994ms ago; duration=+10s238ms
+      RECORD_AUDIO: mode=0
+      READ_EXTERNAL_STORAGE: mode=0; time=+36d2h23m45s811ms ago
+      WRITE_EXTERNAL_STORAGE: mode=0; time=+36d2h23m45s811ms ago
+      Unknown(10008): mode=1
+  Uid u0a143:
+    Package com.quicinc.trepn:
+      COARSE_LOCATION: mode=0
+      FINE_LOCATION: mode=0; time=+55d6h38m18s89ms ago
+      POST_NOTIFICATION: mode=0; time=+29d7h26m54s322ms ago
+      SYSTEM_ALERT_WINDOW: mode=1; rejectTime=+55d6h38m18s77ms ago
+      WAKE_LOCK: mode=0; time=+55d6h36m53s115ms ago; duration=+1m25s20ms
+      OP_READ_PHONE_STATE: mode=0; time=+55d6h38m18s101ms ago
+      READ_EXTERNAL_STORAGE: mode=0; time=+29d7h26m52s973ms ago
+      WRITE_EXTERNAL_STORAGE: mode=0; time=+29d7h26m52s973ms ago
+      Unknown(10008): mode=1
+  Uid u0a144:
+    Package com.fghz.album:
+      COARSE_LOCATION: mode=1; rejectTime=+180d5h1m24s146ms ago
+      FINE_LOCATION: mode=0; rejectTime=+180d5h1m24s151ms ago
+      VIBRATE: mode=0; time=+89d18h32m38s362ms ago; duration=+961ms
+      POST_NOTIFICATION: mode=0; time=+89d18h32m39s313ms ago
+      CAMERA: mode=0; time=+180d5h1m20s778ms ago
+      TOAST_WINDOW: mode=0; time=+180d5h1m23s297ms ago; duration=+3s800ms
+      OP_READ_PHONE_STATE: mode=4; time=+180d5h1m27s363ms ago
+      READ_EXTERNAL_STORAGE: mode=0; time=+83d0h44m31s213ms ago
+      WRITE_EXTERNAL_STORAGE: mode=0; time=+83d0h44m55s430ms ago
+      Unknown(10001): mode=4
+      Unknown(10004): mode=4
+      Unknown(10008): mode=1
+  Uid u0a145:
+    Package al.omid.tfdroid:
+      READ_EXTERNAL_STORAGE: mode=0; time=+36d2h23m50s68ms ago
+      WRITE_EXTERNAL_STORAGE: mode=0; time=+36d2h23m50s67ms ago
+      Unknown(10008): mode=1
+  Uid u0a146:
+    Package cn.com.robusoft.floweridentification:
+      COARSE_LOCATION: mode=0; time=+65d4h29m42s608ms ago
+      FINE_LOCATION: mode=0; time=+65d4h29m42s640ms ago
+      GPS: mode=0; time=+65d4h29m42s208ms ago; duration=+631ms
+      WIFI_SCAN: mode=0; time=+65d4h29m42s639ms ago
+      NEIGHBORING_CELLS: mode=0; time=+65d4h29m42s687ms ago
+      CALL_PHONE: mode=4
+      READ_SMS: mode=4
+      RECEIVE_SMS: mode=4
+      SYSTEM_ALERT_WINDOW: mode=1
+      CAMERA: mode=0; time=+65d4h29m37s181ms ago; duration=+13s597ms
+      MONITOR_LOCATION: mode=0; time=+65d4h29m42s206ms ago; duration=+637ms
+      MONITOR_HIGH_POWER_LOCATION: mode=0; time=+65d4h29m42s209ms ago; duration=+630ms
+      OP_READ_PHONE_STATE: mode=4; time=+35d21h42m35s787ms ago
+      READ_EXTERNAL_STORAGE: mode=0; time=+35d21h42m35s188ms ago
+      WRITE_EXTERNAL_STORAGE: mode=0; time=+35d21h42m35s188ms ago
+      GET_ACCOUNTS: mode=4
+      Unknown(10001): mode=4
+      Unknown(10004): mode=4
+      Unknown(10005): mode=4
+      Unknown(10008): mode=1
+  Uid u0a147:
+    Package com.ss.android.article.lite:
+      COARSE_LOCATION: mode=1; rejectTime=+175d19h30m6s797ms ago
+      FINE_LOCATION: mode=0; rejectTime=+175d19h30m7s704ms ago
+      READ_CONTACTS: mode=4
+      POST_NOTIFICATION: mode=0; time=+4d16h46m8s499ms ago
+      READ_SMS: mode=4
+      WRITE_SMS: mode=1; rejectTime=+4d16h52m24s384ms ago
+      RECEIVE_SMS: mode=4
+      WRITE_SETTINGS: mode=0
+      SYSTEM_ALERT_WINDOW: mode=1
+      CAMERA: mode=4
+      TAKE_AUDIO_FOCUS: mode=0; time=+17d15h43m52s782ms ago
+      AUDIO_MEDIA_VOLUME: mode=0; time=+30d21h7m33s77ms ago
+      WAKE_LOCK: mode=0; time=+10d3h33m55s261ms ago; duration=+539ms
+      TOAST_WINDOW: mode=0; time=+4d16h46m6s172ms ago; duration=+2s298ms
+      OP_READ_PHONE_STATE: mode=1; time=+32d18h59m33s423ms ago
+      READ_EXTERNAL_STORAGE: mode=0; time=+4d16h17m28s166ms ago
+      WRITE_EXTERNAL_STORAGE: mode=0; time=+4d16h17m28s166ms ago
+      GET_ACCOUNTS: mode=4
+      Unknown(10001): mode=4
+      Unknown(10004): mode=4
+      Unknown(10005): mode=4
+      Unknown(10008): mode=1
+      Unknown(10017): mode=4
+  Uid u0a148:
+    Package com.mobike.mobikeapp:
+      COARSE_LOCATION: mode=0; time=+7h38m54s568ms ago
+      FINE_LOCATION: mode=0; time=+7h38m54s563ms ago
+      GPS: mode=0; time=+6d6h47m0s789ms ago; duration=+10s854ms
+      VIBRATE: mode=0; time=+7h46m39s310ms ago; duration=+201ms
+      WIFI_SCAN: mode=0; time=+7h38m54s562ms ago
+      POST_NOTIFICATION: mode=0; time=+7h38m51s884ms ago
+      NEIGHBORING_CELLS: mode=0; time=+7h38m54s606ms ago
+      CALL_PHONE: mode=1
+      WRITE_SMS: mode=1; rejectTime=+33d20h38m53s330ms ago
+      WRITE_SETTINGS: mode=0
+      SYSTEM_ALERT_WINDOW: mode=1
+      CAMERA: mode=0; time=+7h46m48s960ms ago; duration=+1s886ms
+      RECORD_AUDIO: mode=4
+      READ_CLIPBOARD: mode=0; time=+96d7h47m49s703ms ago
+      MONITOR_LOCATION: mode=0; time=+7h38m51s597ms ago; duration=+3s192ms
+      MONITOR_HIGH_POWER_LOCATION: mode=0; time=+6d6h47m0s792ms ago; duration=+10s851ms
+      TOAST_WINDOW: mode=0; time=+7h38m49s543ms ago; duration=+2s336ms
+      OP_READ_PHONE_STATE: mode=1; time=+32d21h31m31s741ms ago
+      READ_EXTERNAL_STORAGE: mode=0; time=+7h38m48s26ms ago
+      WRITE_EXTERNAL_STORAGE: mode=0; time=+7h38m48s26ms ago
+      Unknown(10001): mode=4
+      Unknown(10002): mode=4
+      Unknown(10004): mode=4
+      Unknown(10008): mode=1
+  Uid u0a149:
+    Package so.ofo.labofo:
+      COARSE_LOCATION: mode=0; time=+20h2m17s430ms ago
+      FINE_LOCATION: mode=0; time=+20h2m17s444ms ago
+      GPS: mode=0; time=+6d4h26m20s217ms ago; duration=+927ms
+      VIBRATE: mode=0; time=+120d6h17m37s52ms ago; duration=+972ms
+      WIFI_SCAN: mode=0; time=+20h2m17s444ms ago
+      POST_NOTIFICATION: mode=0; time=+21h26m44s643ms ago
+      NEIGHBORING_CELLS: mode=0; time=+20h21m45s522ms ago
+      CALL_PHONE: mode=4
+      WRITE_SMS: mode=1; rejectTime=+74d10h4m48s219ms ago
+      WRITE_SETTINGS: mode=0
+      SYSTEM_ALERT_WINDOW: mode=1
+      CAMERA: mode=0; time=+21h27m31s566ms ago; duration=+23s578ms
+      READ_CLIPBOARD: mode=0; time=+95d22h59m58s600ms ago
+      TAKE_AUDIO_FOCUS: mode=0; time=+90d8h55m49s527ms ago
+      WAKE_LOCK: mode=0; time=+84d2h29m33s447ms ago; duration=+77ms
+      MONITOR_LOCATION: mode=0; time=+21h25m19s769ms ago; duration=+1m7s906ms
+      MONITOR_HIGH_POWER_LOCATION: mode=0; time=+6d4h26m20s219ms ago; duration=+926ms
+      TOAST_WINDOW: mode=0; time=+7d8h13m34s14ms ago; duration=+2s325ms
+      OP_READ_PHONE_STATE: mode=0; time=+20h3m18s667ms ago
+      READ_EXTERNAL_STORAGE: mode=0; time=+20h3m0s860ms ago
+      WRITE_EXTERNAL_STORAGE: mode=0; time=+20h3m0s860ms ago
+      Unknown(10001): mode=4
+      Unknown(10002): mode=4
+      Unknown(10004): mode=4
+      Unknown(10008): mode=1
+  Uid u0a152:
+    Package com.youku.phone:
+      COARSE_LOCATION: mode=1; rejectTime=+38d6h13m34s256ms ago
+      FINE_LOCATION: mode=0; rejectTime=+36d21h23m22s243ms ago
+      VIBRATE: mode=0; time=+37d0h14m9s700ms ago; duration=+952ms
+      READ_CALENDAR: mode=4
+      WRITE_CALENDAR: mode=4
+      WIFI_SCAN: mode=0; rejectTime=+39d17h28m18s736ms ago
+      POST_NOTIFICATION: mode=0; time=+37d0h14m10s670ms ago
+      WRITE_SMS: mode=1; rejectTime=+36d21h22m47s937ms ago
+      WRITE_SETTINGS: mode=0; time=+36d21h23m17s155ms ago
+      SYSTEM_ALERT_WINDOW: mode=1
+      CAMERA: mode=0
+      RECORD_AUDIO: mode=0
+      READ_CLIPBOARD: mode=0; time=+38d5h12m43s600ms ago
+      WRITE_CLIPBOARD: mode=0; time=+39d17h28m18s261ms ago
+      TAKE_AUDIO_FOCUS: mode=0; time=+38d3h52m28s470ms ago
+      AUDIO_MEDIA_VOLUME: mode=0; time=+38d3h48m48s295ms ago
+      TOAST_WINDOW: mode=0; time=+38d3h59m34s546ms ago; duration=+2s627ms
+      OP_READ_PHONE_STATE: mode=0; time=+36d21h22m47s931ms ago
+      READ_EXTERNAL_STORAGE: mode=0; time=+36d21h22m28s258ms ago
+      WRITE_EXTERNAL_STORAGE: mode=0; time=+36d21h22m28s258ms ago
+      Unknown(10001): mode=4
+      Unknown(10004): mode=4
+      Unknown(10008): mode=1
+      Unknown(10017): mode=1
+  Uid u0a153:
+    Package org.mozilla.firefox:
+      COARSE_LOCATION: mode=0; time=+21d10h1m57s347ms ago
+      FINE_LOCATION: mode=0; time=+21d10h1m39s7ms ago
+      GPS: mode=0; time=+21d10h1m38s198ms ago; duration=+2m48s920ms
+      WIFI_SCAN: mode=0; time=+21d10h1m57s447ms ago
+      POST_NOTIFICATION: mode=0; time=+4d0h34m8s464ms ago
+      NEIGHBORING_CELLS: mode=0; time=+21d10h1m57s346ms ago
+      WRITE_SETTINGS: mode=0
+      SYSTEM_ALERT_WINDOW: mode=1
+      CAMERA: mode=0
+      RECORD_AUDIO: mode=4
+      READ_CLIPBOARD: mode=0; time=+17d17h17m0s960ms ago
+      WRITE_CLIPBOARD: mode=0; time=+4d21h9m58s71ms ago
+      TAKE_AUDIO_FOCUS: mode=0; time=+21d13h0m26s75ms ago
+      WAKE_LOCK: mode=0; time=+21d12h59m51s119ms ago; duration=+46s998ms
+      MONITOR_LOCATION: mode=0; time=+21d10h1m38s198ms ago; duration=+2m48s920ms
+      MONITOR_HIGH_POWER_LOCATION: mode=0; time=+21d10h1m38s199ms ago; duration=+2m48s918ms
+      OP_READ_PHONE_STATE: mode=4; time=+61d19h19m38s164ms ago
+      READ_EXTERNAL_STORAGE: mode=0; time=+8h55m42s980ms ago
+      WRITE_EXTERNAL_STORAGE: mode=0; time=+8h55m42s980ms ago
+      GET_ACCOUNTS: mode=4
+      Unknown(10001): mode=4; time=+4d2h38m22s638ms ago
+      Unknown(10004): mode=4
+      Unknown(10008): mode=1
+      Unknown(10017): mode=4
+  Uid u0a154:
+    Package edu.umich.PowerTutor:
+      COARSE_LOCATION: mode=0
+      FINE_LOCATION: mode=0; time=+36d2h42m41s874ms ago
+      POST_NOTIFICATION: mode=0; time=+36d2h42m26s813ms ago
+      TOAST_WINDOW: mode=0; time=+102d1h37m11s385ms ago; duration=+2s336ms
+      OP_READ_PHONE_STATE: mode=0; time=+36d2h42m41s865ms ago
+      READ_EXTERNAL_STORAGE: mode=0; time=+36d2h42m42s71ms ago
+      WRITE_EXTERNAL_STORAGE: mode=0; time=+36d2h42m42s71ms ago
+      Unknown(10004): mode=4
+      Unknown(10008): mode=1
+  Uid u0a155:
+    Package com.wm.dmall:
+      COARSE_LOCATION: mode=0; time=+10d4h21m45s626ms ago
+      FINE_LOCATION: mode=0; time=+10d4h21m45s642ms ago
+      GPS: mode=0; time=+10d4h22m17s3ms ago; duration=+536ms
+      VIBRATE: mode=0; time=+10d4h21m51s899ms ago; duration=+957ms
+      READ_CONTACTS: mode=4
+      WIFI_SCAN: mode=0; time=+10d4h21m45s684ms ago
+      POST_NOTIFICATION: mode=0; time=+10d4h21m52s877ms ago
+      NEIGHBORING_CELLS: mode=0; time=+10d4h21m45s625ms ago
+      CALL_PHONE: mode=4
+      READ_SMS: mode=0
+      RECEIVE_SMS: mode=0; time=+57d22h58m15s413ms ago
+      READ_ICC_SMS: mode=0; time=+10d4h22m46s347ms ago
+      WRITE_SETTINGS: mode=0
+      SYSTEM_ALERT_WINDOW: mode=1
+      CAMERA: mode=0; time=+101d4h5m2s548ms ago; duration=+16s655ms
+      RECORD_AUDIO: mode=0
+      READ_CLIPBOARD: mode=0; time=+100d9h2m9s363ms ago
+      TAKE_AUDIO_FOCUS: mode=0; time=+101d4h8m57s242ms ago
+      AUDIO_MEDIA_VOLUME: mode=0; time=+101d4h8m54s26ms ago
+      WAKE_LOCK: mode=0; time=+10d4h22m50s593ms ago; duration=+122ms
+      MONITOR_LOCATION: mode=0; time=+10d4h22m16s732ms ago; duration=+193ms
+      MONITOR_HIGH_POWER_LOCATION: mode=0; time=+10d4h22m17s4ms ago; duration=+535ms
+      TOAST_WINDOW: mode=0; time=+10d4h22m41s339ms ago; duration=+2s272ms
+      OP_READ_PHONE_STATE: mode=0; time=+10d4h21m51s764ms ago
+      READ_EXTERNAL_STORAGE: mode=0; time=+10d4h21m51s748ms ago
+      WRITE_EXTERNAL_STORAGE: mode=0; time=+10d4h21m51s748ms ago
+      Unknown(10001): mode=4
+      Unknown(10004): mode=4
+      Unknown(10005): mode=4
+      Unknown(10008): mode=1
+  Uid u0a156:
+    Package com.jingdong.app.mall:
+      COARSE_LOCATION: mode=0; time=+99d8h54m38s929ms ago
+      FINE_LOCATION: mode=0; time=+54d1h26m55s121ms ago
+      GPS: mode=0; time=+99d8h59m22s141ms ago; duration=+4s935ms
+      READ_CONTACTS: mode=4
+      WIFI_SCAN: mode=0; time=+99d8h54m29s31ms ago
+      POST_NOTIFICATION: mode=0; time=+38d21h31m33s209ms ago
+      NEIGHBORING_CELLS: mode=0; time=+99d8h59m2s998ms ago
+      CALL_PHONE: mode=1
+      WRITE_SMS: mode=1; rejectTime=+1h20m20s990ms ago
+      WRITE_SETTINGS: mode=1; rejectTime=+99d8h59m19s808ms ago
+      SYSTEM_ALERT_WINDOW: mode=1
+      CAMERA: mode=0
+      RECORD_AUDIO: mode=0
+      READ_CLIPBOARD: mode=0; time=+34d5h25m6s576ms ago
+      WAKE_LOCK: mode=0; time=+1h19m21s260ms ago; duration=+59s925ms
+      MONITOR_LOCATION: mode=0; time=+99d8h59m22s142ms ago; duration=+4s934ms
+      MONITOR_HIGH_POWER_LOCATION: mode=0; time=+99d8h59m22s142ms ago; duration=+4s934ms
+      TOAST_WINDOW: mode=0; time=+38d21h31m30s860ms ago; duration=+2s331ms
+      OP_READ_PHONE_STATE: mode=1; time=+34d4h46m13s393ms ago
+      READ_EXTERNAL_STORAGE: mode=0; time=+1h20m0s317ms ago
+      WRITE_EXTERNAL_STORAGE: mode=0; time=+1h20m0s316ms ago
+      Unknown(10001): mode=4
+      Unknown(10002): mode=4
+      Unknown(10004): mode=4
+      Unknown(10008): mode=1
+      Unknown(10017): mode=1; rejectTime=+99d20h40m49s849ms ago
+  Uid u0a157:
+    Package com.xiaomi.jr.security:
+      COARSE_LOCATION: mode=0
+      READ_CONTACTS: mode=0
+      READ_CALL_LOG: mode=4
+      READ_CALENDAR: mode=0
+      WRITE_CALENDAR: mode=0
+      READ_SMS: mode=0
+      RECEIVE_SMS: mode=0
+      CAMERA: mode=0
+      OP_READ_PHONE_STATE: mode=0
+      READ_EXTERNAL_STORAGE: mode=0
+      WRITE_EXTERNAL_STORAGE: mode=0
+      GET_ACCOUNTS: mode=0
+      Unknown(10004): mode=4
+      Unknown(10005): mode=4
+      Unknown(10008): mode=1
+      Unknown(10017): mode=4
+  Uid u0a158:
+    Package comm.cchong.BloodAssistant:
+      COARSE_LOCATION: mode=4
+      VIBRATE: mode=0; time=+79d7h44m41s362ms ago; duration=+353ms
+      WIFI_SCAN: mode=0; time=+15d5h32m40s949ms ago
+      POST_NOTIFICATION: mode=0; time=+15d5h32m7s899ms ago
+      READ_SMS: mode=4
+      WRITE_SMS: mode=1; rejectTime=+15d5h35m46s805ms ago
+      RECEIVE_SMS: mode=4
+      WRITE_SETTINGS: mode=0; time=+15d5h36m25s959ms ago
+      SYSTEM_ALERT_WINDOW: mode=1
+      CAMERA: mode=0; time=+15d5h32m17s257ms ago; duration=+1s636ms
+      RECORD_AUDIO: mode=0; time=+79d10h6m54s488ms ago
+      TAKE_AUDIO_FOCUS: mode=0; time=+79d10h7m2s489ms ago
+      WAKE_LOCK: mode=0; time=+15d5h31m4s516ms ago; duration=+5m18s163ms
+      TOAST_WINDOW: mode=0; time=+15d5h32m5s548ms ago; duration=+2s343ms
+      OP_READ_PHONE_STATE: mode=0; time=+15d5h32m40s955ms ago
+      READ_EXTERNAL_STORAGE: mode=0; time=+15d5h32m41s123ms ago
+      WRITE_EXTERNAL_STORAGE: mode=0; time=+15d5h32m41s122ms ago
+      GET_ACCOUNTS: mode=0
+      Unknown(10001): mode=4
+      Unknown(10002): mode=0
+      Unknown(10004): mode=4
+      Unknown(10005): mode=4
+      Unknown(10008): mode=1
+  Uid u0a164:
+    Package com.miaomiaoce.mmc.owl:
+      COARSE_LOCATION: mode=1
+      FINE_LOCATION: mode=0; rejectTime=+79d10h8m32s281ms ago
+      POST_NOTIFICATION: mode=0; time=+79d9h53m19s753ms ago
+      CALL_PHONE: mode=4
+      WRITE_SETTINGS: mode=0
+      SYSTEM_ALERT_WINDOW: mode=1
+      CAMERA: mode=4
+      RECORD_AUDIO: mode=4
+      TOAST_WINDOW: mode=0; time=+79d9h53m17s405ms ago; duration=+2s327ms
+      OP_READ_PHONE_STATE: mode=0; time=+8h40m3s338ms ago
+      READ_EXTERNAL_STORAGE: mode=0; time=+8h40m3s222ms ago
+      WRITE_EXTERNAL_STORAGE: mode=0; time=+8h40m3s222ms ago
+      GET_ACCOUNTS: mode=0; time=+9h8m47s350ms ago
+      Unknown(10001): mode=4
+      Unknown(10002): mode=4
+      Unknown(10004): mode=4
+      Unknown(10008): mode=0
+  Uid u0a165:
+    Package com.yelong.vitala:
+      COARSE_LOCATION: mode=1; rejectTime=+79d9h53m9s129ms ago
+      FINE_LOCATION: mode=0; rejectTime=+79d9h53m9s129ms ago
+      WIFI_SCAN: mode=0; rejectTime=+79d9h53m9s129ms ago
+      SYSTEM_ALERT_WINDOW: mode=1
+      CAMERA: mode=0
+      RECORD_AUDIO: mode=0; time=+79d9h53m9s918ms ago
+      OP_READ_PHONE_STATE: mode=0; time=+79d9h52m58s361ms ago
+      READ_EXTERNAL_STORAGE: mode=0; time=+79d9h53m8s931ms ago
+      WRITE_EXTERNAL_STORAGE: mode=0; time=+79d9h53m8s931ms ago
+      Unknown(10001): mode=4
+      Unknown(10004): mode=4
+      Unknown(10008): mode=1
+  Uid u0a167:
+    Package com.pplive.androidsdk.mi:
+      Unknown(10008): mode=1
+  Uid u0a169:
+    Package com.google.android.gsf:
+      READ_CONTACTS: mode=0
+      WRITE_CONTACTS: mode=0
+      WRITE_SETTINGS: mode=0
+      OP_READ_PHONE_STATE: mode=0
+      READ_EXTERNAL_STORAGE: mode=0; time=+27m17s80ms ago
+      WRITE_EXTERNAL_STORAGE: mode=0; time=+27m17s80ms ago
+      GET_ACCOUNTS: mode=0; time=+27m16s937ms ago
+      Unknown(10001): mode=4
+      Unknown(10004): mode=0
+      Unknown(10008): mode=1
+    Package com.google.android.gsf.login:
+      READ_CONTACTS: mode=0
+      WRITE_CONTACTS: mode=0
+      WRITE_SETTINGS: mode=0
+      OP_READ_PHONE_STATE: mode=0
+      Unknown(10001): mode=4
+      Unknown(10004): mode=4
+      Unknown(10008): mode=1
+  Uid u0a170:
+    Package com.google.android.apps.forscience.whistlepunk:
+      COARSE_LOCATION: mode=4
+      POST_NOTIFICATION: mode=0; time=+61d5h50m15s994ms ago
+      CAMERA: mode=4
+      RECORD_AUDIO: mode=0; time=+61d19h31m59s947ms ago
+      TAKE_AUDIO_FOCUS: mode=0; time=+61d19h36m40s476ms ago
+      READ_EXTERNAL_STORAGE: mode=0; time=+61d5h50m27s618ms ago
+      WRITE_EXTERNAL_STORAGE: mode=0; time=+61d5h50m27s618ms ago
+      Unknown(10002): mode=4
+      Unknown(10004): mode=4
+      Unknown(10008): mode=1
+  Uid u0a171:
+    Package com.sohu.sohuvideo.miplayer:
+      COARSE_LOCATION: mode=4
+      WRITE_SETTINGS: mode=0
+      OP_READ_PHONE_STATE: mode=0; time=+8d22h29m19s40ms ago
+      READ_EXTERNAL_STORAGE: mode=0; time=+8d22h29m19s37ms ago
+      WRITE_EXTERNAL_STORAGE: mode=0; time=+8d22h29m19s37ms ago
+      Unknown(10001): mode=4
+      Unknown(10004): mode=4
+      Unknown(10008): mode=1

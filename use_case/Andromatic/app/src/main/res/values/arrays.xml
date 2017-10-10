@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="ToastDuration">
+        <item>Off</item>
+        <item>Short</item>
+        <item>Long</item>
+    </string-array>
+    <string-array name="ToastDurationIntervalValues">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+    </string-array>
+    <string-array name="TaskThrottle">
+        <item>None</item>
+        <item>10 seconds</item>
+        <item>30 seconds</item>
+        <item>1 minute</item>
+    </string-array>
+    <string-array name="TaskThrottleValues">
+        <item>0</item>
+        <item>10</item>
+        <item>30</item>
+        <item>60</item>
+    </string-array>
+    <string-array name="ShakeSensitivity">
+        <item>Low</item>
+        <item>Medium</item>
+        <item>High</item>
+        <item>Very High</item>
+    </string-array>
+    <string-array name="ShakeSensitivityValues">
+        <item>60</item>
+        <item>30</item>
+        <item>15</item>
+        <item>5</item>
+    </string-array>
+    <string-array name="SocialMedia">
+        <item>15 minutes</item>
+        <item>30 minutes</item>
+        <item>60 minutes</item>
+        <item>120 minutes</item>
+    </string-array>
+    <string-array name="SocialMediaValues">
+        <item>15</item>
+        <item>30</item>
+        <item>60</item>
+        <item>120</item>
+    </string-array>
+</resources>

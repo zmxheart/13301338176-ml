@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <PreferenceScreen android:title="Communication...">
+        <PreferenceScreen android:title="Incoming call...">
+            <Preference
+                android:key="Trigger.AnyIncomingCall"
+                android:title="Any"/>
+            <Preference
+                android:key="Trigger.IncomingCallByCaller"
+                android:title="By caller..."/>
+        </PreferenceScreen>
+        <PreferenceScreen android:title="Call answered...">
+            <Preference
+                android:key="Trigger.AnyAnsweredCall"
+                android:title="Any"/>
+            <Preference
+                android:key="Trigger.AnsweredCallByCaller"
+                android:title="By caller..."/>
+        </PreferenceScreen>
+        <PreferenceScreen android:title="Call ended...">
+            <Preference
+                android:key="Trigger.AnyEndedCall"
+                android:title="Any"/>
+            <Preference
+                android:key="Trigger.EndedCallByCaller"
+                android:title="By caller..."/>
+        </PreferenceScreen>
+        <PreferenceScreen android:title="SMS received...">
+            <Preference
+                android:key="Trigger.AnySMS"
+                android:title="Any"/>
+            <Preference
+                android:key="Trigger.SMSByContent"
+                android:title="By content..."/>
+            <Preference
+                android:key="Trigger.SMSBySender"
+                android:title="By sender..."/>
+        </PreferenceScreen>
+    </PreferenceScreen>
+
+    <PreferenceScreen android:title="Miscellaneous...">
+        <Preference
+            android:key="Trigger.BatteryLow"
+            android:title="Battery low"/>
+        <PreferenceScreen android:title="Charger...">
+            <Preference
+                android:key="Trigger.ChargerInserted"
+                android:title="Charger inserted"/>
+            <Preference
+                android:key="Trigger.ChargerRemoved"
+                android:title="Charger removed"/>
+        </PreferenceScreen>
+        <PreferenceScreen android:title="Headphones...">
+            <Preference
+                android:key="Trigger.HeadphonesInserted"
+                android:title="Headphones inserted"/>
+            <Preference
+                android:key="Trigger.HeadphonesRemoved"
+                android:title="Headphones removed"/>
+        </PreferenceScreen>
+        <Preference
+            android:key="Trigger.Interval"
+            android:title="Interval..."/>
+        <Preference
+            android:key="Trigger.Time"
+            android:title="Time..."/>
+    </PreferenceScreen>
+
+    <PreferenceScreen android:title="Network...">
+        <PreferenceScreen android:title="Bluetooth connection...">
+            <Preference
+                android:key="Trigger.Bluetooth"
+                android:title="Any"/>
+            <Preference
+                android:key="Trigger.BluetoothByDeviceName"
+                android:title="By device name..."/>
+        </PreferenceScreen>
+        <PreferenceScreen android:title="Wifi connected...">
+            <Preference
+                android:key="Trigger.WifiConnected"
+                android:title="Any"/>
+            <Preference
+                android:key="Trigger.WifiConnectedBySSID"
+                android:title="By SSID..."/>
+        </PreferenceScreen>
+        <PreferenceScreen android:title="Wifi disconnected...">
+            <Preference
+                android:key="Trigger.WifiDisconnected"
+                android:title="Any"/>
+            <Preference
+                android:key="Trigger.WifiDisconnectedBySSID"
+                android:title="By SSID..."/>
+        </PreferenceScreen>
+    </PreferenceScreen>
+
+    <PreferenceScreen android:title="Gestures...">
+        <Preference
+            android:key="Trigger.Shake"
+            android:title="Shake"/>
+        <Preference
+            android:key="Trigger.FaceUp"
+            android:title="Flip up"/>
+        <Preference
+            android:key="Trigger.FaceDown"
+            android:title="Flip down"/>
+    </PreferenceScreen>
+
+    <PreferenceScreen android:title="Social Media...">
+        <PreferenceScreen
+            android:key="tweetScreen"
+            android:summary="Not logged in"
+            android:title="Tweet...">
+            <Preference
+                android:key="Trigger.NewTweet"
+                android:title="Any"/>
+            <Preference
+                android:key="Trigger.NewTweetByContent"
+                android:title="By content..."/>
+            <Preference
+                android:key="Trigger.NewTweetByUser"
+                android:title="By user..."/>
+        </PreferenceScreen>
+        <PreferenceScreen
+            android:key="twitterMessageScreen"
+            android:summary="Not logged in"
+            android:title="Twitter message...">
+            <Preference
+                android:key="Trigger.NewDM"
+                android:title="Any"/>
+            <Preference
+                android:key="Trigger.NewDMByContent"
+                android:title="By content..."/>
+            <Preference
+                android:key="Trigger.NewDMByUser"
+                android:title="By sender..."/>
+        </PreferenceScreen>
+        <PreferenceScreen android:title="Reddit post...">
+            <Preference
+                android:key="Trigger.NewRedditPost"
+                android:title="By subreddit..."/>
+            <Preference
+                android:key="Trigger.NewRedditPostByTitle"
+                android:title="By title..."/>
+            <Preference
+                android:key="Trigger.NewRedditPostByUser"
+                android:title="By user..."/>
+        </PreferenceScreen>
+    </PreferenceScreen>
+
+</PreferenceScreen>

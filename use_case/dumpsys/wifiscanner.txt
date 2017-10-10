@@ -1,0 +1,22 @@
+number of clients : 2
+mChannel null
+mMessenger null
+------
+mChannel com.android.internal.util.AsyncChannel@6ba0565
+mMessenger android.os.Messenger@fbdfdb7
+------
+
+localLog : 
+
+
+WifiScanningService:
+ total records=8
+ rec[0]: time=09-22 00:16:47.936 processed=DefaultState org=DefaultState dest=<null> what=160007(0x27107)
+ rec[1]: time=09-22 00:16:49.109 processed=DefaultState org=DefaultState dest=<null> what=160006(0x27106)
+ rec[2]: time=09-22 12:20:36.158 processed=DefaultState org=DefaultState dest=<null> what=160007(0x27107)
+ rec[3]: time=09-22 12:20:53.225 processed=DefaultState org=DefaultState dest=<null> what=160006(0x27106)
+ rec[4]: time=09-22 12:21:30.148 processed=DefaultState org=DefaultState dest=<null> what=160007(0x27107)
+ rec[5]: time=09-22 12:22:21.080 processed=DefaultState org=DefaultState dest=<null> what=160006(0x27106)
+ rec[6]: time=09-22 13:05:27.925 processed=DefaultState org=DefaultState dest=<null> what=160007(0x27107)
+ rec[7]: time=09-22 13:39:16.106 processed=DefaultState org=DefaultState dest=<null> what=160006(0x27106)
+curState=DefaultState
