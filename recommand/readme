@@ -1,0 +1,178 @@
+
+
+https://github.com/lyst/lightfm
+https://github.com/grahamjenson/list_of_recommender_systems
+https://github.com/muricoca/crab
+
+https://www.analyticsvidhya.com/blog/2016/06/quick-guide-build-recommendation-engine-python/
+https://github.com/NicolasHug/Surprise
+
+
+Surprise
+Overview
+
+Surprise is a Python scikit building and analyzing recommender systems.
+
+Surprise was designed with the following purposes in mind:
+
+    Give users perfect control over their experiments. To this end, a strong emphasis is laid on documentation, which we have tried to make as clear and precise as possible by pointing out every detail of the algorithms.
+    Alleviate the pain of Dataset handling. Users can use both built-in datasets (Movielens, Jester), and their own custom datasets.
+    Provide various ready-to-use prediction algorithms such as baseline algorithms, neighborhood methods, matrix factorization-based ( SVD, PMF, SVD++, NMF), and many others. Also, various similarity measures (cosine, MSD, pearson...) are built-in.
+    Make it easy to implement new algorithm ideas.
+    Provide tools to evaluate, analyse and compare the algorithms performance. Cross-validation procedures can be run very easily, as well as exhaustive search over a set of parameters.
+
+The name SurPRISE (roughly :) ) stands for Simple Python RecommendatIon System Engine.
+Getting started, example
+
+Here is a simple example showing how you can (down)load a dataset, split it for 3-folds cross-validation, and compute the MAE and RMSE of the SVD algorithm.
+
+from surprise import SVD
+from surprise import Dataset
+from surprise import evaluate, print_perf
+
+
+# Load the movielens-100k dataset (download it if needed),
+# and split it into 3 folds for cross-validation.
+data = Dataset.load_builtin('ml-100k')
+data.split(n_folds=3)
+
+# We'll use the famous SVD algorithm.
+algo = SVD()
+
+# Evaluate performances of our algorithm on the dataset.
+perf = evaluate(algo, data, measures=['RMSE', 'MAE'])
+
+print_perf(perf)
+
+Output:
+
+Evaluating RMSE, MAE of algorithm SVD.
+
+        Fold 1  Fold 2  Fold 3  Mean
+MAE     0.7475  0.7447  0.7425  0.7449
+RMSE    0.9461  0.9436  0.9425  0.9441
+
+Surprise can do much more (e.g, GridSearch)! You'll find more usage examples in the documentation .
+Benchmarks
+
+Here are the average RMSE, MAE and total execution time of various algorithms (with their default parameters) on a 5-folds cross-validation procedure. The datasets are the Movielens 100k and 1M datasets. The folds are the same for all the algorithms (the random seed is set to 0). All experiments are run on a small laptop with Intel Core i3 1.7 GHz, 4Go RAM. The execution time is the real execution time, as returned by the GNU time command.
+Movielens 100k 	RMSE 	MAE 	Time (s)
+NormalPredictor 	1.5228 	1.2242 	4
+BaselineOnly 	.9445 	.7488 	5
+KNNBasic 	.9789 	.7732 	27
+KNNWithMeans 	.9514 	.7500 	30
+KNNBaseline 	.9306 	.7334 	44
+SVD 	.9364 	.7381 	46
+SVD++ 	.9200 	.7253 	31min
+NMF 	.9634 	.7572 	55
+Slope One 	.9454 	.7430 	25
+Co clustering 	.9678 	.7579 	15
+Movielens 1M 	RMSE 	MAE 	Time (min)
+NormalPredictor 	1.5037 	1.2051 	< 1
+BaselineOnly 	.9086 	.7194 	< 1
+KNNBasic 	.9207 	.7250 	22
+KNNWithMeans 	.9292 	.7386 	22
+KNNBaseline 	.8949 	.7063 	44
+SVD 	.8738 	.6858 	7
+NMF 	.9155 	.7232 	9
+Slope One 	.9065 	.7144 	8
+Co clustering 	.9155 	.7174 	2
+Installation / Usage
+
+The easiest way is to use pip (you'll need numpy):
+
+$ pip install numpy
+$ pip install scikit-surprise
+
+Or you can clone the repo and build the source (you'll need Cython and numpy):
+
+$ git clone https://github.com/NicolasHug/surprise.git
+$ python setup.py install
+
+License
+
+This project is licensed under the BSD 3-Clause license, so it can be used for pretty much everything, including commercial applications. Please let us know how Surprise is useful to you!
+
+
+
+
+
+
+https://github.com/shmsw25/amazon-recommender-system
+
+amazon-recommender-system
+
+recommender system of amazon product ( for final project of CSE544 )
+An Optimized Recommender System from Integrating Multiple Algorithms
+
+Team members : Sewon Min, Chaofan Han
+Project Abstract
+
+This project aims to build an integrated recommender system with versatile features based on the Amazon reviews dataset. This project tries to solve problems confronting present recommender systems such as how to improve the degree of automation, how to make algorithms run faster and more robust with parallel computation.
+The main contents of this project are following:
+
+    Implementation of various algorithms
+    Different ways of ensemble learning of the algorithms
+    Support of parallel tasks on distributed system, and performance/time comparison of each algorithm by the number of computation instances
+    Implementation of demo program of the final recommender system
+
+Algorithms to be implemented:
+
+    Content-based Recommender System
+    Collaborative Filtering
+    Weight Learning
+    Latent Factor Model
+    Bias Extension
+    Ensemble Model
+
+Datasets
+
+    Amazon Review Data accessed from (http://snap.stanford.edu/data/web-Amazon-links.html)
+    Number of reviews : 34,686,770
+    Number of users : 6,643,669 (56,772 with more than 50 reviews)
+    Number of products : 2,441,053
+
+Tools
+
+    Python, Myria, AWS
+
+Progress
+
+    Download data You need to have 'data' directory in your HOME.
+
+chmod +x download.sh; ./download.sh 
+
+This will takes several minutes.
+
+    Preprocess data and create DB
+
+python prepro/preprocess.py
+
+    Run Recommender System
+
+python -m model.main
+
+It builds recommender with train data and also evaluates performance on test data. If you want to specift certain recommender system, you can use '--recom'.
+
+Content Based : 'cb' Collaborative Filtering : 'cf' Weight Learned : 'l' Latent Factor : 'lf' Latent Factor with Bias Extension : 'blf'
+
+For example, if you want to run Weight Learned Recommender,
+
+python -m model.main --recom l
+
+If you want to run Content Based and Collaborative Filtering,
+
+python -m model.main --recom cb cf
+
+It runs recommender in small dataset by default. If you want to run in large dataset, you can use '--small False'. Batch size is 128 by default. If you want to change it, you can use '--batch_size'. For example,
+
+python -m model.main --small False --batch_size 256
+
+References
+
+    M. Pazzani, D. Billsus, Content-based Recommendation System.
+    G. Adomavicius and A. Tuzhilin, “Towards the next generation of recommender systems: a survey of the state-of-the-art and possible extensions,” IEEE Trans. on Data and Knowledge Engineering 17:6, pp. 734– 749, 2005.
+    Y Koren, R Bell, C Volinsky. Matrix factorization techniques for recommender systems. Computer, 2009.
+    M Jahrer, A Töscher, R Legenstein. Combining predictions for accurate recommender systems. Proceedings of the 16th ACM.
+
+
