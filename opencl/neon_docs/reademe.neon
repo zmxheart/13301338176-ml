@@ -1,0 +1,7 @@
+ 
+1.auto-vectorization parameter("-mfpu=neon -ftree-vectorize"). check the gcc output("-fopt-info") on the vectorization of this function, this may help us change this function to get vectorization more friendly.
+
+2. perf to get CPU cycles which should be more accurate than clock().  use perf to get cache miss and branch miss count.
+3. use -O3 as opt level.
+4. change variables layout to make more cache-friendly
+ 

@@ -1,0 +1,9 @@
+3rd-example/ncnn-mobile/squeenzecnn-iOS/ncnn.framework/Versions/A/Headers
+3rd-example/ncnn-mobile/squeenzecnn-iOS/openmp.framework/Versions/A/Headers
+3rd-example/ncnn-mobile/squeenzecnn-iOS/squeenzecnn
+3rd-example/ncnn-mobile/squeezencnn-AS/app/src/main/jni
+examples/squeezencnn/jni
+src
+src/layer
+src/layer/arm
+src/layer/x86

@@ -1,0 +1,15 @@
+64_bit_integer/64_bit_integer.cpp
+fir_float/fir_float.cpp
+hello_world_c/hello_world_c.cpp
+hello_world_opencl/hello_world_opencl.cpp
+hello_world_vector/common.cpp
+hello_world_vector/common.h
+hello_world_vector/hello_world_vector.cpp
+hello_world_vector/image.cpp
+hello_world_vector/image.h
+image_scaling/image_scaling.cpp
+mandelbrot/mandelbrot.cpp
+sgemm/sgemm.cpp
+sobel/sobel.cpp
+sobel_no_vectors/sobel_no_vectors.cpp
+template/template.cpp
