@@ -1,0 +1,103 @@
+<!doctype html public "-//w3c//dtd html 4.0 transitional//en">
+<html>
+<head>
+   <variable name>
+   <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+   <meta name="GENERATOR" content="Microsoft FrontPage 12.0">
+   <title>Homework #9</title>
+   <style type="text/css">
+.style1 {
+	font-family: "Courier New", Courier, monospace;
+}
+.style2 {
+	text-decoration: underline;
+}
+</style>
+</head>
+<body>
+<table WIDTH="100%" >
+<tr>
+<td><img SRC="GburgCS.gif" height=84 width=182></td>
+
+<td><font size=+2>CS 341 - Survey of Programming Languages</font>
+<br><font size=+2>Homework #9</font></td>
+</tr>
+</table>
+
+<hr>
+<p><B>Due: Tuesday 10/24 at the beginning of class #16</B></p>
+<P><B>Note: </B>This work is to be done in <B>pairs</B>.&nbsp; Each pair will 
+submit one assignment.&nbsp; Although you may divide the work, both team members 
+should be able to present/describe their partner's work upon request.&nbsp;
+<P>To submit this homework, change into the directory containing all necessary 
+files: MiniScheme4.jj and supporting abstract syntax tree .java files, and enter 
+the command &quot;<span class="style1">submit341 ms4</span>&quot;.<h1>MiniScheme 
+Project Phase 4</h1>
+<P>In this phase of the project, you will extend phase 3 to include lambda 
+expressions and procedure calls. 
+<P>Notes:<ul>
+	<li>Evaluation of a lambda AST node results in a new &quot;closure&quot; value 
+	containing the lambda AST node and the defining environment.</li>
+	<li>A procedure call results in<ol>
+		<li>evaluation of the operator expression,</li>
+		<li>a check to see if the operator expression evaluation returned a 
+		closure,<ul>
+			<li>If the operator expression evaluated to a non-closure, print &quot;procedure 
+	application: expected procedure, given non-procedure&quot; to the error stream 
+	and exit with code 7.</li>
+		</ul>
+		</li>
+		<li>evaluation of each of the operand expressions left-to-right in the
+		<em>call</em> environment,</li>
+		<li>a check to see if the procedure is given the expected number of 
+		operands,<ul>
+			<li>If the wrong number of operands is provided, print &quot;procedure 
+			expects &lt;m&gt; arguments, given &lt;n&gt;&quot; to the error stream and exit with 
+			code 8, where &lt;m&gt; is the number of procedure parameters and &lt;n&gt; is 
+			the number of operand expressions</li>
+		</ul>
+		</li>
+		<li>creation of a <span class="style2">new</span> local environment (extending the environment of the
+		<em>closure</em>) assigning operand values to the 
+		procedure parameter variables,</li>
+		<li>evaluation of the procedure body with respect to this <em>new local</em> 
+		environment, and</li>
+		<li>return of the final expression value of the body with the 
+		surrounding <em>call</em> environment (discarding the local environment).</li>
+	</ol>
+	<li>The eqv? operator is to be extended to call two closures equal if they 
+	are the same object in memory.</li>
+</ul>
+<h2>Grammar</h2>
+<p>Grammar notes:</p>
+<ul>
+	<li>Non-terminals are surrounded with angle brackets &quot;&lt;&quot; and &quot;&gt;&quot;.&nbsp; </li>
+	<li>Terminals (e.g. &quot;(&quot; and &quot;)&quot; are represented as themselves without 
+	quotes, unless otherwise noted below).</li>
+	<li>--&gt; denotes a right arrow.&nbsp; Choices to the right of the arrow are 
+	separated by a pipe (i.e. &quot;|&quot;).</li>
+	<li>{ }* and { }+ denote a Kleene star and plus/cross, respectively. { }? 
+	denotes an optional subexpression.</li>
+</ul>
+<p>&lt;program&gt; --&gt; { &lt;definition&gt; | &lt;expression&gt; }*<br><br>&lt;definition&gt; --&gt; ( 
+define &lt;variable&gt; &lt;expression&gt; )<br><br>&lt;variable&gt; --&gt; &lt;any &lt;identifier&gt; that 
+isn't also a keyword&gt;<br>&lt;identifier&gt; --&gt; &lt;initial&gt; { &lt;subsequent&gt; }* <br>
+&lt;initial&gt; --&gt; [a-z!$%&amp;*/:&lt;=&gt;?^_~]<br>&lt;subsequent&gt; --&gt; &lt;initial&gt; | &lt;digit&gt; | 
+[+-.@]<br>&lt;digit&gt; --&gt; [0-9]<br><br>&lt;expression&gt; --&gt; &lt;variable&gt;<br>| &lt;literal&gt;<br>
+| &lt;conditional&gt;<br>| &lt;assignment&gt;<br>| &lt;defined expression&gt;<br>| &lt;lambda 
+expression&gt;<br>| &lt;procedure call&gt;<br><br>&lt;literal&gt; --&gt; &lt;integer&gt; | &lt;boolean&gt;<br>
+&lt;integer&gt; --&gt; { + | - }? { &lt;digit&gt; }+<br>&lt;boolean&gt; --&gt; #t | #f<br><br>
+&lt;conditional&gt; --&gt; ( if &lt;expression&gt; &lt;expression&gt; { &lt;expression&gt; }? )<br><br>
+&lt;assignment&gt; --&gt; ( set! &lt;variable&gt; &lt;expression&gt; )<br><br>&lt;defined expression&gt; 
+--&gt; ( read )<br>| ( write &lt;expression&gt; )<br>| ( newline )<br>| ( + &lt;expression&gt; 
+&lt;expression&gt; )<br>| ( - &lt;expression&gt; &lt;expression&gt; )<br>| ( * &lt;expression&gt; 
+&lt;expression&gt; )<br>| ( quotient &lt;expression&gt; &lt;expression&gt; )<br>| ( let ( { 
+&lt;binding spec&gt; }* ) &lt;body&gt; )<br>| ( and { &lt;expression&gt; }* )<br>| ( or { 
+&lt;expression&gt; }* )<br>| ( not &lt;expression&gt; )<br>| ( eqv? &lt;expression&gt; 
+&lt;expression&gt; )<br>| ( &lt; &lt;expression&gt; &lt;expression&gt; )<br>| ( integer? &lt;expression&gt; 
+)<br>| ( boolean? &lt;expression&gt; )<br><br>&lt;binding spec&gt; --&gt; ( &lt;variable&gt; 
+&lt;expression&gt; )<br>&lt;lambda expression&gt; --&gt; ( lambda ( { &lt;variable&gt; }* ) &lt;body&gt; )<br>
+&lt;body&gt; --&gt; { &lt;definition&gt; }* { &lt;expression&gt; }+<br>&lt;procedure call&gt; --&gt; ( { 
+&lt;expression&gt; }+ )</p>
+
+</body></html>

@@ -1,0 +1,182 @@
+<!doctype html public "-//w3c//dtd html 4.0 transitional//en">
+<html>
+<head>
+   <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+   <meta name="GENERATOR" content="Microsoft FrontPage 12.0">
+   <title>Homework #6</title>
+</head>
+<body>
+<table WIDTH="100%" >
+<tr>
+<td><img SRC="GburgCS.gif" height=84 width=182></td>
+
+<td><font size=+2>CS 3</font><font size="5">74 Compilers<br></font><font size=+2>
+Homework #6</font></td>
+</tr>
+</table>
+
+<hr>
+<br><b>Due: Tuesday 4/3</b><p><b>Note: </b>This work is to be done in <b>assigned groups</b>.&nbsp; Each group will submit one assignment.&nbsp; Although 
+you may divide the work, both team members should be able to present/describe 
+their partner's work upon request.&nbsp; 
+<h1>Code Generation - Part I</h1>
+<p>Up to this point, we have created an abstract syntax tree of a legal program 
+that can be compiled.&nbsp; We have also studied the MIPS assembly language, and 
+simple use of a stack frame to implement recursive procedures.&nbsp; We now turn 
+our attention to the beginning of an incremental development of the MIPS code 
+generator.</p>
+
+<p>For simplicity, we're bypassing intermediate code generation, and directly 
+generating MIPS assembly code.&nbsp; For the MiniJava language, this can be 
+accomplished through the implementation of a single visitor with slight 
+modification to your symbol table class. </p>
+
+<p><b>0. Preparation:&nbsp; </b>
+Review <a href="cod-appa.pdf">Appendix A.6</a> and read chapter 6.&nbsp; 
+Download the following <a href="examples/ch06">starter files.</a></p>
+
+<p><b>1. Visitor Creation: </b>&nbsp;Create a class MIPSTranslator in the visitor 
+package which extends DepthFirstVisitor and is constructed with your symbol 
+table and (optionally) a java.io.PrintStream object.&nbsp; If not supplied, the 
+default PrintStream will be System.out.&nbsp; Import the syntaxtree classes and 
+java.util.*.&nbsp; Create methods (e.g. emit, emitLabel) for generating 
+formatted assembly code.&nbsp; You'll use these a lot, so keep the names short.&nbsp; 
+Labels are non-indented and followed by a colon.&nbsp; Other emitted code should 
+be tab-indented.&nbsp; Finally, include all of the DepthFirstVisitor methods to 
+serve as starting points for your implementation.&nbsp; (You will not need to 
+override all of DepthFirstVisitor's methods.)</p>
+
+<p><b>2.&nbsp; Main Class: </b>Emit preamble assembly code to (1) define an 
+ASCII string which contains a newline, (2) labels the start of the main method 
+code, (3) sets up the stack frame, (4) recursively visits appropriate subtree(s) 
+to generate main method code, (5) pops the stack frame, and (6) performs the 
+exit syscall.</p>
+
+<p><b>3. IntegerLiteral:&nbsp; </b>For all expressions, assume that the result 
+of the expression will <i>always be placed in register $v0.&nbsp; </i>Thus the 
+code generated from IntegerLiteral will load the given immediate value into $v0.</p>
+
+<p><b>4. Print:&nbsp; </b>Assume that the expression to be printed is of type 
+integer.&nbsp; (Add such a restriction in your type-checking phase.)&nbsp; 
+Generate the expression code. From the previous assumptions, the integer value 
+of this expression is in $v0 after this code's execution.&nbsp; Print this 
+integer and follow it with a newline.&nbsp; You can now test the correct 
+compilation of Print0.java.</p>
+
+<p><b>5. Using the Stack Pointer:&nbsp; </b>To simplify our implementation, we 
+will be making minimal use of registers, relying on our stack to store all 
+locals and temporaries.&nbsp; There will be many times when you will want to 
+store the value of one expression (i.e. a temporary) while evaluating another.&nbsp; 
+Since such evaluation is recursive, we cannot simply move the result to another 
+register.&nbsp; Our compiled code will operate within each method as a <b>stack 
+machine</b>, storing results on the call stack until they are needed (much like 
+our use of the stack in building the abstract syntax tree).&nbsp; We'll have 
+more stores/loads to/from the stack, but we'll avoid the need for register 
+allocation in our simplified compiler.</p>
+
+<p>First, create a method pushV0() that emits code to (1) decrease the stack 
+pointer $sp by one word, and (2) store the value of $v0 to the that position of 
+the stack.&nbsp; Next, create a method popV1() that emits code to (1) load the 
+value at the $sp address to register $v1, and (2) increase the stack pointer by 
+one word.</p>
+
+<p><b>6. Plus: </b>&nbsp;Now you can implement code generation for Plus. Emit 
+code to (1) compute the left expression (which leaves its value in $v0), (2) 
+push $v0, (3) compute the right expression, (4) pop the stack to $v1, (5) put 
+$v0 + $v1 into $v0.&nbsp; Test your code with Print1Plus2.java.&nbsp; Then 
+create and test a file PrintPlusses.java which features multiple additions and 
+parentheses to change the order of evaluation.</p>
+
+<p><b>7. Minus and Times: </b>&nbsp;Develop and test Minus and Times similarly, 
+using test files Print3Minus2.java and Print6Times7.java, and developing your 
+own test cases. Also test with PrintMath.java.</p>
+
+<p><b>8. Boolean Values: </b>True and False will be represented internally as 
+integers 1 and 0 respectively.&nbsp; Implement code generation for True and 
+False as you did for IntegerLiteral using these values.</p>
+
+<p><b>9. If: </b>The code emitted for If will follow this structure:</p>
+
+<ul>
+  <li>Compute the expression</li>
+  <li>If the result is false, branch to label IfFalse</li>
+  <li>Compute the true-case statement</li>
+  <li>Jump to the label IfDone</li>
+  <li>Label IfFalse</li>
+  <li>Compute the false-case statement</li>
+  <li>Label IfDone</li>
+</ul>
+
+<p>As you can imagine, code with multiple if statements would have 
+multiply-defined labels.&nbsp; Therefore, add a field to your Visitor to act as 
+an integer counter (e.g. count).&nbsp; Use the integer to form your labels (e.g. 
+IfFalse42), and then increment the counter (e.g. to 43).&nbsp; In this way, 
+you'll have unique yet readable labels.&nbsp; Test your implementation with 
+TruePrint1.java and FalsePrint0.java</p>
+
+<p><b>10. And, LessThan, Not: </b>Using the previous techniques, develop code 
+generation for And, LessThan, and Not.&nbsp; Use the test cases named for each, 
+and create test cases of your own.&nbsp; </p>
+
+<h3>Supplemental Chapter Comments</h3>
+
+<p>(These comments are to supplement your reading.&nbsp; Question(s) asked are for 
+you to think about on your own and need not be turned in with the homework.)</p>
+
+<p><b>6.0:&nbsp; </b>Skim &quot;Higher-Order Functions&quot;.&nbsp; If you wish to learn more 
+about such languages, take our Survey of Programming Languages course.&nbsp; In 
+the past, that course has included a project of writing an interpreter for a 
+functional languages.</p>
+<p><b>6.1:&nbsp; </b>Pay close attention to the terminology and stack frame layout of 
+Figure 6.2.&nbsp; We will seek to respect the stack frame layout previously 
+described in our <a href="cod-appa.pdf">Appendix A reading</a>.&nbsp; Compare Figure 6.2 with
+<a href="cod-appa.pdf">Figure A.11</a>.&nbsp; 
+Note that since the first four argument are passed in registers, only the 
+following arguments (5+) are stored above the frame pointer.&nbsp; We'll be 
+deviating from the text project, and storing <i>all</i> of our arguments and 
+locals on the stack, making minimal use of registers.&nbsp; 
+Therefore, out stack frame layout will be as follows:</p>
+<pre>...
+ 8($fp):	Argument 6 (the fifth parameter of the call)
+ 4($fp):	Argument 5 (the fourth parameter of the call)
+ 0($fp):	Argument 4 (the third parameter of the call)
+-4($fp):	Argument 3 (the second parameter of the call)
+-8($fp):	Argument 2 (the first parameter of the call)
+-12($fp):	Argument 1 (this - the object of the method call, see &quot;FUNCTION CALL&quot; on p. 154)
+-16($fp):	Saved Registers ($fp, $ra, and any callee saved registers ($s0-$s7) we use)
+...
+		Local variables and temporary values of method computation
+...
+$sp:		Last local/temporary
+</pre>
+
+<p>Note that the stack pointer may need to temporarily change value for a 
+function call in order to place arguments for the next function call.</p>
+<p>Registers: As mentioned, we will be simplifying our compiler implementation 
+by making minimal use of registers.&nbsp; This obviously yields very poor 
+runtime performance, since we'll often be storing/loading values to/from the 
+stack frame.&nbsp; <br>
+<br>
+Return Addresses: We will not be distinguishing leaf from non-leaf procedures.&nbsp; 
+For simplicity, we will always save the return address <tt>$ra</tt> to the stack.</p>
+<p>Frame Resident Variables:&nbsp; Keep in mind that all of our non-field 
+variables will be frame-resident variables. <br>
+<br>
+Skim the section on &quot;Static Links&quot;.&nbsp; This is relevant to functional 
+languages mentioned in 6.0.</p>
+<p><b>6.2:&nbsp; </b>For more details on our project see the homework 
+description above.&nbsp; One important difference between our MIPS <tt>$sp</tt> and <tt>$fp</tt> 
+conventions and those of the book is the fact that the caller MIPS <tt>$sp</tt> is one 
+word above the callee <tt>$fp</tt>, rather than being one in the same.&nbsp; This 
+accounts for the 4 byte offset in computing the new <tt>$sp</tt> and <tt>$fp</tt> values in the 
+procedure call conventions of <a href="cod-appa.pdf">A.6</a>.&nbsp; Also note that although the author 
+states that no argument &quot;escapes&quot; (see top of p. 130) in MiniJava, we'll still 
+be storing everything in the frame.&nbsp; Under &quot;Temporaries and Labels&quot;, the 
+author states &quot;We use the word <i>temporary</i> to mean a value that is 
+temporarily held in a register, ...&quot;.&nbsp; If the registers do not contain room 
+for enough temporaries to compute a method, these temporaries <i>spill </i>&nbsp;and 
+are stored in the frame.&nbsp; In effect, we'll spill all of our temporaries 
+into the frame and act as if we only have a handful of registers to work with.&nbsp; 
+Skip the section on &quot;Managing Static Links&quot;. </p>
+
+</body></html>

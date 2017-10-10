@@ -1,0 +1,80 @@
+<!doctype html public "-//w3c//dtd html 4.0 transitional//en">
+<html>
+<head>
+   <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+   <meta name="GENERATOR" content="Microsoft FrontPage 12.0">
+   <title>Homework #5</title>
+</head>
+<body>
+&nbsp;
+<table WIDTH="100%" >
+<tr>
+<td><img SRC="GburgCS.gif" height=84 width=182></td>
+
+<td><font size=+2>CS 216 - Data Structures</font>
+<br><font size=+2>Homework #5</font></td>
+</tr>
+</table>
+
+<hr>
+<br><b>Due: Wednesday 3/6 at the beginning of class</b>
+<p><b>NOTE: This work is to be done in groups of 2-3.</b>
+<h1>Hash Tables: the Markov Word Processor</h1>
+<p>(Mind you, this word processor will process words as a food processor 
+processes food!)</p>
+<p>1.&nbsp; Implement a chained hash table using Java generics according to the
+<a href="examples/ChainedHashTable.java">ChainedHashTable</a> interface.&nbsp; 
+You may, but are not required to, make use of your linked list implementation.</p>
+<p>2.&nbsp; Using your hash table, implement a word-level order-1 Markov text 
+generator according to
+<a href="http://www.cs.bell-labs.com/cm/cs/pearls/sec153.html">section 15.3 of
+<i>Programming Pearls</i>, 2nd ed. by Jon Bentley</a>, and
+<a href="http://cm.bell-labs.com/cm/cs/tpop/">chapter 3 of <i>The Practice of 
+Programming</i> by Brian Kernighan and Rob Pike</a>.&nbsp; The order-2 Markov 
+chain algorithm is described by Kernighan and Pike as follows:</p>
+<p>set <i>w1</i> and <i>w2</i> to the first two words in the text<br>
+print <i>w1</i> and <i>w2</i><br>
+loop:<br>
+&nbsp;&nbsp;&nbsp; randomly choose <i>w3</i>, one of the successors of prefix <i>
+w1</i> <i>w2</i> in the text<br>
+&nbsp;&nbsp;&nbsp; print <i>w3</i><br>
+&nbsp;&nbsp;&nbsp; replace <i>w1</i> and <i>w2</i> by <i>w2</i> and <i>w3</i><br>
+&nbsp;&nbsp;&nbsp; repeat loop</p>
+<p>You may implement this order-2 algorithm if you wish, but the order-1 
+algorithm is given as follows:</p>
+<p>set <i>w1</i> to the first word in the text<br>
+print <i>w1</i><br>
+loop:<br>
+&nbsp;&nbsp;&nbsp; randomly choose <i>w2</i>, one of the successors of prefix <i>
+w1</i> in the text<br>
+&nbsp;&nbsp;&nbsp; print <i>w2</i><br>
+&nbsp;&nbsp;&nbsp; replace <i>w1</i> by <i>w2</i><br>
+&nbsp;&nbsp;&nbsp; repeat loop</p>
+<p>To implement this algorithm simply, let &quot;word&quot; here be interpreted as 
+&quot;token&quot;.&nbsp; Read all words of a text from the standard input and build a hash 
+table that associates strings with lists of strings.&nbsp; For an order-1 
+implementation, each word is associated with a list of words that follow it in 
+the text (including repeats).&nbsp; For an order-2 implementation, a string with 
+a space-separated pair of words is associated with a list of words that follow 
+them in the text. (including repeats).&nbsp; Once this table is built, it may be 
+used to look up a list of successors for the random generation. </p>
+<p>Hint: There is no termination to the pseudocode loops above.&nbsp; When 
+building your prefix-successor table before generation, add an extra pseudo-word 
+&quot;*END*&quot; after reading the text.&nbsp; This is not part of the input text.&nbsp; 
+Rather, consider it a pretend successor of the last <i>n</i> words for an order
+<i>n</i> algorithm.&nbsp; When generating the text and you come to this 
+pseudo-word &quot;*END*&quot;, do not print it.&nbsp; Instead, terminate the loop.</p>
+<p>For example, consider the possible order 1 output (<a href="markov/out1.txt">1</a>,
+<a href="markov/out2.txt">2</a>, <a href="markov/out3.txt">3</a>) for <i>
+<a href="markov/alice.txt">Alice's Adventures in Wonderland</a> </i>by Lewis 
+Carroll (Charles Lutwidge Dodgson).&nbsp; Or consider
+<a href="markov/sampleFoxInSocksMarkovOrder1.txt">order 1</a>,
+<a href="markov/sampleFoxInSocksMarkovOrder2.txt">order 2</a>, and
+<a href="markov/sampleFoxInSocksMarkovOrder3.txt">order 3</a> output of <i>
+<a href="markov/FoxInSocks.txt">Fox in Socks</a></i> by Dr. Seuss (Theodor Seuss 
+Geisel).</p>
+<p><img border="0" src="hw5.ht1.jpg"></p>
+<p>Image created with <a href="http://www.wordle.net/">http://www.wordle.net/</a></p>
+<p>&nbsp;</p>
+</body>
+</html>

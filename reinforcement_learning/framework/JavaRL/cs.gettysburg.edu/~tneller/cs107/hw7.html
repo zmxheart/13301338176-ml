@@ -1,0 +1,94 @@
+
+</body>
+</html>
+<!doctype html public "-//w3c//dtd html 4.0 transitional//en">
+<html>
+<head>
+   <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+   <meta name="GENERATOR" content="Microsoft FrontPage 12.0">
+   <title>Homework #7</title>
+   <style type="text/css">
+.style1 {
+	font-family: "Courier New", Courier, monospace;
+}
+</style>
+</head>
+<body>
+<table WIDTH="100%" >
+<tr>
+<td><img SRC="GburgCS.gif" height=84 width=182></td>
+
+<td><font size=+2>CS 107 - Introduction to Scientific Computation</font><br><font size=+2>Homework #7</font></td>
+</tr>
+</table>
+
+<hr>
+<b>
+<br>Due: Wednesday 10/16 at the beginning of class</b> <b><br>Submit from your 
+.m file directory using the command: </b><span class="style1">submit107 hw7</span><h2>
+<b>Bioinformatics Exercises</b></h2>
+<p><b>1. RNA Transcription: </b>DNA and RNA consist of sequences of nucleotides.&nbsp; 
+DNA nucleotides each contains one of the following bases: adenine, cytosine, 
+guanine, and thymine, abbreviated A, C, G, and T, respectively.&nbsp;&nbsp; In 
+bioinformatics, a DNA sequence is often represented as a string made up of these 
+abbreviated base names (e.g. &quot;GATTACA&quot;).&nbsp; RNA uses uracil (U) in place of 
+thymine (T).&nbsp; When RNA is transcribed from DNA, the result is a &quot;copy&quot; of 
+the DNA sequence with uracil (U) substituted in the RNA for each occurrence of 
+thymine (T) in the DNA.&nbsp; Create a function <code>transcribe.m</code> that takes a string 
+of DNA bases, and returns the corresponding string of transcribed RNA bases.&nbsp; 
+For example:</p>
+<pre>>> transcribe('GATTACA')
+
+ans =
+
+GAUUACA</pre>
+<p><b>2. RNA Codon Translation: </b>Exercise 8.7.&nbsp; Create a&nbsp; function 
+<code>rna2amino</code> that takes two arguments, an RNA nucleotide sequence 
+string and a starting index, and returns the amino acid sequence string that 
+would be translated.</p>
+<p>Hint:&nbsp; One approach makes use of a switch/case statement to map sets of 
+codons to the smaller number of acids/'Stop'.&nbsp; Another approach would be to start your definition as follows:</p>
+<pre>function res = rna2amino(bases, startIndex)
+acids = ['Phe'; 'Ser'; 'Tyr'; 'Cys'; ...
+    'Phe'; 'Ser'; 'Tyr'; 'Cys'; ...
+    'Leu'; 'Ser'; 'Stp'; 'Stp'; ...
+    'Leu'; 'Ser'; 'Stp'; 'Trp'; ...
+    'Leu'; 'Pro'; 'His'; 'Arg'; ...
+    'Leu'; 'Pro'; 'His'; 'Arg'; ...
+    'Leu'; 'Pro'; 'Gln'; 'Arg'; ...
+    'Leu'; 'Pro'; 'Gln'; 'Arg'; ...
+    'Ile'; 'Thr'; 'Asn'; 'Ser'; ...
+    'Ile'; 'Thr'; 'Asn'; 'Ser'; ...
+    'Ile'; 'Thr'; 'Lys'; 'Arg'; ...    
+    'Met'; 'Thr'; 'Lys'; 'Arg'; ...
+    'Val'; 'Ala'; 'Asp'; 'Gly'; ...
+    'Val'; 'Ala'; 'Asp'; 'Gly'; ...
+    'Val'; 'Ala'; 'Glu'; 'Gly'; ...
+    'Val'; 'Ala'; 'Glu'; 'Gly'];</pre>This is a 64x3 character array that has 
+the take amino acid entries left-to-right, top-to-bottom.&nbsp; Suppose you used 
+strfind('UCAG', base) - 1, to assign an individual base a number (e.g. 
+strfind('UCAG', 'A') - 1 <font face="Times New Roman">&#8594;</font> 2).&nbsp; 
+Consider, for a given codon, how the change of a single base's number in a 
+single position (holding all others fixed) affects the index of the desired 
+acid.&nbsp; Form a mathematical expression from the codon's three base numbers 
+to the acid (converting a 'Stp' result to 'Stop').<p><b>3. Dot Plot:&nbsp; </b>A
+<a href="http://en.wikipedia.org/wiki/Dot_plot_(bioinformatics)">dot plot</a> is 
+a means of visually comparing similarity of two base sequences.&nbsp; Given two 
+strings s1 and s2 of bases, coordinate (i, j) of the plot is black if s1(i) == 
+s2(j), and is white otherwise.&nbsp; NOTE: Strings s1 and s2 may have different 
+lengths.&nbsp; We'll accomplish this by building a 2D 
+array (i.e. a matrix) x of 0's and 1's, corresponding to mismatches and matches, respectively.&nbsp; 
+We plot them as follows: </p>
+<pre>colormap(gray(2));
+image(2 - x);
+axis ij;
+axis square;</pre>
+<p>For example,</p>
+<pre>dotPlot('gattaca','gattaca')</pre>
+<p>yields</p>
+<p><img border="0" src="dotplot.png" width="680" height="597"></p>
+<p>Create function 
+<code>dotPlot</code> that takes two base sequence strings, computes the dotplot 
+data matrix, plots it as above, and returns the dotplot matrix.</p>
+</body>
+</html>

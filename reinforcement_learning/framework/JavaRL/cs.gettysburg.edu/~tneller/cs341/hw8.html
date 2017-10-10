@@ -1,0 +1,83 @@
+<!doctype html public "-//w3c//dtd html 4.0 transitional//en">
+<html>
+<head>
+   <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+   <meta name="GENERATOR" content="Microsoft FrontPage 12.0">
+   <title>Homework #8</title>
+   <style type="text/css">
+.style1 {
+	font-family: "Courier New", Courier, monospace;
+}
+</style>
+</head>
+<body>
+&nbsp;<table WIDTH="100%" >
+<tr>
+<td><img SRC="GburgCS.gif" height=84 width=182></td>
+
+<td><font size=+2>CS 341 - Survey of Programming Languages</font>
+<br><font size=+2>Homework #8</font></td>
+</tr>
+</table>
+
+<hr>
+<p><B>Due: Thursday 10/19 at the beginning of class #15</B> </p>
+<P><B>Note: </B>This work is to be done in <B>pairs</B>.&nbsp; Each pair will 
+submit one assignment.&nbsp; Although you may divide the work, both team members 
+should be able to present/describe their partner's work upon request.&nbsp;
+<P>To submit this homework, change into the directory containing all necessary 
+files: MiniScheme3.jj and supporting abstract syntax tree .java files, and enter 
+the command &quot;<span class="style1">submit341 ms3</span>&quot;.<h1>MiniScheme 
+Project Phase 3</h1>
+<P>In this phase of the project, you will extend phase 2 to include Boolean 
+values and operators, if-else, relational operators, and type predicates: #t, 
+#f, and, or, not, if, eqv? (for integer and boolean), &lt;, integer?, boolean? 
+<P>Notes:<ul>
+	<li>We will continue to restrict &quot;read&quot; and &quot;write&quot; to handle only integer 
+	input and output for simplicity.&nbsp; As a result, most testing will use 
+	&quot;if&quot; to select integer output for the testing of your phase 3 operators.&nbsp; 
+	Accordingly, be sure that, after creating a class to represent your 
+	Booleans, you should next turn attention to correct interpretation of &quot;if&quot; 
+	before anything else.</li>
+	<li>In Scheme, anything that is not #f is treated as a true value, so your 
+	Boolean operators will not have errors with non-Boolean types. (Read R5RS 
+	section 6.3.1 on Booleans carefully.)&nbsp; You are encouraged to try to get 
+	type error messages with the and, or, and not operators.&nbsp; You will not 
+	experience them, and will gain insight into the correct working of the 
+	Boolean operators (defined in sections 4.2.1 and 6.3.1). </li>
+	<li>Read 6.1 to better understand the correct behavior of the equivalence 
+	predicate eqv?.&nbsp; In our implementation, two no-value expressions (e.g. 
+	&quot;(write 1)&quot; and &quot;(write 2)&quot;) are considered eqv? equal.</li>
+	<li>The less than operator (&lt;) should given the same messages and same error 
+	code as arithmetic operators when given operand(s) that are not integers.</li>
+</ul>
+<h2>Grammar</h2>
+<p>Grammar notes:</p>
+<ul>
+	<li>Non-terminals are surrounded with angle brackets &quot;&lt;&quot; and &quot;&gt;&quot;.&nbsp; </li>
+	<li>Terminals (e.g. &quot;(&quot; and &quot;)&quot; are represented as themselves without 
+	quotes, unless otherwise noted below).</li>
+	<li>--&gt; denotes a right arrow.&nbsp; Choices to the right of the arrow are 
+	separated by a pipe (i.e. &quot;|&quot;).</li>
+	<li>{ }* and { }+ denote a Kleene star and plus/cross, respectively. { }? 
+	denotes an optional subexpression.</li>
+</ul>
+<p>&lt;program&gt; --&gt; { &lt;definition&gt; | &lt;expression&gt; }*<br><br>&lt;definition&gt; --&gt; ( 
+define &lt;variable&gt; &lt;expression&gt; )<br><br>&lt;variable&gt; --&gt; &lt;any &lt;identifier&gt; that 
+isn't also a keyword&gt;<br>&lt;identifier&gt; --&gt; &lt;initial&gt; { &lt;subsequent&gt; }* <br>
+&lt;initial&gt; --&gt; [a-z!$%&amp;*/:&lt;=&gt;?^_~]<br>&lt;subsequent&gt; --&gt; &lt;initial&gt; | &lt;digit&gt; | 
+[+-.@]<br>&lt;digit&gt; --&gt; [0-9]<br><br>&lt;expression&gt; --&gt; &lt;variable&gt;<br>| &lt;literal&gt;<br>
+| &lt;conditional&gt;<br>| &lt;assignment&gt;<br>| &lt;defined expression&gt;<br><br>&lt;literal&gt; --&gt; 
+&lt;integer&gt; | &lt;boolean&gt;<br>&lt;integer&gt; --&gt; { + | - }? { &lt;digit&gt; }+<br>&lt;boolean&gt; --&gt; 
+#t | #f<br><br>&lt;conditional&gt; --&gt; ( if &lt;expression&gt; &lt;expression&gt; { &lt;expression&gt; 
+}? )<br><br>&lt;assignment&gt; --&gt; ( set! &lt;variable&gt; &lt;expression&gt; )<br><br>&lt;defined 
+expression&gt; --&gt; ( read )<br>| ( write &lt;expression&gt; )<br>| ( newline )<br>| ( + 
+&lt;expression&gt; &lt;expression&gt; )<br>| ( - &lt;expression&gt; &lt;expression&gt; )<br>| ( * 
+&lt;expression&gt; &lt;expression&gt; )<br>| ( quotient &lt;expression&gt; &lt;expression&gt; )<br>| ( 
+let ( { &lt;binding spec&gt; }* ) &lt;body&gt; )<br>| ( and { &lt;expression&gt; }* )<br>| ( or { 
+&lt;expression&gt; }* )<br>| ( not &lt;expression&gt; )<br>| ( eqv? &lt;expression&gt; 
+&lt;expression&gt; )<br>| ( &lt; &lt;expression&gt; &lt;expression&gt; )<br>| ( integer? &lt;expression&gt; 
+)<br>| ( boolean? &lt;expression&gt; )<br><br>&lt;binding spec&gt; --&gt; ( &lt;variable&gt; 
+&lt;expression&gt; )<br><br>&lt;body&gt; --&gt; { &lt;definition&gt; }* { &lt;expression&gt; }+</p>
+
+</body></html>

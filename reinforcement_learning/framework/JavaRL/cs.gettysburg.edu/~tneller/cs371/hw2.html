@@ -1,0 +1,80 @@
+<!doctype html public "-//w3c//dtd html 4.0 transitional//en">
+<html>
+<head>
+   <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+   <meta name="GENERATOR" content="Microsoft FrontPage 12.0">
+   <meta name="Author" content="Todd Neller">
+   <title>Homework #2</title>
+   <style type="text/css">
+.style1 {
+	text-decoration: underline;
+}
+.style2 {
+	font-family: "Courier New", Courier, monospace;
+}
+</style>
+   </head>
+<body bgcolor="#FFFFFF">
+&nbsp;<table WIDTH="100%" >
+<tr>
+<td><img SRC="GburgCS.gif" height=84 width=182></td>
+
+<td><font size=+2>CS 371 - Introduction to Artificial Intelligence</font>
+<br><font size=+2>Homework #2</font></td>
+</tr>
+</table>
+
+<hr>
+<br><b>Due: Thursday 2/9 at the beginning of class</b>
+<br><b>Note: Work is to be done in pairs</b>
+<h1>
+Informed Search</h1>
+
+<p><b>1. Pancake Sorting with Flip Costs:&nbsp;</b> For this exercise, we 
+will work with a variant of the &quot;<a href="https://en.wikipedia.org/wiki/Pancake_sorting">Pancake Sorting Problem</a>&quot;.&nbsp; 
+A stack of pancakes with different sizes is represented as a permutation of <em>p </em>integers {0, ... , <em>p</em>-1}.&nbsp; 
+A &quot;flip&quot; of<em> n</em> pancakes reverses the order of the first<em> n</em> 
+pancakes, and incurs a cost of <em>n</em>.&nbsp; Our goal is to seek a minimal 
+total cost sequence of flips to sort a given pancake permutation.&nbsp; Consider the following example optimal solution for pancake sequence {5, 2, 7, 4, 1, 3, 6, 0}:
+
+<pre>         5 2 7 4 1 3 6 0 cost: 0
+flip 2: <span class="style1">2 5</span> 7 4 1 3 6 0 cost: 2
+flip 4: <span class="style1">4 7 5 2</span> 1 3 6 0 cost: 6
+flip 3: <span class="style1">5 7 4</span> 2 1 3 6 0 cost: 9
+flip 2: <span class="style1">7 5</span> 4 2 1 3 6 0 cost: 11
+flip 6: <span class="style1">3 1 2 4 5 7</span> 6 0 cost: 17
+flip 3: <span class="style1">2 1 3</span> 4 5 7 6 0 cost: 20
+flip 2: <span class="style1">1 2</span> 3 4 5 7 6 0 cost: 22
+flip 7: <span class="style1">6 7 5 4 3 2 1</span> 0 cost: 29
+flip 2: <span class="style1">7 6</span> 5 4 3 2 1 0 cost: 31
+flip 8: <span class="style1">0 1 2 3 4 5 6 7</span> cost: 39
+</pre>With the initial sequence, no cost is incurred.&nbsp; After flipping 
+(reversing) the first 2 pancakes {5, 2}, a cost of 2 is accumulated.&nbsp; After 
+next flipping the first 4 pancakes {2, 5, 7, 4}, the cumulative cost is then 6.&nbsp; 
+Continuing on through all 10 flips, we reach a goal node with optimal (minimal) 
+cost 39.&nbsp; (Optimal flip sequences may not be unique.)</p>
+<p>Implement <span class="style2">HPancakeSortNode.java</span> according to
+<a href="pancake-doc/HPancakeSortNode.html">this specification</a>.&nbsp; Have 
+all the following necessary supporting classes (developed and/or specified in 
+class) available in the same directory when you submit your work.</p>
+<ul>
+	<li class="style2">AStarComparator.java</li>
+	<li class="style2">BestFirstSearcher.java</li>
+	<li class="style2">HSearcher.java</li>
+	<li class="style2">HSearchNode.java</li>
+	<li class="style2">Searcher.java</li>
+	<li class="style2">SearchNode.java</li>
+</ul>
+<p>Pancake Sorting History: First discussed by mathematician Jacob Goodman, the 
+Pancake Sorting Problem in its original form (with cost equal to depth of 
+search, i.e. number of flips regardless of flip sizes) was of great interest to 
+a sophomore at Harvard College who took on the research challenge and dropped 
+out a year later.&nbsp; That sophomore's pancake sorting algorithm held the 
+record for being the best for more than 30 years when it was bested in 2008 by 
+researchers at UT Dallas.&nbsp; That Harvard sophomore dropout was Bill Gates.</p>
+<p>This variant is my own design.</p>
+
+<p><a href="http://cs.gettysburg.edu/~tneller/">Todd Neller</a>
+<br><img SRC="tneller-email.gif" height=20 width=143>
+</body>
+</html>

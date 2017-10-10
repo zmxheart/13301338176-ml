@@ -1,0 +1,75 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+<SCRIPT LANGUAGE="JavaScript">
+       function submitIt() {
+                if (document.reqForm.NAME.value==""){
+                  alert("Please enter a name");
+                        document.reqForm.NAME.focus();
+                        document.reqForm.NAME.select();
+                        return false;
+                }
+               if (document.reqForm.EMAIL.value==""){
+                 alert("Please enter your email address!");
+                        document.reqForm.EMAIL.focus();
+                        document.reqForm.EMAIL.select();
+                        return false;
+               }
+                
+              
+                return true
+        }
+</SCRIPT>
+  <TITLE>Department of Computer Science - Request Information</TITLE>
+  <link rel="stylesheet" type="text/css" href="one.css"> </HEAD>
+ <BODY BACKGROUND="back1.jpg">
+ <FORM ACTION="../cgi-bin/email.cgi" METHOD="POST" NAME="reqForm">
+ <INPUT TYPE="HIDDEN" VALUE="1" NAME="TYPE">
+ <TABLE WIDTH="100%">
+   <TR><TD WIDTH="20%">&nbsp;</TD>
+     <TD WIDTH="80%" ALIGN="LEFT">
+	<TABLE WIDTH="100%">
+	 <TR>
+	  <TD><A HREF="../index.html">CS Department Home</A> / <A HREF="students.html">Students</A> / <A HREF="prospective.html">Prospective</A> / Request Info</TD>
+	 </TR>	 
+       </TABLE>
+      </TD>
+   </TR>
+   <TR>
+    <TD VALIGN="TOP" WIDTH="20%">
+      <TABLE>
+       <TR><TD><A HREF="../showcase/labvr.html">Virtual Tour</A></TD></TR>
+       <TR><TD><A HREF="http://www.gettysburg.edu/admissions/index.html">Admissions</A></TD></TR>
+       <TR><TD><B>[Request Info]</B></TD></TR>
+      </TABLE>
+    </TD>
+    <TD WIDTH="80%">
+     <TABLE WIDTH="100%">
+     <TR>
+      <TD>Name</TD><TD><INPUT TYPE="TEXT" NAME="NAME" SIZE="25"></TD>
+     </TR>
+      <TD>Email</TD><TD><INPUT TYPE="TEXT" NAME="EMAIL" SIZE="25"></TD>
+     </TR>
+      <TD>Mailing Address</TD><TD><INPUT TYPE="ADDRESS" NAME="ADDRESS" SIZE="25"></TD>
+     </TR>
+      <TD>City</TD><TD><INPUT TYPE="TEXT" NAME="CITY" SIZE="25"></TD>
+     </TR>
+      <TD>State</TD><TD><INPUT TYPE="TEXT" NAME="STATE" SIZE="2" MAXLENGTH="2"></TD>
+     </TR>
+      <TD>Postal Code</TD><TD><INPUT TYPE="TEXT" NAME="ZIP" SIZE="10" MAXLENGTH="10"></TD>
+     </TR>
+     <TR>
+      <TD COLSPAN="2">Additional Requests:</TD>
+     </TR>
+     <TR>
+      <TD COLSPAN="2"><TEXTAREA COLS="45" ROWS="10" NAME="ADDITIONAL"></TEXTAREA></TD>
+     </TR>
+     <TR>
+      <TD COLSPAN="2"><INPUT TYPE="BUTTON" VALUE="Submit" onClick="javascript:if(submitIt()){ document.reqForm.submit();}"></TD>
+     </TR>
+  </TABLE>
+  </TD></TR>
+ </TABLE>
+ </FORM>
+ </BODY>
+</HTML>

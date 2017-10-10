@@ -1,0 +1,245 @@
+# include <stdio.h>
+# include <math.h>
+# include "global.h"
+# include "fun_prots.h"  
+# include "fun_list.h"  
+
+main()
+{
+double weights[NO_INPUTS],input_values[DATA_SIZE][NO_INPUTS],
+target_values[DATA_SIZE],bias_weight,x[NO_INPUTS];
+
+init_net(weights,&bias_weight); 
+
+reader(input_values,target_values);
+
+neuron(weights,&bias_weight,input_values,target_values);   
+
+
+x[0]=0.2;
+x[1]=0.5;
+
+evaluator(weights,bias_weight,x);
+
+return;
+}
+
+/*** global.h****************/
+
+# define NO_INPUTS  2 /* number of input nodes */
+# define DATA_SIZE 10 /* number of training examples in the batch */
+int ITERMAX=700;
+long SEED1=12;
+long SEED2=1324;
+long SEED3=3456;
+long SEED4=5678;
+/*** fun_prots.h****************/
+
+
+int reader(double [DATA_SIZE][NO_INPUTS],double [DATA_SIZE]);
+double compute_sigmoid(double);
+double uniformrnd(long*);
+double unifrnd(double,double,long*);
+void neuron(double [NO_INPUTS], double*,
+double [DATA_SIZE][NO_INPUTS],double [DATA_SIZE]);
+void simu_net(double [DATA_SIZE][NO_INPUTS],double
+[NO_INPUTS],double,double [DATA_SIZE]);
+void init_net(double [NO_INPUTS],double* );
+void evaluator(double [NO_INPUTS],double, double [NO_INPUTS]);
+
+/********fun_list.h***************/
+
+# include "uniformrnd.c"
+# include "unifrnd.c"
+# include "init_net.c"
+# include "simu_net.c"
+# include "neuron.c"
+# include "reader.c"
+# include "evaluator.c"
+
+/**********init_net.c*************/
+
+void init_net(double weights[NO_INPUTS],double* bias_weight)
+{
+/* initialize weights in the neural net */
+
+int i;
+
+       for(i=0;i<NO_INPUTS;i++)
+       {
+       weights[i]=unifrnd(0.0,0.1,&SEED1);
+       }
+
+       *bias_weight=unifrnd(0.0,0.1,&SEED2);
+
+return;
+} 
+
+/********input.dat***************/
+ 
+0.000783 
+0.153779 
+3.769677 
+0.560532 
+0.865013 
+7.885598 
+0.276724 
+0.895919 
+7.756317 
+0.704462 
+0.886472 
+8.136820 
+0.929641 
+0.469290 
+6.276089 
+0.350208 
+0.941637 
+8.058394 
+0.096535 
+0.457211 
+5.382590 
+0.346164 
+0.970019 
+8.196260 
+0.114938 
+0.769819 
+6.964032 
+0.341565 
+0.684224 
+6.762684 
+
+/**********neuron.c******************/
+
+void neuron(double weights[NO_INPUTS], double*
+bias_weight, double input_values[DATA_SIZE][NO_INPUTS],double 
+target_values[DATA_SIZE])
+{
+
+double output_values[DATA_SIZE],output_deltas[DATA_SIZE];
+double best_sse,best_weights[NO_INPUTS],best_bias_weight;
+double sse,change,denom,error,learning_rate; 
+int iter,i,p;
+
+/* This function trains a neuron net in batch mode; */
+/* a bias unit has been used; */
+
+learning_rate=0.01;
+best_sse=100000; /* some large number */
+simu_net(input_values,weights,*bias_weight,output_values);
+
+iter=0;
+
+while(iter<ITERMAX)
+{/* one iteration of training */
+
+    /* update bias weight */
+      change=0;
+      for(p=0;p<DATA_SIZE;p++)
+      {/* computing deltas for output unit for each point */
+      output_deltas[p]=target_values[p]-output_values[p];
+      change=change+output_deltas[p];
+      }
+      *bias_weight=*bias_weight+(learning_rate*change); 
+    
+
+      /* updating weights from input units to output*/
+       
+      for(i=0;i<NO_INPUTS;i++)
+      {
+             change=0;
+             for(p=0;p<DATA_SIZE;p++)
+             {/* sum change over all points */
+             change=change+(output_deltas[p]*input_values[p][i]);
+             }
+           weights[i]=weights[i]+(change*learning_rate);
+
+      }
+     
+
+simu_net(input_values,weights,*bias_weight,output_values);
+
+   sse=0;
+   for(p=0;p<DATA_SIZE;p++)
+   {/* finding sum of the SSE */
+   error=output_values[p]-target_values[p];
+   sse=sse+(error*error);
+   }
+   printf("# of training iterations=%d\n",iter);
+
+   
+   if(sse<best_sse)
+   {/* save the weights as the best weights so far */
+   best_sse=sse;
+        for(i=0;i<NO_INPUTS;i++)
+        {
+        best_weights[i]=weights[i];
+        }
+   best_bias_weight=*bias_weight;  
+   }
+
+   printf("SSE=%lf\n",best_sse);
+iter=iter+1;
+learning_rate=learning_rate*0.99999;
+}
+
+/* return the best weights learned */
+        for(i=0;i<NO_INPUTS;i++)
+        {
+        weights[i]=best_weights[i];
+        } 
+   *bias_weight=best_bias_weight;  
+
+
+
+
+return;
+}
+
+/*********reader.c*******************/
+
+
+int reader(double input_values[DATA_SIZE][NO_INPUTS],double
+target_values[DATA_SIZE])
+{/* Reads input and target values from a file; */
+/* each line has a different value. */
+/* The first few lines contain the input values and then the next line */
+/* contains the target value and then the sequence repeats */
+
+   FILE *fid;
+   int p,i;
+   fid=fopen("input.dat","r");
+         for(p=0;p<DATA_SIZE;p++)
+         {
+           for(i=0;i<NO_INPUTS;i++)
+           {
+           fscanf(fid,"%lf \n",&input_values[p][i]);
+           }
+         fscanf(fid,"%lf \n",&target_values[p]);
+         }    
+fclose(fid);
+
+return;
+
+}                   
+
+/*************simu_net.c***************/
+
+void simu_net(double input_values[DATA_SIZE][NO_INPUTS],double
+weights[NO_INPUTS],double bias_weight,double output_values[DATA_SIZE])
+{
+/* evaluates the values in the net; */
+double sum;
+int i,p;
+
+   for(p=0;p<DATA_SIZE;p++)
+   {/* for each data point */
+            sum=0.0;
+            for(i=0;i<NO_INPUTS;i++)
+            {/* over all inputs */
+            sum=sum+(weights[i]*input_values[p][i]);
+            }
+        output_values[p]=sum+bias_weight;
+   }
+
+return;
+}

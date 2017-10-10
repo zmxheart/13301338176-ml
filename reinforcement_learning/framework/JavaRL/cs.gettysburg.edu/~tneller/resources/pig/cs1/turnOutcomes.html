@@ -1,0 +1,81 @@
+<html>
+
+<head>
+<meta http-equiv="Content-Language" content="en-us">
+<meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
+<title>Pig - Hold-at-20 Turn Outcomes (Computation)</title>
+</head>
+
+<body>
+
+<p align="center"><img border="1" src="gameOfPig.png"></p>
+<h1>Hold-at-20 Outcomes (Computation)</h1>
+<p><b><a href="http://cs.gettysburg.edu/projects/pig/">Pig</a></b> is a folk jeopardy dice game with simple rules: Two players race to reach 100 points. Each turn, a 
+player repeatedly rolls a die until either a 1 (&quot;pig&quot;) is rolled or the player holds and 
+scores the sum of the rolls (i.e. the <i>turn total</i>). At any time during a 
+player's turn, the player is faced with two decisions: </p>
+<ul>
+	<li><b>roll</b> - If the player rolls a 
+	<ul>
+		<li><b>1</b>: the player scores nothing and it becomes the opponent's 
+		turn. 
+		</li>
+		<li><b>2 - 6</b>: the number is added to the player's turn total and the 
+		player's turn continues. </li>
+	</ul>
+	</li>
+	<li><b>hold</b> - The turn total is added to the player's score and it 
+	becomes the opponent's turn. </li>
+</ul>
+<p><b>Problem:</b>&nbsp; Compute and report the 
+probabilities of the possible scoring outcomes from a hold-at-20 Pig turn.</p>
+<p>The following is a dynamic programming algorithm that approaches the problem 
+by computing the probability of passing through each score on the way to the 
+final outcome:</p>
+<ul>
+	<li>Create a floating-point array <i>score</i> with indices from 0 through 25 
+	(hold value + 5).&nbsp; 
+	Initialize all entries to 0.0, except initialize index 0 to 1.0.</li>
+	<li>For each increasing index <i>i</i> from 0 through 19 (hold value - 1):</li>
+	<ul>
+		<li>Let <i>p</i> be<i> score</i>[<i>i</i>]<i> </i>/ 6<i>.</i></li>
+		<li>Set <i>score</i>[<i>i</i>] to 0.0.</li>
+		<li>Add p to <i>score</i>[0], <i>score</i>[<i>i </i>+ 2], <i>score</i>[<i>i
+		</i>+ 3],&nbsp; <i>score</i>[<i>i </i>+ 4],&nbsp; <i>score</i>[<i>i </i>
+		+ 5],&nbsp; <i>score</i>[<i>i </i>+ 6]</li>
+	</ul>
+</ul>
+<p>At the beginning of each iteration <i>i,</i>&nbsp; <i>score</i>[<i>i</i>] is 
+the probability of passing through score <i>i.</i>&nbsp; After all iterations, 
+the remaining positive values are the probabilities of their respective score 
+outcome probabilities.</p>
+<p><b>Input Format:</b>&nbsp; (no input)</p>
+<p><b>Output Format:</b></p>
+<ul>
+	<li>On the first line, print &quot;Score&quot; and &quot;Probability&quot; separated by 
+	a tab.</li>
+	<li>After computing the probabilities of outcomes, print a table line for each possible score 
+	outcome in increasing order of score.&nbsp; For each score outcome, print 
+	the score, a tab, and the probability of that score outcome.</li>
+</ul>
+<p><b>Sample Transcript:</b></p>
+<pre>Score   Probability
+0       0.624541
+20      0.099713
+21      0.094991
+22      0.074189
+23      0.054196
+24      0.035198
+25      0.017173</pre>
+<p><b>Extra Exercises: </b></p>
+<ol>
+	<li>What is the expected average score outcome for hold-at-20?</li>
+	<li>Additionally allow the user to specify the hold value.&nbsp; What is the 
+	probability of reaching 100 in a single turn? </li>
+</ol>
+<hr>
+<p><a href="http://cs.gettysburg.edu/~tneller/index.html">Todd Neller</a></p>
+
+</body>
+
+</html>

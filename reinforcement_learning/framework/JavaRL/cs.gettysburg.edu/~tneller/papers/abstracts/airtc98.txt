@@ -1,0 +1,12 @@
+Title: Preliminary Thoughts on the Application of Real-Time AI
+Game-Tree Search to Control
+
+Abstract:
+
+We introduce a formal definition of a general hybrid system control
+game, and a decision procedure for an agent which uses simulation to
+inform game-playing decisions in real-time.  We discuss heuristics
+informing the estimation of expected utilities of actions, describe
+metalevel reasoning criteria which direct game-tree expansion
+according to decision relevance, and point out challenges in applying
+ideas from AI real-time game-tree search to control.

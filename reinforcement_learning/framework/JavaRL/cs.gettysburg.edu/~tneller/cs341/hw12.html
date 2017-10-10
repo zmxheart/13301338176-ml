@@ -1,0 +1,50 @@
+<!doctype html public "-//w3c//dtd html 4.0 transitional//en">
+<html>
+<head>
+   <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+   <meta name="GENERATOR" content="Microsoft FrontPage 12.0">
+   <title>Homework #12</title>
+   </head>
+<body>
+&nbsp;<table WIDTH="100%" >
+<tr>
+<td><img SRC="GburgCS.gif" height=84 width=182></td>
+
+<td><font size=+2>CS 341 - Survey of Programming Languages</font>
+<br><font size=+2>Homework #12</font></td>
+</tr>
+</table>
+
+<hr>
+<p><B>Due: Tuesday 11/28 at the beginning of class #25</B></p>
+<P>Note:&nbsp;This work is to be done in&nbsp;pairs.&nbsp; Work will be reviewed 
+in class on 12/1.&nbsp; Although you may divide the work, both team members should be able 
+to present/describe their partner's work upon request.&nbsp;
+<P>Create an object-oriented Python implementation of Pig according to
+<a href="http://cs.gettysburg.edu/~tneller/resources/pig/cs1/oogame.html">this 
+specification</a> with a Keep Pace and End Race computer player rather than a 
+Hold at 20 computer player.&nbsp; Since Python allows multiple inheritance, one 
+would use an abstract base class (ABC) instead of an interface.<P>Keep Pace and 
+End Race policy:&nbsp; Let&nbsp;i&nbsp;be the player's score,&nbsp;j&nbsp;be the opponent's score, 
+and&nbsp;k&nbsp;be the current turn total.&nbsp; If&nbsp;i&nbsp;&gt;= 71 or&nbsp;j&nbsp;&gt;= 71, roll for the 
+goal.&nbsp; Otherwise, hold at 21 + round((j&nbsp;-&nbsp;i) / 8). Call your computer player 
+class KPERPigPlayer.<p>Common pitfalls:</p>
+<ul>
+	<li>Be sure to note that the Die class is overkill for the needs of the 
+	game, but forces a person to consider how one would work multiple 
+	constructors in Python.&nbsp; There are a number of ways this could be 
+	accomplished.&nbsp; A few are described in
+	<a href="http://stackoverflow.com/questions/682504/what-is-a-clean-pythonic-way-to-have-multiple-constructors-in-python">
+	this Stack Overflow discussion</a>.&nbsp; Note the example uses of&nbsp; (1) 
+	the default value <a href="https://docs.python.org/2/library/constants.html">
+	None</a>, (2)
+	<a href="https://docs.python.org/2/tutorial/controlflow.html#keyword-arguments">
+	*args, **kwargs</a>, and (3)
+	<a href="https://en.wikipedia.org/wiki/Factory_method_pattern">factory 
+	methods</a>. </li>
+	<li>Don't forget to use the
+	<a href="https://docs.python.org/2/library/abc.html">abstract base class 
+	(ABC)</a> package &quot;abc&quot; to define the PigPlayer interface.</li>
+</ul>
+
+</body></html>

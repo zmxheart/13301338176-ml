@@ -1,0 +1,75 @@
+<!doctype html public "-//w3c//dtd html 4.0 transitional//en">
+<html>
+<head>
+   <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+   <meta name="GENERATOR" content="Microsoft FrontPage 12.0">
+   <meta name="Author" content="Todd Neller">
+   <title>Homework #4</title>
+   <style type="text/css">
+.style1 {
+	background-color: #FFFF00;
+}
+</style>
+</head>
+<body bgcolor="#FFFFFF">
+<table WIDTH="100%" >
+<tr>
+<td><img SRC="GburgCS.gif" height=84 width=182></td>
+
+<td><font size=+2>CS 371 - Introduction to Artificial Intelligence</font>
+<br><font size=+2>Homework #4</font></td>
+</tr>
+</table>
+
+<hr>
+<p><b>Due: Thursday 3/2 at the beginning of class</b>
+<br><b>Note: Work is to be done in pairs, and submitted via email attachment.&nbsp; </b>
+</p>
+<h1>
+<b>Game-Tree Search</b></h1>
+
+<ul>
+<li>
+<b><a href="mancala/">HW4 Code Resources</a></b></li>
+</ul>
+
+<p>All of your classes should be <u>named uniquely</u> so as to not
+clash in the same namespace with those of other groups.&nbsp; This is usually
+accomplished using packages, but for this project, you may simply <u>begin
+each class name with a unique identifier</u> such as a combination of user
+names.&nbsp; In these instructions, your unique identifier will be denoted
+&lt;uniqueID>.
+<p><b>1. Mancala Utility Function:</b>&nbsp; Your first task will be to
+develop an efficiently computable utility function for Mancala.&nbsp; The
+one supplied in class TnellerMancalaNode simple subtracts the MIN player
+score from the MAX player score.&nbsp; In class, we noticed other possible
+simple measures of utility that provide additional means of estimating
+the relative utility of the node.&nbsp; Develop at least two utility functions
+and experiment to see which works better.&nbsp; Don't forget to test it
+against the one provided as a baseline for comparison.&nbsp; Name your
+nodes <code><strong>&lt;uniqueID>&lt;#>MancalaNode.java</strong></code>.&nbsp; 
+Your implementation should outperform that of the supplied utility function.<p><b>2. Alpha-Beta Search:&nbsp;</b> Your second task can be developed
+in parallel with the first. Create a new class <code><strong>&lt;uniqueID>AlphaBetaSearcher.java</strong></code>
+that implements the interface GameTreeSearcher and performs depth-limited
+minimax with alpha-beta pruning.&nbsp; You're encouraged to copy
+the provided MinimaxSearcher code to your AlphaBeta code as a starting point.&nbsp; 
+Then augment the code by passing alpha
+and beta as parameters for pruning.<p><b>3. Mancala Player:&nbsp; </b>Your final task will be to bring your
+Mancala node utility function together with alpha-beta search and create
+a real-time Mancala-playing agent.&nbsp; Name your class <code><strong>&lt;uniqueID>MancalaPlayer</strong></code>
+and be sure that it implements the MancalaPlayer interface.&nbsp; Each
+player will be allotted 2.5 minutes each for decision making.&nbsp; Supplied
+in TnellerMancalaPlayer is a very sloppy hack which seeks to adjust search
+depth according to game progress, which is roughly assessed by (1) the
+number of pieces still in play, and (2) the number of milliseconds left
+in the game.&nbsp; You may use this approach, but be forewarned that there
+will be better approaches given that (1) with alpha-beta pruning, you can
+search deeper faster, and (2) my implementation generally has too much
+spare time at the end of the game.&nbsp; <span class="style1">Your 
+implementation should outperform the supplied example implementations.</span><p>Your MancalaPlayer will compete against all other MancalaPlayer's to
+determine the champion of champions.&nbsp; The champions will receive a
+mancala game and the respect and awe of their peers and professor. :-)<a href="http://cs.gettysburg.edu/~tneller/"></a>
+<p><a href="http://cs.gettysburg.edu/~tneller/">Todd Neller</a>
+<br><img SRC="04fa/tneller-email.gif" height=20 width=143>
+</body>
+</html>

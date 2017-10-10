@@ -1,0 +1,91 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+<meta content="en-us" http-equiv="Content-Language" />
+<meta content="text/html; charset=utf-8" http-equiv="Content-Type" />
+<title>Eclipse Hello World Tutorial</title>
+<style type="text/css">
+.style1 {
+	font-family: "Times New Roman";
+}
+</style>
+</head>
+
+<body>
+
+<table WIDTH="100%" >
+<tr>
+<td><img SRC="GburgCS.gif" height=84 width=182></td>
+
+<td><font size=+2>CS 111 - Introduction to Computer Science</font>
+<br><font size="+2">Eclipse Hello World Tutorial</font></td>
+</tr>
+</table>
+
+<hr>
+<p>This tutorial walks you through the process of creating your first &quot;Hello, 
+world!&quot; application (<a href="http://en.wikipedia.org/wiki/Hello_world_program">http://en.wikipedia.org/wiki/Hello_world_program</a>) 
+in Java. </p>
+<ul>
+	<li>Open Eclipse:<ul>
+		<li>&nbsp;Start a terminal window by dragging to the bottom of the 
+		screen and selecting “Terminal Emulator”.</li>
+		<li>&nbsp;In that terminal window, type “eclipse &amp;”.</li>
+		<li>&nbsp;Wait for Eclipse to start up.&nbsp; Do not download/upgrade 
+		anything if asked.&nbsp; If you do not go to the Workbench 
+		automatically, select Workbench (“Go to workbench”).</li>
+		<li>&nbsp;If you&#39;re not already in the Java perspective, in the main 
+		menu select Window <span class="style1">→</span> Open Perspective
+		<span class="style1">→</span> Java.</li>
+	</ul>
+	</li>
+	<li>Create a Java Project:<ul>
+		<li>Before creating a Java class, we need a project to put it in. &nbsp;In 
+		the main menu, select File <span class="style1">→</span> New
+		<span class="style1">→</span> Java Project. </li>
+		<li>Enter “hw1” for the project name.</li>
+		<li>Under “Project Layout”, you should have selected “Use project folder 
+		as root for sources and class files”.&nbsp; If this is not selected:<ul>
+			<li>Click the “Configure defaults” link for Project Layout.</li>
+			<li>Under “Source and output folder”, select “Project”.</li>
+			<li>Click “Apply” and “OK”.</li>
+			<li>Make sure you now have selected “Use project folder as root for 
+			sources and class files” under “Project Layout” on the previous 
+			screen.</li>
+		</ul>
+		</li>
+		<li>Click “Finish”.</li>
+	</ul>
+	</li>
+	<li>Create a Java Class:<ul>
+		<li>In the main menu, select File <span class="style1">→</span>&nbsp; 
+		New <span class="style1">→</span>&nbsp; Class.</li>
+		<li>Under Source Folder, enter the name of your project (“hw1”).</li>
+		<li>Under Package, enter nothing.&nbsp; Eclipse will warn you that using 
+		the default package is not recommended, but for our purposes, you should 
+		always use the default package.</li>
+		<li>Under Name, enter “Hello”. Case matters.&nbsp; Class names should 
+		generally start with a capital letter, along with first letters of 
+		subsequent words (with no spaces in between).</li>
+		<li>Under “Which method stubs would you like to create?”, check “public 
+		static void main(String[] args)”.</li>
+		<li>Click “Finish”</li>
+	</ul>
+	</li>
+	<li>Write the program code:<ul>
+		<li>Within the main method curly brackets, add the following line:<br />
+		System.out.println(&quot;Hello, world!&quot;);</li>
+		<li>&nbsp;Save your changes (Control-S); the class will automatically 
+		compile.</li>
+		<li>Click the green right-arrow Play button to run the program in the 
+		bottom console window.</li>
+	</ul>
+	</li>
+</ul>
+<p>Congratulations! You have successfully created your first &quot;Hello, world!&quot; 
+application!</p>
+
+</body>
+
+</html>

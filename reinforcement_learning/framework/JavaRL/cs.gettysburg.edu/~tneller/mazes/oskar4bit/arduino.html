@@ -1,0 +1,214 @@
+<!doctype html public "-//w3c//dtd html 4.0 transitional//en">
+<html>
+<head>
+   <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+   <meta name="GENERATOR" content="Microsoft FrontPage 6.0">
+   <meta name="Author" content="Todd Neller">
+   <title>Oskar van Deventer's 4-Bit Maze</title>
+	<style>
+<!--
+div.Section1
+	{page:Section1;}
+-->
+</style>
+</head>
+<body bgcolor="#FFFFFF">
+&nbsp;
+<table WIDTH="100%" >
+<tr>
+<td><img SRC="GburgCS.gif" height=84 width=182></td>
+
+<td>
+<h1>Arduino Project: Oskar van Deventer's 4-Bit Maze</h1>
+</td>
+</tr>
+</table>
+
+<hr>
+<h2>The Four-Bit Maze</h2>
+<p>The implementation of <a href="index.html">Oskar van Deventer's 4-Bit Maze</a> 
+is an excellent beginner Arduino project that makes simple use of pushbutton 
+switches and LEDs for digital input and output, respectively.&nbsp; The 4-bit maze, as the name implies, is a maze with a state encoded 
+as four <a href="http://en.wikipedia.org/wiki/Binary_numeral_system">binary</a> 
+bits and displayed as on/off LEDs.&nbsp; Initially, all four lights are on (i.e. 
+the initial state is 1111<sub>2</sub>=15<sub>10</sub>).&nbsp; The object is to 
+turn all four lights off (i.e. the goal state is 0000<sub>2</sub>=0<sub>10</sub>).&nbsp; 
+In each state, each &quot;on&quot; bit may be selected.&nbsp; Each leads to a different 
+state with that bit &quot;off&quot;, yet other bits may change as well.&nbsp; This is 
+better experienced than described, so try playing with the following 
+4-bit maze applet:</p>
+<p align="center">
+<applet CODE=Oskar4BitMazeApplet.class WIDTH=300 HEIGHT=100></applet></p>
+<p>This applet features four buttons, each depicting an on/off state with a 
+light bulb image.&nbsp;Clicking a button that is &quot;on&quot; has the effect of turning 
+that button off, but may cause other buttons to turn on/off.&nbsp; In addition to 
+clicking the buttons, you may also click the background next to the buttons to 
+focus key presses to the applet.&nbsp; Then, you may press keys &quot;1&quot;, &quot;2&quot;, &quot;3&quot;, 
+and &quot;4&quot; to more easily press the buttons.&nbsp; &quot;Reset&quot; will reset you to the 
+initial state where all lights are on.&nbsp; &quot;New Maze&quot; will generate a new maze 
+and reset to the initial state.</p>
+<h2>The Arduino Four-Bit Maze Sketch</h2>
+<p>Download the Arduino sketch <a href="FourBitMaze.pde">FourBitMaze.pde</a>.&nbsp; 
+The sketch initially generates the same random four-bit maze each time (seed 
+42).&nbsp; Thereafter, the random maze generation is seeded with millis() (i.e. 
+the current time in milliseconds) at the time a new maze is requested.&nbsp; 
+Arduino digital input pins 2-5 reads buttons corresponding to state bits 0-3 
+(numbered right-to-left).&nbsp; Digital input pin 6 reads a &quot;Reset&quot; button that 
+resets to the initial state with the same maze.&nbsp; Digital input pin 7 reads 
+a &quot;New Maze&quot; button that generates a new maze and resets to the initial state.&nbsp; 
+Digital output pins 8-11 light LEDs corresponding to state bits 0-3.&nbsp; Thus 
+a total of 10 digital pins are used.</p>
+<p>No modification is necessary for the sketch to work.&nbsp; The &quot;#define 
+VERBOSE true&quot; line directs the program to transmit status information to the 
+Serial output.&nbsp; (This is handy for debugging your circuit.&nbsp; If this is 
+not desired, change &quot;true&quot; to &quot;false&quot;.)&nbsp; For example, examine this
+<a href="transcript.txt">sample transcript of Arduino FourBitMaze Serial output</a>.&nbsp; 
+Assuming the same code, seed (42), and random number generation, the first maze 
+will always be output as follows:</p>
+<p><font face="Courier New">0(0): -1 -1 -1 -1 <br>
+1(12): 2 -1 -1 -1 <br>
+2(11): -1 9 -1 -1 <br>
+3(5): 10 5 -1 -1 <br>
+4(8): -1 -1 11 -1 <br>
+5(6): 6 -1 3 -1 <br>
+6(9): -1 4 8 -1 <br>
+7(1): 8 0 10 -1 <br>
+8(10): -1 -1 -1 6 <br>
+9(10): 8 -1 -1 6 <br>
+10(4): -1 13 -1 3 <br>
+11(7): 12 9 -1 4 <br>
+12(6): -1 -1 3 2 <br>
+13(3): 14 -1 1 5 <br>
+14(2): -1 13 2 7 <br>
+15(9): 6 4 9 2 </font></p>
+<p>Each line is of the form: &lt;state&gt;(&lt;minimum distance to goal&gt;): &lt;next state 
+from bit 0&gt; &lt;next state from bit 1&gt; &lt;next state from bit 2&gt; &lt;next state from bit 
+3&gt;</p>
+<p>When there is no transition, this is represented by -1 (&quot;NULL&quot;).</p>
+<p>The maze may be (messily) represented by the following graph, which indicates 
+the shortest solution sequence of button presses (bits 1, 2, 0, 2, 0, 1, 0, 3, 
+1) in bold arrows.</p>
+<p align="center"><img border="0" src="maze42.png" width="897" height="561"> </p>
+<p>Note that this sequence is also followed in the transcript after it is 
+reset.</p>
+<h2>Breadboard Prototype</h2>
+<p>Building the supporting circuit for the sketch is very easy.&nbsp; 
+Essentially, we need to read 6 pushbuttons switches (bits 0-3, Reset, New Maze) 
+and set 4 LEDs (bits 0-3).&nbsp; The building blocks for turning LEDs on/off and 
+reading buttons are from the <a href="http://www.arduino.cc/en/Tutorial/Loop">
+Loop</a> and <a href="http://www.arduino.cc/en/Tutorial/Button">Button</a> 
+Arduino tutorials.&nbsp; The schematics for each LED and button portion of the 
+circuit is as follows:</p>
+<p align="center"><img border="0" src="in-out.png" width="336" height="214"></p>
+<p>Note that there will be 6 DIGITAL_IN portions for Arduino input pins 2-7. and 
+4 DIGITAL_OUT portions for Arduino output pins 8-11.&nbsp; Thus, here is the 
+necessary parts list:</p>
+<ul>
+	<li>Arduino (Diecimila) with <a href="FourBitMaze.pde">FourBitMaze.pde</a> 
+	sketch</li>
+	<li>4 <font face="Times New Roman">× </font>red LEDs</li>
+	<li>6 <font face="Times New Roman">× </font>pushbutton switches that can be 
+	used with a breadboard</li>
+	<li>4 <font face="Times New Roman">× </font>220 Ohm resistors 
+	(red-red-brown)</li>
+	<li>6 <font face="Times New Roman">× 2.2 KOhm resistors (red-red-red)</font></li>
+	<li><font face="Times New Roman">22 AWG wire</font></li>
+	<li><font face="Times New Roman">wire strippers</font></li>
+	<li><font face="Times New Roman">bread board</font></li>
+</ul>
+<p><font face="Times New Roman">There are a variety of ways this can be wired up 
+depending on the breadboard size and your aesthetic sense.&nbsp; The layout of 
+your circuit is left as a fun exercise.&nbsp; Be sure &quot;VERBOSE&quot; is defined as 
+&quot;true&quot; in the script and use the Arduino development environment's serial 
+monitor to see that your prototype is functioning properly.&nbsp; A USB-powered 
+breadboard prototype with an Arduino Mini is shown in these pictures:</font></p>
+<p align="center">
+<img border="0" src="small/IMG_1367.jpg" width="640" height="427"></p>
+<p align="center"><a href="IMG_1364.jpg">
+<img border="2" src="IMG_1364_small1.jpg" xthumbnail-orig-image="IMG_1364.jpg"></a><a href="IMG_1365.jpg"><img border="2" src="IMG_1365_small1.jpg" xthumbnail-orig-image="IMG_1365.jpg"></a><a href="IMG_1366.jpg"><img border="2" src="IMG_1366_small1.jpg" xthumbnail-orig-image="IMG_1366.jpg"></a><a href="IMG_1367.jpg"><img border="2" src="IMG_1367_small1.jpg" xthumbnail-orig-image="IMG_1367.jpg"></a><a href="IMG_1368.jpg"><img border="2" src="IMG_1368_small1.jpg" xthumbnail-orig-image="IMG_1368.jpg"></a></p>
+<h2><font face="Times New Roman">Arduino Protoshield Prototype</font></h2>
+<p><font face="Times New Roman">The circuit can <i>just barely</i> fit on an
+<a href="http://www.sparkfun.com/commerce/product_info.php?products_id=7914">
+Arduino Protoshield</a> with a mini breadboard.&nbsp; Here are instructions for 
+a <a href="miniBreadboardLayout.txt">Protoshield 4-bit maze layout</a>.&nbsp; 
+The result is shown in the pictures below.</font></p>
+<p align="center">
+<img border="0" src="small/IMG_1361.jpg" width="640" height="427"></p>
+<p align="center"><a href="small/IMG_1359.jpg">
+<img border="2" src="IMG_1359_small.jpg" xthumbnail-orig-image="small/IMG_1359.jpg"></a><a href="small/IMG_1360.jpg"><img border="2" src="IMG_1360_small.jpg" xthumbnail-orig-image="small/IMG_1360.jpg"></a><a href="small/IMG_1361.jpg"><img border="2" src="IMG_1361_small.jpg" xthumbnail-orig-image="small/IMG_1361.jpg"></a><a href="small/IMG_1362.jpg"><img border="2" src="IMG_1362_small.jpg" xthumbnail-orig-image="small/IMG_1362.jpg"></a><a href="small/IMG_1363.jpg"><img border="2" src="IMG_1363_small.jpg" xthumbnail-orig-image="small/IMG_1363.jpg"></a></p>
+<p>Note:&nbsp; Even straightening the pins of Sparkfun's pushbutton switches (Sparkfun 
+COM-00097), they can sometimes pop out.&nbsp; If anyone knows of a .3&quot;x.3&quot; 
+footprint tactile switch that is better suited for breadboard use, please let me 
+know.</p>
+<h2>&quot;Dead Bug&quot; Prototype</h2>
+<p>Shown in the pictures below is my
+<a href="http://www.dartmouth.edu/~sullivan/prototyping.pdf">&quot;dead bug&quot;-style</a> 
+prototype of the four-bit maze circuit.&nbsp; For this construction, one doesn't 
+need a breadboard, and additionally needs:</p>
+<ul>
+	<li>4 <font face="Times New Roman">× </font>red <i>panel-mount </i>LEDs</li>
+	<li>6 <font face="Times New Roman">× <i>panel-mount</i> </font>pushbutton 
+	switches</li>
+	<li>5V DC to DC step up circuit using 2AA batteries (directly from
+	<a href="http://www.bodhilabs.com/vpack5aa2.html">Bodhilabs</a> or from
+	<a href="http://www.sparkfun.com/commerce/product_info.php?products_id=8249">
+	Sparkfun</a>) </li>
+	<li>a toggle power switch (optional) to conserve battery power</li>
+	<li>a food storage container (~5 cups)</li>
+	<li>a dremel and/or drills</li>
+	<li>hot glue gun, glue sticks</li>
+</ul>
+<p>An overview of the process:</p>
+<ul>
+	<li>Devise a layout for the buttons on the lid of the container.&nbsp; I 
+	chose three rows: (1) Power, New Maze, Reset; (2) LED3, LED2, LED1, LED0; 
+	(3) Button3, Button2, Button1, Button0.</li>
+	<li>Drill suitable holes for the panel mount components and mount them.</li>
+	<li>The 5V and GND lines alternate underneath alongside and between rows in 
+	an interlocking &quot;U&quot; configuration.&nbsp; That is, 5V runs above the 1st and 
+	3rd rows in a &quot;U&quot;, and GND runs below the 1st and 3rd rows with a similar 
+	&quot;U&quot; hooking around the opposite end.&nbsp; Use large beads of hot glue to 
+	distance the lines from the lid.&nbsp; Lay the &quot;U&quot; shaped 5V and GND lines 
+	atop the cooled glue beads and affix them with more hot glue.&nbsp; In 
+	general, leave plenty of slack so that the flexing of the lid does not break 
+	the circuit. </li>
+	<li>Regulated &quot;+&quot; 5V output from the battery goes through the power switch 
+	and &quot;U&quot; to the &quot;5V&quot; pin of the Arduino.&nbsp; The &quot;-&quot;&nbsp; battery output 
+	and lid &quot;GND&quot; line both plug directly to the 2 adjacent Arduino GND pins.&nbsp; 
+	</li>
+	<li>Examine your LED. If it has a shorter wire and/or flattened edge, that's 
+	the negative &quot;cathode&quot;, as opposed to the longer wire positive &quot;anode&quot;.&nbsp; 
+	Directly solder a long DIGITAL_OUT wire from the anode to the stripped end 
+	that will plug into the Arduino.&nbsp; Solder a 220 Ohm (red-red-brown) 
+	resistor directly from the cathode to the GND line.</li>
+	<li>For pushbuttons, there is no polarity (+/- orientation).&nbsp; Solder a 
+	2.2 KOhm resistor from the 5V to one lead of the button.&nbsp; Also solder a 
+	long DIGITAL_IN wire to the button side of that same resistor.&nbsp; Cut and 
+	strip a short wire to solder from the other button lead to the GND line.</li>
+	<li>Optional: I labeled the top of the container with brief instructions, 
+	&quot;New Maze&quot;, and &quot;Reset&quot;.&nbsp; Using plain printed text and two-sided tape.&nbsp; 
+	Quick and easy.</li>
+</ul>
+<p>The result is a beautiful, functional mess. :-)&nbsp;&nbsp; </p>
+<p align="center">
+<img border="0" src="small/P1007434.jpg" width="640" height="425"></p>
+<p align="center"><a href="P1007433.jpg">
+<img border="2" src="P1007433_small.jpg" xthumbnail-orig-image="P1007433.jpg"></a><a href="P1007434.jpg"><img border="2" src="P1007434_small.jpg" xthumbnail-orig-image="P1007434.jpg"></a><a href="P1007435.jpg"><img border="2" src="P1007435_small.jpg" xthumbnail-orig-image="P1007435.jpg"></a><a href="P1007436.jpg"><img border="2" src="P1007436_small.jpg" xthumbnail-orig-image="P1007436.jpg"></a><a href="P1007437.jpg"><img border="2" src="P1007437_small.jpg" xthumbnail-orig-image="P1007437.jpg"></a><a href="P1007438.jpg"><img border="2" src="P1007438_small.jpg" xthumbnail-orig-image="P1007438.jpg"></a></p>
+<p>Disclaimer: My only previous electronics experience is from my youth with Radio Shack 
+electronics kit exercises and limited undergraduate prototyping with 
+breadboards, PLAs, and very little soldering.&nbsp; Thus, I've likely made 
+design decisions that would make a seasoned pro wince.&nbsp; My specialty as a 
+computer scientist is artificial intelligence, and my electronics training is 
+minimal.&nbsp; </p>
+<p>If you have an alternative design, let me know!&nbsp; I may later post links 
+to related work.&nbsp; In the meantime, enjoy the sketch, and have fun with some 
+form of circuit implementation!</p>
+<h2><a href="index.html">Four-Bit Maze Generation</a></h2>
+
+<hr>
+<p>
+Last updated 4 August 2008<br>
+<a href="http://cs.gettysburg.edu/~tneller/">Todd Neller</a>
+<br><img SRC="tneller-email.gif" height=20 width=143> </p>
+</body>
+</html>

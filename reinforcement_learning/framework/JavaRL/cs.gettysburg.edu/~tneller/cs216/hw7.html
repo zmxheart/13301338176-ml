@@ -1,0 +1,50 @@
+<!doctype html public "-//w3c//dtd html 4.0 transitional//en">
+<html>
+<head>
+   <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+   <meta name="GENERATOR" content="Microsoft FrontPage 12.0">
+   <title>Homework #7</title>
+</head>
+<body>
+&nbsp;
+<table WIDTH="100%" >
+<tr>
+<td><img SRC="GburgCS.gif" height=84 width=182></td>
+
+<td><font size=+2>CS 216 - Data Structures</font>
+<br><font size=+2>Homework #7</font></td>
+</tr>
+</table>
+
+<hr>
+<br><b>Due: Wednesday 3/27 at the beginning of class</b>
+<p><b>NOTE: This work is to be done in groups of 2-3.</b>
+<h2>Heapsort</h2>
+<p>Define a class <tt>HeapSorter&lt;E extends Comparable&lt;E&gt;&gt;</tt> with a default constructor 
+and a method <tt>public void sort(E[] a)</tt> that sorts <tt>a</tt> <i>in place without 
+making use of an additional array.</i>&nbsp; You are encouraged to adapt the 
+text pseudocode.&nbsp; (Warning: Pseudocode arrays use 1-based rather than 
+0-based indexing, so take extra care with off-by-one errors.)&nbsp; Here is some 
+sample test code illustrating one possible use:</p>
+<pre>
+	Scanner in = new Scanner(System.in);
+	System.out.print("How many integers? ");
+	int size = in.nextInt();
+	System.out.print("How many possible random values? ");
+	int values = in.nextInt();
+	Integer[] array = new Integer[size];
+	Random random = new Random();
+	for (int i = 0; i < size; i++)
+	    array[i] = random.nextInt(values);
+	new HeapSorter<Integer>().sort(array);
+	for (int i = 0; i < size - 1; i++)
+	    if (array[i] > array[i + 1]) {
+		System.out.println("Array not sorted");
+		System.exit(1);
+	    }
+	System.out.println("Array sorted");
+</pre>
+<p><br>
+&nbsp;</p>
+</body>
+</html>

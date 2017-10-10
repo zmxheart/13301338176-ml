@@ -1,0 +1,393 @@
+# include <stdio.h>
+# include <math.h>
+# include "global.h"
+# include "fun_prots.h"  
+# include "fun_list.h"  
+
+main()
+{
+double ih_weights[NO_INPUTS][NO_HIDDEN],ho_weights[NO_HIDDEN],
+input_values[DATA_SIZE][NO_INPUTS],hidden_values[NO_HIDDEN],
+target_values[DATA_SIZE],x[NO_INPUTS],bias_weight,vbias_weights[NO_HIDDEN];
+
+init_net(ih_weights,ho_weights,&bias_weight,vbias_weights); 
+
+reader(input_values,target_values);
+backprop_batch(ih_weights,ho_weights,&bias_weight,vbias_weights,
+input_values,target_values);   
+
+
+x[0]=0.2;
+x[1]=0.5;
+
+evaluator(ih_weights,ho_weights,bias_weight,vbias_weights,x);
+
+return;
+}
+
+/*****************global.h******************/
+# define NO_INPUTS  2 /* number of input nodes */
+# define NO_HIDDEN 3 /* number of hidden nodes */
+# define DATA_SIZE 10 /* number of training examples in the batch */
+int ITERMAX=500;
+long SEED1=12;
+long SEED2=1324;
+long SEED3=3456;
+long SEED4=5678;
+
+/* **************fun_prots.h***********/
+void reader(double [DATA_SIZE][NO_INPUTS],double [DATA_SIZE]);
+void backprop_batch(double [NO_INPUTS][NO_HIDDEN],double 
+[NO_HIDDEN],double*, double [NO_HIDDEN],double
+[DATA_SIZE][NO_INPUTS],double [DATA_SIZE]);
+double compute_sigmoid(double);
+void init_net(double [NO_INPUTS][NO_HIDDEN],double
+[NO_HIDDEN],double*,double [NO_HIDDEN]);
+void simu_net(double [DATA_SIZE][NO_INPUTS],double 
+[NO_INPUTS][NO_HIDDEN],double [NO_HIDDEN],double, double
+[NO_HIDDEN],double [DATA_SIZE][NO_HIDDEN],double [DATA_SIZE]);
+double uniformrnd(long*);
+double unifrnd(double,double,long*);
+void evaluator(double [NO_INPUTS][NO_HIDDEN],double
+[NO_HIDDEN],double,double [NO_HIDDEN],double[NO_INPUTS]);
+
+
+
+/* **************fun_list.h***********/
+# include "uniformrnd.c"
+# include "unifrnd.c"
+# include "compute_sigmoid.c"
+# include "init_net.c"
+# include "simu_net.c"
+# include "backprop_batch.c"
+# include "reader.c"
+# include "evaluator.c"
+
+/*********backprop_batch.c****************/
+
+void backprop_batch(double ih_weights[NO_INPUTS][NO_HIDDEN],double
+ho_weights[NO_HIDDEN],double* bias_weight,double vbias_weights[NO_HIDDEN],
+double input_values[DATA_SIZE][NO_INPUTS],double target_values[DATA_SIZE])
+{
+double output_values[DATA_SIZE],hidden_values[DATA_SIZE][NO_HIDDEN];
+double hidden_deltas[DATA_SIZE][NO_HIDDEN],output_deltas[DATA_SIZE];
+double best_sse,best_ih_weights[NO_INPUTS][NO_HIDDEN],
+best_ho_weights[NO_HIDDEN],best_vbias_weights[NO_HIDDEN],best_bias_weight;
+double sse,change,denom,error,learning_rate; 
+int iter,i,h,p;
+
+/* This function trains a neural net in batch mode; */
+/* uses a single hidden layer;using a sigmoid transfer function only from*/
+/* input to hidden,not from hidden to output; */ 
+/* a bias unit has been used; */
+
+learning_rate=0.01;
+best_sse=100000; /* some large number */
+simu_net(input_values,ih_weights,ho_weights,*bias_weight,vbias_weights,
+hidden_values,output_values);
+
+iter=0;
+
+while(iter<ITERMAX)
+{/* one iteration of training */
+
+      for(p=0;p<DATA_SIZE;p++)
+      {/* computing deltas for output unit for each point */
+      output_deltas[p]=target_values[p]-output_values[p];
+      }
+    
+    /* update bias weight */
+
+       change=0;
+       for(p=0;p<DATA_SIZE;p++)
+       {/* summing over all points */
+       change=change+output_deltas[p];
+       }
+       *bias_weight=*bias_weight+(learning_rate*change); 
+
+      /* compute hidden deltas */
+      for (h=0;h<NO_HIDDEN;h++)
+      {/* computing delta for hidden units for each point */
+         for(p=0;p<DATA_SIZE;p++)
+         {/* for each point (training example) */
+         hidden_deltas[p][h]=output_deltas[p]*ho_weights[h]
+         *hidden_values[p][h]*(1-hidden_values[p][h]);
+         }
+      }
+  
+      /* updating weights from input units to hidden units */
+       
+       for(i=0;i<NO_INPUTS;i++)
+       {
+          for(h=0;h<NO_HIDDEN;h++)
+          {
+             change=0;
+             for(p=0;p<DATA_SIZE;p++)
+             {/* sum change over all points */
+             change=change+ 
+             (hidden_deltas[p][h]*input_values[p][i]);
+             }
+          ih_weights[i][h]=ih_weights[i][h]+(change*learning_rate);
+
+          }
+       }
+
+    /* updating virtual bias weights */
+       for(h=0;h<NO_HIDDEN;h++)
+       {
+       change=0;
+             for(p=0;p<DATA_SIZE;p++)
+             {/* sum change over all points */
+             change=change+hidden_deltas[p][h];
+             }
+          vbias_weights[h]=vbias_weights[h]+(change*learning_rate);
+       }
+
+    /* update weights from hidden to output units */
+       for(h=0;h<NO_HIDDEN;h++)
+       {
+         change=0;
+         for(p=0;p<DATA_SIZE;p++)
+         {/* sum over all points */
+         change=change+(output_deltas[p]*hidden_values[p][h]);
+         }
+         ho_weights[h]=ho_weights[h]+(learning_rate*change);
+       }
+
+simu_net(input_values,ih_weights,ho_weights,*bias_weight,vbias_weights,
+hidden_values,output_values);
+
+   sse=0;
+   for(p=0;p<DATA_SIZE;p++)
+   {/* finding sum of the SSE */
+   error=output_values[p]-target_values[p];
+   sse=sse+(error*error);
+   }
+   printf("# of training iterations=%d\n",iter);
+
+   
+   if(sse<best_sse)
+   {/* save the weights as the best weights so far */
+   best_sse=sse;
+      for(h=0;h<NO_HIDDEN;h++)
+      {
+        best_ho_weights[h]=ho_weights[h];
+        best_vbias_weights[h]=vbias_weights[h];
+        for(i=0;i<NO_INPUTS;i++)
+        {
+        best_ih_weights[i][h]=ih_weights[i][h];
+        }
+      }   
+   best_bias_weight=*bias_weight;  
+   }
+
+   printf("SSE=%lf\n",best_sse);
+iter=iter+1;
+learning_rate=learning_rate*0.99999;
+}
+/* return the best weights learned */
+      for(h=0;h<NO_HIDDEN;h++)
+      {
+        ho_weights[h]=best_ho_weights[h];
+        vbias_weights[h]=best_vbias_weights[h];
+        for(i=0;i<NO_INPUTS;i++)
+        {
+        ih_weights[i][h]=best_ih_weights[i][h];
+        }
+      }   
+   *bias_weight=best_bias_weight;  
+
+
+
+
+return;
+}
+
+/**************compute_sigmoid.c **************/
+
+double compute_sigmoid(double input)
+{
+/* this function returns the output of a sigmoid transfer function */
+
+   if(input<-709.0)
+   {
+   return (1.0);
+   }
+   else if(input>709.0)
+   {
+   return (0.0);
+   }
+   else
+   {
+   return (1.0/(1.0+exp(-input)));
+   }
+}
+
+/**********evaluator.c******************/
+
+void evaluator(double ih_weights[NO_INPUTS][NO_HIDDEN],double
+ho_weights[NO_HIDDEN],double bias_weight,double
+vbias_weights[NO_HIDDEN],double x[NO_INPUTS])
+{
+/* evaluates the output for x*/
+/* sigmoid thresholding is done only from input to hidden */
+/* layer but not from hidden to output layer */
+
+double sum1,sum2,hidden[NO_HIDDEN];
+int h,i;
+
+       for(h=0;h<NO_HIDDEN;h++)
+       {/* calculate the sum of all inputs to each hidden node */
+            sum1=0.0;
+            for(i=0;i<NO_INPUTS;i++)
+            {/* over all inputs */
+            sum1=sum1+(ih_weights[i][h]*x[i]);
+            printf("ih_weight[%d][%d]=%lf\n",i,h,ih_weights[i][h]);
+            }
+       sum1=sum1+vbias_weights[h];
+       hidden[h]=compute_sigmoid(sum1);
+       }
+
+       sum2=0;
+       for(h=0;h<NO_HIDDEN;h++)
+       {/* to calculate output; notice this output is not thresholded
+       /* with any sigmoid unit */
+       sum2=sum2+(ho_weights[h]*hidden[h]);
+       printf("ho_weight[%d]=%lf\n",h,ho_weights[h]);
+       printf("vbias_weight[%d]=%lf\n",h,vbias_weights[h]);
+       }
+       sum2=sum2+bias_weight;
+       printf("The bias weight is %lf\n",bias_weight);
+       printf("The output value is %lf\n",sum2);
+
+return;
+}
+
+/*************init_net.c*******************/
+
+void init_net(double ih_weights[NO_INPUTS][NO_HIDDEN],double
+ho_weights[NO_HIDDEN],double* bias_weight,double vbias_weights[NO_HIDDEN])
+{
+/* initialize weights in the neural net */
+
+int i,h;
+
+   for(h=0;h<NO_HIDDEN;h++)
+   {
+    ho_weights[h]=unifrnd(0.0,0.1,&SEED1);
+    vbias_weights[h]=unifrnd(0.0,0.1,&SEED2);
+    
+       for(i=0;i<NO_INPUTS;i++)
+       {
+       ih_weights[i][h]=unifrnd(0.0,0.1,&SEED3);
+       }
+   }
+
+   /* obo(output bias to output layer weight) */
+   *bias_weight=unifrnd(0.0,0.1,&SEED4);
+
+return;
+} 
+
+/************input.dat*****************/ 
+
+0.000783 
+0.153779 
+3.000602 
+0.560532 
+0.865013 
+5.738535 
+0.276724 
+0.895919 
+4.316186 
+0.704462 
+0.886472 
+6.618693 
+0.929641 
+0.469290 
+6.045585 
+0.350208 
+0.941637 
+4.771489 
+0.096535 
+0.457211 
+3.230002 
+0.346164 
+0.970019 
+4.798756 
+0.114938 
+0.769819 
+3.455619 
+0.341565 
+0.684224 
+4.285201 
+
+/**************reader.c *******************/
+
+void reader(double input_values[DATA_SIZE][NO_INPUTS],double
+target_values[DATA_SIZE])
+{/* Reads input and target values from a file; */
+/* each line has a different value. */
+/* The first few lines contain the input values and then the next line */
+/* contains the target value and then the sequence repeats */
+
+   FILE *fid;
+   int p,i;
+   fid=fopen("input.dat","r");
+         for(p=0;p<DATA_SIZE;p++)
+         {
+           for(i=0;i<NO_INPUTS;i++)
+           {
+           fscanf(fid,"%lf \n",&input_values[p][i]);
+           }
+         fscanf(fid,"%lf \n",&target_values[p]);
+         }    
+fclose(fid);
+
+return;
+
+}                   
+
+/*****************simu_net.c*********************/
+
+void simu_net(double input_values[DATA_SIZE][NO_INPUTS],double
+ih_weights[NO_INPUTS][NO_HIDDEN],double ho_weights[NO_HIDDEN],double 
+bias_weight,double vbias_weights[NO_HIDDEN],double
+hidden_values[DATA_SIZE][NO_HIDDEN],double output_values[DATA_SIZE])
+{
+
+/* evaluates the values in the net; */
+/* sigmoid thresholding is done only from input to hidden */
+/* layer but not from hidden to output layer */
+
+double sum1,sum2;
+int h,i,p;
+
+   for(p=0;p<DATA_SIZE;p++)
+   {/* for each data point */
+       for(h=0;h<NO_HIDDEN;h++)
+       {/* calculate the sum of all inputs to each hidden node */
+            sum1=0.0;
+            for(i=0;i<NO_INPUTS;i++)
+            {/* over all inputs */
+            sum1=sum1+(ih_weights[i][h])*(input_values[p][i]);
+            }
+        sum1=sum1+vbias_weights[h];
+        hidden_values[p][h]=compute_sigmoid(sum1);
+        }
+   }
+
+   for(p=0;p<DATA_SIZE;p++)
+   {
+   sum2=0;
+       for(h=0;h<NO_HIDDEN;h++)
+       {/* to calculate output; notice this output is not thresholded
+        /* with any sigmoid unit */
+        sum2=sum2+(ho_weights[h]*hidden_values[p][h]);
+       }
+   sum2=sum2+bias_weight;
+   output_values[p]=sum2;
+   }
+
+return;
+}

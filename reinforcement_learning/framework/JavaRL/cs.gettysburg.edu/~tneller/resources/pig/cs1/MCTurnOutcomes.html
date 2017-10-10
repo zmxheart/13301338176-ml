@@ -1,0 +1,65 @@
+<html>
+
+<head>
+<meta http-equiv="Content-Language" content="en-us">
+<meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
+<title>Pig - Hold-at-20 Turn Outcomes (Estimation)</title>
+</head>
+
+<body>
+
+<p align="center"><img border="1" src="gameOfPig.png"></p>
+<h1>Hold-at-20 Outcomes (Estimation)</h1>
+<p><b><a href="http://cs.gettysburg.edu/projects/pig/">Pig</a></b> is a folk jeopardy dice game with simple rules: Two players race to reach 100 points. Each turn, a 
+player repeatedly rolls a die until either a 1 (&quot;pig&quot;) is rolled or the player holds and 
+scores the sum of the rolls (i.e. the <i>turn total</i>). At any time during a 
+player's turn, the player is faced with two decisions: </p>
+<ul>
+	<li><b>roll</b> - If the player rolls a 
+	<ul>
+		<li><b>1</b>: the player scores nothing and it becomes the opponent's 
+		turn. 
+		</li>
+		<li><b>2 - 6</b>: the number is added to the player's turn total and the 
+		player's turn continues. </li>
+	</ul>
+	</li>
+	<li><b>hold</b> - The turn total is added to the player's score and it 
+	becomes the opponent's turn. </li>
+</ul>
+<p><b>Problem:</b>&nbsp; Simulate a given number of hold-at-20 turns, and report the 
+estimated probabilities of the possible scoring outcomes.</p>
+<p><b>Input Format:</b>&nbsp; Enter a single positive integer indicating the number of 
+turns simulated.&nbsp; (Larger numbers will tend to yield better estimations.)</p>
+<p><b>Output Format:</b></p>
+<ul>
+	<li>Initially, prompt the user with &quot;Hold-at-20 turn simulations? &quot;.</li>
+	<li>On the next line, print &quot;Score&quot; and &quot;Estimated Probability&quot; separated by 
+	a tab.</li>
+	<li>After the simulations, print a table line for each score outcome that 
+	occurred in increasing order of score.&nbsp; For each score outcome, print 
+	the score, a tab, and the fraction of turn simulations that yielded that 
+	score.</li>
+</ul>
+<p><b>Sample Transcript (input underlined):</b></p>
+<pre>Hold-at-20 turn simulations? <u>1000000</u>
+Score   Estimated Probability
+0       0.624076
+20      0.099659
+21      0.095310
+22      0.074086
+23      0.054599
+24      0.035313
+25      0.016957</pre>
+<p><b>Extra Exercises: </b></p>
+<ol>
+	<li>What is the expected average score outcome for hold-at-20?</li>
+	<li>Additionally allow the user to specify the hold value.&nbsp; What is the 
+	probability of reaching 100 in a single turn? </li>
+</ol>
+<hr>
+<p><a href="http://cs.gettysburg.edu/~tneller/index.html">Todd Neller</a></p>
+
+</body>
+
+</html>

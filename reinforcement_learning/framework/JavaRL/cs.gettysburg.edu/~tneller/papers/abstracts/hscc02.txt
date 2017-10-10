@@ -1,0 +1,19 @@
+Title: Information-Based Alpha-Beta Search and the Homicidal Chauffeur
+
+Abstract: The standard means of applying a discrete search to a
+continuous or hybrid system is the uniform discretization of control
+actions and action timing.  Such discretization is fixed a priori and
+does not allow search to benefit from information gained at run-time.
+This paper introduces Information-Based Alpha-Beta Search, a new
+algorithm that preserves and benefits from the continuous or hybrid
+nature of the search.  In a novel merging of alpha-beta game-tree
+search and information-based optimization, Information-Based
+Alpha-Beta Search makes trajectory-sampling decisions dynamically
+based on the maximum-likelihood of search pruning.  The result is a
+search algorithm which, while incurring higher computational overhead
+for the optimization, manages to so increase the quality of the
+sampling, that the net effect is a significant increase in
+performance.  We present a new piecewise-parabolic variant of the
+algorithm and provide empirical evidence of its performance relative
+to random and uniform discretizations in the context of a variant of
+the homicidal chauffeur game.

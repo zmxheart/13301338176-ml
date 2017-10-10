@@ -1,0 +1,411 @@
+<HTML>
+<HEAD>
+<TITLE>Pig Links</TITLE>
+</HEAD>
+<BODY text="#000000" bgcolor="#FFCCCC" link="#0000EE" vlink="#551A8B" alink="#FF0000">
+<table WIDTH="100%" >
+<tr>
+<td><a href="http://cs.gettysburg.edu/"><img
+SRC="http://cs.gettysburg.edu/~tneller/dept/GburgCS.gif" height=84
+width=182 ALT="Gettysburg Department of Computer Science"></a></td>
+<td>
+<center>
+<H1>Pig Links</H1>
+( <a href="index.html">home</a> | <a href="piggame.html">game</a> | <a href="pigVis.html">solution</a> | links )
+</center>
+</tr>
+</table>
+
+<ul>
+<li><a href="#variants">Links by Variant</a></li>
+<li><a
+href="http://www.boardgamegeek.com/geeklist.php3?action=view&listid=2700">Jeopardy
+Dice Game Geeklist</a></li>
+<li>Optimal Play:
+<ul>
+<li>Todd W. Neller and Clifton G.M. Presser. <a
+href="http://cs.gettysburg.edu/~tneller/papers/pig.zip">Optimal Play
+of the Dice Game Pig</a>, <i>The UMAP Journal</i> 25(1) (2004), pp. 25-47.
+</li>
+<li>Todd W. Neller and Clifton G.M. Presser. <a
+href="http://cs.gettysburg.edu/~tneller/papers/pig+.pdf">Pigtail: A
+Pig Addendum</a>, <i>The UMAP Journal</i> 26(4) (2005), pp. 443-458.
+</li>
+</ul>
+<li> Practical Play:
+<ul>
+<li>Todd W. Neller and Clifton G.M. Presser. <a
+href="http://cs.gettysburg.edu/~tneller/papers/umap10.pdf">Practical Play of the Dice Game Pig</a>, <i>The UMAP Journal</i> 31(1) (2010), pp. 5-19.
+</li>
+</ul>
+</li>
+<li> <a href="http://cs.gettysburg.edu/~tneller/resources/pig/index.html">Computer Science Teaching Resources</a> (<a href="http://cs.gettysburg.edu/~tneller/resources/pig/cs1/index.html">CS1</a>, <a href="http://cs.gettysburg.edu/~tneller/nsf/pig/index.html">AI</a>)
+</li>
+<li><a href="#bibliography">Annotated Bibliography</a></li>
+<li><a
+href="http://www.maa.org/mathland/mathtrek_05_31_04.html">Ivars
+Peterson's MathTrek Review Article</a></li>
+<li><a href="http://en.wikipedia.org/wiki/Pig_%28dice%29">Wikipedia Article</a> (<a href="http://simple.wikipedia.org/wiki/Pig_%28dice%29">Simple English</a>)</li>
+<li><a href="Pig%20Rules.pdf">Pig Variation Rules Handout</a></li>
+</ul>
+
+<a name="variants">
+<h2>Links by Variant</h2></a>
+<center> <i>"It seems like a weird use of time to catalog variations of
+pig games, but we each have our priorities in life."</i><br> - Jim Koplow,
+Koplow Games</center>
+
+<ul>
+<li><b>One Die, 1 is Bad (oldest variant in literature from "Scarne on
+Dice" by John Scarne, 1945):</b>
+<ul>
+<li><a href="index.html">Optimal play for this variant is solved
+here</a>. You can also <a href="piggame.html">play Pig online</a> or
+<a href="pigVis.html">see visualizations of optimal play</a>.  An <a href="pigdice/index.html">iPhone Pig Dice app</a> with optimal play is also available.</li>
+<li><a href="http://www.thegamesforum.com/DiceGames.html">The Games Forum</a>
+provides the same rules we use and also cites the source <i>The
+Official World Encyclopedia of Sports and Games</i>, Diagram Visual
+Information Ltd 1979.</li>
+
+<li>The <a href="http://www.mathimp.org/index.html">Interactive
+Mathematics Program</a> uses <a
+href="http://www.mathimp.org/curriculum/pig.html">The Game of Pig </a>
+as the core example for its <a
+href="http://www.keypress.com/catalog/products/textbooks/Prod_IMP.html">Year
+1 probability curriculum</a>.  A <a
+href="http://www.mathimp.org/curriculum/pig.html">downloadable Pig
+simulation tool</a> to test simple strategies for long term scoring is
+available.  Similar curricular materials are available on
+the <!-- <a
+href="http://www.nzmaths.co.nz/Statistics/Probability/greedypig.htm">NZMaths
+Statistics Web-site</a> --><a
+href="http://new.nzmaths.co.nz/node/119">NZMaths
+Statistics Web-site</a>. In the NZMaths variant, one is limited to 10
+turns and the highest score wins.</li>
+
+<!-- dead link? 7/2/07
+<li>Adam Crutchlow has created a <a
+href="http://www.metheglin.com/programs/dice/">Microsoft .NET Framework
+Pig game</a> (along with other good dice games).
+-->
+
+<li>Roger Eastman implemented a Pig dice game with optimal play as
+part of his <a href="http://www.dicedicedice.com/">iDice 2.0</a> dice game compilation for the Macintosh.</li>
+
+<li>Michael Plasmeier implemented a Pig dice game <a href="http://theplaz.com/wiki/index.php?title=Image:PLAYPIG.8xp">PLAYPIG</a> for TI-83+/84+ graphing calculators.</li>
+
+<li>Justin Boyan and Andrew Moore applied reinforcement learning to a
+variation of Pig where a roll of 1 scores one point.  In this acyclic
+variation, you can't find yourself in the same situation twice.  Such
+a game can be solved with dynamic programming (computing the best
+moves from the end of the game backwards to the beginning).  This Pig
+variation description is available as <a
+href="http://www.cs.cmu.edu/~jab/pubs/propo/node34.html">HTML,</a> <a
+href="http://www-2.cs.cmu.edu/~jab/cv/cv20.html#pubs2">PDF and PostScript
+(see reference below)</a>.</li>
+</ul>
+</li>
+
+<li><b>Two Dice, 1 is Bad:</b>
+<ul>
+<li><a
+href="http://nrich.maths.org/public/viewer.php?obj_id=1260">NRICH
+Online Maths Club Pig Game - ones</a> - Pig with 2 dice.  Throwing a 1
+ends the turn with no score.  Throwing two 1's sets the player score
+to 0.  (<a
+href="http://www.nrich.maths.org.uk/mathsf/journalf/jul01/game1/">original
+link</a>)
+</li>
+
+<li><a href="http://www.durangobill.com/Pig.html">Durango Bill's
+partial analysis of two dice Pig.</a> - A hold value analysis is
+performed assuming one is trying to reach 100 in <i>N</i> turns.
+However, the analysis doesn't provide a policy for what N should be.
+"In practice (in a game) you as a player have to determine how many
+turns you should use to try to get to 100."  This analysis is more
+complex than Knizia's odds-based analysis.  Although there are regions
+in our Pig state space where the optimal player is clearly trying to
+reach the goal in one or two turns, the true optimal policy is more
+complex than "win in <i>N</i> turns" over much of the state space.  We
+conjecture that the solution for this version of Pig would be
+qualitatively similar to our own, and thus more complex than this
+analysis indicates.
+</li>
+
+<!-- <li><a href="http://aoal.org/gottahack/Gottahack/SkunkStratagy.htm">Marlin
+J. Eller's complete, correct analysis of 2-Dice Pig</a> features a <a
+href="http://aoal.org/gottahack/Gottahack/SkunkChart.htm">probability
+and policy table</a> and <a
+href="http://aoal.org/gottahack/Gottahack/SkunkPhoto.htm">minimum hold
+value graph</a>.  (See also our <a href="pigCompare.html">policy visualizations</a>
+and <a href="http://cs.gettysburg.edu/~tneller/papers/pig+.pdf">paper</a>.)</li>
+-->
+
+<li><a
+href="http://illuminations.nctm.org/index_d.aspx?id=248">SKUNK</a>
+is like NRICH's Pig variant but limited to 5 turns with the maximum
+score winning.  This page presents classroom teaching activities.
+Note: We have also solved this variation of Pig.  The number of dice
+rolls is irrelevant to optimal play or score maximization.</li>
+<!-- also at http://www.hannibal.k12.mo.us/k12/Curriculum/Mathematics/EighthGrade/8MA3/8MA3%20LO5.htm -->
+
+
+<li>In R.C. Bell's <i>Discovering Dice and Dominoes</i> (ISBN
+0-85263-532-X, 1980), a variant is described where double 1's simply
+ends the turn with no score.  That is double 1's are like rolling a
+single 1.</li>  
+
+</ul>
+</li>
+
+<li><b>Two Dice, 1 is Bad, Doubles are Good:</b>
+<ul>
+<!-- <li><a href="http://members.aol.com/dicetalk/rules/pig.txt"> -->
+<li><a href="frey-rules.txt">
+Skip Frey's rules (from <i>How to Win at Dice Games</i>, Wilshire Book Co.,
+N. Hollywood, CA, 1975 (Reprinted 1997))</a> have doubles scoring
+double points (except for two 1's being 25 points). These rules are
+also given at the <a
+href="http://homepage.ntlworld.com/dice-play/Games/Pig.htm">dice-play</a>
+website.</li> 
+
+<li><a
+href="http://www.nzp.ca/page_4.html">Downloadable freeware</a> of
+Frey's variant is available from <a href="http://www.nzp.ca/">NZP
+Puzzle and Games</a>.</li>
+
+<!--<li><a href="http://www.highstacked.com/pig">Kyle Bradshaw's Pigalator applet</a> -->
+<li><a href="http://jayisgames.com/archives/2005/04/pigalator_2k5.php">Kyle Bradshaw's Pigalator applet</a> 
+features complex four-player tournament rules with doubles doubled as in Frey's variant (but with re-roll required), double 1's eliminating all points and <i>doubling game stakes</i>, and all points eliminated if 100 is reached exactly.</li>
+
+
+</ul>
+
+<li><b>Two Dice, 6 is Bad:</b> 
+<ul>
+<li><a
+href="http://nrich.maths.org/public/viewer.php?obj_id=1258">NRICH
+Online Maths Club Pig Game - sixes</a> - Pig with 2 dice.  Throwing a
+6 ends the turn with no score.  Throwing two 6's sets the player score
+to 0. (<a
+href="http://www.nrich.maths.org/mathsf/journalf/jun01/game1/index.html">original
+link</a>).  Another rule description of Piggy Six with variant
+suggestions is at <a
+href="http://www.geocities.com/quetl/pigsix.htm">Leonard's Bits of
+Stuff Homepage</a></li> <li><a
+href="http://www.sasked.gov.sk.ca/docs/rubrics/math/"> Saskatchewan
+Education's Evergreen Curriculum</a> has a <a
+href="http://www.sasked.gov.sk.ca/docs/rubrics/math/gr5pigouts.html">Trying
+Not to Pig-Out</a> mathematics rubric with a <a
+href="http://www.sasked.gov.sk.ca/docs/rubrics/math/g5prpigrules.html">similar
+variant</a> where double 6's only ends the turn with no score.</li>
+This same variant was earlier described by S. Humphrey in the <a href="http://www.m-a.org.uk/resources/publications/books/pig_and_other_tales_sample_pages/"><i>Mathematical Gazette</i>,
+63, December 1979</a>, where a simple analysis was given.
+</ul>
+
+<li> <b>Two Dice, Doubles are Bad:</b> Doubles lose the turn total and end the turn.  All other rolls accumulate their sum to the turn total. This variant, "Piggy", appears in "Kids Travel: A Backseat Survival Kit" by the editors of Klutz Press, 1994, p. 11.</li>
+
+<li><b>Two Pig-Dice:</b> <a
+href="http://funagain.com/cgi-bin/funagain/00952?;;TNEL">Pass the
+Pigs&reg;</a> Milton Bradley / Winning Moves game played with "pig" dice.
+Also known as <!-- <a
+href="http://www.geocities.com/darsky951/pigmania.html"> -->PigMania&reg;
+(David Moffat Enterprises, 1977).  Rolls are scored depending on
+whether pigs land on their feet, sides, backs, etc. in various
+combinations.
+
+<ul>
+<li><a href="http://boardgames.about.com/cs/passthepigs/">About.com's Pass
+the Pigs Page</a></li>
+<li> <a href="http://members.tripod.com/~passpigs/index.html">Freddie
+W.'s Pass the Pigs Page</a> with <a
+href="http://members.tripod.com/~passpigs/prob.html">probabilities</a>
+for "snouters", "leaning jowlers", etc.</li>
+<li><a href="http://www.fontface.com/games/pigs/">Font Face Java Game by
+Gary Kramer</a>  <!-- Also found at <a
+href="http://www.captainjava.com/pigs/PassThePigs.html">Captain
+Java</a>.--></li>
+<li> Commercial source of <a
+href="http://www.amazon.com/gp/redirect.html?ie=UTF8&location=http%3A%2F%2Fwww.amazon.com%2Fs%3Fie%3DUTF8%26search-alias%3Daps%26ref%255F%3Da9%255Fsc%255F1%26qid%3D1238706472%26field-keywords%3Dpig%2520dice%2520koplow&tag=towneho-20&linkCode=ur2&camp=1789&creative=390957">pig dice</a> from <a
+href="http://www.koplowgames.com">Koplow Games</a></li>
+<li> Fabrice Derepas has an <a
+href="http://www.derepas.com/petco/">analysis of some simple Pass the
+Pigs strategies</a>.</li>
+<li> Todd Neller computed and Clif Presser visualized an <a href="http://cs.gettysburg.edu/projects/pig/pigCompare.html">approximation of the optimal
+strategy</a> based on <a href="http://members.tripod.com/~passpigs/prob.html">Freddie W.'s data</a>. 
+</ul>
+</li>
+
+<li><b>Two Non-standard Dice, Doubles are Bad:</b> Ivars Peterson
+describes a Pig variant called Piggy with non-standard dice that
+produce the same distribution of rolls but with a different
+probability for rolling doubles. <a href="http://www.sciencenewsforkids.org/pages/puzzlezone/muse/muse0500.asp">("Weird Dice", Muse Magazine,
+May/June 2000, p. 18)</a>.  Related curricular resources are available at
+the <a
+href="http://tre.ngfl.gov.uk/server.php?request=cmVzb3VyY2UuZnVsbHZpZXc%3D&resourceId=10893">Teacher
+Resource Exchange</a>.</li>
+
+<!-- The MUSE Archives "Weird Dice", used to be at http://home.att.net/~mathtrek/muse0500.htm -->
+
+<li><b>Five Dice, 1 is Bad:</b> This <a
+href="http://www.koplowgames.com/page10.html">pig dice game</a>
+from <a href="http://www.koplowgames.com">Koplow Games</a>, is not to
+be confused with Parker Brother's Pig Dice&reg;.  The goal score is
+200.  One 1 reduces a player's turn total by 10. Two through four 1's loses
+the turn total and ends the turn. Five 1's loses the turn total and
+score, and ends the turn.</li> One can also order <a
+href="http://www.thatgamestore.com/dice.htm">individual pig dice</a>
+from <a href="http://www.koplowgames.com">Koplow Games</a>, which are
+standard dice with the 1's replaced by pictures of pigs.</li>
+
+<li><b><i>n</i> Dice, 1 is Bad:</b> This variant is described by
+Bohan, J. F., and Schultz, J. L. in "Revisiting and Extending the
+Hog Game," The Mathematics Teacher, 89(9), pp. 728-733, 1996 and by
+Larry Feldman and Fred Morgan in <a
+href="http://www.amstat.org/publications/jse/v11n2/feldman.html">"The
+Pedagogy and Probability of the Dice Game HOG", Journal of Statistics
+Education Volume 11, Number 2 (2003)</a>.  In this variant, a player has only
+one roll per turn, but can choose the number of dice to be rolled.</li>
+
+</ul>
+
+<h2><a href="http://www.boardgamegeek.com/geeklist.php3?action=view&listid=2700">Jeopardy Dice Game Geeklist</a></h2>
+
+<a name="bibliography"><h2>Bibliography</h2></a> <b>For a more complete
+bibliography, see the <a
+href="http://cs.gettysburg.edu/~tneller/papers/pig.zip">our paper</a>
+listed below.</b>
+
+<ul>
+<li>Todd W. Neller and Clifton G.M. Presser. <a
+href="http://cs.gettysburg.edu/~tneller/papers/pig.zip">Optimal Play
+of the Dice Game Pig</a>, <a
+href="http://cs.beloit.edu/campbell/umap"><i>The UMAP Journal</i></a>
+25(1) (2004), pp. 25-47.  <i>A paper detailing the Pig analysis
+presented on this website.</i></li>
+
+
+<li>Todd W. Neller and Clifton G.M. Presser. <a
+href="http://cs.gettysburg.edu/~tneller/papers/pig+.pdf">Pigtail: A
+Pig Addendum</a>, <i>The UMAP Journal</i> 26(4) (2005), pp. 443-458. <i>An addendum with solutions to many Pig variants.</i>
+</li>
+
+<li>Todd W. Neller and Clifton G.M. Presser. <a
+href="http://cs.gettysburg.edu/~tneller/papers/umap10.pdf">Practical Play of the Dice Game Pig</a>, <i>The UMAP Journal</i> 31(1) (2010), pp. 5-19. <i>Evaluation of human-playable policies with respect to optimal play.</i>
+</li>
+
+
+<li>Bell, Robert Charles. 1979. Board and Table Games from Many
+Civilizations. Revised ed. New York: Dover Publications,
+Inc. <i>Excellent game history reference.</i></li>
+
+<li>Bellhouse, David R. 1999. Il campanile statistico: What I did on my summer
+holidays. Chance 12 (1): 48-50. <i>An empirical study of ancient
+astragali and modern pig dice.</i></li>
+
+<li>Bellman, Richard. 1957. Dynamic Programming. Princeton, NJ: Princeton University
+Press.  <i>Bellman's optimality equation is the basis for the value iteration technique used to solve Pig.</i></li>
+
+<li>Bertsekas, D.P. 1987. Dynamic Programming: Deterministic and
+Stochastic Models. Englewood Cliffs, NJ: Prentice-Hall. <i>A more
+recent treatment of Bellman's optimality equation.</i></li>
+
+<li>
+<a href="http://citeseer.ist.psu.edu/boyan96learning.html">Boyan,
+J. A. and A. W. Moore. <i>Learning Evaluation Functions for Large
+Acyclic Domains.</i></a> In L. Saitta (ed.), Machine Learning:
+Proceedings of the Thirteenth International Conference (ICML). Morgan
+Kaufmann, 1996. <i>Reinforcement learning is applied here to a
+variation of Pig where a roll of 1 scores one point and thus game
+states do not repeat.</i>
+</li>
+
+<li>Brutlag, Dan. 1994. <a href="http://illuminations.nctm.org/lessonplans/6-8/skunkgame/">Choice and chance in life: The game of "skunk".</a> Mathematics
+Teaching in the Middle School 1 (1): 28-33. <i>Describes a pig variant
+as a tool for teaching probabilistic concepts at the middle school
+level.  Unfortunately incorporates the "gambler's fallacy" in
+teaching.</i></li>
+
+<li>Diagram Visual Information Ltd. 1979. The Official World Encyclopedia of Sports
+and Games. London: Paddington Press. <i>Additional source for our Pig
+rules</i></li>
+
+<li>Falk, Ruma, and Maayan Tadmor-Troyanski. 1999. THINK: A game of choice
+and chance. Teaching Statistics 21 (1): 24-27. <i>Partial analysis of
+Brutlag's SKUNK game.  We have performed a more complete analysis,
+computing optimal scoring play, and demonstrating that single-decision
+odds-based analysis does not yield optimal scoring play.</i></li>
+
+
+<li>Fendel, Dan, Diane Resek, Lynne Alper, and Sherry Fraser. 1997. <a
+href="http://www.keypress.com/catalog/products/textbooks/Prod_IMP.html">The
+Game of Pig. Teacher's Guide. Interactive Mathematics Program, Year
+1.</a> Berkeley, CA: Key Curriculum Press. <i> An excellent teacher's
+resource which uses the game of Pig to teach probabalistic reasoning
+at the secondary education level.</i></li>
+
+<li>Frey, Skip. 1975. How to Win at Dice Games. North Hollywood, CA: Wilshire
+Book Co. 1997. Reprint. <i>Source for a 2-dice Pig variant</i></li>
+
+<li>
+<a href="http://freespace.virgin.net/chris.lawson/rk/index.htm">Reiner
+Knizia</a>. <i><a href="http://www.right-way.co.uk/press2112.html">Dice Games Properly Explained</a></i>. <a
+href="http://www.right-way.co.uk/knizia.html">Elliot Right-Way Books</a>,
+Brighton Road, Lower Kingswood, Tadworth, Surrey, KT20 6TD U.K., 1999.
+<i>The rules for Pig and many other dice games can be found here.
+Knizia makes an odds-based argument for Pig tactics which I call the
+"Hold at 20" policy.  He then goes on to point out that there are
+situations where one should deviate from this policy.  Knizia made me
+curious about what optimal Pig play would look like.</i>
+</li>
+
+<li>
+<a href="http://www.cs.cmu.edu/~tom/mlbook.html">Tom
+M. Mitchell. <i>Machine Learning</i></a>. McGraw-Hill, New York,
+1997. <i>A good advanced undergraduate or graduate text on the machine
+learning in the field of artificial intelligence.  Chapter 13 gives an
+overview of Reinforcement Learning and covers convergence properties
+relevant to value iteration.</i>
+</li>
+
+<li>Parlett, David. 1991. A History of Card Games. New York: Oxford University
+Press. <i>Excellent reference for card game history.</i></li>
+
+<li>Parlett, David. 1999. The Oxford History of Board Games. New York: Oxford University
+Press. <i>Excellent reference for board game history.</i></li>
+
+<li>Peterson, Ivars. 2000. Weird dice. Muse Magazine. (May/June):
+18. <i>Source for 2-dice Pig variant</i></li>
+
+<li>
+<a href="http://aima.cs.berkeley.edu/">Stuart Russell
+and Peter Norvig. <i>Artificial Intelligence: a modern
+approach, 2nd ed.</i></a> Prentice Hall, Upper Saddle River, NJ, USA,
+2003. <i>A very good and comprehensive undergraduate textbook on
+artificial intelligence.</i>
+</li>
+
+<li>Scarne, John. 1945. Scarne on Dice. Harrisburg, PA: Military
+Service Publishing Co. 1980. 2nd ed. New York: Crown Publishers,
+Inc. <i>The earliest published rules for our game of Pig</i></li>
+
+<li>Shi, Yixun. 2000. The game PIG: Making decisions based on
+mathematical thinking. Teaching Mathematics and Its Applications 19
+(1): 30-34. <i>Source for another 2-dice Pig variant</i></li>
+
+<li>
+<a href="http://www-anw.cs.umass.edu/~rich/book/the-book.html">Richard S. Sutton and Andrew G. Barto. <i>Reinforcement Learning:
+an introduction</i></a>. MIT Press, Cambridge, Massachussetts,
+1998. <i>This is perhaps the most gentle undergraduate-level
+introduction I've found for value iteration.  The value iteration
+algorithm used to solve Pig is described clearly and thoroughly.</i>
+</li>
+
+</ul>
+
+
+
+<p>Author: <a href="http://cs.gettysburg.edu/~tneller">Todd Neller</a></p>
+</BODY>
+</HTML>
+

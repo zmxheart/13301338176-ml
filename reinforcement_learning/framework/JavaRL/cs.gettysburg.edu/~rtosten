@@ -1,0 +1,26 @@
+<html>
+<head>
+<title>Automatic Redirection</title>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+
+ <SCRIPT LANGUAGE="JavaScript"><!--
+ function redirect () { go_now(); }
+ function go_now ()   { window.location.href = "http://www.netvibes.com/rtosten"; }
+ //--></SCRIPT>
+
+</head>
+
+<body bgcolor="#FFFFFF" topmargin="5" onLoad="redirect()">
+
+<h1>The page you are looking for has moved!</h1>
+The new URL is:
+<p><a href="http://www.netvibes.com/rtosten">
+http://www.netvibes.com/rtosten
+</a></p>
+<p>Please update your bookmarks.</p>
+<p align="left">This page will automatically redirect in 1 seconds.</p>
+<p align="left">If this does not work, click on the URL above</p>
+
+</body>
+</html>
+

@@ -1,0 +1,112 @@
+<!doctype html public "-//w3c//dtd html 4.0 transitional//en">
+<html>
+<head>
+   <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+   <meta name="GENERATOR" content="Microsoft FrontPage 12.0">
+   <title>Homework #2</title>
+   <style type="text/css">
+   </style>
+   </head>
+<body>
+<table WIDTH="100%" >
+<tr>
+<td><img SRC="GburgCS.gif" height=84 width=182></td>
+
+<td><font size=+2>CS 3</font><font size="5">91 Selected Topics: Game AI<br></font><font size=+2>Homework #2</font></td>
+</tr>
+</table>
+
+<hr>
+<b>
+<br>Due Thursday 2/4 at the beginning of class.</b><p><b>Note: </b>This work is to be done in <b>groups of 2</b>.&nbsp; Each group will submit one assignment.&nbsp; Although 
+you may divide the work, both team members should be able to present/describe 
+their partner's work upon request.&nbsp; 
+<h1>FreeCellNode</h1>
+<ul>
+	<li>Create a search node implementation for FreeCell that makes use of the 
+	supplied Card and Shuffle classes to allow the initialization and play of 
+	any Microsoft Freecell shuffle.</li>
+	<li>Specifications for children expansion:<ul class="style2">
+		<li>When printing solutions, follow the
+		<a href="http://freecellgamesolutions.com/notation.html">notation of the 
+		FreeCell solutions site</a>.</li>
+		<li>Allow
+		<a href="http://www.solitairelaboratory.com/fcfaq.html#Supermove">
+		supermoves</a>.</li>
+		<li>Implement safe autoplay to the foundation initially (upon 
+		construction) and after each play according to NetCELL's safe autoplay 
+		rules. From the <a href="http://www.solitairelaboratory.com/fcfaq.html">
+		FreeCell FAQ</a>:<ul>
+			<li>
+						A deal where all of the cards go home at the start is easy to 
+			construct, but it is fantastically unlikely for such a deal to occur 
+			at random, since Microsoft FreeCell or FreeCell Pro only plays an 
+			available card to its homecell automatically when all of the 
+			lower-ranked cards of the opposite color are already on the 
+			homecells (except that a two is played if the corresponding ace is 
+			on its homecell); aces are always played when available. This is one 
+			version of what can be called&nbsp;<strong>safe 
+			autoplay</strong>. 
+			NetCELL uses a more aggressive rule, making all of the plays that MS 
+			FreeCell makes, but also playing an available card if both homecells 
+			of the opposite color are within two ranks of that card and the 
+			homecell of the same color and opposite suit is within three ranks. 
+			For example, in NetCELL 28865-5, the four of diamonds is played as 
+			soon as the three of diamonds, both black twos, and the ace of 
+			hearts are on the homecells. The reason for this is that the four of 
+			diamonds is not needed on the tableau to hold either black three, 
+			since both can go to their homecells as soon as they are available, 
+			and the black threes are not needed to hold the two of hearts, since 
+			it can also go to its homecell as soon as it is available. (NetCELL 
+			plays as many cards as possible under this rule as soon as the cards 
+			are dealt; MS FC and FCPro don't do anything until the player moves 
+			the first card).</li>
+		</ul>
+		</li>
+		<li>If there is more than one free 
+		cell, play to the leftmost cell only.</li>
+		<li>If there is more than one empty cascade, play to the 
+		leftmost empty cascade only.&nbsp;
+		<strong>It appears that the convention for a supermove to 
+		an empty column is to move as many cards as possible.</strong> &#8220;All moves to 
+		empty columns are column moves rather than single card moves.&#8221; (<a href="http://www.solitairelaboratory.com/solutioncatalog.html">http://www.solitairelaboratory.com/solutioncatalog.html</a>)
+		&nbsp;Presumably this does not disallow 
+		solutions because any solution that requires a lesser card movement 
+		could be replicated through other legal moves (e.g. single card moves in 
+		the worst case).&nbsp; Thus a 
+		column move &#8220;ij&#8221; where j is empty is presumed to be a maximal movement 
+		of cards from i to j.
+		</li>
+		<li>It will be advantageous to override the hashcode method 
+	for your node to create an int key to help with repeated state checking.&nbsp; 
+	One way to do this is to define a toString method (highly recommended) and 
+	have hashcode return toString().hashcode().&nbsp; Collisions are possible, 
+	... but are they probable?</li>
+	</ul>
+	</li>
+	<li>For different powers of 10 (until either out of default 
+	Java memory or exceeding 2 minutes), generate and store that many random 
+	FreeCell nodes and record the time and max size of the process.
+	<ul>
+		<li>Call System.currentTimeMillis() before and after the 
+		generation of nodes and compute the difference.&nbsp; Report results in 
+		milliseconds.</li>
+		<li>Store generated nodes in an ArrayList.</li>
+		<li>Generate nodes as follows: Generate a random seed in 
+		the range 1-1,000,000 and use it to create an initial shuffle with that 
+		seed. Create and store the root node.&nbsp; While the node expansion 
+		generates children, pick a random child, store it, and repeat for its 
+		children.&nbsp; Do this for a maximum of 50 iterations or until there 
+		are no moves, then repeat with a new random seed until the desired 
+		number of nodes have been generated.</li>
+		<li><a href="examples/freecell/FreeCellNodeTest.java">Sample testing 
+		code</a></li>
+		<li>Plot the growth in time and space (e.g. using a 
+		spreadsheet program) using reasonable scales (e.g. log-log, semi-log, 
+		etc.).</li>
+	</ul>
+&nbsp;</li>
+</ul>
+<p>&nbsp;</p>
+
+</body></html>

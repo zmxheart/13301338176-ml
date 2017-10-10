@@ -1,0 +1,114 @@
+
+</body>
+</html>
+<!doctype html public "-//w3c//dtd html 4.0 transitional//en">
+<html>
+<head>
+   <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+   <meta name="GENERATOR" content="Microsoft FrontPage 12.0">
+   <title>Homework #13</title>
+   <style type="text/css">
+   .style1 {
+	   text-decoration: underline;
+   }
+   </style>
+</head>
+<body>
+<table WIDTH="100%" >
+<tr>
+<td><img SRC="GburgCS.gif" height=84 width=182></td>
+
+<td><font size=+2>CS 107 - Introduction to Scientific Computation</font><br><font size=+2>Homework #13</font></td>
+</tr>
+</table>
+
+<hr>
+<br><b>Due: Friday 12/6 at the beginning of class</b>
+<p><b>0. Preparatory Reading: </b>You will benefit from reviewing the portions 
+of Java we've covered in the
+<a href="http://cs.gettysburg.edu/~tneller/cs111/summary.pdf">CS 111 Java 
+Summary</a>.</p>
+<p><b>1. Divisors:&nbsp;</b> In a class <font face="Courier New" size="2">
+Divisors.java</font>, read in a maximum integer <i>n </i>and use nested loops to 
+print a list of divisors for each of 1 through <i>n </i>as follows.</p>
+<p>Example Transcript (input <span class="style1">underlined</span>):</p>
+<pre>Largest integer? <u><b>100</b></u>
+1: 1 
+2: 1 2 
+3: 1 3 
+4: 1 2 4 
+ 
+...
+ 
+95: 1 5 19 95 
+96: 1 2 3 4 6 8 12 16 24 32 48 96 
+97: 1 97 
+98: 1 2 7 14 49 98 
+99: 1 3 9 11 33 99 
+100: 1 2 4 5 10 20 25 50 100 
+</pre>
+<p><b>2. Greatest Common Divisor:&nbsp;</b> In a class
+<font face="Courier New" size="2">GCD.java</font>, read in two integers <i>a</i> 
+and<i> b</i>.&nbsp; Compute and print their greatest common divisor (GCD) using the 
+Euclidean algorithm.&nbsp;&nbsp; The Euclidean algorithm is simply described as follow:&nbsp; 
+While <i>b</i> is nonzero,&nbsp; set <i>a'</i> to <i>b</i> and set <i>b'</i> to (<i>a</i> 
+modulus <i>b</i>), where <i>a'</i> and <i>b'</i> are the new values of a and b 
+for the next iteration.&nbsp; Hint: One can accomplish this using only three 
+variables: a, b, and one temporary variable for storage.&nbsp; Your output 
+should have the following format.</p>
+<p>Example Transcript (input <span class="style1">underlined</span>):</p>
+<pre>Integer a? <u><b>504</b></u>
+Integer b? <u><b>2226</b></u>
+Greatest common divisor of a and b: 42</pre>
+<p><b>3. Magic Square:&nbsp; </b>Create a class <tt>MagicSquare</tt> that 
+prompts the user for a positive odd integer <tt>size</tt>, generates a
+<a href="http://en.wikipedia.org/wiki/Magic_square">normal magic square of order
+<tt>size</tt></a>, and prints it with numbers right-justified and aligned in 
+evenly-spaced columns. You may assume the numbers in the square are 3 digits or 
+less (i.e. <tt>size</tt> &#8804; 31).</p>
+<p>To generate the magic square, use the following algorithm:&nbsp; Assign 1 to 
+our initial current position: the bottom row, middle column.&nbsp; Place each 
+successive value (up to <tt>size * size</tt>) in the first of the following 
+positions that is unoccupied: (1) one space down and to the right, or (2) one 
+space up.&nbsp; Positions wrap around the sides, top and bottom, as shown below in the 
+following <em>three</em> example transcripts.</p>
+<p>Example Transcript (input <span class="style1">underlined</span>):</p>
+<pre>Please enter a positive odd integer: <span class="style1"><strong>3</strong></span>
+4 9 2
+3 5 7
+8 1 6
+</pre>
+<p>Example Transcript (input <span class="style1">underlined</span>):</p>
+<pre>Please enter a positive odd integer: <span class="style1"><strong>5</strong></span>
+11 18 25  2  9
+10 12 19 21  3
+ 4  6 13 20 22
+23  5  7 14 16
+17 24  1  8 15
+</pre>
+<p>Example Transcript (input <span class="style1">underlined</span>):</p>
+<pre>Please enter a positive odd integer: <span class="style1"><strong>19</strong></span>
+172 193 214 235 256 277 298 319 340 361   2  23  44  65  86 107 128 149 170
+171 173 194 215 236 257 278 299 320 341 343   3  24  45  66  87 108 129 150
+151 153 174 195 216 237 258 279 300 321 342 344   4  25  46  67  88 109 130
+131 152 154 175 196 217 238 259 280 301 322 324 345   5  26  47  68  89 110
+111 132 134 155 176 197 218 239 260 281 302 323 325 346   6  27  48  69  90
+ 91 112 133 135 156 177 198 219 240 261 282 303 305 326 347   7  28  49  70
+ 71  92 113 115 136 157 178 199 220 241 262 283 304 306 327 348   8  29  50
+ 51  72  93 114 116 137 158 179 200 221 242 263 284 286 307 328 349   9  30
+ 31  52  73  94  96 117 138 159 180 201 222 243 264 285 287 308 329 350  10
+ 11  32  53  74  95  97 118 139 160 181 202 223 244 265 267 288 309 330 351
+352  12  33  54  75  77  98 119 140 161 182 203 224 245 266 268 289 310 331
+332 353  13  34  55  76  78  99 120 141 162 183 204 225 246 248 269 290 311
+312 333 354  14  35  56  58  79 100 121 142 163 184 205 226 247 249 270 291
+292 313 334 355  15  36  57  59  80 101 122 143 164 185 206 227 229 250 271
+272 293 314 335 356  16  37  39  60  81 102 123 144 165 186 207 228 230 251
+252 273 294 315 336 357  17  38  40  61  82 103 124 145 166 187 208 210 231
+232 253 274 295 316 337 358  18  20  41  62  83 104 125 146 167 188 209 211
+212 233 254 275 296 317 338 359  19  21  42  63  84 105 126 147 168 189 191
+192 213 234 255 276 297 318 339 360   1  22  43  64  85 106 127 148 169 190
+
+</pre>
+
+</body>
+</html>

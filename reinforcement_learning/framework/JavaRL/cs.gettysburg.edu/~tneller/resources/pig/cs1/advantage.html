@@ -1,0 +1,70 @@
+<html>
+
+<head>
+<meta http-equiv="Content-Language" content="en-us">
+<meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
+<title>Pig - First-Player Advantage</title>
+</head>
+
+<body>
+
+<p align="center"><img border="1" src="gameOfPig.png"></p>
+<h1>First-Player Advantage</h1>
+<p><b><a href="http://cs.gettysburg.edu/projects/pig/">Pig</a></b> is a folk jeopardy dice game with simple rules: Two players race to reach 100 points. Each turn, a 
+player repeatedly rolls a die until either a 1 (&quot;pig&quot;) is rolled or the player holds and 
+scores the sum of the rolls (i.e. the <i>turn total</i>). At any time during a 
+player's turn, the player is faced with two decisions: </p>
+<ul>
+	<li><b>roll</b> - If the player rolls a 
+	<ul>
+		<li><b>1</b>: the player scores nothing and it becomes the opponent's 
+		turn. 
+		</li>
+		<li><b>2 - 6</b>: the number is added to the player's turn total and the 
+		player's turn continues. </li>
+	</ul>
+	</li>
+	<li><b>hold</b> - The turn total is added to the player's score and it 
+	becomes the opponent's turn. </li>
+</ul>
+<p><b>Problem:</b>&nbsp; There is an advantage to going first in Pig, but how 
+big an advantage is it for “hold at 20 or goal” play?&nbsp; We wish to estimate the 
+probability of a first-player win with a hold-at-20-or-goal play policy.&nbsp; Simulate a given 
+number of two-player Pig games where a player rolls until a 1 (&quot;pig&quot;) is rolled, 
+or the turn total is greater than or equal to 20, or the score plus the turn 
+total is greater than or equal to 100.&nbsp; Report the fraction of games won by 
+the first player.</p>
+<p><b>Input Format: </b> &nbsp;Enter a single positive integer indicating the number of 
+games simulated.&nbsp; (Larger numbers will tend to yield better estimations.)</p>
+<p><b>Output Format:</b></p>
+<ul>
+	<li>Initially, prompt the user with &quot;Games? &quot;.</li>
+	<li>After the simulations, print &quot;Probability of first player win: &quot; followed by the 
+	fraction of simulated games won by the first player.</li>
+</ul>
+<p><b>Sample Transcript:</b></p>
+<p>Highlight the transcript in the space immediately below to check your result 
+(your approximation will vary in latter decimal places): </p>
+<pre><font color="#ffffff">Games? <u>1000000</u>
+Probability of first player win: 0.534951</font></pre>
+<p><font color="#ffffff">Non-transcript note:  The actual value is approximately .5347.</font></p>
+<p><b>Common Error:&nbsp; </b>When creating nested loops, perform loop 
+initialization directly before the relevant loop.&nbsp; Note:</p>
+<p>&lt;loop 1 initialization&gt;<br>
+&lt;loop 1&gt; <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;loop 2 initialization&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;loop 2&gt; </p>
+<p>is <i>not </i>the same as</p>
+<p>&lt;loop 1 initialization&gt;<br>
+&lt;loop 2 initialization&gt;<br>
+&lt;loop 1&gt;&nbsp;&nbsp;&nbsp; <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;loop 2&gt; </p>
+<p>In the latter case, &lt;loop 2&gt; is not properly initialized each time.</p>
+<!--<p><b>4. Text Diamond: </b>Exercise 5.24.&nbsp; Call your program <tt>Diamond.java</tt>.&nbsp; If you need an optional warm-up exercise, consider 5.15.&nbsp;&nbsp; Hint: One possible solution uses two nested for repetitions, a single if decision, and three print statements (one each for '*', ' ', and newline).</p><p>Extra credit (10%): Generalize your program to prompt the user for an odd positive integer <i>n</i> and produce an <i>n</i>-by-<i>n</i> diamond shape.</p><pre>
+</pre>-->
+<hr>
+<p><a href="http://cs.gettysburg.edu/~tneller/index.html">Todd Neller</a></p>
+
+</body>
+
+</html>

@@ -1,0 +1,75 @@
+<HTML>
+<HEAD>
+<TITLE>The Game of Pig</TITLE>
+</HEAD>
+<BODY text="#000000" bgcolor="#FFCCCC" link="#0000EE" vlink="#551A8B" alink="#FF0000">
+<table WIDTH="100%" >
+<tr>
+<td><a href="http://cs.gettysburg.edu/"><img SRC="http://cs.gettysburg.edu/~tneller/dept/GburgCS.gif" height=84 width=182></a></td>
+<td>
+<center>
+<H1>The Game of Pig</H1>
+( <a href="index.html">home</a> | game | <a href="pigVis.html">solution</a> | <a href="piglinks.html">links</a> )
+</center>
+</tr>
+</table>
+
+<p>The game of Pig is a very simple jeopardy dice game in which two
+players race to reach 100 points.  Each turn, a player repeatedly
+rolls a die until either a 1 is rolled or the player holds and scores
+the sum of the rolls (i.e. the <i>turn total</i>).  At any time during
+a player's turn, the player is faced with two decisions:
+<ul>
+<li> <b>roll</b> - If the player rolls a 
+<ul>
+<li> <b>1</b>: the player scores nothing and it becomes
+the opponent's turn.
+<li> <b>2 - 6</b>: the number is added to the player's turn total and the player's turn continues.
+</ul></li>
+<li> <b>hold</b> - The turn total is added to the player's score and it becomes the opponent's turn. </li>
+</ul>
+</p>
+
+<center>
+<table border=3 CELLSPACING=1 CELLPADDING=1 BGCOLOR="#FFFFFF">
+<tr>
+<td>
+<APPLET CODE=PigApplet.class ARCHIVE=PigApplet.jar WIDTH=432 HEIGHT=170>
+</APPLET>
+</td>
+</tr>
+</table>
+</center>
+
+<!-- <p><b>Instructions:</b>  You are playing against the computer.  The
+blue rectangle indicates the current player.  To roll, click the
+"Roll" or die shown in the lower left corner.  To hold, click the
+"Hold!" sign.  Click and hold the "Hint" button to display the optimal
+decision.  When the applet starts running, it starts computing the
+probability that you will win.  As soon as the probabilities are
+computed, they will display.<p>
+-->
+
+<p><b>Instructions:</b> You are playing against the computer.  The
+blue rectangle indicates the current player.  To roll, click <img
+src="rollXS.jpg"> or the die <img src="die6XS.jpg"> in the lower left
+corner.  To hold, click <img src="holdXS.gif">.  Click and hold the
+"Hint" button to display the optimal decision.  When the applet starts
+running, it starts computing the probability that you will win.  As
+soon as the probabilities are computed, they will display.<p>
+
+<p>The key decision facing a player is how large a turn total should
+be risked to possibly get an even larger total.  To learn more about
+the game of Pig, visit our <a href="index.html">Pig web page</a>.  An <a href="pigdice/index.html">iPhone Pig Dice app</a> with optimal play is also available.</p>
+
+<!-- <p>Play pig <a href="pigvegas.html">Las Vegas slot machine style</a>!
+(Warning: This page has three simulataneous Pig games and may crash
+some browsers.)</p> -->
+
+<p>(For browsers with Java applets disabled, you can run the optimal Pig player applet from a Unix terminal window with the command 
+&quot;appletviewer http://cs.gettysburg.edu/projects/pig/piggame.html&quot;.)
+</p>
+
+<p>Author: <a href="http://cs.gettysburg.edu/~tneller">Todd Neller</a></p>
+</BODY>
+</HTML>

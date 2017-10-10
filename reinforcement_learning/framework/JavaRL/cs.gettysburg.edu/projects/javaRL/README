@@ -1,0 +1,39 @@
+Base Classes for the Java Reinforcement Learning Interface:
+-----------------------------------------------------------
+Action.java
+ActionResult.java
+Agent.java
+Environment.java
+Simulation.java
+State.java
+
+Below are two example uses of these base classes.  Many other implementations have been developed by Prof. Neller and the Gettysburg College students of CS 391 (Spring '03).  Contact Prof. Neller for more information/examples.
+
+Additional Classes for the Heirarchical and Simple GridWorld Examples:
+----------------------------------------------------------------------
+GridActIterator.java
+GridAction.java
+GridEnvir.java
+GridSim.java
+GridState.java
+GridStateIterator.java
+SimpleGridAgentQL.java
+SimpleGridAgentSARSA.java
+TDATabQLGrid.java
+TDATabSARSAGrid.java
+TDAgent.java
+TDAgentTab.java
+TDAgentTabQL.java
+TDAgentTabSARSA.java
+
+Additional Classes for the Mountain Car Problem:
+------------------------------------------------
+DoubleArrayState.java
+Featurizer.java
+MtnCarAction.java
+MtnCarAgentLGDSarsaTCM.java
+MtnCarEnvironment.java
+MtnCarSimulation.java
+MtnCarState.java
+TileCodingMemory.java
+(Note: This is an adaptation of the C implementation by Rich Sutton and Sridhar Mahadevan, available at http://www-anw.cs.umass.edu/rlr/domains.html)

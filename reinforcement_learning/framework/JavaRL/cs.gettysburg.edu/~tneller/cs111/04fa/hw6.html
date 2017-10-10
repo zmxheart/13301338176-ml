@@ -1,0 +1,114 @@
+<!doctype html public "-//w3c//dtd html 4.0 transitional//en">
+<html>
+<head>
+   <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+   <meta name="GENERATOR" content="Microsoft FrontPage 5.0">
+   <title>Homework #6</title>
+</head>
+<body>
+<table WIDTH="100%" >
+<tr>
+<td><img SRC="GburgCS.gif" height=84 width=182></td>
+
+<td><font size=+2>CS 111 - Introduction to Computer Science</font>
+<br><font size=+2>Homework #6</font></td>
+</tr>
+</table>
+
+<hr>
+<br><b>Due: Wednesday 10/6 at the beginning of class</b>
+<p><b>1. Name That Method:&nbsp; </b>Written Exercise R2.18.&nbsp; Additionally, what 
+would be a good name for the method?&nbsp; Hint: If this one has you stumped, add it 
+to your <tt>BankAccount</tt> class definition and experiment with it using at 
+least two <tt>BankAccount</tt> objects. </p>
+<p><b>2. Find the Errors:&nbsp; </b>Written Exercise R5.1.&nbsp; Correction: The second to 
+last and third to last bullets should be combined.</p>
+<p>
+    <b>3. Omitted Else: </b>Written Exercise R5.9.&nbsp; Create a table with
+    each of the 4 cases possible with different values of x and y, and indicate
+    the value of s at the end of the execution of these blocks of code.
+</p>
+<table border>
+<tr>
+<th>x &gt; 0</th>
+<th>y &gt; 0</th>
+<th>s after code block 1</th>
+<th>s after code block 2</th>
+</tr>
+<tr>
+<td>false</td>
+<td>false</td>
+<td>&nbsp; </td>
+<td>&nbsp; </td>
+</tr>
+<tr>
+<td>false</td>
+<td>true</td>
+<td>&nbsp; </td>
+<td>&nbsp; </td>
+</tr>
+<tr>
+<td>true</td>
+<td>false</td>
+<td>&nbsp; </td>
+<td>&nbsp; </td>
+</tr>
+<tr>
+<td>true</td>
+<td>true</td>
+<td>&nbsp; </td>
+<td>&nbsp; </td>
+</tr>
+
+</table>
+<p><b>4. Car:&nbsp; </b>Programming Exercise P2.10.&nbsp; In addition, check for invalid 
+parameters.&nbsp; For instance, a negative or zero mileage makes no sense, so print 
+an error message if the user attempts to create a car with a non-positive 
+mileage.&nbsp; Also, cars shouldn't be able to regain gas by driving backwards.&nbsp; 
+Print error messages for all invalid parameters.&nbsp; Add a method <tt>getGas</tt> 
+that returns the gallons of gas remaining.&nbsp; Add a method <tt>getMiles</tt> that 
+returns the total miles traveled.&nbsp; If the user requests a car to drive so as to 
+run out of gas, print the message &quot;<tt>Out of gas</tt>&quot; and have the car only 
+travel as far as the gas would permit, leaving an empty gas tank.&nbsp; Write a test 
+program called <tt>CarTest.java</tt> that creates a car and demonstrates that 
+each line of code functions properly.&nbsp; That is, be sure to test each case such 
+that all lines of code (including error messages) are exercised. Use double 
+values throughout.</p>
+<p><b>5. Optimal Piglet Advisor: </b>Here is a description of a simple coin game 
+called Piglet.&nbsp; (Piglet is based on a simple dice game called
+<a href="http://cs.gettysburg.edu/projects/pig/index.html">Pig</a>.): </p>
+<p>The object of Piglet is to be the first player to reach <i>n</i> points. (In 
+this case, we'll use <i>n</i> = 6.)&nbsp; Each turn, a player repeatedly flips a coin 
+until either a &quot;tail&quot; is flipped or the player holds.&nbsp; At any time during 
+the player's turn, the player is faced with two choices: <i>flip</i> or <i>hold</i>. 
+If the coin turns up tails, the player scores nothing for the turn and it 
+becomes the opponent's turn. Otherwise, the player's turn continues. If the 
+player chooses to <i>hold</i>, the number of consecutively flipped heads is 
+added to the player's score and it becomes the opponent's turn. </p>
+<p>Below is a table that describe the <i>optimal</i> way to play Piglet when the 
+goal score is 6.&nbsp; The way you read the table is as follows:&nbsp; The rows are 
+numbered 0 to 5 downward.&nbsp; The columns are numbered 0 to 5 rightward.&nbsp; If your 
+score is <i>i</i> and your opponent's score is <i>j</i>, then the number at row
+<i>i</i>, column <i>j</i> is the number of consecutive heads at which you should 
+hold.&nbsp; Otherwise, keep flipping. </p>
+<p align="center"><img src="piglet6.png" border="0" width="156" height="151">
+</p>
+<p>Your task is to create an optimal Piglet advisor.&nbsp; Call your program <tt>
+PigletAdvisor.java</tt>.&nbsp; Use a Scanner to ask the user for (1) their score, and 
+(2) their opponent's score.&nbsp; If the score(s) are invalid, the output 
+&quot;Invalid scores&quot;.&nbsp; Otherwise, the output should be &quot;You should hold after # 
+heads.&quot;, where # is given in the above table and &quot;heads&quot; is properly singular or 
+plural depending on #.</p>
+<p>Hint: There is no need to store a table (e.g. 2D array introduced later) if 
+you notice that the table can be divided into cases: (1) either player has 5 
+points or the sum of the scores is 7 or more and you need to try to win this 
+turn, (2) players each have exactly three points and you should hold at 1 head, 
+(3) you're even or behind and should hold at 2, and (4) otherwise, you should 
+hold at 1.&nbsp; These cases should be handled in this order using an if-else chain 
+to determine the hold value.&nbsp; </p>
+<pre>
+</pre>
+<p>
+    &nbsp;</p>
+</body>
+</html>

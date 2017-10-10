@@ -1,0 +1,153 @@
+<!doctype html public "-//w3c//dtd html 4.0 transitional//en">
+<html>
+<head>
+   <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+   <meta name="GENERATOR" content="Microsoft FrontPage 12.0">
+   <title>Homework #8</title>
+   <style type="text/css">
+.style1 {
+	font-family: Symbol;
+}
+</style>
+</head>
+<body>
+<table WIDTH="100%" >
+<tr>
+<td><img SRC="GburgCS.gif" height=84 width=182></td>
+
+<td><font size=+2>CS 111 - Introduction to Computer Science</font>
+<br><font size=+2>Homework #8</font></td>
+</tr>
+</table>
+
+<hr>
+<br><b>Due: Friday 3/24 at the beginning of class</b>
+<p><b>1. Pig Game: </b>In file <tt>PigGame.java</tt>, implement this
+<a href="http://cs.gettysburg.edu/~tneller/resources/pig/cs1/game.html">
+specification</a>.&nbsp; <i>Note: You'll want to copy your <tt>PigComputerGame.java</tt> 
+code as a starting point.</i>
+</p>
+<!-- <p><b>2. Pythagorean Triples:</b> Implement <tt>
+PythagoreanTriples.java</tt> such that the main method prints all Pythagorean 
+triples for integers up to and including 500.&nbsp; A Pythagorean triple 
+consists of three integers that could be the sides of a right triangle.&nbsp; 
+Put another way, if 
+<tt>side1</tt>2 + 
+<tt>side2</tt>2 =
+<tt>hypotenuse</tt>2 , then
+<tt>(side1, side2, hypotenuse)</tt> is a Pythagorean triple.&nbsp; 
+To avoid redundant output, retrict values to <tt>0 &lt; side1 &lt;= side2 &lt; hypotenuse &lt;= 500</tt>.&nbsp; Print each triple 
+space-separated on a single line.&nbsp; Print triples in increasing order of <tt>
+side1/tt>, <tt>side2</tt>, and <tt>hypotenuse</tt> by structuring your loops accordingly.</p>
+ <p>&nbsp;</p>-->
+<p><strong>2. Statistics:</strong> In file <tt>
+<a href="statistics/Statistics.java">Statistics.java</a></tt>, implement this
+<a href="statistics/index.html">specification</a>.&nbsp; In addition to public 
+static methods implementing simple statistics such as</p>
+<ul>
+	<li>minimum</li>
+	<li>maximum</li>
+	<li>sum</li>
+	<li>mean (a.k.a. average), and</li>
+	<li>
+	<a href="https://en.wikipedia.org/wiki/Standard_deviation#Basic_examples">
+	population standard deviation</a>,</li>
+</ul>
+<p>you will also implement a bootstrapping technique for computing confidence 
+intervals on the mean of given data.&nbsp; First, we'll describe the process, 
+then we'll outline the algorithm parts.</p>
+<p>Imagine that you have some data, such as win or loss values from 2-player 
+gameplay.&nbsp; Let a first-player win or loss be counted as value 1 or 0, 
+respectively.&nbsp; Suppose our initial data array consists of 7 wins and 3 
+losses.&nbsp; Do we have 90% confidence that the first player has some advantage 
+over the second player?&nbsp; Put another way, would we expect the mean win 
+value to be above .5 with 90% confidence if we collected more data?&nbsp; The 
+&quot;bootstrap&quot; is a versatile statistical approach that can help us with confidence 
+intervals (and more) when the data doesn't follow common assumptions (e.g. 
+having a normal distribution).&nbsp; </p>
+<p>In this example, suppose our data array is 7 ones and 3 zeros:</p>
+<p>[1.0, 0.0, 1.0, 1.0, 1.0, 1.0, 1.0, 0.0, 1.0, 0.0]</p>
+<p>The main assumption of bootstrapping is that this is a representative sample.&nbsp; 
+The first step of bootstrapping is that we resample our original data many 
+times.&nbsp; With each resample, we construct a new array with randomly selected 
+values from our original data array.&nbsp; We select each element of our 
+original array with equal probability for each position of the resample array, 
+so the resample will usually contain duplicates and omit values in the original 
+array.&nbsp; For our purposes, we'll resample 1,000,000 times:</p>
+<p>[0.0, 1.0, 0.0, 0.0, 1.0, 0.0, 1.0, 1.0, 1.0, 1.0]<br>[1.0, 1.0, 1.0, 1.0, 
+1.0, 1.0, 1.0, 0.0, 1.0, 1.0]<br>[0.0, 1.0, 1.0, 1.0, 1.0, 1.0, 0.0, 1.0, 1.0, 
+1.0]</p>
+<p>... (999,996 resamples omitted) ...</p>
+<p>[1.0, 1.0, 1.0, 0.0, 1.0, 1.0, 1.0, 1.0, 1.0, 0.0]</p>
+<p>If we're interested in a statistic, we compute it on each of the resamples.&nbsp; 
+In this case, we want to know if the mean value is above .5 with 90% confidence, 
+so we compute the mean of each resample:</p>
+<p>[0.0, 1.0, 0.0, 0.0, 1.0, 0.0, 1.0, 1.0, 1.0, 1.0] <span class="style1">® 0.6</span><br>
+[1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 0.0, 1.0, 1.0]<span class="style1"> ® 0.9</span><br>
+[0.0, 1.0, 1.0, 1.0, 1.0, 1.0, 0.0, 1.0, 1.0, 1.0] <span class="style1">® 0.8</span></p>
+<p>... (999,996 resamples omitted) ...</p>
+<p>[1.0, 1.0, 1.0, 0.0, 1.0, 1.0, 1.0, 1.0, 1.0, 0.0] <span class="style1">® 0.8</span></p>
+<p>Next, we put all of these resample means into an array and sort them:</p>
+<p>[0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.1, 0.1, 0.1, 0.1, ... (999,980 resample 
+means omitted) ... , 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0]</p>
+<p>A 90% confidence interval for the mean statistic can then be computed as the 
+top and bottom values of the middle 90% of values in this array of resample 
+means.&nbsp; Put another way, we look at the values at 5th and 95th percentiles 
+(i.e. 5% and 95% of the way through the array).&nbsp; In this case, the resample 
+mean values at the 5th and 95th percentiles are 0.5 and 0.9, respectively.&nbsp; 
+Because the lower end of this interval (the 5th percentile) is 0.5, indicating 
+an even chance of winning or losing, we cannot conclude with 90% confidence that 
+a player with 7 out of 10 wins has an advantage.</p>
+<p>However, the 15% and 85% percentile values are 0.6 and 0.8, respectively, so 
+we could say that we have 70% confidence that the first player has an advantage.</p>
+<p>To program the bootstrap technique for this assignment, you are given an 
+implementation of percentile lookup in a sorted data array (public static double 
+getPercentile(double[] data, double percentile)), but the rest is up to you.&nbsp; 
+None of the relevant methods have method bodies that require more than 5 lines 
+of code if expressed compactly.</p>
+<ul>
+	<li>public static double[] getResample(double[] data)<ul>
+		<li>Create a resample array the same length as data.</li>
+		<li>For each index of the resample array,<ul>
+			<li>assign a random element from the data array.</li>
+		</ul>
+		</li>
+		<li>Return the resample array.</li>
+	</ul>
+	</li>
+	<li>public static double[] getSortedResampleMeans(double[] data, int 
+	numResamples)
+	<ul>
+		<li>Create a resample mean array to hold numResamples mean values.</li>
+		<li>For each index of the resample mean array,<ul>
+			<li>assign the mean of a generated resample array</li>
+		</ul>
+		</li>
+		<li>Sort the resample mean array.</li>
+		<li>Return the resample mean array.</li>
+	</ul>
+	</li>
+	<li>public static double getPercentile(double[] data, double percentile)
+	<ul>
+		<li>(implementation given)</li>
+	</ul>
+	</li>
+	<li>public static double[] getResampleMeanPercentiles(double[] data, int 
+	numResamples, double... percentiles)<ul>
+		<li>Compute a sorted array of resample means.</li>
+		<li>Create an percentile value array the same length as the number of 
+		requested percentiles.</li>
+		<li>For each index in the given percentiles array,<ul>
+			<li>Compute and store the percentile[i] value from the sorted array 
+			of resample means at index i in your percentile value array.</li>
+		</ul>
+		</li>
+		<li>Return the percentile value array.</li>
+	</ul>
+	</li>
+</ul>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p><br></p>
+ </body>
+</html>

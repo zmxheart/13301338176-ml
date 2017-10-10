@@ -1,0 +1,106 @@
+
+</body>
+</html>
+<!doctype html public "-//w3c//dtd html 4.0 transitional//en">
+<html>
+<head>
+   <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+   <meta name="GENERATOR" content="Microsoft FrontPage 12.0">
+   <title>Homework #10</title>
+</head>
+<body>
+<table WIDTH="100%" >
+<tr>
+<td><img SRC="GburgCS.gif" height=84 width=182></td>
+
+<td><font size=+2>CS 107 - Introduction to Scientific Computation</font><br><font size=+2>Homework #10</font></td>
+</tr>
+</table>
+
+<hr>
+<br><b>Due: Wednesday 11/6 at the beginning of class<br>Note: The grading system 
+will check return values only to see that results closely approximate correct 
+results.&nbsp; Grading for plotting will be done separately and manually.</b>
+<p><b>1. Miniature Golf Simulation:&nbsp;</b> Imagine a 1 meter by 1 meter 
+miniature golf green where </p>
+<ul>
+	<li>you're putting (hitting the ball) from x = 0, y = 0, where the square 
+	green (playing area) goes from (0, 0) to (1, 1), corner to corner,</li>
+	<li>the putt has initial velocity v, and initial angle theta in the range 
+	(0, pi/2) counter-clockwise from the x-direction looking down from the 
+	positive vertical (z) direction,</li>
+	<li>there is a hole centered at (.5, .5) with a radius of .05,</li>
+	<li>a ball within the hole radius drops in the hole and simulation stops,</li>
+	<li>the square is tilted upward in the positive y direction, such that there 
+	is no acceleration in the x direction, and the y acceleration is -0.5 m/s/s,</li>
+	<li>we will be ignoring the z coordinate, since we assume the ball will 
+	remain in contact with the ground,</li>
+	<li>there are walls from (0, 0) to (0, 1), from (0, 1) to (1, 1), and from 
+	(1, 1) to (1, 0),</li>
+	<li>these walls perfectly reflect the motion of the ball, causing the 
+	velocity to reverse in the direction perpendicular, and</li>
+	<li>a ball that goes beyond the green (with negative y value) is 
+	out-of-bounds and simulation stops. Note: Do not solve for and terminate 
+	output with the point where y goes out of bounds.&nbsp; The last x and y 
+	values returned are the first for which y &lt; 0.</li>
+</ul>
+<p>Create a function simGolf that takes as input:</p>
+<ul>
+	<li>initial velocity,</li>
+	<li>initial angle, and</li>
+	<li>simulation time step</li>
+</ul>
+<p>and returns as output:</p>
+<ul>
+	<li>an integer that is -1 if the ball goes out of bounds, or the <i>number 
+	of times the ball bounced off walls if the ball dropped in the hole,</i></li>
+	<li>a vector of the simulation x values, and</li>
+	<li>a vector of the simulation y values.</li>
+</ul>
+<p>To simulate a bounce, do not merely reverse velocity, but also reflect the 
+motion, such that the distance just traveled beyond a wall is reflected back as 
+well.&nbsp; For example, suppose you find that the y value is now 1.1.&nbsp; 
+This overshoots the wall by .1.&nbsp; So the new reflected y value will now be 1 
+- .1 = .9.&nbsp; </p>
+<p>Within your simulation loop, the structure should be:</p>
+<p>% change simulation value as if no walls exist<br>
+% in each case where a ball has gone beyond wall bounds, tally the bounce, 
+reflect the motion, and reverse the velocity perpendicular to the wall<br>
+% add the new (x, y) point values to their respective result vectors.</p>
+<p><b>2. Plotting a Single Golf Simulation Trajectory: </b>&nbsp;Taking the same 
+input as simGolf, your function plotGolf will</p>
+<ul>
+	<li>use simGolf to simulate the golf ball trajectory,</li>
+	<li>use &quot;axis square&quot; and axis limits from (-0.25, -0.25) to (1.25, 1.25),</li>
+	<li>plot the golf ball trajectory,</li>
+	<li>plot the walls,</li>
+	<li>plot the outer edge of the hole or some approximation (see Exercise 
+	3.5), and</li>
+	<li>return the first output integer from simGolf.</li>
+</ul>
+<p>For example, plotGolf(4, .3, .01) will return the integer 7 and plot this:</p>
+<p align="center"><img border="0" src="plotgolf.png" width="568" height="502">
+</p>
+<p><b>3. Plotting Many Golf Simulation Results: </b>In function plotGolf2, you 
+will take as input:</p>
+<ul>
+	<li>the maximum initial velocity,</li>
+	<li>simulation time step, and</li>
+	<li>the number of points to linearly sample in each dimension of the simGolf 
+	input (initial velocity, initial angle)</li>
+</ul>
+<p>The output will be the matrix of simGolf bounce count return values you will 
+be plotting.</p>
+<p>The initial angle theta will be in the range (0, pi/2).&nbsp; The minimum 
+initial velocity will be 0.&nbsp; Use linspace, these bounds, and the number of 
+points to sample to create a meshgrid of initial velocities and angles. For each 
+initial velocity and angle, perform the simGolf simulation, and store the first 
+return value in a matrix.&nbsp; Finally, create a plot of the values using </p>
+<p>pcolor(&lt;initial velocities&gt;, &lt;initial angles&gt;, &lt;matrix of return values&gt;);<br>
+shading('flat');<br>
+axis('square');</p>
+<p>For example, plotGolf2(5, .01, 200) will return and plot this:</p>
+<p align="center"><img border="0" src="plotgolf2.png" width="568" height="502"></p>
+<p>&nbsp;</p>
+</body>
+</html>

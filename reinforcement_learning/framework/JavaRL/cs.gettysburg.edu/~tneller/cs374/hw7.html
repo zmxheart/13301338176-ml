@@ -1,0 +1,135 @@
+<!doctype html public "-//w3c//dtd html 4.0 transitional//en">
+<html>
+<head>
+   <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+   <meta name="GENERATOR" content="Microsoft FrontPage 12.0">
+   <title>Homework #7</title>
+</head>
+<body>
+<table WIDTH="100%" >
+<tr>
+<td><img SRC="GburgCS.gif" height=84 width=182></td>
+
+<td><font size=+2>CS 3</font><font size="5">74 Compilers<br></font><font size=+2>
+Homework #7</font></td>
+</tr>
+</table>
+
+<hr>
+<br><b>Due: Thursday 4/12</b> <p><b>Note: </b>This work is to be done in <b>assigned groups</b>.&nbsp; Each group will submit one assignment.&nbsp; Although 
+you may divide the work, both team members should be able to present/describe 
+their partner's work upon request.&nbsp; 
+<h1>Code Generation - Part II</h1>
+<p>At this point, we can generate code that prints compound arithmetic and 
+logical expressions.&nbsp; However, the main method of MiniJava doesn't allow us 
+to declare variables (rats!).&nbsp; In order to do so, we need to be able to (1) 
+allocate new objects, (2) generate code for a method call, and (3) generate 
+stack frame push/pop code for methods.&nbsp; Our first goal is to create a 
+trivial object with a single method that returns 123, call this method, and 
+print the returned value. </p>
+
+<p><b>1. Symbol Table Additions: </b>You'll want to add to your symbol table 
+such that it will be easy to:</p>
+
+<ul>
+  <li>Return a unique integer for each class.</li>
+  <li>Compute the size of an object (i.e. find out how many fields it has).&nbsp; 
+  Don't forget inheritance!</li>
+  <li>Given a class and field name, return the offset (in words) of that word in 
+  the object.&nbsp; If you put superclass fields before subclass fields, such 
+  that a field is always in the same position, you'll simplify polymorphic 
+  behaviors.</li>
+  <li>Given a class name and method name, return the class in which the method 
+  is defined.&nbsp; For example, suppose class B extends A which defines method 
+  f.&nbsp; If B does not override A's method f, then A will be the class 
+  returned given B and f. </li>
+</ul>
+
+<p><b>2. Memory Allocation:</b> Create a helper method alloc(int) in your 
+translator that generates code to dynamically allocate the given number of 
+words.&nbsp; Syscall 9, given a number of bytes will do this for you 
+conveniently.&nbsp; Finally, clear the memory.&nbsp; That is, set each allocated 
+position to 0.</p>
+
+<p><b>3. NewObject:&nbsp; </b>Each object will consist of an integer identifier 
+and a certain number of fields.&nbsp; Use the previous additions to generate 
+code that allocates the needed memory and places the <i>address</i> of the 
+allocated memory in $v0.</p>
+
+<p><b>4. Simplified Call:</b>&nbsp; Add a field to syntaxtree.Call to keep track 
+of the type of the object in the call.&nbsp; Set this field at the appropriate 
+point in your type-checking code.&nbsp; Call this the <i>call class</i>.&nbsp; 
+(Note that the calling object may actually be of a different subclass.)&nbsp; 
+Use your symbol table to look up which <i>method defining class</i> actually 
+defines the method for the <i>call class.&nbsp; </i>Assume the method occurs at 
+a label &quot;&lt;method defining class&gt;.&lt;method name&gt;&quot;.&nbsp; Now you can implement 
+code generation for this simplified Call:</p>
+<ul>
+  <li>Generate code to compute the address of the call object.</li>
+  <li>Grow the stack (i.e. subtract from $sp) to hold <i>n </i>arguments, where <i>n </i>is the greater of 4 
+  and (number of method arguments + 1). </li>
+  <li>At $sp offset 0, put the address of the calling object.</li>
+  <li>Compute each argument left-to-right, placing them at successive positions 
+  allocated in the stack.</li>
+  <li>After completing this, put the first arguments from the stack to registers 
+  $a0-$a3 to respect calling conventions.&nbsp; (We'll use the stack copies in 
+  practice.)</li>
+  <li>Add 16 bytes (4 words) from the $sp to respect calling conventions.</li>
+  <li>Make the jump to the appropriate method address label.</li>
+  <li>Add the necessary amount to return $sp to its original position before the 
+  call.</li>
+</ul>
+<p><b>5. Tracking Scope, ClassDeclSimple, ClassDeclExtends, MethodDecl:&nbsp;
+</b>As in type-checking, it is important to track your scope in code generation.&nbsp; 
+Add fields to your class to track the current class and method.&nbsp; Set these 
+fields in the appropriate visitor methods.</p>
+<p><b>6. Method Generation: </b>&nbsp;In MethodDecl, </p>
+<ul>
+  <li>Emit a label of the form &lt;current class name&gt;.&lt;method name&gt;.</li>
+  <li>Compute the number of local variables in the method, and move the stack 
+  pointer to make space for these, the old frame pointer&nbsp; $fp, and the 
+  return address $ra.</li>
+  <li>Store the old frame pointer and return address to the stack frame.</li>
+  <li>To respect calling conventions, store the contents of $a0-$a3 to the stack 
+  frame (redundant for our purposes).</li>
+  <li>Set the new frame pointer.</li>
+  <li>Generate the code for all statements.</li>
+  <li>Generate the code to compute the return value (which is placed in $v0).</li>
+  <li>Load the old frame pointer $fp and return address $ra from the stack 
+  frame.</li>
+  <li>Pop the stack frame (i.e. add the appropriate amount to $sp).</li>
+  <li>Jump to the return address. </li>
+</ul>
+<p>You can now test your generated object creation and method call code 
+with NewObject.java.</p>
+<p><b>7. This:</b> This, the address of the current object, will always be at 
+the same position of the stack frame.&nbsp; Emit code to load the address of 
+&quot;this&quot; from the stack from into 
+$v0.</p>
+<p><b>8. Identifier: </b>Load the address of the given identifier into $v0.&nbsp; 
+This is handled in three cases:</p>
+<ul>
+  <li>Local variable: Compute the address of the local in the stack frame ($fp 
+  plus an offset) and put that address in $v0.</li>
+  <li>Parameter variable: Compute the address of the parameter in the stack 
+  frame ($fp plus an offset) and put that address in $v0.</li>
+  <li>Field case: Load the address of &quot;this&quot; into $v0 as you did for 
+  syntaxtree.This.&nbsp; Then add the appropriate offset to that address such 
+  that $v0 holds the address of the given field.</li>
+</ul>
+<p><b>9. IdentifierExp: </b>&nbsp;This is similar to Identifier, except that 
+instead of loading the <i>address</i> of the identifier, load the <i>value</i> 
+stored in the identifier.&nbsp; Instead of simply leaving the address of the 
+identifier in $v0, you'll want to load the value at that address into $v0.</p>
+<p><b>10. Assign: </b>In Assign,</p>
+<ul>
+  <li>Emit the code for the assignment's expression.</li>
+  <li>Push $v0 to the stack</li>
+  <li>Emit the code for the assignment's identifier.</li>
+	<li>Pop from the stack to $v1</li>
+  <li>Store $v1 to the address of $v0 (offset 0).</li>
+</ul>
+<p>You can now test your generated code with Factorial.java.</p>
+<p>&nbsp;</p>
+
+</body></html>

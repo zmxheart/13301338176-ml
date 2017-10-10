@@ -1,0 +1,22 @@
+Title: Information-Based Optimization Approaches to Dynamical System
+Safety Verification
+
+Abstract: Given a heuristic estimate of the relative safety of a
+hybrid dynamical system trajectory, we transform the initial safety
+problem for dynamical systems into a global optimization problem.  We
+introduce MLLO-IQ and MLLO-RIQ, two new information-based optimization
+algorithms.  After demonstrating their strengths and weaknesses, we
+describe the class of problems for which different optimization
+methods are best-suited.
+
+The transformation of an initial safety problem for dynamical systems
+into a global optimization problem is accomplished through
+construction of a heuristic function which simulates a system
+trajectory and returns a heuristic evaluation of the relative safety
+of that trajectory.  Since each heuristic function evaluation may be
+computationally expensive, it becomes desirable to invest more
+computational effort in intelligent use of function evaluation
+information to reduce the average number of evaluations needed.  To
+this end, we've developed MLLO-IQ and MLLO-RIQ, information-based
+methods which approximate optimal optimization decision procedures.
+

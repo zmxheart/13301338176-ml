@@ -1,0 +1,116 @@
+<HTML>
+<HEAD>
+<TITLE>Computer Science 103 - Gettysburg College</TITLE>
+<LINK REL=stylesheet HREF="scripts/menuform.css" TYPE="text/css">
+<SCRIPT LANGUAGE="Javascript" SRC="scripts/menuback.js"></SCRIPT>
+<SCRIPT LANGUAGE="JavaScript">
+ function gothere(path_name)
+ {
+   if (path_name != ""){
+    if(path_name=="glossary.html"){
+       nwin=open("glossary.html","Glossary","toolbar=NO,directories=no,menubar=no,scrollbars=yes,resizable=yes,width=500,height=500");    
+    }
+    else{
+      nwin=open(path_name);
+      focus();
+    }
+   }
+  choose.options.value = choose.options[0].value;
+ }
+
+//Variables for the auto update.
+	var thisDate=new Date();
+	var thisYear=thisDate.getYear();
+	var thisMonth=thisDate.getMonth();
+	if (thisYear < 1000)
+	thisYear+=1900;
+</SCRIPT>
+</HEAD>
+<BODY topMargin=0 rightMargin=0 bottomMargin=0 leftMargin=0>
+<SCRIPT LANGUAGE=JavaScript>
+<!--
+//disable the right click feature
+document.oncontextmenu=new Function("return false")
+// --> 
+</SCRIPT>
+<P>
+<TABLE cellSpacing=0 cellPadding=0 width=775 align=left border=0 style="WIDTH: 775px" id=TABLE1>
+  <TR> 
+    <TD> 
+      <TABLE style="WIDTH: 100%" cellSpacing=0 cellPadding=0 width="100%" align=center 
+background="" border=0>
+        <TBODY> 
+        <TR> 
+          <TD> 
+            <P align=center><STRONG><FONT size=2><IMG alt="" src="images/logo_2.gif"> 
+              <BR>
+              </FONT></STRONG></P>
+          </TD>
+        </TR>
+        </TBODY>
+      </TABLE>
+      <TABLE align=center border=0 cellPadding=0 cellSpacing=0 width="90%" background="" style="WIDTH: 90%">
+        <TR> 
+          <TD> 
+            <P align=center> 
+              <CENTER>
+ 
+                <script language = "JavaScript">
+		if (thisMonth < 6)
+			document.write("<Strong>Spring Semester " + thisYear + "</Strong>");
+		else
+			document.write("<Strong>Fall Semester " + thisYear + "</Strong>");
+	</script>
+
+              </CENTER>
+              <BR>
+              <BR>
+            <TABLE cellSpacing=0 cellPadding=2 width="100%" align=center 
+            border=0>
+              <TR> 
+                <TD><IMG alt="" src="images\cswww_3.gif" ></TD>
+                <TD><FONT size="2">This website contains the materials you need to 
+                  successfully complete the history and programming portions of this course.
+		  	&nbsp; Contained within the 
+                  site you will find seven chapters.&nbsp; These chapters each 
+                  have a full online text, links to the PowerPoint presentations, 
+                  assignments, a glossary, and even practice quizzes.<BR>
+                  <BR>
+                  This page will serve as your primary means of obtaining 
+                  important class information such as announcements and assignments.&nbsp; 
+                  You will be expected to check here frequently.</FONT></TD>
+              </TR>
+            </TABLE>
+
+            <P align=left><FONT size=2></FONT>&nbsp;</P>
+          </TD>
+          <TD style="WIDTH: 30%" width="30%"><FONT size=2><STRONG> 
+            <P align=center> 
+            <TABLE style="WIDTH: 100px" borderColor=darkblue cellSpacing=0 
+            cellPadding=0 width=100 align=center bgColor=darkorange 
+            background="" border=2>
+            </TABLE>
+            </STRONG> </FONT>
+          </TD>
+        </TR>
+      </TABLE>
+
+  <TABLE align=center border=0 cellPadding=0 cellSpacing=0 width="90%" background="" style="WIDTH: 90%" >
+    <TR > 
+      <td>
+      <BR>
+      <CENTER>
+        <HR width="75%">
+        <FONT size=1>Copyright  
+        <SCRIPT Language="JavaScript">
+	//Update the year in the Copyright statement to the current year.
+	document.write(thisYear);
+	</SCRIPT>
+        . Gettysburg College Department of Computer Science. All Rights Reserved.</FONT> 
+      </CENTER>
+    </td>
+  </TR>
+</TABLE>
+
+</BODY>
+</HTML>

@@ -1,0 +1,4 @@
+User-agent: *
+Disallow: /mediawiki/
+Disallow: /fys187-4/
+

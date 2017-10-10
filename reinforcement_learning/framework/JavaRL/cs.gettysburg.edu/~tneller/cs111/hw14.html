@@ -1,0 +1,376 @@
+<!doctype html public "-//w3c//dtd html 4.0 transitional//en">
+<html>
+<head>
+   <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+   <meta name="GENERATOR" content="Microsoft FrontPage 12.0">
+   <title>Homework #14</title>
+   <style type="text/css">
+   .style1 {
+	   text-decoration: underline;
+   }
+   </style>
+</head>
+<body>
+<table WIDTH="100%" >
+<tr>
+<td><img SRC="GburgCS.gif" height=84 width=182></td>
+
+<td><font size=+2>CS 111- Introduction to Computer Science</font>
+<br><font size=+2>Homework #14</font></td>
+</tr>
+</table>
+
+<hr>
+<br><b>Due: Friday 5/5 at the beginning of class</b><h2>Hex<b> (Part 2)</b> </h2>
+<p><b>1. Implement HexGame: </b>Implement a class <tt>HexGame.java</tt> 
+according to <a href="hex/doc2/HexGame.html">this specification</a>.&nbsp; <tt>HexGame</tt> 
+is just a text-based interface that makes use of our <tt>HexState.java</tt> model as much 
+as possible to implement play.&nbsp; This <a href="hex/input.txt">sample input</a> should produce the sample 
+transcript below (<span class="style1">input</span> <span class="style1">
+underlined</span>):</p>
+<pre>
+THE GAME OF HEX
+Each turn, a player places a piece in an empty position using
+algebraic notation (e.g. &quot;b4&quot;).  The first player seeks to
+connect the bottom row to the top row with a path of &quot;*&quot; pieces.
+The second player seeks to connect the leftmost column to
+the rightmost column with a path of &quot;O&quot; pieces.  The command
+&quot;undo&quot; will undo the previous move.
+Board size? <span class="style1">5</span>
+
+ 5 - - - - -
+  4 - - - - -
+   3 - - - - -
+    2 - - - - -
+     1 - - - - -
+        a b c d e
+* to play.
+
+Position? <span class="style1">undo</span>
+Cannot undo.
+
+ 5 - - - - -
+  4 - - - - -
+   3 - - - - -
+    2 - - - - -
+     1 - - - - -
+        a b c d e
+* to play.
+
+Position? <span class="style1">bad-input</span>
+Invalid input.
+
+ 5 - - - - -
+  4 - - - - -
+   3 - - - - -
+    2 - - - - -
+     1 - - - - -
+        a b c d e
+* to play.
+
+Position? <span class="style1">c3</span>
+
+ 5 - - - - -
+  4 - - - - -
+   3 - - * - -
+    2 - - - - -
+     1 - - - - -
+        a b c d e
+O to play.
+
+Position? <span class="style1">c3</span>
+Illegal play.
+
+ 5 - - - - -
+  4 - - - - -
+   3 - - * - -
+    2 - - - - -
+     1 - - - - -
+        a b c d e
+O to play.
+
+Position? <span class="style1">a0</span>
+Illegal play.
+
+ 5 - - - - -
+  4 - - - - -
+   3 - - * - -
+    2 - - - - -
+     1 - - - - -
+        a b c d e
+O to play.
+
+Position? <span class="style1">a42</span>
+Illegal play.
+
+ 5 - - - - -
+  4 - - - - -
+   3 - - * - -
+    2 - - - - -
+     1 - - - - -
+        a b c d e
+O to play.
+
+Position? <span class="style1">b2</span>
+
+ 5 - - - - -
+  4 - - - - -
+   3 - - * - -
+    2 - O - - -
+     1 - - - - -
+        a b c d e
+* to play.
+
+Position? <span class="style1">c2</span>
+
+ 5 - - - - -
+  4 - - - - -
+   3 - - * - -
+    2 - O * - -
+     1 - - - - -
+        a b c d e
+O to play.
+
+Position? <span class="style1">c4</span>
+
+ 5 - - - - -
+  4 - - O - -
+   3 - - * - -
+    2 - O * - -
+     1 - - - - -
+        a b c d e
+* to play.
+
+Position? <span class="style1">b1</span>
+
+ 5 - - - - -
+  4 - - O - -
+   3 - - * - -
+    2 - O * - -
+     1 - * - - -
+        a b c d e
+O to play.
+
+Position? <span class="style1">d4</span>
+
+ 5 - - - - -
+  4 - - O O -
+   3 - - * - -
+    2 - O * - -
+     1 - * - - -
+        a b c d e
+* to play.
+
+Position? <span class="style1">a3</span>
+
+ 5 - - - - -
+  4 - - O O -
+   3 * - * - -
+    2 - O * - -
+     1 - * - - -
+        a b c d e
+O to play.
+
+Position? <span class="style1">b5</span>
+
+ 5 - O - - -
+  4 - - O O -
+   3 * - * - -
+    2 - O * - -
+     1 - * - - -
+        a b c d e
+* to play.
+
+Position? <span class="style1">a4</span>
+
+ 5 - O - - -
+  4 * - O O -
+   3 * - * - -
+    2 - O * - -
+     1 - * - - -
+        a b c d e
+O to play.
+
+Position? <span class="style1">a5</span>
+
+ 5 O O - - -
+  4 * - O O -
+   3 * - * - -
+    2 - O * - -
+     1 - * - - -
+        a b c d e
+* to play.
+
+Position? <span class="style1">b4</span>
+
+ 5 O O - - -
+  4 * * O O -
+   3 * - * - -
+    2 - O * - -
+     1 - * - - -
+        a b c d e
+O to play.
+
+Position? <span class="style1">c5</span>
+
+ 5 O O O - -
+  4 * * O O -
+   3 * - * - -
+    2 - O * - -
+     1 - * - - -
+        a b c d e
+* to play.
+
+Position? <span class="style1">e4</span>
+
+ 5 O O O - -
+  4 * * O O *
+   3 * - * - -
+    2 - O * - -
+     1 - * - - -
+        a b c d e
+O to play.
+
+Position? <span class="style1">undo</span>
+
+ 5 O O O - -
+  4 * * O O -
+   3 * - * - -
+    2 - O * - -
+     1 - * - - -
+        a b c d e
+* to play.
+
+Position? <span class="style1">undo</span>
+
+ 5 O O - - -
+  4 * * O O -
+   3 * - * - -
+    2 - O * - -
+     1 - * - - -
+        a b c d e
+O to play.
+
+Position? <span class="style1">undo</span>
+
+ 5 O O - - -
+  4 * - O O -
+   3 * - * - -
+    2 - O * - -
+     1 - * - - -
+        a b c d e
+* to play.
+
+Position? <span class="style1">undo</span>
+
+ 5 - O - - -
+  4 * - O O -
+   3 * - * - -
+    2 - O * - -
+     1 - * - - -
+        a b c d e
+O to play.
+
+Position? <span class="style1">undo</span>
+
+ 5 - O - - -
+  4 - - O O -
+   3 * - * - -
+    2 - O * - -
+     1 - * - - -
+        a b c d e
+* to play.
+
+Position? <span class="style1">undo</span>
+
+ 5 - - - - -
+  4 - - O O -
+   3 * - * - -
+    2 - O * - -
+     1 - * - - -
+        a b c d e
+O to play.
+
+Position? <span class="style1">undo</span>
+
+ 5 - - - - -
+  4 - - O O -
+   3 - - * - -
+    2 - O * - -
+     1 - * - - -
+        a b c d e
+* to play.
+
+Position? <span class="style1">undo</span>
+
+ 5 - - - - -
+  4 - - O - -
+   3 - - * - -
+    2 - O * - -
+     1 - * - - -
+        a b c d e
+O to play.
+
+Position? <span class="style1">undo</span>
+
+ 5 - - - - -
+  4 - - O - -
+   3 - - * - -
+    2 - O * - -
+     1 - - - - -
+        a b c d e
+* to play.
+
+Position? <span class="style1">d4</span>
+
+ 5 - - - - -
+  4 - - O * -
+   3 - - * - -
+    2 - O * - -
+     1 - - - - -
+        a b c d e
+O to play.
+
+Position? <span class="style1">d5</span>
+
+ 5 - - - O -
+  4 - - O * -
+   3 - - * - -
+    2 - O * - -
+     1 - - - - -
+        a b c d e
+* to play.
+
+Position? <span class="style1">e5</span>
+
+ 5 - - - O *
+  4 - - O * -
+   3 - - * - -
+    2 - O * - -
+     1 - - - - -
+        a b c d e
+O to play.
+
+Position? <span class="style1">c1</span>
+
+ 5 - - - O *
+  4 - - O * -
+   3 - - * - -
+    2 - O * - -
+     1 - - O - -
+        a b c d e
+* to play.
+
+Position? <span class="style1">b1</span>
+
+ 5 - - - O *
+  4 - - O * -
+   3 - - * - -
+    2 - O * - -
+     1 - * O - -
+        a b c d e
+* wins.
+</pre>
+
+</body>
+</html>

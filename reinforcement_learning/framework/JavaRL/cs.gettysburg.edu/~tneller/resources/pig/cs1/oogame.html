@@ -1,0 +1,216 @@
+<html>
+
+<head>
+<meta http-equiv="Content-Language" content="en-us">
+<meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
+<title>Pig - O-O Pig Game</title>
+</head>
+
+<body>
+
+<p align="center"><img border="1" src="gameOfPig.png"></p>
+<h1>O-O Pig Game</h1>
+<p><b><a href="http://cs.gettysburg.edu/projects/pig/">Pig</a></b> is a folk jeopardy dice game with simple rules: Two players race to reach 100 points. Each turn, a 
+player repeatedly rolls a die until either a 1 (&quot;pig&quot;) is rolled or the player holds and 
+scores the sum of the rolls (i.e. the <i>turn total</i>). At any time during a 
+player's turn, the player is faced with two decisions: </p>
+<ul>
+	<li><b>roll</b> - If the player rolls a 
+	<ul>
+		<li><b>1</b>: the player scores nothing and it becomes the opponent's 
+		turn. 
+		</li>
+		<li><b>2 - 6</b>: the number is added to the player's turn total and the 
+		player's turn continues. </li>
+	</ul>
+	</li>
+	<li><b>hold</b> - The turn total is added to the player's score and it 
+	becomes the opponent's turn. </li>
+</ul>
+<p><b>Problem:</b>&nbsp; Create an object-oriented implementation of a game of Pig where the user plays against a 
+&quot;hold at 20 or goal&quot; computer player that rolls until a 1 
+(&quot;pig&quot;) is rolled, or the turn total is greater than or equal to 20, 
+or the score plus the turn total is greater than or equal to 100.&nbsp; The 
+first player is chosen randomly.</p>
+<p> <b>O-O Design Constraints:</b></p>
+<p> BlueJ UML diagram:</p>
+<p align="center"><img border="0" src="ooPig.png" width="399" height="255"></p>
+<p>Although one need not implement in Java, the object-oriented specification is 
+supplied via <a href="doc/index.html">HTML Javadoc documentation</a>.&nbsp; The 
+global input/output specification is given here:</p>
+<p><b>Input Format:</b>&nbsp; An empty input (i.e., Enter) indicates that the 
+user wishes to roll.&nbsp; Any entered line of non-zero length indicates that 
+the user wishes to hold.</p>
+<p><b>Output Format:</b></p>
+<ul>
+	<li>Before the game, randomly select which player the user will be, and 
+	print the line &quot;You will be player #.&quot;, where # is the user's player number. 
+	Then, print an instruction line &quot;Enter nothing to roll; enter anything to hold.&quot;</li>
+	<li>Before each turn, print a line with &quot;Player 1 score: &quot; and player 1's 
+	score.&nbsp; Print another line with &quot;Player 2 score: &quot; and player 2's 
+	score.&nbsp; Finally, print a line with &quot;It is player #'s turn.&quot;, where &quot;#&quot; 
+	is replaced by the current player number.&nbsp; Play starts with player 1 
+	and then alternates.</li>
+	<li>For each roll, print a line with &quot;Roll: &quot; and the random die roll value 
+	(1-6).</li>
+	<li>For each non-&quot;pig&quot; roll 2-6 on the user's turn, prompt the user with 
+	&quot;Turn total: &quot;, the turn total, a tab, and &quot;Roll/Hold? &quot;.</li>
+	<li>After a &quot;pig&quot; roll of 1, or a &quot;hold&quot;, print a line with &quot;Turn 
+	total: &quot; 
+	followed by the turn total.&nbsp; In the case of a &quot;pig&quot;, this 
+	turn total 
+	is 0.&nbsp; Then, print a line with &quot;New score: &quot; followed by the new score 
+	for the current player.</li>
+</ul>
+<p><b>Sample Transcript (input underlined):</b></p>
+<pre>You will be player 2.
+Enter nothing to roll; enter anything to hold.
+Player 1 score: 0
+Player 2 score: 0
+It is player 1's turn.
+Roll: 5
+Roll: 3
+Roll: 5
+Roll: 1
+Turn total: 0
+New score: 0
+Player 1 score: 0
+Player 2 score: 0
+It is player 2's turn.
+Roll: 6
+Turn total: 6 	Roll/Hold? <u>(Enter)</u>
+Roll: 5
+Turn total: 11 	Roll/Hold? <u>(Enter)</u>
+Roll: 6
+Turn total: 17 	Roll/Hold? <u>(Enter)</u>
+Roll: 2
+Turn total: 19 	Roll/Hold? <u>(Enter)</u>
+Roll: 2
+Turn total: 21 	Roll/Hold? <u>h</u>
+Turn total: 21
+New score: 21
+Player 1 score: 0
+Player 2 score: 21
+It is player 1's turn.
+Roll: 5
+Roll: 6
+Roll: 3
+Roll: 5
+Roll: 1
+Turn total: 0
+New score: 0
+Player 1 score: 0
+Player 2 score: 21
+It is player 2's turn.
+Roll: 6
+Turn total: 6 	Roll/Hold? <u>(Enter)</u>
+Roll: 6
+Turn total: 12 	Roll/Hold? <u>(Enter)</u>
+Roll: 2
+Turn total: 14 	Roll/Hold? <u>(Enter)</u>
+Roll: 6
+Turn total: 20 	Roll/Hold? <u>h</u>
+Turn total: 20
+New score: 41
+Player 1 score: 0
+Player 2 score: 41
+It is player 1's turn.
+Roll: 3
+Roll: 3
+Roll: 6
+Roll: 4
+Roll: 4
+Turn total: 20
+New score: 20
+Player 1 score: 20
+Player 2 score: 41
+It is player 2's turn.
+Roll: 3
+Turn total: 3 	Roll/Hold? <u>(Enter)</u>
+Roll: 3
+Turn total: 6 	Roll/Hold? <u>(Enter)</u>
+Roll: 2
+Turn total: 8 	Roll/Hold? <u>(Enter)</u>
+Roll: 2
+Turn total: 10 	Roll/Hold? <u>(Enter)</u>
+Roll: 4
+Turn total: 14 	Roll/Hold? <u>(Enter)</u>
+Roll: 2
+Turn total: 16 	Roll/Hold? <u>(Enter)</u>
+Roll: 4
+Turn total: 20 	Roll/Hold? <u>h</u>
+Turn total: 20
+New score: 61
+Player 1 score: 20
+Player 2 score: 61
+It is player 1's turn.
+Roll: 5
+Roll: 1
+Turn total: 0
+New score: 20
+Player 1 score: 20
+Player 2 score: 61
+It is player 2's turn.
+Roll: 3
+Turn total: 3 	Roll/Hold? <u>(Enter)</u>
+Roll: 3
+Turn total: 6 	Roll/Hold? <u>(Enter)</u>
+Roll: 5
+Turn total: 11 	Roll/Hold? <u>(Enter)</u>
+Roll: 2
+Turn total: 13 	Roll/Hold? <u>(Enter)</u>
+Roll: 6
+Turn total: 19 	Roll/Hold? <u>h</u>
+Turn total: 19
+New score: 80
+Player 1 score: 20
+Player 2 score: 80
+It is player 1's turn.
+Roll: 3
+Roll: 1
+Turn total: 0
+New score: 20
+Player 1 score: 20
+Player 2 score: 80
+It is player 2's turn.
+Roll: 2
+Turn total: 2 	Roll/Hold? <u>(Enter)</u>
+Roll: 2
+Turn total: 4 	Roll/Hold? <u>(Enter)</u>
+Roll: 4
+Turn total: 8 	Roll/Hold? <u>(Enter)</u>
+Roll: 2
+Turn total: 10 	Roll/Hold? <u>(Enter)</u>
+Roll: 3
+Turn total: 13 	Roll/Hold? <u>(Enter)</u>
+Roll: 6
+Turn total: 19 	Roll/Hold? <u>(Enter)</u>
+Roll: 5
+Turn total: 24 	Roll/Hold? <u>h</u>
+Turn total: 24
+New score: 104
+</pre>
+<hr>
+<p><b>Extra Exercises:</b></p>
+<p>1. Use an alternative computer play policy.&nbsp; Let <i>i </i>be the player's score,<i> j</i> 
+be the opponent's score, and <i>k</i> be the current turn total.<i>&nbsp; </i>
+Some alternative play policies:</p>
+<ul>
+	<li><u>Hold at 25 or goal</u> - Hold at the lesser of 25 and 100 - i.</li>
+	<li><u>4 Scoring Turns</u> - Let <i>t</i> be the number of turns in which a 
+	player has held so far.&nbsp; Hold at floor((100 - i)/(4 - t)).</li>
+	<li><u>Score Base, Keep Pace, and End Race</u> - If <i>i</i> &gt;= 69 or <i>j</i> 
+	&gt;= 69, roll for the goal.&nbsp; Otherwise, hold at the greater of 19 and <i>
+	j</i> - 14.</li>
+	<li><u>Keep Pace and End Race</u> - If <i>i</i> &gt;= 71 or <i>j</i> &gt;= 71, 
+	roll for the goal.&nbsp; Otherwise, hold at 21 + round((<i>j</i> - <i>i</i>) 
+	/ 8).</li>
+</ul>
+<p>2. Allow play of multiple games, alternating the starting player and 
+computing win statistics.</p>
+<hr>
+<p><a href="http://cs.gettysburg.edu/~tneller/index.html">Todd Neller</a></p>
+
+</body>
+
+</html>

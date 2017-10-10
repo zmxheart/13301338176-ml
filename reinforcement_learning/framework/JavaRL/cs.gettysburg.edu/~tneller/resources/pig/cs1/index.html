@@ -1,0 +1,269 @@
+<html>
+
+<head>
+<meta http-equiv="Content-Language" content="en-us">
+<meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
+<title>CS1 Pig Exercises</title>
+</head>
+
+<body>
+
+<p align="center"><img border="1" src="gameOfPig.png"></p>
+<p><b><a href="http://cs.gettysburg.edu/projects/pig/">Pig</a></b> is a folk jeopardy dice game described by John Scarne in 1945, and 
+was an ancestor of the modern game <b>Pass the Pigs®</b> (originally called <b>
+PigMania®</b>). </p>
+<p>The rules are simple: Two players race to reach 100 points. Each turn, a 
+player repeatedly rolls a die until either a 1 is rolled or the player holds and 
+scores the sum of the rolls (i.e. the <i>turn total</i>). At any time during a 
+player's turn, the player is faced with two decisions: </p>
+<ul>
+	<li><b>roll</b> - If the player rolls a 
+	<ul>
+		<li><b>1</b>: the player scores nothing and it becomes the opponent's 
+		turn. 
+		</li>
+		<li><b>2 - 6</b>: the number is added to the player's turn total and the 
+		player's turn continues. </li>
+	</ul>
+	</li>
+	<li><b>hold</b> - The turn total is added to the player's score and it 
+	becomes the opponent's turn. </li>
+</ul>
+<p>To familiarize yourself with play, you can
+<a href="http://cs.gettysburg.edu/projects/pig/piggame.html">play an optimal Pig 
+opponent</a> online. The key decision facing a player is how large a turn total 
+should be risked to possibly get an even larger total. To learn more about the 
+game of Pig, visit <a href="http://cs.gettysburg.edu/projects/pig/piggame.html">
+The Game of Pig</a> web page.</p>
+<table style="WIDTH: 100%; TEXT-ALIGN: left" cellSpacing="2" cellPadding="2" border="1">
+	<tr>
+		<td style="VERTICAL-ALIGN: top">Summary</td>
+		<td style="VERTICAL-ALIGN: top">The Game of Pig - Milestone-based 
+		approach to implementation of the dice game Pig with side opportunities 
+		for simple, interesting analysis driven by curiosity to better 
+		understand game play.&nbsp; Also includes object-oriented and GUI 
+		programming exercises.</td>
+	</tr>
+	<tr>
+		<td style="VERTICAL-ALIGN: top">Topics</td>
+		<td style="VERTICAL-ALIGN: top">Bottom-up, milestone-based development, 
+		dynamic programming and Monte Carlo analysis techniques.</td>
+	</tr>
+	<tr>
+		<td style="VERTICAL-ALIGN: top">Audience</td>
+		<td style="VERTICAL-ALIGN: top">Assignment suite below is appropriate 
+		for CS1.&nbsp; Upper-level Pig-related assignments for networking, 
+		artificial intelligence, etc. are described in
+	<a href="http://cs.gettysburg.edu/~tneller/papers/ccscne06.pdf">Pedagogical 
+	Possibilities for the Dice Game Pig</a>.&nbsp; <i>Journal of Computing Sciences 
+	in Colleges</i>, vol. 21, no. 6, pp. 149-161, June 2006.</td>
+	</tr>
+	<tr>
+		<td style="VERTICAL-ALIGN: top">Difficulty</td>
+		<td style="VERTICAL-ALIGN: top">These assignments range from beginner to 
+		intermediate difficulty.&nbsp; CS1 students complete all but the 
+		object-oriented and GUI programming assignments in less than 3 weeks.</td>
+	</tr>
+	<tr>
+		<td style="VERTICAL-ALIGN: top">Strengths</td>
+		<td style="VERTICAL-ALIGN: top">Pig offers one of the best fun-to-SLOC 
+		(source lines of code) ratios of any game.&nbsp; One would be hard 
+		pressed to find another game with such simple rules that engages and 
+		leaves one on the knife-edge of indecision.&nbsp; As such, it is a 
+		teaching treasure.&nbsp; Mathematics instructors have long used this 
+		game to teach probabilistic concepts.&nbsp; We here offer a rich 
+		collection of CS1 Pig exercises that illustrate bottom-up development.&nbsp; 
+		Alternatively, one can approach the final &quot;Pig Game&quot; exercise as a good 
+		top-down, stepwise refinement exercise. Opportunities for Monte Carlo 
+		simulation abound.</td>
+	</tr>
+	<tr>
+		<td style="VERTICAL-ALIGN: top">Weaknesses</td>
+		<td style="VERTICAL-ALIGN: top">Except for GUI assignment, text-based and non-graphical.</td>
+	</tr>
+	<tr>
+		<td style="VERTICAL-ALIGN: top">Dependencies</td>
+		<td style="VERTICAL-ALIGN: top">Most assignments require only understanding of random number 
+		generation, text I/O, and simple control structures. GUI assignment 
+		requires additional understanding of basic GUI concepts and components 
+		including labels, buttons, panel image display, and popup window 
+		dialogs. O-O assignment requires understand of basic O-O concepts, 
+		including interfaces.</td>
+	</tr>
+	<tr>
+		<td style="VERTICAL-ALIGN: top">Variants</td>
+		<td style="VERTICAL-ALIGN: top">One can easily create variants by choosing 
+		different play policies and/or rule variations.&nbsp; Both are described 
+		in detail below.</td>
+	</tr>
+</table>
+<h2><b>A Plethora of Playful Pig Programming Problems</b></h2>
+<p>Each exercise below may be used stand-alone or in a logical sequence of 
+milestones.</p>
+<table border="1" width="100%" bordercolorlight="#000000" cellpadding="4" style="border-collapse: collapse">
+	<tr>
+		<td><b>Problem Description</b></td>
+		<td><b>Previous Milestone</b></td>
+	</tr>
+	<tr>
+		<td><a href="turn.html">Hold-at-20 Turn</a> - simulate a single turn of Pig where a player holds 
+		at 20 points</td>
+		<td>&nbsp;</td>
+	</tr>
+	<tr>
+		<td><a href="MCTurnOutcomes.html">Hold-at-20 Outcomes (Estimation)</a> - statistics on Monte Carlo 
+		simulations of hold-at-20 turn outcomes</td>
+		<td><a href="turn.html">Hold-at-20 Turn</a></td>
+	</tr>
+	<tr>
+		<td><a href="turnOutcomes.html">Hold-at-20 Outcomes (Computation)</a> - dynamic programming computation 
+		of hold-at-20 turn outcomes</td>
+		<td><a href="turn.html">Hold-at-20 Turn</a></td>
+	</tr>
+	<tr>
+		<td><a href="turn2.html">Hold-at-20-or-Goal Turn</a> - simulate a single turn of Pig where a 
+		player holds at 20 points or the goal score</td>
+		<td><a href="turn.html">Hold-at-20 Turn</a></td>
+	</tr>
+	<tr>
+		<td><a href="sologame.html">Hold-at-20-or-Goal Game</a> - simulate a single game of Pig where 
+		a player holds at 20 points or the goal score</td>
+		<td><a href="turn2.html">Hold-at-20-or-Goal Turn</a></td>
+	</tr>
+	<tr>
+		<td><a href="avgturns.html">Average Pig Turns</a> - average turns of Monte Carlo simulations 
+		of hold-at-20-or-goal games</td>
+		<td><a href="sologame.html">Hold-at-20-or-Goal Game</a></td>
+	</tr>
+	<tr>
+		<td>
+<a href="twoplayer.html">Two-Player Pig</a> - simulate a single two-player game of Pig with 
+		hold-at-20-or-goal players</td>
+		<td><a href="sologame.html">Hold-at-20-or-Goal Game</a></td>
+	</tr>
+	<tr>
+		<td>
+<a href="advantage.html">First-Player Advantage</a> - Monte Carlo simulations estimate the 
+		first-player advantage in hold-at-20-or-goal Pig</td>
+		<td><a href="twoplayer.html">Two-Player Pig</a></td>
+	</tr>
+	<tr>
+		<td>
+<a href="game.html">Pig Game</a> - the user plays Pig versus a hold-at-20-or-goal 
+player</td>
+		<td><a href="twoplayer.html">Two-Player Pig</a></td>
+	</tr>
+	<tr>
+		<td>
+<a href="oogame.html">O-O Pig Game</a> - the user plays Pig versus a hold-at-20-or-goal player.&nbsp; 
+Implementation is object-oriented.</td>
+		<td>&nbsp;</td>
+	</tr>
+	<tr>
+		<td>
+<a href="gui.html">Pig Game GUI</a> - the user plays Pig versus a keep-pace-and-end-race 
+player via a GUI</td>
+		<td>&nbsp;</td>
+	</tr>
+</table>
+<p><img border="0" src="screenshot.png" width="160" height="314" align="right">Different subsets of these exercises may be chosen according to different 
+desired goals/emphases.&nbsp; For example:<u><br>
+Pig Game Milestone track:</u> <a href="turn.html">Hold-at-20 Turn</a>, 
+<a href="turn2.html">Hold-at-20-or-Goal Turn</a>, 
+<a href="sologame.html">Hold-at-20-or-Goal Game</a>, <a href="twoplayer.html">Two-Player Pig</a>,
+<a href="game.html">Pig Game</a><br>
+<u>Monte Carlo track:</u> <a href="turn.html">Hold-at-20 Turn</a>, 
+<a href="MCTurnOutcomes.html">Hold-at-20 Outcomes (Estimation)</a>,&nbsp; 
+<a href="turn2.html">Hold-at-20-or-Goal Turn</a>, <a href="sologame.html">Hold-at-20-or-Goal Game</a>, 
+<a href="avgturns.html">Average Pig Turns</a>, <a href="twoplayer.html">Two-Player Pig</a>, 
+<a href="advantage.html">First-Player Advantage</a><br>
+<u>Cut-to-the-Chase GUI track:</u>
+<a href="gui.html">Pig Game GUI</a> <br>
+<u>Minimalist O-O track:</u> <a href="oogame.html">O-O Pig Game</a></p>
+<pre>
+</pre>
+<hr>
+<h2>Variations</h2>
+<p>Creating variations of the these exercises is simple.&nbsp; One can both vary 
+the simulated play policy, and/or rule variations.</p>
+<p><b>Pig Play Policies:</b>&nbsp; Let <i>i </i>be the player's score,<i> j</i> 
+be the opponent's score, and <i>k</i> be the current turn total.<i> </i></p>
+<ul>
+	<li><u>Hold at 25 or goal</u> - Hold at the lesser of 25 and 100 - i.</li>
+	<li><u>4 Scoring Turns</u> - Let <i>t</i> be the number of turns in which a 
+	player has held so far.&nbsp; Hold at floor((100 - i)/(4 - t)).</li>
+	<li><u>Score Base, Keep Pace, and End Race</u> - If <i>i</i> &gt;= 69 or <i>j</i> 
+	&gt;= 69, roll for the goal.&nbsp; Otherwise, hold at the greater of 19 and <i>
+	j</i> - 14.</li>
+	<li><u>Keep Pace and End Race</u> - If <i>i</i> &gt;= 71 or <i>j</i> &gt;= 71, 
+	roll for the goal.&nbsp; Otherwise, hold at 21 + round((<i>j</i> - <i>i</i>) 
+	/ 8).</li>
+	<li><u>Optimal</u> - (advanced) see
+	<a href="http://cs.gettysburg.edu/~tneller/nsf/pig/index.html">Solving the 
+	Dice Game Pig: an introduction to dynamic programming and value iteration</a></li>
+</ul>
+<p><b>Game Variations:</b></p>
+<ul>
+	<li><u>Piglet (a.k.a. Pigtails)</u> - Pig with a coin.&nbsp; A &quot;tails&quot; flip 
+	is like a &quot;pig&quot; roll of 1.&nbsp; The holding player scores the number of 
+	successive &quot;head&quot; flips.&nbsp; Use lower goal values (e.g. 10) and hold 
+	values (e.g. 2).</li>
+	<li><u>Two-Dice Pig</u> - This variation is the same as
+	<font face="Times New Roman,Times New Roman">Pig</font>, except: 
+	<ul>
+		<li>Two standard dice are rolled. If neither shows a 1, their sum is 
+		added to the turn total. </li>
+		<li>If a single 1 is rolled, the player scores nothing and the turn 
+		ends. </li>
+		<li>If two 1s are rolled, the player’s entire score is lost, and the 
+		turn ends.</li>
+	</ul>
+	</li>
+	<li><u>Big Pig</u> - This variation is the same as
+	<font face="Times New Roman,Times New Roman">Two-Dice Pig</font>, except:
+	<ul>
+		<li>If two 1s are rolled, the player adds 25 to the turn total. </li>
+		<li>If other doubles are rolled, the player adds twice the value of the 
+		dice to the turn total. </li>
+	</ul>
+	</li>
+	<li><a href="http://en.wikipedia.org/wiki/Pass_the_pigs">Pass the Pigs&reg;</a> 
+	- This commercial game, originally called PigMania&reg;, uses small rubber pigs as 
+	dice. Rolls are scored depending on whether pigs land on their feet, sides, 
+	backs, etc. in various combinations.&nbsp; Data for relative frequencies of 
+	these combinations are available from the statistical analysis External 
+	Links of the <a href="http://en.wikipedia.org/wiki/Pass_the_pigs">Pass the Pigs&reg; Wikipedia 
+	article</a>.</li>
+	<li><u>Hog</u> - Hog is played as Pig where, at the beginning of a turn, the 
+	player decides <i>how many dice</i> to roll and rolls them all at once.&nbsp; 
+	If any 1's (&quot;hogs&quot;) are rolled, there is no score for the turn.&nbsp; 
+	Otherwise, the sum of the dice are scored.&nbsp; In either case, it becomes 
+	the next player's turn.</li>
+	<li>A <a href="http://cs.gettysburg.edu/projects/pig/piglinks.html#variants">
+	list of Pig game variations</a> is also available.</li>
+</ul>
+<p>With the many ways the problem set above may be thus varied, it is not 
+difficult to craft a unique (i.e. not easily plagiarized) assignment experience 
+for your students.</p>
+<hr>
+<h2>Additional Resources</h2>
+<p>With its simple rules and engaging play, Pig lends itself to many uses across 
+the Computer Science curriculum:</p>
+<ul>
+	<li><a href="http://cs.gettysburg.edu/~tneller/resources/pig/index.html">Pig 
+Computer Science Teaching Resources</a></li>
+	<li>Todd W. Neller, Clifton G.M. Presser, Ingrid Russell, Zdravko Markov.&nbsp;
+	<a href="http://cs.gettysburg.edu/~tneller/papers/ccscne06.pdf">Pedagogical 
+	Possibilities for the Dice Game Pig</a>.&nbsp; <i>Journal of Computing Sciences 
+	in Colleges</i>, vol. 21, no. 6, pp. 149-161, June 2006. (Best paper - 2nd 
+	place)</li>
+	<li>NSF Artificial Intelligence CCLI Project:
+	<a href="http://cs.gettysburg.edu/~tneller/nsf/pig/index.html">Solving the 
+	Dice Game Pig: an introduction to dynamic programming and value iteration</a></li>
+</ul>
+<hr>
+<p><a href="http://cs.gettysburg.edu/~tneller/index.html">Todd Neller</a></p>
+
+</body>
+
+</html>

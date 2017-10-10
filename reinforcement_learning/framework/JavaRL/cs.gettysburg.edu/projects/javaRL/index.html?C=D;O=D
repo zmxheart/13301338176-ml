@@ -1,0 +1,43 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<html>
+ <head>
+  <title>Index of /projects/javaRL</title>
+ </head>
+ <body>
+<h1>Index of /projects/javaRL</h1>
+<table><tr><th><img src="/icons/blank.gif" alt="[ICO]"></th><th><a href="?C=N;O=A">Name</a></th><th><a href="?C=M;O=A">Last modified</a></th><th><a href="?C=S;O=A">Size</a></th><th><a href="?C=D;O=A">Description</a></th></tr><tr><th colspan="5"><hr></th></tr>
+<tr><td valign="top"><img src="/icons/back.gif" alt="[DIR]"></td><td><a href="/projects/">Parent Directory</a></td><td>&nbsp;</td><td align="right">  - </td><td>&nbsp;</td></tr>
+<tr><td valign="top"><img src="/icons/text.gif" alt="[TXT]"></td><td><a href="TileCodingMemory.java">TileCodingMemory.java</a></td><td align="right">13-Jun-2003 19:00  </td><td align="right">4.7K</td><td>&nbsp;</td></tr>
+<tr><td valign="top"><img src="/icons/text.gif" alt="[TXT]"></td><td><a href="TDAgentTabSARSA.java">TDAgentTabSARSA.java</a></td><td align="right">13-Jun-2003 19:00  </td><td align="right">2.1K</td><td>&nbsp;</td></tr>
+<tr><td valign="top"><img src="/icons/text.gif" alt="[TXT]"></td><td><a href="TDAgentTabQL.java">TDAgentTabQL.java</a></td><td align="right">13-Jun-2003 19:00  </td><td align="right">2.8K</td><td>&nbsp;</td></tr>
+<tr><td valign="top"><img src="/icons/text.gif" alt="[TXT]"></td><td><a href="TDAgentTab.java">TDAgentTab.java</a></td><td align="right">13-Jun-2003 19:00  </td><td align="right">8.2K</td><td>&nbsp;</td></tr>
+<tr><td valign="top"><img src="/icons/text.gif" alt="[TXT]"></td><td><a href="TDAgent.java">TDAgent.java</a></td><td align="right">16-Jun-2003 09:07  </td><td align="right"> 13K</td><td>&nbsp;</td></tr>
+<tr><td valign="top"><img src="/icons/text.gif" alt="[TXT]"></td><td><a href="TDATabSARSAGrid.java">TDATabSARSAGrid.java</a></td><td align="right">13-Jun-2003 19:00  </td><td align="right">9.6K</td><td>&nbsp;</td></tr>
+<tr><td valign="top"><img src="/icons/text.gif" alt="[TXT]"></td><td><a href="TDATabQLGrid.java">TDATabQLGrid.java</a></td><td align="right">13-Jun-2003 19:00  </td><td align="right">9.4K</td><td>&nbsp;</td></tr>
+<tr><td valign="top"><img src="/icons/text.gif" alt="[TXT]"></td><td><a href="State.java">State.java</a></td><td align="right">13-Jun-2003 19:00  </td><td align="right">371 </td><td>&nbsp;</td></tr>
+<tr><td valign="top"><img src="/icons/text.gif" alt="[TXT]"></td><td><a href="Simulation.java">Simulation.java</a></td><td align="right">13-Jun-2003 19:00  </td><td align="right">5.6K</td><td>&nbsp;</td></tr>
+<tr><td valign="top"><img src="/icons/text.gif" alt="[TXT]"></td><td><a href="SimpleGridAgentSARSA.java">SimpleGridAgentSARSA.java</a></td><td align="right">13-Jun-2003 19:00  </td><td align="right">5.1K</td><td>&nbsp;</td></tr>
+<tr><td valign="top"><img src="/icons/text.gif" alt="[TXT]"></td><td><a href="SimpleGridAgentQL.java">SimpleGridAgentQL.java</a></td><td align="right">13-Jun-2003 19:00  </td><td align="right">5.3K</td><td>&nbsp;</td></tr>
+<tr><td valign="top"><img src="/icons/hand.right.gif" alt="[   ]"></td><td><a href="README">README</a></td><td align="right">16-Jun-2003 13:08  </td><td align="right">1.2K</td><td>&nbsp;</td></tr>
+<tr><td valign="top"><img src="/icons/unknown.gif" alt="[   ]"></td><td><a href="OVERVIEW">OVERVIEW</a></td><td align="right">16-Jun-2003 13:08  </td><td align="right">1.2K</td><td>&nbsp;</td></tr>
+<tr><td valign="top"><img src="/icons/text.gif" alt="[TXT]"></td><td><a href="MtnCarState.java">MtnCarState.java</a></td><td align="right">13-Jun-2003 19:00  </td><td align="right">1.8K</td><td>&nbsp;</td></tr>
+<tr><td valign="top"><img src="/icons/text.gif" alt="[TXT]"></td><td><a href="MtnCarSimulation.java">MtnCarSimulation.java</a></td><td align="right">13-Jun-2003 19:00  </td><td align="right">1.3K</td><td>&nbsp;</td></tr>
+<tr><td valign="top"><img src="/icons/text.gif" alt="[TXT]"></td><td><a href="MtnCarEnvironment.java">MtnCarEnvironment.java</a></td><td align="right">13-Jun-2003 19:00  </td><td align="right">649 </td><td>&nbsp;</td></tr>
+<tr><td valign="top"><img src="/icons/text.gif" alt="[TXT]"></td><td><a href="MtnCarAgentLGDSarsaTCM.java">MtnCarAgentLGDSarsaTCM.java</a></td><td align="right">13-Jun-2003 19:00  </td><td align="right">6.0K</td><td>&nbsp;</td></tr>
+<tr><td valign="top"><img src="/icons/text.gif" alt="[TXT]"></td><td><a href="MtnCarAction.java">MtnCarAction.java</a></td><td align="right">13-Jun-2003 19:00  </td><td align="right">464 </td><td>&nbsp;</td></tr>
+<tr><td valign="top"><img src="/icons/text.gif" alt="[TXT]"></td><td><a href="GridStateIterator.java">GridStateIterator.java</a></td><td align="right">13-Jun-2003 19:00  </td><td align="right">2.2K</td><td>&nbsp;</td></tr>
+<tr><td valign="top"><img src="/icons/text.gif" alt="[TXT]"></td><td><a href="GridState.java">GridState.java</a></td><td align="right">13-Jun-2003 19:00  </td><td align="right">3.6K</td><td>&nbsp;</td></tr>
+<tr><td valign="top"><img src="/icons/text.gif" alt="[TXT]"></td><td><a href="GridSim.java">GridSim.java</a></td><td align="right">13-Jun-2003 19:00  </td><td align="right">2.6K</td><td>&nbsp;</td></tr>
+<tr><td valign="top"><img src="/icons/text.gif" alt="[TXT]"></td><td><a href="GridEnvir.java">GridEnvir.java</a></td><td align="right">13-Jun-2003 19:00  </td><td align="right">3.1K</td><td>&nbsp;</td></tr>
+<tr><td valign="top"><img src="/icons/text.gif" alt="[TXT]"></td><td><a href="GridAction.java">GridAction.java</a></td><td align="right">13-Jun-2003 19:00  </td><td align="right">1.1K</td><td>&nbsp;</td></tr>
+<tr><td valign="top"><img src="/icons/text.gif" alt="[TXT]"></td><td><a href="GridActIterator.java">GridActIterator.java</a></td><td align="right">13-Jun-2003 19:00  </td><td align="right">2.2K</td><td>&nbsp;</td></tr>
+<tr><td valign="top"><img src="/icons/text.gif" alt="[TXT]"></td><td><a href="Featurizer.java">Featurizer.java</a></td><td align="right">13-Jun-2003 19:00  </td><td align="right">309 </td><td>&nbsp;</td></tr>
+<tr><td valign="top"><img src="/icons/text.gif" alt="[TXT]"></td><td><a href="Environment.java">Environment.java</a></td><td align="right">13-Jun-2003 19:00  </td><td align="right">2.8K</td><td>&nbsp;</td></tr>
+<tr><td valign="top"><img src="/icons/text.gif" alt="[TXT]"></td><td><a href="DoubleArrayState.java">DoubleArrayState.java</a></td><td align="right">13-Jun-2003 19:00  </td><td align="right">379 </td><td>&nbsp;</td></tr>
+<tr><td valign="top"><img src="/icons/text.gif" alt="[TXT]"></td><td><a href="Agent.java">Agent.java</a></td><td align="right">13-Jun-2003 19:00  </td><td align="right">3.0K</td><td>&nbsp;</td></tr>
+<tr><td valign="top"><img src="/icons/text.gif" alt="[TXT]"></td><td><a href="ActionResult.java">ActionResult.java</a></td><td align="right">13-Jun-2003 19:00  </td><td align="right">1.2K</td><td>&nbsp;</td></tr>
+<tr><td valign="top"><img src="/icons/text.gif" alt="[TXT]"></td><td><a href="Action.java">Action.java</a></td><td align="right">13-Jun-2003 19:00  </td><td align="right">216 </td><td>&nbsp;</td></tr>
+<tr><th colspan="5"><hr></th></tr>
+</table>
+<address>Apache/2.2.22 (Ubuntu) Server at cs.gettysburg.edu Port 80</address>
+</body></html>

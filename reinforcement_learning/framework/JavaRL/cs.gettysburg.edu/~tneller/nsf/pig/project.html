@@ -1,0 +1,196 @@
+<font face="Verdana, Arial, Helvetica, sans-serif" size="2" color="#FFFFFF">
+<TABLE cellSpacing=0 cellPadding=0 width="615" border=0 height="517">
+  <TBODY>
+    <TR>
+     <TD width=615 height=156 bgcolor="#ffffff">
+        <h1 align=left>
+        <font size="4">Machine Learning Laboratory Experiences for Introducing 
+        Undergraduates to Artificial Intelligence<br>
+        </font><font size="2">NSF DUE CCLI-A&amp;I Award Number 0409497</font></h1>
+        <h1 align=left>
+        Solving the Dice Game Pig:<br>
+        <font size="5">an introduction to dynamic programming and value 
+        iteration</font></h1>
+        <p align=left>
+        &nbsp;</TD></TR>
+    <TR>
+      <TD width=615 bgColor=#DE1C25>
+      <font color="#FFFFFF" size="4"><b>&nbsp;<a name="overview">OVERVIEW</a></b></font>
+      </TD></TR>
+    <TR>
+      <TD width=615 bgColor=#FFFFFF height="34"> 
+      <a href="http://cs.gettysburg.edu/projects/pig/pigVis.html">
+      <img border="0" src="pigSoln.jpg" align="right" width="116" height="128"></a>The
+      <a href="http://cs.gettysburg.edu/projects/pig/index.html">jeopardy dice 
+      game Pig</a> is very simple to describe, yet the
+      <a href="http://cs.gettysburg.edu/projects/pig/pigVis.html">optimal policy 
+      for play</a> is far from trivial.&nbsp; Using the computation of the 
+      optimal solution as a central challenge problem, we introduce dynamic 
+      programming and value iteration methods, applying them to similar problems 
+      using the Java language.<p>&nbsp;</TD></TR>
+      
+    <TR>
+      <TD width=615 bgColor=#DE1C25>
+      <font color="#FFFFFF" size="4"><b>&nbsp;<a name="objectives">OBJECTIVES</a></b></font>
+      </TD></TR>
+    <TR>
+      <TD width=615 bgColor=#FFFFFF height="34"> The object of this project is 
+      to give the student a deep, experiential understanding of <b>dynamic 
+        programming </b>and<b> value iteration</b> through explanation, 
+        implementation examples, and implementation exercises<ul>
+        <li><u>Dynamic Programming:</u></li>
+        <ul>
+        <li>Demonstrate the need for dynamic programming through Fibonacci 
+        number computation.</li>
+        <li>Guide the student through the details of a Java solution to a simple 
+        Pig variant with an acyclic state space.</li>
+        <li>Provide problem solving exercises that will ground the student's 
+        understanding of dynamic programming in experience.</li>
+        </ul>
+        <li><u>Value Iteration:</u></li>
+        <ul>
+        <li>Introduce the method of value iteration.</li>
+        <li>Demonstrate its application to a simple coin variant of Pig called 
+        Piglet.</li>
+        <li>Guide the student through the details of a Java solution to Piglet.</li>
+        <li>Provide problem solving exercises that will ground the student's 
+        understanding of value iteration in experience.<br>
+&nbsp;</li>
+        </ul
+      </ul>
+      </TD></TR>
+
+    <TR>
+      <TD width=615 bgColor=#DE1C25>
+      <font color="#FFFFFF" size="4"><b>&nbsp;<a name="prerequisites">PREREQUISITES</a></b></font>
+      </TD></TR>
+    <TR>
+      <TD width=615 bgColor=#FFFFFF height="34"> The student should understand 
+      basic probability and algebraic systems of equations (although knowledge 
+      of linear algebraic solution techniques are not required).&nbsp; The 
+      student should also understand the syntax of Java.&nbsp; Students who 
+      program in C++ should be able to follow most of the Java examples.<br>
+      <br>
+      Before starting the project, the student will want to understand the 
+      definition of a Markov decision process, perhaps by covering the 
+      recommended background reading below.<font size="2"><br>
+&nbsp;</font></TD></TR>
+
+    <TR>
+      <TD width=615 bgColor=#DE1C25>
+      <font color="#FFFFFF" size="4"><b>&nbsp;<a name="background">BACKGROUND</a></b></font>
+      </TD></TR>
+    <TR>
+      <TD width=615 bgColor=#FFFFFF height="34"> To understand the terminology 
+      of Markov decision processes and general application of value iteration, 
+      we recommend that students read sections 17.1 (Sequential Decision 
+      Problems) and 17.2 (Value Iteration) of:<font FACE="CMR10"><blockquote>
+        <p ALIGN="LEFT">Stuart Russell and Peter Norvig. </font>
+        <font FACE="CMTI10"><a href="http://aima.cs.berkeley.edu/"><i>Artificial 
+        Intelligence: a modern approach,
+        2nd ed</i>.</a> </font><font FACE="CMR10">Prentice Hall, Upper Saddle 
+        River, NJ, USA, 2003.</font></p>
+      </blockquote>
+      <p ALIGN="LEFT"><font face="Verdana, Arial, Helvetica, sans-serif">
+      <a href="http://cs.gettysburg.edu/projects/pig/index.html">
+      <img border="0" src="pigHead.png" align="right" width="85" height="84"></a>Students are encouraged to play the game of Pig in order to have a better 
+      understanding of the problem.&nbsp; An 
+      <a href="http://cs.gettysburg.edu/projects/pig/piggame.html">applet</a> with an optimal computer 
+      player is available at the
+      <a href="http://cs.gettysburg.edu/projects/pig/index.html">Game of Pig 
+      page</a>.<br>
+&nbsp;</font></TD></TR>
+
+    <TR>
+      <TD width=615 bgColor=#DE1C25>
+      <font color="#FFFFFF" size="4"><b>&nbsp;<a name="description">DESCRIPTION</a></b></font>
+      </TD></TR>
+    <TR>
+      <TD width=615 bgColor=#FFFFFF height="34"> The project is described in the 
+      file <b> <a href="pig.pdf">pig.pdf</a></b>.&nbsp; You will need the
+      <a href="http://get.adobe.com/reader/">free Adobe 
+      Acrobat Reader</a> to view this file.<a href="http://get.adobe.com/reader/"><img alt="Get Adobe Reader logo" hspace="3" src="get_adobe_reader.gif" vspace="3" border="0" align="top" width="88" height="31"></a><br>
+      <font size="2"><br>
+      </font>Example code described in the project is available here:<ul>
+        <li><b><a href="FibDemo.java">FibDemo.java</a></b></li>
+        <li><b><a href="PPigSolver.java">PPigSolver.java</a></b></li>
+        <li><b><a href="PigletSolver.java">PigletSolver.java</a></b></li>
+      </ul>
+      <p>This code was <font face="Verdana, Arial, Helvetica, sans-serif">
+      generated from the same source file that generated
+</font><font face="Verdana, Arial, Helvetica, sans-serif" color="#FFFFFF">
+      <a href="pig.pdf">pig.pdf</a></font><font face="Verdana, Arial, Helvetica, sans-serif"> 
+      using the
+</font><font face="Verdana, Arial, Helvetica, sans-serif" color="#FFFFFF">
+      <a href="http://www.literateprogramming.com/">literate programming</a></font><font face="Verdana, Arial, Helvetica, sans-serif"> 
+      tool
+</font><font face="Verdana, Arial, Helvetica, sans-serif" color="#FFFFFF">
+      <a href="http://www.eecs.harvard.edu/~nr/noweb/">noweb</a></font><font face="Verdana, Arial, Helvetica, sans-serif">.</font></p>
+      <p>We recommend having students do at least <u>one dynamic programming 
+      exercise</u> and <u>one value iteration exercise</u>.</p>
+      <p>Students seeking 
+      more extended challenges will also find descriptions of related advanced 
+      projects for dynamic programming and value iteration.<font size="2">&nbsp; <br>
+&nbsp;</font></TD></TR>
+    
+        <TR>
+      <TD width=615 bgColor=#DE1C25>
+      <font color="#FFFFFF" size="4"><b>&nbsp;<a name="syllabus">SYLLABUS</a></b></font>
+      </TD></TR>
+    <TR>
+      <TD width=615 bgColor=#FFFFFF height="34"> 
+      <p>Here is a sample syllabus used in CS 371 - Introduction to AI at 
+      Gettysburg College:<p>First class: Tuesday 9/28/04<br>
+      Preparatory Reading: Sections 1-2 of
+      <font face="Verdana, Arial, Helvetica, sans-serif" color="#FFFFFF">
+      <b> <a href="pig.pdf">pig.pdf</a></b>.<br>
+</font><font face="Verdana, Arial, Helvetica, sans-serif">
+      Dynamic programming<br>
+      Homework due Thursday 9/30/04: One complete exercise from section 2.4</font><br>
+      <br>
+      Second class: Thursday 9/30/04<br>
+      Preparatory Reading: Remaining sections of
+      <font face="Verdana, Arial, Helvetica, sans-serif" color="#FFFFFF">
+      <a href="pig.pdf"> <b> pig.pdf</b></a></font><font face="Verdana, Arial, Helvetica, sans-serif">, 
+      Russell &amp; Norvig sections 17.1, 17.2<br>
+      Value Iteration<br>
+      Homework due Thursday 10/7/04: One complete exercise from section 3.5<br>
+      (There was a two-day break 10/4-10/5.&nbsp; Without the break, Tuesday 
+      10/5 rather than 10/7 would have been appropriate.)&nbsp;&nbsp;&nbsp;
+</font>
+      <p>The following additional coverage is not included in this project, but 
+      may provide the instructor additional ideas:<br>
+      <font face="Verdana, Arial, Helvetica, sans-serif">
+      <br>
+      Third class: Thursday 10/7/04:<br>
+      (no preparatory reading)<br>
+      Mountain Car Problem of Example 8.2 of
+</font>
+</font><font face="Verdana">
+      Richard S. Sutton and Andrew G. Barto. Reinforcement Learning: an 
+      introduction. MIT Press, pp. 214-215.&nbsp; (Online at
+</font><font face="Verdana" color="#FFFFFF">
+      <a href="http://www.cs.ualberta.ca/~sutton/book/8/node9.html">
+      http://www.cs.ualberta.ca/~sutton/book/8/node9.html</a></font><font face="Verdana">)&nbsp; 
+      See also:
+</font><font face="Verdana" color="#FFFFFF">
+      <a href="http://www-anw.cs.umass.edu/rlr/domains.html">
+      http://www-anw.cs.umass.edu/rlr/domains.html</a>,
+      <a href="http://www.cs.ualberta.ca/~sutton/MountainCar/MountainCar.html">
+      http://www.cs.ualberta.ca/~sutton/MountainCar/MountainCar.html</a></font><p>
+      <font face="Verdana">Our approach to this problem is to simply apply value 
+      iteration, discretizing the state space into a 400-by-400 grid of cells, 
+      and approximating the dynamics of each time step as a mapping from one 
+      cell to another.&nbsp; In other words, overlay the 2D state space 
+      (position, velocity) with a 400-by-400 grid. Simulate one time-step from 
+      each grid intersection and note which is the nearest intersection to the 
+      resulting state.&nbsp; This defines a mapping to discretely approximate 
+      the system dynamics.&nbsp; Then apply value iteration with a reward of -1 
+      for each step that the system is not at the rightmost position.&nbsp;&nbsp;&nbsp;
+      </font><font face="Verdana, Arial, Helvetica, sans-serif" color="#FFFFFF">
+      <font FACE="CMR10">
+      <p ALIGN="LEFT">Cambridge, Massachusetts, 1998.</font></TD></TR>
+
+  </TBODY>
+</TABLE>
+</font>

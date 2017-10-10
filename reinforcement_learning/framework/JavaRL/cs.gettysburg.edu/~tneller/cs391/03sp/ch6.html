@@ -1,0 +1,101 @@
+<!doctype html public "-//w3c//dtd html 4.0 transitional//en">
+<html>
+<head>
+   <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+   <meta name="GENERATOR" content="Microsoft FrontPage 4.0">
+   <meta name="Author" content="Todd Neller">
+   <title>Chapter 6</title>
+</head>
+<body bgcolor="#FFFFFF">
+<table WIDTH="100%" >
+<tr>
+<td><img SRC="GburgCS.gif" height=84 width=182></td>
+
+<td><font size=+2>CS 391 - Special Topic: Machine Learning</font>
+<br><font size=+2>Chapter 6</font></td>
+</tr>
+</table>
+
+<hr>
+<br><b><u>Readings</u></b>
+<ul>
+  <li>3/3: Sections 6.1-6.2</li>
+  <li>3/5: Sections 6.3-6.4</li>
+  <li>3/7: Sections 6.5, 6.8-9</li>
+</ul>
+
+<b><u>Topics</u></b>
+<ul>
+  <li>TD-prediction and its advantages</li>
+  <li>Sarsa, on-policy TD control&nbsp;</li>
+  <li>Q-learning, off-policy TD control</li>
+  <li>Afterstates</li>
+</ul>
+<p>
+
+<b><u>Discussion Questions</u></b>
+</p>
+<p>How are TD methods similar to DP methods?&nbsp; How are they different?<br>
+How are TD methods similar to Monte Carlo methods?&nbsp; How are they different?<br>
+Write the TD update rule.&nbsp; Describe Tabular TD(0) policy evaluation.&nbsp;
+What is the corresponding backup diagram?<br>
+Define <i>sample backup </i>and <i>full backup. </i>Which methods perform each?<br>
+Do TD methods bootstrap?&nbsp; Why or why not?<br>
+What is <i>batch updating</i>?<br>
+What is the difference between a <i>maximum-likelihood estimate</i> and a <i>certainty-equivalence
+estimate</i>?&nbsp; How do MC methods estimate?&nbsp; How do TD methods
+estimate?<br>
+In what sense is TD(0) optimal?<br>
+Write the Sarsa update rule.&nbsp; How does it differ from the TD(0) update
+rule?<br>
+Describe the Sarsa algorithm.&nbsp; Why is this called an <i>on-policy</i>
+control algorithm?<br>
+Describe the Q-learning algorithm.&nbsp; How does the Q-learning algorithm
+differ from the Sarsa algorithm?&nbsp; Why is this called an <i>off-policy</i>
+control algorithm?<br>
+How do these algorithms behave differently for the cliff-walking task and why?<br>
+What are afterstates?<br>
+How would you formulate the Jack's rental car problem using afterstates?
+
+
+<p><b><u>Programming Assignment</u></b>
+<p><b><u>HW6</u></b></p>
+<p>Due Friday 3/7 at the beginning of class.&nbsp; If your work is completed and
+checked by me before I leave on Thursday afternoon, attendance at Friday's class
+is optional.&nbsp; You must work
+in pairs on this homework.&nbsp; An improvised, informal
+presentation of your work may be requested in a later class.</p>
+<p>Implement and test the Sarsa algorithm (Fig. 6.9) for the Windy Gridworld
+with King's Moves (Exercise 6.6).&nbsp;&nbsp; For output, you should print the
+e-soft policy you're using (e.g. e-greedy) and the parameters (e.g. epsilon =
+.01).&nbsp; At intervals (e.g. after every <i>n</i> trials) print the current
+iteration, <i>greedy </i>policy, and corresponding <i>greedy</i> evaluations of
+states.&nbsp; Represent the policy in a tabular layout in the same orientation
+as Gridworld locations with -- = stay, N = North, S = South, E = East, W = West,
+NE = Northeast, etc.&nbsp; Represent the state values in a tabular layout
+showing significant digits such that the tabular layout is less than 80
+columns.&nbsp; Do the same with and without the &quot;stay&quot; move.&nbsp;
+What is the length of each of the optimal paths?&nbsp; (The optimal policy with
+the four directions has a cost of 15.)</p>
+<p>Every action (including staying or moving to the goal state) has a reward of
+-1.&nbsp; The world does not wrap around.&nbsp; You can make differing
+assumptions about the way the world evolves at the boundaries, but <i>you must
+be explicit about your assumptions.</i>&nbsp; For example, here are two <i>different
+</i>assumption
+sets:</p>
+<p>(1) All moves are legal in all states.&nbsp; To compute the resulting state,
+change the (x,y) position according to the move and the wind.&nbsp; The move
+and/or the wind may take the agent temporarily off the grid, but the final
+resulting position is the <i>closest grid point.&nbsp; </i>Example:&nbsp; You're
+in the top (northmost) row in a column with wind +2 (northward).&nbsp; You move
+northeast.&nbsp; This takes you 1 space to the east and three spaces northward,
+but the resulting position is directly to the east, because that's the closest
+point on the grid to the initial result of your movement.</p>
+<p>(2) It is illegal to perform a move that would take the agent off the grid if
+there were no wind.&nbsp; The move is resolved before the wind blows.&nbsp;
+Example: You're in the bottom (southmost) row in a column with wind +1
+(northward).&nbsp; You cannot move southeast and end up directly to the east,
+because this would take you off the board in the first phase of movement. </p>
+<p>&nbsp;</p>
+</body>
+</html>

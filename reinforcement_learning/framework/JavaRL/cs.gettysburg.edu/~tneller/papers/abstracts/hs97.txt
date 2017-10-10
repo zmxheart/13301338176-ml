@@ -1,0 +1,9 @@
+Title: Heuristic Optimization and Dynamical System Safety Verification
+
+Abstract: Given a heuristic estimate of the relative safety of a
+hybrid dynamical system trajectory, we transform the initial safety
+problem for dynamical systems into a global optimization problem.  We
+compare untuned performance of several Simulated Annealing and Multi
+Level Single Linkage method variants, and discuss the dynamic use of
+knowledge gained during optimization.
+

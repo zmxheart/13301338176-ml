@@ -1,0 +1,24 @@
+Final contest results:
+
+Student entries:
+
+Wei and Eleni	    
+Score Mean: 124.804000, Standard Deviation: 30.322295, Minimum: 55, Maximum: 240
+
+Wei and Matt
+Score Mean: 119.146000, Standard Deviation: 29.415552, Minimum: 39, Maximum: 221
+
+Anh and Anthony
+Score Mean: 119.023000, Standard Deviation: 30.050565, Minimum: 29, Maximum: 246
+
+Marcin and Ryan
+Score Mean: 114.809000, Standard Deviation: 28.454007, Minimum: 43, Maximum: 225
+
+Ian and Kay
+Score Mean: 113.367000, Standard Deviation: 27.947134, Minimum: 58, Maximum: 232
+
+Faculty entry:
+
+Todd	
+Score Mean: 125.177000, Standard Deviation: 32.075281, Minimum: 56, Maximum: 240
+

@@ -1,0 +1,90 @@
+<html>
+
+<head>
+<meta http-equiv="Content-Language" content="en-us">
+<meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
+<title>Pig - Two-Player Pig</title>
+</head>
+
+<body>
+
+<p align="center"><img border="1" src="gameOfPig.png"></p>
+<h1>Two-Player Pig</h1>
+<p><b><a href="http://cs.gettysburg.edu/projects/pig/">Pig</a></b> is a folk jeopardy dice game with simple rules: Two players race to reach 100 points. Each turn, a 
+player repeatedly rolls a die until either a 1 (&quot;pig&quot;) is rolled or the player holds and 
+scores the sum of the rolls (i.e. the <i>turn total</i>). At any time during a 
+player's turn, the player is faced with two decisions: </p>
+<ul>
+	<li><b>roll</b> - If the player rolls a 
+	<ul>
+		<li><b>1</b>: the player scores nothing and it becomes the opponent's 
+		turn. 
+		</li>
+		<li><b>2 - 6</b>: the number is added to the player's turn total and the 
+		player's turn continues. </li>
+	</ul>
+	</li>
+	<li><b>hold</b> - The turn total is added to the player's score and it 
+	becomes the opponent's turn. </li>
+</ul>
+<p><b>Problem:</b>&nbsp; Simulate a single solitaire game of Pig where a player rolls until a 1 
+(&quot;pig&quot;) is rolled, or the turn total is greater than or equal to 20, 
+or the score plus the turn total is greater than or equal to 100.</p>
+<p> <i>Note: Be sure to &quot;factor out common code&quot;.&nbsp; There is no reason to 
+have two separate, nearly identical sections of code for each player's turn. </i>
+</p>
+<p><b>Input Format:</b>&nbsp; (no input)</p>
+<p><b>Output Format:</b></p>
+<ul>
+	<li>Before each turn, print a line with &quot;Player 1 score: &quot; and player 1's 
+	score.&nbsp; Print another line with &quot;Player 2 score: &quot; and player 2's 
+	score.&nbsp; Finally, print a line with &quot;It is player #'s turn.&quot;, where &quot;#&quot; 
+	is replaced by the current player number.&nbsp; Play starts with player 1 
+	and then alternates.</li>
+	<li>For each roll, print a line with &quot;Roll: &quot; and the random die roll value 
+	(1-6).</li>
+	<li>After a &quot;pig&quot; roll of 1, or a &quot;hold&quot;, print a line with &quot;Turn 
+	total: &quot; 
+	followed by the turn total.&nbsp; In the case of a &quot;pig&quot;, this 
+	turn total 
+	is 0.&nbsp; Then, print a line with &quot;New score: &quot; followed by the new score 
+	for the current player.</li>
+</ul>
+<p><b>Sample Transcript:</b></p>
+<pre>Player 1 score: 0
+Player 2 score: 0
+It is player 1's turn.
+Roll: 5
+Roll: 6
+Roll: 1
+Turn total: 0
+New score: 0
+Player 1 score: 0
+Player 2 score: 0
+It is player 2's turn.
+Roll: 2
+Roll: 5
+Roll: 4
+Roll: 5
+Roll: 4
+Turn total: 20
+New score: 20
+Player 1 score: 0
+Player 2 score: 20
+</pre>
+<pre>...</pre>
+<pre>
+Player 1 score: 90
+Player 2 score: 66
+It is player 1's turn.
+Roll: 2
+Roll: 2
+Roll: 6
+Turn total: 10
+New score: 100</pre>
+<hr>
+<p><a href="http://cs.gettysburg.edu/~tneller/index.html">Todd Neller</a></p>
+
+</body>
+
+</html>

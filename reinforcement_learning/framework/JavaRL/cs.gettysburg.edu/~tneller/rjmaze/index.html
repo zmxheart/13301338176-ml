@@ -1,0 +1,130 @@
+<!doctype html public "-//w3c//dtd html 4.0 transitional//en">
+<html>
+<head>
+   <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+   <meta name="GENERATOR" content="Microsoft FrontPage 12.0">
+   <title>Rook Jumping Maze / Number Maze</title>
+</head>
+<body bgcolor="#FFFFFF">
+<table WIDTH="100%" >
+<tr>
+<td><a href="http://cs.gettysburg.edu"><img SRC="GburgCS.gif" height=84 width=182></a></td>
+
+<td>
+<h1>Rook Jumping Mazes</h1>
+<h2>(a.k.a. Number Mazes)</h2>
+</td>
+</tr>
+</table>
+
+<hr>
+<table BORDER=0 CELLPADDING=3 WIDTH="100%" BGCOLOR="#3333FF" >
+<tr>
+<td><font size="+1" color="#FF6600"><b>Rook Jumping Mazes</b></font></td>
+</tr>
+</table>
+
+<ul>
+<li>
+<a href="http://cs.gettysburg.edu:8080/jumpmaze/">Rook Jumping Maze of the Day</a></li>
+<li>
+<a href="app.html">Jump Maze iPhone App</a></li>
+	<li><a href="https://play.google.com/store/apps/details?id=edu.gettysburg.cs.jumpmaze">
+Jump Maze Android App</a> <br> <a href="https://play.google.com/store/apps/details?id=edu.gettysburg.cs.jumpmaze">
+  <img alt="Android app on Google Play"
+       src="en_app_rgb_wo_60.png" />
+</a>
+	</li> 
+<li>
+<a href="http://cs.gettysburg.edu:8080/jumpmaze/maze3d.html">3D Rook Jumping 
+Maze of the Day</a></li>
+<li>
+<a href="exampleMaze.pdf">PDF Rook Jumping Maze 
+Example</a> (<a href="artSociety.pdf">Art Society Version</a>)</li>
+<li>
+Robert Abbott's Number Mazes: <a href="http://www.logicmazes.com/n1mz.html">6x6</a>,
+<a href="http://www.logicmazes.com/n2mz.html">7x7</a>,
+<a href="http://www.logicmazes.com/n3mz.html">Changing Rule</a>,
+<a href="http://www.logicmazes.com/n4mz.html">No U-Turn</a>, 
+<a href="http://www.logicmazes.com/n0mz.html">5x5 Easy Maze</a></li>
+<li>
+<a href="http://en.wikipedia.org/wiki/Back_from_the_klondike">Sam Loyd's &quot;Back from 
+the Klondike&quot; Queen Jumping Maze</a> (<a href="http://www.jimloy.com/puzz/klondike.htm">Jim 
+Loy's page</a>, <a href="http://goatsandtigers.com/backfromtheklondike/">Java 
+applet</a>, <a href="http://mathpuzzle.com/loyd/cop106-107.html">Ed Pegg Jr.'s 
+scan</a>)</li>
+<li>
+Andrea Gilbert's related &quot;<a href="http://www.clickmazes.com/mazes/_gc_stepnum.htm">Step 
+by number</a>&quot; maze at <a href="http://www.clickmazes.com/">www.clickmazes.com</a></li>
+	<li>
+	David Johnson-Davies' <a href="http://www.mazelog.com/show?7">Jumping Mazes</a> 
+	at <a href="http://www.mazelog.com/http://www.mazelog.com/">
+	http://www.mazelog.com/</a></li>
+</ul>
+
+<table BORDER=0 CELLPADDING=3 WIDTH="100%" BGCOLOR="#3333FF" >
+<tr>
+<td><font size="+1" color="#FF6600"><b>Introduction</b></font></td>
+</tr>
+</table>
+
+<p><b><u><span style="line-height: 115%">Rook Jumping Maze:</span></u></b><span style="line-height: 115%"> 
+Starting at the circled square in the upper-left corner, find a path to the goal 
+square marked &#8220;G&#8221;.&nbsp; From each numbered square, one may move that exact 
+number of squares horizontally or vertically in a straight line.&nbsp; How many 
+moves does the shortest path have? </span></p>
+<p align="center"><img border="0" src="rjm2sm.png" width="403" height="385"></p>
+<p align="center">Solution (select to reveal): [<font color="#FFFFFF">13 moves: 
+DRLUDLRULLRDU</font>]</p>
+<p align="left">The origin of the Rook Jumping Maze (a.k.a. Number Maze) is unknown, but some 
+attribute its creation to the great puzzle innovator
+<a href="http://en.wikipedia.org/wiki/Sam_Loyd">Sam Loyd</a>.&nbsp; Loyd's
+<a href="http://en.wikipedia.org/wiki/Back_from_the_klondike">&quot;Back from the 
+Klondike&quot;</a> Queen Jumping Maze, which additionally allows diagonal moves, 
+appeared April 24<sup>th</sup>, 1898 in the New York Journal and Advertiser. It 
+also appears on page 106 of the <a href="http://www.mathpuzzle.com/loyd/">
+Cyclopedia of Puzzles</a>, a collection of Loyd's work compiled by his son.<br>
+<br>
+In the fall of 2009, Gettysburg College faculty and students participated in a 
+Rook Jumping Maze (RJM) design project, experimenting with maze generation and working to develop 
+measures of RJM quality to aid fully-automatic computer generation of these 
+mazes.&nbsp; Our results can be seen through the
+<a href="http://cs.gettysburg.edu:8080/jumpmaze/">Rook Jumping Maze of the Day</a> 
+(also in
+<a href="http://cs.gettysburg.edu:8080/jumpmaze/maze3d.html">3D</a>), 
+a <a href="../papers/iccg10.pdf">Rook Jumping Maze Design Considerations</a> paper (presented at the <a href="http://www.jaist.ac.jp/ICGA-events-2010/english/conference/">7th International Conference on Computers and Games (CG2010) in Kanazawa, Japan</a>), 
+a <a href="app.html">free iPhone app</a>, and
+<a href="http://modelai.gettysburg.edu/2010/rjmaze/">Rook Jumping Maze 
+Generation</a>, a set of introductory artificial intelligence programming 
+projects.</p>
+
+<table BORDER=0 CELLPADDING=3 WIDTH="100%" BGCOLOR="#3333FF" >
+<tr>
+<td><font size="+1" color="#FF6600"><b>Additional</b></font><b><font size=+1 color="#FF6600"> Resources</font></b></td>
+</tr>
+</table>
+
+<ul>
+	<li>
+	<a href="http://cs.gettysburg.edu/~tneller/papers/talks/rookJumpingMazes.pdf">
+	PDF Slides: &quot;Rook Jumping Mazes: a Computer Science design project&quot;</a> 
+	and
+	<a href="http://www.gettysburg.edu/news_events/press_release_detail.dot?id=2759887&amp;crumbTitle=Students%20and%20professor%20collaborate%20to%20create%20iPhone%20application">
+	Gettysburg College news article</a></li>
+	<li><a href="http://www.adrianfisherdesign.com/live_site/">Adrian Fisher 
+	Design</a> and
+	<a href="http://www.adrianfisherdesign.com/live_site/index.php?option=com_content&view=article&id=53&Itemid=68">
+	Six Minute Mazes</a></li>
+<li><a href="progcontest.pdf">Rook Jumping Maze - Shortest Solution</a>: a programming contest problem</li>
+	<li><a href="http://modelai.gettysburg.edu/2010/rjmaze/">Rook Jumping Maze 
+	Generation</a> - introductory artificial intelligence projects</li>
+</ul>
+<p><font face="Times New Roman">© 2010 </font>
+<a href="http://cs.gettysburg.edu/~tneller/index.html">Todd W. Neller</a></p>
+
+<p>Translation to
+<a href="http://www.azoft.com/people/seremina/edu/rook-rom.html">Romanian</a> by
+<a href="http://www.azoft.com/">Azoft</a></p>
+
+</body>
+</html>

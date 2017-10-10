@@ -1,0 +1,137 @@
+<!doctype html public "-//w3c//dtd html 4.0 transitional//en">
+<html>
+<head>
+   <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+   <meta name="GENERATOR" content="Microsoft FrontPage 12.0">
+   <title>Homework #2</title>
+</head>
+<body>
+<table WIDTH="100%" >
+<tr>
+<td><img SRC="GburgCS.gif" height=84 width=182></td>
+
+<td><font size=+2>CS 374 Compilers<br>
+Homework #2</font></td>
+</tr>
+</table>
+
+<hr>
+<br><b>Due: Tuesday 2/7</b><ul>
+  <li><b>Test cases: </b>1 text file with valid tokens / comments, and 5 text 
+  files with one invalid token / comment each<br>
+  e-mail these text files as attachments to class mailing list
+  (<a href="mailto:GBC_CS_374_A_SPRING_2012@cnav.gettysburg.edu">GBC_CS_374_A_SPRING_2012@cnav.gettysburg.edu</a>), by<b> 
+  Friday 2/3 </b></li>
+</ul>
+<p><b>Note: </b>This work is to be done in <b>assigned groups</b>.&nbsp; Each group will submit one assignment.&nbsp; Although 
+you may divide the work, both team members should be able to present/describe 
+their partner's work upon request.&nbsp; 
+<p><b>0. HW2 Preparation:</b> Download the given
+<a href="http://www.cambridge.org/us/features/052182060X/index.html">starter code</a> (Main.java 
+and MiniJavaLexer.jj) and read Chapter 2 thoroughly.&nbsp; Browse the online
+<a href="https://javacc.dev.java.net/doc/docindex.html">JavaCC documentation</a> 
+to get a sense of what is available to assist you in this phase and the next.</p>
+
+<p><b>1. Lexical specification:&nbsp; </b>Compare <tt>MiniJavaLexer.jj</tt> to the sample 
+JavaCC specification of Program 2.9.&nbsp; You'll need to define the 
+<a href="https://javacc.dev.java.net/doc/javaccgrm.html#TOKEN">TOKEN</a> 
+section of <tt>MiniJavaLexer.jj</tt> according to the lexical specification of Appendix A 
+with one exception: <b>block comments may not be nested.&nbsp; </b>Ensure the 
+lexical analysis ignores whitespace (&quot; &quot;, &quot;\t&quot;, &quot;\r&quot;, &quot;\n&quot;, &quot;\f&quot;) by having a 
+section called <tt>
+<a href="https://javacc.dev.java.net/doc/javaccgrm.html#SKIP">SKIP</a></tt> which is syntactically equivalent to the <tt>
+<a href="https://javacc.dev.java.net/doc/javaccgrm.html#TOKEN">TOKEN</a></tt> section.&nbsp; 
+Similarly, define comments in a separate section called <tt>
+<a href="https://javacc.dev.java.net/doc/javaccgrm.html#SPECIAL_TOKEN">SPECIAL_TOKEN</a></tt>.&nbsp; 
+Note that not all keywords, operators, etc. are specified in the <tt>
+<a href="https://javacc.dev.java.net/doc/javaccgrm.html#TOKEN">TOKEN</a></tt> section 
+of <tt>MiniJavaLexer.jj</tt>.&nbsp; If left as is, these will be classified (incorrectly) 
+as <tt>IDENTIFIER</tt>s.&nbsp; (You can test your regular expressions at this stage.) To 
+have such keywords, operators, etc. correctly classified as distinct tokens, 
+define them one by one by replacing the string of each (e.g. <tt>&quot;class&quot;</tt> in the 
+MiniJavaToken production) with an appropriate token name (e.g. <tt>&quot;&lt;CLASS&gt;&quot;</tt>), and 
+placing a suitable token definition (e.g. <tt>&lt; CLASS: &quot;class&quot; &gt;</tt>) in the <tt>
+<a href="https://javacc.dev.java.net/doc/javaccgrm.html#TOKEN">TOKEN</a></tt> 
+section <i>before the <tt>IDENTIFIER</tt> token</i>.&nbsp; (This italicized phrase is 
+important because matches are attempted sequentially.)</p>
+
+<p>To compile and run the code:<br>
+<pre>javacc MiniJavaLexer.jj
+javac *.java
+java Main
+</pre></p>
+<p>The resulting code should read a sequence of tokens from standard input 
+without any message but &quot;Lexical analysis successfull [sic]&quot;. (Feel free to 
+correct this misspelling.)&nbsp; However, as soon as input is given that 
+does not follow the lexical specification, you should observe the program 
+terminate with an Exception and an error message concerning the illegal input.<br>
+<br>
+To get more detailed output about your tokens, you may substitute</p>
+
+<pre>&nbsp;( MiniJavaToken() {System.out.println(&quot;Kind: &quot; + token.kind + &quot; line &quot; 
++ token.beginLine + &quot;, column &quot; + token.beginColumn + &quot; - line &quot; + token.endLine 
++ &quot;, column &quot; + token.endColumn + &quot; : &quot; + token.image);} )*</pre>
+
+<p>for </p>
+
+<pre>( MiniJavaToken()&nbsp; )*</pre>
+
+<p>in <tt>MiniJavaLexer.jj</tt>.&nbsp; Basically, this prints most of the fields 
+of the <a href="https://javacc.dev.java.net/doc/apiroutines.htm">Token</a> class 
+for each token read.&nbsp; This detailed information should be omitted from 
+output in future homework exercises.<br>
+<br>
+</p>
+
+<h3>Supplemental Chapter Comments</h3>
+
+<p>(These comments are to supplement your reading.&nbsp; Question(s) asked are for 
+you to think about on your own and need not be turned in with the homework.)</p>
+<p><b>2.1:&nbsp; </b>One handy beginner
+<a href="http://dictionary.reference.com/search?q=heuristic">heuristic</a> to 
+determine what is/isn't a token is to ask oneself the question &quot;Where could I 
+add whitespace and not change the program's meaning?&quot;&nbsp; For example, the 
+Java code &quot;while(i&lt;max){&quot; could be equivalently written &quot;while ( i &lt; max ) {&quot;.&nbsp; 
+However, the Java code &quot;System.out.println(&quot;squirrel&quot;);&quot; is not equivalent to 
+&quot;System.out.println ( &quot;&nbsp;&nbsp; squirrel&nbsp;&nbsp; &quot; ) ;&quot;.&nbsp; (Why 
+not?)&nbsp; By &quot;<a href="http://dictionary.reference.com/search?q=heuristic">heuristic</a>&quot;, 
+I mean that this is not an infallible guide, but with generally lead you to the 
+correct understanding of tokens.&nbsp; In many programming languages, whitespace 
+can arbitrarily separate tokens.&nbsp; Read the
+<a href="https://javacc.dev.java.net/doc/apiroutines.html">Token class 
+documentation</a> to get a sense of how JavaCC represents tokens.</p>
+
+<p><b>2.2: </b>&nbsp;Regular expressions are covered in detail in CS 301, but 
+you will need a good working knowledge of them here.&nbsp; After reading this 
+section, read the
+<a href="https://javacc.dev.java.net/doc/javaccgrm.html#prod19">JavaCC grammar 
+for specifying regular expressions</a>.&nbsp; The concatenation &quot;.&quot; is omitted 
+in Javacc regular expression specification.&nbsp; Kleene closure (i.e. &quot;Kleene 
+star&quot;) and &quot;Kleene plus&quot; (&quot;( ... )+&quot;), meaning &quot;one or more of ...&quot;, are not 
+superscripted.&nbsp; There is no epsilon.&nbsp; See Program 2.9 for an example 
+JavaCC regular expression specification.&nbsp; Feel free to peruse the example 
+grammars on our system in<tt> /usr/share/javacc/examples </tt>to see 
+the common use of JavaCC regular expression specifications.&nbsp; You may be 
+surprised to find that there are parsers for the Java language at this location.&nbsp;
+<i>Only browse these Java parsing resources if you get stuck.</i> <i>&nbsp;</i>Do not copy 
+and paste from these files; merely browse them to overcome conceptual hurdles.&nbsp; 
+The goal here is to gain the experience of specifying regular expressions 
+yourself so that you can apply these skills beyond this project and course.</p>
+
+<p><b>2.3-2.4: </b>The specifications of the previous section are converted into 
+code which is based on finite automata.&nbsp; Understanding these sections will 
+(1) help you understand what the output of a lexical analyzer generator does, 
+and (2) reveal the equivalence between languages expressed by regular 
+expressions and accepted by finite automata.&nbsp; If you think there is a 
+remote chance that you'll be considering graduate school, you should know this 
+material forwards and backwards before taking the GRE subject test.&nbsp; This 
+material demonstrates a beautiful and practical application of theoretical 
+computer science.&nbsp; Since this is a topic of CS 301, we will not be covering 
+this material in class.</p>
+
+<p><b>2.5:&nbsp; </b>Skip the SableCC material.&nbsp; We'll focus on JavaCC.&nbsp; 
+Browse the online <a href="https://javacc.dev.java.net/doc/docindex.html">JavaCC 
+documentation</a> and the JavaCC examples we have on our system (<tt>/Courses/cs374/bin/JavaCC/javacc2.0/examples/</tt>).&nbsp; 
+The <tt>SimpleExamples</tt> directory is a good starting point.</p>
+
+</body></html>

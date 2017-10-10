@@ -1,0 +1,85 @@
+<!doctype html public "-//w3c//dtd html 4.0 transitional//en">
+<html>
+<head>
+   <variable name>
+   <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+   <meta name="GENERATOR" content="Microsoft FrontPage 12.0">
+   <title>Homework #10</title>
+   <style type="text/css">
+.style1 {
+	font-family: "Courier New", Courier, monospace;
+}
+</style>
+</head>
+<body>
+&nbsp;<table WIDTH="100%" >
+<tr>
+<td><img SRC="GburgCS.gif" height=84 width=182></td>
+
+<td><font size=+2>CS 341 - Survey of Programming Languages</font>
+<br><font size=+2>Homework #10</font></td>
+</tr>
+</table>
+
+<hr>
+<p><B>Due: Tuesday 10/31 at the beginning of class #18</B> </p>
+<P><B>Note: </B>This work is to be done in <B>pairs</B>.&nbsp; Each pair will 
+submit one assignment.&nbsp; Although you may divide the work, both team members 
+should be able to present/describe their partner's work upon request.&nbsp;
+<P>To submit this homework, change into the directory containing all necessary 
+files: MiniScheme5.jj and supporting abstract syntax tree .java files, and enter 
+the command &quot;<span class="style1">submit341 ms5</span>&quot;.<h1>MiniScheme 
+Project Phase 5</h1>
+<P>In this phase of the project, you will extend phase 4 to include pair-related 
+structures and procedures: cons, list, pair?, null?, car, cdr, set-car!, and 
+set-cdr!. 
+<P>Notes:<ul>
+	<li>An empty list (null) is different than a non-return-value (e.g. &quot;(write 
+	1)&quot;).</li>
+	<li>Two empty lists are eqv? equal.&nbsp; Two pairs are equal if they are 
+	the same objects in memory.</li>
+	<li>If car is given a non-pair operand, print &quot;car: expects argument of type 
+	pair&quot; to the error stream and exit with code 9.</li>
+	<li>If cdr is given a non-pair operand, print &quot;cdr: expects argument of type 
+	pair&quot; to the error stream and exit with code 10.</li>
+	<li>If set-car! is given a non-pair first operand, print &quot;set-car!: expects 
+	type pair as 1st argument&quot; to the error stream and exit with code 11.</li>
+	<li>If set-cdr! is given a non-pair first operand, print &quot;set-cdr!: expects 
+	type pair as 1st argument&quot; to the error stream and exit with code 12.</li>
+</ul>
+<h2>Grammar</h2>
+<p>Grammar notes:</p>
+<ul>
+	<li>Non-terminals are surrounded with angle brackets &quot;&lt;&quot; and &quot;&gt;&quot;.&nbsp; </li>
+	<li>Terminals (e.g. &quot;(&quot; and &quot;)&quot; are represented as themselves without 
+	quotes, unless otherwise noted below).</li>
+	<li>--&gt; denotes a right arrow.&nbsp; Choices to the right of the arrow are 
+	separated by a pipe (i.e. &quot;|&quot;).</li>
+	<li>{ }* and { }+ denote a Kleene star and plus/cross, respectively. { }? 
+	denotes an optional subexpression.</li>
+</ul>
+<p>&lt;program&gt; --&gt; { &lt;definition&gt; | &lt;expression&gt; }*<br><br>&lt;definition&gt; --&gt; ( 
+define &lt;variable&gt; &lt;expression&gt; )<br><br>&lt;variable&gt; --&gt; &lt;any &lt;identifier&gt; that 
+isn't also a keyword&gt;<br>&lt;identifier&gt; --&gt; &lt;initial&gt; { &lt;subsequent&gt; }* <br>
+&lt;initial&gt; --&gt; [a-z!$%&amp;*/:&lt;=&gt;?^_~]<br>&lt;subsequent&gt; --&gt; &lt;initial&gt; | &lt;digit&gt; | 
+[+-.@]<br>&lt;digit&gt; --&gt; [0-9]<br><br>&lt;expression&gt; --&gt; &lt;variable&gt;<br>| &lt;literal&gt;<br>
+| &lt;conditional&gt;<br>| &lt;assignment&gt;<br>| &lt;defined expression&gt;<br>| &lt;lambda 
+expression&gt;<br>| &lt;procedure call&gt;<br><br>&lt;literal&gt; --&gt; &lt;integer&gt; | &lt;boolean&gt;<br>
+&lt;integer&gt; --&gt; { + | - }? { &lt;digit&gt; }+<br>&lt;boolean&gt; --&gt; #t | #f<br><br>
+&lt;conditional&gt; --&gt; ( if &lt;expression&gt; &lt;expression&gt; { &lt;expression&gt; }? )<br><br>
+&lt;assignment&gt; --&gt; ( set! &lt;variable&gt; &lt;expression&gt; )<br><br>&lt;defined expression&gt; 
+--&gt; ( read )<br>| ( write &lt;expression&gt; )<br>| ( newline )<br>| ( + &lt;expression&gt; 
+&lt;expression&gt; )<br>| ( - &lt;expression&gt; &lt;expression&gt; )<br>| ( * &lt;expression&gt; 
+&lt;expression&gt; )<br>| ( quotient &lt;expression&gt; &lt;expression&gt; )<br>| ( let ( { 
+&lt;binding spec&gt; }* ) &lt;body&gt; )<br>| ( and { &lt;expression&gt; }* )<br>| ( or { 
+&lt;expression&gt; }* )<br>| ( not &lt;expression&gt; )<br>| ( eqv? &lt;expression&gt; 
+&lt;expression&gt; )<br>| ( &lt; &lt;expression&gt; &lt;expression&gt; )<br>| ( integer? &lt;expression&gt; 
+)<br>| ( boolean? &lt;expression&gt; )<br>| ( pair? &lt;expression&gt; )<br>| ( null? 
+&lt;expression&gt; )<br>| ( cons &lt;expression&gt; &lt;expression&gt; )<br>| ( list { 
+&lt;expression&gt; }* )<br>| ( car &lt;expression&gt; )<br>| ( cdr &lt;expression&gt; )<br>| ( 
+set-car! &lt;expression&gt; &lt;expression&gt; )<br>| ( set-cdr! &lt;expression&gt; &lt;expression&gt; )<br>
+<br>&lt;binding spec&gt; --&gt; ( &lt;variable&gt; &lt;expression&gt; )<br>&lt;lambda expression&gt; --&gt; ( 
+lambda ( { &lt;variable&gt; }* ) &lt;body&gt; )<br>&lt;body&gt; --&gt; { &lt;definition&gt; }* { 
+&lt;expression&gt; }+<br>&lt;procedure call&gt; --&gt; ( { &lt;expression&gt; }+ ) </p>
+
+</body></html>

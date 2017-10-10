@@ -1,0 +1,169 @@
+<!doctype html public "-//w3c//dtd html 4.0 transitional//en">
+<html>
+<head>
+   <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+   <meta name="GENERATOR" content="Microsoft FrontPage 12.0">
+   <title>Homework #10</title>
+   <style type="text/css">
+.style1 {
+	text-decoration: underline;
+}
+</style>
+</head>
+<body>
+<table WIDTH="100%" >
+<tr>
+<td><img SRC="GburgCS.gif" height=84 width=182></td>
+
+<td><font size=+2>CS 111 - Introduction to Computer Science</font>
+<br><font size=+2>Homework #10</font></td>
+</tr>
+</table>
+
+<hr>
+<br><b>Due: Friday 4/7 at the beginning of class</b><p><b>1.&nbsp; Dice Histogram:</b> Call your class
+<tt>DiceHistogram.java</tt>. In this exercise, you will simulate the throwing of 
+2 standard six-sided dice a given number of times and display the resulting 
+distribution as a text-based histogram. First, ask the user how many time to 
+roll the dice. Then simulate the dice rolling and print the maximum number of 
+times a sum was rolled. Next print lines for each possible dice roll showing a 
+number of asterisks proportional to the number of times the sum was rolled. 
+Scale the number of asterisks such that the sum rolled the most will have 60 
+asterisks.&nbsp; Example transcript (user input <u>underlined</u>): </p>
+<pre>How many rolls? <b><u>1000000</u></b>
+Max count: 166039
+ 2 **********
+ 3 ********************
+ 4 ******************************
+ 5 ****************************************
+ 6 **************************************************
+ 7 ************************************************************
+ 8 **************************************************
+ 9 ****************************************
+10 ******************************
+11 ********************
+12 *********
+</pre>
+<p>Possible &quot;stepping stones&quot; towards the goal: (1) Print the given number of 
+roll sums. Remember: The sum of two 6-sided dice is different than a single roll 
+of an 11-sided die numbered 2 through 12.&nbsp; (Why?)&nbsp; (2) Use an array to 
+count the number of rolls for each sum and print a table (i.e. numbers instead 
+of histogram asterisks above).&nbsp; (3) Compute and print the maximum count.&nbsp; 
+(4) Round (60.0 * count / maximum) for each count to compute the number of 
+asterisks, and print the histogram as shown.</p>
+
+<p><b>2.&nbsp; ChompGame:</b> Chomp is a <a href="http://en.wikipedia.org/wiki/Nim">
+Nim</a>-type game in which two players take bites of a gridded cookie in turn.&nbsp; 
+Each bite at a given row and column consumes the cookie at, below, and to the 
+right of that position.&nbsp; The player taking the last bite in the first row 
+and first column loses.</p>
+<p>Implement <tt>ChompGame.java</tt> according to <a href="chompdoc/ChompGame.html">this specification</a>.&nbsp; This class 
+will <em>model</em> the game, and could serve as a basis for a text-based game 
+interface (next exercise), a graphical user interface (GUI), game simulation for 
+analysis/machine learning, etc.&nbsp; No scanning of input or printing of output 
+will take place in this class, so you'll need another class (see next exercise) 
+to effectively test this code.</p>
+
+<p>Chomp Resources:</p>
+<ul>
+	<li><a href="http://en.wikipedia.org/wiki/Chomp">Wikipedia article</a> 
+	</li>
+	<li><a href="http://www.maa.org/mathland/mathtrek_03_24_03.html">Ivars Peterson's MathTrek Chomping to Win</a>  
+	</li>
+	<li><a href="http://lpcs.math.msu.su/~pentus/abacus.htm">Mati Pentus' Java 
+	applet</a> </li>
+</ul>
+<p><b>3.&nbsp; Chomp:</b> For this exercise, design and implement <tt>Chomp.java</tt> 
+according to <a href="chompdoc/Chomp.html">this specification</a> such that two 
+players can play a text-based version of chomp for a given board size up to at 
+least size 10-by-10.&nbsp; Use class <tt>ChompGame</tt> for modeling the game state itself. All 
+input/output for text-based play should take place in the main method of this class. <br></p>
+<p>First, 
+print instructions with the following lines: {&quot;CHOMP&quot;, &quot;In the game of Chomp, 
+players bite a rectangular cookie in turn.&quot;, &quot;The player chomping the last bite 
+(0,0) loses.&quot;, &quot;Each chomp, a row and column, bites off all below and to the 
+right.&quot;}. Then prompt the user for the number of rows 
+and columns with prompts &quot;Rows? &quot; and &quot;Columns? &quot;. Read these in as integers 
+presumed to be in the range 1-10.&nbsp; Create a <tt>ChompGame</tt> object 
+using this information. </p>
+<p>Then, while the game is not over, do the following: Print the game board produced by the object toString() and preceded and 
+followed with blank lines. Prompt the user for a row and column for 
+chomping with &quot;Player # chomp? &quot;, where &quot;#&quot; is the games current player number.&nbsp; Attempt the chomp move, making the move and changing the player if the chomp 
+move is legal, and just printing the message &quot;That is not a legal chomp 
+position.&quot; otherwise.<br></p>
+<p>After the game is over, print a blank line and the 
+message &quot;Player # wins!&quot;, where &quot;#&quot; is the winning player.<br></p>
+<p>No input/output 
+should take place in class &lt;code&gt;Chomp&lt;/code&gt;. Whenever possible, use the 
+computation of the Chomp class to perform the modeling (i.e. play, logic) of the 
+game.</p>
+<p>Example transcript (input <span class="style1">underlined</span>):</p>
+<pre>CHOMP
+In the game of Chomp, players bite a rectangular cookie in turn.
+The player chomping the last bite (0,0) loses.
+Each chomp, a row and column, bites off all below and to the right.
+Rows? <span class="style1">3</span>
+Columns? <span class="style1">5</span>
+
+ 01234
+0*****
+1*****
+2*****
+
+Player 1 chomp? <span class="style1">1 4</span>
+
+ 01234
+0*****
+1**** 
+2**** 
+
+Player 2 chomp? <span class="style1">2 1</span>
+
+ 01234
+0*****
+1**** 
+2*    
+
+Player 1 chomp? <span class="style1">0 1</span>
+
+ 01234
+0*    
+1*    
+2*    
+
+Player 2 chomp? <span class="style1">1 0</span>
+
+ 01234
+0*    
+1     
+2     
+
+Player 1 chomp? <span class="style1">-1 0</span>
+That is not a legal chomp position.
+
+ 01234
+0*    
+1     
+2     
+Player 1 chomp? <span class="style1">0 5</span>
+That is not a legal chomp position.
+
+ 01234
+0*    
+1     
+2     
+
+Player 1 chomp? <span class="style1">1 1</span>
+That is not a legal chomp position.
+
+ 01234
+0*    
+1     
+2     
+
+Player 1 chomp? <span class="style1">0 0</span>
+
+Player 2 wins!
+</pre>
+</body>
+</html>

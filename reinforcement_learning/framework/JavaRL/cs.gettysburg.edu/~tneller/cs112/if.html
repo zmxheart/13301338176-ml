@@ -1,0 +1,156 @@
+<!doctype html public "-//w3c//dtd html 4.0 transitional//en">
+<html>
+<head>
+   <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+   <meta name="GENERATOR" content="Microsoft FrontPage 12.0">
+   <meta name="Author" content="Todd Neller">
+   <title>Interactive Fiction Project</title>
+   </head>
+<body text="#000000" bgcolor="#FFFFFF" link="#0000EE" vlink="#551A8B" alink="#3366FF">
+&nbsp;
+<table WIDTH="100%" >
+<tr>
+<td><img SRC="GburgCS.gif" height=84 width=182></td>
+
+<td><font size=+2>CS 112 - Introduction to Computer Science II</font>
+<br><font size="+2">Interactive Fiction</font></td>
+</tr>
+</table>
+
+<hr>
+
+<h2>
+<b>Design Project: Interactive Fiction</b></h2>
+<p>In this project, you will design a simplified <i>interactive fiction
+system</i>.</p>
+<h3><b>What is Interactive Fiction?</b> </h3>
+<p>Interactive fiction (formerly known as text adventures; similar to multi-user
+dungeons/domains (MUDs)) is a form of entertainment in which a user interacts
+with and learns about virtual world, usually to achieve a goal.&nbsp; We
+will restrict our attention to the genre formerly known as text adventures
+where all interaction with the world is through a text-based interface.&nbsp;
+Browse the following links for a quick introduction to the world of interactive
+fiction:
+<ul>
+<li>
+<a href="http://cs.gettysburg.edu/~tneller/papers/talks/ifintro.pdf">A Brief 
+Introduction to Interactive Fiction</a><li>
+	<a href="http://www.brasslantern.org/">Brass Lantern</a> -
+<a href="http://www.brasslantern.org/beginners/">Beginner Resources</a><li>
+<a href="http://www.xs4all.nl/~pot/infocom/">Play Infocom Games Online </a>-
+Try the following commands in Zork I to get started:</li>
+
+<ul>
+<li>
+open mailbox</li>
+
+<li>
+get leaflet</li>
+
+<li>
+read leaflet</li>
+
+<li>
+n (north)</li>
+
+<li>
+e (east)</li>
+
+<li>
+open window</li>
+
+<li>
+enter window</li>
+
+<li>
+u</li>
+
+<li>
+e (Enter this command repeatedly until... Oops! Sorry!)</li>
+
+<li>
+quit</li>
+
+<li>
+y</li>
+</ul>
+<li><a href="http://www.ifarchive.org/indexes/if-archive.html">USA mirror of
+IF archive</a></li>
+
+</ul>
+<h3>
+<b>Specification:</b> </h3>
+<p>Your interactive fiction system will feature at least six (eventually)
+reachable locations, two obstacles (objects which prevent some action,
+including movement), two items which, when used with the obstacles (or other 
+objects), will
+allow the player to overcome the obstacles, a goal (explicit or implicit), and
+an indication when that goal has been reached.&nbsp; Your interactive fiction
+system should behave similar to the ones featured above, in that:
+<ul>
+<li>
+the game is turn-based,</li>
+
+<li>
+each turn, the user's environment is described (preferably a brief description
+unless the user has just arrived for the first time or typed "look" as
+a command),</li>
+
+<li>
+the user can enter simple case-insensitive commands including the minimal
+subset below:</li>
+
+<ul>
+<li>
+(i)nventory (allowed abbreviation in parentheses)</li>
+
+<li>
+(n)orth, (s)outh, (e)ast, (w)est, (u)p, (d)own (optionally preceded by
+the word "go")</li>
+
+<li>
+look - describe environment</li>
+
+<li>
+examine &lt;object> - give detailed description of an object</li>
+
+<li>
+get &lt;object></li>
+
+<li>
+drop &lt;object></li>
+
+<li>
+use &lt;object> with &lt;object></li>
+
+<li>
+restart</li>
+
+<li>
+quit</li>
+</ul>
+</ul>
+<h3>
+<b>Goals:</b> </h3>
+<ul>
+
+<li>
+A <b>complete working  implementation</b> with a <b>text file demo.txt</b>
+which has commands which can be fed to standard input to demonstrate your
+IF system.</li>
+
+<li>
+Support of <b>command line option -e</b> (for echo) which causes your program
+to print the command the user just entered.&nbsp; This is particularly
+useful for making sense of transcripts when the input source is a file:
+<tt>cat
+test.txt | java ____ -e > transcript.txt; more transcript.txt</tt></li>
+
+<br>This previous command feeds the contents of the file to your java program
+which echoes the input you can't see otherwise.&nbsp; The output of your
+program is redirected to an output file transcript.txt.&nbsp; This is then
+paged through using the more command.
+
+</ul>
+
+</body></html>

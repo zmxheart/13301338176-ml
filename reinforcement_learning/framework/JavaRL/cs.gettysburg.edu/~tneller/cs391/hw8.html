@@ -1,0 +1,68 @@
+<!doctype html public "-//w3c//dtd html 4.0 transitional//en">
+<html>
+<head>
+   <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+   <meta name="GENERATOR" content="Microsoft FrontPage 12.0">
+   <title>Homework #8</title>
+   </head>
+<body>
+<table WIDTH="100%" >
+<tr>
+<td><img SRC="GburgCS.gif" height=84 width=182></td>
+
+<td><font size=+2>CS 3</font><font size="5">91 Selected Topics: Game AI<br></font><font size=+2>Homework #8</font></td>
+</tr>
+</table>
+
+<hr>
+<strong>
+<br>First draft players due the beginning of class on Thursday 3/24<br>Final 
+draft players due the beginning of class on Thursday 3/31</strong><p><b>Note: </b>This work is to be done in <b>groups of 2</b>.&nbsp; Each group will submit one assignment.&nbsp; Although 
+you may divide the work, both team members should be able to present/describe 
+their partner's work upon request.&nbsp; 
+<h1><font size="+2">Two-Player Upper Section Yahtzee Competition</font></h1>
+<p>Create a uniquely named Upper Section Yahtzee player implementing the 
+YahtzeePlayer2P interface with an ability to be constructed with no parameters.&nbsp; 
+You will be provided with an implementation of a perfect scoring player and 
+tournament software (making use of code from HW5-HW7).</p>
+<p>Recall from class that playing to score is not the same as playing to win.&nbsp; 
+There will be situations in multiplayer play where one would rationally 
+sacrifice scoring expectation in order to maximize the expected probability of 
+winning.</p>
+<p>As an extreme example, consider the case where one has 1s and 6s left to 
+score.&nbsp; One has rolled n 6s, and optimal scoring play would be to score in 
+6s.&nbsp; However, if the other player has a scoring lead such that one would 
+need at least n+1 6s to have any probability of winning, then one would 
+rationally trash the n 6s and score in 1s in favor of even a slim probability of 
+winning with a final turn with n+1 or more 6s.</p>
+<p>This assignment is open-ended as long as your player can play an entire game 
+against itself in less than 1 second.&nbsp; This will allow us to easily have a 
+round-robin tournament with 1000 or more games per match.</p>
+<p>Your player should also not use more than one-third of the default Java heap 
+for dynamic memory allocation.</p>
+<p>There are many possible approaches to this problem.&nbsp; Possibilities:</p>
+<ul>
+	<li>Precompute and load optimal play for achieving different target scores.&nbsp; 
+	Adjust play according to the opponent's expected scoring potential.</li>
+	<li>Perform Monte Carlo simulation of playouts with various actions.&nbsp;&nbsp; 
+	Choose the action yielding the highest win ratio.</li>
+	<li>Do the previous approach offline and learn a mapping from states to 
+	actions (e.g. Weka ML tools).</li>
+	<li>Hand-code rules for deviation from optimal scoring play.&nbsp; </li>
+</ul>
+<p>You are <em>not</em> expected to compute optimal two player play.&nbsp; This 
+would require resources and time that are beyond that available for this 
+assignment.&nbsp; Thus, this is a open-ended challenge to engineer your best 
+player given the time constraints of the assignment.</p>
+<p>I recommend beginning with a simple player.&nbsp; Remember the
+<a href="https://en.wikipedia.org/wiki/KISS_principle">KISS Principle</a>. </p>
+<p>Evaluation: Each tournament will include an optimal scoring player for 
+benchmarking.&nbsp; Your player should be able to beat an optimal scoring player 
+in tournament play.&nbsp; The high variance of outcomes for small sample sizes 
+will likely require many games before distinctions can be made between players, 
+so fast, efficient players will be easier to demonstrate as superior to our 
+benchmark.&nbsp; (For example, in one test tournament against itself, the 
+optimal scoring player had a 1.3% performance difference from itself across 
+20,000 games.)</p>
+
+</body></html>

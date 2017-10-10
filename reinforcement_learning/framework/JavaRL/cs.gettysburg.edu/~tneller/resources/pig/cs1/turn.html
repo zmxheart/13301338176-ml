@@ -1,0 +1,65 @@
+<html>
+
+<head>
+<meta http-equiv="Content-Language" content="en-us">
+<meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
+<title>Pig - Hold-at-20 Turn</title>
+</head>
+
+<body>
+
+<p align="center"><img border="1" src="gameOfPig.png"></p>
+<h1><b>Hold-at-20 Turn</b></h1>
+<p><b><a href="http://cs.gettysburg.edu/projects/pig/">Pig</a></b> is a folk jeopardy dice game with simple rules: Two players race to reach 100 points. Each turn, a 
+player repeatedly rolls a die until either a 1 (&quot;pig&quot;) is rolled or the player holds and 
+scores the sum of the rolls (i.e. the <i>turn total</i>). At any time during a 
+player's turn, the player is faced with two decisions: </p>
+<ul>
+	<li><b>roll</b> - If the player rolls a 
+	<ul>
+		<li><b>1</b>: the player scores nothing and it becomes the opponent's 
+		turn. 
+		</li>
+		<li><b>2 - 6</b>: the number is added to the player's turn total and the 
+		player's turn continues. </li>
+	</ul>
+	</li>
+	<li><b>hold</b> - The turn total is added to the player's score and it 
+	becomes the opponent's turn. </li>
+</ul>
+<p><b>Problem:</b>&nbsp; Simulate a single turn of Pig where a player rolls 
+until a 1 (&quot;pig&quot;) is rolled, or the turn total is greater than or equal to 20.</p>
+<p><b>Input Format:</b>&nbsp; (no input)</p>
+<p><b>Output Format:</b></p>
+<ul>
+	<li>For each roll, print a line with &quot;Roll: &quot; and the random die roll value 
+	(1-6).</li>
+	<li>After a &quot;pig&quot; roll of 1, or a &quot;hold&quot;, print a line with &quot;Turn total: &quot; 
+	followed by the turn total.&nbsp; In the case of a &quot;pig&quot;, this turn total is 
+	0.</li>
+</ul>
+<p><b>Sample Transcripts:</b></p>
+<pre>Roll: 4
+Roll: 5
+Roll: 6
+Roll: 5
+Turn total: 20
+</pre>
+<hr>
+<pre>Roll: 3
+Roll: 1
+Turn total: 0
+</pre>
+<hr>
+<pre>Roll: 5
+Roll: 2
+Roll: 3
+Roll: 6
+Roll: 5
+Turn total: 21</pre>
+<hr>
+<p><a href="http://cs.gettysburg.edu/~tneller/index.html">Todd Neller</a></p>
+
+</body>
+
+</html>

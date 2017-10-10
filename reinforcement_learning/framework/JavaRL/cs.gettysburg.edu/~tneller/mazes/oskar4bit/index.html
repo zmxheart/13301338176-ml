@@ -1,0 +1,170 @@
+<!doctype html public "-//w3c//dtd html 4.0 transitional//en">
+<html>
+<head>
+   <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+   <meta name="GENERATOR" content="Microsoft FrontPage 6.0">
+   <meta name="Author" content="Todd Neller">
+   <title>Oskar van Deventer's 4-Bit Maze</title>
+	<style>
+<!--
+div.Section1
+	{page:Section1;}
+-->
+</style>
+</head>
+<body bgcolor="#FFFFFF">
+&nbsp;
+<table WIDTH="100%" >
+<tr>
+<td><img SRC="GburgCS.gif" height=84 width=182></td>
+
+<td>
+<h1>Oskar van Deventer's 4-Bit Maze</h1>
+</td>
+</tr>
+</table>
+
+<hr>
+<h2>The Four-Bit Maze</h2>
+<p>Dr. M. Oskar van Deventer is one of the world's most brilliant puzzle creators.&nbsp; 
+His original four-bit maze, according to <a href="http://www.clickmazes.com/">
+clickmazes.com</a>, &quot;is electro-mechanical and is driven by a micro-controller. 
+The aim is to press down all the switches. The micro-controller can both pull 
+down and push up switches using springs and four electromagnets.&quot; For an image 
+and an applet featuring a variety of rule classifications, see
+<a href="http://www.clickmazes.com/fourbit/ix4bit.htm">Oskar's Four-Bit Mazes</a> 
+at clickmazes.&nbsp; </p>
+<p>Here we will consider only one rule classification from their applet named &quot;Four-bit maze&quot;.</p>
+<p align="center">
+<applet CODE=Oskar4BitMazeApplet.class WIDTH=300 HEIGHT=100></applet></p>
+<p><span style="background-color: #FFFF00">Our applet features four buttons, each depicting an on/off state with a 
+light bulb image.&nbsp; Initially all lights are on.&nbsp; The goal is to turn 
+all lights off.&nbsp; With the &quot;Four-bit maze&quot;, clicking a button that is &quot;off&quot; 
+has no effect.&nbsp; Clicking a button that is &quot;on&quot; has the effect of turning 
+that button off, but may cause other buttons to turn on/off.&nbsp; In addition to 
+clicking the buttons, you may also click the background next to the buttons to 
+focus key presses to the applet.&nbsp; Then, you may press keys &quot;1&quot;, &quot;2&quot;, &quot;3&quot;, 
+and &quot;4&quot; to more easily press the buttons.&nbsp; &quot;Reset&quot; will reset you to the 
+initial state where all lights are on.&nbsp; &quot;New Maze&quot; will generate a new maze 
+and reset to the initial state.</span></p>
+<p>Although there are only 16 possible states, you may be surprised at how 
+difficult it is to turn off all lights.&nbsp; Observe your tendency to fall into 
+cycles, breaking such cycles only after careful observation.&nbsp; Before 
+reading further, consider how you might solve such mazes. </p>
+<h2>Visualizing and Representing Four-Bit Mazes</h2>
+<p>Such mazes are challenging in part because we find it cognitively difficult 
+to build a &quot;map&quot; of our maze traversal, as compared to a standard pencil and 
+paper maze.&nbsp; Such states are abstract and provide little sense of progress 
+towards the goal.&nbsp; For Oskar's &quot;Four-bit maze&quot; of the
+<a href="http://www.clickmazes.com/fourbit/ix4bit.htm">clickmazes applet</a>, we 
+might visualize the maze as follows:</p>
+<p align="center"><img border="0" src="4BitGraph.png" width="852" height="570"></p>
+<p>A state is represented by a rectangle containing yellow/black circles 
+denoting on/off lights.&nbsp; The initial state is represented with an arrow 
+leading in from nowhere.&nbsp; The goal state is represented with a thick 
+rectangle.&nbsp; Each arrow represents a possible state transition (i.e. 
+change).&nbsp; The arrow leads from the particular light turned off in a source 
+state to the resulting target state.&nbsp; Visualizing a four-bit maze thus, one 
+can much more easily and visually trace a solution path (and thus a solution 
+sequence of actions) backward from the goal to the current state. </p>
+<p>Suppose that one cannot visualize the maze (e.g. lacking pencil, paper, or an 
+unusually gifted mind).&nbsp; How might one then approach this challenge?</p>
+<p>Some might find it easier to remember sequences of numbers rather than light 
+patterns.&nbsp; Possibly giving such states names (in the form of numbers) might 
+aid in remembering light pattern sequences.&nbsp; Happily, there is an easy 
+correspondence between these states and the numbers 0 through 15.&nbsp; Simply 
+consider the off/on lights to be 0/1 binary digits and mentally associate each 
+state's <a href="http://en.wikipedia.org/wiki/Binary_numeral_system">binary 
+number</a> with its corresponding integer.&nbsp; For the maze visualized above, 
+the initial state would be 15, and the following state sequence would lead to the 
+goal: 15, 14, 12, 4, 10, 3, 1, 0. </p>
+<p>Thinking of these as binary digits, it is then natural to number the lights 
+left-to-right as bit numbers 3, 2, 1, and 0, since the corresponding place 
+values in binary are 2<sup>3</sup>, 2<sup>2</sup>, 2<sup>1</sup>, and 2<sup>0</sup>, 
+respectively.&nbsp; Then a more descriptive solution state sequence with 
+parenthesized chosen bits would be as follows 15 (0) 14 (1) 12 (3) 4 (2) 10 (3) 
+3 (1) 1 (0) 0.</p>
+<h2>Four-Bit Maze Specification</h2>
+<p>The &quot;Four-bit maze&quot; rule at clickmazes reads, &quot;More than one light may come 
+back on in this maze so it's harder to tell how well you're doing.&quot;&nbsp; This 
+is consistent with our specification.&nbsp; However, in Oskar's example maze 
+visualized above, there are two further transition constraints: (1) One 
+light (the one chosen) goes out.&nbsp; (2) At most two other lights come on.&nbsp; We do not 
+constrain 
+the number of lights which may change on/off in a transition.&nbsp; Only the light 
+selected must turn off.&nbsp; Like the example, we further constrain that no two 
+transitions from a source state can lead to the same target state.</p>
+<p>With the binary representation in mind, we can now formally specify our 
+four-bit mazes.&nbsp; A four bit maze has states S = {s<sub>0</sub>, ..., s<sub>15</sub>} 
+with initial state s<sub>15 </sub>and goal state s<sub>0</sub>.&nbsp; A maze 
+state s<sub><i>n</i></sub> is represented by four off/on lights depicting the 
+corresponding binary bits of <i>n</i> from greatest (2<sup>3</sup>) to least (2<sup>0</sup>) 
+significance.&nbsp; A four bit maze has actions A = {a0, ..., a3}, where action 
+a<sub><i>n</i></sub> denotes the selection of bit <i>n</i>.&nbsp; Our four-bit 
+maze transition function t : S <font face="Times New Roman">×</font> A
+<font face="Times New Roman">&#8594;</font> S has the following constraints:</p>
+<ul>
+	<li>If bit <i>m</i> of <i>n</i> is 0, then t(s<sub><i>n</i></sub>, a<i><sub>m</sub></i>) 
+	= s<sub><i>n</i></sub>. (Selecting an &quot;off&quot; bit causes no state change.)</li>
+	<li>If t(s<sub><i>n</i></sub>, a<i><sub>m</sub></i>) = s<i><sub>p</sub></i> 
+	and bit <i>n</i> of <i>m</i> is 1, then bit <i>n</i> of <i>p</i> is 0.&nbsp; 
+	(Selecting an &quot;on&quot; bit turns that bit off.)</li>
+	<li>If t(s<sub><i>n</i></sub>, a<i><sub>m</sub></i>) = s<i><sub>p</sub></i>, 
+	t(s<sub><i>n</i></sub>, a<i><sub>q</sub></i>) = s<i><sub>r</sub></i>, <i>n</i>
+	<font face="Times New Roman">&#8800; <i>p</i>,</font> and <i>p</i>
+	<font face="Times New Roman">= <i>r</i>, then <i>m</i> = <i>q</i>. (No two 
+	transitions out of a state lead to the same state.)</font></li>
+	<li><font face="Times New Roman">Inductively define 
+	t*: S &#8594;</font> 2<sup>S</sup> <font face="Times New Roman">&nbsp;as follows: 
+	s<sub><i>p</i></sub> is a member of set t*(</font>s<sub><i>n</i></sub><font face="Times New Roman">) 
+	if and only if there exists <i>m</i> such that t(</font>s<sub><i>n</i></sub><font face="Times New Roman">,
+	</font>a<i><sub>m</sub></i><font face="Times New Roman">) = s<sub><i>p</i></sub>, 
+	or t(</font>s<sub><i>n</i></sub><font face="Times New Roman">, </font>a<sub>m</sub><font face="Times New Roman">) 
+	= s<sub><i>q</i></sub> and s<sub><i>q</i></sub> is a member of t*(</font>s<sub><i>n</i></sub><font face="Times New Roman">).&nbsp; 
+	(Intuitively, t* gives us the set of states reachable from a state.)&nbsp; 
+	Then t*(</font>s<sub>15</sub><font face="Times New Roman">) = S, and for all
+	<i>n</i>, </font>s<sub>0</sub><font face="Times New Roman"> is a member of 
+	t*(</font>s<sub><i>n</i></sub><font face="Times New Roman">).&nbsp; (All 
+	states are reachable from the initial state, and the goal state is reachable 
+	from all states.)</font></li>
+</ul>
+<p><font face="Times New Roman">Let us call the constraints of the last bullet 
+the &quot;reachability&quot; constraints.</font></p>
+<h2>Four-Bit Maze Generation</h2>
+<p>Our four-bit maze applet generates its own four-bit mazes with a simple, 
+independently devised algorithm:</p>
+<ul>
+	<li>Generate a random four-bit maze without the reachability constraints.</li>
+	<li>While these reachability constraints are not met, or the minimum length 
+	path from the initial state to the goal state is less than 8:
+	<ul> <li>Randomly 
+	change a transition out of a state, respecting all transition constraints 
+	except reachability constraints.</li>
+	<li>If this change results in an <i>increase</i> in the number of unreachable 
+	states plus the number of states from which the goal is unreachable, or if 
+	this number is unchanged and the minimum path length from the initial state 
+	to the goal state <i>decreases</i>, undo this transition change.</li>
+</ul>
+</ul>
+<p>Surprisingly, this simple method generally seems to produce good four-bit 
+mazes where roughly half the states are tightly interconnected, while a 
+&quot;solution arm&quot; of the other half of states has a unique sequence leading to the 
+goal, with false steps undoing progress.</p>
+<p>The recreational mathematician will find many different interesting questions 
+regarding the space of all possible four-bit mazes, as well as interesting bias 
+effects from different maze generation algorithms.&nbsp; One particular line of 
+research might involve building cognitive models for such maze solving, and 
+using such models to define metrics to measure qualities of four-bit mazes (e.g. 
+perceived difficulty). There are no doubt interesting relations to research in 
+reinforcement learning.&nbsp; The reader is encouraged to introspect on their 
+solution process.&nbsp; One might argue that the most enjoyment lies in the 
+process of <i>learning</i> how to solve such mazes.&nbsp; Enjoy!</p>
+<h2><a href="arduino.html">Arduino Implementation</a></h2>
+
+<hr>
+<p>
+Last updated 22 July 2008<br>
+<a href="http://cs.gettysburg.edu/~tneller/">Todd Neller</a>
+<br><img SRC="tneller-email.gif" height=20 width=143> </p>
+</body>
+</html>

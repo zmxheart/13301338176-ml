@@ -1,0 +1,134 @@
+<HTML>
+<HEAD>
+<TITLE>Top Page</TITLE>
+	<SCRIPT LANGUAGE="Javascript" SRC="scripts/menuback.js"></SCRIPT>
+<!-- The following line loads the Cascading Style Sheet -->
+<LINK REL=stylesheet HREF="scripts/menuform.css" TYPE="text/css">
+
+<SCRIPT LANGUAGE="JavaScript">
+ function goThere(path_name)
+ {
+	if (path_name != ""){
+		if(path_name=="glossary.html" || path_name=="links.html"){
+       			nwin=open(path_name,"Glossary","toolbar=NO,directories=no,menubar=no,scrollbars=yes,resizable=yes,width=720,height=500");
+		}
+		else{
+			parent.maing.location.href = path_name;
+			parent.maing.focus();
+    		}
+	}
+	choose.options.value = choose.options[0].value;
+ }
+
+</SCRIPT>
+
+</HEAD>
+<BODY topMargin=0 rightMargin=0 aLink=#000082 Link=#000082 vLink=#000082 bottomMargin=0 text=black bgColor=white>
+  <SCRIPT LANGUAGE=JavaScript>
+<!--
+//disable the right click feature
+document.oncontextmenu=new Function("return false")
+// --> 
+</SCRIPT>
+<TABLE width="100%" border="0">
+  <TR align="center" valign="middle"> 
+    <TD align="center">
+      <TABLE align=left border=0 cellpadding=0 cellspacing=0>
+        <TR onMouseOut="clearHot()"> 
+          <TD id="menu1" onMouseOver="goHot(1)" width="110"> 
+            <CENTER>
+              <STRONG><FONT face=Verdana size=1><a class="menu" target="maing" href="frontdr.html" onMouseOver="window.status ='Go Home';return true;" onMouseOut="window.status='';return true;"> 
+              Course Text Home</a></FONT></STRONG> 
+            </CENTER>
+          </TD>
+
+          <TD width=10>&nbsp;</TD>
+
+          <TD width="60"> 
+            <P align=center><FONT size=1><em><STRONG> Chapters: </STRONG></em> 
+              </FONT></P>
+          </TD>
+<!-- 
+In order to add a new chapter, copy and paste the following five lines of code 
+
+-->
+         <TD id="menu2" onMouseOver="goHot(2)" width="45"> 
+            <CENTER>
+              <FONT face=Verdana size=1><STRONG> <a class="menu" title="History of Computing" target="maing" href="chapter_1/index.html" onMouseOver="window.status ='Chapter One - The History of Computing';return true;" onMouseOut="window.status='';return true;">One</a> 
+              </STRONG></FONT> 
+            </CENTER>
+          </TD>
+<!-- end copy -->
+          <TD id="menu3" onMouseOver="goHot(3)" width="45"> 
+            <CENTER>
+              <FONT face=Verdana size=1><STRONG> <a class=menu title="HyperText Markup Language" target=maing href="chapter_2/index.html" onMouseOver="window.status ='Chapter Two - HTML - HyperText Markup Language';return true;" onMouseOut="window.status='';return true;">Two</a> 
+              </STRONG></FONT> 
+            </CENTER>
+          </TD>
+          <TD id="menu4" onMouseOver="goHot(4)" width="45"> 
+            <CENTER>
+              <FONT face=Verdana size=1><STRONG> <a class=menu title="Introduction to JavaScript" target=maing href="chapter_3/index.html" onMouseOver="window.status ='Chapter Three - Introduction to JavaScript';return true;" onMouseOut="window.status='';return true;">Three</a> 
+              </STRONG></FONT> 
+            </CENTER>
+          </TD>
+          <TD id="menu5" onMouseOver="goHot(5)" width="45"> 
+            <CENTER>
+              <FONT face=Verdana size=1><STRONG> <a class=menu title="Advanced JavaScript" target=maing href="chapter_4/index.html" onMouseOver="window.status ='Chapter Four - Advanced Javascript';return true;" onMouseOut="window.status='';return true;">Four</a>
+	      </STRONG></FONT> 
+            </CENTER>
+          </TD>
+         <TD id="menu6" onMouseOver="goHot(6)" width="45"> 
+            <CENTER>
+              <FONT face=Verdana size=1><STRONG> <a class=menu title="Applications" target=maing href="chapter_5/index.html" onMouseOver="window.status ='Chapter Five - Applications';return true;" onMouseOut="window.status='';return true;">Five</a> 
+              </STRONG></FONT> 
+            </CENTER>
+          </TD>
+         <TD id="menu7" onMouseOver="goHot(7)" width="45"> 
+            <CENTER>
+              <FONT face=Verdana size=1><STRONG> <a class="menu" title="Program Translation" target="maing" href="chapter_6/index.html" onMouseOver="window.status ='Chapter Six - Program Translation';return true;" onMouseOut="window.status='';return true;">Six</a> 
+              </STRONG></FONT> 
+            </CENTER>
+          </TD>
+         <TD id="menu8" onMouseOver="goHot(8)" width="45"> 
+            <CENTER>
+              <FONT face=Verdana size=1><STRONG> <a class="menu" title="Hardware" target="maing" href="chapter_7/index.html" onMouseOver="window.status ='Chapter Seven - Hardware';return true;" onMouseOut="window.status='';return true;">Seven</a> 
+              </STRONG></FONT> 
+            </CENTER>
+          </TD>
+
+          <TD id="menu9" onMouseOver="goHot(9)" width="45"> 
+            <CENTER>
+              <FONT face=Verdana size=1><STRONG> <a class="menu" title="Cryptography" target="maing" href="chapter_8/index.html" onMouseOver="window.status ='Chapter Eight - Cryptography';return true;" onMouseOut="window.status='';return true;">Eight</a> 
+              </STRONG></FONT> 
+            </CENTER>
+          </TD>
+
+<!-- place new links here -->
+
+<!-- end of new links -->
+          <TD width="70"> 
+            <CENTER>
+              <FONT face=Verdana><FONT size=1><STRONG> </STRONG></FONT></FONT>&nbsp; 
+            </CENTER>
+          </TD>
+          <TD id=menu12 onMouseOver="goHot(12)"> 
+            <select name="choose" onChange="javascript:goThere(value);" onMouseOver="window.status ='Here are some resources that you might find helpful.';return true;" onMouseOut="window.status='';return true;" style="color:'#000082'; FONT-WEIGHT: normal; FONT-SIZE: 10px; LINE-HEIGHT: normal; FONT-STYLE: normal; FONT-VARIANT: normal">
+              <option selected value="">Resources</option>
+	      <option value="Archive.html">Archives</option>
+              <option value="about.html">About</option>
+              <option value="contacts.html">Contacts</option>
+              <option value="http://cs.gettysburg.edu/">CS Dept.</option>
+              <option value="glossary.html">Glossary</option>
+              <option value="help.html">Help</option>
+              <option value="links.html">Links</option>
+              <option value="site_map.html">Site Map</option>
+            </select>
+          </TD>
+        </TR>
+      </TABLE>
+    </TD>
+  </TR>
+</TABLE>
+
+</BODY>
+</HTML>

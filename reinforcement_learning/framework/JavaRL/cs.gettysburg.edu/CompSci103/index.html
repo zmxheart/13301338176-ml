@@ -1,0 +1,84 @@
+<html>
+ <head>
+  <title>CS103 page</title>
+
+<SCRIPT LANGUAGE="JavaScript" 
+        SRC="http://cs.gettysburg.edu/CompSci103/Alpha_Site/scripts/closeSite.js">
+</SCRIPT>
+
+<SCRIPT LANGUAGE="JavaScript">
+function formHandler(link)
+{ 
+link = document.form1.ppt.options[document.form1.ppt.selectedIndex].value;
+window.location.href = link;
+}
+
+function formHandler2(link)
+{ 
+link = document.form2.course.options[document.form2.course.selectedIndex].value;
+window.location.href = link;
+}
+</SCRIPT>
+
+ </head>
+
+ <body text="darkblue" link="darkblue" vlink="darkblue" 
+   alink="darkblue">
+  <center>
+  <table cellpadding="3">
+  <tr>
+  <td valign="top" align="center" bgcolor="darkorange">
+  <img src="Images/logo_4.gif" />
+  <br />
+    <table bgcolor="white" cellpadding="20"
+    <tr><td>
+    <font size="+5"><b>Spring 2011</b></font>
+    </td></tr>
+    </table>
+  </td>
+  <td>
+  <img src="Images/comp_pic.jpg">
+  </td>
+  </tr>
+  </table>
+
+<br />
+<hr width="55%" size="3">
+
+<table cellpadding="15" bgcolor="darkorange" border="5">
+<caption><font size="+2"><b>RESOURCES</b></font></caption>
+<tr>
+<td>
+<form name="form2">
+<select name="course" size="4">
+
+<option value="Alpha_Site/index.html">Course Text
+<option value="syllabus.html">Course Syllabus
+<!--
+<option value="January.html">January Calendar
+<option value="February.html">February Calendar
+<option value="March.html">March Calendar
+<option value="April.html">April Calendar
+<option value="May.html">May Calendar
+<option value="September.html">September Calendar
+<option value="October.html">October Calendar
+<option value="November.html">November Calendar
+<option value="December.html">December Calendar
+-->
+
+</select>
+
+<input type=button value="Go!" onClick = "formHandler2(this.value);">
+</form>
+</td>
+
+
+</tr>
+</table>
+<br />
+<hr width="55%" size="3">
+<br />
+</center>
+
+ </body>
+</html>

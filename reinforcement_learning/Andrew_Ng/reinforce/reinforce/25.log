@@ -1,0 +1,29 @@
+COMPUTING REWARDS
+COMPUTING TRANSITIONS
+COMPUTING POLICY
+iteration: 1 / 25
+iteration: 2 / 25
+iteration: 3 / 25
+iteration: 4 / 25
+iteration: 5 / 25
+iteration: 6 / 25
+iteration: 7 / 25
+iteration: 8 / 25
+iteration: 9 / 25
+iteration: 10 / 25
+iteration: 11 / 25
+iteration: 12 / 25
+iteration: 13 / 25
+iteration: 14 / 25
+iteration: 15 / 25
+iteration: 16 / 25
+iteration: 17 / 25
+iteration: 18 / 25
+iteration: 19 / 25
+iteration: 20 / 25
+iteration: 21 / 25
+iteration: 22 / 25
+iteration: 23 / 25
+iteration: 24 / 25
+iteration: 25 / 25
+{'high': 'climb', 'top': 'sink', 'bottom': 'sink', 'low': 'climb', 'mid': 'climb'}

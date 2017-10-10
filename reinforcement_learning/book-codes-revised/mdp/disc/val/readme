@@ -1,0 +1,5 @@
+This directory contains codes for discounted DP for:
+1. Value iteration (vi.c)
+2. Gauss Siedel Value iteration (gsvi.c)
+3. Relative Value iteration (rvi.c)
+

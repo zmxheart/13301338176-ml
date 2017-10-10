@@ -1,0 +1,143 @@
+<!doctype html public "-//w3c//dtd html 4.0 transitional//en">
+<html>
+<head>
+   <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+   <meta name="GENERATOR" content="Microsoft FrontPage 12.0">
+   <meta name="Author" content="Todd Neller">
+   <title>Homework #3</title>
+   <style type="text/css">
+.style4 {
+	text-align: left;
+}
+</style>
+</head>
+<body bgcolor="#FFFFFF">
+&nbsp;<table WIDTH="100%" >
+<tr>
+<td><img SRC="GburgCS.gif" height=84 width=182></td>
+
+<td><font size=+2>CS 371 - Introduction to Artificial Intelligence</font>
+<br><font size=+2>Homework #3</font></td>
+</tr>
+</table>
+
+<hr>
+<br><b>Due: Thurday 2/16 at the beginning of class</b>
+<br><b>Note: Work is to be done in pairs</b>
+<h1>
+<b>Stochastic Local Optimization</b></h1>
+
+<ul>
+<li>
+<b><a href="sls/">HW3 Code Resources</a></b></li>
+</ul>
+
+<p><br>1. <b>Rook Jumping Maze Generation:&nbsp;</b>
+<p><u><b><a href="http://cs.gettysburg.edu/~tneller/rjmaze">Rook Jumping Maze</a> Instructions</b></u><b><u><span style="line-height: 115%">:</span></u></b><span style="line-height: 115%"> 
+Starting at the circled cell in the upper-left corner, find a path to the goal 
+cell marked &#8220;G&#8221;.&nbsp; From each numbered cell, one may move that exact 
+number of cells horizontally or vertically in a straight line.&nbsp; How many 
+moves does the shortest path have? </span>
+<center>
+<p><img border="0" src="rjm1-400.png"></center>
+<p class="style4">For this exercise, you will generate random <i>n</i>-by-<i>n</i> Rook Jumping Mazes (RJMs) 
+(5 <font face="Symbol">£</font> <i>n</i>
+<font face="Symbol">£</font> 10) where there is a legal move (jump) from each non-goal state.&nbsp; 
+You will also use stochastic local search to optimize for (1) solvability and 
+(2) maximum length of the shortest maze solution path.<p>Let array row and 
+column&nbsp; indices both be numbered (0, ..., <i>n </i>
+- 1).&nbsp; The RJM is represented by a 2D-array of jump numbers.&nbsp; A 
+cell's <i>jump 
+number</i> is the number of array cells one must move in a straight line 
+horizontally or vertically from that cell.&nbsp; The start cell is located at 
+(0, 0).&nbsp; For the goal cell, located at (<i>n </i>
+- 1, <i>n </i>
+- 1), let the jump number be 0.&nbsp; For&nbsp; all non-goal cells, the randomly 
+generated jump number must allow a legal move.&nbsp; In the example 5-by-5 maze 
+above, legal jump numbers for the start cell are {1, 2, 3, 4}, whereas legal 
+jump numbers for the center cell are {1, 2}.&nbsp; In general, the minimum legal 
+jump number for a non-goal cell is 1, and the maximum legal jump number for a 
+non-goal cell (<em>r</em>, <em>c</em>) is the maximum of <em>n</em> - 1 - <em>r</em>,
+<em>r</em>, <em>n</em> - 1 - <em>c</em>, and <em>c</em>.&nbsp; This 
+defines a <a href="http://en.wikipedia.org/wiki/Directed_graph">directed graph</a> 
+where vertices are cells, edges are legal jumps, and the outdegree is 0 for the 
+goal cell vertex and positive otherwise.&nbsp; </p>
+<p>There are many features of a good RJM.&nbsp; One obvious feature is that the 
+maze has a solution, i.e. one can reach the goal from the start.&nbsp; One 
+simple measure of maze quality is the minimum number of moves from the start to the goal.&nbsp; For 
+this exercise, we will limit our attention to these two measures of maze 
+quality.&nbsp; </p>
+<p>Using breadth-first search, or some other suitable graph algorithm, compute 
+the minimum distance (i.e. depth, number of moves) to each cell from the start 
+cell.&nbsp; Create an <i>objective function</i> (a.k.a. <i>energy function</i>) 
+that returns the negated distance from start to goal, or a large positive number 
+(use 1,000,000) if no path from start to 
+goal exists.&nbsp; Then the task of maze generation can be reformulated as a 
+search through changes in the maze configuration so as to minimize this 
+objective function. </p>
+<p>Implement stochastic local search state RookJumpingMaze according to
+<a href="sls/rjmdoc/index.html">this specification</a>.&nbsp; Note that the 
+specification of implemented interface methods is listed towards the top of the 
+RookJumpingMaze documentation.</p>
+<p>Once you have RookJumpingMaze implemented, complete the implementation of
+<a href="sls/RJMGenerator.java">RJMGenerator.java</a>.&nbsp; For a size 5 RJM, you should be able to implement and tune the parameters 
+of a stochastic local search algorithm of your choice to achieve a median energy 
+of less than or equal to -18.0 in 5000 iterations of search or less.&nbsp; That 
+is, your median-energy maze generated should require a minimum of 18 moves to 
+solve.</p>
+<p> <em>Hint: When computing the energy() method, you 
+	should not use your previous uniformed search code.&nbsp; Instead, coding a simple breadth-first 
+	search within the RookJumpingMaze class will allow you to easily do 
+	repeated-state elimination.&nbsp; Initialize the depth of the initial 
+	location to 0, and all others to a negative constant representing 
+	&quot;unreached&quot; status.&nbsp; Replace &quot;unreached&quot; values with search depths (one 
+	greater than current depth) as child locations are being added to the queue, 
+	and not adding children to the queue that have already been visited (have 
+	non-negative depth).</em>&nbsp;</p>
+<p>2.&nbsp; <b>Distant Sampling:&nbsp;</b>In many different problem, it 
+is useful to be able to select a <em>biased </em>sample from a data set such 
+that the items are very different from each other.&nbsp; Examples include 
+initialization of clustering algorithms, choosing a color palette where colors 
+are well distinguished from one another, and choosing sites to geographically 
+distribute resources.&nbsp; 
+<p>For this problem, you will create a stochastic local search State implemented 
+according to <a href="sls/dsdoc/index.html">this specification</a>.&nbsp; Note 
+that the specification of implemented interface methods is listed towards the 
+top of the DistantSamplerState documentation.&nbsp; To summarize, the state is 
+constructed with a 2D array where each row is an n-dimensional double 
+point/vector, and a given number of distant samples from among these is the 
+objective.&nbsp; Thus, to compute the energy, one computes the <em>inverse 
+squared Euclidean distance </em>for each pair of points and sums these to get 
+the &quot;energy&quot; of the State.&nbsp; To compute the Euclidean distance, compute the 
+sum of the squared differences in each dimension between two points/vectors and 
+then take the square root of this sum.&nbsp; To get the inverse squared 
+Euclidean distance, you divide one by the distance squared.&nbsp; 
+(Alternatively, <em>don't </em>&nbsp;take the square root when computing the 
+distance and directly compute the inverse (i.e. reciprocal) without squaring.&nbsp; 
+The square root and squaring are inverse operations and cancel.)&nbsp; It is as 
+if we're simulating
+<a href="http://en.wikipedia.org/wiki/Coulomb%2527s_law#The_law">electrostatic 
+rupulsion forces</a> between our selected sample data points.<p>A stochastic 
+local search step here is switching from one unique sample choice (no 
+repetitions are allowed) to a different unique sample choice.&nbsp; It is 
+convenient to internally represent our sample choices as a list of row indices 
+from the original given data.&nbsp; More details to more methods are given in
+<a href="sls/dsdoc/index.html">this specification</a>. 
+<p>Once you have DistantSamplerState implemented, complete the implementation of
+<a href="sls/DistantSampler.java">DistantSampler.java</a>.&nbsp; For the default 
+dataset given therein, you should be able to implement and tune the parameters 
+of a stochastic local search algorithm of your choice to achieve a median energy 
+of less than 132.0 in 10000 iterations of search or less.
+<hr>
+<p>Hopefully, in looking at these problems, you'll see the wide applicability of 
+such optimization algorithms.&nbsp; Often, the most challenging aspect of such 
+optimization is devising a good, efficient next state generator that gives 
+beneficial structure to the state space, rather than merely bouncing randomly 
+from one state to another.&nbsp; Good next state generators both allow one to 
+traverse the entire state space, and immediately sample states that are similar 
+in quality to the current state.</p>
+
+<p><a href="http://cs.gettysburg.edu/~tneller/">Todd Neller</a>
+<br><img SRC="tneller-email.gif" height=20 width=143>
+</body>
+</html>

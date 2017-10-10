@@ -1,0 +1,184 @@
+
+</body>
+</html>
+<!doctype html public "-//w3c//dtd html 4.0 transitional//en">
+<html>
+<head>
+   <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+   <meta name="GENERATOR" content="Microsoft FrontPage 12.0">
+   <title>Homework #11</title>
+</head>
+<body>
+<table WIDTH="100%" >
+<tr>
+<td><img SRC="GburgCS.gif" height=84 width=182></td>
+
+<td><font size=+2>CS 107 - Introduction to Scientific Computation</font><br><font size=+2>Homework #11</font></td>
+</tr>
+</table>
+
+<hr>
+<br><b>Due: Wednesday 11/20 at the beginning of class</b>
+<h1><b>Object-Oriented Debugging*</b></h1>
+<p>In this simulation assignment, you will create a non-grid-based simulation of 
+bugs moving in a constrained area among traps, plotting simulation states, 
+and tracking the population decline.&nbsp; While significantly different, this 
+assignment is based on the insect trapping research work of John A. Byers:</p>
+<ul>
+	<li><strong style="font-weight: 400">Byers, J.A. 1993. Simulation and 
+	equation models of insect population control by pheromone-baited traps. 
+	Journal of Chemical Ecology 19:1939-1956.<br>
+	<a href="http://www.chemical-ecology.net/trap-abs.htm">
+	http://www.chemical-ecology.net/trap-abs.htm</a></strong></li>
+</ul>
+<p><b>0. Preparatory Reading: </b>You'll want to feel comfortable with creating 
+arrays of Object, so the Matlab User Guide on
+<a href="http://www.mathworks.com/access/helpdesk/help/techdoc/matlab_oop/brd4btr.html">
+Creating Object Arrays</a> is recommended.</p>
+<p><b>1. Bug:&nbsp;</b> Create a Bug handle class according to these 
+specifications:</p>
+<ul>
+	<li>Properties:</li>
+	<ul>
+	<li>moveSD: standard deviation of random normal distribution for movement 
+	distance, default value .05</li>
+	<li>x: current bug x position, 0 &lt;= x &lt; 1</li>
+	<li>y: current bug y position, 0 &lt;= y &lt; 1</li>
+	</ul>
+	<li>Methods:</li>
+	<ul>
+	<li>Function Bug (constructor)<ul>
+	<li>return value: self</li>
+	<li>parameter 1: moveSD: user-defined standard deviation of random normal 
+	distribution for movement distance</li>
+	<li>if nargin &gt; 0, parameter 1 is copied to property moveSD</li>
+	<li>properties x and y are assigned random numbers, 0 &lt;= x&nbsp; &lt; 1, 0 &lt;= y 
+	&lt; 1</li>
+	</ul></li>
+	<li>Function move<ul>
+	<li>no return value</li>
+	<li>parameter 1: self</li>
+	<li>Compute a random movement distance according to a normal distribution 
+	with mean 0 and standard deviation moveSD.</li>
+	<li>Compute a random angle according to a uniform distribution over all 
+	possible angles.</li>
+	<li>Convert distance and angle to change in x and y position, and make that 
+	change.</li>
+	<li>If the Bug moves beyond the unit square with opposite corners (0, 0) and 
+	(1, 1), treat the Bug as if it perfectly bounces off the sides of the 
+	constrained space.</li>
+	</ul></li>
+
+	</ul>
+
+</ul>
+<p><b>2. Trap:</b>&nbsp; Create a Trap handle class according to these 
+specifications:</p>
+<ul>
+	<li>Properties:</li>
+	<ul>
+	<li>catchRadius: the distance from the Trap within which a Bug is trapped, 
+	default value .05</li>
+	<li>x: Trap x position, 0 &lt;= x &lt; 1</li>
+	<li>y: Trap y position, 0 &lt;= y &lt; 1</li>
+	</ul>
+	<li>Methods:</li>
+	<ul>
+	<li>Function Trap (constructor)<ul>
+	<li>return value: self</li>
+	<li>parameter 1: catchRadius: user-defined distance from the Trap within 
+	which a Bug is trapped</li>
+	<li>if nargin &gt; 0, parameter 1 is copied to property catchRadius</li>
+	<li>properties x and y are assigned random numbers, 0 &lt;= x&nbsp; &lt; 1, 0 &lt;= y 
+	&lt; 1</li>
+	</ul></li>
+	<li>Function canCatch<ul>
+	<li>return value: can: a Boolean (true/false) value indicating whether or 
+	not a Bug is within the Trap's catch radius</li>
+	<li>parameter 1: self</li>
+	<li>parameter 2: bug: a Bug</li>
+	<li>Compute the distance between the Trap and Bug positions, and return 
+	whether or not this is &lt;= catchRadius.</li>
+	</ul></li>
+
+	</ul>
+
+</ul>
+<p><b>3. BugWorld:</b>&nbsp; Create a BugWorld handle class according to these 
+specifications:</p>
+<ul>
+	<li>Properties:</li>
+	<ul>
+	<li>bugs: an array of Bug objects in the BugWorld, initially a single 
+	default (no-argument) Bug</li>
+	<li>traps: an array of Trap objects in the BugWorld, initially a single 
+	default (no-argument) Trap</li>
+	</ul>
+	<li>Methods:</li>
+	<ul>
+		<li>Function BugWorld (constructor)<ul>
+			<li>return value: self</li>
+			<li>parameter 1: numBugs: the initial number of Bug objects in 
+			BugWorld</li>
+			<li>parameter 2: moveSD: user-defined standard deviation of random 
+			normal distribution for movement distance for each Bug</li>
+			<li>parameter 3: numTraps: the initial number of Trap objects in 
+			BugWorld</li>
+			<li>parameter 4: catchRadius: user-defined distance from each Trap 
+			within which a Bug is trapped</li>
+			<li>Create the given number of Bug and Trap objects in the bugs and 
+			traps array properties according to the given constructor arguments.</li>
+		</ul></li>
+		<li>Function tick:<ul>
+			<li>return value: self</li>
+			<li>parameter 1: self</li>
+			<li>For each bug in bugs,<ul><li>call the Bug move method</li>
+				<li>check each Trap to see if it catches the Bug</li>
+				<li>if a Trap catches the Bug, remove it from the bugs array</li></ul></li>
+		</ul></li>
+		<li>Function ticks:<ul>
+			<li>return value: bugNums: an array of bug population values before 
+			and after each successive simulation tick (step)</li>
+			<li>parameter 1: self</li>
+			<li>parameter 2: numTicks: a given number of simulation ticks 
+			(steps)</li>
+			<li>Add the current Bug population to bugNums.</li>
+			<li>Perform the given number of simulation ticks, adding the new 
+			population to bugNums after each tick.</li>
+		</ul></li>
+		<li>Function plotWorld:<ul>
+			<li>return value: (none)</li>
+			<li>parameter 1: self</li>
+			<li>Clear current axes with command &quot;cla&quot;, and turn hold on.</li>
+			<li>Create a square axis from (0, 0) to (1, 1)</li>
+			<li>Create two arrays of bug x and y values, respectively, and plot 
+			them using the &quot;scatter&quot; command.</li>
+			<li>For each trap, draw a circle according to the cach radius.</li>
+			<li>Turn hold off. </li>
+		</ul></li>
+	</ul>
+
+</ul>
+<p>You may find the following sets of test commands helpful.&nbsp; To visually 
+test the step-by-step simulation:</p>
+<pre>
+>> clear
+>> w = BugWorld(100, .05, 10, .05);
+>> w.tick(); w.plotWorld();
+>> w.tick(); w.plotWorld();
+... (repeat) ...
+</pre>
+<p>One can comment out the plotWorld "cla" command to keep previous Bug positions on the plot.&nbsp;</p>
+<p>To plot the population trend over successive simulations:</p>
+<pre>
+>> hold on;
+>> w = BugWorld(100, .05, 10, .05);
+>> plot(w.ticks(1000))
+>> w = BugWorld(100, .05, 10, .05);
+>> plot(w.ticks(1000))
+... (repeat) ...</pre></p>
+<p>*The author understands that the original work concerned flying insects and 
+that &quot;bug&quot; and &quot;insect&quot; are distinct terms, but the pun was just too good to 
+pass up.</p>
+</body>
+</html>

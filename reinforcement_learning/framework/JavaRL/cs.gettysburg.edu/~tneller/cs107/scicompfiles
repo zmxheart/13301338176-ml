@@ -1,0 +1,186 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<html>
+ <head>
+  <title>Index of /~tneller/cs107/scicompfiles</title>
+ </head>
+ <body>
+<h1>Index of /~tneller/cs107/scicompfiles</h1>
+<table><tr><th><img src="/icons/blank.gif" alt="[ICO]"></th><th><a href="?C=N;O=D">Name</a></th><th><a href="?C=M;O=A">Last modified</a></th><th><a href="?C=S;O=A">Size</a></th><th><a href="?C=D;O=A">Description</a></th></tr><tr><th colspan="5"><hr></th></tr>
+<tr><td valign="top"><img src="/icons/back.gif" alt="[DIR]"></td><td><a href="/~tneller/cs107/">Parent Directory</a></td><td>&nbsp;</td><td align="right">  - </td><td>&nbsp;</td></tr>
+<tr><td valign="top"><img src="/icons/unknown.gif" alt="[   ]"></td><td><a href="5BEAMS.DAT">5BEAMS.DAT</a></td><td align="right">23-Dec-1999 12:17  </td><td align="right"> 89 </td><td>&nbsp;</td></tr>
+<tr><td valign="top"><img src="/icons/unknown.gif" alt="[   ]"></td><td><a href="5LOADS.DAT">5LOADS.DAT</a></td><td align="right">23-Dec-1999 12:17  </td><td align="right"> 49 </td><td>&nbsp;</td></tr>
+<tr><td valign="top"><img src="/icons/unknown.gif" alt="[   ]"></td><td><a href="5NODES.DAT">5NODES.DAT</a></td><td align="right">23-Dec-1999 12:17  </td><td align="right"> 62 </td><td>&nbsp;</td></tr>
+<tr><td valign="top"><img src="/icons/unknown.gif" alt="[   ]"></td><td><a href="5supports.dat">5supports.dat</a></td><td align="right">23-Aug-2002 11:40  </td><td align="right"> 13 </td><td>&nbsp;</td></tr>
+<tr><td valign="top"><img src="/icons/sound2.gif" alt="[SND]"></td><td><a href="BEHAVE2.WAV">BEHAVE2.WAV</a></td><td align="right">15-Sep-1999 09:21  </td><td align="right"> 19K</td><td>&nbsp;</td></tr>
+<tr><td valign="top"><img src="/icons/unknown.gif" alt="[   ]"></td><td><a href="COUNTER.M">COUNTER.M</a></td><td align="right">24-Jan-2003 14:25  </td><td align="right">250 </td><td>&nbsp;</td></tr>
+<tr><td valign="top"><img src="/icons/unknown.gif" alt="[   ]"></td><td><a href="DERIVFUN.M">DERIVFUN.M</a></td><td align="right">23-Aug-2002 08:59  </td><td align="right">334 </td><td>&nbsp;</td></tr>
+<tr><td valign="top"><img src="/icons/unknown.gif" alt="[   ]"></td><td><a href="DICESUM.M">DICESUM.M</a></td><td align="right">09-Mar-2001 09:19  </td><td align="right">249 </td><td>&nbsp;</td></tr>
+<tr><td valign="top"><img src="/icons/unknown.gif" alt="[   ]"></td><td><a href="DRAWSET.M">DRAWSET.M</a></td><td align="right">16-Aug-2002 13:44  </td><td align="right">577 </td><td>&nbsp;</td></tr>
+<tr><td valign="top"><img src="/icons/unknown.gif" alt="[   ]"></td><td><a href="DRAWTREE.M">DRAWTREE.M</a></td><td align="right">16-Aug-2002 13:52  </td><td align="right">3.1K</td><td>&nbsp;</td></tr>
+<tr><td valign="top"><img src="/icons/unknown.gif" alt="[   ]"></td><td><a href="EXCERPT1.M">EXCERPT1.M</a></td><td align="right">27-Sep-2001 16:51  </td><td align="right">275 </td><td>&nbsp;</td></tr>
+<tr><td valign="top"><img src="/icons/unknown.gif" alt="[   ]"></td><td><a href="EXCERPT2.M">EXCERPT2.M</a></td><td align="right">27-Sep-2001 16:51  </td><td align="right">233 </td><td>&nbsp;</td></tr>
+<tr><td valign="top"><img src="/icons/unknown.gif" alt="[   ]"></td><td><a href="EXCLUDE.M">EXCLUDE.M</a></td><td align="right">08-Mar-2001 10:58  </td><td align="right">202 </td><td>&nbsp;</td></tr>
+<tr><td valign="top"><img src="/icons/sound2.gif" alt="[SND]"></td><td><a href="FH.WAV">FH.WAV</a></td><td align="right">20-Jan-2002 08:10  </td><td align="right"> 41K</td><td>&nbsp;</td></tr>
+<tr><td valign="top"><img src="/icons/unknown.gif" alt="[   ]"></td><td><a href="FIB.M">FIB.M</a></td><td align="right">11-Aug-2002 16:02  </td><td align="right">195 </td><td>&nbsp;</td></tr>
+<tr><td valign="top"><img src="/icons/unknown.gif" alt="[   ]"></td><td><a href="GPSFUN.M">GPSFUN.M</a></td><td align="right">24-Aug-2002 15:20  </td><td align="right">460 </td><td>&nbsp;</td></tr>
+<tr><td valign="top"><img src="/icons/unknown.gif" alt="[   ]"></td><td><a href="GPSFUN2.M">GPSFUN2.M</a></td><td align="right">23-Aug-2002 16:51  </td><td align="right">102 </td><td>&nbsp;</td></tr>
+<tr><td valign="top"><img src="/icons/unknown.gif" alt="[   ]"></td><td><a href="GRADFUN.M">GRADFUN.M</a></td><td align="right">09-Mar-2003 12:08  </td><td align="right">528 </td><td>&nbsp;</td></tr>
+<tr><td valign="top"><img src="/icons/unknown.gif" alt="[   ]"></td><td><a href="IRIS.DAT">IRIS.DAT</a></td><td align="right">05-Apr-2001 12:12  </td><td align="right">8.3K</td><td>&nbsp;</td></tr>
+<tr><td valign="top"><img src="/icons/unknown.gif" alt="[   ]"></td><td><a href="ISLEAF.M">ISLEAF.M</a></td><td align="right">05-Apr-2001 19:55  </td><td align="right">245 </td><td>&nbsp;</td></tr>
+<tr><td valign="top"><img src="/icons/unknown.gif" alt="[   ]"></td><td><a href="JACOBIAN.M">JACOBIAN.M</a></td><td align="right">23-Aug-2002 17:08  </td><td align="right">647 </td><td>&nbsp;</td></tr>
+<tr><td valign="top"><img src="/icons/unknown.gif" alt="[   ]"></td><td><a href="MAKELINE.M">MAKELINE.M</a></td><td align="right">16-Aug-2002 13:40  </td><td align="right">205 </td><td>&nbsp;</td></tr>
+<tr><td valign="top"><img src="/icons/unknown.gif" alt="[   ]"></td><td><a href="MAKETEXT.M">MAKETEXT.M</a></td><td align="right">21-Mar-2001 16:20  </td><td align="right">209 </td><td>&nbsp;</td></tr>
+<tr><td valign="top"><img src="/icons/unknown.gif" alt="[   ]"></td><td><a href="MINIMUM.M">MINIMUM.M</a></td><td align="right">12-Mar-2001 09:06  </td><td align="right">215 </td><td>&nbsp;</td></tr>
+<tr><td valign="top"><img src="/icons/text.gif" alt="[TXT]"></td><td><a href="MOBYDICK-excerpt.TXT">MOBYDICK-excerpt.TXT</a></td><td align="right">07-Dec-1999 15:46  </td><td align="right"> 99K</td><td>&nbsp;</td></tr>
+<tr><td valign="top"><img src="/icons/text.gif" alt="[TXT]"></td><td><a href="MOBYDICK.TXT">MOBYDICK.TXT</a></td><td align="right">29-Dec-2002 11:22  </td><td align="right">1.2M</td><td>&nbsp;</td></tr>
+<tr><td valign="top"><img src="/icons/image2.gif" alt="[IMG]"></td><td><a href="Mona.png">Mona.png</a></td><td align="right">09-May-2001 09:53  </td><td align="right"> 66K</td><td>&nbsp;</td></tr>
+<tr><td valign="top"><img src="/icons/unknown.gif" alt="[   ]"></td><td><a href="NICECOS.M">NICECOS.M</a></td><td align="right">27-Aug-2001 10:34  </td><td align="right">410 </td><td>&nbsp;</td></tr>
+<tr><td valign="top"><img src="/icons/unknown.gif" alt="[   ]"></td><td><a href="RISK2.M">RISK2.M</a></td><td align="right">04-Apr-2001 11:11  </td><td align="right">209 </td><td>&nbsp;</td></tr>
+<tr><td valign="top"><img src="/icons/text.gif" alt="[TXT]"></td><td><a href="SCALE.CSV">SCALE.CSV</a></td><td align="right">17-Aug-2002 07:25  </td><td align="right">145 </td><td>&nbsp;</td></tr>
+<tr><td valign="top"><img src="/icons/unknown.gif" alt="[   ]"></td><td><a href="SINESAMP.M">SINESAMP.M</a></td><td align="right">23-Apr-2001 17:36  </td><td align="right">1.0K</td><td>&nbsp;</td></tr>
+<tr><td valign="top"><img src="/icons/unknown.gif" alt="[   ]"></td><td><a href="SINEWAVE.M">SINEWAVE.M</a></td><td align="right">23-Apr-2001 17:00  </td><td align="right">852 </td><td>&nbsp;</td></tr>
+<tr><td valign="top"><img src="/icons/unknown.gif" alt="[   ]"></td><td><a href="SUMACCUM.M">SUMACCUM.M</a></td><td align="right">12-Aug-2002 10:01  </td><td align="right">350 </td><td>&nbsp;</td></tr>
+<tr><td valign="top"><img src="/icons/unknown.gif" alt="[   ]"></td><td><a href="SUMREC.M">SUMREC.M</a></td><td align="right">28-Mar-2001 09:27  </td><td align="right">174 </td><td>&nbsp;</td></tr>
+<tr><td valign="top"><img src="/icons/unknown.gif" alt="[   ]"></td><td><a href="absvalV2.m">absvalV2.m</a></td><td align="right">12-Mar-2001 15:36  </td><td align="right">184 </td><td>&nbsp;</td></tr>
+<tr><td valign="top"><img src="/icons/sound2.gif" alt="[SND]"></td><td><a href="aeiou.wav">aeiou.wav</a></td><td align="right">11-Nov-1997 08:22  </td><td align="right">102K</td><td>&nbsp;</td></tr>
+<tr><td valign="top"><img src="/icons/image2.gif" alt="[IMG]"></td><td><a href="aerial2.jpg">aerial2.jpg</a></td><td align="right">23-Nov-1999 06:36  </td><td align="right">3.2M</td><td>&nbsp;</td></tr>
+<tr><td valign="top"><img src="/icons/image2.gif" alt="[IMG]"></td><td><a href="aerial4.jpg">aerial4.jpg</a></td><td align="right">23-Nov-1999 06:37  </td><td align="right">1.0M</td><td>&nbsp;</td></tr>
+<tr><td valign="top"><img src="/icons/image2.gif" alt="[IMG]"></td><td><a href="aerial8.jpg">aerial8.jpg</a></td><td align="right">23-Nov-1999 06:38  </td><td align="right">285K</td><td>&nbsp;</td></tr>
+<tr><td valign="top"><img src="/icons/unknown.gif" alt="[   ]"></td><td><a href="aliasshift.m">aliasshift.m</a></td><td align="right">08-May-2001 16:47  </td><td align="right">690 </td><td>&nbsp;</td></tr>
+<tr><td valign="top"><img src="/icons/unknown.gif" alt="[   ]"></td><td><a href="alphabetcompare.m">alphabetcompare.m</a></td><td align="right">09-Jun-2001 16:52  </td><td align="right">772 </td><td>&nbsp;</td></tr>
+<tr><td valign="top"><img src="/icons/unknown.gif" alt="[   ]"></td><td><a href="arrange2.m">arrange2.m</a></td><td align="right">04-Apr-2001 10:30  </td><td align="right">270 </td><td>&nbsp;</td></tr>
+<tr><td valign="top"><img src="/icons/unknown.gif" alt="[   ]"></td><td><a href="asciicompare.m">asciicompare.m</a></td><td align="right">16-Aug-2002 16:18  </td><td align="right">398 </td><td>&nbsp;</td></tr>
+<tr><td valign="top"><img src="/icons/unknown.gif" alt="[   ]"></td><td><a href="average.m">average.m</a></td><td align="right">22-Feb-2001 10:27  </td><td align="right"> 57 </td><td>&nbsp;</td></tr>
+<tr><td valign="top"><img src="/icons/unknown.gif" alt="[   ]"></td><td><a href="averageV2.m">averageV2.m</a></td><td align="right">27-Aug-2001 09:11  </td><td align="right">361 </td><td>&nbsp;</td></tr>
+<tr><td valign="top"><img src="/icons/unknown.gif" alt="[   ]"></td><td><a href="bankbalance.m">bankbalance.m</a></td><td align="right">01-Aug-2002 16:40  </td><td align="right">216 </td><td>&nbsp;</td></tr>
+<tr><td valign="top"><img src="/icons/unknown.gif" alt="[   ]"></td><td><a href="caiter.m">caiter.m</a></td><td align="right">06-Oct-2003 11:21  </td><td align="right">125 </td><td>&nbsp;</td></tr>
+<tr><td valign="top"><img src="/icons/unknown.gif" alt="[   ]"></td><td><a href="charToMorse.m">charToMorse.m</a></td><td align="right">10-Oct-2003 12:39  </td><td align="right">2.6K</td><td>&nbsp;</td></tr>
+<tr><td valign="top"><img src="/icons/image2.gif" alt="[IMG]"></td><td><a href="cloudsBW.jpg">cloudsBW.jpg</a></td><td align="right">13-Aug-2002 14:38  </td><td align="right"> 21K</td><td>&nbsp;</td></tr>
+<tr><td valign="top"><img src="/icons/text.gif" alt="[TXT]"></td><td><a href="coffeecooling.csv">coffeecooling.csv</a></td><td align="right">24-Aug-2001 09:17  </td><td align="right">406 </td><td>&nbsp;</td></tr>
+<tr><td valign="top"><img src="/icons/unknown.gif" alt="[   ]"></td><td><a href="coffeemodel.m">coffeemodel.m</a></td><td align="right">25-Dec-2002 09:11  </td><td align="right">174 </td><td>&nbsp;</td></tr>
+<tr><td valign="top"><img src="/icons/unknown.gif" alt="[   ]"></td><td><a href="collectLeaves.asv">collectLeaves.asv</a></td><td align="right">31-Jul-2004 08:04  </td><td align="right">495 </td><td>&nbsp;</td></tr>
+<tr><td valign="top"><img src="/icons/unknown.gif" alt="[   ]"></td><td><a href="collectLeaves.m">collectLeaves.m</a></td><td align="right">31-Jul-2004 15:19  </td><td align="right">326 </td><td>&nbsp;</td></tr>
+<tr><td valign="top"><img src="/icons/unknown.gif" alt="[   ]"></td><td><a href="combinations.m">combinations.m</a></td><td align="right">11-Aug-2002 16:09  </td><td align="right">858 </td><td>&nbsp;</td></tr>
+<tr><td valign="top"><img src="/icons/unknown.gif" alt="[   ]"></td><td><a href="compsort.m">compsort.m</a></td><td align="right">11-Jun-2001 20:58  </td><td align="right">1.3K</td><td>&nbsp;</td></tr>
+<tr><td valign="top"><img src="/icons/unknown.gif" alt="[   ]"></td><td><a href="conjugategradient.m">conjugategradient.m</a></td><td align="right">23-Aug-2002 16:09  </td><td align="right">2.7K</td><td>&nbsp;</td></tr>
+<tr><td valign="top"><img src="/icons/unknown.gif" alt="[   ]"></td><td><a href="conversionToMetersV1.m">conversionToMetersV1.m</a></td><td align="right">29-Jul-2002 17:30  </td><td align="right">646 </td><td>&nbsp;</td></tr>
+<tr><td valign="top"><img src="/icons/unknown.gif" alt="[   ]"></td><td><a href="conversionToMetersV2.m">conversionToMetersV2.m</a></td><td align="right">29-Jul-2002 17:32  </td><td align="right">421 </td><td>&nbsp;</td></tr>
+<tr><td valign="top"><img src="/icons/unknown.gif" alt="[   ]"></td><td><a href="convertGradeV1.m">convertGradeV1.m</a></td><td align="right">04-Apr-2001 09:49  </td><td align="right">267 </td><td>&nbsp;</td></tr>
+<tr><td valign="top"><img src="/icons/unknown.gif" alt="[   ]"></td><td><a href="convertGradeV2.m">convertGradeV2.m</a></td><td align="right">29-Jul-2002 17:25  </td><td align="right">209 </td><td>&nbsp;</td></tr>
+<tr><td valign="top"><img src="/icons/unknown.gif" alt="[   ]"></td><td><a href="countCharsInFiles.m">countCharsInFiles.m</a></td><td align="right">11-Sep-2003 17:23  </td><td align="right">535 </td><td>&nbsp;</td></tr>
+<tr><td valign="top"><img src="/icons/unknown.gif" alt="[   ]"></td><td><a href="countWords.m">countWords.m</a></td><td align="right">16-Aug-2002 18:32  </td><td align="right">436 </td><td>&nbsp;</td></tr>
+<tr><td valign="top"><img src="/icons/unknown.gif" alt="[   ]"></td><td><a href="countchars.m">countchars.m</a></td><td align="right">04-Apr-2001 11:01  </td><td align="right">312 </td><td>&nbsp;</td></tr>
+<tr><td valign="top"><img src="/icons/unknown.gif" alt="[   ]"></td><td><a href="distanceTravelled.m">distanceTravelled.m</a></td><td align="right">24-Dec-2001 16:23  </td><td align="right"> 48 </td><td>&nbsp;</td></tr>
+<tr><td valign="top"><img src="/icons/unknown.gif" alt="[   ]"></td><td><a href="drawbridge.m">drawbridge.m</a></td><td align="right">21-Oct-1999 11:26  </td><td align="right">1.4K</td><td>&nbsp;</td></tr>
+<tr><td valign="top"><img src="/icons/unknown.gif" alt="[   ]"></td><td><a href="drawthing.m">drawthing.m</a></td><td align="right">16-Aug-2002 13:52  </td><td align="right">2.0K</td><td>&nbsp;</td></tr>
+<tr><td valign="top"><img src="/icons/unknown.gif" alt="[   ]"></td><td><a href="ecg.dat">ecg.dat</a></td><td align="right">27-Sep-2001 14:12  </td><td align="right"> 26K</td><td>&nbsp;</td></tr>
+<tr><td valign="top"><img src="/icons/unknown.gif" alt="[   ]"></td><td><a href="ecglong.mat">ecglong.mat</a></td><td align="right">08-Nov-2002 16:27  </td><td align="right"> 78K</td><td>&nbsp;</td></tr>
+<tr><td valign="top"><img src="/icons/unknown.gif" alt="[   ]"></td><td><a href="ecgplotorig.m">ecgplotorig.m</a></td><td align="right">27-Sep-2001 12:24  </td><td align="right">2.2K</td><td>&nbsp;</td></tr>
+<tr><td valign="top"><img src="/icons/sound2.gif" alt="[SND]"></td><td><a href="ee.wav">ee.wav</a></td><td align="right">06-Apr-2001 10:49  </td><td align="right">9.8K</td><td>&nbsp;</td></tr>
+<tr><td valign="top"><img src="/icons/unknown.gif" alt="[   ]"></td><td><a href="equalize.m">equalize.m</a></td><td align="right">09-May-2001 17:29  </td><td align="right">453 </td><td>&nbsp;</td></tr>
+<tr><td valign="top"><img src="/icons/unknown.gif" alt="[   ]"></td><td><a href="eyeToFish.m">eyeToFish.m</a></td><td align="right">22-Jan-2002 08:46  </td><td align="right">242 </td><td>&nbsp;</td></tr>
+<tr><td valign="top"><img src="/icons/unknown.gif" alt="[   ]"></td><td><a href="factorialrecursive.m">factorialrecursive.m</a></td><td align="right">31-Dec-2002 08:09  </td><td align="right">165 </td><td>&nbsp;</td></tr>
+<tr><td valign="top"><img src="/icons/unknown.gif" alt="[   ]"></td><td><a href="fahrenheitEntry.m">fahrenheitEntry.m</a></td><td align="right">05-Aug-2002 11:53  </td><td align="right">393 </td><td>&nbsp;</td></tr>
+<tr><td valign="top"><img src="/icons/unknown.gif" alt="[   ]"></td><td><a href="findtensions.m">findtensions.m</a></td><td align="right">21-Oct-1999 11:29  </td><td align="right">1.1K</td><td>&nbsp;</td></tr>
+<tr><td valign="top"><img src="/icons/sound2.gif" alt="[SND]"></td><td><a href="finehour.wav">finehour.wav</a></td><td align="right">14-Apr-1998 14:21  </td><td align="right">148K</td><td>&nbsp;</td></tr>
+<tr><td valign="top"><img src="/icons/sound2.gif" alt="[SND]"></td><td><a href="fluteD4B.wav">fluteD4B.wav</a></td><td align="right">06-Nov-1998 12:01  </td><td align="right">105K</td><td>&nbsp;</td></tr>
+<tr><td valign="top"><img src="/icons/unknown.gif" alt="[   ]"></td><td><a href="funplot.m">funplot.m</a></td><td align="right">29-Jul-2002 08:48  </td><td align="right">245 </td><td>&nbsp;</td></tr>
+<tr><td valign="top"><img src="/icons/sound2.gif" alt="[SND]"></td><td><a href="g-fugue.wav">g-fugue.wav</a></td><td align="right">12-Apr-2002 10:25  </td><td align="right">1.4M</td><td>&nbsp;</td></tr>
+<tr><td valign="top"><img src="/icons/unknown.gif" alt="[   ]"></td><td><a href="gasModel.m">gasModel.m</a></td><td align="right">08-Jul-2002 10:15  </td><td align="right"> 75 </td><td>&nbsp;</td></tr>
+<tr><td valign="top"><img src="/icons/unknown.gif" alt="[   ]"></td><td><a href="gasoline.dat">gasoline.dat</a></td><td align="right">04-Jan-2002 15:57  </td><td align="right">2.5K</td><td>&nbsp;</td></tr>
+<tr><td valign="top"><img src="/icons/unknown.gif" alt="[   ]"></td><td><a href="gasolineConsumption.m">gasolineConsumption.m</a></td><td align="right">24-Dec-2001 15:33  </td><td align="right"> 50 </td><td>&nbsp;</td></tr>
+<tr><td valign="top"><img src="/icons/unknown.gif" alt="[   ]"></td><td><a href="gasolineRelationship.m">gasolineRelationship.m</a></td><td align="right">25-Dec-2001 12:04  </td><td align="right"> 71 </td><td>&nbsp;</td></tr>
+<tr><td valign="top"><img src="/icons/unknown.gif" alt="[   ]"></td><td><a href="gasolineRelationship2.m">gasolineRelationship2.m</a></td><td align="right">25-Dec-2001 12:04  </td><td align="right"> 91 </td><td>&nbsp;</td></tr>
+<tr><td valign="top"><img src="/icons/unknown.gif" alt="[   ]"></td><td><a href="horridfunction.m">horridfunction.m</a></td><td align="right">27-Aug-2001 10:46  </td><td align="right">216 </td><td>&nbsp;</td></tr>
+<tr><td valign="top"><img src="/icons/unknown.gif" alt="[   ]"></td><td><a href="huffmanTree.m">huffmanTree.m</a></td><td align="right">11-Sep-2003 17:23  </td><td align="right">1.0K</td><td>&nbsp;</td></tr>
+<tr><td valign="top"><img src="/icons/text.gif" alt="[TXT]"></td><td><a href="hushlittlebaby.csv">hushlittlebaby.csv</a></td><td align="right">13-Aug-2002 12:12  </td><td align="right">880 </td><td>&nbsp;</td></tr>
+<tr><td valign="top"><img src="/icons/unknown.gif" alt="[   ]"></td><td><a href="hushlittlebaby.xls">hushlittlebaby.xls</a></td><td align="right">15-Apr-2002 21:54  </td><td align="right"> 17K</td><td>&nbsp;</td></tr>
+<tr><td valign="top"><img src="/icons/unknown.gif" alt="[   ]"></td><td><a href="hypotenuse.m">hypotenuse.m</a></td><td align="right">28-Jul-2002 19:28  </td><td align="right"> 86 </td><td>&nbsp;</td></tr>
+<tr><td valign="top"><img src="/icons/unknown.gif" alt="[   ]"></td><td><a href="identPts.m">identPts.m</a></td><td align="right">08-Jan-2003 15:42  </td><td align="right">3.1K</td><td>&nbsp;</td></tr>
+<tr><td valign="top"><img src="/icons/unknown.gif" alt="[   ]"></td><td><a href="image2double.m">image2double.m</a></td><td align="right">09-May-2001 10:14  </td><td align="right">365 </td><td>&nbsp;</td></tr>
+<tr><td valign="top"><img src="/icons/unknown.gif" alt="[   ]"></td><td><a href="imrescale.m">imrescale.m</a></td><td align="right">14-Nov-2001 10:07  </td><td align="right">805 </td><td>&nbsp;</td></tr>
+<tr><td valign="top"><img src="/icons/unknown.gif" alt="[   ]"></td><td><a href="isCummings.m">isCummings.m</a></td><td align="right">28-Dec-2002 12:14  </td><td align="right"> 66 </td><td>&nbsp;</td></tr>
+<tr><td valign="top"><img src="/icons/image2.gif" alt="[IMG]"></td><td><a href="jacket.png">jacket.png</a></td><td align="right">31-Dec-2002 09:17  </td><td align="right"> 24K</td><td>&nbsp;</td></tr>
+<tr><td valign="top"><img src="/icons/unknown.gif" alt="[   ]"></td><td><a href="keepcountfinal.m">keepcountfinal.m</a></td><td align="right">03-Feb-2001 14:39  </td><td align="right">240 </td><td>&nbsp;</td></tr>
+<tr><td valign="top"><img src="/icons/image2.gif" alt="[IMG]"></td><td><a href="left.png">left.png</a></td><td align="right">04-Jan-2003 16:32  </td><td align="right">861K</td><td>&nbsp;</td></tr>
+<tr><td valign="top"><img src="/icons/unknown.gif" alt="[   ]"></td><td><a href="linearSolve1.m">linearSolve1.m</a></td><td align="right">24-Jul-2002 11:12  </td><td align="right">118 </td><td>&nbsp;</td></tr>
+<tr><td valign="top"><img src="/icons/unknown.gif" alt="[   ]"></td><td><a href="linearSolve2.m">linearSolve2.m</a></td><td align="right">02-Jan-2002 15:23  </td><td align="right">277 </td><td>&nbsp;</td></tr>
+<tr><td valign="top"><img src="/icons/unknown.gif" alt="[   ]"></td><td><a href="mahalanobis.m">mahalanobis.m</a></td><td align="right">21-Nov-1999 03:22  </td><td align="right">696 </td><td>&nbsp;</td></tr>
+<tr><td valign="top"><img src="/icons/unknown.gif" alt="[   ]"></td><td><a href="makeNode.m">makeNode.m</a></td><td align="right">05-Apr-2001 10:38  </td><td align="right">382 </td><td>&nbsp;</td></tr>
+<tr><td valign="top"><img src="/icons/unknown.gif" alt="[   ]"></td><td><a href="mandelbrotgui.m">mandelbrotgui.m</a></td><td align="right">11-Sep-2003 17:23  </td><td align="right">962 </td><td>&nbsp;</td></tr>
+<tr><td valign="top"><img src="/icons/sound2.gif" alt="[SND]"></td><td><a href="mandolin2.wav">mandolin2.wav</a></td><td align="right">15-Nov-2002 15:54  </td><td align="right">348K</td><td>&nbsp;</td></tr>
+<tr><td valign="top"><img src="/icons/unknown.gif" alt="[   ]"></td><td><a href="map.m">map.m</a></td><td align="right">08-Mar-2002 12:53  </td><td align="right">1.8K</td><td>&nbsp;</td></tr>
+<tr><td valign="top"><img src="/icons/unknown.gif" alt="[   ]"></td><td><a href="matchpeople.m">matchpeople.m</a></td><td align="right">09-Mar-2001 09:26  </td><td align="right">580 </td><td>&nbsp;</td></tr>
+<tr><td valign="top"><img src="/icons/unknown.gif" alt="[   ]"></td><td><a href="mathfun.m">mathfun.m</a></td><td align="right">28-Jul-2002 19:49  </td><td align="right"> 52 </td><td>&nbsp;</td></tr>
+<tr><td valign="top"><img src="/icons/unknown.gif" alt="[   ]"></td><td><a href="max3v1.m">max3v1.m</a></td><td align="right">18-Aug-2002 23:06  </td><td align="right">199 </td><td>&nbsp;</td></tr>
+<tr><td valign="top"><img src="/icons/unknown.gif" alt="[   ]"></td><td><a href="max3v2.m">max3v2.m</a></td><td align="right">26-Aug-2001 13:35  </td><td align="right">278 </td><td>&nbsp;</td></tr>
+<tr><td valign="top"><img src="/icons/unknown.gif" alt="[   ]"></td><td><a href="max3v3.m">max3v3.m</a></td><td align="right">29-Jul-2002 17:22  </td><td align="right">434 </td><td>&nbsp;</td></tr>
+<tr><td valign="top"><img src="/icons/image2.gif" alt="[IMG]"></td><td><a href="mona.jpg">mona.jpg</a></td><td align="right">16-Nov-2001 10:32  </td><td align="right">7.2K</td><td>&nbsp;</td></tr>
+<tr><td valign="top"><img src="/icons/image2.gif" alt="[IMG]"></td><td><a href="monaLisaLouvre.jpg">monaLisaLouvre.jpg</a></td><td align="right">14-Aug-2002 17:12  </td><td align="right"> 45K</td><td>&nbsp;</td></tr>
+<tr><td valign="top"><img src="/icons/sound2.gif" alt="[SND]"></td><td><a href="neville.wav">neville.wav</a></td><td align="right">14-Apr-1998 14:19  </td><td align="right">215K</td><td>&nbsp;</td></tr>
+<tr><td valign="top"><img src="/icons/unknown.gif" alt="[   ]"></td><td><a href="newtonCooling.m">newtonCooling.m</a></td><td align="right">29-Jul-2002 08:08  </td><td align="right">358 </td><td>&nbsp;</td></tr>
+<tr><td valign="top"><img src="/icons/unknown.gif" alt="[   ]"></td><td><a href="newtonMethod.m">newtonMethod.m</a></td><td align="right">24-Aug-2002 14:43  </td><td align="right">191 </td><td>&nbsp;</td></tr>
+<tr><td valign="top"><img src="/icons/unknown.gif" alt="[   ]"></td><td><a href="newtonWrapper.m">newtonWrapper.m</a></td><td align="right">30-Dec-2002 16:19  </td><td align="right">134 </td><td>&nbsp;</td></tr>
+<tr><td valign="top"><img src="/icons/sound2.gif" alt="[SND]"></td><td><a href="oh.wav">oh.wav</a></td><td align="right">06-Apr-2001 10:57  </td><td align="right">9.8K</td><td>&nbsp;</td></tr>
+<tr><td valign="top"><img src="/icons/sound2.gif" alt="[SND]"></td><td><a href="pipe.wav">pipe.wav</a></td><td align="right">15-Apr-2002 10:40  </td><td align="right">939K</td><td>&nbsp;</td></tr>
+<tr><td valign="top"><img src="/icons/unknown.gif" alt="[   ]"></td><td><a href="pipetone.m">pipetone.m</a></td><td align="right">16-Apr-2002 10:13  </td><td align="right">1.0K</td><td>&nbsp;</td></tr>
+<tr><td valign="top"><img src="/icons/unknown.gif" alt="[   ]"></td><td><a href="playalias.m">playalias.m</a></td><td align="right">24-Apr-2001 12:06  </td><td align="right">407 </td><td>&nbsp;</td></tr>
+<tr><td valign="top"><img src="/icons/unknown.gif" alt="[   ]"></td><td><a href="playmusic.m">playmusic.m</a></td><td align="right">16-Apr-2002 08:05  </td><td align="right">1.3K</td><td>&nbsp;</td></tr>
+<tr><td valign="top"><img src="/icons/unknown.gif" alt="[   ]"></td><td><a href="plotsunspots.m">plotsunspots.m</a></td><td align="right">10-Jun-2003 12:11  </td><td align="right">537 </td><td>&nbsp;</td></tr>
+<tr><td valign="top"><img src="/icons/unknown.gif" alt="[   ]"></td><td><a href="primeFactors.m">primeFactors.m</a></td><td align="right">02-Aug-2002 10:23  </td><td align="right">273 </td><td>&nbsp;</td></tr>
+<tr><td valign="top"><img src="/icons/unknown.gif" alt="[   ]"></td><td><a href="productToN.m">productToN.m</a></td><td align="right">26-Jul-2000 15:52  </td><td align="right">184 </td><td>&nbsp;</td></tr>
+<tr><td valign="top"><img src="/icons/unknown.gif" alt="[   ]"></td><td><a href="puretone.m">puretone.m</a></td><td align="right">16-Apr-2002 09:52  </td><td align="right">793 </td><td>&nbsp;</td></tr>
+<tr><td valign="top"><img src="/icons/unknown.gif" alt="[   ]"></td><td><a href="rateOfConsumption.m">rateOfConsumption.m</a></td><td align="right">24-Dec-2001 16:23  </td><td align="right"> 48 </td><td>&nbsp;</td></tr>
+<tr><td valign="top"><img src="/icons/unknown.gif" alt="[   ]"></td><td><a href="re16point2.m">re16point2.m</a></td><td align="right">24-Dec-2002 09:52  </td><td align="right">148 </td><td>&nbsp;</td></tr>
+<tr><td valign="top"><img src="/icons/unknown.gif" alt="[   ]"></td><td><a href="readbridge.m">readbridge.m</a></td><td align="right">03-Feb-2004 16:28  </td><td align="right">1.2K</td><td>&nbsp;</td></tr>
+<tr><td valign="top"><img src="/icons/unknown.gif" alt="[   ]"></td><td><a href="resetCounter.m">resetCounter.m</a></td><td align="right">24-Jan-2003 14:26  </td><td align="right">173 </td><td>&nbsp;</td></tr>
+<tr><td valign="top"><img src="/icons/image2.gif" alt="[IMG]"></td><td><a href="right.png">right.png</a></td><td align="right">04-Jan-2003 16:32  </td><td align="right">934K</td><td>&nbsp;</td></tr>
+<tr><td valign="top"><img src="/icons/image2.gif" alt="[IMG]"></td><td><a href="russian-closeup.png">russian-closeup.png</a></td><td align="right">21-Jan-2002 20:54  </td><td align="right">307K</td><td>&nbsp;</td></tr>
+<tr><td valign="top"><img src="/icons/image2.gif" alt="[IMG]"></td><td><a href="russianRGB.png">russianRGB.png</a></td><td align="right">21-Jan-2002 20:57  </td><td align="right">218K</td><td>&nbsp;</td></tr>
+<tr><td valign="top"><img src="/icons/image2.gif" alt="[IMG]"></td><td><a href="sakidelhi.png">sakidelhi.png</a></td><td align="right">04-May-2001 16:01  </td><td align="right"> 14K</td><td>&nbsp;</td></tr>
+<tr><td valign="top"><img src="/icons/image2.gif" alt="[IMG]"></td><td><a href="sakidelhi.tif">sakidelhi.tif</a></td><td align="right">16-Nov-2001 10:31  </td><td align="right"> 34K</td><td>&nbsp;</td></tr>
+<tr><td valign="top"><img src="/icons/unknown.gif" alt="[   ]"></td><td><a href="samplingfigure.m">samplingfigure.m</a></td><td align="right">31-Dec-2002 08:48  </td><td align="right">1.6K</td><td>&nbsp;</td></tr>
+<tr><td valign="top"><img src="/icons/unknown.gif" alt="[   ]"></td><td><a href="scale.xls">scale.xls</a></td><td align="right">14-Apr-2002 17:48  </td><td align="right"> 14K</td><td>&nbsp;</td></tr>
+<tr><td valign="top"><img src="/icons/unknown.gif" alt="[   ]"></td><td><a href="secantMethod.m">secantMethod.m</a></td><td align="right">24-Aug-2002 14:43  </td><td align="right">303 </td><td>&nbsp;</td></tr>
+<tr><td valign="top"><img src="/icons/unknown.gif" alt="[   ]"></td><td><a href="selectFromTable.m">selectFromTable.m</a></td><td align="right">28-Dec-2002 09:32  </td><td align="right">508 </td><td>&nbsp;</td></tr>
+<tr><td valign="top"><img src="/icons/unknown.gif" alt="[   ]"></td><td><a href="shiftpitch.m">shiftpitch.m</a></td><td align="right">15-Apr-2002 10:43  </td><td align="right">366 </td><td>&nbsp;</td></tr>
+<tr><td valign="top"><img src="/icons/unknown.gif" alt="[   ]"></td><td><a href="showca.m">showca.m</a></td><td align="right">06-Oct-2003 11:44  </td><td align="right">645 </td><td>&nbsp;</td></tr>
+<tr><td valign="top"><img src="/icons/unknown.gif" alt="[   ]"></td><td><a href="simpletone.m">simpletone.m</a></td><td align="right">13-Aug-2002 11:54  </td><td align="right">797 </td><td>&nbsp;</td></tr>
+<tr><td valign="top"><img src="/icons/unknown.gif" alt="[   ]"></td><td><a href="smallestfactor.m">smallestfactor.m</a></td><td align="right">09-Mar-2001 08:04  </td><td align="right">316 </td><td>&nbsp;</td></tr>
+<tr><td valign="top"><img src="/icons/unknown.gif" alt="[   ]"></td><td><a href="squarerootV2.m">squarerootV2.m</a></td><td align="right">02-Mar-2001 09:06  </td><td align="right">470 </td><td>&nbsp;</td></tr>
+<tr><td valign="top"><img src="/icons/unknown.gif" alt="[   ]"></td><td><a href="squarerootV3.m">squarerootV3.m</a></td><td align="right">02-Aug-2002 10:21  </td><td align="right">220 </td><td>&nbsp;</td></tr>
+<tr><td valign="top"><img src="/icons/unknown.gif" alt="[   ]"></td><td><a href="squarerootV4.m">squarerootV4.m</a></td><td align="right">08-Mar-2001 08:20  </td><td align="right">339 </td><td>&nbsp;</td></tr>
+<tr><td valign="top"><img src="/icons/unknown.gif" alt="[   ]"></td><td><a href="squarerootV5.m">squarerootV5.m</a></td><td align="right">02-Aug-2002 11:25  </td><td align="right">222 </td><td>&nbsp;</td></tr>
+<tr><td valign="top"><img src="/icons/unknown.gif" alt="[   ]"></td><td><a href="steepest.m">steepest.m</a></td><td align="right">18-Jul-2002 14:20  </td><td align="right">2.2K</td><td>&nbsp;</td></tr>
+<tr><td valign="top"><img src="/icons/image2.gif" alt="[IMG]"></td><td><a href="stp-mac-1.jpg">stp-mac-1.jpg</a></td><td align="right">17-Aug-1999 10:36  </td><td align="right"> 18K</td><td>&nbsp;</td></tr>
+<tr><td valign="top"><img src="/icons/image2.gif" alt="[IMG]"></td><td><a href="stp-mac-2.jpg">stp-mac-2.jpg</a></td><td align="right">17-Aug-1999 10:37  </td><td align="right"> 18K</td><td>&nbsp;</td></tr>
+<tr><td valign="top"><img src="/icons/image2.gif" alt="[IMG]"></td><td><a href="stp-mac-3.jpg">stp-mac-3.jpg</a></td><td align="right">17-Aug-1999 10:37  </td><td align="right"> 18K</td><td>&nbsp;</td></tr>
+<tr><td valign="top"><img src="/icons/image2.gif" alt="[IMG]"></td><td><a href="stp-mac-4.jpg">stp-mac-4.jpg</a></td><td align="right">17-Aug-1999 10:37  </td><td align="right"> 19K</td><td>&nbsp;</td></tr>
+<tr><td valign="top"><img src="/icons/image2.gif" alt="[IMG]"></td><td><a href="stp-mac-5.jpg">stp-mac-5.jpg</a></td><td align="right">17-Aug-1999 10:37  </td><td align="right"> 18K</td><td>&nbsp;</td></tr>
+<tr><td valign="top"><img src="/icons/image2.gif" alt="[IMG]"></td><td><a href="stp-mac-7.jpg">stp-mac-7.jpg</a></td><td align="right">17-Aug-1999 10:38  </td><td align="right"> 18K</td><td>&nbsp;</td></tr>
+<tr><td valign="top"><img src="/icons/image2.gif" alt="[IMG]"></td><td><a href="stpw-se-doq.jpg">stpw-se-doq.jpg</a></td><td align="right">17-Aug-1999 10:47  </td><td align="right">7.8M</td><td>&nbsp;</td></tr>
+<tr><td valign="top"><img src="/icons/unknown.gif" alt="[   ]"></td><td><a href="strToMorse.m">strToMorse.m</a></td><td align="right">22-Jan-2002 08:09  </td><td align="right">341 </td><td>&nbsp;</td></tr>
+<tr><td valign="top"><img src="/icons/unknown.gif" alt="[   ]"></td><td><a href="sumToN.m">sumToN.m</a></td><td align="right">26-Jul-2000 15:52  </td><td align="right">178 </td><td>&nbsp;</td></tr>
+<tr><td valign="top"><img src="/icons/text.gif" alt="[TXT]"></td><td><a href="sunspots-no-header.csv">sunspots-no-header.csv</a></td><td align="right">27-Jul-2002 14:11  </td><td align="right"> 35K</td><td>&nbsp;</td></tr>
+<tr><td valign="top"><img src="/icons/unknown.gif" alt="[   ]"></td><td><a href="sunspots.dat">sunspots.dat</a></td><td align="right">12-Feb-2001 18:10  </td><td align="right"> 33K</td><td>&nbsp;</td></tr>
+<tr><td valign="top"><img src="/icons/unknown.gif" alt="[   ]"></td><td><a href="telephone.xls">telephone.xls</a></td><td align="right">28-Dec-2002 12:08  </td><td align="right"> 14K</td><td>&nbsp;</td></tr>
+<tr><td valign="top"><img src="/icons/unknown.gif" alt="[   ]"></td><td><a href="tempConvFig.m">tempConvFig.m</a></td><td align="right">05-Aug-2002 13:06  </td><td align="right">1.0K</td><td>&nbsp;</td></tr>
+<tr><td valign="top"><img src="/icons/unknown.gif" alt="[   ]"></td><td><a href="tempConvGUI.m">tempConvGUI.m</a></td><td align="right">05-Aug-2002 13:05  </td><td align="right">287 </td><td>&nbsp;</td></tr>
+<tr><td valign="top"><img src="/icons/unknown.gif" alt="[   ]"></td><td><a href="testprimefactors.m">testprimefactors.m</a></td><td align="right">27-Aug-2001 10:28  </td><td align="right">506 </td><td>&nbsp;</td></tr>
+<tr><td valign="top"><img src="/icons/unknown.gif" alt="[   ]"></td><td><a href="trafficFig.m">trafficFig.m</a></td><td align="right">05-Aug-2002 07:58  </td><td align="right">428 </td><td>&nbsp;</td></tr>
+<tr><td valign="top"><img src="/icons/unknown.gif" alt="[   ]"></td><td><a href="trafficTimer.m">trafficTimer.m</a></td><td align="right">04-Aug-2004 15:27  </td><td align="right">753 </td><td>&nbsp;</td></tr>
+<tr><td valign="top"><img src="/icons/unknown.gif" alt="[   ]"></td><td><a href="treedepth.m">treedepth.m</a></td><td align="right">05-Apr-2001 11:04  </td><td align="right">396 </td><td>&nbsp;</td></tr>
+<tr><td valign="top"><img src="/icons/unknown.gif" alt="[   ]"></td><td><a href="twoCircles.m">twoCircles.m</a></td><td align="right">11-Aug-2002 13:47  </td><td align="right">4.5K</td><td>&nbsp;</td></tr>
+<tr><td valign="top"><img src="/icons/unknown.gif" alt="[   ]"></td><td><a href="twoFunExample.m">twoFunExample.m</a></td><td align="right">24-Aug-2002 16:13  </td><td align="right">188 </td><td>&nbsp;</td></tr>
+<tr><td valign="top"><img src="/icons/unknown.gif" alt="[   ]"></td><td><a href="twomeans.m">twomeans.m</a></td><td align="right">29-Jul-2002 08:45  </td><td align="right">157 </td><td>&nbsp;</td></tr>
+<tr><td valign="top"><img src="/icons/unknown.gif" alt="[   ]"></td><td><a href="twomeans2.m">twomeans2.m</a></td><td align="right">29-Jul-2002 08:45  </td><td align="right">338 </td><td>&nbsp;</td></tr>
+<tr><td valign="top"><img src="/icons/unknown.gif" alt="[   ]"></td><td><a href="twosprings.m">twosprings.m</a></td><td align="right">24-Dec-2002 19:49  </td><td align="right">218 </td><td>&nbsp;</td></tr>
+<tr><td valign="top"><img src="/icons/unknown.gif" alt="[   ]"></td><td><a href="twospringsgradient.m">twospringsgradient.m</a></td><td align="right">24-Dec-2002 20:12  </td><td align="right">223 </td><td>&nbsp;</td></tr>
+<tr><td valign="top"><img src="/icons/sound2.gif" alt="[SND]"></td><td><a href="whistle.wav">whistle.wav</a></td><td align="right">21-Jan-2002 09:10  </td><td align="right">129K</td><td>&nbsp;</td></tr>
+<tr><td valign="top"><img src="/icons/unknown.gif" alt="[   ]"></td><td><a href="word2index.m">word2index.m</a></td><td align="right">02-Jul-2002 13:32  </td><td align="right">139 </td><td>&nbsp;</td></tr>
+<tr><td valign="top"><img src="/icons/unknown.gif" alt="[   ]"></td><td><a href="wordhash.m">wordhash.m</a></td><td align="right">16-Aug-2002 17:56  </td><td align="right">208 </td><td>&nbsp;</td></tr>
+<tr><td valign="top"><img src="/icons/unknown.gif" alt="[   ]"></td><td><a href="zoomimage.m">zoomimage.m</a></td><td align="right">21-Nov-1999 16:56  </td><td align="right">1.1K</td><td>&nbsp;</td></tr>
+<tr><th colspan="5"><hr></th></tr>
+</table>
+<address>Apache/2.2.22 (Ubuntu) Server at cs.gettysburg.edu Port 80</address>
+</body></html>

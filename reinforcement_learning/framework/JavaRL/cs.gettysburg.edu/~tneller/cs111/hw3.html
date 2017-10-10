@@ -1,0 +1,182 @@
+<!doctype html public "-//w3c//dtd html 4.0 transitional//en">
+<html>
+<head>
+   <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+   <meta name="GENERATOR" content="Microsoft FrontPage 12.0">
+   <title>Homework #3</title>
+   <style type="text/css">
+   .style1 {
+	   text-decoration: underline;
+   }
+   </style>
+</head>
+<body>
+<table WIDTH="100%" >
+<tr>
+<td><img SRC="GburgCS.gif" height=84 width=182></td>
+
+<td><font size=+2>CS 111 - Introduction to Computer Science</font>
+<br><font size=+2>Homework #3</font></td>
+</tr>
+</table>
+
+<hr>
+<br><b>Due: Friday 2/10 at the beginning of class</b><p><b>NOTE: Homework that does not compile or is not
+submitted according to instructions may receive no credit.</b>  &nbsp;
+</p>
+<p><strong>NOTE 2: Use </strong> <code><strong>printf</strong></code><strong> when printing lines with floating-point output.
+</strong>
+</p>
+<p><b>1. Division:</b>&nbsp; Create a program <tt>Division.java</tt> that has 
+the user enter two integers using the Scanner class, which are then used to 
+compute both the floating point and integer division results as follows (user 
+input <span class="style1">underlined</span>):</p>
+<pre>Please enter integer a: <span class="style1">9</span>
+Please enter integer b: <span class="style1">4</span>
+Floating point division: a/b = 2.25
+Integer division: a/b = 2 remainder 1</pre>
+<p><b>2. Cast, Round, Floor, Ceiling: </b>&nbsp;Create a program 
+<tt>DoubleToInt.java</tt> that uses the Scanner method <tt>nextDouble</tt> to read a 
+double value <i>x</i> from the user, and then report each of the following 
+values.</p>
+<ul>
+	<li>(int) x</li>
+	<li>(int) Math.round(x)</li>
+	<li>(int) Math.floor(x)</li>
+	<li>(int) Math.ceil(x)</li>
+</ul>
+<p>Example transcript (user input <span class="style1">underlined</span>):</p>
+<pre>Please enter a double value: <span class="style1">-.9</span>
+(int) -0.9 == 0
+(int) Math.round(-0.9) == -1
+(int) Math.floor(-0.9) == -1
+(int) Math.ceil(-0.9) == 0</pre>
+<p>
+<span class="style1">Optional questions</span>:&nbsp; </p>
+<p>
+Under what circumstances is output different for:</p>
+<ul>
+	<li>integer truncation and rounding</li>
+	<li>integer truncation and flooring</li>
+	<li>integer truncation and ceiling</li>
+	<li>rounding and flooring</li>
+	<li>rounding and ceiling</li>
+	<li>flooring and ceiling</li>
+</ul>
+<p>How many different program inputs (i.e. runs) are 
+necessary to demonstrate difference in output for all of these pairs?</p>
+
+<p><b>3. Wind Chill: </b>Create a program <tt>WindChill.java</tt> that uses the 
+Scanner method <tt>nextDouble</tt> to read a 
+double values <code>t</code> (Fahrenheit temperature) and <code>v</code> (wind speed in miles per hour) 
+from the user, and then reports the wind chill temperature to 2 decimal places 
+using the
+<a href="http://en.wikipedia.org/wiki/Wind_chill#North_American_and_United_Kingdom_wind_chill_index">
+North American formula with U.S. customary units</a> and using the output 
+format shown in the transcript below:</p>
+<dl style="margin-top: 0.2em; margin-bottom: 0.5em; color: rgb(0, 0, 0); font-family: sans-serif; font-size: 13px; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; line-height: 19.200000762939453px; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: auto; word-spacing: 0px; -webkit-text-stroke-width: 0px; background-color: rgb(255, 255, 255);">
+	<dd style="line-height: 1.5em; margin-left: 1.6em; margin-bottom: 0.1em; margin-right: 0px;">
+	<img alt="T_{\rm wc}=35.74+0.6215 T_{\rm a}-35.75 V^{+0.16}+0.4275 T_{\rm a} V^{+0.16}\,\!" class="tex" src="http://upload.wikimedia.org/math/2/8/7/2875861ec431781505426ef820080b2d.png" style="border: none; vertical-align: middle;"></dd>
+</dl>
+<dl style="margin-top: 0.2em; margin-bottom: 0.5em; color: rgb(0, 0, 0); font-family: sans-serif; font-size: 13px; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; line-height: 19.200000762939453px; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: auto; word-spacing: 0px; -webkit-text-stroke-width: 0px; background-color: rgb(255, 255, 255);">
+	<dd style="line-height: 1.5em; margin-left: 1.6em; margin-bottom: 0.1em; margin-right: 0px;">
+	<small>where<span class="Apple-converted-space">&nbsp;</span><img alt="T_{\rm wc}\,\!" class="tex" src="http://upload.wikimedia.org/math/8/4/2/842927f65384d3f89aa8b948b5f629ef.png" style="border: none; vertical-align: middle;"><span class="Apple-converted-space">&nbsp;</span>is 
+	the wind chill index, based on the Fahrenheit scale,<span class="Apple-converted-space">&nbsp;</span><img alt="T_{\rm a}\,\!" class="tex" src="http://upload.wikimedia.org/math/5/d/d/5dd0239f3d57ec7459c11d08771ef5c3.png" style="border: none; vertical-align: middle;"><span class="Apple-converted-space">&nbsp;</span>is 
+	the air temperature, measured in °F, and<span class="Apple-converted-space">&nbsp;</span><img alt="V\,\!" class="tex" src="http://upload.wikimedia.org/math/7/d/f/7dffcf76b71e3e21b0a27e93ff551e79.png" style="border: none; vertical-align: middle;"><span class="Apple-converted-space">&nbsp;</span>is 
+	the wind speed, in mph.</small></dd>
+</dl>
+<p>Example transcript (user input <span class="style1">underlined</span>):</p>
+<pre>Degrees Fahrenheit? <span class="style1">5</span>
+Wind miles per hour? <span class="style1">15</span>
+The wind chill temperature is -12.99 degrees Fahrenheit.
+</pre>
+<p>Note: You can raise a number <code>x</code> to power <code>p</code> with the expression <code>Math.pow(x, p)</code>.</p>
+<p><b>4. Pig &quot;Keep Pace and End Race&quot; Advisor:&nbsp;</b>Create a program 
+<tt>PigAdvisor.java</tt> according to the following specification.</p>
+<p><b><a href="http://cs.gettysburg.edu/projects/pig/">Pig</a></b> is a folk 
+jeopardy dice game with simple rules: Two players race to reach 100 points. Each 
+turn, a player repeatedly rolls a die until either a 1 (&quot;pig&quot;) is rolled or the 
+player holds and scores the sum of the rolls (i.e. the <i>turn total</i>). At 
+any time during a player's turn, the player is faced with two decisions: </p>
+<ul>
+	<li><b>roll</b> - If the player rolls a 
+	<ul>
+		<li><b>1</b>: the player scores nothing and it becomes the opponent's 
+		turn. 
+		</li>
+		<li><b>2 - 6</b>: the number is added to the player's turn total and the 
+		player's turn continues. </li>
+	</ul>
+	</li>
+	<li><b>hold</b> - The turn total is added to the player's score and it 
+	becomes the opponent's turn. </li>
+</ul>
+<p><b>Problem:</b>&nbsp; Given a player's score <i>i</i>, the opponent's score <i>j</i>, 
+and the current turn total <i>k</i>, advise a player to &quot;roll&quot; or &quot;hold&quot; 
+according to this &quot;keep pace and end race&quot; policy:</p>
+<ul>
+	<li>If the player's score <i>i</i> plus the turn total <i>k</i> is greater than or equal to the goal score of 100, 
+	hold.</li>
+	<li>Otherwise, if either player has a score greater than or equal to 71, 
+	roll.</li>
+	<li>Otherwise, roll if and only if the turn total is less than 21 + round((j 
+	- i) / 8). (Use floating-point division before rounding.)</li>
+</ul>
+
+<p><tt>PigAdvisorTest.java</tt>: 
+</p>
+<p><b>Input Format:</b></p>
+<ul>
+	<li>integer player's score</li>
+	<li>integer opponent's score</li>
+	<li>integer turn total</li>
+</ul>
+<p><b>Output Format:</b></p>
+<ul>
+	<li>Prompt the user for each of the inputs above with &quot;Player's score? &quot;, 
+	&quot;Opponent's score? &quot;, and &quot;Turn total? &quot;, respectively.</li>
+	<li>Given these inputs, output &quot;roll&quot; or &quot;hold&quot; according to the &quot;keep pace 
+	and end race&quot; policy 
+	above. </li>
+</ul>
+<p><b>Sample Transcripts (input <u>underlined</u>):</b></p>
+<hr>
+<pre>
+Player's score? <u>79</u>
+Opponent's score? <u>42</u>
+Turn total? <u>21</u>
+hold
+</pre>
+<hr>
+<pre>
+Player's score? <u>37</u>
+Opponent's score? <u>71</u>
+Turn total? <u>48</u>
+roll
+</pre>
+<hr>
+<pre>
+Player's score? <u>71</u>
+Opponent's score? <u>0</u>
+Turn total? <u>20</u>
+roll
+</pre>
+<hr>
+<pre>
+Player's score? <u>42</u>
+Opponent's score? <u>57</u>
+Turn total? <u>22</u>
+roll
+</pre>
+<hr>
+<pre>
+Player's score? <u>42</u>
+Opponent's score? <u>57</u>
+Turn total? <u>23</u>
+hold
+</pre>
+
+<hr>
+
+</body>
+</html>

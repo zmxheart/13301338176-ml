@@ -1,0 +1,103 @@
+<!doctype html public "-//w3c//dtd html 4.0 transitional//en">
+<html>
+<head>
+   <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+   <meta name="GENERATOR" content="Mozilla/4.72 [en] (Win98; U) [Netscape]">
+   <meta name="Author" content="Todd Neller">
+   <title>Word Maze</title>
+</head>
+<body text="#000000" bgcolor="#CCFFFF" link="#0000EE" vlink="#551A8B" alink="#FF0000">
+&nbsp;
+<center><table WIDTH="100%" BGCOLOR="#CCFFFF" >
+<tr>
+<td ALIGN=LEFT><a href="http://cs.gettysburg.edu/"><img SRC="GburgCS.gif" height=84 width=182></a></td>
+
+<td>
+<center>
+<h1>
+Word Maze Example</h1></center>
+
+<center><a href="http://cs.gettysburg.edu/~tneller">Todd Neller</a></center>
+</td>
+</tr>
+</table></center>
+
+<p>The goal of the word maze is to find your way through a maze of hidden
+words to <b>reach every letter</b> in the grid below, starting from the
+upper-left corner. Hidden words are 5-or-more-letter words that can be
+spelled with a sequence of letters adjacent horizontally, vertically or
+diagonally.&nbsp; For example, <b>STRAP</b> can be spelled by a sequence
+of letters starting at the upper-left <b>S</b> and ending at either <b>P</b>.&nbsp;
+NOTE:&nbsp; Unlike the game Boggle&reg;, letters may be <i>reused</i> in
+the spelling of a single word.&nbsp; For example, one can spell <b>PARADE</b>
+starting from either <b>P</b> and using the same <b>A</b> twice.
+<p>The letter is in the upper-left corner is <b>reached</b> to begin with.&nbsp;
+To <b>reach</b> another letter, find a word starting at a <b>reached</b>
+letter and ending at that letter.
+<p>For example, the upper left <b>S</b> is reached to begin with.&nbsp;
+In finding <b>STRAP</b>, we reach both <b>P</b>'s.&nbsp; In finding <b>PARADE</b>,
+we then reach the two rightmost <b>E</b>'s.&nbsp; These <b>E</b>'s are
+reached because we can form a chain of words from the upper-left <b>S</b>
+to these <b>E</b>'s.&nbsp; In other words, you are seeking chains of 5-or-more-letter
+words to reach each letter starting from the letter in the upper-left corner.&nbsp;
+Acceptable 5-or-more-letter words are those that can be found in the <b>E</b>nhanced
+<b>N</b>orth
+<b>A</b>merican
+<b>B</b>enchmark
+<b>LE</b>xicon (<a href="http://personal.riverusers.com/~thegrendel/enable2k.zip">ENABLE</a>)
+online (<a href="http://personal.riverusers.com/~thegrendel/enable2k.zip">http://personal.riverusers.com/~thegrendel/enable2k.zip</a>).
+(This 471K zipped file contains a large text file <tt>word.lst</tt> which
+contains all legal words.)
+<p>Enjoy!
+<center><table BORDER=3 BGCOLOR="#FFFFFF" >
+<tr>
+<td><applet CODE=WordMazeApplet.class WIDTH=380 HEIGHT=220><param name="letters" value="slprtrapdrdmeeen"></applet></td>
+</tr>
+</table></center>
+
+<p><b><u>Applet instructions:</u></b>&nbsp; Enter words by clicking on
+letters or typing in the text field above.&nbsp; Check whether the word
+is acceptable or not by clicking the "Check Word" button.&nbsp; If the
+word is correct, it will appear in the list of found words.&nbsp; Reached
+letters have a <font color="#006600">green</font> background.&nbsp; Letters
+which appear at the end of found words but are not yet reached have a <font color="#999900">yellow</font>
+background.&nbsp; All other letters have a <font color="#666666">gray</font>
+background.&nbsp; The puzzle is solved when all letters are reached.&nbsp;
+At this point, the puzzler smiles, stands up, stretches, and gives him-
+or herself a hearty pat on the back for a job well done.
+<br>
+<hr WIDTH="100%">
+<br>One Possible Solution:
+<br>(Select and highlight the hidden text below to view.)
+<br><tt><font color="#CCFFFF"><b>S</b>TRA<b>P</b> (2)</font></tt>
+<br><tt><font color="#CCFFFF">&nbsp;&nbsp;&nbsp; <b>P</b>ADR<b>E</b></font></tt>
+<br><tt><font color="#CCFFFF">&nbsp;&nbsp;&nbsp; <b>P</b>ARAD<b>E</b> (2)</font></tt>
+<br><tt><font color="#CCFFFF">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+<b>E</b>NDE<b>D</b> (2)</font></tt>
+<br><tt><font color="#CCFFFF">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+<b>D</b>RAM<b>A</b></font></tt>
+<br><tt><font color="#CCFFFF">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+<b>A</b>PAR<b>T</b></font></tt>
+<br><tt><font color="#CCFFFF">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+<b>T</b>RADE<b>R</b></font></tt>
+<br><tt><font color="#CCFFFF">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+<b>R</b>ADA<b>R</b> (2)</font></tt>
+<br><tt><font color="#CCFFFF">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+<b>R</b>EDEE<b>M</b></font></tt>
+<br><tt><font color="#CCFFFF">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+<b>M</b>EDA<b>L</b></font></tt>
+<br><tt><font color="#CCFFFF">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+<b>L</b>ADE<b>N</b></font></tt>
+<br>
+<hr WIDTH="100%">
+<br>&copy;2001 <a href="http://cs.gettysburg.edu/~tneller">Todd Neller</a>
+</body>
+</html>

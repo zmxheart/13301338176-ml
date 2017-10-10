@@ -1,0 +1,140 @@
+<!doctype html public "-//w3c//dtd html 4.0 transitional//en">
+<html>
+<head>
+   <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+   <meta name="GENERATOR" content="Microsoft FrontPage 12.0">
+   <title>Homework #5</title>
+</head>
+<body>
+<table WIDTH="100%" >
+<tr>
+<td><img SRC="GburgCS.gif" height=84 width=182></td>
+
+<td><font size=+2>CS 3</font><font size="5">74 Compilers<br></font><font size=+2>
+Homework #5</font></td>
+</tr>
+</table>
+
+<hr>
+<br><b>Due: Tuesday 3/6 </b>at the beginning of class<p><b>Note: </b>This work is to be done in <b>assigned groups</b>.&nbsp; Each group will submit one assignment.&nbsp; Although 
+you may divide the work, both team members should be able to present/describe 
+their partner's work upon request.&nbsp; 
+<p>In the previous assignment, you constructed an abstract syntax tree (AST) 
+with the necessary methods to use the<i> visitor</i> programming pattern.&nbsp; 
+In this assignment, you will create two visitors.&nbsp; The first visitor will 
+traverse the relevant declaration portions of the AST to build a <i>symbol table
+</i>(see Figure 5.7) of all MiniJava program identifier information.&nbsp; The 
+second visitor traverses the relevant code portions of the AST in order to <i>
+type-check</i> the program and verify that it is a legal program.&nbsp; For 
+example, 1 + (2 &lt; 3) will legally parse, but is an illegal attempt to add an int 
+type to a boolean type.&nbsp; Also, our parser does not check for the correct 
+number of arguments in a function call, multiply defined identifiers, undefined 
+identifiers, etc.&nbsp; In this phase, we'll do all necessary checking to ensure 
+the legality of a program, and supply reasonable error messages if there are 
+semantic errors in the code.</p>
+
+<p><b>0. Preparation:&nbsp; </b>You'll be using the same files from the previous 
+homework.&nbsp; In addition, use this new 
+<a href="examples/ch05/starterCode/Main.java">Main</a> and add the 
+<a href="examples/ch05/starterCode">following files</a> to 
+your directory tree.&nbsp; Review the visitor pattern of 4.3.&nbsp; Then review the given examples of 
+AST visitors from the last assignment. <b>&nbsp;</b><a href="examples/ch04/starterCode/visitor/PrettyPrintVisitor.java">PrettyPrintVisitor</a> takes the abstract syntax tree and prints the 
+corresponding MiniJava code.&nbsp;
+<a href="examples/ch04/starterCode/visitor/ASTPrintVisitor.java">ASTPrintVisitor</a> prints an 
+abstract syntax tree in the form Node(Subnode(...), ..., Subnode(...)) with 
+occasional line breaks. Read Chapter 5 and give special attention to Figure 5.7.&nbsp;
+</p>
+
+<p><b>1. Building the Symbol Table:&nbsp; </b>For this part of the assignment, 
+you'll create a visitor BuildSymbolTableVisitor (BSTV) that extends 
+<a href="examples/ch04/starterCode/visitor/DepthFirstVisitor.java">DepthFirstVisitor</a>.&nbsp; When accepted by a Program root, BSTV should initialize 
+a public symbolTable field with an empty symbol table and proceed to populate it 
+with all non-main-method classes, methods, fields, parameters, and local 
+variables.&nbsp; To make this easy and reduce the amount of parameter passing, 
+you're encouraged to keep track of the current class and method as BSTV fields. 
+You'll only need to visit parts of the tree that are relevant to building the 
+symbol table.&nbsp; For example, a variable declaration is relevant, but a 
+variable usage is not.&nbsp; </p>
+
+<p>Since the Ch. 5 project specifications are very loose, you are free to 
+implement the SymbolTable class as you wish.&nbsp; (Mine is thrown into package 
+visitor, but you use an alternate package.)&nbsp; I would recommend designing a 
+set of classes (e.g. Class, Method, Variable) and designing a data structure 
+that follows that of Figure 5.7.&nbsp; Your symbol table will consist of a HashMap 
+(or Hashtable) mapping Strings to Class objects.&nbsp; Each Class object 
+will have a table for field variables, and a table for methods.&nbsp; Although 
+Section 5.1's abstract treatment of symbol tables doesn't stress this, you will 
+at some point need to commit to an ordering of these fields when we lay out our 
+objects in memory.&nbsp; (A natural ordering is the order of declaration.)&nbsp; 
+Not all Dictionary or Map classes will return an Enumeration or Iteration with 
+ordering commitments.&nbsp; Now or later, you'll need to commit on and record an 
+ordering of fields.&nbsp; Each Method object will have a return type, a table 
+for parameters, and a table for locals.&nbsp; The number and ordering of 
+parameters must be recorded for type-checking method calls.&nbsp; Thus you may 
+wish to maintain ArrayLists of identifiers alongside your tables.&nbsp; Store 
+whatever information you need, and feel free to add more as necessary in later 
+stages.</p>
+
+<p>While it is true that industrial strength symbol tables facilitate efficient 
+lookup through the use of hash tables, etc., <b>your key design goals here are
+<i>correctness</i> and <i>simplicity</i></b>, in that order.&nbsp; If you don't 
+make use of the author's Symbol package interfaces, that's fine.&nbsp; Also, 
+I'll not be overly concerned about the efficiency of your code.</p>
+
+<p>Finally, it will be important for you to be able to check the correctness of 
+your symbol table.&nbsp; You should therefore implement a toString method that 
+summarizes the contents of the symbol table.&nbsp; Example outputs are given
+<a href="http://cs.gettysburg.edu/~tneller/cs374/examples/ch05/starterCode/output/">here</a>.</p>
+
+<p><b>2. Type-checking:&nbsp; </b>For this part of the assignment, you'll create 
+a visitor TypeCheckVisitor (TCV) that extends 
+<a href="examples/ch04/starterCode/visitor/TypeDepthFirstVisitor.java">TypeDepthFirstVisitor</a> (like 
+<a href="examples/ch04/starterCode/visitor/DepthFirstVisitor.java">DepthFirstVisitor</a>, but returning types).&nbsp; TCV should be constructed with 
+the symbolTable of the BSTV.&nbsp; Again, to make this easy and reduce the 
+amount of parameter passing, you're encouraged to keep track of the current 
+class and method as BSTV fields. You'll only need to visit parts of the tree 
+that are relevant to type-checking.&nbsp; For example, a variable usage is 
+relevant, but a variable declaration is not.&nbsp; Here is a sampling of 
+possible MiniJava type-checking errors:</p>
+
+<ul>
+  <li>Return expression does not match return type for method ____</li>
+  <li>If statement condition must be of type boolean</li>
+  <li>Type mismatch in assignment to ___</li>
+  <li>And right side must be of type boolean</li>
+  <li>Multiplication left side must be of type integer</li>
+  <li>Argument ___ of ___.___ must be of type ___</li>
+</ul>
+
+<p>Each of these errors can be implemented as a &quot;System.err.println&quot; message 
+followed by &quot;System.exit(1)&quot;.&nbsp; Finally, you may wish to divide the classes 
+within the visitor into two categories, ones that return Types (e.g. 
+expressions), and ones that don't, returning null (e.g. statements). </p>
+
+<h3>Supplemental Chapter Comments</h3>
+
+<p>(These comments are to supplement your reading.&nbsp; Question(s) asked are for 
+you to think about on your own and need not be turned in with the homework.)</p>
+<p><b>5.1:&nbsp; </b>It should be noted that symbol tables do not merely map 
+symbols to types.&nbsp; Symbols are mapped to <i>bindings</i> which are whatever 
+we want them to be for a given language or scope.&nbsp; For instance, a simple 
+local variable <i>i</i> may map to the type &quot;int&quot;, but a class <i>C </i>will map 
+to a binding which keeps track of fields and methods.&nbsp; Later on, we'll want 
+to (1) know how an objects fields are laid out in memory, and (2) set/get labels 
+that indicate the beginning of the assembly code for each class method.&nbsp; 
+Think of the symbol table as a data structure which keeps track of identifier 
+information throughout the compilation process.&nbsp; Figure 5.7 is the most 
+important to grasp in this chapter.</p>
+<p><b>5.2: </b>&lt;insert flame here&gt; It's unclear how the first-phase example 
+Program 5.8 is related to the interface of Section 5.1.&nbsp; For our purposes, 
+you'll think of the MiniJava symbol table as having the structure of Figure 5.7.&nbsp; 
+Scoping is rather simple in MiniJava.&nbsp; Variable references occur only in 
+method statements.&nbsp; In such scope, one can refer to a method's locals and 
+parameters, classes, and their methods. <b>&nbsp;</b>One cannot refer to object 
+fields (which could be accoessed through getter methods).&nbsp; All local 
+declarations are at the beginning of a method, so there is no nesting of scopes.&nbsp; More details on how to type-check MiniJava are given in the 
+assignment above.</p>
+
+<p>&nbsp;</p>
+
+</body></html>

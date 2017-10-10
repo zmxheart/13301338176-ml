@@ -1,0 +1,1039 @@
+<!doctype html public "-//w3c//dtd html 4.0 transitional//en">
+<html>
+<head>
+   <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+   <meta name="GENERATOR" content="Microsoft FrontPage 12.0">
+   <title>Scheme for Java Programmers</title>
+</head>
+<body bgcolor="#FFFFFF">
+&nbsp;
+<table WIDTH="100%" >
+<tr>
+<td><img SRC="../GburgCS.gif" height=84 width=182></td>
+
+<td><font size=+2>CS 341 - Survey of Programming Languages</font>
+<br><font size="+2">Scheme for Java Programmers</font></td>
+</tr>
+</table>
+
+<hr>
+<table BORDER=0 CELLPADDING=3 WIDTH="100%" BGCOLOR="#3333FF" >
+<tr>
+<td><a name="About"><font size="+1" color="#FF6600"><b>Index</b></font></a></td>
+</tr>
+</table>
+<ul>
+<li><a href="#About"><b>About This Tutorial</b></a></li>
+<li><a href="#REPL"><b>REPL: Read-Eval-Print Loop</b></a></li>
+<li><a href="#Operators"><b>Operators and Operands</b></a></li>
+<li><a href="#Identifiers"><b>Identifiers, Whitespace, and Comments</b></a></li>
+<li><a href="#Fundamental"><b>Fundamental Types</b></a></li>
+<li><a href="#Variables"><b>Variables and Assignments</b></a></li>
+<li><a href="#Pairs"><b>Pairs and Lists</b></a></li>
+<li><a href="#Lambda"><b>Lambda Expressions</b></a></li>
+<li><a href="#Control"><b>Control Constructs</b></a></li>
+<li><a href="#Binding"><b>Binding Constructs</b></a></li>
+<li><a href="#Equivalence"><b>Equivalence</b></a></li>
+<li><a href="#More"><b>More List Operators</b></a></li>
+<li><a href="#Output"><b>Output</b></a></li>
+<li><a href="#Next"><b>Next Steps</b></a></li>
+<li><a href="#Online"><b>Online Resources</b></a></li>
+<li><a href="exercises.html"><b>Companion Exercises</b></a></li>
+</ul>
+<table BORDER=0 CELLPADDING=3 WIDTH="100%" BGCOLOR="#3333FF" >
+<tr>
+<td><font size="+1" color="#FF6600"><a name="About"><b>About This Tutorial</b></font></td>
+</tr>
+</table>
+
+<p>This tutorial is designed for the students of CS 341 at Gettysburg College.&nbsp; 
+Students at this level have expertise in Java and C++ programming.&nbsp; 
+Consequently, this tutorial is written for an upper-level Computer Science 
+student with 
+a mature understanding of these languages.&nbsp; Since many concepts overlap 
+from one programming language to another, this tutorial will seem accelerated to 
+and be unsuitable for beginning Computer Science students.</p>
+<p>It is recommended that the student taking this tutorial first:</p>
+<ul>
+  <li>obtains a copy of the <a href="../r5rs.pdf">Standard Scheme Language Reference (R5RS)</a> (<a href="../r5rs.ps">PostScript</a>,&nbsp;
+<a href="../r5rs.pdf">PDF</a>,
+<a href="http://www.swiss.ai.mit.edu/~jaffer/r5rs_toc.html">HTML</a>), and</li>
+  <li>makes sure Dr. Scheme (i.e. Dr. Racket which includes Dr. Scheme) is locally installed.</li>
+</ul>
+<p>Dr. Scheme is installed on all lab computers.&nbsp; If you own a personal 
+computer, you may also download Dr. Scheme from the
+  <a href="http://racket-lang.org/">Dr. Racket (formerly Dr. Scheme)</a>
+home page.
+</p>
+<p>On our UNIX systems, Dr. Scheme is started with the command &quot;drscheme &amp;&quot;.&nbsp; 
+(The &quot;&amp;&quot; causes the process to run in parallel so that you regain your terminal 
+prompt.) On older Windows systems, navigate from the Start menu to the PLT Scheme 
+program group and select DrScheme.&nbsp; With the most recent &quot;Racket&quot; version, 
+simply include the line &quot;#lang eopl&quot; at the start of your code to select the 
+language for the text &quot;Essentials of Programming Languages&quot;.</p>
+</a>
+
+<table BORDER=0 CELLPADDING=3 WIDTH="100%" BGCOLOR="#3333FF" >
+<tr>
+<td><font size="+1" color="#FF6600"><a name="REPL"><b>REPL: Read-Eval-Print Loop</b></font></td>
+</tr>
+</table>
+
+<p>In the lower window is the prompt for the Read-Eval-Print Loop (REPL).&nbsp; 
+Scheme is an interpreted language.&nbsp; In the early history of Scheme (and its 
+close relative Lisp), interpreted languages were scorned for their slowness 
+relative to compiled languages such as C.&nbsp; In modern times, with faster 
+hardware and more sophisticated just-in-time (JIT) compiling technology, 
+interpreted languages abound and are making a big impact in computing.&nbsp; 
+Java, JavaScript, Perl, ActiveScript, and Python are but a few of many 
+popular interpreted languages.&nbsp; Most significant applications have some 
+form of interpreted scripting language that allows richer interactions with and 
+extensions to the application.</p>
+<p>Scheme's interpreter reads a Scheme expression, evaluates it, prints the 
+result, and repeats the process until there is no more to be interpreted.&nbsp; 
+The&nbsp; &quot;&gt; &quot; prompt indicates that Dr. Scheme's interpreter is waiting to read 
+the next expression.&nbsp; Enter the simple expression &quot;123&quot; at this prompt:</p>
+<pre>Welcome to DrScheme, version 4.2.4 [3m].
+Language: Essentials of Programming Languages (3rd ed.); memory limit: 128 megabytes.
+> 123
+123
+>
+</pre>
+<p>Scheme reads the string expression &quot;123&quot;, evaluates it to have the value 123, 
+and prints the string representation of this value &quot;123&quot;.&nbsp; A new prompt 
+appears, awaiting the entry of the next expression. </p>
+</a>
+
+<table BORDER=0 CELLPADDING=3 WIDTH="100%" BGCOLOR="#3333FF" >
+<tr>
+<td><font size="+1" color="#FF6600"><a name="Operators"><b>Operators and Operands</b></font></td>
+</tr>
+</table>
+
+<p>As with most programming languages, the syntax of Scheme is specified <i>
+inductively</i> (see text section 1.1.1).&nbsp; That is, we start with <i>base 
+case </i>or<i> terminal symbols </i>(e.g. fundamental data type values, 
+operators, parentheses).&nbsp; Fundamental data type values are our simplest 
+expressions.&nbsp; Additional <i>inductive rules</i> or <i>productions </i>then 
+allow more complex expressions by defining how terminal symbols and expressions 
+may legally be put together. </p>
+<p>For example, consider the terminal symbols &quot;(&quot;, &quot;)&quot;, &quot;+&quot;, &quot;1&quot;, and &quot;2&quot;.&nbsp; 
+The Scheme language is defined such that we can compose an expression from these 
+symbols to add 1 and 2 
+like this:</p>
+<pre>> (+ 1 2)
+3
+> 
+</pre>
+<p>Try it.&nbsp; The general form for this <i>binary</i> expression is:</p>
+<p>( &lt;operator&gt; &lt;operand1&gt; &lt;operand2&gt;)</p>
+<p>We will use the terms <i>operator, procedure,</i> and <i>function </i>interchangeably.&nbsp; 
+Also <i>operand </i>and <i>argument</i> are synonymous.&nbsp; If it is helpful, 
+you may think of the previous form as ( &lt;function&gt; &lt;argument1&gt; &lt;argument2&gt;).</p>
+<p>More generally, many Scheme expressions take on the form:</p>
+<p>(&lt;operator&gt; &lt;operand1&gt; &lt;operand2&gt; ... &lt;operand<i>N</i>&gt;)</p>
+<p>These operands may in turn be other arbitrarily complex expressions.&nbsp; 
+That is, expressions may be nested to form more complex expressions:</p>
+<pre>> (+ 1 (* 2 3))
+7
+> (- 4 (/ 10 5))
+2
+> (+ (* 1 2) (- (+ 3 4) (/ 6 3)))
+7
+</pre>
+<p>Expressions with the operator preceding the operands are said to have 
+<i>prefix</i> notation (e.g. (+ 1 2) in Scheme).&nbsp;&nbsp; Expressions with the 
+operator between operands have <i>infix</i> notation (e.g. 1 + 2 of standard 
+mathematics).&nbsp; Expressions with the operator after the operands have 
+<i>postfix</i> notation (e.g. 1 2 + of HP calculators, PostScript and other 
+stack-based languages).&nbsp; Scheme expressions are in prefix notation with 
+surrounding parentheses. </p>
+<p>The operator and operands are each evaluated in turn from left to right.&nbsp; 
+To see how Scheme evaluates basic expressions of Scheme, you can use the 
+Stepper, which shows how an expression is evaluated one step at a time.&nbsp; 
+First, enter the expression you'd like to evaluate stepwise in the upper half of 
+the window (the file buffer).&nbsp; Next choose the menu option Language -&gt; 
+Choose Language -&gt; How To Design Programs -&gt; Beginning Student.&nbsp; (Change the language back to 
+&quot;Essentials of Programming Languages&quot; when you're done using the Stepper.)</p>
+<p>When you press the Step button, all of the Scheme expressions in that window 
+will be evaluated stepwise.&nbsp; Try this with the three arithmetic 
+expressions above.</p>
+<p>When you're done using the Stepper, change the language back to &quot;Essentials 
+of Programming Languages (3rd ed.)&quot;.</p>
+<p>Note: On Windows with the most recent version of Racket, simply include the 
+line &quot;#lang eopl&quot; at the start of your code to select the language for the text 
+&quot;Essentials of Programming Languages&quot;.<br>
+</p>
+</a>
+
+<table BORDER=0 CELLPADDING=3 WIDTH="100%" BGCOLOR="#3333FF" >
+<tr>
+<td><font size="+1" color="#FF6600"><a name="Identifiers"><b>Identifiers, Whitespace, and 
+Comments</b></font></td>
+</tr>
+</table>
+
+<p>Identifiers are a sequence of letters, digits, and these characters: ! $ % &amp; 
+* + - . / : &lt; = &gt; ? @ ^ _ ~</p>
+<p>The sequence of characters cannot begin with a character that could begin a 
+number (e.g. 0-9, -, +, .).</p>
+<p>Whitespace (e.g. spaces and newlines) may occur arbitrarily between tokens 
+without changing program meaning.&nbsp; The purpose of whitespace is to make 
+code more readable.&nbsp; For instance, one might format the last Scheme 
+expression above as follows:</p>
+
+<pre>> (+ (* 1 2) 
+     (- (+ 3 4) 
+        (/ 6 3)))
+7</pre>
+<p>Commonly, when lines get too long to follow visually/logically, indentation can greatly 
+clarify the structure.&nbsp; Often, you will use whitespace to vertically align 
+the start of operands.</p>
+
+<p>The semicolon (;) is used to denote a comment.&nbsp; All text from a 
+semicolon to the end of a line is ignored.&nbsp; There are no multiline 
+comments.</p>
+</a>
+
+<table BORDER=0 CELLPADDING=3 WIDTH="100%" BGCOLOR="#3333FF" >
+<tr>
+<td><font size="+1" color="#FF6600"><a name="Fundamental"><b>Fundamental Types</b></font></td>
+</tr>
+</table>
+
+<p>There are nine types: boolean, char, number, pair, port, procedure, string, symbol, 
+and vector.&nbsp; We will briefly describe a few types here.&nbsp; Other types 
+merit further description in later sections.</p>
+
+<p><u><b>Boolean</b></u></p>
+
+<p>True and false are denoted #t and #f respectively.&nbsp; In Java, we use the 
+infix operator &quot;instanceof&quot; to test class membership.&nbsp; Scheme has prefix 
+operators to test type membership.&nbsp; These are named by following the type 
+name with a question mark.&nbsp; For example:</p>
+<pre>> (boolean? 3.14)
+#f
+> (boolean? #f)
+#t
+> (number? #t)
+#f
+> (number? 42)
+#t
+</pre>
+
+
+<p>Such boolean operators are often called <i>predicates</i> and have names 
+ending with &quot;?&quot; by Scheme programming convention.&nbsp; Other boolean 
+operators include and, or and not:</p>
+<pre>> (and #t #f)
+#f
+> (or #t #f)
+#t
+> (and (not #f) (or #t #f))
+#t
+</pre>
+
+<p><u><b>Numbers</b></u></p>
+
+<p>The number type has several subtypes, each more specific than the previous: 
+number, complex, real, rational, and integer.&nbsp; Each of these subtypes has 
+its own corresponding type membership predicate (e.g. &quot;rational?&quot;).&nbsp; Scheme 
+doesn't prescribe any single internal machine representation of numbers.&nbsp; 
+Rather, it tries to present the programmer with the most abstract and exact 
+numeric programming environment possible.&nbsp; To know whether a number's 
+internal representation is<i> exact</i> or <i>inexact</i>, there are two 
+predicates &quot;exact?&quot; and &quot;inexact?&quot;.&nbsp; For example:</p>
+<pre>&gt; (/ 2 3)
+2/3
+> (number? (/ 2 3))
+#t
+> (rational? (/ 2 3))
+#t
+> (integer? (/ 2 3))
+#f
+> (exact? (/ 2 3))
+#t
+> (sqrt (/ 2 3))
+0.816496580927726
+> (exact? (sqrt (/ 2 3)))
+#f
+> (inexact? (sqrt (/ 2 3)))
+#t
+</pre>
+
+
+Of course, floating point operations like sqrt (square root) will yield inexact values from exact values.  Also, operations involving both exact and inexact values will often yield inexact values.<p>
+Many useful number functions are described in R5RS section 6.2, including but 
+not limited to: +, -, *, /, quotient, remainder, modulo, max, min, zero?, odd?, 
+even?, positive?, negative?, abs, gcd, lcm, floor, ceiling, round, truncate, 
+exp, log, sin, cos, tan, asin, sqrt, expt, number-&gt;string, and string-&gt;number.</p>
+
+
+<p><u><b>Strings</b></u></p>
+<p>As in Java, strings are sequences of characters enclosed within double-quotes 
+(&quot;) and the backslash (\) acts as an escape character.&nbsp; String indices are 
+zero-based.</p>
+<p>Useful string functions are presented in R5RS section 6.3.5, including 
+but not limited to: make-string, string-length, string-ref, string=?, string-ci=? 
+(&quot;ci&quot; = case-insensitive), string&lt;?, 
+substring, string-append, and string-copy.</p>
+
+
+<p><u><b>Characters&nbsp; </b> </u> </p>
+<p>Characters are written using the notation #\&lt;character&gt; (e.g. #\a, #\B, #\?) 
+or using the notation #\&lt;character name&gt; (e.g. #\space, #\newline).</p>
+<p>Useful character functions are presented in R5RS section 6.3.4, including but 
+not limited to: char=?, char-ci=? (&quot;ci&quot; = case-insensitive), char&lt;?, char-whitespace?, 
+char-&gt;integer, integer-&gt;char, and char-upcase.</p>
+<pre>> (substring "testing" 0 4)
+"test"
+> (substring "testing" 4 7)
+"ing"
+> (substring "testing" 4)
+"ing"
+> (string-ref "testing" 3)
+#\t
+</pre>
+<p><u><b>Symbols</b></u></p>
+<p>Symbols are objects that are identical if and only if their names are spelled 
+identically.&nbsp; To quote R5RS: &quot;This is exactly the property needed to 
+represent identifiers in programs, and so most implementations of Scheme use 
+them internally for that purpose.&quot;&nbsp; As we shall see, Scheme is a powerful 
+language that can construct new code and immediately execute such code.&nbsp; 
+Thus, the code/data dichotomy of Java doesn't exist in Scheme: Data may in fact 
+be executable code!</p>
+<p>Symbols are represented exactly as identifiers.&nbsp; Within code, symbols 
+are preceded by a single-quote (') or appear within a single-quoted data 
+structure.&nbsp; For now, you can think of the single-quote as a way to say to 
+Scheme, &quot;Don't evaluate this (yet)!
+<pre>> x
+reference to undefined identifier: x
+> 'x
+x
+> (symbol? 'x)
+#t
+</pre>
+
+<p>One can also form symbols using the quote operator:</p>
+
+<pre>> (quote x)
+x
+</pre>
+
+</a>
+
+<table BORDER=0 CELLPADDING=3 WIDTH="100%" BGCOLOR="#3333FF" >
+<tr>
+<td><font size="+1" color="#FF6600"><a name="Variables"><b>Variables and Assignments</b></font></td>
+</tr>
+</table>
+
+&nbsp;<p>One may declare global variables (accessible from anywhere in the 
+program) using the define operator.&nbsp; The value of a variable can be changed 
+using the set! operator: </p>
+
+<pre>> (define answer 42)
+> answer
+42
+> (set! answer (* 6 9))
+> answer
+54
+</pre>
+<p>Believe it or not, you will rarely use these forms.&nbsp; If you find 
+yourself using these a lot, there's a good chance that you should instead be 
+using </a>
+&quot;let&quot; local variable binding expressions (described later).</p>
+<table BORDER=0 CELLPADDING=3 WIDTH="100%" BGCOLOR="#3333FF" >
+<tr>
+<td><font size="+1" color="#FF6600"><a name="Pairs"><b>Pairs and Lists</b></font></td>
+</tr>
+</table>
+
+<p>The <i>pair</i> is the basis of all data structures in Scheme.&nbsp; A pair 
+is constructed by using the cons operator (short for<b> cons</b>truct)<b> </b>with two operands:</p>
+
+<pre>> (cons 'a 'b)
+(a . b)
+</pre>
+
+<p>From the evaluated result notation, we see why <i>pairs </i>are also 
+sometimes referred to as <i>dotted pairs</i>.</p>
+
+<p>To get the first and second items of a pair, use the operators car and cdr 
+(pronounced could-er), respectively:</p>
+
+<pre>> (car (cons 'a (quote b)))
+a
+> (cdr '(a . b))
+b
+</pre>
+
+
+<p>The reason for the odd naming of these operators is
+<a href="http://home.planet.nl/~faase009/HaCAR_CDR.html">historic</a> and based 
+in hardware.&nbsp; Steve Russell, implementer of the first Lisp interpreter, 
+relates this sad chapter of programming history: </p>
+
+
+<blockquote>
+  <p>Because of an unfortunate temporary lapse of inspiration, we couldn't think 
+  of any other names for the 2 pointers in a list node than &quot;address&quot; and 
+  &quot;decrement&quot;, so we called the functions CAR for &quot;Contents of Address of 
+  Register&quot; and CDR for &quot;Contents of Decrement of Register&quot;. After several 
+  months and giving a few classes in LISP, we realized that &quot;first&quot; and &quot;rest&quot; 
+  were better names, and we (John McCarthy, I and some of the rest of the AI 
+  Project) tried to get people to use them instead.&nbsp; Alas, it was too late! 
+  We couldn't make it stick at all. So we have CAR and CDR. </p>
+</blockquote>
+</a>
+
+Such simple operators.  Such bizarre names.  Feel free to define operators &quot;first&quot; and 
+&quot;rest&quot; to make your code more readable.
+
+<pre>> (define first car)
+> (define rest cdr)
+> (first '(a . b))
+a
+> (rest '(a . b))
+b
+</pre>
+
+<p>Lists are constructed inductively in Scheme using cons and a special 
+empty-list symbol '() which is similar Java's null.</p>
+
+<p>Base case: An empty list '() is a list.</p>
+<pre>> (list? '())
+#t
+</pre>
+
+<p>Induction step: A pair constructed of an element and a list is a list.</p>
+<pre>> (list? (cons 'a '()))
+#t
+</pre>
+That is, add anything to the beginning of a list and it is still a list.&nbsp; 
+This can be repeated arbitrarily, although it's often easy to create lists using 
+the &quot;list&quot; construction operator.  Indeed, there are several ways to notate a list.
+<pre>> (cons 'a (cons 'b (cons 'c '())))
+(a b c)
+> (list 'a 'b 'c)
+(a b c)
+> '(a . (b . (c . ())))
+(a b c)
+</pre>
+Note that although lists are built from pairs and the empty-list symbol, list notation is much simplified from the equivalent pair notation form.&nbsp; 
+Understanding how lists are defined, you can now see why &quot;first&quot; and &quot;rest&quot; are 
+appropriate substitutes for &quot;car&quot; and &quot;cdr&quot;: "car" gives you the first element of the list, and "cdr" gives you the rest of the list.
+<pre>> (define first car)
+> (define rest cdr)
+> (first '(a b c))
+a
+> (rest '(a b c))
+(b c)
+</pre>
+
+Recall that we said <i>anything</i> can be added to the beginning of a list.&nbsp; 
+That includes lists.&nbsp;
+<pre>> (define list-of-lists (list '(a b c) '(d e f) '(g h i)))
+> (car (car list-of-lists))
+a
+> (car (cdr (car list-of-lists)))
+b
+</pre>
+Chaining car's and cdr's can get tedious, so Scheme defines a number of abbreviations based on the middle letters of the car/cdr chain (up to 4 long):
+<pre>> (caar list-of-lists)
+a
+> (cadar list-of-lists)
+b
+> (caddar list-of-lists)
+c
+</pre>
+Why all of this emphasis on lists?&nbsp; Scheme is a close relative of the 
+language Lisp which is short for LISt Processing.&nbsp; Although Scheme does 
+have a vector data type and loop structures for traversing vectors, it is more 
+natural in this language to store data in lists and process such lists<i> 
+recursively.</i>&nbsp; A programmer who becomes comfortable with Scheme will 
+have a good command of recursive programming skills.<p>For practice, follow the 
+examples above in extracting all of the letter symbols individually.&nbsp;&nbsp; 
+For more challenging practice, consider the same exercise with a mixture of 
+lists of lists and dotted pairs:</p>
+<pre>> (define challenge '(((a b) (c . d)) ((e . f) . (g h))))
+</pre>
+</a>
+
+<table BORDER=0 CELLPADDING=3 WIDTH="100%" BGCOLOR="#3333FF" >
+<tr>
+<td><font size="+1" color="#FF6600"><a name="Lambda"><b>Lambda Expressions</b></font></td>
+</tr>
+</table>
+
+<p>Imagine being able to create a method that (1) belongs to no class, and (2) 
+can be passed around like data and applied arbitrarily.&nbsp; This is easily 
+done in Scheme.&nbsp; Here is a simple unnamed procedure/function/operator that 
+squares its single argument x:</p>
+
+<pre>> (lambda (x) (* x x))
+#&lt;procedure:41:3&gt;
+</pre>
+
+<p>The procedure can of course be named (although it need not be):</p>
+<pre>> (define square (lambda (x) (* x x)))
+> (square 5)
+25
+> ((lambda (x) (* x x)) 5)
+25
+</pre>
+
+
+<p>The lambda expression has the following form: (lambda &lt;list of identifiers&gt; 
+&lt;body expression&gt;)</p>
+
+<pre>> (define add (lambda (x y) (+ x y)))
+> (add 2 3)
+5
+</pre>
+
+<p>When applied to the correct number of operands, the lambda expression created 
+variables with the given identifiers, binds them to the operands, and returns 
+the body expression evaluated in this new variable context.&nbsp; Think of this 
+simply as being like an unnamed method with a list of arguments and a main body 
+that returns its value.</p>
+
+
+<p>In the above example, the lambda expression creates a new variable x, binds 
+it to the value 5, and evaluates (* x x) in this new context.</p>
+
+
+<p>Why lambda?&nbsp; This comes from the notation of
+<a href="http://www.jetcafe.org/~jim/lambda.html">lambda calculus</a>, a 
+powerful formalism of theoretical computer science.&nbsp; When you really think 
+about it, the lambda procedure is really mind-blowing.&nbsp; It's a procedure to 
+create a procedure.&nbsp; In fact, you can create procedures to create 
+procedures, and so on.&nbsp; The lambda calculus has the power to express all 
+computation.&nbsp; It can compute anything computable by a Turing machine and 
+vice versa.&nbsp; However, the usefulness of the lambda calculus is played out 
+in all <i>functional programming languages.</i> </p>
+
+
+<p>Consider the following interesting application.&nbsp; There is a handy 
+procedure in Scheme called &quot;map&quot;.&nbsp; It takes a procedure and a list as 
+operands, and returns a new list containing the results of the applications:</p>
+
+<pre>> (map square '(1 2 3 4 5))
+(1 4 9 16 25)
+</pre>
+
+<p>In fact, we could easily express map's functionality using lambda calculus:</p>
+
+<pre>> (define my-map
+    (lambda (my-proc my-list)
+      (if (null? my-list)
+          '()
+          (cons (my-proc (car my-list)) 
+                (my-map my-proc (cdr my-list))))))
+> (my-map square '(1 2 3 4 5))
+(1 4 9 16 25)
+</pre>
+Don't worry if you don't understand this now.  We haven't covered "if" yet.  We could express "if" in the lambda calculus, but then things would really look horrific.&nbsp; 
+The ability to pass around procedures as data is a very powerful functionality.&nbsp; 
+It also encourages a different <i>functional </i>style of programming which is 
+more focused on the evaluation of expressions than the execution of commands.&nbsp; 
+People with exposure to multiple programming paradigms (e.g object-oriented, 
+functional, etc.), will ultimately become better programmers, able to see 
+elegant solutions that would not occur to a programmer with a limited 
+perspective on programming.<p>The &quot;apply&quot; operator takes an operator and a list 
+of operands, returning the result of the expression (cons &lt;operator&gt; 
+&lt;operand-list&gt;).&nbsp; Again, notice how the distinction between code and data 
+is blurred:</p>
+<pre>> (apply + '(1 2 3 4 5))
+15
+> (apply square '(5))
+25
+</pre>
+
+<p>If you simply want to evaluate an expression, the operator &quot;eval&quot; will do the 
+trick:</p>
+
+<pre>> (eval '(+ 1 2))
+3
+</pre>
+
+At first, this may seem trivial, but consider that we may build up expressions to be evaluated as part of the program itself.&nbsp;
+<b>Lists can be Scheme code. Scheme code is composed of lists.</b><pre>> (eval (cons + (cons 1 (cons 2 '()))))
+3
+</pre>
+In many other non-functional languages, you cannot execute data.  Data cannot be procedural in nature.  If you can pass procedures, there are often severe limitations.  With Scheme, you are free to 
+do really wild programming beyond the scope of this tutorial.
+
+Again, don't worry if you cannot appreciate this now.  <i>If you're open to seeing things differently, I believe you'll gain a deep appreciation of Scheme's merits with experience.
+</i><b>Allow yourself to embrace a different way of thinking! </b>
+<p>&nbsp;</p>
+</a>
+
+<table BORDER=0 CELLPADDING=3 WIDTH="100%" BGCOLOR="#3333FF" >
+<tr>
+<td><font size="+1" color="#FF6600"><a name="Control"><b>Control Constructs</b></font></td>
+</tr>
+</table>
+
+<p><u><b>if</b></u></p>
+
+<p>The if construct is similar to the <i>selection operator</i> in Java, C, and 
+C++.&nbsp;&nbsp; &quot;The <i>what</i>?&quot; you reply.&nbsp;&nbsp; The selection 
+operator.&nbsp; It's often left as a &quot;dusty corner&quot; or &quot;advanced topic&quot; item in 
+teaching these languages.&nbsp; The reason is that it has more of a Scheme/Lisp 
+style than Java/C/C++ programmers are comfortable with.&nbsp; Here's a review of 
+the selection operator:</p>
+
+<p>&lt;condition-expression&gt; ? &lt;true-expression&gt; :&nbsp; &lt;false-expression&gt;</p>
+
+<p>The value of this expression is the value of &lt;true-expression&gt; if the 
+&lt;condition-expression&gt; evaluates to true.&nbsp; Otherwise, this expression has 
+the value of &lt;false-expression&gt;.&nbsp; Here's an example use of the selection 
+operator computing the absolute value of a number:</p>
+<pre>x = (y >= 0) ? y : -y;
+</pre>
+This allows one to more succintly express the equivalent form:
+<pre>if (y >= 0)
+  x = y;
+else
+  x = -y;
+</pre>
+
+<p>Now we return our attention to Scheme.&nbsp; The &quot;if&quot; expression has the same 
+meaning with the following form:</p>
+
+<p>(if &lt;condition-expression&gt; &lt;true-expression&gt; &lt;false-expression&gt;)</p>
+
+<p>For example, here's how one could create an absolute value procedure using 
+lambda and if.</p>
+
+<pre>> (define abs-of-steele
+    (lambda (x) (if (>= x 0) x (- x))))
+> (abs-of-steele -1)
+1
+> (abs-of-steele 1)
+1
+</pre>
+<p>To understand why this is a horrible pun, click
+<a href="http://www.amazon.com/exec/obidos/tg/detail/-/6303182232/002-7429106-7481643?vi=glance">
+here</a> and <a href="http://www.cs.virginia.edu/~vision/cltl2/clm/clm.html">
+here</a>.</p>
+
+<p>For your own exercise, similarly create a procedure &quot;my-max&quot; that takes two 
+number parameters and return the greater one.&nbsp; Test it to see if it works 
+for all cases.</p>
+
+<p><u><b>and</b></u></p>
+
+<p>The prefix &quot;and&quot; procedure has similar behavior to the infix &quot;&amp;&amp;&quot; in Java.&nbsp;&nbsp; 
+Java has &quot;lazy&quot; or &quot;short-circuiting&quot; evaluation of &amp;&amp;, in that it stops 
+evaluating subexpressions once it knows the value of the expression.&nbsp; For 
+instance, if we're evaluating (A &amp;&amp; B &amp;&amp; C &amp;&amp; .... &amp;&amp; Z) left-to-right in Java 
+and we find that B is false, we don't need any further evaluation to know that 
+the entire expression is false.&nbsp; So we are &quot;lazy&quot; and we &quot;short-circuit&quot; 
+the evaluation to an immediate &quot;false&quot; conclusion.</p>
+
+<p>Scheme operates similarly with one exception: Any value that is not false 
+(#f) is considered true.&nbsp; In the case where &quot;and&quot; does not have an operand 
+evaluate to false, it returns the value of the last non-false expression.&nbsp; 
+For example:</p>
+
+<pre>> (and #t #t #t #t)
+#t
+> (and #t 3.14 'squirrel)
+squirrel
+> (and 'false '() #f 'only-the-#f-is-false)
+#f
+> (and 'false '() 'only-the-#f-is-false)
+only-the-#f-is-false
+</pre>
+
+<p>Although not apparent at first, this allows you to evaluate a series of 
+expressions, with the #f behaving as a simplistic exception signal, with the 
+last expression providing a sort of return value if no such &quot;exception&quot; is 
+encountered. </p>
+
+<p><u><b>or</b></u></p>
+
+<p>The Scheme &quot;or&quot; procedure is to Java's &quot;||&quot; as the &quot;and&quot; procedure is to 
+Java's &quot;&amp;&amp;&quot;.</p>
+<pre>> (or #f #f #f #f)
+#f
+> (or #f 42 #f)
+42
+> (or #t #f)
+#t
+</pre>
+
+
+<p><u><b>cond</b></u></p>
+
+<p>The Scheme &quot;cond&quot; (short for conditional) procedure allows a sort of if-else 
+chain case-handling functionality, but is syntactically much more compact.&nbsp; 
+It has the form:</p>
+
+<pre>(cond
+  (&lt;condition1&gt; &lt;expression1&gt;)
+  (&lt;condition2&gt; &lt;expression2&gt;)
+  ...
+  (else &lt;expressionN&gt;)) 
+  </pre>
+
+
+<p>In evaluating the cond expression, Scheme evaluates conditions in order until 
+one has tested non-false or all have tested false.&nbsp; For the first that 
+evaluates to a non-false value, the corresponding expression is evaluated as the 
+value of the entire cond expression.&nbsp; If all conditions test false, then 
+the else expression is evaluated.&nbsp; Here is Horstmann's Richter scale 
+example in Scheme:</p>
+
+<pre>(define get-description
+  (lambda (richter)
+    (cond
+      ((>= richter 8.0) "Most structures fall")
+      ((>= richter 7.0) "Many buildings destroyed")      
+      ((>= richter 6.0) "Many buildings considerably damaged; some collapse")
+      ((>= richter 4.5) "Damage to poorly constructed buildings")
+      ((>= richter 3.5) "Felt by many people, no destruction")
+      ((>= richter 0.0) "Generally not felt by people")
+      (else "Negative numbers are not valid"))))
+> (get-description 4.2)
+"Felt by many people, no destruction"
+> (get-description 10)
+"Most structures fall"
+> (get-description -10000)
+"Negative numbers are not valid"
+</pre>
+
+<p><u><b>case</b></u></p>
+
+<p>The Scheme &quot;case&quot; procedure is similar to but more powerful than the 
+Java/C/C++ switch statement.&nbsp; It is similar in that it chooses from 
+different code alternatives by comparing a value against constants.&nbsp; It is 
+different in that (1) no break statements are need to prevent execution of 
+subsequent cases, (2) one can group sets of related constants, and (3) one can 
+base cases on all types with eqv? equivalence comparison (more on eqv? later).&nbsp;&nbsp; 
+Here are a few examples:</p>
+
+<pre>(define get-type 
+  (lambda (data)
+    (case data
+      ((0 1 2 3 4 5 6 7 8 9) 'digit)
+      ((#\A #\E #\I #\O #\U #\Y #\a #\e #\i #\o #\u #\y) 'vowel)
+      (else
+       (if (and (char? data) (char-alphabetic? data)) 
+           'consonant
+           'other)))))
+> (get-type "Hawaii")
+other
+> (get-type 5)
+digit
+> (get-type #\o)
+vowel
+> (get-type #\s)
+consonant        
+</pre>
+
+<p>As you can see, we compare equivalence of dissimilar types (e.g. strings can be compared to integers). One cannot do so in Java/C/C++ because the language is statically/strongly typed.&nbsp;  Scheme is, by contrast dynamically/loosely typed.  This means that types of variables are 
+checked at runtime rather than at compile time.</p>
+
+<p>There are interesting tradeoffs for static and dynamic typing.&nbsp;&nbsp; 
+For static typing, you can catch type-mismatch errors at compile time, thus 
+reducing the software testing burden.&nbsp; Additionally, code can run faster if 
+it does not need to dynamically check types at runtime.&nbsp; On the other hand, 
+type errors are not the most common in my experience.&nbsp; One can prototype 
+software more rapidly without the programming burden of declaring and casting 
+types everywhere.&nbsp; Strong typing can also seem overly bureaucratic and 
+restrictive for some tasks.&nbsp; </p>
+
+<p>Consider these tradeoffs carefully when choosing languages.&nbsp; Do you need 
+to optimize runtime speed or speed to market?&nbsp; Does dynamic typing offer 
+benefits for your particular programming task, or is the assurance of a 
+strongly-typed system better for your product's reliability?&nbsp; 
+Dynamically-typed languages are, in my opinion, much more fun to program with.&nbsp; 
+The choice is yours.&nbsp; However, you should withhold judgment until you've 
+gained expertise in both programming worlds.&nbsp; </p>
+
+<p><u><b>begin</b></u></p>
+
+<p>Just as you will find functional-style constructs in non-functional languages 
+(e.g. the selection operator), you will find constructs that, while not 
+necessary, borrow from other programming styles for convenience.&nbsp; The 
+&quot;begin&quot; operator allows you to list a series of expressions to be evaluated, 
+returning the value of the last one.&nbsp; In this sense, it is much like the 
+&quot;and&quot; operator without false-termination.</p>
+
+<p>Given the surface similarity of a begin expression and a method body with a 
+return statement, one might think one would use begin heavily in Scheme.&nbsp; 
+You might be surprised how little you use begin for our programming purposes.&nbsp; 
+If you try to impose a Java-style to your Scheme programming, you'll likely 
+complicate your task.&nbsp; Pay close attention to the examples we encounter, 
+and try to start from square one stylistically.</p>
+
+<pre>> (begin
+    'task-a
+    'task-b
+    'task-c-with-return-value)
+task-c-with-return-value
+</pre>
+
+<p><u><b>do</b></u></p>
+
+
+The &quot;do&quot; operator provides Scheme's very flexible iteration construct.&nbsp; 
+One can define, for any number of variables, their initial values and 
+(optionally) the expressions that update them from one iteration to the next.&nbsp; 
+When the termination condition tests false, the optional iterated expressions 
+are evaluate, otherwise, the return-value is evaluated and becomes the value for 
+the entire expression.<pre>(do ((var1 &lt;initial-value1&gt; [&lt;next-value1&gt;])
+     (var2 &lt;initial-value2&gt; [&lt;next-value2&gt;])
+     ...
+     (varN &lt;initial-valueN&gt; [&lt;next-valueN&gt;]))
+    (&lt;termination-condition&gt; &lt;return-value&gt;)
+  [&lt;iterated-expression1&gt;]
+  [&lt;iterated-expression2&gt;]
+  ...
+  [&lt;iterated-expressionN&gt;])
+
+</pre>
+
+
+
+<p>Here's an example of how one can sum a list of numbers:</p>
+
+
+<pre>> (do ((x '(1 2 3 4 5) (cdr x))
+       (sum 0 (+ sum (car x))))
+    ((null? x) sum))
+15
+</pre>
+<p>However, you will not likely use the loop construct very much.  Scheme lends itself both in form and underlying function to the dominant use of <i>recursion</i>.&nbsp;&nbsp; 
+Consider these two ways of writing a procedure to sum a list of numbers:</p>
+<pre>(define sum-list-do
+  (lambda (lst)
+    (do ((l lst (cdr l))
+         (sum 0 (+ sum (car l))))
+      ((null? l) sum))))
+
+(define sum-list
+  (lambda (l)
+    (if (null? l)
+        0
+        (+ (car l) (sum-list (cdr l))))))
+</pre>
+
+
+<p>The first is iterative and makes use of more variables and syntactic components.  The second is recursive and would be a more natural implementation choice for many Scheme programmers.  Most of our programming tasks lend themselves to elegant recursive solutions, so be skeptical about the "need" for iteration you'll likely assume when starting out.</p>
+</a>
+
+<table BORDER=0 CELLPADDING=3 WIDTH="100%" BGCOLOR="#3333FF" >
+<tr>
+<td><font size="+1" color="#FF6600"><a name="Binding"><b>Binding Constructs</b></font></td>
+</tr>
+</table>
+
+<p>So far, we've introduced global variables with &quot;define&quot;, and local variables 
+with the lambda argument list.&nbsp; We haven't yet shown how to introduce local 
+variables that aren't procedural arguments.&nbsp; There are three forms for 
+doing so: &quot;let&quot;, &quot;let*&quot;, &quot;letrec&quot;.&nbsp; </p>
+
+<pre>(let ((&lt;var1&gt; &lt;binding-expression1&gt;)
+      (&lt;var2&gt; &lt;binding-expression2&gt;)
+      ...
+      (&lt;varN&gt; &lt;binding-expressionN&gt;))
+  &lt;local-expression&gt;) 
+</pre>
+The binding expressions are all evaluated together in the surrounding outer variable context.  Then they are assigned in 
+some unspecified order to the local variables.&nbsp; The local expression is 
+then evaluated with respect to the new local variable environment.&nbsp; It's 
+helpful to think of the new local environment being built on top of the outer 
+variable environment.&nbsp; If one of the local variable has the same name as a 
+variable in the surrounding environment, it <i>shadows</i> the outer variable.&nbsp; 
+Shadowing occurs in Java as well.&nbsp; Local variables and parameter variables 
+shadow field variables.&nbsp; In many languages, locality determines scope 
+priority.<p>Here are some examples:</p>
+<pre>> (let ((x 2)
+        (y 3))
+    (+ x y))
+5
+> (let ((x 2))
+    (let ((x 3)
+          (y (+ x 4)))
+      (+ x y)))
+9
+</pre>
+
+<p>Look at the latter example more closely.  Why isn't the answer 10? If we wish to have the local variables be created and bound in sequence, we use the "let*" operator.  "let*" shares the same syntax, but has the meaning of performing a bunch of nested single-binding "let"s.</p>
+
+<pre>> (let ((x 2))
+    (let* ((x 3)
+           (y (+ x 4)))
+      (+ x y)))
+10
+> (let ((x 2))
+    (let ((x 3))
+      (let ((y (+ x 4)))
+        (+ x y))))
+10
+</pre>
+<p>&quot;let&quot; is more natural if you're only referring to the outer variable context. 
+&quot;let*&quot; is more natural if there are non-circular dependencies between variables 
+such that they can be bound in sequence. But what if the variables are defined 
+in terms of one another? In Scheme, you can recursively define variables using "letrec".
+Here's an example (based on a R5RS example) in which two variables holding procedures are defined according to one another:</p>
+<pre> (letrec ((even? 
+            (lambda (n)
+              (or (zero? n) (odd? (- n 1)))))
+           (odd? 
+            (lambda (n)
+              (and (not (zero? n)) (even? (- n 1))))))
+    (even? 42))
+#t
+</pre>
+<p>In general, prefer the simplest binding construct according to your needs.</p>
+
+</a>
+
+<table BORDER=0 CELLPADDING=3 WIDTH="100%" BGCOLOR="#3333FF" >
+<tr>
+<td><font size="+1" color="#FF6600"><a name="Equivalence"><b>Equivalence</b></font></td>
+</tr>
+</table>
+
+<p>There are three general <i>equivalence predicates</i> in Scheme: &quot;eq?&quot;, &quot;eqv?&quot;,&nbsp; 
+and &quot;equal?&quot;.&nbsp; &quot;eq?&quot; is most discriminating and strict in its 
+interpretation of equality.&nbsp; &quot;equal?&quot; is the least discriminating and 
+strict in its interpretation of equality.&nbsp; Detailed description of these 
+can be found in R5RS, but in a nutshell:</p>
+
+<ul>
+  <li>eqv? - returns #t if two pieces of data should normally be considered the 
+  same; you'll generally use this.</li>
+  <li>eq? - may makes some finer distinctions than eqv? for implementation 
+  specific situations, e.g. distinguishing between empty lists and empty vectors</li>
+  <li>equal? - recursively compares data to see if they would print the same.</li>
+</ul>
+
+<p>For example:</p>
+<pre>> (eqv? 'a 'a)
+#t
+> (eqv? '() '())
+#t
+> (eqv? '(a) '(a))
+#f
+> (equal? '(a) '(a))
+#t
+> (equal? '(- a (+ b 1)) '(- a (+ b 1)))
+#t
+</pre>
+
+<p>You'll generally use "=" for comparing exact numbers, "eqv?" for comparing simple objects, and "equal?" for comparing complex objects.</p>
+</a>
+
+<table BORDER=0 CELLPADDING=3 WIDTH="100%" BGCOLOR="#3333FF" >
+<tr>
+<td><font size="+1" color="#FF6600"><a name="More"><b>More List Operators</b></font></td>
+</tr>
+</table>
+
+<p>Since list-processing is the forte' of Scheme and Lisp, there are many useful 
+list operators.&nbsp; Here are some basic examples:</p>
+
+<pre>> (length '(a b c))
+3
+> (append '(a b c) '(d e f))
+(a b c d e f)
+> (reverse '(a b c))
+(c b a)
+> (list-tail '(a b c d e f) 3)
+(d e f)
+> (list-ref '(a b c d e f) 3)
+d
+> (memv 'c '(a b c d e f))
+(c d e f)
+> (memv 'z '(a b c d e f))
+#f
+> (define assoc-list '((a 1) (b 2) (c 3)))
+> (assv 'b assoc-list)
+(b 2)
+> (assv 'z assoc-list)
+#f
+</pre>
+<p>"list-ref" and "list-tail" can be used to access list elements or tail sublists by index.  "memv" can be used to check list membership.
+&quot;assv&quot; takes a key and an association list (a.k.a. a-list) of key-value pairs 
+and either returns the relevant pair or #f if the key is not present. </p>
+</a>
+
+<table BORDER=0 CELLPADDING=3 WIDTH="100%" BGCOLOR="#3333FF" >
+<tr>
+<td><font size="+1" color="#FF6600"><a name="Output"><b>Output</b></font></td>
+</tr>
+</table>
+
+<p>As we will be making use of some non-standard input procedures in our 
+programming, we will only cover simple output here.&nbsp; </p>
+
+<pre>> (write assoc-list)
+((a 1) (b 2) (c 3))
+> (write "string")
+"string"
+> (display "string")
+string
+> (write-char #\newline)
+
+> (newline)
+
+>
+</pre>
+<p>&quot;write&quot; will display any Scheme data in its standard representation form.  Thus, a string which is written will be enclosed in double-quotes.  The &quot;display&quot; operator will display string in their normal display representation as if each string character were written individually using &quot;write-char&quot;.   The &quot;newline&quot; operator simply writes a new line to the current output port.  As noted earlier, a port is a basic data type.  More details on input/output can be found in R5RS section 6.6.</p>
+</a>
+
+<table BORDER=0 CELLPADDING=3 WIDTH="100%" BGCOLOR="#3333FF" >
+<tr>
+<td><font size="+1" color="#FF6600"><a name="Next"><b>Next Steps</b></font></td>
+</tr>
+</table>
+
+<p>We haven't covered Scheme's library exhaustively (e.g. vectors).&nbsp; Nor 
+have we covered it's semantics or implementation restrictions in rigorous 
+detail.&nbsp; What we have accomplished is a blitz introduction that should give 
+you a good starting foundation for <i>practice</i>.&nbsp; Learning is 
+experiential.&nbsp; Echoing Socrates, Charlie Peacock sang, &quot;We can only possess 
+what we experience.&quot;&nbsp; Reading about Scheme is nothing like programming 
+Scheme.&nbsp; </p>
+
+<p>Your real education begins as you approach problems, simple or complex, and 
+translate your solutions into Scheme code.&nbsp; At first, there will be a 
+disconnect between how you think and the how you program Scheme.&nbsp; As all 
+programming languages, Scheme cannot change what it is.&nbsp; However, your mind <i>can</i> change and will learn to translate thoughts into a very different 
+paradigm than it is used to.&nbsp; This stretching exercise of the mind will 
+give you a broader view of programming, a great comfort with recursion, and, if 
+you're open to it, a yearning for functional programming.&nbsp;&nbsp; </p>
+
+ </a>
+
+<table BORDER=0 CELLPADDING=3 WIDTH="100%" BGCOLOR="#3333FF" >
+<tr>
+<td><font size="+1" color="#FF6600"><a name="Online"><b>Online Resources</b></font></td>
+</tr>
+</table>
+
+<ul>
+<li>
+<a href="../r5rs.pdf">Standard Scheme Language Reference (R5RS)</a> (<a href="../r5rs.ps">PostScript</a>,&nbsp;
+<a href="../r5rs.pdf">PDF</a>,
+<a href="http://www.swiss.ai.mit.edu/~jaffer/r5rs_toc.html">HTML</a>)</li>
+  <li>
+  <a href="http://racket-lang.org/">Dr. Racket (formerly Dr. Scheme)</a>
+home page</li>
+  <li>
+  <a href="http://www.eopl3.com/">Essentials of Programming Languages (3rd 
+  Edition)</a> home page and <a href="http://www.eopl3.com/code.html">code</a></li>
+  <li>
+<a href="http://www.htdp.org/">How To Design Programs</a> text</li>
+</ul>
+</a>
+<p>© 2003 Todd Neller</p>
+
+</body>
+</html>

@@ -1,0 +1,57 @@
+<!doctype html public "-//w3c//dtd html 4.0 transitional//en">
+<html>
+<head>
+   <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+   <meta name="GENERATOR" content="Microsoft FrontPage 12.0">
+   <title>Homework #3</title>
+   </head>
+<body>
+<table WIDTH="100%" >
+<tr>
+<td><img SRC="GburgCS.gif" height=84 width=182></td>
+
+<td><font size=+2>CS 3</font><font size="5">91 Selected Topics: Game AI<br></font><font size=+2>Homework #3</font></td>
+</tr>
+</table>
+
+<hr>
+<br><b>Due the beginning of class </b>on Thursday 2/11.<p><b>Note: </b>This work is to be done in <b>groups of 2</b>.&nbsp; Each group will submit one assignment.&nbsp; Although 
+you may divide the work, both team members should be able to present/describe 
+their partner's work upon request.&nbsp; 
+<h1>FreeCell Solver</h1>
+<p>Using your FreeCellNode from Homework #2 (or another's FreeCellNode 
+implementation if you wish), implement a FreeCell solver program that takes the 
+game seed as a command line parameter (i.e. args[0] in the main method), and 
+prints the solution following the
+		<a href="http://freecellgamesolutions.com/notation.html">notation of the 
+		FreeCell solutions site</a>, or &quot;No solution found.&quot; if the search is 
+unsuccessful.&nbsp; You should report the fraction of game seeds from 1-100 that 
+you are able to solve in 1 minute <i>each</i> or less, and be prepared to demonstrate your 
+work.</p>
+<ul>
+	<li>Begin by defining a heuristic/static evaluation (i.e. progress score) of your state.&nbsp; In 
+	class, we discussed several possible features that might be helpful, but you 
+	can find even more feature ideas from 
+	G. Heineman. &nbsp;<a href="http://broadcast.oreilly.com/2009/01/january-column-graph-algorithm.html" >Algorithm to Solve FreeCell Solitaire Games</a> 
+	(download code to see actual board evaluation), and 
+	Elyasaf, Hauptman, and Sipper.&nbsp;<em><a href="http://www.cs.bgu.ac.il/~sipper/papabs/freecell.pdf">Evolutionary Design of FreeCell Solvers</a> </em>
+	(which gets Heineman's heuristic wrong).</li>
+	<li>You are welcome to use any search algorithm, but I recommend starting 
+	with a modification to recursive depth limited search that returns heuristic 
+	state evaluation information and thus guides the play in helpful directions 
+	when a goal node isn't found.&nbsp; These ideas are similar to a strategy 
+	called &quot;island-driven search&quot;. There are many other search ideas that may be 
+	helpful (e.g. beam search and variants).&nbsp; Do not expect that you'll be 
+	able to look far enough ahead from the beginning to find a goal node.&nbsp; 
+	That's what makes this a particularly interesting search challenge!</li>
+	<li>You may find it helpful to automate your testing process.&nbsp;&nbsp; In 
+	that case, you may wish to time-limit your search algorithm, in which case 
+	System.currentTimeMillis() will again be helpful.</li>
+	<li>Note: If you would like to see and/or make use of my Homework #2 code, 
+	please mention it as you submit your Homework #2 work via email. You will 
+	submit this work via email as well.&nbsp; Please include all necessary files 
+	for compilation and question answering in a single .zip file as an 
+	attachment.</li>
+</ul>
+
+</body></html>

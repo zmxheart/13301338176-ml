@@ -1,0 +1,90 @@
+<!doctype html public "-//w3c//dtd html 4.0 transitional//en">
+<html>
+<head>
+   <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+   <meta name="GENERATOR" content="Microsoft FrontPage 12.0">
+   <title>Homework #7</title>
+   </head>
+<body>
+<table WIDTH="100%" >
+<tr>
+<td><img SRC="GburgCS.gif" height=84 width=182></td>
+
+<td><font size=+2>CS 3</font><font size="5">91 Selected Topics: Game AI<br></font><font size=+2>Homework #7</font></td>
+</tr>
+</table>
+
+<hr>
+<br><b>Due the beginning of class </b>on Thursday 3/17<p><b>Note: </b>This work is to be done in <b>groups of 2</b>.&nbsp; Each group will submit one assignment.&nbsp; Although 
+you may divide the work, both team members should be able to present/describe 
+their partner's work upon request.&nbsp; 
+<h1><font size=+2>Optimal Solitaire Upper Section Yahtzee</font></h1>
+<p>Implement <a href="yahtzee/doc7/YahtzeeSolver.html">YahtzeeSolver.java</a> according to these
+<a href="yahtzee/doc7/index.html">specifications</a> in order to optimize 
+solitaire score.&nbsp; You will be given 
+starter code for YahtzeeSolver via 
+email.&nbsp; The correct output to the test main methods provided is given
+<a href="yahtzee/testOutput/OptimalUpperSectionYahtzee.txt">here</a>.</p>
+<p>Outline of computation:</p>
+<ul>
+	<li>For each turn from the last to the first:<ul>
+		<li>For each widget of that turn:<ul>
+			<li>Compute optimal play and score expectation after the second 
+			reroll:<ul>
+				<li>For each roll:<ul>
+					<li>For each unscored scoring category,
+					<ul>
+						<li>Compute the immediate score for the roll</li>
+						<li>Compute the future expected score (either from the 
+						widget that would follow, or the value of 35 or 0 at 
+						game end depending on whether the bonus was achieved or 
+						not)</li>
+						<li>Compute total expected future score by adding the 
+						immediate score increase and future score expectations.</li>
+					</ul>
+					</li>
+					<li>Record the scoring category and total expected future 
+					score where the latter is maximized.</li>
+				</ul>
+				</li>
+			</ul>
+			</li>
+			<li>Compute optimal play and score expectation after the first 
+			reroll:<ul>
+				<li>For each roll:<ul>
+					<li>Compute the best immediate scoring category just as 
+					after the second reroll.</li>
+					<li>Additionally, for each possible reroll:<ul>
+						<li>Compute the probability of the reroll</li>
+						<li>Compute the resulting roll</li>
+						<li>Look up the corresponding score expectation</li>
+						<li>Add the probability times the score expectation to 
+						the total expected score for the reroll action</li>
+					</ul>
+					</li>
+					<li>Record the reroll or immediate scoring action that 
+					yields the maximum expected future score.</li>
+				</ul>
+				</li>
+			</ul>
+			</li>
+			<li>Compute optimal play and score expectation after the first roll 
+			just as in the previous step.</li>
+			<li>Compute the widget score expectation as the expected future 
+			score of <em>any</em> roll where one rerolls all dice (to simulate 
+			the first roll of all dice at the beginning of the turn). This is 
+			much like an inner loop of the previous steps.</li>
+			<li>Store the widget expected future score for use in the 
+			computation of preceding widgets.</li>
+		</ul>
+		</li>
+	</ul>
+	</li>
+</ul>
+<p>Note that returning the optimal play and score from the <code>getOptimalActionAndScore</code>
+method then simply amounts to selecting the current 
+relevant widget and recomputing optimal play for that widget until the optimal 
+play has been computed and then simply return it.</p>
+<p>Take special care to encode plays as specified.</p>
+
+</body></html>

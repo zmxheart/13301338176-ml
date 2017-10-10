@@ -1,0 +1,336 @@
+<html>
+
+<head>
+<meta http-equiv="Content-Language" content="en-us">
+<meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
+<title>An Introduction to Counterfactual Regret Minimization</title>
+<style type="text/css">
+.style2 {
+	vertical-align: top;
+}
+.style3 {
+	text-decoration: underline;
+}
+</style>
+</head>
+
+<body>
+
+<p align="center"><a href="index.html">
+<img border="1" src="banner.png" width="966" height="200"></a></p>
+
+<p>&nbsp;</p>
+<p>In 2000, Hart and Mas-Colell introduced the important game-theoretic 
+algorithm of regret matching.&nbsp; Players reach equilibrium play by tracking 
+regrets for past plays, making future plays proportional to positive cumulative 
+regrets (i.e. how much they wished they had made the moves on average). The 
+technique is not only simple and intuitive; it inspired the counterfactual 
+regret minimization algorithm that has since formed the basis for bots 
+dominating annual computer<br>poker competitions.</p>
+<p>Since these algorithms are relatively recent, there are few curricular 
+materials available to introduce students, researchers, and practitioners to 
+regret-based algorithms. The tutorial PDF, suggested exercises, and sample code 
+offered below represent a modest first step towards making such recent 
+innovations more accessible. </p>
+
+
+<table style="WIDTH: 100%; TEXT-ALIGN: left" cellSpacing="2" cellPadding="2" border="1">
+	<tr>
+		<td style="VERTICAL-ALIGN: top">Summary</td>
+		<td style="VERTICAL-ALIGN: top">An Introduction to Counterfactual Regret 
+		Minimization - Learn the game-theoretic regret-based techniques that 
+		spurred a revolution in competitive computer poker. </td>
+	</tr>
+	<tr>
+		<td style="VERTICAL-ALIGN: top">Topics</td>
+		<td style="VERTICAL-ALIGN: top">Game theory, regret, regret matching, 
+		counterfactual regret minimization (CFR), fixed strategy iteration 
+		counterfactual regret minimization (FSICFR), strategy purification, 
+		epsilon errors. </td>
+	</tr>
+	<tr>
+		<td style="VERTICAL-ALIGN: top">Audience</td>
+		<td style="VERTICAL-ALIGN: top">Advanced Artificial Intellegence students</td>
+	</tr>
+	<tr>
+		<td style="VERTICAL-ALIGN: top">Difficulty</td>
+		<td style="VERTICAL-ALIGN: top">Suitable for an upper-level 
+		undergraduate or graduate course with a focus on game theory, game AI, 
+		or other related topics.&nbsp; A few weeks would be needed to complete 
+		all exercises.&nbsp; </td>
+	</tr>
+	<tr>
+		<td style="VERTICAL-ALIGN: top">Strengths</td>
+		<td style="VERTICAL-ALIGN: top">Students acquire a deep experiential 
+		knowledge of game-theoretic regret-based algorithms that leaves one 
+		close to the frontier of research in 2013.&nbsp; For undergraduates, 
+		this would open doors to interesting undergraduate research projects 
+		suggested within.&nbsp; For graduate students and researchers, these 
+		materials provide a fast means of grasping an important, emerging area 
+		of game theory. </td>
+	</tr>
+	<tr>
+		<td style="VERTICAL-ALIGN: top">Weaknesses</td>
+		<td style="VERTICAL-ALIGN: top">The presentation follows Knuth's 
+		literate programming style, and thus requires knowledge 
+		of the Java programming language.&nbsp;&nbsp; </td>
+	</tr>
+	<tr>
+		<td style="VERTICAL-ALIGN: top">Dependencies</td>
+		<td style="VERTICAL-ALIGN: top">Students must be mathematically 
+		literate and able to comprehend complex code and pseudocode. Students must also have 
+		advanced programming skills 
+		and be familiar with Java syntax and semantics.&nbsp; </td>
+	</tr>
+	<tr>
+		<td style="VERTICAL-ALIGN: top">Variants</td>
+		<td style="VERTICAL-ALIGN: top">Given that there are many simple and 
+		complex poker variants and bluffing dice games that have yet to receive 
+		research attention (see &quot;Further Challenges&quot; section), there are many 
+		possible follow-on projects and parallel examples that might be 
+		presented by the instructor.&nbsp; </td>
+	</tr>
+</table>
+<h1>An Introduction to Counterfactual Regret Minimization</h1>
+Index:
+<ul>
+<li><a href="#overview">Overview</a></li>
+<li><a href="#objectives">Objectives</a></li>
+<li><a href="#prerequisites">Prerequisites</a></li>
+<li><a href="#description">Description</a></li>
+<li><a href="#syllabus">Syllabus</a></li>
+	<li><a href="#resources">Additional Resources</a></li>
+	<li><a href="#acknowledgements">Acknowledgements</a></li>
+</ul>
+<hr>
+ <a href="dudo-1die-hand-small.jpg">
+      <img border="0" src="dudo-1die-hand-small.jpg" align="right" width="100" height="150" class="style2" style="float: right" alt="hand revealing 1 die under cup" longdesc="hand revealing 1 die under cup"></a><a name="overview"><h2>Overview</h2></a>
+<p>
+ Using Java code examples in Donald Knuth's literate programming style, we will 
+ present example applications of the regret matching algorithm for normal form 
+ &quot;one-shot&quot; games, counterfactual regret minimization (CFR) for extensive form 
+ games, and fixed-strategy iteration counterfactual regret minimization 
+ (FSICFR).&nbsp; We also briefly touch on strategy cleaning and how one might 
+ take maximal advantage of opponent error.&nbsp; Throughout, the reader first 
+ sees an example application and is then invited to deepen understanding 
+ through application to additional challenge problems.&nbsp;&nbsp;&nbsp; </p>
+      <hr>
+<a name="objectives"><h2>Objectives</h2></a>
+<p>
+The object of this project is 
+      to give the student a deep, experiential understanding of <b>
+game-theoretic regret-based algorithms</b> through explanation, 
+        implementation examples, and implementation exercises<ul>
+        <li><span class="style3">Regret-Matching</span><u>:</u><span class="style3"></li><a href="perudo-small.jpg"><img alt="Perudo" height="200" longdesc="Perudo, a commercial production of the folk game Dudo" src="perudo-small.jpg" style="float: right" width="300"></a></span>
+        <ul>
+        <li>Explain basic definitions of game theory and the concept of regret.</li>
+			<li>Present an outline of the regret-matching algorithm, along with 
+			a worked Java application example for the game of 
+			Rock-Paper-Scissors.</li>
+			<li>Provide programming exercises for knowledge transfer. </li>
+        </ul>
+        <li><span class="style3">Counterfactual Regret Minimization (CFR):</span><ul>
+        <li>Explain the concept of counterfactual regret and the counterfactual 
+		regret minimization algorithm.</li>
+        
+      </ul>
+		<ul>
+			<li>Demonstrate its application to the simple game of Kuhn Poker.</li>
+			<li>Specify a CFR application to the bluffing dice game of Dudo 
+			(restricted to 1-die-versus-1-die).</li>
+		</ul>
+		<li><span class="style3">Fixed-Strategy Iteration Counterfactual Regret 
+		Minimization (FSICFR):</li></span>
+		<ul>
+			<li>Explain the applicability of FSICFR to game graphs along with 
+			the reduction of CFR computational complexity from exponential to 
+			linear.</li>
+			<li>Present FSICFR pseudocode and demonstrate its application in the 
+			context of our simple bluffing dice game, Liar Die.</li>
+			<li>Present a challenge problem where one applies FSICFR to 
+			1-die-versus-1-die Dudo with a claim memory of 3.</li>
+		</ul>
+		<li><span class="style3">Additional Concepts:</li></span>
+		<ul>
+			<li>Describe means of &quot;cleaning&quot; approximately optimal play policies 
+			in order to simplify and, in many cases, improve play.</li>
+			<li>Describe an open research problem concerning how one might take 
+			maximal advantage of opponent error.</li>
+		</ul>
+      </ul>
+      <hr>
+      <a name="prerequisites"><h2>
+	  Prerequisites</h2></a>
+<p>
+Students must be mathematically 
+		literate and able to comprehend complex code and pseudocode. Students must also have 
+		advanced programming skills 
+		and be familiar with Java syntax and semantics.&nbsp;Students who 
+      program in C++ should be able to follow most of the Java examples.</p>
+<p>
+While not required, students with no prior exposure to game theory may wish to 
+pair these materials with a brief primer on game theory online or in print (e.g. 
+Leyton-Brown and Shoham's &quot;Essentials of Game Theory&quot;, Morgan &amp; Claypool, 2008).&nbsp; </p>
+
+      <p ALIGN="LEFT">Students are encouraged to play the games described in the 
+	  materials to have a better appreciation of the decisions and a greater 
+	  likelihood of discerning erroneous policy output.&nbsp;
+
+<hr><a name="description"><h2>Description<font FACE="CMR10"><a href="dudo-1die-small.jpg"><img border="0" src="dudo-1die-small.jpg" align="right" width="100" height="150" style="float: right" alt="1 die with cup" longdesc="1 die with cup"></a></font></h2></a>
+    
+  
+ <p>The projects are described in the 
+      file <b> <a href="cfr.pdf">cfr.pdf</a></b>.&nbsp; You will need the
+      <a href="http://get.adobe.com/reader/">free Adobe 
+      Acrobat Reader</a> to view this file.<a href="http://get.adobe.com/reader/"><img alt="Get Adobe Reader logo" hspace="3" src="get_adobe_reader.gif" vspace="3" border="0" align="top" width="88" height="31"></a></p>
+      <p>Example code described in each project is available here:<ul>
+        <li><b><a href="RPSTrainer.java">RPSTrainer.java</a></b></li>
+        <li><b><a href="KuhnTrainer.java">KuhnTrainer.java</a></b></li>
+        <li><b><a href="DudoUtilities.java">DudoUtilities.java</a></b></li>
+		<li>
+<font FACE="CMR10">
+        <b><a href="LiarDieTrainer.java">LiarDieTrainer.java</a></b></font></li>
+      </ul>
+      <p>This code was       generated from the same source file that generated
+      <font FACE="CMR10">
+      <a href="cfr.pdf">cfr.pdf</a></font>      using the
+      <a href="http://www.literateprogramming.com/">literate programming</a>
+      tool
+      <a href="http://www.eecs.harvard.edu/~nr/noweb/">noweb</a>.</p>
+      <p>Students seeking 
+      more extended challenges will also find descriptions of related advanced 
+      projects in the last section of the document.
+<hr>
+ <a name="syllabus"><h2>Syllabus</h2></a>
+         <p>Here is a sample syllabus used in 
+         (course omitted for review) 
+         <!-- <a href="http://cs.gettysburg.edu/~tneller/cs391/12sp/">CS 391 - Game 
+		 Artificial Intelligence</a> at 
+      Gettysburg College:--> </p>
+<p>Readings:</p>
+<p>4/3: Essentials of Game Theory, Ch. 1, 2, Definition 3.2.1, Section 3.5; 
+Handout: &quot;Introduction to Counterfactual Regret Minimization&quot;, Sections 1-2; 
+[Optional: S. Hart, A. Mas-Colell.&nbsp;<a href="http://www.cc.gatech.edu/~ninamf/LGO10/hartmascolell.pdf">A 
+Simple Adaptive Procedure Leading to Correlated Equilibrium</a>. Sections 2-3; 
+H. Kuhn. Simplified Two-Person Poker.]<br>4/5: Handout: &quot;Introduction to 
+Counterfactual Regret Minimization&quot;, Section 3; T. Neller, S. Hnath.&nbsp;&nbsp;<a href="http://cs.gettysburg.edu/~tneller/papers/acg2011.pdf">Approximating 
+Optimal Dudo Play with Fixed-Strategy Iteration Counterfactual Regret 
+Minimization</a>, through Section 2&nbsp; [Optional: M. Zinkevich et al.&nbsp;<a href="http://webdocs.cs.ualberta.ca/~maz/publications/regretpoker.pdf">Regret 
+Minimization in Games with Incomplete Information</a>.]<br>4/10: Handout: 
+&quot;Introduction to Counterfactual Regret Minimization&quot;, Section 4; T. Neller, S. 
+Hnath.&nbsp;&nbsp;<a href="http://cs.gettysburg.edu/~tneller/papers/acg2011.pdf">Approximating 
+Optimal Dudo Play with Fixed-Strategy Iteration Counterfactual Regret 
+Minimization</a>, remaining sections.<br>4/12: Handout &quot;Introduction to 
+Counterfactual Regret Minimization&quot;, Section 5<br>4/17: Handout &quot;Introduction to 
+Counterfactual Regret Minimization&quot;, Section 6</p>
+<p>Assignments:</p>
+<p>1. Regret - Rock-Paper-Scissors (Thursday 4/5):&nbsp;Read Section 1 of CFR 
+handout in order to learn about game theoretic definitions, regret, regret 
+matching and minimization.&nbsp; 
+<!--Using the Rock-Paper-Scissors worked example as 
+a model, complete the Minimum Unique Fingers exercise of subsection 1.5.-->
+Using the Rock-Paper-Scissors worked example of one-sided regret-matching, complete 
+the two-sided regret-matching RPS Equilibrium, exercise 2.5. <br>
+2. Counter Factual Regret Minimization (CFR) - 1-die-versus-1-die Dudo&nbsp; 
+(Thursday 4/12):&nbsp;Read Section 2 of CFR handout in order to learn about CFR.&nbsp; 
+Using the Kuhn Poker worked example as a model, complete the 1-die-versus-1-die 
+Dudo exercise of subsection 2.5<br>
+3. Error modeling (Thursday 4/19):&nbsp;- Read 
+sections 3-5 of CFR handout in order to learn about cleaning results, FSICFR, 
+and epsilon error.&nbsp; Modify the Liar Die FSICFR worked example of subsection 
+4.3 so as to have clean results that maximally exploit potential opponent 
+errors.&nbsp;&nbsp;&nbsp; </p>
+                  
+ <hr>     
+
+<a name="resources"><h2>Additional Resources</h2></a>
+
+<ul>
+	<li><a href="http://en.wikipedia.org/wiki/Game_theory">Game Theory Wikipedia 
+	Page</a></li>
+	<li><a href="http://gametheory.net/">GameTheory.net</a></li>
+	<li>References:<br>
+	<ul> <li>James Ernest, Phil Foglio, and Mike Selinker. 
+		<a href="http://books.google.com/books/about/Dealer_s_Choice.html?id=KqElLkEjpa8C">Dealer's Choice: the 
+	complete handbook of Saturday night poker</a>. Overlook Duckworth, Peter 
+	Mayer Publishers, Inc., New York, 2005.</li></li>
+		<li>Sam 
+	Ganzfried, Tuomas Sandholm, and Kevin Waugh. 
+		<a href="http://www.cs.cmu.edu/~sganzfri/AAMAS2012.pdf">Strategy purification and 
+	thresholding: Effective non-equilibrium approaches for playing large 
+	games.</a> In Proceedings of the International Conference on Autonomous 
+	Agents and Multiagent Systems (AAMAS), 2012.</li>
+		<li>Sergiu Hart and Andreu 
+	Mas-Colell. <a href="http://www.ma.huji.ac.il/hart/papers/adapt.pdf?">A simple adaptive procedure leading to correlated equilibrium</a>.
+	Econometrica, 68(5):1127-1150, September 2000.</li>
+		<li>Gil Jacobs. 
+		<a href="http://books.google.com/books?id=hDZrGQAACAAJ&amp;dq=gil+jacobs+the+world's+best+dice+games&amp;hl=en&amp;sa=X&amp;ei=baoNUeTQErHH0AHqxYGABg&amp;ved=0CC0Q6AEwAA">The 
+	World's Best Dice Games</a>, new edition. John N. Hansen Co., Inc., Milbrae,
+	California, 1993.</li>
+		<li>Reiner Knizia. 
+		<a href="http://books.google.com/books?id=cssJAAAACAAJ&amp;dq=knizia+dice+games+properly+explained&amp;hl=en&amp;sa=X&amp;ei=nKoNUd_DGYay0QHxjIGYBA&amp;ved=0CDgQ6AEwAA">Dice Games Properly Explained</a>. 
+	Elliot Right-Way Books, Brighton Road, Lower Kingswood, Tadworth, Surrey, 
+	KT20 6TD U.K., 1999.</li>
+		<li>Harold W. Kuhn. <a href="http://en.wikipedia.org/wiki/Kuhn_poker">Simplified two-person poker</a>. In 
+	Harold W. Kuhn and Albert W. Tucker, editors, Contributions to the Theory 
+	of Games, volume 1, pages 97-103. Princeton University Press, 1950.</li>
+		<li>Marc Lanctot. 
+		<a href="http://mlanctot.info/files/papers/PhD_Thesis_MarcLanctot.pdf">Monte Carlo Sampling and Regret Minimization for Equilibrium 
+	Computation and Decision-Making in Large Extensive Form Games</a>. PhD 
+	thesis, University of Alberta, University of Alberta, Computing Science, 
+	116 St. and 85 Ave., Edmonton, Alberta T6G 2R3, January 2013.</li>
+		<li>Marc 
+	Lanctot, Kevin Waugh, Martin Zinkevich, and Michael Bowling. 
+		<a href="http://mlanctot.info/files/papers/nips09mccfr.pdf">Monte carlo 
+	sampling for regret minimization in extensive games</a>. In Y. Bengio, D. 
+	Schuurmans, J. Lafferty, C. K. I. Williams, and A. Culotta, editors, Advances in Neural Information Processing Systems 22, pages 1078-1086. 
+	MIT Press, 2009.</li>
+		<li>Kevin Layton-Brown and Yoav Shoham. 
+		<a href="http://www.gtessentials.org/">Essentials of 
+	Game Theory: A Concise, Multidisciplinary Introduction</a>. Morgan and 
+	Claypool Publishers, 2008.</li>
+    <li>Peter Bro Miltersen and Troels Bjerre S&oslash;rensen. 
+    <a href="http://www.cs.duke.edu/~trold/papers/quasi.pdf">Computing a quasi-perfect equilibrium of a two-player game</a>. 
+    Economic Theory, 42(1):175-192, 2010.</li>
+		<li>Merilyn Simonds Mohr. 
+		<a href="http://books.google.com/books/about/New_Games_Treasury.html?id=pPWDAAAACAAJ">The New Games 
+	Treasury</a>. Houghton Mifflin, Boston, Massachusetts, 1993.</li>
+		<li> Todd W. Neller and Steven Hnath. <a href="http://cs.gettysburg.edu/~tneller/papers/acg2011.pdf">Approximating 
+		Optimal Dudo Play with Fixed-Strategy Iteration Counterfactual Regret 
+		Minimization</a>,&nbsp;in van den Herik, H. Jaap and Plaat, Aske, eds.,&nbsp;LNCS 
+		7168: Advances in Computer Games, 13th International Conference, ACG 
+		2011, Tilburg, The Netherlands, November 20-22, 2011, Revised Selected 
+		Papers, Springer, 2012, pp.&nbsp;169-182.</li>
+		<li>Qi Zeng, 
+	Bruce R. Davis, and Derek Abbott. 
+		<a href="http://www.eleceng.adelaide.edu.au/personal/dabbott/publications/FNL_zeng2007.pdf">Reverse auction: The lowest unique 
+	positive integer game</a>. Fluctuation and Noise Letters, 7(4):L439-L447, 
+	2007.</li>
+		<li>Martin Zinkevich, Michael Johanson, Michael Bowling, and 
+	Carmelo Piccione. 
+		<a href="http://martin.zinkevich.org/publications/regretpoker.pdf">Regret minimization in games with incomplete 
+	information</a>. In J.C. Platt, D. Koller, Y. Singer, and S. Roweis, editors,
+	Advances in Neural Information Processing Systems 20, pages 1729{1736. MIT 
+	Press, Cambridge, MA, 2008.</li>
+</ul>
+        </ul>
+
+
+<hr>
+
+<!--<p><a href="http://cs.gettysburg.edu/~tneller/">Todd Neller</a> and
+<a href="http://mlanctot.info/">Marc Lanctot</a></p>-->
+
+<a name="acknowledgements"><h2>Acknowledgements</h2></a>
+<p>
+This work is partially funded by the Netherlands Organisation for Scientific 
+Research (NWO) in the framework of the project Go4Nature, grant number 
+612.000.938.</p>
+
+<hr>
+<a href="http://cs.gettysburg.edu/~tneller">Todd Neller</a>, 
+<a href="http://mlanctot.info/">Marc Lanctot </a>
+
+</body>
+
+</html>

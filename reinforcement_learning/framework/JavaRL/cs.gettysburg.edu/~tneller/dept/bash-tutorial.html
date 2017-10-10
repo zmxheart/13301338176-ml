@@ -1,0 +1,513 @@
+<!doctype html public "-//w3c//dtd html 4.0 transitional//en">
+<html>
+<head>
+   <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+   <meta name="GENERATOR" content="Microsoft FrontPage 12.0">
+   <meta name="Author" content="Todd Neller">
+   <title>Department of Computer Science Bash Tutorial</title>
+   <style type="text/css">
+.style1 {
+	background-color: #FFFF00;
+}
+   .style2 {
+	   text-decoration: underline;
+   }
+   </style>
+</head>
+<body>
+<table WIDTH="100%" >
+<tr>
+<td><img SRC="GburgCS.gif" height=84 width=182></td>
+
+<td><font size=+2>Department of Computer Science</font>
+<br><font size=+2>Bash Tutorial</font></td>
+</tr>
+</table>
+
+<hr>
+<p><a href="bash-tutorial.mp4">Video Tutorial (mp4)</a></p>
+<table BORDER=0 CELLPADDING=3 WIDTH="100%" BGCOLOR="#3333FF" >
+<tr>
+<td><b><font size=+1 color="#FF6600">Preface</font></b></td>
+</tr>
+</table>
+
+<p>The goal of this tutorial is to give the beginner a very basic familiarity
+with bash, the standard Unix shell of our department.&nbsp; It is not comprehensive.&nbsp;
+Covering only a small subset of commands and features, this should be considered
+a starting point.&nbsp; Potential CS majors should pursue more knowledge
+of their computing and editing environments, assured that the
+<a href="https://www.xkcd.com/1205/">cost of such
+learning will be more than compensated by time saved over the course of
+their years as a major</a>.
+<p>Imagine not knowing how to cut and paste.&nbsp; Imagine the tedium of
+deleting a section of a paper character by character.&nbsp; Then imagine
+the tedium of retyping the section character by character in a different
+location.&nbsp; Cut and paste are simple to learn, and save the user much
+time and effort.&nbsp; Having a good command of one's computing/editing
+environment will aid one considerably as a programmer as well.
+<p>In this tutorial, we focus on the <i>shell</i>, where one interacts
+with the computer through textual commands.&nbsp; While the drag, drop,
+and double-click of window-based interfaces to operating systems are sufficient
+for most users, a text-based interface offers surprising power to the serious
+user.
+<br>&nbsp;
+<table BORDER=0 CELLPADDING=3 WIDTH="100%" BGCOLOR="#3333FF" >
+<tr>
+<td><b><font color="#FF6600"><font size=+1>In the beginning...</font></font></b></td>
+</tr>
+</table>
+
+<p><b>If you're doing this tutorial as a class exercise, be sure to try 
+everything shown for yourself.&nbsp; <span class="style1">Don't merely read it - do it!&nbsp; There 
+are instructions at the end of this tutorial for how to submit evidence
+of your work.</span>&nbsp; Plan to do this tutorial in one sitting so that all
+of your work is shown.</b>
+<p>The first thing you need to do is get a terminal window with bash.&nbsp; 
+There are many ways to do this on different systems with
+<a href="https://renewablepcs.wordpress.com/about-linux/kde-gnome-or-xfce/">
+different Linux desktop environments</a>.&nbsp; Here is how we do it with our 
+current desktop environment choices:<ul>
+	<li>In the small, left-side &quot;Login&quot; window that is prompting you for your 
+	username, click the upper-right icon and &quot;Select desktop environment&quot;:<ul>
+		<li>&quot;Xubuntu Session&quot; / &quot;Xfce Session&quot; (my preference)
+		<ul>
+			<li>Enter your username and password.</li>
+			<li>Once the desktop appears, click the small, blue-and-white mouse 
+			icon in the upper-left corner.</li>
+			<li>In the list of applications that appears, drag-and-drop the 
+			&quot;Terminal Emulator&quot; icon to the left side of your desktop to create 
+			a shortcut.</li>
+			<li>From now on, you can click this &quot;Terminal Emulator&quot; shortcut to 
+			get a terminal when you log in.</li>
+		</ul>
+		</li>
+		<li>&quot;Ubuntu&quot;<ul>
+			<li>Enter your username and password.</li>
+			<li>Once the desktop appears, click the upper-left circular icon 
+			that resembles three people in a circle holding hands right 
+			underneath &quot;Ubuntu Desktop&quot;.&nbsp; If you mouse-over the icon, it 
+			will read &quot;Search your computer and online sources&quot;.</li>
+			<li>In the search box that appears at the top, type &quot;terminal&quot;.</li>
+			<li>Drag-and-drop the &quot;Terminal&quot; application icon to your docking 
+			bar on the left side of the screen.&nbsp; Click the screen 
+			background to make the search window go away.</li>
+			<li>From now on, you can click this docked &quot;Terminal&quot; icon to get a 
+			terminal window when you log in.</li>
+		</ul>
+		</li>
+	</ul>
+	</li>
+</ul>
+<p>Close the terminal window by clicking the &quot;X&quot; in the upper corner.&nbsp; (You can also close the window by typing Control-D at the 
+command line.&nbsp; I recommend learning keyboard shortcuts like this wherever 
+you can.&nbsp; The more you can substitute efficient keyboard-based commands for 
+mouse-actions, the better.)&nbsp; Now open another terminal window.&nbsp; Repeat this a
+couple times until you're comfortable with it and have the process memorized.&nbsp;
+<p>Now onto the shell!&nbsp; The terminal window is fairly empty to start
+with.&nbsp; You'll likely see only a <i>prompt</i>, the beginning of what
+is called the <i>command line</i>.&nbsp; For instance, on the machine &quot;cs1&quot; your prompt might
+look like:
+<p><tt>nuyuzr01@cs1:~$</tt>
+<p>If you're on one of our lab machines in Glatfelter 112 or 207, your machine name will have the form "cs##".
+The prompt serves to (1) give you information about your current situation,
+and (2) indicate that the shell is awaiting your next command.&nbsp; In
+this case, the text before the ":" is your username, the at symbol (@), and the name of your machine or <i>host.&nbsp;</i>
+The text between the ":" and "$" is your current working directory.&nbsp;
+A <em>directory</em> is the same as a <em>folder</em> in window-based graphical 
+user interfaces to operating
+systems.&nbsp; Just as you can have files and folders in a folder, you
+can have files and directories in a directory.&nbsp; The directory name
+"~" is shorthand for "home directory", the place where you store your files
+on this system.&nbsp; After the "$" is the place where you type your next
+command.
+<p>The first thing you'll probably want to do is change your password.&nbsp;
+Type the command "yppasswd" (short for <span class="style2">y</span>ellow
+<span class="style2">p</span>ages <span class="style2">passw</span>or<span class="style2">d</span>), enter your current password one, and your new
+password twice.&nbsp; You will not be able to see the passwords as you
+type them.&nbsp;
+A good site for customizable password generation is
+<a href="https://xkpasswd.net/s/">xkpasswd.net</a>.&nbsp; Write this new password down and don't forget it!
+<p><tt>nuyuzr01@cs1:~$ yppasswd</tt>
+<br><tt>Changing NIS account information for nuyuzr01 on ada.</tt>
+<br><tt>Please enter old password:</tt> (what you type here will not be seen, not even little circles to indicate hidden characters)
+<br><tt>Changing NIS password for nuyuzr01 on ada.</tt>
+<br><tt>Please enter new password:</tt> (what you type here will not be seen)
+<br><tt>Please retype new password:</tt> (what you type here will not be seen)<br>
+<br><tt>The NIS password has been changed on ada. </tt>&nbsp;<br><tt><br>
+nuyuzr01@cs1:~$</tt>
+<p>Let's imagine you come upon an abandoned computer that's been left logged in 
+and you want to know who is logged in.&nbsp; From a terminal window, simply type the command
+"whoami" (all one word) and press the Return key:
+<p><tt>nuyuzr01@cs1:~$ whoami</tt>
+<br><tt>nuyuzr01</tt>
+<br><tt>nuyuzr01@cs1:~$</tt>
+<p>This may seem useless given the prompt, but users can modify their prompts to 
+exclude the username.&nbsp; Suppose you want to see what time it is.&nbsp; Enter the command "date".
+<p><tt>nuyuzr01@cs1:~$ date</tt>
+<br><tt>Thu May 25 16:00:57 EDT 2017</tt><br><tt>nuyuzr01@cs1:~$</tt>
+<p>As mentioned before, &quot;~&quot; is shorthand for your home folder.&nbsp; Suppose you 
+wish to know exactly where that is on our system with respect to the root 
+directory &quot;/&quot;.&nbsp; The command "pwd" (<span class="style2">p</span>rint 
+<span class="style2">w</span>orking <span class="style2">d</span>irectory)
+will tell you.
+<p><tt>nuyuzr01@cs1:~$ pwd</tt>
+<br><tt>/Accounts/turing/students/s20/nuyuzr01</tt>
+<br><tt>nuyuzr01@cs1:~$</tt>
+<p>If ever you wish to clear your terminal window, enter the command &quot;clear&quot;.&nbsp; 
+Try it.<p><tt>nuyuzr01@cs1:~$ clear</tt>
+<br>(window clears and prompt appears at top)<br><tt>nuyuzr01@cs1:~$</tt>
+<p>"whoami", "date", "pwd", and &quot;clear&quot; are simple commands.&nbsp; There are many
+more commands and some can be very complex.&nbsp;&nbsp; You'll remember
+the ones you use the most, but don't try or expect to remember every command
+you encounter.&nbsp; It's more important to (1) know <i>what</i> commands
+are available, and (2) know <i>where</i> to find documentation for commands.&nbsp;
+The command "man" is short for "<span class="style2">man</span>ual" and will give you information about
+commands.&nbsp; Enter "man pwd" to see the documentation of the command
+"pwd".
+<p><tt>nuyuzr01@cs1:~$ man pwd <br>PWD(1) User Commands PWD(1)<br><br>NAME<br>pwd - print name of 
+current/working directory<br><br>SYNOPSIS<br>pwd [OPTION]...<br><br>DESCRIPTION<br>
+Print the full filename of the current working directory.<br>...</tt><p>In using "man", you can press space to page forward, "b" to
+page back, and "q" to quit.&nbsp; If such <i>man pages</i> are difficult to understand, there are a variety
+of other sources of information about UNIX systems similar to this.&nbsp;
+Check out the helpful links at the bottom of this page, or simply perform an 
+internet search for the command name.<p>The bash command line makes it simple to re-execute previous commands.&nbsp;
+Bash keeps a command history and allows you to easily select and edit commands
+from this history.&nbsp; Enter "history" to see the commands you've executed
+so far.
+<p><tt>nuyuzr01@cs1:~$ history
+<br>&nbsp;&nbsp; 1&nbsp; yppasswd
+<br>&nbsp;&nbsp; 2&nbsp; whoami
+<br>&nbsp;&nbsp; 3&nbsp; date
+<br>&nbsp;&nbsp; 4&nbsp; pwd
+<br>&nbsp;&nbsp; 5&nbsp; clear<br>&nbsp;&nbsp; 6&nbsp; man pwd
+<br>&nbsp;&nbsp; 7&nbsp; history
+<br>nuyuzr01@cs1:~$ </tt>
+<p>There are a variety of ways to access previous commands.&nbsp; The simplest
+is to use the up and down arrows to move through previous commands until
+you find the one you're interested in.&nbsp; Use the up and down arrows
+to review your command history and press Return when you find the "date"
+command.&nbsp; Then look at your history again.&nbsp; Remember that you
+don't have to type "history" out again.&nbsp; Two up arrows and a return
+will suffice.&nbsp; Alternate between execution of the commands "date"
+and "history" using the arrow keys and return only until you're comfortable
+with using this feature.
+<p>Most commands you type will contain more information that these.&nbsp;
+What do you do if you find you typed the first character wrong only after
+you'd completed the last?&nbsp; Command line editing is easy with bash.&nbsp;
+You can use the left and right arrow to move the cursor and edit your command.&nbsp;
+Type "hooami" and press return.
+<p><tt>nuyuzr01@cs1:~$ hooami
+<br>hooami: command not found
+<br>nuyuzr01@cs1:~$</tt>
+<p>Now retrieve the previous command and edit it so that it correctly shows
+"whoami" and press Return.&nbsp; Your cursor does not have to be at the
+end of the line to press Return.&nbsp; There are many other tricks to editing
+the command line.&nbsp; Bash uses "emacs-style" command line editing (e.g. 
+Control-a = beginning of line, Control-e = end of line), so
+you are encouraged to learn how to use emacs editing commands and see which
+ones are applicable to bash command line editing as well.
+<p>Most commands have <i>options</i> which allow a single command to have
+many possible behaviors.&nbsp; We will illustrate this with the command
+"ls" (<span class="style2">l</span>i<span class="style2">s</span>t directory) which lists the contents of the current working directory.&nbsp; First,
+type "ls".&nbsp; "public_html" is the name of the directory where you can
+put web pages.&nbsp; If you do not have a &quot;public_html&quot; directory, create one 
+now with the &quot;mkdir&quot; (<span class="style2">m</span>a<span class="style2">k</span>e 
+<span class="style2">dir</span>ectory) command:&nbsp;
+<p><tt>nuyuzr01@cs1:~$ mkdir public_html
+<br>nuyuzr01@cs1:~$</tt>
+<p>An HTML file "~/public_html/index.html" for user nuyuzr01
+will have the web address "http://cs.gettysburg.edu/~nuyuzr01/index.html" on our 
+system.&nbsp;
+When using "ls" (<span class="style2">l</span>i<span class="style2">s</span>t 
+directory), a name ending with "/" indicates that it is the name of
+a subdirectory of the current directory.&nbsp; In our current system, 
+directories are instead indicated by blue-purple coloration by default.<p><tt>nuyuzr01@cs1:~$ ls</tt>
+<br><tt>Desktop Documents Downloads Music Pictures Public public_html Templates 
+Videos<br>nuyuzr01@cs1:~$</tt>
+<p>However, there's more in your home directory than meets the eye.&nbsp;
+Files that start with "." are <i>hidden</i> files.&nbsp; You can list <i>
+<span class="style2">a</span>ll
+</i>these
+files using the ls option "-a".&nbsp; Enter the command "ls -a" to see
+these files (your files will vary).
+<pre>nuyuzr01@cs1:~$ ls -a
+.              .cache   .dmrc      .ICEauthority  .pki         .thumbnails
+..             .compiz  Documents  .local         .profile     Videos
+.bash_history  .config  Downloads  .mozilla       Public       .Xauthority
+.bash_logout   .dbus    .emacs.d   Music          public_html  .xsession-errors
+.bashrc        Desktop  .gconf     Pictures       Templates    .xsession-errors.old
+nuyuzr01@cs1:~$ 
+</pre>
+
+<p>What then are these odd hidden files &quot;.&quot; and &quot;..&quot;?&nbsp; 
+These are actually special directories that point to directories.&nbsp; &quot;.&quot; 
+points to the current directory.&nbsp; &quot;..&quot; points to the directory the current 
+directory is in, that is, the parent directory.
+<p>Now suppose you want to find out a lot more information about these
+files (e.g. size, date created, security info, etc.).&nbsp; The option
+"-l" gives the <i><span class="style2">l</span>ong </i>version of the directory listing.&nbsp; Try
+it by adding the additional option "-a" onto the previous command as follows:
+<pre>nuyuzr01@cs1:~$ ls -a -l
+total 120
+drwxr-xr-x 21 nuyuzr01 student20  4096 May 25 16:22 .
+drwxr-xr-x 77 root     daemon     4096 Mar  9 10:48 ..
+-rw-------  1 nuyuzr01 student20  82   May 19 17:00 .bash_history
+-rw-r--r--  1 nuyuzr01 student20  220  Dec 21 09:53 .bash_logout
+-rw-r--r--  1 nuyuzr01 student20  3486 Dec 21 09:53 .bashrc</pre>
+...(skipping details)...
+
+<p>There's actually a shorter way to enter this command: &quot;ls -al&quot; is equivalent.&nbsp;
+<pre>nuyuzr01@cs1:~$ ls -al</pre>
+<p>Recall that one can make a new directory using the command "mkdir" (<span class="style2">m</span>a<span class="style2">k</span>e
+<span class="style2">dir</span>ectory).&nbsp; We will begin by 
+creating a directory &quot;test&quot; in our home directory (&quot;~&quot;) with 
+command &quot;mkdir test&quot;.&nbsp; Note that 
+this is different than &quot;Mkdir test&quot; or &quot;MKDIR test&quot;.&nbsp; Most UNIX commands, 
+options, etc. are <i>case-sensitive.</i>&nbsp; That is, case matters.&nbsp; 
+There are circumstances where capital letters are used by convention, but since 
+you'll be typing directory names often and it's easier to type lowercase 
+letters, it's generally a good idea to keep directory names short, descriptive, 
+and in lower case.&nbsp;
+<pre>nuyuzr01@cs1:~$ mkdir test
+</pre>
+
+<p>Next, we will 
+create a subdirectory &quot;subdir1&quot; within that &quot;test&quot; directory.&nbsp; The way one 
+refers to a directory inside a directory is to refer to list directories top 
+down separated by slashes (&quot;/&quot;).&nbsp; So directory &quot;subdir1&quot; within directory 
+&quot;test&quot; would be referred to as &quot;test/subdir1&quot;.&nbsp;&nbsp;
+
+<pre>nuyuzr01@cs1:~$ mkdir test/subdir1
+</pre>
+<p>The command &quot;cd&quot; (<span class="style2">c</span>hange
+<span class="style2">d</span>irectory) followed by a directory name changes one's working directory to 
+that specified directory.&nbsp; The command &quot;cd&quot; followed by nothing returns us 
+to our home directory (~).&nbsp; Let us now change into the &quot;test&quot; directory, 
+list the contents of that directory, create a second subdirectory &quot;subdir2&quot; relative to that directory, 
+create a third subdirectory &quot;subdir3&quot;, remove (delete) that subdirectory with 
+the command &quot;rmdir subdir3&quot; (<span class="style2">r</span>e<span class="style2">m</span>ove
+<span class="style2">dir</span>ectory), change back to our home directory, and list the 
+test directory's contents.&nbsp; The command &quot;rmdir&quot; will not remove a directory 
+that is not empty.&nbsp; Note that (1) the prompt changes as we change 
+our working directory, and (2) the &quot;ls&quot; command lists the contents of the 
+working directory if no directory is specified: 
+<pre>nuyuzr01@cs1:~$ cd test
+nuyuzr01@cs1:~/test$ ls
+subdir1
+nuyuzr01@cs1:~/test$ mkdir subdir2
+nuyuzr01@cs1:~/test$ mkdir subdir3
+nuyuzr01@cs1:~/test$ rmdir subdir3
+nuyuzr01@cs1:~/test$ cd
+nuyuzr01@cs1:~$ ls test
+subdir1  subdir2
+</pre>
+<p>One of the most great conveniences of the bash shell that will 
+significantly reduce your keystrokes with practice is <em>tab completion.</em>&nbsp; 
+If you press the tab key while typing a command, bash will seek to complete it.&nbsp; 
+If you press the tab key while typing a directory or file name, bash will seek 
+to complete it.&nbsp; If there's an ambiguity, bash will complete as much as 
+possible, but a second tab press will print the valid completions.&nbsp; For 
+example, suppose we wish to change directory into &quot;test/subdir1&quot;.&nbsp; Start by 
+typing
+&quot;cd t&quot; and then press tab.&nbsp; Bash will complete out to &quot;cd test/&quot;, giving 
+the option to stop with that completion.&nbsp; Press tab again, indicating the 
+desire to complete with more characters, and bash will complete out to &quot;cd 
+test/subdir&quot;.&nbsp; At this point, there's an ambiguity.&nbsp; Does the user 
+want &quot;subdir1&quot; or &quot;subdir2&quot;?&nbsp; But perhaps you're in a situation where tab 
+completion has stopped and you don't understand the ambiguous choice that has 
+halted completion.&nbsp; Simply press tab again and the options are listed.&nbsp; 
+In this case, the shell prints &quot;subdir1/ subdir2/&quot; and prints your prompt and 
+current command again, awaiting the completion of your command.&nbsp; Type &quot;1&quot; 
+and press enter with the fully formed command &quot;cd test/subdir1&quot;.<pre>nuyuzr01@cs1:~$ cd test/subdir
+subdir1/ subdir2/
+nuyuzr01@cs1:~$ cd test/subdir1</pre>
+<p>Now reflect on how few of those characters you actually typed.&nbsp; Tab 
+completion takes some getting used to.&nbsp; Without deliberate practice, I see 
+new users pass up this wonderful feature, and it effectively costs them dearly 
+over time in excessive keystrokes relative to the learner that is open to learning the 
+shell fully.&nbsp; Use the command history.&nbsp; Use tab completion.&nbsp; 
+You'll thank yourself for it later.
+<p>Next, let's create some plain text files.&nbsp; The &quot;touch&quot; command followed 
+by a filename will create an empty file if no such file exist, or, if it does 
+exist, change the access and modification time as if you just accessed and 
+modified it.&nbsp; The &quot;cat&quot; command is short for &quot;con<span class="style2">cat</span>enate&quot;.&nbsp; It 
+concatenates given files and outputs them.&nbsp; If no files are given, it reads 
+characters from you in the terminal.&nbsp; If we append &quot;&gt; test2.txt&quot; after 
+&quot;cat&quot;, this indicates that we want to send the output characters into file 
+&quot;test2.txt&quot;.&nbsp; This is called &quot;redirection of standard output&quot;.&nbsp; Thus, 
+the command &quot;cat &gt; test2.txt&quot; will create file &quot;test2.txt&quot; and allow us to type 
+directly into that file.&nbsp; It's an easy way to create a short text file. 
+NOTE: To end your character input, press Control-D.&nbsp; This is a special 
+end-of-file character in Unix.&nbsp; (Don't try this yet, but Control-D typed 
+at the prompt will indicate the end of your command input and exit the shell.)&nbsp; 
+Enter the &quot;cat &gt; test2.txt&quot; command, type &quot;This is a test.&quot; and press Control-D.&nbsp; 
+There are many other ways to create and edit files. The simple console editor 
+&quot;nano&quot; is standard in Linux distributions.&nbsp; I prefer &quot;emacs&quot;.&nbsp; 
+However, a gentle graphical editor program on our system is &quot;gedit&quot;.&nbsp; 
+Create a file &quot;test3.txt&quot; with the content &quot;This is another test.&quot; using the 
+command &quot;gedit test3.txt &amp;&quot;.&nbsp; Notice the ampersand (&amp;) on the end.&nbsp; 
+This means &quot;and I want to enter another command while this is running&quot;.&nbsp; 
+Without the &quot;&amp;&quot;, you will not get another command prompt until the &quot;gedit&quot; 
+command completes, that is, until you exit gedit.&nbsp; Generally speaking, if you 
+want to execute a long-running command in the background or want to launch a 
+graphical application you plan to use for a while, add &quot;&amp;&quot; to the end of your 
+command.&nbsp;&nbsp; Once you've created all three text files, check the 
+contents of your test3.txt with the command &quot;cat test3.txt&quot;.&nbsp; If this were 
+a longer file that would fill many screens, it would be common to page through 
+the file using the command &quot;less test3.txt&quot;.&nbsp; With &quot;less&quot;, you can advance 
+a page by pressing the spacebar, advance a line by pressing Enter, go back a&nbsp; 
+page by pressing &quot;b&quot;, and quit by pressing &quot;q&quot;.&nbsp; Note that &quot;less&quot; leaves no 
+printed output in your terminal window when you quit.
+<pre>nuyuzr01@cs1:~/test/subdir1$ touch test.txt
+nuyuzr01@cs1:~/test/subdir1$ ls
+test.txt
+nuyuzr01@cs1:~/test/subdir1$ cat > test2.txt
+This is a test.
+nuyuzr01@cs1:~/test/subdir1$ gedit test3.txt &
+nuyuzr01@cs1:~/test/subdir1$ cat test3.txt
+This is another test.
+nuyuzr01@cs1:~/test/subdir1$ less test3.txt
+</pre>
+<p>File removal is accomplished with the command &quot;rm&quot; (<span class="style2">r</span>e<span class="style2">m</span>ove).&nbsp; 
+Create a file &quot;testrm.txt&quot; with the command &quot;touch&quot;, and then delete it with the 
+&quot;rm&quot; command:<pre> nuyuzr01@cs1:~/test/subdir1$ touch testrm.txt
+nuyuzr01@cs1:~/test/subdir1$ rm testrm.txt</pre>
+<p>(There is also a &quot;-r&quot; option for the &quot;rm&quot; command that allows one to
+<span class="style2">r</span>ecursively remove a directory, its contents, all 
+directories within it, etc.&nbsp; Be very careful in your use of &quot;rm -r&quot; and 
+don't use it at this point.)<p>Let's now get oriented and check our work.&nbsp; List the current working 
+directory, denoted &quot;.&quot;, and then list the directory above, that is, containing 
+this directory, denoted &quot;..&quot;.&nbsp; You should see three text files in the 
+current working directory, and the two subdirectorys in the directory above, 
+that is, the parent directory.<pre>nuyuzr01@cs1:~/test/subdir1$ ls .
+test2.txt  test3.txt  test.txt
+nuyuzr01@cs1:~/test/subdir1$ ls ..
+subdir1  subdir2</pre>
+<p>To move a file from one place to another, we use the &quot;mv&quot; (<span class="style2">m</span>o<span class="style2">v</span>e) command followed by 
+the file(s) that are to be moved and then finally the directory where they 
+should be moved.&nbsp; Let's move file &quot;test2.txt&quot; into the other subdirectory 
+&quot;subdir2&quot;.&nbsp; Relative to our current working directory, we need only type 
+the filename &quot;test2.txt&quot; to specify our file to move.&nbsp; Relative to our 
+current directory &quot;subdir1&quot;, we want to move the file up one directory (&quot;..&quot;) 
+and then down into the destination directory &quot;subdir2&quot;, so we can express this 
+as &quot;../subdir2&quot;.&nbsp;&nbsp; Thus &quot;mv test2.txt ../subdir2&quot; will move file 
+&quot;test2.txt&quot; into the &quot;sibling&quot; directory &quot;subdir2&quot; by relatively referring to it 
+through the parent (&quot;..&quot;).&nbsp; To copy a file is similar and makes use of the 
+command &quot;cp&quot; (<span class="style2">c</span>o<span class="style2">p</span>y).&nbsp;&nbsp; As you can see, many common shell commands are short.&nbsp; 
+Combined with tab completion and other conveniences, you can get things done 
+much faster than with a graphical interface.&nbsp; <pre>nuyuzr01@cs1:~/test/subdir1$ mv test2.txt ../subdir2
+nuyuzr01@cs1:~/test/subdir1$ cp test3.txt ../subdir2</pre>
+<p>Did you use tab completion with the previous commands?&nbsp; If not, please 
+to practice it in the next steps.&nbsp; Here, we repeat the copy command twice, 
+but using different ways of referring to files.&nbsp; As we saw before with the 
+command &quot;pwd&quot;, our working directory expressed from the root directory of the 
+system (/) is rather complex.&nbsp;&nbsp; The command &quot;pwd&quot; returns an <em>
+absolute</em> path.&nbsp; A path name beginning with &quot;~&quot;, &quot;.&quot;, or &quot;..&quot; is a path
+<em>relative</em> to the home directory, current working directory, or directory 
+above the current working directory, respectively.&nbsp; In this current state, 
+entering &quot;ls ..&quot;, &quot;ls ~/test&quot;, or&nbsp; &quot;ls 
+/Accounts/turing/students/s20/nuyuzr01/test/&quot; (substituting your absolute path, 
+of course) will yield the same result because these list the contents of the 
+same directory using different ways of expressing the path to the home 
+directory.<p>Repeat &quot;pwd&quot; if you need to be reminded of your absolute 
+path and then use tab 
+completion to repeat the cp command using the &quot;absolute&quot; file/directory name 
+starting with the root directory &quot;/&quot;.&nbsp; Then, practice using completion to 
+refer to the file/directory name relative to your home directory (~).&nbsp;
+<pre>nuyuzr01@cs1:~/test/subdir1$ pwd
+/Accounts/turing/students/s20/nuyuzr01/test/subdir1
+nuyuzr01@cs1:~/test/subdir1$ cp /Accounts/turing/students/s20/nuyuzr01/test/subdir1/test3.txt /Accounts/turing/students/s20/nuyuzr01/test/subdir2
+nuyuzr01@cs1:~/test/subdir1$ cp ~/test/subdir1/test3.txt ~/test/subdir2</pre>
+<p>It is often the case that one wishes to find a file/directory with a given 
+name or pattern within a name, or a file that has a certain word or phrase in 
+its contents.&nbsp; First, change to your home directory with &quot;cd&quot;.&nbsp; 
+Suppose you wish to find all filenames/directories that contain &quot;sub&quot; in their 
+name.&nbsp; Enter the command &quot;find . -name *sub*&quot;.&nbsp; This searches through 
+the entire directory structure at or below directory &quot;.&quot;, your working 
+directory, and prints the relative file/directory names that have &quot;sub&quot; preceded 
+and followed by 0 or more arbitrary characters, denoted by the &quot;wildcard&quot; 
+character &quot;*&quot;.&nbsp;&nbsp; Suppose you wish to find all files that contain the 
+word &quot;test&quot;.&nbsp; Enter the command 'grep -Ril &quot;test&quot; test', 
+where option &quot;R&quot; calls for a recursive search through subdirectories, &quot;i&quot; 
+specifies that search should ignore case, and &quot;l&quot; lists only the file where the 
+pattern is found, rather than listing all occurrences within the file.&nbsp; All possible 
+uses of find and grep and the &quot;regular expression&quot; pattern language that 
+includes wildcard &quot;*&quot; could be a lengthy tutorial in and of itself.&nbsp; 
+Remember to use the &quot;man&quot; command and internet searches to gradually increase 
+your bash command line skills over time.<pre>nuyuzr01@cs1:~/test/subdir1$ cd
+nuyuzr01@cs1:~$ find . -name *sub*
+./test/subdir2
+./test/subdir1
+nuyuzr01@cs1:~$ grep -Ril "test" test
+test/subdir2/test3.txt
+test/subdir2/test2.txt
+test/subdir1/test3.txt
+</pre>
+<p>&nbsp;
+<table BORDER=0 CELLPADDING=3 WIDTH="100%" BGCOLOR="#3333FF" >
+<tr>
+<td><b><font color="#FF6600"><font size=+1>But wait! There's more!&nbsp;
+Look what you also get ABSOLUTELY FREE!...</font></font></b></td>
+</tr>
+</table>
+
+<p>This tutorial gives just a brief orientation to bash, but there is <i>much</i>
+more that can be learned.&nbsp; If you have an interest in Unix system
+administration (here or elsewhere), mastery of a shell such as bash is
+important and it is recommended that you go much deeper on your own.&nbsp;
+Bash is the default shell for Linux, the default Terminal app shell for Macs, 
+and can be emulated on Windows systems via free software such as
+<a href="https://mobaxterm.mobatek.net/">Mobaxterm</a> or
+<a href="https://www.cygwin.com/">Cygwin</a>.&nbsp; Combined with the latest 
+<a href="http://www.oracle.com/technetwork/java/javase/downloads/index.html">Java development kit</a> and
+<a href="https://www.gnu.org/software/emacs/emacs.html">GNU emacs</a> for all 
+platforms, you can have a very Unix-like Java development environment
+on whichever system you have for free.&nbsp; Cooool.
+<p><b>If you're doing this tutorial as a class exercise, type the command
+"<span class="style1">(pwd; history) | cat >> README</span>" in your homework directory.&nbsp; This will append a record of your work
+to a file called README which will be submitted with your assignment.&nbsp; Then 
+move this README file to the same directory you'll be submitting your homework 
+from. WARNING: If you've already created a README file in that directory, moving 
+this new README there will replace your other one.&nbsp; In this case, replace 
+&quot;README&quot; in the command above with the filename of your preexisting README file, 
+e.g. &quot;~/workspace/cs111/README&quot;.&nbsp; </b>
+<p>Now that you're well on your way to learning bash, the responsibility
+to learn more rests on your shoulders.&nbsp; Remember that small time invested
+up front in this learning can save you much more time in the long run.&nbsp;
+Also keep in mind that the computing habits you form now will stay with
+you for a career, so please take this independent learning seriously.&nbsp;
+Not everything worthwhile should be assigned.&nbsp; More in-depth Unix
+and bash tutorials and references can be found online:<ul>
+	<li>Free PDF book <a href="http://linuxcommand.org/tlcl.php">&quot;The Linux 
+	Command Line&quot; by William Schotts</a>.&nbsp; </li>
+	<li><a href="http://ryanstutorials.net/linuxtutorial/">Ryan Chadwick's Linux 
+	Tutorial</a> and
+	<a href="http://ryanstutorials.net/linuxtutorial/cheatsheet.php">cheat sheet</a></li>
+	<li><a href="http://www.ee.surrey.ac.uk/Teaching/Unix/">Michael Stonebank's 
+	Unix Tutorial for Beginners</a> that is
+	<a href="http://www.ee.surrey.ac.uk/Teaching/Unix/download.html">
+	downloadable</a> for offline use</li>
+	<li>Since vi is available by default in Linux, Schotts and Chadwick advocate 
+	learning vi or vim (improved vi).&nbsp; I would instead suggest that you 
+	start using simpler gedit (on our systems) or nano (standard) to get by at 
+	first and take the time to learn <strong>emacs</strong>, the Swiss army 
+	knife of Unix editors:<ul>
+		<li><a href="https://www.gnu.org/software/emacs/tour/">GNU emacs tour</a></li>
+		<li>Run emacs with the command &quot;emacs &lt;filename&gt; &amp;&quot;.&nbsp; If you wish 
+		to work remotely with emacs in a terminal window only (no additional 
+		windows), use the command &quot;emacs -nw &lt;filename&gt;&quot;.&nbsp; The &lt;filename&gt; 
+		is optional.</li>
+		<li>&nbsp;Within emacs, you can take a tutorial with Control-h t (C-h 
+		t), or reference a manual with C-h m.</li>
+		<li>
+		<a href="https://www.gnu.org/software/emacs/refcards/pdf/refcard.pdf">
+		Emacs Quick Reference Card</a></li>
+	</ul>
+	</li>
+</ul>
+<p>&nbsp;Enjoy your learning!
+<br>
+<p><a href="../index.html">Todd W. Neller</a>
+</body>
+</html>

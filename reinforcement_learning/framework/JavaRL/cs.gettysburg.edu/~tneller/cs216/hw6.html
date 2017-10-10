@@ -1,0 +1,92 @@
+<!doctype html public "-//w3c//dtd html 4.0 transitional//en">
+<html>
+<head>
+   <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+   <meta name="GENERATOR" content="Microsoft FrontPage 12.0">
+   <title>Homework #6</title>
+</head>
+<body>
+&nbsp;
+<table WIDTH="100%" >
+<tr>
+<td><img SRC="GburgCS.gif" height=84 width=182></td>
+
+<td><font size=+2>CS 216 - Data Structures</font>
+<br><font size=+2>Homework #6</font></td>
+</tr>
+</table>
+
+<hr>
+<br><b>Due: Wednesday 3/20 at the beginning of class.  </b>&nbsp;<p><b>NOTE: This work is to be done in pairs.</b>
+<h2>Binary Search Trees</h2>
+
+<p>In these exercises, you will add to the Binary Search Tree
+implementation we developed together in class.  Although you may
+discuss your algorithms for these problems, your actual implementation
+must be completed independently.</p>
+
+<p>
+<b>1. Range:</b>  Implement a method <tt>public ArrayList&lt;E&gt;
+getRange(E min, E max)</tt> that, given a minimum value <tt>min</tt>
+and a maximum value <tt>max</tt>, returns a sorted list of all
+(possibly repeated) values in the binary search tree in the range
+[<tt>min</tt>, <tt>max</tt>].  You may assume that <tt>min &lt;=
+max</tt>.  Your implementation should traverse a minimal subtree as
+you build the list.
+</p>
+
+<p>Write stochastic test code that adds <i>n</i> random values from 0 to
+<i>m</i>-1 to an empty <tt>BinarySearchTree&lt;Integer&gt;</tt>,
+prints the tree, calls <tt>getRange</tt> on a random range of these
+values, and prints the returned list.  Choose values of <i>m</i> and
+<i>n</i> (e.g. 10 and 20) such that you're likely to have both missing
+and repeated values.
+</p>
+
+<p>
+<b>2. Iterable:</b>  Augment your <tt>BinarySearchTree&lt;E&gt;</tt>
+so that it now <tt>implements Iterable&lt;E&gt;</tt>.  This implies
+that you will also implement an <tt>Iterator&lt;E&gt;</tt> class.
+This <tt>Iterator&lt;E&gt;</tt> should be strictly implemented
+(including exceptions) and should have a functional <tt>remove</tt>
+method.  Read the Java documentation thoroughly.  A correct
+implementation will allow you to use the enhanced for-loop
+(a.k.a. "for-each" loop) with your binary search tree.
+</p>
+
+<p>Hint: Add an inner class <tt>BSTIterator implements
+Iterator&lt;E&gt;</tt> that will have full access to the tree's
+fields.  This inner class would benefit from having fields:
+<ul>
+<li><tt>Node&lt;E&gt; current</tt> - the current node whose value was
+just returned by <tt>next()</tt> (or <tt>null</tt> if there has been
+no call to <tt>next()</tt>) and may be deleted by <tt>remove()</tt></li>
+<li><tt>Node&lt;E&gt; next</tt> - the successor node to the current
+node or <tt>null</tt> if there is no successor</li>
+<li><tt>boolean canRemove</tt> - true if and only if there has been no call to
+<tt>remove()</tt> since a successful call to <tt>next()</tt></li>
+</ul>
+
+<tt>remove()</tt> can be implemented using your node deletion method,
+but take care to update <tt>current</tt> if necessary.</p>
+
+<p>For your stochastic test code, generate a random tree as in the
+first exercise, print it using our <tt>toString()</tt> method, and print
+the values using a for-each loop.  Then get an
+<tt>Iterator&lt;E&gt;</tt> from the tree and, using all three
+<tt>Iterator</tt> methods, remove either all odd values or all even
+values and print the values again using a for-each loop.</p>
+
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+

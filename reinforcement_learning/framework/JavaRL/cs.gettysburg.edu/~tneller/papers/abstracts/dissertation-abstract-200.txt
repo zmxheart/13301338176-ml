@@ -1,0 +1,35 @@
+SIMULATION-BASED SEARCH FOR HYBRID SYSTEM
+CONTROL AND ANALYSIS
+
+Todd William Neller, Ph.D.
+Stanford University, 2000
+
+Advisor: Richard E. Fikes
+
+Abstract:
+
+This dissertation explores new algorithmic approaches to
+simulation-based optimization, game-tree search, and tree search for
+the control and analysis of hybrid systems.  Hybrid systems are
+systems that evolve with both discrete and continuous behaviors.
+Examples of hybrid systems include diverse mode-switching systems such
+as those we have used as focus problems: stepper motors, magnetic
+levitation units, and submarine detection avoidance scenarios.  For
+hybrid systems with complex dynamics, the designer may have little
+other than simulation as a tool to detect design flaws or inform
+offline or real-time control.  In approaching control and analysis of
+such systems, we thus limit ourselves to a black-box simulation of the
+system.
+
+Among our algorithmic contributions are:
+- the first multi-dimensional information-based optimization approach,
+- a generalization of previous multi-level optimization methods,
+- information-based alpha-beta game-tree search,
+- syntheses of cell-mapping and game-tree search techniques,
+- iterative refinement approaches for dynamic action timing discretization,
+- a best-first search variant with dynamic time-step refinement,
+- iterative refinement with an epsilon variant of recursive best-first
+  search, and  
+- a dispersion technique for dynamic action parameter discretization.
+We also formally define several hybrid system game-tree and tree
+search problems.

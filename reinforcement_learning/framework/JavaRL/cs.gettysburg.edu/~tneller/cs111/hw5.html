@@ -1,0 +1,105 @@
+<!doctype html public "-//w3c//dtd html 4.0 transitional//en">
+<html>
+<head>
+   <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+   <meta name="GENERATOR" content="Microsoft FrontPage 12.0">
+   <title>Homework #5</title>
+   <style type="text/css">
+   .style1 {
+	   text-decoration: underline;
+   }
+   .style2 {
+	background-color: #FFFF00;
+}
+   </style>
+</head>
+<body>
+<table WIDTH="100%" >
+<tr>
+<td><img SRC="GburgCS.gif" height=84 width=182></td>
+
+<td><font size=+2>CS 111 - Introduction to Computer Science</font>
+<br><font size=+2>Homework #5</font></td>
+</tr>
+</table>
+
+<hr>
+<br><b>Due: Friday 2/24 at the beginning of class<br><span class="style2">
+Extended Due Date (due to submission system problem): Friday 3/3 at the 
+beginning of class</span></b>
+<p><strong>1. Pentagon Area:&nbsp;</strong> Text Programming Exercise 4.1.&nbsp; Call your 
+program <tt>PentagonArea.java</tt>.&nbsp; Remember to end your last print 
+statement with a newline.</p>
+
+<p><b>2. Gettysburg Student Username:</b>&nbsp; Implement a program 
+<tt>Username.java</tt> that prompts the user with &quot;Please enter a first name, last name, 
+and 1-2 digit positive integer separated by spaces: &quot;, reads two Strings and an 
+integer respectively, and then prints the Gettysburg student username according 
+to the following rules:</p>
+<ul>
+	<li>The first 4 letters of the username are the lowercase first 4 letters of 
+	the last name.&nbsp; If the last name is less than or equal to 4 letters in 
+	length, the entire last name is used.</li>
+	<li>The next 2 letters of the username are the lowercase first 2 letters of 
+	the first name.&nbsp; If the first name has only 1 letter, the entire first 
+	name is used.</li>
+	<li>The final 2 digits of the username are the given 1-2 digit positive 
+	integer.&nbsp; If the input integer has only one digit, a zero is added 
+	before that digit.</li>
+</ul>
+<p>You may assume that all names contain no spaces, hyphens, or any character 
+other than an English alphabetic character of either case.&nbsp; You may <em>not</em> 
+assume that all input is lowercase.</p>
+<p>Example Transcript (input <span class="style1">underlined</span>):</p>
+<hr><pre>Please enter a first name, last name, and 1-2 digit positive integer separated by spaces: <span class="style1">Kyle Fun 1</span>
+funky01</pre>
+<hr>
+<pre>Please enter a first name, last name, and 1-2 digit positive integer separated by spaces: <span class="style1">Eric Answorth 42</span>
+answer42</pre>
+<hr>
+<pre>Please enter a first name, last name, and 1-2 digit positive integer separated by spaces: <span class="style1">Melissa Mailander 11</span>
+mailme11</pre>
+<hr>
+<p><b>3. Chuck-a-luck:</b> Implement a program ChuckALuck.java that implements a 
+simple &quot;Single Die Bet&quot; form of the game Chuck-a-luck.&nbsp; A bettor places a 
+stake (i.e. amount of money bet) on a die roll (1-6) and rolls three dice.&nbsp; 
+If none of those three show the die roll the stake was bet on, the bettor loses 
+their stake.&nbsp; However, if <em>n </em>of the dice rolled equal the die roll 
+of the stake, then the banker pays the bettor <em>n</em> to 1, i.e. the bettor 
+gets back their stake plus <em>n </em>times their stake.&nbsp; (Thus, a bettor who places a stake 
+on 1 and rolls 3,1,4 will get back 2 times their stake back.&nbsp; However, if the 
+roll was instead 1,1,1, then the bettor would get back 4 times their stake.)</p>
+<p>Input:</p>
+<ul>
+	<li>The user enters an integer representing their single die number bet.&nbsp; 
+	Integers 1-6 are valid entries.</li>
+</ul>
+<p>&nbsp;Output:</p>
+<ul>
+	<li>Initially, the user is prompted for their bet with &quot;Place your bet 
+	on a number 1-6: &quot;.</li>
+	<li>If the user enters an integer that is not in the range 1-6, the program prints 
+	&quot;Invalid bet.&quot; and does nothing more.</li>
+	<li>Otherwise, the program prints &quot;Roll: &quot;, and a random number generator simulates 
+	three die rolls and prints them separated only by commas (and no spaces).</li>
+	<li>The program prints &quot; --&gt; &quot;.</li>
+	<li>If the user's bet is not rolled, print &quot;You lose your stake.&quot;</li>
+	<li>Otherwise, if the user's bet is rolled <em>n</em> times, print &quot;The 
+	banker pays you <em>n</em> to 1!&quot; (substituting the number for <em>n</em>).</li>
+	<li>Terminate output with a newline.</li>
+</ul>
+<p>Example transcripts (input&nbsp;<span class="style1">underlined</span>): </p>
+<hr>
+<pre>Place your bet on a number 1-6: <span class="style1">0</span>
+Invalid bet.	</pre>
+<hr>
+<pre>Place your bet on a number 1-6: <span class="style1">3</span>
+Roll: 1,6,6 --&gt; You lose your stake.</pre>
+<hr>
+<pre>Place your bet on a number 1-6: <span class="style1">4</span>
+Roll: 4,3,4 --&gt; The banker pays you 2 to 1!</pre>
+<hr>
+<p>&nbsp;</p>
+
+</body>
+</html>

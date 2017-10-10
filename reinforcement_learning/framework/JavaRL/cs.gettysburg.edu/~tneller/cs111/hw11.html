@@ -1,0 +1,119 @@
+<!DOCTYPE html PUBLIC "-//w3c//dtd html 4.0 transitional//en">
+<html><head>
+
+
+   <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+   <meta name="GENERATOR" content="Microsoft FrontPage 12.0"><title>Homework #11</title>
+   
+   <style type="text/css">
+.style1 {
+	text-decoration: underline;
+}
+</style></head><body>
+<table width="100%">
+<tbody><tr>
+<td><img src="GburgCS.gif" height="84" width="182"></td>
+
+<td><font size="+2">CS 111 - Introduction to Computer Science</font>
+<br><font size="+2">Homework #11</font></td>
+</tr>
+</tbody></table>
+
+<hr>
+<br><b>Due: Friday 4/14 at the beginning of class </b>
+<p><b>1. Three-Pile Nim: </b>Call your program <tt>ThreePileNim.java</tt>.
+In the 3-pile game of Nim, two players begin with three piles
+containing one or more objects. In turn, each player chooses a
+non-empty pile and removes one or more objects from it.&nbsp; (It is
+legal to take all objects of a pile.)&nbsp; The player taking the last
+object of the last pile wins.&nbsp; (The version of 3-pile Nim where
+the one taking the last object loses is called <span style="font-style: italic;">Misere' Nim</span>.)<br><br>In your 
+implementation, you should internally represent the number of objects in each 
+pile as an array of length 3.&nbsp; Position<em> n</em> in that array will 
+contain the number of objects in pile<em> n</em>.&nbsp; The program initially 
+reads the 3 initial pile sizes from the user.&nbsp; Assume that these will be 
+positive integers.&nbsp; Then the game will begin.&nbsp; <br><br>At the 
+beginning of each turn, the current state of each pile is represented in text as 
+one line per pile, each with the 0-based pile number followed by a colon and a 
+number of asterisks equal to the number of objects currently in the pile.&nbsp; 
+Then the user inputs two integers: (1) the 0-based&nbsp; pile number, and (2) 
+the number of objects that are to be removed from that pile.&nbsp; <em>Assume that 
+such input is a legal play.</em>&nbsp; Turns continue until all piles are empty.&nbsp; 
+(Nothing is printed after the final losing play.)</p>
+<p>Input/output should be as shown in the following transcript.</p>
+<p>Sample transcript (input <span class="style1">underlined</span>):</p>
+<pre><span class="style1">5 4 2</span>
+0:*****
+1:****
+2:**
+<span class="style1">2 1</span>
+0:*****
+1:****
+2:*
+<span class="style1">0 3</span>
+0:**
+1:****
+2:*
+<span class="style1">1 1</span>
+0:**
+1:***
+2:*
+<span class="style1">1 2</span>
+0:**
+1:*
+2:*
+<span class="style1">0 1</span>
+0:*
+1:*
+2:*
+<span class="style1">2 1</span>
+0:*
+1:*
+2:
+<span class="style1">0 1</span>
+0:
+1:*
+2:
+<span class="style1">1 1</span></pre>
+
+<p>Hint: If done simply, the main method needs only about a dozen lines of code.<br></p>
+    
+ <p><b>2. BigFraction: </b>Call your class <tt>BigFraction.java</tt> and 
+ implement it according to <a href="bigfraction/BigFraction.html">this specification</a>.&nbsp; You will note that 
+ BigFraction is composed of BigInteger numerator and BigInteger denominator.&nbsp; 
+ Like BigInteger and BigDecimal, BigFraction is immutable.&nbsp; Also, take care 
+ to simplify all fractions during construction using the BigInteger gcd method 
+ and dividing both numerator and denominator by their greatest common divisor.</p>
+<p><b>3. Pig Scoring Probability: </b>Call your class <tt>PigMath.java</tt> 
+and implement it according to <a href="bigfraction/PigMath.html">this specification</a>.&nbsp;
+A method
+public static BigFraction probabilityOfRolling(int target) Return the
+probability of rolling a Pig turn total of at least a given target
+number of points. </p><p>The
+algorithm can be described as follows:
+Create an array p indexed by turn total t for computing p[t], the
+probability for reaching at least the target turn total from the
+current turn total t. * Initially, p[t] = 0 for t &lt; target and p[t]
+= 1 for t &gt;= target. Then, working from t=target-1 down to t=0, you
+can compute each p[t] = p[t+2]/6 + p[t+3]/6 + p[t+4]/6 + p[t+5]/6 +
+p[t+6]/6.
+(In other words, a non-1 roll with probability 1/6 will contribute to
+the current turn total success by 1/6 times the probability of success
+at the next turn total reached by the roll.) This calculation working
+backwards is called retrograde analysis, and you'll be working with
+BigFraction objects for exact computation.
+</p>
+<p>Example: To compute the probability of reaching a target of 3, array
+p contains BigFraction values for {0, 0, 0, 1, 1, 1, 1, 1, 1}.<br>
+Working backwards from t = 2 down to 0:<br>p[2] = p[2+2]/6 + p[2+3]/6 + p[2+4]/6 + p[2+5]/6 + p[2+6]/6 = 1/6 + 1/6 + 1/6 + 1/6 + 1/6 = 5/6.<br>
+p[1] = p[1+2]/6 + p[1+3]/6 + p[1+4]/6 + p[1+5]/6 + p[1+6]/6 = 1/6 + 1/6 + 1/6 + 1/6 + 1/6 = 5/6.<br>
+p[0] = p[0+2]/6 + p[0+3]/6 + p[0+4]/6 + p[0+5]/6 + p[0+6]/6 = (5/6)/6 + 1/6 + 1/6 + 1/6 + 1/6 = 29/36.</p>
+<p>Use loops for (1) initializing your p values, (2) iterating down
+through the turn totals, and (3) iterating through the roll numbers 2-6
+for each turn total. </p><p>A spreadsheet demonstrating this computation for target 100 is available in
+ <a href="pigmath/PigMath.xlsx">XLSX</a> and <a href="pigmath/PigMath.ods">ODS</a> 
+ formats.</p>
+<p>Main method:</p>
+<pre>	/**<br>	 * Test probabilityOfRolling(100).  The result should be "The probability in Pig of rolling at least 100 on a single turn is approximately 0.010197 and exactly 2060507550845146798433160823128452341/202070319366191015160784900114134073344."<br>	 * @param args (unused)<br>	 */<br>	public static void main(String[] args) {<br>		int target = 100;<br>		BigFraction frac = probabilityOfRolling(target);<br>		System.out.printf("The probability in Pig of rolling at least %d on a single turn is approximately %f and exactly %s.\n", target, frac.asBigDecimal(6, BigDecimal.ROUND_HALF_UP).doubleValue(), frac);<br>	}</pre>
+    
+ </body></html>

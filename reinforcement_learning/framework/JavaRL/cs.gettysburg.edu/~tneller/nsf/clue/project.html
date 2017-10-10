@@ -1,0 +1,269 @@
+
+<head>
+<style type="text/css">
+.style1 {
+	font-size: x-small;
+}
+.style2 {
+	font-size: x-small;
+	font-style: italic;
+}
+</style>
+</head>
+
+<font face="Verdana, Arial, Helvetica, sans-serif" size="2" color="#FFFFFF">
+<TABLE cellSpacing=0 cellPadding=0 width="615" border=0 height="517">
+  <TBODY>
+    <TR>
+     <TD width=615 height=156 bgcolor="#ffffff">
+        <h1 align=left>
+        <font size="4">Machine Learning Laboratory Experiences for Introducing 
+        Undergraduates to Artificial Intelligence<br>
+        </font><font size="2">NSF DUE CCLI-A&amp;I Award Number 0409497</font></h1>
+        <h1 align=left>
+        Clue Deduction:<br>
+        <font size="5">an introduction to satisfiability reasoning</font></h1>
+        <p align=left>
+        &nbsp;</TD></TR>
+    <TR>
+      <TD width=615 bgColor=#DE1C25>
+      <font color="#FFFFFF" size="4"><b>&nbsp;<a name="overview">OVERVIEW</a></b></font>
+      </TD></TR>
+    <TR>
+      <TD width=615 bgColor=#FFFFFF height="34"> 
+      <img border="0" src="magnifyingGlass.jpg" align="right" width="89" height="140">The popular boardgame <a href="http://en.wikipedia.org/wiki/Cluedo">Clue</a> 
+      (a.k.a. Cluedo) serves as a fun focus problem for this introduction to 
+      propositional knowledge representation and reasoning.&nbsp; After covering 
+      fundamentals of propositional logic, students first solve basic logic 
+      problems with and without the aid of a satisfiability solver (e.g.
+      <a href="http://www.princeton.edu/~chaff/zchaff.html">zChaff</a>).&nbsp; 
+      Students then represent the basic knowledge of Clue in order to solve a 
+      Clue mystery.&nbsp; Several possible advanced projects are sketched if 
+      students wish to pursue the topic in more depth.&nbsp;&nbsp; <br>
+&nbsp;</TD></TR>
+      
+    <TR>
+      <TD width=615 bgColor=#DE1C25>
+      <font color="#FFFFFF" size="4"><b>&nbsp;<a name="objectives">OBJECTIVES</a></b></font>
+      </TD></TR>
+    <TR>
+      <TD width=615 bgColor=#FFFFFF height="34"> The object of this project is 
+      to give the student a deep, experiential understanding of <b>propositional 
+      knowledge representation and reasoning</b> through explanation, 
+        worked examples, and implementation exercises.<ul>
+        <li>Gain an understanding of the syntax and semantics of propositional 
+        logic, as well as general logic terminology, including &quot;model&quot;, &quot;(un)satisfiability&quot;, 
+        &quot;entailment&quot;, &quot;equivalence&quot;, &quot;soundness&quot;, and &quot;completeness&quot;.</li>
+        <li>Learn the process of knowledge base conversion to Conjunctive Normal 
+        Form (CNF).</li>
+        <li>Solve word problems with proof by contradiction (a.k.a. reductio ad 
+        absurdum) using resolution theorem proving.</li>
+        <li>Represent knowledge so as to complete a program implementation that 
+        performs expert reasoning for the game of Clue.</li>
+		<li>Compare deductive learning, inductive learning, and knowledge 
+		acquisition.</li>
+      </ul>
+      <p>&nbsp;</TD></TR>
+
+    <TR>
+      <TD width=615 bgColor=#DE1C25>
+      <font color="#FFFFFF" size="4"><b>&nbsp;<a name="prerequisites">PREREQUISITES</a></b></font>
+      </TD></TR>
+    <TR>
+      <TD width=615 bgColor=#FFFFFF height="34"> The student should understand the syntax of Java, 
+	  Python, or LISP.&nbsp; Students who 
+      program in C++ should be able to follow most of the Java examples.<br>
+      <br>
+      Along with the project, the student should cover the recommended 
+      background reading below.<p>In support of the exercises and project, one 
+      should download and install
+      <font face="Verdana, Arial, Helvetica, sans-serif" color="#FFFFFF">
+      <a href="http://www.princeton.edu/~chaff/zchaff.html">zChaff</a></font><font face="Verdana, Arial, Helvetica, sans-serif">, 
+      a complete, DPLL-type SAT solver.&nbsp; If the use of a different SAT 
+      solver is desired, one will need to modify <a href="SATSolver.java">
+      SATSolver.java</a> accordingly.</font><font size="2"><br>
+&nbsp;</font></TD></TR>
+
+    <TR>
+      <TD width=615 bgColor=#DE1C25>
+      <font color="#FFFFFF" size="4"><b>&nbsp;<a name="background">BACKGROUND</a></b></font>
+      </TD></TR>
+    <TR>
+      <TD width=615 bgColor=#FFFFFF height="34"> For a more detailed 
+      introduction to the logical concepts, we recommend the parallel reading of 
+      a good AI textbook section on propositional logic.&nbsp; For example, one 
+      might assign Chapter 7 (&quot;Logical Agents&quot;) of:<blockquote>
+        <p ALIGN="LEFT"><span class="style1">Stuart Russell and Peter Norvig.       
+		</span>       <a href="http://aima.cs.berkeley.edu/">
+		<span class="style2">Artificial 
+        Intelligence: a modern approach,
+        3rd ed</span><span class="style1">.</span></a><span class="style1"> Prentice Hall, Upper Saddle 
+        River, NJ, USA, 2010.</span></p>
+      </blockquote>
+      <p ALIGN="LEFT"><font face="Verdana, Arial, Helvetica, sans-serif">
+	        Students are also encouraged to play the game of 
+      <a href="http://www.hasbro.com/clue/">Clue</a> in order to gain a solid understanding of the game and the knowledge one 
+      acquires during play.&nbsp; One can speed gameplay by dispensing with 
+	  board movement and allowing each player in turn to make an unrestricted 
+	  suggestion and/or accusation.<br>
+&nbsp;</font></TD></TR>
+
+    <TR>
+      <TD width=615 bgColor=#DE1C25>
+      <font color="#FFFFFF" size="4"><b>&nbsp;<a name="description">DESCRIPTION</a></b></font>
+      </TD></TR>
+    <TR>
+      <TD width=615 bgColor=#FFFFFF height="34"> The project is described in the 
+      file <b> <a href="clue.pdf">clue.pdf</a></b>.&nbsp; You will need the
+      <a href="http://get.adobe.com/reader/">free Adobe 
+      Acrobat Reader</a> to view this file.<a href="http://get.adobe.com/reader/"><img alt="Get Adobe Reader logo" hspace="3" src="get_adobe_reader.gif" vspace="3" border="0" align="top" width="88" height="31"></a><br>
+      <font size="2"><br>
+      </font>Example Java code described in the project is available here (see 
+	  below for Python and LISP):<ul>
+        <li><b><a href="SATSolver.java">SATSolver.java</a></b></li>
+        <li><b><a href="ClueReasoner.java">ClueReasoner.java</a></b></li>
+      </ul>
+      <p>This code was <font face="Verdana, Arial, Helvetica, sans-serif">
+      generated from the same source file that generated
+</font><font face="Verdana, Arial, Helvetica, sans-serif" color="#FFFFFF">
+      <a href="clue.pdf">clue.pdf</a></font><font face="Verdana, Arial, Helvetica, sans-serif"> 
+      using the
+</font><font face="Verdana, Arial, Helvetica, sans-serif" color="#FFFFFF">
+      <a href="http://www.literateprogramming.com/">literate programming</a></font><font face="Verdana, Arial, Helvetica, sans-serif"> 
+      tool
+</font><font face="Verdana, Arial, Helvetica, sans-serif" color="#FFFFFF">
+      <a href="http://www.eecs.harvard.edu/~nr/noweb/">noweb</a></font><font face="Verdana, Arial, Helvetica, sans-serif">.</font></p>
+      <p>We recommend having students do a few of the included logic exercises 
+      of Section 7 in order to gain experience with the <a href="SATSolver.java">SATSolver</a> 
+      class before beginning work on the <a href="ClueReasoner.java">
+      ClueReasoner</a>.</p>
+      <p>Students seeking 
+      more extended challenges will also find brief descriptions of related advanced 
+      projects including basic SAT solver challenges and extensions for cardinality 
+      constraints.<font size="2">&nbsp; </font>
+		<p><a href="http://www.cril.univ-artois.fr/~leberre/">Daniel Le Berre</a>, 
+		Lecturer at the facult</font><font face="Verdana, Arial, Helvetica, sans-serif">é</font><font face="Verdana, Arial, Helvetica, sans-serif"> 
+		Jean Perrin, Université d'Artois, has generously provided a
+		<a href="sat4j">modified SATSolver</a> for using&nbsp;
+		<a href="http://www.sat4j.org/">SAT4J</a>, a library of efficient SAT 
+		solvers targeted for first users of SAT &quot;black boxes&quot; in Java. 
+		A <a href="sat4j-compatible">version that is compatible with 
+		SATSolver.java</a> usage above is also available.</font><p>
+		<a href="http://cs.carleton.edu/faculty/dmusican/">David Musicant</a>, 
+		Associate Professor of Computer Science at Carleton College, has 
+		generously provided a 
+		<a href="file:///C:/Users/tneller/Desktop/modelai2011/clue/lisp.html">
+		LISP port</a> and a
+		<a href="http://www.cs.carleton.edu/faculty/dmusican/cs321s10/clue.html">
+		Python port</a> of the above project description and source files:<ul>
+		  <li>Python:
+		  <a href="file:///C:/Users/tneller/Desktop/modelai2011/clue/clue-python.pdf">
+		  clue-python.pdf</a>,
+		  <a href="file:///C:/Users/tneller/Desktop/modelai2011/clue/SATSolver.py">
+		  SATSolver.py</a>,
+		  <a href="file:///C:/Users/tneller/Desktop/modelai2011/clue/clueReasoner.py">
+		  clueReasoner.py</a></li>
+		  <li>LISP:
+		  <a href="file:///C:/Users/tneller/Desktop/modelai2011/clue/clue-lisp.pdf">
+		  clue-lisp.pdf</a>,
+		  <a href="file:///C:/Users/tneller/Desktop/modelai2011/clue/SAT-solver.lisp">
+		  SAT-solver.lisp</a>,
+		  <a href="file:///C:/Users/tneller/Desktop/modelai2011/clue/clue-reasoner.lisp">
+		  clue-reasoner.lisp</a></li>
+	  </ul>
+	  <p>
+		&nbsp;<font face="Verdana, Arial, Helvetica, sans-serif" color="#FFFFFF"><br>
+&nbsp;</font></TD></TR>
+    
+        <font face="Verdana, Arial, Helvetica, sans-serif" size="2" color="#FFFFFF">
+    
+        <TR>
+      <TD width=615 bgColor=#DE1C25>
+      <font color="#FFFFFF" size="4"><b>&nbsp;<a name="syllabus">SYLLABUS</a></b></font>
+      </TD></TR>
+    <TR>
+      <TD width=615 bgColor=#FFFFFF height="34"> 
+      <p>Here is a sample syllabus used in 
+      <a href="http://cs.gettysburg.edu/~tneller/cs371/index.html">CS 371 - Introduction to AI</a> at 
+      Gettysburg College:<p>First class: Thursday 10/14/04<br>
+      Preparatory reading: Russell &amp; Norvig Sections 7.1-7.4 (through &quot;A Simple 
+      Knowledge Base&quot;),
+      <font face="Verdana, Arial, Helvetica, sans-serif" color="#FFFFFF">
+      <a href="clue.pdf"> <b> clue.pdf</b></a>
+</font><font face="Verdana, Arial, Helvetica, sans-serif">
+      sections 1-2.</font><br>
+      Propositional Logic, Syntax, Semantics<br>
+      Homework due next class: Represent the knowledge base for one exercise of
+      <font face="Verdana, Arial, Helvetica, sans-serif" color="#FFFFFF">
+      <b> <a href="clue.pdf">clue.pdf</a></b></font><font face="Verdana, Arial, Helvetica, sans-serif"><font color="#FFFFFF">
+      </font>section</font><font face="Verdana, Arial, Helvetica, sans-serif"> 
+      7.</font><p>Second class: Tuesday 10/19/04<font face="Verdana, Arial, Helvetica, sans-serif"><br>
+      T</font>ruth assignments, models, (un)satisfiability, validity, 
+      entailment, equivalence.<font face="Verdana, Arial, Helvetica, sans-serif"><br>
+      Homework due next class: Represent the knowledge base for two more 
+      exercises of
+</font>
+      <font face="Verdana, Arial, Helvetica, sans-serif" color="#FFFFFF">
+      <a href="clue.pdf"> <b> clue.pdf</b></a></font><font face="Verdana, Arial, Helvetica, sans-serif"> 
+      section 7.</font><br>
+      <font face="Verdana, Arial, Helvetica, sans-serif">
+      <br>
+      Third class: Thursday 10/21/04<br>
+      Preparatory reading: Russell &amp; Norvig Section 7.5,
+</font>
+      <font face="Verdana, Arial, Helvetica, sans-serif" color="#FFFFFF">
+      <a href="clue.pdf"> <b> clue.pdf</b></a></font><font face="Verdana, Arial, Helvetica, sans-serif"> 
+      sections 3-6.<br>
+      C</font>onjunctive normal form, resolution theorem proving, proof by 
+      contradiction (reductio ad absurdum), SAT solvers<br>
+      Homework due next class: Resolution proofs and/or satisfying truth 
+      assignments for solving the logic problems of the previous homework, use 
+      of SATSolver class to check the solutions to these problems.<p>
+      <font face="Verdana">Fourth class: Tuesday 10/26/04<br>
+      Preparatory reading: Remainder of
+      </font><font face="Verdana, Arial, Helvetica, sans-serif" color="#FFFFFF">
+      <a href="clue.pdf"> <b> clue.pdf</b></a>
+</font>
+      <font face="Verdana"><br>
+      The Game of Clue, propositional facts in the game, construction of a Clue 
+      reasoner. <br>
+      Homework due next class: Complete implementation of ClueReasoner class, as 
+      described in</font><font face="Verdana, Arial, Helvetica, sans-serif" color="#FFFFFF"><font face="Verdana">
+      </font> <a href="clue.pdf"> <b> clue.pdf</b></a><font face="Verdana, Arial, Helvetica, sans-serif">
+</font>
+</font>
+      <font face="Verdana">section 8&nbsp;&nbsp;&nbsp;
+      </font><br>
+      <br>
+      The following material is optional to the project. <br>
+      <br>
+      Fifth class: Thursday 10/28/04<br>
+      Preparatory reading: Russell &amp; Norvig Section 7.6 (&quot;local search 
+      algorithms&quot;)<br>
+      Stochastic local search for boolean satisfiability, WalkSAT, Novelty, 
+      Novelty+, in-class simple implementation of WalkSAT<br>
+&nbsp;</TD></TR>
+      
+              <TR>
+      <TD width=615 bgColor=#DE1C25>
+      <font color="#FFFFFF" size="4"><b>&nbsp;<a name="syllabus">AFTERWORD</a></b></font></TD></TR>
+    <TR>
+      <TD width=615 bgColor=#FFFFFF height="34"> 
+      <font face="Verdana, Arial, Helvetica, sans-serif">
+      In his book <i><a href="http://www-2.cs.cmu.edu/~tom/mlbook.html">Machine Learning</a></i>, Tom Mitchell writes </font>
+		<font face="Verdana, Arial, Helvetica, sans-serif" size="2">
+		“</font><font face="Verdana, Arial, Helvetica, sans-serif">A computer is 
+      said to <b>learn </b>from experience E with respect to some class of tasks 
+      T and performance measure P, if its performance at tasks in T, as measured 
+      by P, improves with experience E.</font><font face="Verdana, Arial, Helvetica, sans-serif" size="2">”</font><font face="Verdana, Arial, Helvetica, sans-serif">&nbsp; 
+		T</font>he three “experiences” of deductive learning, inductive 
+		learning, and knowledge acquisition can add knowledge to a knowledge 
+		base, thus potentially improving (or even making possible) the average 
+		expected time performance of the task of answering queries to the 
+		knowledge base.&nbsp; This project and the corresponding reading focus 
+		on knowledge acquisition and deductive learning.</TD></TR>
+
+
+  </TBODY>
+</TABLE>
+</font>

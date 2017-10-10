@@ -1,0 +1,49 @@
+body
+{
+font-family: helvetica,arial,sans-serif; 
+font-size: 80%;
+color:#000000;
+background-image : url(back1.jpg);
+margin-top:1px;
+margin-left:1px;
+margin-right:0px;
+margin-bottom:0px;
+}
+p
+{
+font-family: helvetica,arial,sans-serif; 
+}
+
+table
+{
+font-size: 100%;
+}
+
+td
+{
+font-family: helvetica,arial,sans-serif; 
+}
+
+div {width:100%;}
+
+h1 {font-size:180%;}
+h2 {font-size:140%;}
+h3 {font-size:120%;}
+
+pre
+{
+font-family:Fixedsys,"Courier New",monospace;
+font-size:100%;
+margin-left: 0;
+margin-bottom: 0;
+}
+h1,h2,h3,hr 
+{
+background-color:transparent;
+color:#8B4513; 
+}
+
+a:link    {color:Blue; background-color:transparent}
+a:visited {color:Purple; background-color:transparent}
+a:active  {color:Blue; background-color:transparent}
+a:hover   {color:Red; background-color:transparent}

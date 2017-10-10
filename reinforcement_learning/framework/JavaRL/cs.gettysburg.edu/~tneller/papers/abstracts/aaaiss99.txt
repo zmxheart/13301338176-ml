@@ -1,0 +1,19 @@
+Title: Algorithms for Real-Time Game-Tree Search for Hybrid System
+Control
+
+Abstract:
+
+This paper describes four algorithms for real-time game-tree search
+for hybrid system control.  A hybrid system control game is a hybrid
+system with discretely and continuously evolving scores, and an
+enabled action set for each player.  As computational speed increases,
+we can expect simulation to become more useful for informing control
+decisions in real-time.  To this end, we seek to extend existing
+game-tree search techniques for real-time hybrid system control.
+
+We introduce the notion of an $n$-player augmented cell-map and apply
+both dynamic programming and an anytime minimax algorithm with
+caching.  For games with zero-sum scores, we generalize alpha-beta for
+$n$-players.  Combining the best characteristics of these algorithms,
+we introduce a generalized caching alpha-beta algorithm for graphs.
+We discuss the benefits and limitations of each algorithm.

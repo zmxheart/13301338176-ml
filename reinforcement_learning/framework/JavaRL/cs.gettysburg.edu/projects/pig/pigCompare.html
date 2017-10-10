@@ -1,0 +1,264 @@
+<HTML>
+<HEAD>
+<TITLE>Pig Variant Visualizations</TITLE>
+</HEAD>
+<BODY text="#000000" bgcolor="#FFCCCC" link="#0000EE" vlink="#551A8B" alink="#FF0000">
+<table WIDTH="100%" >
+<tr>
+<td><a href="http://cs.gettysburg.edu/"><img SRC="http://cs.gettysburg.edu/~tneller/dept/GburgCS.gif" height=84 width=182></a></td>
+<td>
+<center>
+<H1>Pig Variant Solution Visualizations</H1>
+( <a href="index.html">home</a> | <a href="piggame.html">game</a> |
+<a href="pigVis.html">solution</a> | <a href="piglinks.html">links</a> )
+</center>
+</tr>
+</table>
+<p>Below are solutions of several Pig variants.  In each
+visualization, the surfaces shown represent the boundaries between
+situations in which one should roll or hold.  The axes are your score
+(Player 1), the opponent's score, and your current turn total.  In the
+VRML links, the solution to each variant is shown in blue, with the
+original Pig solution shown in semi-transparent white.</p>
+
+<p>For all variants, we have made the uniform assumption that the
+first player to 100 points wins.  Some variants actually have slightly
+different winning conditions, e.g. allowing all players to have the
+same number of turns.  For detailed variant descriptions and technical
+details of these solutions, see 
+<ul>
+<li>Todd W. Neller and Clifton
+G.M. Presser. <a
+href="http://cs.gettysburg.edu/~tneller/papers/pig.zip">Optimal Play
+of the Dice Game Pig</a>, <i>The UMAP Journal</i> 25(1) (2004),
+pp. 25-47</li>
+<li>Todd W. Neller and Clifton G.M. Presser. <a href="http://cs.gettysburg.edu/~tneller/papers/pig+.pdf">Pigtail: A Pig Addendum</a>, <i>The UMAP Journal</i> 26(4) (2005), pp. 443-458.</li>
+</ul>
+</p>
+
+<a href="http://www.parallelgraphics.com/cortona">
+<img src="cortona.gif" border="0" width="88" height="31" vspace="7" alt="Free Download - Get Cortona VRML Client"></a>
+If you cannot view the VRML files, download the <a
+href="http://www.parallelgraphics.com/cortona">Cortona VRML
+Client</a>.
+
+<TABLE WIDTH=100% BORDER>
+<TR><TH>Thumbnail</TH><TH>Description</TH><TH>Media</TH></TR>
+
+<TR>
+<TD ALIGN=CENTER><A HREF="images/pigDice-policyRoll.png">
+<IMG SRC="images/pigDice-policyRoll-sm.png" WIDTH=125 HEIGHT=125>
+</A></TD>
+
+<TD><p><B>Pig Dice&reg;</B> (&copy; 1942 Parker Prothers) is a 2-dice
+variant of Pig that has had surprisingly little influence on the rules
+of modern variants.  This is in part due to the fact that the game
+requires specialized dice.  One die is a standard die with a pig head
+replacing the 1.  The other is a standard die with a pig tail
+replacing the 6.  Such rolls are called Heads and Tails, respectively.
+</p>
+
+<p>As before, players may hold or roll, risking accumulated turn totals.
+However, there is no undesirable single die value in this game.
+Rather, rolling dice that <i>total 7</i> ends the turn without scoring.
+Rolling a Head and a Tail doubles the current turn total.  Rolling
+just a Head causes the value of the other die to be doubled.  Rolling
+just a Tail causes the value of the other die to be negated.  The turn
+total can never be negative.  If a negated die would cause a negative
+turn total, the turn total is set to 0.  All other non-7 roll totals
+are added to the turn total.</p>
+</TD>
+
+<TD ALIGN=CENTER WIDTH=100 >
+<A HREF="images/pigDice-policyRoll.png">Image</A><BR>
+<A HREF="images/pigDice.gif">Animation</A><BR>
+<A HREF="worlds/pigDice.wrz">VRML</A>
+</TD>
+</TR>
+
+<TR>
+<TD ALIGN=CENTER><A HREF="images/twoDicePig-policyRoll.png">
+<IMG SRC="images/twoDicePig-policyRoll-sm.png" WIDTH=125 HEIGHT=125>
+</A></TD>
+
+<TD><p><b>2-Dice Pig</b> - According to game analyst Bill Butler, one
+of the simplest and most common variants, which we will call <i>2-dice
+Pig</i>, was produced commercially under the name "Pig" around the
+1950's.  The rules are the same as our 1-die Pig except:
+
+<ul>
+<li>Two standard dice are rolled. If neither shows a 1, their sum is
+added to the turn total.</li>
+<li>If a single 1 is rolled, the player's turn ends with the loss of the
+turn total.</li>
+<li>If two 1's are rolled, the player's turn ends with the loss of
+the turn total <i>and score</i>.</li>
+</ul>
+</p>
+
+<p><b>Skunk&reg;</b> (&copy; 1953
+W.H. Schaper Manufacturing Co.) is a commercial variant which
+elaborates on this with a chip penalty system.
+</p>
+
+</TD>
+
+<TD ALIGN=CENTER WIDTH=100 >
+<A HREF="images/twoDicePig-policyRoll.png">Image</A><BR>
+<A HREF="images/twoDicePig.gif">Animation</A><BR>
+<A HREF="worlds/twoDicePig.wrz">VRML</A>
+</TD>
+</TR>
+
+<TR>
+<TD ALIGN=CENTER><A HREF="images/freyPig-policyRoll.png">
+<IMG SRC="images/freyPig-policyRoll-sm.png" WIDTH=125 HEIGHT=125>
+</A></TD>
+
+<TD><b>Frey's Pig</b> - In his book "How to Win at Dice Games", Skip
+Frey describes a 2-dice Pig variation that
+differs only in how doubles are treated.
+<ul>
+<li>If two 1's are rolled, the player adds 25 to the turn total and
+it becomes the opponent's turn.</li> 
+<li>If other double numbers are rolled, the player adds twice
+the value of the dice to the turn total, and the player's turn
+continues.</li>
+</ul>
+</TD>
+
+<TD ALIGN=CENTER WIDTH=100 >
+<A HREF="images/freyPig-policyRoll.png">Image</A><BR>
+<A HREF="images/freyPig.gif">Animation</A><BR>
+<A HREF="worlds/freyPig.wrz">VRML</A>
+</TD>
+</TR>
+
+<TR>
+<TD ALIGN=CENTER WIDTH=100><A HREF="images/bigPig-policyRoll.png">
+<IMG SRC="images/bigPig-policyRoll-sm.png" WIDTH=125 HEIGHT=125>
+</A></TD>
+
+<TD><b>Big Pig</b> - In his book "Dice Games Properly Explained",
+Reiner Knizia describes this variant, which is identical to Frey's pig
+except that the player's turn continues after scoring 25 from a
+double-1 roll.
+</TD>
+
+<TD ALIGN=CENTER WIDTH=100 >
+<A HREF="images/bigPig-policyRoll.png">Image</A><BR>
+<A HREF="images/bigPig.gif">Animation</A><BR>
+<A HREF="worlds/bigPig.wrz">VRML</A>
+</TD>
+</TR>
+
+<TR>
+<TD ALIGN=CENTER><A HREF="images/passThePigs-policyRoll.png">
+<IMG SRC="images/passThePigs-policyRoll-sm.png" WIDTH=125 HEIGHT=125>
+</A></TD>
+
+<TD><b>Pass the Pigs&reg; (&copy; 1995 David Moffat Enterprises and
+Hasbro, Inc.)</b> - A popular commercial variant, Pass the Pigs was
+designed by David Moffat in 1977 as PigMania&reg; (&copy; 1977 David
+Moffat Enterprises).  In this variant, small rubber pigs are used as
+dice.  When rolled, each pig can come to rest in a variety of
+positions with varying probability: on its right side, on its left
+side, upside down ("razorback"), upright ("trotter"),
+balanced on the snout and front legs ("snouter"), and balanced
+on the snout, left leg, and left ear ("leaning jowler").  This
+approximate solution is derived from the pig dice roll data given <a
+href="http://members.tripod.com/~passpigs/prob.html">here</a>.  (We
+assume the probability for an "oinker", two pigs leaning on one
+another, is 0, since such data is not given and the dice can be thrown
+such that this is an exceedingly rare event.)  The combined positions
+of the two pigs lead to various scores.</b>
+
+<p>Pass the Pigs is similar to 2-dice Pig, in that a roll of left side and
+right side has the same consequences as rolling a 1 (i.e., the turn
+ends with the loss of the turn total), and a roll with pigs touching
+has the same consequences as rolling two 1's (i.e., the turn ends with
+the loss of the turn total and score).  Pass the Pigs is similar to Frey's
+variant in that two pigs in the same non-side configuration score
+double what they would individually.</p>
+
+</TD>
+
+<TD ALIGN=CENTER WIDTH=100 >
+<A HREF="images/passThePigs-policyRoll.png">Image</A><BR>
+<A HREF="images/passThePigs.gif">Animation</A><BR>
+<A HREF="worlds/passThePigs.wrz">VRML</A>
+</TD>
+</TR>
+
+<TR>
+<TD ALIGN=CENTER><A HREF="images/piggy-policyRoll.png">
+<IMG SRC="images/piggy-policyRoll-sm.png" WIDTH=125 HEIGHT=125>
+</A></TD>
+
+<TD><b>Piggy</b> - In the May/June 2000 issue of Muse Magazine, Ivars
+Peterson describes Piggy, which varies from 2-dice Pig in that there
+is no bad dice value.  However, doubles have the same consequences as
+a single 1 in 2-dice Pig.  </TD>
+
+<TD ALIGN=CENTER WIDTH=100 >
+<A HREF="images/piggy-policyRoll.png">Image</A><BR>
+<A HREF="images/piggy.gif">Animation</A><BR>
+<A HREF="worlds/piggy.wrz">VRML</A><BR>
+</TD>
+</TR>
+
+<TR>
+<TD ALIGN=CENTER><A HREF="images/piggy-7bad-policyRoll.png">
+<IMG SRC="images/piggy-7bad-policyRoll-sm.png" WIDTH=125 HEIGHT=125>
+</A></TD>
+
+<TD><b>Piggy Sevens</b> - This original variant varies from 2-dice Pig
+in that there is again no bad dice value.  However, a sum of 7 has the
+same consequences as a single 1 in 2-dice Pig. </TD>
+
+<TD ALIGN=CENTER WIDTH=100 >
+<A HREF="images/piggy-7bad-policyRoll.png">Image</A><BR>
+<A HREF="images/piggy-7bad.gif">Animation</A><BR>
+<A HREF="worlds/piggy-7bad.wrz">VRML</A>
+<A HREF="images/piggyDiff.png">Comparison of Piggy versus Piggy Sevens</A>
+</TD>
+</TR>
+  <TR>
+    <TD ALIGN=CENTER><A HREF="images/Hog4-policyRoll.png">
+    <IMG SRC="images/Hog4-policyRoll-sm.png" WIDTH=125 HEIGHT=125>
+    </A></TD>
+
+    <TD><b>Hog</b> - Hog is best described as Pig where one must
+    commit to a number of dice rolls at the beginning of the turn.  In
+    each turn of Hog, one chooses any number of dice and rolls them
+    all at once. (The optimal player will need at most 26 dice.) The
+    sum of the dice is scored if and only if no 1's are rolled.  While
+    technically not a jeopardy dice game, Hog is nonetheless strongly
+    related to Pig, as can be seen by comparing the optimal number of
+    dice to roll versus the shape of Pig's roll/hold boundary.
+    </TD>
+        <TD ALIGN=CENTER WIDTH=100 >
+        <A HREF="images/Hog4-policyRoll.png">Image</A><BR>
+    </TD>
+  </TR>
+
+
+<!-- Blank copy
+  <TR>
+    <TD ALIGN=CENTER><A HREF="images/">
+    <IMG SRC="thumbnails/" WIDTH=100 HEIGHT=100>
+    </A></TD>
+    <TD></TD>
+        <TD ALIGN=CENTER WIDTH=100 >
+        <A HREF="images/">Image</A><BR>
+        <A HREF="images/">Large Image</A><BR>
+        <A HREF="animations/">Animation</A><BR>
+        <A HREF="worlds/">VRML</A>
+    </TD>
+  </TR>
+ -->
+</TABLE>
+<p>Authors: <a href="http://www.gettysburg.edu/~cpresser">Clif
+Presser</a> and <a href="http://cs.gettysburg.edu/~tneller">Todd Neller</a></p>
+</BODY>
+</HTML>

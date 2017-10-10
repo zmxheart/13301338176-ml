@@ -1,0 +1,179 @@
+<html>
+
+<head>
+<meta http-equiv="Content-Language" content="en-us">
+<meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
+<title>Pig - Pig Game GUI</title>
+</head>
+
+<body>
+
+<p align="center"><img border="1" src="gameOfPig.png"></p>
+<h1>Pig Game GUI</h1>
+<p><b><a href="http://cs.gettysburg.edu/projects/pig/">Pig</a> </b> is a folk jeopardy dice game with simple rules: Two players race to reach 100 points. Each turn, a 
+player repeatedly rolls a die until either a 1 (&quot;pig&quot;) is rolled or the player holds and 
+scores the sum of the rolls (i.e. the <i>turn total</i>). At any time during a 
+player's turn, the player is faced with two decisions: </p>
+<ul>
+	<li><b>roll</b> - If the player rolls a 
+	<ul>
+		<li><b>1</b>: the player scores nothing and it becomes the opponent's 
+		turn. 
+		</li>
+		<li><b>2 - 6</b>: the number is added to the player's turn total and the 
+		player's turn continues. </li>
+	</ul>
+	</li>
+	<li><b>hold</b> - The turn total is added to the player's score and it 
+	becomes the opponent's turn. </li>
+</ul>
+<p><b>Problem:</b>&nbsp; Implement a GUI for the game of Pig where the user plays 
+a succession of games against a computer player.&nbsp; A brief summary of 
+software requirements follows.</p>
+<h2><img border="0" src="screenshot.png" width="160" height="314" align="right">Overview</h2>
+<p>Your goal is to create a simple-yet-fun GUI implementation of the game of 
+Pig.&nbsp; The user is the starting player of the first game.&nbsp; The 
+starting player alternates with successive games.&nbsp; The computer plays a 
+&quot;Keep Pace and End Race&quot; policy as follows:&nbsp; Let the hold value be 21 + round((user score - computer score) / 8).&nbsp; If either player has 71 points 
+or more, or if the turn total is less than the hold value, then roll.&nbsp; 
+Otherwise, hold.</p>
+<h2>Resources</h2>
+<p><a href="images/allImages.zip">Image files</a> are supplied in
+<a href="images/png">PNG</a> and <a href="images/jpg">JPEG</a> formats.</p>
+<h2>Graphical User Interface Components</h2>
+<p>Main application frame titled &quot;Pig&quot;, terminating program on close, and 
+containing:</p>
+<ul>
+	<li>&quot;Your Score:&quot; label - fixed text label</li>
+	<li>Your score value label - should update to reflect changes in user score</li>
+	<li>&quot;My Score:&quot; label - fixed text label</li>
+	<li>My score value label - should update to reflect changes in computer 
+	score</li>
+	<li>&quot;Turn Total:&quot; label - fixed text label</li>
+	<li>Turn total value label - should update to reflect changes in turn total</li>
+	<li>Die panel - area for displaying 100-by-100 die images, and roll/hold 
+	images</li>
+	<li>&quot;Roll&quot; button - enabled during user turn to trigger Roll Action</li>
+	<li>&quot;Hold&quot; button - enabled during user turn to trigger Hold Action</li>
+	<li>Pop-up window with:</li>
+	<ul>
+		<li>Game over text label - provides winner, final score, and prompts 
+		user with new game decision.</li>
+		<li>&quot;New Game&quot; button - triggers New Game Action</li>
+		<li>&quot;Quit&quot; button - exits application</li>
+	</ul>
+</ul>
+<p>For the most part, layout is not specified.&nbsp; However, the related 
+label-value label pairs should be horizontally adjacent with the label to the 
+left of the value label.</p>
+<h2>Functional Specification</h2>
+<h3>Initialization</h3>
+<ul>
+	<li>Create and layout all GUI components with the exception of the pop-up 
+	window.</li>
+	<li>Set both scores and turn total to 0.</li>
+	<li>Display the &quot;roll&quot; image in the die panel.</li>
+	<li>Set the starting player to the user.</li>
+	<li>Set the current player to the user.</li>
+</ul>
+<h3>Roll Button </h3>
+<ul>
+	<li>Enable roll button during user turn.</li>
+	<li>On roll button press, trigger Roll Action.</li>
+</ul>
+<h3>Roll Action</h3>
+<ul>
+	<li>Generate a random number <i>r</i> in the range [1, 6].</li>
+	<li>Display the &quot;die&lt;<i>r</i>&gt;&quot; image in the die panel.</li>
+	<li>If <i>r </i>is 1 (&quot;pig&quot;), set the turn total to 0, and trigger Change 
+	Turn Action.</li>
+	<li>Otherwise, add r to the turn total. If the current player score plus the 
+	turn total is greater than or equal to the goal score of 100, trigger Hold 
+	Action.</li>
+</ul>
+<h3>Hold Button </h3>
+<ul>
+	<li>Enable hold button during user turn.</li>
+	<li>On hold button press, trigger Hold Action.</li>
+</ul>
+<h3>Hold Action</h3>
+<ul>
+	<li>Display the &quot;hold&quot; image in the die panel.</li>
+	<li>Add the turn total to the current player's score.</li>
+	<li>Set the turn total to 0.</li>
+	<li>If the current player's score is greater than or equal to the goal score 
+	of 100, trigger End Game Action.</li>
+	<li>Otherwise, trigger Change Turn Action.</li>
+</ul>
+<h3>Change Turn Action</h3>
+<ul>
+	<li>Change the current player.</li>
+	<li>Enable/disable roll and hold buttons if the user/computer is the current 
+	player, respectively.</li>
+	<li>If it is the computer's turn, begin the Computer Turn.</li>
+</ul>
+<h3>Computer Turn</h3>
+<ul>
+	<li> <i>Note: In 
+	many cases, a separate thread is advisable for the computer player to 
+	prevent GUI updates from blocking.</i><li>While the computer is the current player:</li>
+	<ul>
+	<li>Delay for approximately 1 second.</li>
+	<li>Compute a hold value of 21 + round((user score - computer score) / 8).</li>
+	<li>If either player has 71 points 
+or more, or if the turn total is less than the hold value, then trigger Roll 
+	Action.&nbsp; Otherwise, trigger Hold Action.</li>
+	</ul>
+</ul>
+<h3>
+<img border="0" src="screenshot-popup.png" width="308" height="122" align="right">End Game Action</h3>
+<ul>
+	<li>Create an display a popup window with: 
+	<ul>
+		<li>Game over text label - If the user has won, display &quot;You win &lt;user 
+		score&gt; to &lt;computer score&gt;.&nbsp; Would you like to play again?&quot; If the 
+		computer has won, display &quot;I win &lt;computer score&gt; to &lt;user score&gt;. Would 
+		you like to play again?&quot;.</li>
+		<li>&quot;New Game&quot; button</li>
+		<li>&quot;Quit&quot; button</li>
+	</ul>
+	</li>
+	<li>When the &quot;New Game&quot; button or &quot;Quit&quot; button is pressed, the 
+	popup window 
+	closes.</li>
+	<li>If the &quot;New Game&quot; button is pressed:</li>
+	<ul>
+	<li>Set both scores and the turn total to 0.</li>
+	<li>Change the starting player.</li>
+	<li>If the current player is different than the starting player, trigger the 
+	Change Turn Action.</li>
+	<li>If it is the computer's turn, begin the Computer Turn.&nbsp; Otherwise, 
+	display the &quot;roll&quot; image in the die panel.</li>
+	</ul>
+	<li>If the &quot;Quit&quot; button is pressed, the application terminates, closing the 
+	main application frame. </li>
+</ul>
+<hr>
+<p><b>Extra Exercises:</b></p>
+<p>1. Use an alternative computer play policy.&nbsp; Let <i>i </i>be the player's score,<i> j</i> 
+be the opponent's score, and <i>k</i> be the current turn total.<i>&nbsp; </i>
+Some alternative play policies:</p>
+<ul>
+	<li><u>Hold at 25 or goal</u> - Hold at the lesser of 25 and 100 - i.</li>
+	<li><u>4 Scoring Turns</u> - Let <i>t</i> be the number of turns in which a 
+	player has held so far.&nbsp; Hold at floor((100 - i)/(4 - t)).</li>
+	<li><u>Score Base, Keep Pace, and End Race</u> - If <i>i</i> &gt;= 69 or <i>j</i> 
+	&gt;= 69, roll for the goal.&nbsp; Otherwise, hold at the greater of 19 and <i>
+	j</i> - 14.</li>
+</ul>
+<p>2. Compute win statistics (e.g. games won, games lost, percentage won) and 
+display these at game end.</p>
+<p>3. Extend design to three or more user/computer players.</p>
+<p>4. (Advanced Project) Extend design to three or more user/computer players 
+over a network, using a client-server model.&nbsp; </p>
+<hr>
+<p><a href="http://cs.gettysburg.edu/~tneller/index.html">Todd Neller</a></p>
+
+</body>
+
+</html>

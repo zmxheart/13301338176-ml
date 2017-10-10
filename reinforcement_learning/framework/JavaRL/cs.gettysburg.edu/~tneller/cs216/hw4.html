@@ -1,0 +1,68 @@
+<!doctype html public "-//w3c//dtd html 4.0 transitional//en">
+<html>
+<head>
+   <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+   <meta name="GENERATOR" content="Microsoft FrontPage 12.0">
+   <title>Homework #4</title>
+</head>
+<body>
+&nbsp;
+<table WIDTH="100%" >
+<tr>
+<td><img SRC="GburgCS.gif" height=84 width=182></td>
+
+<td><font size=+2>CS 216 - Data Structures</font>
+<br><font size=+2>Homework #4</font></td>
+</tr>
+</table>
+
+<hr>
+<br><b>Due: Wednesday 2/27 at the beginning of class</b>
+<p><b>NOTE: This work is to be done in pairs.</b>
+<h2>Monte Carlo Simulation</h2>
+<p>1. <strong>Customizing MCInvest: </strong>[Complete and submit individually.] 
+Take the Monte Carlo investing simulation (MCInvest.java) that we developed in 
+class and customize it for your personal set of assumptions.&nbsp; Submit via 
+paper, README, or MCInvest block comment a justification for your parameter 
+choices (e.g. work years, savings rate, withdrawal rate, income replacement 
+fraction, etc.) and describe any additional modifications you make to the 
+simulation model.&nbsp; This is an opportunity to invest significant thought 
+into choices in your near future that will significantly impact you and your 
+family in the distant future.&nbsp; That's right: Here's an opportunity to get 
+credit for taking the time to plan for your retirement investment strategy 
+beyond graduation. </p>
+<p>2. <strong>Rebalancing Illustration:</strong> (Note: The following scenario 
+is not realistic, but rather illustrative.&nbsp; In the real world, asset 
+classes with similar returns are often highly correlated.&nbsp; Rebalancing 
+among asset classes with different returns drags performance towards the lesser 
+return, yet serves to keep the asset proportions and thus the expected 
+volatility stable as opposed to an expected increase over time as high risk - 
+high reward assets grow out of proportion.)</p>
+<p>Consider the following scenario:&nbsp; Two non-correlated domestic equity 
+(stock) funds, A and B, had the same return geometric mean (1.093281) and 
+standard deviation (0.202191) from 1928-2010.&nbsp; That is, returns in Java may 
+be computed as 1.093281 + random.nextGaussian() * 0.202191, where random is an 
+object of type Random.</p>
+<p>Suppose one investor starts with half invested in A and half invested in B.&nbsp; 
+A and B experience the same set of returns over 40 years, but in different 
+random order.</p>
+<p>Another investor rebalances once a year back to the initial 50%/50% balance 
+between amounts in A and B.&nbsp; Assuming that the beginning balance is 1 (.5 
+each in A and B), use Monte Carlo simulation (1,000,000 trials) to estimate and 
+print the expected final balances for non-rebalancing and rebalancing scenarios.
+</p>
+<p>Implementation notes: In an array of length 40, generate 40 years of returns 
+for fund A as described above. Then clone (copy) the array for B and shuffle it 
+using the
+<a href="http://en.wikipedia.org/wiki/Fisher%25E2%2580%2593Yates_shuffle">
+Fisher-Yates Shuffle</a>.</p>
+<h2>A Taste of AI - Part II</h2>
+<p>3. <strong>Depth-Limited Search:</strong> Implement depth-limited search in 
+DepthLimitedSearcher.java (extending Searcher), which has a constructor that 
+takes a depth limit.</p>
+<p>4.<strong> Iterative-Deepening Depth-First Search:</strong> Implement 
+iterative-deepening depth-first search in IDDFSearcher.java.&nbsp; The 
+implementation will make use of your DepthLimitedSearcher.</p>
+<p>&nbsp;</p>
+</body>
+</html>

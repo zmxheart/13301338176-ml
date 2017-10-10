@@ -1,0 +1,105 @@
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML//EN">
+<html>
+  <head>
+    <title>Using JDE emacs</title>
+  </head>
+
+  <body>
+    <h1>Using JDE and emacs</h1>
+<HR>
+<H2>Configuration</H2>
+Create a file called .emacs in your home directory. It should contain
+the following. This also contains the settings for using JDEbug for the debugger.
+<PRE>
+<CODE>
+;; put jde in the load path
+(add-to-list 'load-path (expand-file-name "/usr/local/share/emacs/jde-2.2.2/lisp"))
+(add-to-list 'load-path (expand-file-name "/usr/local/share/emacs/semantic-1.2.1"))
+(add-to-list 'load-path (expand-file-name "/usr/local/share/emacs/speedbar-0.12"))
+
+(require 'jde)
+
+;;some custom variables
+(custom-set-variables
+ '(jde-run-option-properties (quote (("java.compiler" . "none"))))
+ '(jde-compile-option-depend t)
+ '(jde-run-applet-viewer "/usr/java1.2/bin/appletviewer")
+ '(jde-compile-option-debug (quote ("all" (t t t))))
+ '(jde-bug-jdk-directory "/usr/java1.2")
+ '(jde-db-source-directories (quote ("./")))
+ '(jde-db-debugger (quote ("JDEbug" "jdb" . "Executable")))
+ '(jde-bug-jpda-directory "/Apps/jpda"))
+(custom-set-faces)
+
+</CODE>
+</PRE>
+
+You will also need to update a file called .cshrc in your home directory.
+If you haven't defined LD_LIBRARY_PATH in your .cshrc you add the following line:
+<PRE>
+<CODE>
+setenv LD_LIBRARY_PATH /Apps/jpda/lib/sparc
+</CODE>
+</PRE>
+If LD_LIBRARY_PATH is defined then the line should look like this:
+<PRE>
+<CODE>
+setenv LD_LIBRARY_PATH /Apps/jpda/lib/sparc:"$LD_LIBRARY_PATH"
+</CODE>
+</PRE>
+Make sure that the file .cshrc ends with a blank line.
+
+
+<HR>
+<H2>General emacs notes</H2>
+<P>
+To run emacs on an X-Window display on one of the suns type:
+<PRE>
+  emacs &
+</PRE>
+</p>
+<P>
+Emacs has all the basic functionality of a standard text editor when used from
+an X-Window console. Cursor movement is controlled by the arrow keys, and 
+all of the common commands are included in menus (Open, Save, Cut, Paste, 
+Undo, etc.). Emacs can be run from a vt100 terminal (i.e via telnet or ssh) 
+using the command:
+<PRE>
+  emacs -nw
+</PRE>
+The nw stands for no windows. This mode is not recommended if you are not familiar
+with keyboard shortcuts in emacs.
+</P>
+<P>
+The <B>mini-buffer</B> is the single row of white space at the bottom of the emacs
+frame. When you use any menu that requires extra information (e.g. "Open File..."),
+you will be prompted for it in the mini-buffer.
+</P>
+<P>
+If you find yourself prompted for something in the mini-buffer and you want to 
+get out, hit C-g (hold down the Control (Ctrl) key and press the g key). You
+may need to do this more than once.
+</P>
+
+<H2>Resource links</H2>
+<UL>
+<LI><A HREF="http://www.hsrl.rutgers.edu/ug/emacs_qref.html">Emacs Quick Reference</A>
+<LI><A HREF="http://www.ualberta.ca/HELP/editors/emacs-quick-1.8.html">Another Quick Reference</A>
+<LI><A HREF="http://sunsite.auc.dk/jde/">JDE home page</A>
+<LI><A HREF="http://sunsite.auc.dk/jde/jdedoc/ug/jde-ug.html">JDE User's Guide</A>
+<LI><A HREF="http://tecfa.unige.ch/guides/emacs/jde/jde.htm">A slightly faster user's guide for JDE.</A>
+<LI><A HREF="file:/usr/local/share/emacs/jde-2.2.2/doc/jdebug/ug/jdebug-ug.html">JDEbug documentation (local)
+</A>
+<LI><A HREF="file:/Apps/jpda/doc/index.html">JPDA: Java Platform Debugger Architecture (local)</A>
+</UL>
+
+
+
+    <hr>
+    <address><a href="mailto:cpresser@gettysburg.edu"></a></address>
+<!-- Created: Thu Sep 28 09:56:38 Eastern Daylight Time 2000 -->
+<!-- hhmts start -->
+Last modified: Thu Sep 28 10:36:31 Eastern Daylight Time 2000
+<!-- hhmts end -->
+  </body>
+</html>

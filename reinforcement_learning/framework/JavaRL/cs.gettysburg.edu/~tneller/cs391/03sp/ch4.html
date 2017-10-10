@@ -1,0 +1,83 @@
+<!doctype html public "-//w3c//dtd html 4.0 transitional//en">
+<html>
+<head>
+   <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+   <meta name="GENERATOR" content="Microsoft FrontPage 4.0">
+   <meta name="Author" content="Todd Neller">
+   <title>Chapter 4</title>
+</head>
+<body bgcolor="#FFFFFF">
+<table WIDTH="100%" >
+<tr>
+<td><img SRC="GburgCS.gif" height=84 width=182></td>
+
+<td><font size=+2>CS 391 - Special Topic: Machine Learning</font>
+<br><font size=+2>Chapter 4</font></td>
+</tr>
+</table>
+
+<hr>
+<br><b><u>Readings</u></b>
+<ul>
+  <li>2/5: Sections 4.1-4.2</li>
+  <li>2/7: Sections 4.3-4.4</li>
+  <li>2/10: Sections 4.5-4.8</li>
+</ul>
+
+<b><u>Topics</u></b>
+<ul>
+<li>Dynamic Programming (DP) assumptions</li>
+<li>Policy evaluation (a.k.a. prediction problem)</li>
+<li>Policy improvement</li>
+<li>Policy iteration</li>
+<li>Value iteration</li>
+<li>Asynchronous DP</li>
+<li>Generalized policy iteration (GPI)</li>
+<li>Computational complexity</li>
+</ul>
+
+<b><u>Discussion Questions</u></b>
+<p>
+What assumption is made by DP methods that limit their applicability?<br>
+What is policy evaluation (a.k.a the prediction problem)?<br>
+What is the update rule for iterative policy evaluation?<br>
+What is a "full backup"?<br>
+If updates are done "in place", will the algorithm converge to correct values for V^pi?  If you didn't update "in place", what additional data structures would you need?<br>
+Does the ordering of states for "in place" have any effect on convergence?  If yes, how?  If no, why not?<br>
+What is the termination condition for iterative policy evaluation?<br>
+3-Room Navigation: A robot's policy is to randomly navigate back and forth between three rooms {left, middle, right}.  For each movement between rooms, there is a reward of -1 (i.e. a cost).  Upon entering room left, the robot powers down (i.e. the episode ends; there are no further costs).<br>
+-Write the Bellman equations for V^pi.<br>
+-Solve them algebraically.<br>
+-Perform 4 iterations of iterative policy evaluation (not) in place.<br>
+What is policy improvement?<br>
+How would policy improvement apply to the 3-Room Navigation problem above?<br>
+What is policy iteration, and how does it relate to policy evaluation and policy improvement?<br>
+How would policy iteration apply to the 3-Room Navigation problem above?<br>
+Describe value iteration.&nbsp; How does it differ from policy iteration?<br>
+How does the 3-Room Navigation problem motivate use of value iteration?<br>
+What are asynchronous DP algorithms?  What advantages do they have?<br>
+What backup constraint is necessary to guarantee convergence?<br>
+Describe generalized policy iteration.  How is it generalized from both value iteration and policy iteration?<br>
+The methods of this chapter can be viewed as a continual relaxation of constraints.  What constraints are removed at each stage? <br>
+Describe the general interaction between evaluation and improvement processes.<br>
+What is the time complexity of DP methods?<br>
+What is the curse of dimensionality and how does it apply to DP methods?<br>
+What do the authors note about he practical applicability of DP methods?<br>
+What is bootstrapping in the context of reinforcement learning? <br>
+
+
+<p><b><u>Programming Assignment</u></b>
+<p><b><u>HW4</u></b></p>
+<p>Due Friday 2/21 at the beginning of class.&nbsp; An improvised, informal
+presentation of your work may be requested in class.</p>
+<p>Choose one of the following problems:</p>
+<ul>
+  <li>The Gambler's Problem (Example 4.3)</li>
+  <li>Piglet with goal = 10 (described <a href="piglet.html"> here</a> and in handout)</li>
+  <li>a pre-approved problem of your choice</li>
+</ul>
+<p>and apply either policy iteration or value iteration to compute an
+optimal policy.&nbsp; Present the optimal policy in a clear form, and present
+data on the performance of the optimal policy.</p>
+</body>
+</html>

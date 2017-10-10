@@ -1,0 +1,486 @@
+<!doctype html public "-//w3c//dtd html 4.0 transitional//en">
+<html>
+<head>
+   <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+   <meta name="GENERATOR" content="Microsoft FrontPage 4.0">
+   <title>JDE Tutorial</title>
+   <style type="text/css">
+    <!--
+      BODY {
+        color: #000000;
+        background-color: #ffffff;
+      } /* default */
+      span.constant {
+        color: #5f9ea0;
+      } /* font-lock-constant-face */
+      span.keyword {
+        color: #a020f0;
+      } /* font-lock-keyword-face */
+      span.function-name {
+        color: #0000ff;
+      } /* font-lock-function-name-face */
+      span.comment {
+        color: #b22222;
+      } /* font-lock-comment-face */
+      span.variable-name {
+        color: #b8860b;
+      } /* font-lock-variable-name-face */
+      span.type {
+        color: #228b22;
+      } /* font-lock-type-face */
+      span.warning {
+        color: #ff0000;
+        font-weight: bold;
+      } /* font-lock-warning-face */
+      span.doThis {
+        color: #000000;
+        background-color: #aaaaff;
+      }
+      code.doThis {
+        color: #000000;
+        background-color: #aaaaff;
+      }
+    -->
+    </style>
+</head>
+<body>
+
+<h1>
+JDE Tutorial</h1>
+This tutorial will walk you though the process of creating and running
+a program using emacs and the Java Development Environment (JDE). The first
+thing to do is run emacs. If you are at a work station open a teminal and
+type:
+<pre><tt>emacs &amp;</tt></pre>
+If you are working elsewhere using telnet type the following:
+<pre><tt>TERM=vt100
+emacs -nw</tt></pre>
+Each action you can take in emacs can be done by typing at the keyboard
+or often by use of menus. Both options will be discussed in the tutorial.
+Keyboard commands will often have special notation:
+<table>
+<tr>
+<td><tt>C-x</tt></td>
+
+<td>Indicates that you should hold down the Control (Ctrl) key while pressing
+the x.</td>
+</tr>
+
+<tr>
+<td><tt>M-x</tt></td>
+
+<td>Indicates that you should press the Meta key with the x. This can be
+done in two ways. Either press and hold the diamond key (on either side
+of the space bar on a sun) while pressing the x or press the Escape (Esc)
+key release it and then press the x.</td>
+</tr>
+</table>
+A sequence of commands starting with a control or meta key will appear
+in the last line of the emacs window which is called the minibuffer.
+<b>Important:</b>
+anytime you find yourself typing in the minibuffer when you would rather
+not be, type C-g (control g) to "quit" the minibuffer. You may need to
+do this more than once.
+<p>Text listed with a&nbsp;<span class="doThis">blue background</span>
+indicates text you should type in emacs. These will indicate the keyboard
+method for executing commands. A description of the mouse/menu method will
+appear nearby.
+<p>The big window in emacs is called the buffer. It is where you edit your
+files. Each file you have open will have its own buffer.
+<hr><!-- making a new file -->
+<h2>
+Creating and Opening a file</h2>
+The first step to writing a program is creating a file. You can create
+an empty file or open an existing file using the command sequence
+<tt>C-x
+C-f</tt> (remember that is a Control x followed by a Control f). There
+will be a line in the minibuffer asking you to type a name for this file.
+If the file name exists the file will be opened. Otherwise, a new blank
+buffer will be opened with that filename. The file will not be created
+until you save (see below).
+<h2>
+Creating a file with JDE</h2>
+For the purposes of this tutorial we will use a slightly different command.
+We want JDE to build an outline of our program for use. So we will use
+the following command:
+<p>
+<tt><span style="background-color: #B0ACFF">M-x jde-gen-console-buffer</span></tt>
+&nbsp;</p>
+<p>
+Before continuing let's break this command down into its component parts:</p>
+<dl>
+<dt>
+<tt>M-x</tt></dt>
+
+<dd>
+Either the diamond with the x key or escape followed by the x key. This
+will put your cursor into the minibuffer. This tells emacs you are about
+to give it a command.</dd>
+
+<dt>
+<tt>jde-gen-console-buffer</tt></dt>
+
+<dd>
+You will type this command directly into the minibuffer and press the return
+key. A bit wordy. Read on.</dd>
+</dl>
+If you are fortunate enough to be using emacs directly on a workstation
+i.e. you did not telnet from off site, then you can use your mouse instead.
+Just go to the Files menu select the JDE-New sub-menu and choose Console...
+We will indicate this action with the notation Files-> JDE New-> Console...<p>Once you have executed the command you will type the name of your new
+program in the minibuffer. Type&nbsp;<span class="doThis">Hello.java</span>
+in the minibuffer and hit&nbsp;<span class="doThis">return</span>. You
+should have in your emacs window something that looks like this: (your
+colors may be different or non-existent depending on how you started emacs)
+<hr>
+<pre>
+<span class="comment">/**
+&nbsp;* Hello.java
+&nbsp;*
+&nbsp;*
+&nbsp;* Created: Wed Jan 10 11:22:59 2001
+&nbsp;*
+&nbsp;* @</span><span class="constant">author</span><span class="comment"> &lt;a href=&quot;mailto: &quot;&lt;/a&gt;
+&nbsp;* @</span><span class="constant">version</span><span class="comment">
+&nbsp;*/</span>
+
+<span class="keyword">public</span>&nbsp;<span class="keyword">class</span>&nbsp;<span class="type">Hello</span>{
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">public</span>&nbsp;<span class="type">Hello</span> (){
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; }
+&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">public</span>&nbsp;<span class="keyword">static</span>&nbsp;<span class="type">void</span>&nbsp;<span class="function-name">main</span>(<span class="type">String</span>[]&nbsp;<span class="variable-name">args</span>){
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; }
+}&nbsp;<span class="comment">// Hello
+</span></pre>
+
+<hr><!-- Editing -->Let's make some changes to the file. Above the minibuffer
+is an inverse video status line which includes the name of the file you
+are editing and some various other information. One piece of information
+is the current line number--the line in your file where the cursor is currently
+located. You can either use the arrow keys or the mouse to move this cursor.
+Put the cursor on line 18 of Hello.java. That should be the blank line directly
+below <tt>public static void main(String[] args){</tt>. Type the following:
+<pre>
+<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="doThis">System.out.println(&quot;Hello World&quot;)&nbsp;&nbsp; //a line with an error</tt></span></pre>
+Line the 'S' in System up with the 'i' in public of the previous line--this
+is not a requirement, but it is considered good programming style. You can do
+this by pressing <span style="background-color: #B0ACFF">Tab</span> anywhere on
+the line.&nbsp; Notice
+that there is no semi-colon at the end of the line. This will cause a problem
+with the Java compiler. We want it to.
+<p>
+<hr><!-- Saving -->
+<h2>
+Saving</h2>
+Look again at the status bar at the bottom of emacs. Notice the left end
+looks like <tt>--\**</tt>. The stars indicate that this file is in need
+of saving. To save the contents of this buffer to the current filename
+type <tt><span style="background-color: #B0ACFF">C-x C-s</span></tt>. If you wanted to change the file name (Save As...)
+you would type <tt>C-x C-w</tt> and type in a new name. You could perform
+these tasks similarly with a mouse by using the menus Files-> Save Buffer
+and Files-> Save Buffer As...
+<hr><!--Opening a file. -->
+<h2>
+Recalling or Reopening a Previously Created File</h2>
+Suppose you are working on Hello.java and you want to take a break (see Quitting
+below). So you leave emacs and log out of your work station and leave.
+When you come back and restart emacs, you only need to open the file you
+were working on. If you are simply working on a file that already exists
+you can type <tt>C-x C-f</tt> or use the menus Files-> Open File... This
+will prompt you for a file name in the minibuffer. Try it:
+<ul>
+<li>
+Quit emacs by typing <tt><span style="background-color: #B0ACFF">C-x C-c</span></tt>.</li>
+
+<li>
+Take a break. Don't forget to come back.</li>
+
+<li>
+Run emacs again (see above).</li>
+
+<li>
+Type <tt><span style="background-color: #B0ACFF">C-x C-f</span></tt>.</li>
+
+<li>
+Type <tt><span style="background-color: #B0ACFF">Hello.java</span></tt> in the minibuffer, and press the <tt><span style="background-color: #B0ACFF">return</span></tt>
+key.</li>
+</ul>
+Emacs now has Hello.java in an open buffer, ready for you to continue.
+<hr><!-- Compiling w/ errors. -->
+<h2>
+Compiling and Fixing Errors</h2>
+Now we want to compile the file Hello.java. So we will tell emacs to run the
+java compiler. We can do this by typing
+<tt><span style="background-color: #B0ACFF">C-c C-v C-c</span></tt> or by selecting
+the menu JDE-> Compile. This action will split our window into two separate
+buffers. In the top you will see Hello.java. In the bottom you will see the
+results of the compilation which should look something like this:
+<hr>
+<pre>cd c:/My Documents/java/
+javac&nbsp; -g Hello.java
+<span class="warning">Hello</span><span class="warning">.java</span>:<span class="variable-name">18</span>: ';' expected
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; System.out.println(&quot;Hello World&quot;)&nbsp; //a line with an error
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ^
+1 error
+
+Compilation exited abnormally with code 1 at Wed Jan 10 14:13:08</pre>
+This shows us one error message. Each error message tells us the file name
+where the error is, what line number it occurs in, a description of the
+error and the line itself. A ^ symbol beneath the line indicates where
+the compiler thinks the error occurred.<!-- Fixing errors. -->
+<p>Now we have two buffers showing us information. To switch between them
+we can either click with the mouse or type <tt>C-x o</tt> to move the cursor
+to the other buffer. We'll try this out later.
+<p>With JDE you can use the error messages to go directly to the line where
+the error occurred. Use one of the following options to do this.
+<ul>
+<li>
+Type <tt><span style="background-color: #B0ACFF">C-x `</span></tt> while the cursor is in the buffer containing Hello.java.
+This will advance the cursor to the next error. Doing this multiple times
+will go through multiple errors if they exist.</li>
+
+<li>
+<b>OR</b> Click on the filename:line part of the error message using the
+middle mouse button.</li>
+
+<li>
+<b>OR</b> Move the cursor to the buffer containing the error messages.
+Put the cursor at the beginning of the error message and press the return
+key.</li>
+</ul>
+Fix the error in Hello.java by adding a semicolon <span style="background-color: #B0ACFF">;</span>
+after the ) of line 18.
+It should now read:
+<pre><tt>System.out.println(&quot;Hello World&quot;);&nbsp; //a line with an error</tt></pre>
+Recompile Hello.java with <tt><span style="background-color: #B0ACFF">C-c C-v C-c</span></tt>. There will be a question in the
+minibuffer asking if you want to save your changes to the file. Type
+<tt><span style="background-color: #B0ACFF">y</span></tt>.
+<h3>
+Working with multiple buffers</h3>
+Before going any further let's look at using multiple buffers. The area
+containing a buffer is called a window. Currently you should have two visible
+windows in emacs. We already saw how <tt>C-x o</tt> switches the cursor
+between windows. There are a number of other useful commands for multiple
+windows. Below are descriptions of each and how to perform them using either
+the keyboard or the mouse.
+<table BORDER >
+<tr>
+<th>Description</th>
+
+<th>Keyboard</th>
+
+<th>Mouse</th>
+</tr>
+
+<tr>
+<td>Move the cursor to a different window.</td>
+
+<td><tt>C-x o</tt></td>
+
+<td>Click in the window where you want the cursor</td>
+</tr>
+
+<tr>
+<td>Go back to a single window.</td>
+
+<td><tt>C-x 1</tt></td>
+
+<td>Select from the menus Files-> One Window</td>
+</tr>
+
+<tr>
+<td>Split one window into two.</td>
+
+<td><tt>C-x 2</tt></td>
+
+<td>Menu: Files-> Split Window</td>
+</tr>
+</table>
+
+<p>You can also have multiple buffers open at once and they don't all have
+to be displayed in emacs. Below are some actions for looking at other buffers.
+<table BORDER >
+<tr>
+<th>Description</th>
+
+<th>Keyboard</th>
+
+<th>Mouse</th>
+</tr>
+
+<tr>
+<td>Show all open buffers.</td>
+
+<td><tt>C-x C-b</tt></td>
+
+<td>Buffers-> List All Buffers. The Buffers menu has list list of the buffers
+you have used most recently.</td>
+</tr>
+
+<tr>
+<td>Switch to a buffer from the list of all buffers.</td>
+
+<td>Move the cursor to the buffer name. Hit return.</td>
+
+<td>Click with the middle button on the name of the buffer.</td>
+</tr>
+
+<tr>
+<td>Switch to a buffer without looking at the list.</td>
+
+<td><tt>C-x b</tt> The name shown in the minibuffer is the default. To
+switch to it press return, otherwise type the name of the buffer you wish
+to switch to.</td>
+
+<td>Select the name of a buffer from those in the Buffers menu</td>
+</tr>
+</table>
+
+<p>Try it: Manipulating Buffers
+<ul>
+<li>
+Move the cursor to the window containing the compilation messages. <tt><span style="background-color: #B0ACFF">C-x
+o</span></tt>.</li>
+
+<li>
+Show only this buffer. <tt><span style="background-color: #B0ACFF">C-x 1</span></tt></li>
+
+<li>
+Switch to the scratch buffer. <tt><span style="background-color: #B0ACFF">C-x b</span></tt> type <tt><span style="background-color: #B0ACFF">*scratch*</span></tt> and
+hit&nbsp;<span class="doThis">return</span>.</li>
+
+<li>
+Split the window. <tt><span style="background-color: #B0ACFF">C-x 2</span></tt></li>
+
+<li>
+Move the cursor to the bottom window. <span style="background-color: #B0ACFF"><tt>C-x o</tt></span></li>
+
+<li>
+Show the Hello.java buffer. <tt><span style="background-color: #B0ACFF">C-x b</span></tt> type
+<tt><span style="background-color: #B0ACFF">Hello</span></tt><span style="background-color: #B0ACFF"></span><tt><span style="background-color: #B0ACFF">.java</span></tt> and hit&nbsp;<span class="doThis">return</span>.</li>
+
+<li>
+Show only the Hello.java window. <tt><span style="background-color: #B0ACFF">C-x 1</span></tt>.</li>
+</ul>
+
+<hr><!-- Running -->
+<h2>
+Running your program</h2>
+Now that we've compiled a working version of Hello.java, it's time to run
+our program. Either type <tt><span style="background-color: #B0ACFF">C-c C-v C-r</span></tt> or select the menu JDE->
+Run App. As a result emacs split your window and wrote "Hello World" to
+the screen, along with some other status messages which are <b>NOT</b>
+part of your program itself.&nbsp;
+<hr><!-- Debugging --><!--
+<H2>Debugging</H2>
+Emacs and JDE contain a mechanism for debugging your programs as well.
+Actually this is functionality provided by a program called jdb (Java
+debugger) which jde uses.
+<P>
+Let's start by adding the following lines to our program Hi.java after the
+<code>System.out ...</code> line:
+<PRE><CODE class="doThis">
+    System.out.println("This is a line.");
+    System.out.println("This is another line.");
+    System.out.println("This statement is false.");
+</PRE></CODE>
+Now compile your program, <CODE class="doThis">C-c C-v C-c</CODE>.
+<P>
+Instead of running it as we did last time we'll use the debugger. To start
+it use <CODE class="doThis">C-c C-v C-d</CODE>. A bunch of text will appear
+in a <CODE>*debugHi*</CODE> buffer. You will also see the symbol
+<code>=&gt</code> next to the first <code>System.out</code> line in your
+program. This arrow indicates what line of your program is about to be
+executed. To execute this line we can use the command
+<CODE class="doThis">C-x C-a C-n</CODE>, or select Jdb-&gt Next Line from the
+menus. You should notice that somewhere amongst the other text in the
+debugger's window the words "Hello World" appeared.
+<P>
+You can skip to an arbitrary line in your code by setting a breakpoint. The
+breakpoint tells the debugger, "Stop here." Let's try this. Put your cursor
+on the last <code>System.out</code> line. We'll set a breakpoint here by
+typing <CODE class="doThis">C-x SPC</CODE> where SPC is the space bar.
+<P>
+Next we'll tell the debugger to run until it hits another breakpoint.
+Type <CODE class="doThis">C-x C-a C-r</CODE> or select Jdb-&gt Continue for
+the menus. You will see that in the debugger window that the next two lines
+were output. Also notice our arrow has moved to the last line.
+<P>
+Finally, we will let the program finish running by telling the debugger to
+continue again. <CODE class="doThis">C-x C-a C-r</CODE>.
+<HR>
+<H2>More Debugging</H2>
+The debugger gives us the ability to step through our programs one line
+at a time. We can also examine what is going on within our programs.
+Edit Hi.java by removing all but the first <code>System.out</code> line.
+You can do this easily by putting your cursor at the beginning of the
+first line you wish to delete at typing <code class="doThis">C-k</code>.
+This "kills" everything from your cursor to the end of the line. If
+you want to "yank" back what you just killed type
+<code class="doThis">C-y</code>. So kill the rest of the
+<code>System.out</code> lines by typing <code class="doThis">C-k</code>
+several times. Notice you can also kill the blank lines left behind by
+typing <code>C-k</code> on a blank line.
+<P>
+We will now include a variable in the program to which we will assign
+a value. Add the following lines after the <code>System.out</code> line.
+<PRE><code class="doThis">
+        int x;
+        x = 2;
+        x = x+6;
+
+        System.out.println(x);
+</pre></code>
+Do the following:
+<UL>
+  <LI>Compile the program.  <code class="doThis">C-c C-v C-c</code>.
+  <LI>Start debugging. <code class="doThis">C-c C-v C-d</code>.
+  <LI>Move the cursor to the line that reads <code>x = x+6;</code>.
+  <LI>Set a breakpoint on that line. <code class="doThis">C-x SPC</code>.
+      (Remember SPC is the SPACE bar).
+  <LI>Let the program continue to its next breakpoint.
+      <code class="doThis">C-x C-a C-r</code>.
+
+</UL>
+
+Now we're going to take a look at the value stored in <code>x</code>.
+<UL>
+  <LI>Move the cursor so that it is on an <code>x</code>.
+  <LI>Now we'll examine the value of <code>x</code> by typing
+      <code class="doThis">C-x C-a C-r</code>  or selecting the menu:
+      Jdb->Print Expression. 
+</UL>
+In the debugger buffer the line <code>x = 2</code> has appeared,
+telling you that the value for <code>x</code> is 2. Why wasn't it
+8? The line is <code>x = x + 6</code>. Remember that the line the
+arrow is on has not been executed yet.
+<P>
+We can now step forward a line (<code class="doThis">C-x C-a C-n</code>)
+and examine the value again to find that the debugger tells us that
+<code>x</code> is in fact 8.
+<P>
+Now let's suppose something has gone terribly wrong and we want to stop
+our program without letting it finish.
+<UL>
+  <LI>Move the cursor to the last line of the debugger, after
+      <code>main[1]</code>.
+  <LI>Type <code class="doThis">quit</code>.
+</UL>
+<P>
+If you are familiar with jdb already you can enter regular jdb commands
+at this prompt, in essence doing everything we've shown here by hand.
+<HR>
+--><!-- Exit emacs -->
+<h2>
+Quitting</h2>
+You can now exit emacs by typing <tt><span style="background-color: #B0ACFF">C-x C-c</span></tt> or selecting Files->
+Exit Emacs.&nbsp;
+<hr>
+<br><!-- hhmts start -->Last modified: <!--webbot bot="Timestamp" startspan
+S-Type="EDITED" S-Format="%m/%d/%y" -->01/21/03<!--webbot bot="Timestamp"
+I-CheckSum="12622" endspan -->
+<!-- hhmts end -->
+</body>
+</html>

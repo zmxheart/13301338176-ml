@@ -1,0 +1,147 @@
+<!doctype html public "-//w3c//dtd html 4.0 transitional//en">
+<html>
+<head>
+   <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+   <meta name="GENERATOR" content="Microsoft FrontPage 12.0">
+   <title>Homework #4</title>
+   <style type="text/css">
+   .style1 {
+	   text-decoration: underline;
+   }
+   </style>
+</head>
+<body>
+<p>&nbsp;</p>
+<table WIDTH="100%" >
+<tr>
+<td><img SRC="GburgCS.gif" height=84 width=182></td>
+
+<td><font size=+2>CS 111 - Introduction to Computer Science</font>
+<br><font size=+2>Homework #4</font></td>
+</tr>
+</table>
+
+<hr>
+<br><b>Due: Friday 2/17 at the beginning of class</b>
+<p>
+<strong>1. Circle Math:</strong><span class="Apple-converted-space">&nbsp;Implement a</span> program<span class="Apple-converted-space">&nbsp;</span><tt>CircleMath.java</tt>. 
+that prompts the user with &quot;Radius? &quot;, reads an integer radius, uses <code>
+Math.PI</code><span class="Apple-converted-space">&nbsp;</span>in calculation of 
+double-precision floating point values for diameter, circumference, and area, 
+and uses <code>
+<a href="http://web.cerritos.edu/jwilson/SitePages/java_language_resources/Java_printf_method_quick_reference.pdf">printf</a></code><span class="Apple-converted-space">&nbsp;</span>for 
+printing these values in the exact format shown below (including leading 
+spaces).&nbsp;&nbsp; Note: You can calculate the square of<span class="Apple-converted-space">&nbsp;</span><code>radius</code><span class="Apple-converted-space">&nbsp;</span>by 
+using either<span class="Apple-converted-space">&nbsp;</span><code>radius * radius</code><span class="Apple-converted-space">&nbsp;</span>or<span class="Apple-converted-space">&nbsp;</span><code>Math.pow(radius, 
+2)</code>.<br></p>
+<p>Example Transcript (input<span class="Apple-converted-space">&nbsp;</span><span class="style1" style="text-decoration: underline;">underlined</span>):</p>
+<pre style="color: rgb(0, 0, 0); font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: normal; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px;">Radius? <u>10</u>
+     diameter = 20.000000
+circumference = 62.831853
+         area = 314.159265</pre>
+
+<p>Hint: To print a floating point value <tt>x</tt> to six decimal places alone on a 
+single line, one could use &quot;<tt>System.out.printf(&quot;%d\n&quot;, x);</tt>&quot;.</p>
+<p><b>2. Rock, Paper, Scissors:</b>&nbsp; Call your program <tt>
+RockPaperScissors.java</tt>. (At least a portion of this exercise should be 
+done together in class during week 3.)&nbsp; </p>
+<p class="style1"><strong>Input:</strong></p>
+<ul>
+	<li>an integer 0, 1, or 2, representing a play of &quot;rock&quot;, &quot;paper&quot;, or 
+	&quot;scissors&quot;, respectively. </li>
+</ul>
+<p class="style1"><strong>Output:</strong></p>
+<ul>
+	<li>Before the input: a prompt &quot;Please enter 0 (rock), 1 (paper), or 2 
+	(scissors): &quot;</li>
+	<li>After the input: The computer randomly chooses an integer to represent 
+	it's play.</li>
+	<li>Print &quot;I played
+	<play>&lt;play&gt;&quot; where &lt;play&gt;
+	<play>is &quot;rock&quot;/&quot;paper&quot;/&quot;scissors&quot; depending on the computer's randomly 
+	chosen integer.</li>
+	<li>Print &quot;You win.&quot;/&quot;You lose.&quot;/&quot;Draw.&quot; based on the following&nbsp;<a href="https://en.wikipedia.org/wiki/Rock&#8211;paper&#8211;scissors">rules</a>:<ul>
+		<li>Rock wins against scissors.</li>
+		<li>Scissors wins against paper.</li>
+		<li>Paper wins against rock.</li>
+		<li>Players that choose the same play draw (i.e. tie).</li>
+	</ul>
+	</li>
+</ul>
+<p>Hint:&nbsp;At no point should you have an if-else chain for 9 cases.&nbsp; Each of the 
+last two print statements should require at most 3 cases each. Let the user's 
+play be p1 and the computer's play be p2.&nbsp; Consider what value you get if you 
+compute (p1 - p2 + 3) % 3.&nbsp; How does the result of this computation map to the 
+win/lose/draw cases?&nbsp; Why does this work?&nbsp; Why wouldn't the expression (p1 - p2) 
+% 3 suffice for our three cases?&nbsp;&nbsp; (Answers to these hint questions 
+are not to be submitted, but try to understand why these expressions are helpful 
+or not.)</p>
+<p>Example transcripts (input&nbsp;<span class="style1">underlined</span>): </p>
+<hr>
+<pre>Please enter 0 (rock), 1 (paper), or 2 (scissors): <span class="style1">0</span>
+I played paper.
+You lose.</pre>
+<hr>
+<pre>Please enter 0 (rock), 1 (paper), or 2 (scissors): <span class="style1">1</span>
+I played rock.
+You win.</pre>
+<hr>
+<pre>Please enter 0 (rock), 1 (paper), or 2 (scissors): <span class="style1">2</span>
+I played scissors.
+Draw.</pre>
+<hr>
+<p><strong>3. Flip 5:</strong> Create a program called <tt>Flip5.java</tt> that 
+implements &quot;Flip 5&quot;, a simple gambling game of my design.&nbsp; The bettor 
+places a bet on &quot;more tails&quot; or &quot;more heads&quot;, and then flips 5 coins.&nbsp; If the coins show 
+all heads or all tails, the house wins and the bettor loses their stake.&nbsp; 
+Otherwise, if the majority of coins match the bettor's bet (e.g. 3 or 4 tails out of 
+5 when the bettor bet &quot;tails&quot;), then the banker pays 1 for 1.&nbsp; Otherwise, 
+if the majority doesn't match the bettor's bet, then the bettor loses their 
+stake.&nbsp; The specification of the program is as follows:</p>
+<p>Input:</p>
+<ul>
+	<li>The user enters a 0 or 1 to bet on a majority of tails or heads, 
+	respectively.</li>
+</ul>
+<p>&nbsp;Output:</p>
+<ul>
+	<li>Initially, the user is prompted for their bet with &quot;Bet (0) more tails, 
+	or (1) more heads: &quot;.</li>
+	<li>If the user enters an integer other than 0 or 1, the program prints 
+	&quot;Invalid bet.&quot; and does nothing more.</li>
+	<li>Otherwise, a random number generator simulates a coin flip and either 
+	&quot;H&quot; or &quot;T&quot; is printed for head or tail, respectively.&nbsp; This is repeated 
+	for a total of 5 coin flips.</li>
+	<li>The program prints &quot; --&gt; &quot;.</li>
+	<li>If the count of heads flipped is 0 or 5, print &quot;All flips are the same. 
+	You lose.&quot;</li>
+	<li>Otherwise, if the count of heads flipped is such that the bettor's bet 
+	was correct, print &quot;You win!&quot;</li>
+	<li>Otherwise, print &quot;You lose.&quot;</li>
+</ul>
+<p>NOTE:</p>
+<ul>
+	<li>A newline character should be the last character printed by your 
+	program.&nbsp; No other newline characters should be printed, i.e. use 
+	System.out.print for all printing except that last print statement executed.</li>
+	<li>When generating random coin flips, you should count either the number of 
+	heads flipped or tails flipped.</li>
+	<li><em><span class="style1">Challenge</span>: It is possible to write this program without the use any 
+	if-statements.&nbsp; Instead, one may use conditional expressions (a.k.a. 
+	if-else expressions, ternary operators, selection operators).&nbsp; You do 
+	not need to fulfill this challenge, but this is a good opportunity to 
+	practice your use of conditional expressions.</em></li>
+</ul>
+<p>Example transcripts (input&nbsp;<span class="style1">underlined</span>): </p>
+<hr>
+<pre>Bet (0) more tails, or (1) more heads: <span class="style1">0</span>
+TTTTT --&gt; All flips are the same. You lose.</pre>
+<hr>
+<pre>Bet (0) more tails, or (1) more heads: <span class="style1">1</span>
+HTHHT --&gt; You win!</pre>
+<hr>
+<pre>Bet (0) more tails, or (1) more heads: <span class="style1">0</span>
+HTHTH --&gt; You lose.</pre>
+<hr>
+</body>
+</html>

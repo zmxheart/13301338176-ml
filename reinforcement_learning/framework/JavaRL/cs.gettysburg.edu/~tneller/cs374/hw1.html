@@ -1,0 +1,123 @@
+<!doctype html public "-//w3c//dtd html 4.0 transitional//en">
+<html>
+<head>
+   <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+   <meta name="GENERATOR" content="Microsoft FrontPage 12.0">
+   <title>Homework #1</title>
+</head>
+<body>
+<table WIDTH="100%" >
+<tr>
+<td><img SRC="GburgCS.gif" height=84 width=182></td>
+
+<td><font size=+2>CS 3</font><font size="5">74 Compilers<br></font><font size=+2>Homework #1</font></td>
+</tr>
+</table>
+
+<hr>
+<br><b>Due: The beginning of class </b>on Tuesday 1/31 (test cases on Thursday 
+1/26)<p><b>Note: </b>This work is to be done in <b>groups of 2</b>.&nbsp; Each group will submit one assignment.&nbsp; Although 
+you may divide the work, both team members should be able to present/describe 
+their partner's work upon request.&nbsp; 
+<p><b>0. HW1 Preparation:</b> Download the given <a href="hw1">starter code</a> and read Chapter 1 thoroughly.&nbsp; The 
+test statements of <tt><a href="hw1/SLPTest.java">SLPTest</a></tt> are difficult to read in their abstract syntax 
+construction form, so consider initially compiling and running <tt>
+<a href="hw1/SLPTest.java">SLPTest</a></tt> to see 
+(through use of recursive <tt>toString</tt> methods) these statements in their original 
+source code form.</p>
+
+<p><b>1. Maximum Print Arguments:</b> Read Programming Problem 1 on p.12.&nbsp; This method in <tt>
+<a href="hw1/SLPTest.java">SLPTest</a></tt> 
+initiates a recursion over an abstract syntax tree to evaluate <tt>maxargs</tt>.&nbsp; 
+However, most maxargs methods have been trivially (and incorrectly) implemented 
+as &quot;<tt>return 0;</tt>&quot;.&nbsp; Your challenge is to implement the <tt>maxargs</tt> methods of the 
+abstract syntax classes correctly.&nbsp; Note: If there are no print statements, 
+the result should be 0. Also note that print statements can occur within print 
+statement arguments through <i>expression sequences</i> (<tt><a href="hw1/EseqExp.java">EseqExp</a></tt>).&nbsp; </p>
+
+<p><b>2. Interpreting Straight-Line Programs: </b>Read Programming Problem 2 on pp. 12-14.&nbsp; This method in <tt>
+<a href="hw1/SLPTest.java">SLPTest</a></tt>
+initiates a recursion over an abstract syntax tree to evaluate <tt>interp</tt>, that is, 
+to execute the straight-line program.&nbsp; However, most <tt>interp</tt> methods have 
+been trivially (and incorrectly) implemented as &quot;<tt>return null;</tt>&quot;.&nbsp; Your 
+challenge is to implement the <tt>interp</tt> methods of the abstract syntax classes 
+correctly.</p>
+
+<p><b>3. Extended Testing (due Thursday 1/26): </b>Add at least five useful test statements to the statements array of <tt>
+<a href="hw1/SLPTest.java">SLPTest</a></tt>.&nbsp; The correct output for the test statements supplied are as 
+follows:</p>
+
+<pre>$ java SLPTest
+Program:
+a := 5 + 3; b := (print(a, a - 1), 10 * a); print(b)
+Max Arguments: 2
+Execution Output:
+8 7
+80
+Program:
+print(2, 3, 4)
+Max Arguments: 3
+Execution Output:
+2 3 4
+Program:
+print((print(2, 3, 4), 1))
+Max Arguments: 3
+Execution Output:
+2 3 4
+1
+Program:
+print((print(1), 2), 3, 4)
+Max Arguments: 3
+Execution Output:
+1
+2 3 4
+Program:
+a := 1; print(a); a := 2; print(a)
+Max Arguments: 1
+Execution Output:
+1
+2
+Program:
+a := 1; print(a); print((a := 2, a)); print(a)
+Max Arguments: 1
+Execution Output:
+1
+2
+2
+Program:
+print((a := 1, a), (a := a + 1, a), (a := a + 1, a))
+Max Arguments: 3
+Execution Output:
+1 2 3
+</pre>
+
+<h3>Supplemental Chapter Comments</h3>
+
+<p>(These comments are to supplement your reading.&nbsp; Question(s) asked are for 
+you to think about on your own and need not be turned in with the homework.)</p>
+<p>Early on, skim Appendix A in anticipation of our implementation of a MiniJava 
+compiler.&nbsp; In what ways do you observe that MiniJava has been simplified 
+from Java?&nbsp; What is most surprising?&nbsp; Are there alternative ways that 
+MiniJava can accomplish the same computation as some familiar forms that are 
+missing?</p>
+<p><b>1.1:</b> Don't be concerned if the jargon in Figure 1.1 doesn't mean much 
+to you at this stage.&nbsp; Think of it as being an approximate syllabus for the 
+course.&nbsp; You'll understand Figure 1.1 very well by the end of the course. 
+The same goes for Table 1.2, but do read it as best you can at this stage.&nbsp; 
+Come back to this section regularly for a bird's eye view of what we're 
+accomplishing.</p>
+<p><b>1.2:</b> There is considerable overlap in the topics of Chapters 2 and 3 
+and our theoretical computer science coverage of CS 201/301.&nbsp; We'll avoid 
+repetition of such material.&nbsp; If you'll be taking the Computer Science GRE 
+subject test before completing CS301, be sure to dig into the material we'll 
+skim <i>now</i>.&nbsp; I'll be glad to help you one-on-one.<br>
+We'll be using the tool JavaCC for this course.<br>
+<br>
+<b>1.3: </b>We'll be covering the semantics (meaning) of straight-line programs 
+in class.&nbsp; Read the style and modularity conventions thoroughly.&nbsp; The 
+classes of Program 1.5 (along with toString methods) are supplied <a href="hw1">
+here</a>.</p>
+
+<p>&nbsp;</p>
+
+</body></html>

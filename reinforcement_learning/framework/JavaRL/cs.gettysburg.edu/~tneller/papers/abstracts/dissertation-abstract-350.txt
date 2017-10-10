@@ -1,0 +1,46 @@
+SIMULATION-BASED SEARCH FOR HYBRID SYSTEM CONTROL AND ANALYSIS
+
+Todd William Neller, Ph.D.
+Stanford University, 2000
+
+Adviser: Richard E. Fikes
+
+This dissertation explores new algorithmic approaches to
+simulation-based optimization, game-tree search, and tree search for
+the control and analysis of hybrid systems.  Hybrid systems are
+systems that evolve with both discrete and continuous
+behaviors. Examples of hybrid systems include diverse mode-switching
+systems such as those we have used as focus problems: stepper motors,
+magnetic levitation units, and submarine detection avoidance
+scenarios.  For hybrid systems with complex dynamics, the designer may
+have little other than simulation as a tool to detect design flaws or
+inform offline or real-time control.  In approaching control and
+analysis of such systems, we thus limit ourselves to a black-box
+simulation of the system.
+
+In our optimization research, we present a stepper motor control
+design problem where the designer wishes to use simulation to
+efficiently detect rare stall scenarios in the space of possible
+system parameters and initial states if such scenarios exist.  A
+survey of global optimization techniques and extensions of such
+techniques are made.  We present novel information-based and
+multi-level optimization methods.  In extending game-tree search
+for hybrid system control, we assume that controller action timing
+discretization is given.  We pose a magnetic levitation control
+problem as an adversarial game for the purpose of robust control
+synthesis.  Assuming a given action parameter discretization, we
+explore the use of game-graph (augmented cell-map) approximation and
+alpha-beta pruning for fast adaptive online control.  Assuming that
+action parameter discretization must be computed dynamically in
+search, we present a new application of information-based optimization
+to alpha-beta search.
+
+In extending tree search for hybrid system control, we assume that
+action timing discretization is not given and must be computed
+dynamically.  We present a submarine detection avoidance problem as a
+search problem for the purpose of fast, real-time tactical planning
+assistance.  Assuming discretized actions, new iterative refinement
+techniques and a variant of best-first search are presented.  Assuming
+that neither action discretization nor action timing discretization is
+given, we explore random, information-based, and dispersed dynamic
+discretization of actions in iterative refinement searches.

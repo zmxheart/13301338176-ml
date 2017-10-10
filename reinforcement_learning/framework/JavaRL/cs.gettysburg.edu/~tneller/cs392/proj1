@@ -1,0 +1,151 @@
+<!doctype html public "-//w3c//dtd html 4.0 transitional//en">
+<html>
+<head>
+   <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+   <meta name="GENERATOR" content="Mozilla/4.72 [en] (Win98; U) [Netscape]">
+   <meta name="Author" content="Todd Neller">
+   <title>Project #1</title>
+</head>
+<body text="#000000" bgcolor="#FFFFFF" link="#0000EE" vlink="#551A8B" alink="#FF0000">
+&nbsp;
+<table WIDTH="100%" >
+<tr>
+<td ALIGN=CENTER VALIGN=CENTER ROWSPAN="2">
+<h1>
+<img SRC="logoban4.jpg" BORDER=0 height=66 width=160></h1>
+</td>
+
+<td>
+<h1>
+CS 392 - Game AI</h1>
+</td>
+</tr>
+
+<tr>
+<td>
+<h2>
+Project #1</h2>
+</td>
+
+<td></td>
+</tr>
+</table>
+
+<hr WIDTH="100%">
+<br>Bachground Information:
+<ul>
+<li>
+Smith, Jacobus, and Watson. <a href="stsx98-final.doc">"Preparing to do
+Tomorrow's Job Today - Automated Tactical and Mission Planning Assistance
+for the Information&nbsp; Age Submarine"</a></li>
+
+<li>
+<a href="submarine.txt">Correspondence regarding Section 2.4.2 and Figure
+6 of paper</a></li>
+</ul>
+Problem Definition:
+<ul>
+<li>
+Skim the paper (above) and read Section 2.4.2 (and Figure 6) carefully.</li>
+
+<li>
+Study the correspondence carefully.</li>
+
+<br>&nbsp;
+<p>&nbsp;
+<p><b>Due: Monday 1/29</b>
+<p>At class on Monday, please turn in a thorough description of your submarine
+detection avoidance problem definition.&nbsp; It can be less than a page
+and should not be more than two pages.&nbsp; Your formal description should
+<ul>
+<li>
+<b>communicate the problem clearly and concisely</b> -&nbsp; Any other
+English-speaking person in any part of the world should be able to read
+your description and be working on <b>exactly&nbsp;</b> the same problem
+as you.&nbsp; As you read your description, think critically and see if
+you can spot possible misinterpretations and ambiguities.&nbsp; It's OK
+(and encouraged) to have another student look over your problem statement
+to spot possible mistakes, omissions, ambiguities, etc.&nbsp; Include all
+relevant constants.&nbsp; These can be changed at a later point, but it
+import to specify all constants and parameters of your problem.&nbsp; In
+formulating your problem, consider the parts necessary to define a search
+problem.&nbsp; In particular, how will you measure cost/utility, and how
+will you define success?</li>
+
+<li>
+<b>provide a scalable benchmark for algorithm development</b> - As better
+algorithms are developed and as hardware resources improve, it should be
+easy to adjust the difficulty of your problem so that it remains a relevant
+benchmark for future research.</li>
+
+<li>
+<b>not require simulation that is computationally expensive </b>- Since
+we're going to be applying search techniques, we'll be doing a lot of simulation.&nbsp;
+The speed of simulation with directly affect the speed of search and thus
+the amount of search that's feasible for assisting navigation in real time.</li>
+
+<li>
+<b>provide a problem which is applicable to the general problem</b> - A
+solution to your problem should be useful in computing a solution to the
+general given problem.</li>
+</ul>
+This is not a trivial exercise.&nbsp; The decisions you make at this stage
+will define your goals and significantly affect your work in the coming
+weeks.&nbsp; Scalability is especially important, as we cannot easily predict
+the relative strengths of various approaches.
+<p><b>Due: Monday 2/5</b>
+<p>By class on Monday, you will submit documented code that simulates sub
+and ship trajectories for your problem formulation.&nbsp; Your search code
+will rely on this code in order to expand nodes and evaluate the relative
+merits of possible trajectories.&nbsp; For this reason, you should also
+evolve some measure of cost/utility in your simulation.
+<p>It's probably a good idea to make a separate class for your state or
+search node.&nbsp; Time spent up front with <u>good object-oriented design</u>
+will pay off in less recoding necessary in later stages.&nbsp; Even if
+we're rapid-prototyping, care taken for reusable code can help here too.
+<p><b>Numerical integration:</b> If you're using differential equations
+to express the evolution of your system, you'll need a way to numerically
+integrate the equations for simulation.&nbsp; Happily, I've ported some
+code for this purpose from the well-known Numerical Methods book "Numerical
+Recipes in C" by Press et al.&nbsp; The code can be copied from ~tneller/public_html/cs392/proj1/odeint,
+and javadoc documentation can be browsed <a href="odeint/">here</a>.&nbsp;
+Look at the code in <a href="odeint/Tests.java">Tests.java</a> for an example
+of how the classes are used to simulate the motion of a simple pendulum.
+<p><b>Visualization software:</b> It will be helpful to visualize how your
+simulated system is actually evolving in this part of the work and the
+following parts.&nbsp; <a href="animator/">The current version of the code
+is here.</a>
+<p><b>Search code example:</b>&nbsp; The example code for depth-first search
+with the bucket problem is <a href="../searchExample/">here</a>.
+<br>&nbsp;
+
+
+<P><b>Due: Monday 2/12</b></p>
+<p>By class on Monday, you will be expected to submit (as "hw2") an
+implementation of iterative-deepending A* which can be used via your
+visualization interface.  This does not mean that your IDA* code must
+find solutions to difficult problems.  You should, however, be able to
+demonstrate it working for easy problems with a suitably large delta
+T.  (We'll talk of possible improvements next week.)</p>
+
+<p>You should use a Node representation similar to that of the
+illustrative bucket problem above.  In fact, you should be able to
+have your IDA* code be general enough that it could be used for the
+Bucket problem with little modification (e.g. the addition of a Node
+method for evaluating f).</p>
+
+<p>It's probably wise to limit your IDA* in some way (e.g. time,
+number of node expansions, etc.)  When IDA* fails to find a solution
+under such constraints, it's your decision whether or not to return
+any trajectory to the animator.  If you do, please document the
+significance of the trajectory returned.</p>
+
+<p>In class on Monday, you should be prepared to give a brief
+presentation of your IDA* code, describing how well it works for your
+problem as you vary the difficulty of the problem.</p>
+
+</ul>
+
+
+</body>
+</html>

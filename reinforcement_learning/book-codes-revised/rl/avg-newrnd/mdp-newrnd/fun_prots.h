@@ -1,0 +1,10 @@
+double unifrnd(double, double);
+void simulator_mc(void);
+void initialize(statistics*);
+int jump_learn(statistics*);
+int jump_fixed(statistics*,int [NS]);
+int state_finder(statistics*);
+void rqlearn(statistics*);
+int action_selector(void);
+void pol_finder(statistics,int [NS]);
+void rho_finder(statistics*,int [NS]);

@@ -1,0 +1,194 @@
+<!doctype html public "-//w3c//dtd html 4.0 transitional//en">
+<html xmlns:v="urn:schemas-microsoft-com:vml" xmlns:o="urn:schemas-microsoft-com:office:office" xmlns="http://www.w3.org/TR/REC-html40">
+<head>
+   <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+   <meta name="GENERATOR" content="Microsoft FrontPage 5.0">
+   <meta name="Author" content="Todd Neller">
+   <link rel="File-List" href="index_files/filelist.xml">
+
+   <title>Uninformed Search</title>
+   <!--[if !mso]>
+   <style>
+v\:*         { behavior: url(#default#VML) }
+o\:*         { behavior: url(#default#VML) }
+.shape       { behavior: url(#default#VML) }
+   </style>
+   <![endif]--><!--[if gte mso 9]>
+   <xml><o:shapedefaults v:ext="edit" spidmax="1027"/>
+   </xml><![endif]-->
+</head>
+<body bgcolor="#FFFFFF">
+&nbsp;
+<table WIDTH="100%" >
+<tr>
+<td><img SRC="GburgCS.gif" height=84 width=182></td>
+
+<td><font size=+2>Artificial Intelligence<br>
+</font><font size="5">Uninformed Search</font></td>
+</tr>
+</table>
+
+<hr>
+<ul>
+  <li><a href="code">Starter Code</a> and <a href="code/doc/index.html">
+  Documentation</a></li>
+</ul>
+<h1>Search Problems</h1>
+<hr>
+<h2>Implemented Search Problem Nodes</h2>
+<p>&nbsp;</p>
+<h3 align="center"><u>Triangular Peg Solitaire Puzzle </u> </h3>
+<p>(see <a href="code/PegSolitaireNode.java">PegSolitaireNode.java</a>)</p>
+<p><b>Description:</b> Traditional 5-on-a-side Triangle Peg Solitaire.&nbsp; 15 
+peg holes are in a triangular hex grid as follows: </p>
+<pre>        0 
+       / \
+      1---2
+     / \ / \ 
+    3---4---5
+   / \ / \ / \
+  6---7---8---9 
+ / \ / \ / \ / \
+10--11--12--13--14
+</pre>
+<p><b>Initial State: </b>All 15 holes have pegs except for one central vacant 
+hole (position 4).</p>
+<p align="center"><!--[if gte vml 1]><v:shapetype id="_x0000_t75"
+ coordsize="21600,21600" o:spt="75" o:preferrelative="t" path="m@4@5l@4@11@9@11@9@5xe"
+ filled="f" stroked="f">
+ <v:stroke joinstyle="miter"/>
+ <v:formulas>
+  <v:f eqn="if lineDrawn pixelLineWidth 0"/>
+  <v:f eqn="sum @0 1 0"/>
+  <v:f eqn="sum 0 0 @1"/>
+  <v:f eqn="prod @2 1 2"/>
+  <v:f eqn="prod @3 21600 pixelWidth"/>
+  <v:f eqn="prod @3 21600 pixelHeight"/>
+  <v:f eqn="sum @0 0 1"/>
+  <v:f eqn="prod @6 1 2"/>
+  <v:f eqn="prod @7 21600 pixelWidth"/>
+  <v:f eqn="sum @8 21600 0"/>
+  <v:f eqn="prod @7 21600 pixelHeight"/>
+  <v:f eqn="sum @10 21600 0"/>
+ </v:formulas>
+ <v:path o:extrusionok="f" gradientshapeok="t" o:connecttype="rect"/>
+ <o:lock v:ext="edit" aspectratio="t"/>
+</v:shapetype><v:shape id="_x0000_s1025" type="#_x0000_t75" style='width:124.5pt;
+ height:112.5pt;mso-wrap-style:none;mso-wrap-distance-left:0;
+ mso-wrap-distance-right:0'>
+ <v:imagedata src="index_files/image001.png" o:title=""/>
+ <v:shadow color="#1c1c1c"/>
+</v:shape><![endif]--><![if !vml]><img border=0 width=166 height=150
+src="index_files/image002.jpg" v:shapes="_x0000_s1025"><![endif]></p>
+<p><b>Operators:</b> Peg removal via linear jump.&nbsp; A peg which jumps over 
+an adjacent peg to an empty peg hole immediately beyond in the same direction 
+results in the removal of the jumped peg.&nbsp; For example, in the initial 
+state, the peg at 13 could jump the peg at 8 on its way to vacant position 4.&nbsp; 
+This results in the removal of the peg at 8.&nbsp; Afterwards, there is a peg at 
+4, and positions 8 and 13 are vacant. </p>
+<p><b>Goal:</b> Exactly one peg remains after all others have been removed.</p>
+<h4 align="center"><!--[if gte vml 1]><v:shape
+ id="_x0000_s1026" type="#_x0000_t75" style='width:125.25pt;height:114pt;
+ mso-wrap-style:none;mso-wrap-distance-left:0;mso-wrap-distance-right:0'>
+ <v:imagedata src="index_files/image003.png" o:title=""/>
+ <v:shadow color="#1c1c1c"/>
+</v:shape><![endif]--><![if !vml]><img border=0 width=167 height=152
+src="index_files/image004.jpg" v:shapes="_x0000_s1026"><![endif]></h4>
+<h4>&nbsp;</h4>
+<h3 align="center"><u>Buckets Problem</u></h3>
+<p align="center"><!--[if gte vml 1]><v:shape
+ id="_x0000_s1027" type="#_x0000_t75" style='width:145.5pt;height:81pt;
+ mso-wrap-style:none;mso-wrap-distance-left:0;mso-wrap-distance-right:0'
+ fillcolor="#00e4a8">
+ <v:imagedata src="index_files/image005.png" o:title=""/>
+ <v:shadow color="#1c1c1c"/>
+</v:shape><![endif]--><![if !vml]><img border=0 width=194 height=108
+src="index_files/image006.jpg" v:shapes="_x0000_s1027"><![endif]></p>
+<p align="left">(see <a href="code/BucketsNode.java">BucketsNode.java</a>)</p>
+<p><b>Description</b>:&nbsp; Given a 5 unit and a 3 unit bucket, how can one 
+measure precisely 4 units? With this problem, we use search to develop a plan 
+for measurement.</p>
+<p><b>Initial</b> <b>State</b>: Both buckets are empty.</p>
+<p><b>Operators</b>: Fill or empty the first or second bucket, or pour the 
+contents of one bucket into the other until the source bucket is empty or the 
+recipient bucket is full.</p>
+<p><b>Goal</b>: Exactly 4 units of liquid are in the two buckets.</p>
+<hr>
+<h2>Unimplemented Scalable Search Problem Nodes</h2>
+<h4>&nbsp;</h4>
+<h3 align="center"><u>Lights Out Puzzle</u></h3>
+<p><b>Description</b>: Lights Out is a puzzle where one seeks to get all lights 
+out in a grid of lights.</p>
+<p><b>Scalable</b> <b>Parameter</b>: size of grid (<i>n</i>-by-<i>n</i>, <i>n</i> 
+&gt;= 2)&nbsp; </p>
+<center>
+<p><img src="lightsOut2.gif" NOSAVE width="258" height="277">&nbsp;&nbsp;<img src="lightsOut1.gif" NOSAVE width="258" height="277"></p>
+</center>
+<p><b>Initial</b> <b>State</b>: An initial state is generated by generating a 
+goal state and then randomly applying the operators described below.</p>
+<p><b>Operators</b>: Each light bulb may be selected to toggle on/off.&nbsp; 
+However, all lights horizontally/vertically adjacent will also toggle on/off.&nbsp; 
+For example, in the left figure above, one might select the centermost bulb to 
+toggle.&nbsp;&nbsp; In addition to turning the center bulb on, this would also 
+cause the bulbs above, below, to the left, and to the right of the bulb to turn 
+off.</p>
+<p><b>Goal</b>: All lights are off.</p>
+<h4>&nbsp;</h4>
+<h3 align="center"><u>Sliding Tile Puzzle</u></h3>
+<h4>Description<span style="font-weight: 400">: The &quot;15 puzzle&quot; is one classic 
+example of sliding square tile puzzles (<a href="http://www.javaonthebrain.com/java/puzz15/">http://www.javaonthebrain.com/java/puzz15/</a>) 
+made popular in the U.S.A. in 1879 by Sam Loyd.&nbsp; </span></h4>
+<p><b>Scalable</b> <b>Parameter</b>: size of grid (<i>n</i>-by-<i>n</i>, <i>n</i> 
+&gt;= 2)&nbsp;
+</p>
+<p>In our version of the puzzle, we code each tile with a number from 1 to <i>n</i>*<i>n</i> 
+- 1.&nbsp; For each grid position, an integer describes the tile at that 
+position, with 0 representing the empty position.</p>
+<p><b>Initial</b> <b>State</b>:&nbsp; An initial state is generated by 
+generating a goal state and then randomly applying the operators described 
+below.&nbsp; <br>
+</p>
+</pre>
+<p><b>Operator</b>: Any tile (1 to <i>n</i>*<i>n</i> - 1) that is horizontally/vertically adjacent to the empty position may be moved into the empty position.&nbsp; For example, in the goal state below, either the 1 tile or the 4 tile may be moved into the empty upper-left corner.</p>
+<p><b>Goal</b>: The empty position is always in the upper left corner with tile numbers ascending left-to-right, top-to-bottom.&nbsp; This formulation is easily generalized to larger grids, and simplifies goal checking.&nbsp; (Assuming zero-based row and column indices, what formula expresses the relationship between the row, column, and goal configuration integer?)&nbsp; For example, a 4-by-4 puzzle, would have the following goal state: </p>
+<pre></pre><PRE>+--+--+--+--+
+| 0| 1| 2| 3|
++--+--+--+--+
+| 4| 5| 6| 7|
++--+--+--+--+
+| 8| 9|10|11|
++--+--+--+--+
+|12|13|14|15|
++--+--+--+--+</PRE>
+<PRE>&nbsp;</PRE>
+<h3 align="center"><u>Reverse Puzzle</u></h3><b>Description</b>:&nbsp; In the game of Reverse (Ahl, David H. (ed). Basic Computer Games - TRS-80 Edition, p. 137), you are challenged to sort a permutation of the integers 1 ... <i>n</i> using specific subsequence reversal operations.<p><b>Scalable</b> <b>Parameter</b>: length of list (<i>n</i> &gt;= 2)</p><p><b>Initial</b> <b>State</b>: An initial state is generated by generating a sorted goal state and then randomly applying the operators described below.&nbsp; </p><p><b>Operator</b>: Reversal operation <i>i</i> (1 &lt;= <i>i &lt;= n</i>) reverses the order of the first <i>i</i> integers
+of the sequence.&nbsp; For example, reversal operation 1 makes no change
+to the sequence.&nbsp; For the equence of <i>n</i> integers
+(a1, a2, ..., a<i>n</i>), reversal operation 3 yields the sequence (a3, a2, a1,
+a4, a5, ..., a<i>n</i>). Reversal operation
+<i>n</i> reverses the entire sequence, yielding (a<i>n</i>, ..., a2, a1). </p><p><b>Goal</b>: An ascending sorted list (a<i>i = i </i>for all <i>i</i>) of integers 1 ... <i>n</i>.&nbsp; As with other puzzles such as the sliding tile puzzle above, the real challenge is not merely to find a goal state, but rather to find an optimal (shortest) sequence of operations to reach this state.&nbsp; </p><h4>&nbsp;</h4>
+<h3 align="center"><u>N-Queens Problem</u></h3><p align="center"><!--[if gte vml 1]><v:shape
+ id="_x0000_s1028" type="#_x0000_t75" style='width:164.25pt;height:163.5pt;
+ mso-wrap-style:none;mso-wrap-distance-left:0;mso-wrap-distance-right:0'>
+ <v:imagedata src="index_files/image007.png" o:title=""/>
+ <v:shadow color="#1c1c1c"/>
+</v:shape><![endif]--><![if !vml]><img border=0 width=219 height=218
+src="index_files/image008.jpg" v:shapes="_x0000_s1028"><![endif]></p><h4>Description<span style="font-weight: 400">: The <i>n</i>-queens problem has long served as an illustrative example for search and constraint satisfaction problem formulation.&nbsp; Although there is a O(<i>n</i>) algorithm for generating solutions (<i>ACM SIGART Bulletin</i>, <b>2</b>(2), page 7,</span> <span style="font-weight: 400"><a href="http://www.apl.jhu.edu/~hall/NQueens.html">http://www.apl.jhu.edu/~hall/NQueens.html</a>), the problem remains as an elegant illustration of good search problem formulation, the min-conflicts constraint optimization heuristics, and other search-related issues (e.g. repeated states).</span></h4>
+<p><b>Scalable</b> <b>Parameter</b>: size of board grid (<i>n</i>-by-<i>n</i>, <i>n</i> &gt;= 4)&nbsp;
+</p>
+<p><b>Initial</b> <b>State</b>:&nbsp; An empty board grid</p>
+<p>To illustrate the importance of search problem formulation, consider the ramifications of the following operator possibilities:</p>
+<p><b>Operators Version 1</b>: Place a queen in any safe position, where a &quot;safe&quot; position is one which does not share the same row, column, or diagonal with an existing queen on the board.</p>
+<p><b>Operators Version 2</b>: Place a queen in any left-most safe position.</p>
+<p><b>Goal</b>: Placement of <i>n</i> queens safely on the board.</p>
+<hr>
+<p><i><u><b>Exercise</b></u></i></p>
+<p><i>SearchNode:</i> Study the <a href="code/SearchNode.java">SearchNode</a> class and the implementations of 
+<a href="code/PegSolitaireNode.java">PegSolitaireNode.java</a> and <a href="code/BucketsNode.java">BucketsNode.java</a>.&nbsp; Implement one of the 
+unimplemented scalable search problem nodes.&nbsp; We'll use your implementation 
+to test the characteristics and performance of several search algorithms.</p>
+<hr>
+<h1>Search Algorithms</h1><p><u><b><i>Exercises</i></b></u></p><p><i>Searcher and Search Node:</i> Most AI search techniques follow a similar pattern.&nbsp; Given a data structure and an initial search node, place the node in the data structure and repeat the following:</p><ul><li>If the data structure is empty, terminate with failure.</li><li>Get a node from the data structure.</li><li>If the node is a goal node, terminate with success.</li><li>Expand the node (i.e. generate the node's children), and put the children in the data structure.</li></ul><p>If the data structure is a queue, then search is breadth-first search.&nbsp; If the data structure is a stack, then search is depth-first search.&nbsp; </p><p>Study the <a href="code/Searcher.java">Searcher</a> and <a href="code/SearchNode.java">SearchNode</a> classes and explain how they enable us to easily apply different search algorithms to different problems.&nbsp; </p><p><i>Object-Oriented Problem Solving</i>: Suppose you wish to develop a problem-solving engine for a collection of related problems.&nbsp; However, you are unsure as to the best problem solving technique and will likely need to experiment with several.&nbsp; What would be the first classes you would design and why?&nbsp; (Hint: The <a href="code/Searcher.java">Searcher</a> and <a href="code/SearchNode.java">SearchNode</a> classes were developed from a similar need.&nbsp; How can you <u>generalize</u> from this example?&nbsp; That is, for problem solving beyond search, how would you describe the general classes you would need for a good object-oriented approach?&nbsp; This exercise encourages you to generalize from the previous exercise.)&nbsp; </p><p><i>Breadth-First Search Implementation</i>: Implement a <a href="code/Queue.java">Queue</a> class.&nbsp; <a href="code/BreadthFirstSearcher.java">BreadthFirstSearcher.java</a> contains the breadth-first search algorithm outlined in comments.&nbsp; Complete the implementation and test the implementation with each of your <a href="code/SearchNode.java">SearchNode</a> classes.</p><p><i>Computational Time versus Node Count</i>:&nbsp; One can always measure a programs time performance using the Unix &quot;time&quot; command or Java's System.currentTimeMillis(), which returns the current time in milliseconds.&nbsp; Many search researchers instead use the node count as an estimate of the time performance of their algorithms.&nbsp; What are the pros/cons of using node count rather than system time?&nbsp; Consider comparison of results run on different computers.&nbsp; Consider the comparison of two different search node implementations, where one has a smarter, more computationally expensive expand method that reduces the need for search (e.g. one which sorts the children in some beneficial way).</p><p><i>Breadth-First Search Experimentation</i>: Measure the time and node count performance of your breadth-first search implementation on your scalable problem.&nbsp; For randomly generated problems, measure several runs and report the median value.&nbsp; Plot problem size versus runtime from the smallest size up to the largest size that usually terminates in less than one minute.&nbsp; </p><p><i>Breadth-First Search Properties</i>:&nbsp; What is the time and space complexity of breadth-first search?&nbsp; Is the search optimal?&nbsp; Why or why not?&nbsp; Is the search complete?&nbsp; Why or why not?</p><p><i>Depth-First Search Implementation</i>: Implement a Stack class.&nbsp; <a href="code/DepthFirstSearcher.java">DepthFirstSearcher.java</a> contains the depth-first search algorithm outlined in comments.&nbsp; Complete the implementation and test the implementation with your <a href="code/PegSolitaireNode.java">PegSolitaireNode</a> class.</p><p><i>Repeated States</i>: Perform depth-first search with the <a href="code/BucketsNode.java">BucketsNode</a> class.&nbsp; You will observe that search is unsuccessful.&nbsp; Given enough time, it will terminate with an error.&nbsp; Which error is reported?&nbsp; Modify your code (temporarily) to print the node being expanded.&nbsp; What do you notice about the sequence of nodes being expanded?&nbsp; How does this explain the error?&nbsp; Does this problem manifest itself with your scalable search problem?</p><blockquote><p>Extra: Devise a way to avoid infinite loops in depth-first search and thoroughly describe the tradeoffs it makes in time and space complexity, optimality, and completeness.</p></blockquote><p><i>Breadth-First Versus Depth-First</i>:&nbsp; Compare the time and space complexities of these searches.&nbsp; Is depth-first search optimal?&nbsp; Is it complete?&nbsp; How would you summarize the trade-off(s) between breadth-first and depth-first search?</p><p><i>Recursive Depth-First Search</i>:&nbsp; Implement a class RecursiveDepthFirstSearcher.java.&nbsp; Rather than placing children on a stack, you'll instead recursively search the children.&nbsp; Be especially careful with initialization.&nbsp; (You may need to create an auxiliary recursive function, or identify conditions under which the goalNode and nodeCount should be initialized.)&nbsp; Be sure to test that the Searcher object is capable of multiple searches in sequence.</p><p><i>Recursive Versus Stack-based Algorithms 1</i>:&nbsp; Compare and study the relationship between iterative and recursive implementations of depth-first search.&nbsp; Design an iterative version of quicksort that keeps a stack of pending recursive call parameters.</p><p><i>Recursive Versus Stack-based Algorithms 2</i>:&nbsp; Generalize from the iterative and recursive implementations of depth-first search and quicksort.&nbsp; Describe how one can take any recursive algorithm and construct a corresponding stack-based algorithm.&nbsp; Given that recursion isn't strictly necessary, is there any benefit to expressing algorithms recursively?&nbsp; If so, what benefits?&nbsp; If not, why not?</p><p><i>Depth-Limited Search Implementation</i>: Create a new Searcher class based on <a href="code/DepthFirstSearcher.java">DepthFirstSearcher.java</a> called DepthLimitedSearcher.java.&nbsp; Depth-limited search is exactly like depth-first search, except that it limits the depth of search as the name implies.&nbsp; This is accomplished simply by not generating children for search nodes at a given depth limit.&nbsp; In other words, you need to modify your depth-first search code such that (1) you have a constructor that takes a depth-limit parameter, and (2) you expand a node only when its depth is less than the depth-limit.&nbsp; Test this algorithm with the <a href="code/PegSolitaireNode.java">PegSolitaireNode</a> class for different depth-limits.&nbsp; Which depth limit(s) yield an optimal solution?</p><p><i>Depth-Limited Search versus Depth-First Search</i>:&nbsp; Compare the time and space complexities of these searches.&nbsp; Is depth-limited search optimal?&nbsp; Is it complete?&nbsp; How would you summarize the trade-off(s) between depth-limited and depth-first search?</p><p><i>Iterative-Deepening Depth-First Search Implementation</i>:&nbsp; Create a new Searcher class called IterativeDeepeningDepthFirstSearcher.java.&nbsp; Iterative-deepening depth-first search searches by iteratively performing depth-limited searches with successive depth-limits 0, 1, 2, etc. until a goal node is found.&nbsp; Thus your implementation will create and apply successive DepthLimitedSearcher objects with increasing depth-limits.&nbsp; Be sure to iteratively update goalNode and nodeCount accordingly.&nbsp; Test your implementation with <a href="code/BucketsNode.java">BucketsNode.java</a>, printing your node count and checking that it reflects the node counts of all successive depth-limited searches.</p><p><i>Iterative-Deepening Depth-First Search Experimentation</i>: Measure the time and node count performance of your iterative-deepening depth-first search implementation on your scalable problem.&nbsp; For randomly generated problems, measure several runs and report the median value.&nbsp; Plot problem size versus runtime from the smallest size up to the largest size that usually terminates in less than one minute.&nbsp; </p><p><i>Iterative-Deepening Depth-First Search Versus Depth-First Search</i>: Compare the time and space complexities of these searches.&nbsp; Is iterative-deepening depth-first search optimal?&nbsp; Is it complete?&nbsp; How would you summarize the trade-off(s) between iterative-deepening depth-first search and depth-first search?</p><p><i>The Right Tool for the Right Job</i>: Which search algorithm(s) are most suitable for each of the different search problems you've worked with?&nbsp; Why?&nbsp; For each algorithm, what are the properties of suitable problems for application?&nbsp; Summarize the trade-offs between all of the algorithms you've implemented.</p><hr><p><a href="http://cs.gettysburg.edu/~tneller/">Todd Neller</a>
+<br><img SRC="tneller-email.gif" height=20 width=143>
+</body>
+</html>

@@ -1,0 +1,65 @@
+
+</body>
+</html>
+<!doctype html public "-//w3c//dtd html 4.0 transitional//en">
+<html>
+<head>
+   <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+   <meta name="GENERATOR" content="Microsoft FrontPage 12.0">
+   <title>Homework #9</title>
+</head>
+<body>
+<table WIDTH="100%" >
+<tr>
+<td><img SRC="GburgCS.gif" height=84 width=182></td>
+
+<td><font size=+2>CS 107 - Introduction to Scientific Computation</font><br><font size=+2>Homework #9</font></td>
+</tr>
+</table>
+
+<hr>
+<br><b>Due: Wednesday 10/30 at the beginning of class</b>
+<p><b>1. Retirement Investing Analysis:&nbsp;</b> Using the Monte Carlo analysis 
+techniques we developed in class as a starting point, come up with a realistic 
+stock investment plan, making clear your assumptions, and backing your plan with 
+analysis.&nbsp; In particular, in the initial comments of <code>invest.m</code>, describe 
+your assumptions of (1) work years, (2) savings rate, and (3) goal of income 
+replacement.&nbsp; You may, if desired, extend our approach in many ways, 
+including the addition of bond data, social security projections, non-uniform 
+savings rates, etc.&nbsp; By running <code>invest.m</code>, the grader should be able to 
+reproduce the simulations, graphs, etc. that support your plan, which should be 
+outlined in the initial comments of <code>invest.m</code>.&nbsp; This exercise is a practical 
+opportunity to apply Monte Carlo analysis to your (hopefully) great future 
+benefit!&nbsp; Function <code>invest</code> should have no parameters and return 
+the estimated probability of success for your plan. Note: The grading submission 
+system will merely judge that the probability for success is valid.&nbsp; 
+Separate evaluation (i.e. reading) by the grader will be necessary to score this 
+problem.</p>
+<p><b>2. Pythagorean Triples: </b>&nbsp;Exercise 8.18 with the following 
+modifications: In <code>triples.m</code>, take the maximum value of <i>cMax</i> as input, rather than 
+assuming 10,000 as a maximum value.&nbsp; To avoid redundant triples, restrict 
+search such that <i>a</i> &le; <i>b</i>.&nbsp; Return 
+the (<i>a</i>, <i>b</i>, <i>c</i>) triples as a <i>t</i>-by-3 matrix, where <i>t</i> 
+is the number of triples.&nbsp; Thus, each row is a triple.&nbsp; Organize your loops 
+such that these triples are sorted by <i>a</i>, then <i>b</i>.&nbsp; In other words, 
+the first column of <i>a </i>values is sorted, and if there are multiple triples 
+with a given <i>a</i> value, then <i>b</i> values will be sorted among these 
+triples.&nbsp; <em>Hint: Your triples will be sorted correctly if you loop 
+through values of a and b correctly.</em></p>
+<p><b>3. Dot Product: </b>In <code>dotProd.m</code>, use loops to create your own dot product 
+function that takes two equal-length vectors and returns their dot product.&nbsp; 
+If the two vectors are not of equal length, print &quot;dotProd: input vector lengths 
+do not match&quot;, and return an empty list.&nbsp; A dot product of two vectors <i>
+v1</i> and <i>v2</i> of length <i>n</i> is <i>v1</i>(1) * <i>v2</i>(1) + <i>v1</i>(2) 
+* <i>v2</i>(2) + ... + <i>v1</i>(<i>n</i>) * <i>v2</i>(<i>n</i>).</p>
+<p><b>4. Matrix Multiplication:&nbsp; </b>In <code>matMult.m</code>, use loops to create your 
+own matrix multiplication function that takes an <i>m</i>-by-<i>n</i> matrix <i>
+m1</i> and an <i>n</i>-by-<i>p</i> matrix <i>m2</i>, and returns the <i>m</i>-by-<i>p</i> 
+matrix <i>m3</i> resulting from the matrix multiplication of <i>m1</i> and <i>m2</i>.&nbsp; 
+If the number of columns in <i>m1</i> does not match the number of rows in <i>m2</i>, 
+print &quot;matMult: input matrices are not compatible&quot;, and return an empty list.&nbsp; 
+Otherwise, return <i>m3</i>.&nbsp; The value at <i>m3</i>(<i>i</i>, <i>k</i>) is 
+the dot product of row <i>i</i> in <i>m1</i> and (transposed) column <i>k</i> in
+<i>m2</i>. </p>
+</body>
+</html>

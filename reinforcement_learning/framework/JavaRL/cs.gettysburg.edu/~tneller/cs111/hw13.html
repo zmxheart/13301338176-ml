@@ -1,0 +1,89 @@
+<!doctype html public "-//w3c//dtd html 4.0 transitional//en">
+<html>
+<head>
+   <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+   <meta name="GENERATOR" content="Microsoft FrontPage 12.0">
+   <title>Homework #13</title>
+</head>
+<body>
+<table WIDTH="100%" >
+<tr>
+<td><img SRC="GburgCS.gif" height=84 width=182></td>
+
+<td><font size=+2>CS 111- Introduction to Computer Science</font>
+<br><font size=+2>Homework #13</font></td>
+</tr>
+</table>
+
+<hr>
+<br><b>Due: Friday 4/28 at the beginning of class</b><h2>Hex<b> (Part 1)</b> </h2>
+<p><b>0. Learn the game of Hex: </b>
+</p>
+<ul>
+	<li>Read about the game at
+	<a href="https://en.wikipedia.org/wiki/Hex_(board_game)">
+	https://en.wikipedia.org/wiki/Hex_(board_game)</a> or
+	<a href="http://hexwiki.amecy.com/index.php/Main_Page">
+	http://hexwiki.amecy.com/index.php/Main_Page</a> </li>
+	<li>Play a game with a friend using two color pens and
+	<a href="http://hexwiki.amecy.com/index.php/Printable_boards">printed boards</a>.&nbsp; 
+	Or play a <a href="http://hexwiki.amecy.com/index.php/Computer_Hex">computer 
+	implementation</a>.&nbsp; Or
+	<a href="http://hexwiki.amecy.com/index.php/Online_playing">play online</a>.&nbsp; 
+	Just play. (Note: One can always play Hex on a checkerboard using red and 
+	blue Poker chips and considering squares adjacent along one diagonal.)</li>
+</ul>
+<p><b>1. Implement HexState: </b>Implement a class <tt>HexState.java</tt> 
+according to <a href="hex/doc/HexState.html">this specification</a>.&nbsp; This 
+will likely be your most significant and challenging homework assignment of the 
+semester, so start early.&nbsp; Note:</p>
+<ul>
+	<li>Read the documentation carefully.&nbsp; Your integer constants for
+	<strong>PLAYER2</strong>, <strong>NONE</strong>, and <strong>PLAYER1</strong> 
+	need to be <strong>-1</strong>, <strong>0</strong>, and <strong>1</strong>, 
+	respectively.&nbsp; Don't just read the method summaries.&nbsp; Some have 
+	additional necessary specification details beyond the summary tables.</li>
+	<li>It is easiest to represent Hex's
+	<a href="http://demonstrations.wolfram.com/InterpretingASquareGridAsAHexagonalGrid/">
+	rhombic hexagonal grid board as a square grid</a>, using&nbsp; a 2D array of 
+	the aforementioned integer constants.&nbsp; Let grid cells be adjacent if 
+	they are vertically adjecent, horizontally adjacent, or diagonally adjacent 
+	along the diagonal where the row and column both increase/decrease together.</li>
+	<li>The most challenging method you'll implement will be the <strong>
+	getWinner</strong> method.&nbsp; Determining the winner will require you to 
+	devise an algorithm that is related to your 2D maze solving algorithm.&nbsp; 
+	Think of it this way: Player 1, seeking to connect the top row to the bottom 
+	row, wins if there is an unbroken path of connected pieces running from the 
+	bottom row to the top row (or vice versa).&nbsp; Finding that path is like 
+	finding a maze path from any player 1 piece on the bottom row through 
+	passages of same colored pieces and reaching the top row.&nbsp; All player 2 
+	pieces and empty spaces can be considered walls of the maze.&nbsp; If 
+	there's a solution to this player 1 &quot;maze&quot;, player 1 has won.&nbsp; 
+	Similarly, player 2 seeks a path along their own pieces from the leftmost 
+	column to the rightmost column.&nbsp; Study the maze code and adapt it as 
+	necessary (e.g. don't forget that you'll have 6 directions to search).</li>
+	<li>The constructor that copies another HexState must make a <strong>&quot;deep 
+	copy&quot;</strong>.&nbsp; That means you need to not merely copy the reference 
+	to the given state's board.&nbsp; You need to allocate a new, independent 2D 
+	array and copy the contents over to the new object.&nbsp; Without a correct 
+	implementation of this constructor, the undo function will not work.</li>
+	<li>The <strong>toString</strong> method is the second longest method you'll 
+	implement, but there are full details of the implementation in the
+	<a href="hex/doc/HexState.html">specification</a>.</li>
+</ul>
+<p><b>2. Test HexState:</b> Test your <tt>HexState</tt> class using the provided
+<tt>Hex.java</tt> <a href="hex/Hex.java">Graphical User Interface (GUI)</a>.&nbsp; Usage: &quot;java 
+Hex&quot;.&nbsp; Single-click onto 
+an empty hex grid cell to play a piece in that spot.&nbsp; Press &quot;u&quot; to undo a 
+move.&nbsp; You can also use the &quot;Game&quot; menu to undo a move, restart a game, 
+start a game with a different size board, or go to a website where people play 
+Hex online.&nbsp; Note that playing with this GUI prints a transcript of play to 
+the standard output that will be useful 
+for testing your text-based <tt>HexGame.java</tt> in the next homework 
+assignment.</p>
+<p align="center">
+<img alt="" height="870" src="hex/hexboard.png" width="1218"></p>
+
+
+</body>
+</html>

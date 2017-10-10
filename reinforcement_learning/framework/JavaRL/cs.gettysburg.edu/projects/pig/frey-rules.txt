@@ -1,0 +1,75 @@
+[cached from http://members.aol.com/dicetalk/rules/pig.txt]
+
+PIG
+[source: Skip Frey, "How to Win at Dice Games"]
+
+
+"Pig" is an amusing game of chance and strategy suitable for a family
+or social gathering.
+
+Playing Time: From 5 to 15 minutes, depending on the number of players
+and the point goal.
+
+Number of Players: Any number of players may participate.  The game is
+well suited for an audience of kibitzers.
+
+Number of Dice: Two.
+Equipment: Score sheet; dice cup.
+Object of Game: To reach 100 points.
+Score Sheet: A score sheet like the one below should be used 
+so that the running total will indicate when a player 
+reaches the point goal.
+
++---------------+---------------+---------------+---------------+-------+
+|		|   Player A	|   Player B	|   Player C	|etc.	|
+|---------------|---------------|---------------|---------------|-------|
+| lst inning	|		|		|		|       |
+|---------------|---------------|---------------|---------------|-------|
+| 2nd inning	|		|		|		|       |
+|---------------|---------------|---------------|---------------|-------|
+| Total for lst	|		|		|		|       |
+|---------------|---------------|---------------|---------------|-------|
+| & 2nd innings	|		|		|		|       |
+|---------------|---------------|---------------|---------------|-------|
+| 3rd inning	|		|		|		|       |
+|---------------|---------------|---------------|---------------|-------|
+| etc.		|		|		|		|       |
++---------------+---------------+---------------+---------------+-------+
+
+
+The Play: The first player rolls two dice.  If he throws an ace (1) he
+does not score, and he must pass the dice to the next player.  If he
+throws any other number, he scores that number of points.  Or he may
+continue to roll.
+
+Points are accumulated by adding together the face values of all dice
+thrown in a player's turn.  A player may make as many throws as he
+wishes in each turn; but if he throws an ace on any cast, he loses all
+his points for that turn and passes the dice to the next player.
+
+A player may elect to stop his turn at any time, scoring his total for
+that turn and passing the dice to the next player.
+
+The first player to reach 100 points is the winner, but the complete
+inning must be played out.  So if Player A scores 105 and quits,
+Player B gets his turn.  If Player B scores 107, Player B beats Player
+A. But he may be beaten out by Player C. The game is not completed
+until the inning is fully completed.  A throw of a double, such as two
+I's, or two 2's, or two 3's, is a bonus throw.
+
+If a player throws two 2's, two 3's, two 4's, two 5's, or two 6's, he
+scores double the value of the dice shown.  Thus a throw of two 5's,
+which ordinarily would be 10, turns into a score of 20; a throw of two
+3's, which ordinarily would count 6, turns into a score of 12.
+
+But a throw of two l's simply scores 25 outright.
+
+Strategy: The last player knows how his opponents have fared and may
+adjust his strategy accordingly.  Of course, we all know what can
+happen to the best laid plans of mice and men, and the success of an
+earlier player might force a later one to press his luck too far and
+wipe out a fairly promising turn with a throw of an ace.
+
+Editor's note: This game is sometimes played with special dice that
+have a skull instead of an ace, known as DEATH DICE.
+

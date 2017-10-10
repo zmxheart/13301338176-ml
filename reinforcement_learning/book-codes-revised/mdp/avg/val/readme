@@ -1,0 +1,4 @@
+This directory contains codes for average reward DP for:
+Relative Value iteration (rvia.c)
+Value iteration (via.c)
+

@@ -1,0 +1,149 @@
+<!doctype html public "-//w3c//dtd html 4.0 transitional//en">
+<html>
+<head>
+   <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+   <meta name="GENERATOR" content="Microsoft FrontPage 12.0">
+   <title>Homework #4</title>
+</head>
+<body>
+<table WIDTH="100%" >
+<tr>
+<td><img SRC="GburgCS.gif" height=84 width=182></td>
+
+<td><font size=+2>CS 3</font><font size="5">74 Compilers<br></font><font size=+2>
+Homework #4</font></td>
+</tr>
+</table>
+
+<hr>
+<br><b>Due: Thursday 2/23 </b>at the beginning of class<p><b>Note: </b>This work is to be done in <b>assigned groups</b>.&nbsp; Each group will submit one assignment.&nbsp; Although 
+you may divide the work, both team members should be able to present/describe 
+their partner's work upon request.&nbsp; 
+<p>In the previous assignment, you constructed a parser to identify 
+syntactically correct MiniJava programs.&nbsp; (These are not necessarily <i>
+semantically</i> correct programs, but we'll check for that in the next stage.)&nbsp; 
+The output of the parser was either a ParseException or a message of success.&nbsp; 
+In this assignment, you will augment your parser so that it constructs an <i>
+abstract syntax tree</i>.&nbsp; Whereas your parser grammar could take on many 
+different correct forms, the abstract syntax tree representations will be 
+identical across groups.</p>
+
+<p><b>0. Preparation:&nbsp; </b>Download this
+<a href="examples/ch04/starterCode">entire directory structure</a> for this 
+exercise.&nbsp;  Read Chapter 4 and give special attention to Figure 4.9, the MiniJava 
+abstract syntax specification.&nbsp;
+</p>
+
+<p><b>1. Abstract Syntax Tree Building:</b> Either by (1) using the
+<a href="http://compilers.cs.ucla.edu/jtb/">Java Tree Builder (JTB)</a> tool or (2) 
+following the SLP examples in the Section 4.2 comments below, add to your parser 
+the ability to construct an abstract syntax tree according to the specification 
+of Figure 4.9.&nbsp; The corresponding abstract syntax tree classes are given
+<a href="examples/ch04/starterCode/syntaxtree">here</a>.&nbsp; You may use 
+the
+<a href="http://compilers.cs.ucla.edu/jtb/">Java Tree Builder (JTB)</a> tool to 
+construct a concrete syntax tree, but the final result of your semantic actions 
+must be an <i>abstract syntax tree</i> according to Figure 4.9.&nbsp; If you are 
+unsure, I would recommend adding semantic actions manually according to the SLP 
+examples below.</p>
+
+<p><b>2. Testing: </b>&nbsp;You'll be using the
+<a href="examples/ch04/starterCode/testPrograms">example MiniJava programs</a> 
+for your testing.&nbsp; Two visitor classes are given for testing purposes, and 
+each can be used within <a href="examples/ch04/starterCode/Main.java">Main.java</a> in order to give different test output.&nbsp;
+<a href="examples/ch04/starterCode/visitor/PrettyPrintVisitor.java">PrettyPrintVisitor</a> takes the abstract syntax tree and prints the 
+corresponding MiniJava code.&nbsp; Correct outputs are given
+<a href="examples/ch04/starterCode/output">here</a> and can be compared to 
+your output using the Unix command &quot;diff&quot;.&nbsp;
+<a href="examples/ch04/starterCode/visitor/ASTPrintVisitor.java">ASTPrintVisitor</a> (perhaps more aptly called UglyPrintVisitor) prints an 
+abstract syntax tree in the form Node(Subnode(...), ..., Subnode(...)) with 
+occasional line breaks.&nbsp; The correct output from this visitor can be found
+<a href="examples/ch04/starterCode/astOutput">here</a>.&nbsp; Note that all 
+of these are in the directory tree in (0) above.<br>
+</p>
+
+<h3>Supplemental Chapter Comments</h3>
+
+<p>(These comments are to supplement your reading.&nbsp; Question(s) asked are for 
+you to think about on your own and need not be turned in with the homework.)</p>
+<p><b>4.0:&nbsp; </b>Since we're using JavaCC, a recursive descent parser, take 
+special note of semantic actions in the sections to come.</p>
+<p><b>4.1:&nbsp; </b>The values we'll be returning from semantic actions will be 
+parts of abstract syntax trees.&nbsp; Think back on the first assignment with 
+the trees built by nested constructors.&nbsp; The recursive descent parser 
+operates by recursively calling production parsing functions down through the 
+parse tree.&nbsp; What is passed back upwards is the recursively constructed 
+abstract syntax tree.&nbsp; At each level of the parsing, the parser calls for 
+abstract syntax subtrees, and uses these to construct and return their parent 
+abstract syntax subtree.&nbsp; If you've never had an appreciation for recursive 
+thinking, you'll gain it here.</p>
+<p><b>4.2:</b>&nbsp; The Java Tree Builder (JTB) tool mentioned at the end of 
+the previous section automatically adds semantic actions to a JavaCC grammar in 
+order to construct what this section refers to as a <i>concrete syntax tree.</i>&nbsp; 
+That is, the tree has the exact same structure as the grammar.&nbsp; There will 
+likely be significant differences between your grammar and the desired target <i>
+abstract syntax tree </i>specified in Figure 4.9.&nbsp; This does not mean you 
+should disregard such tools.&nbsp; Building abstract syntax trees is tedious, 
+and if the concrete syntax tree closely resembles the desired abstract syntax 
+tree, it may be wise to automate the construction of the abstract syntax tree 
+(and its associated classes and visitors), and then write the small amount of 
+code (and additional classes), to modify the tree to its desired form.</p>
+<p>Here, we have an example of a <a href="examples/ch04/SLPExample-jtb">straight-line program interpreter constructed 
+using JTB</a>. </p>
+<pre>$ jtb SLPParser.jj
+$ javacc jtb.out.jj
+$ javac *.java
+$ java SLPInterpreter < <i>&lt;input program&gt;</i>
+</pre>
+Compare this with a similar <a href="examples/ch04/SLPExample">straight-line program interpreter which was constructed by hand</a> in the same style.  The creation of abstract syntax tree classes is 
+tedious.&nbsp; However, there are often fewer classes which are easier to 
+understand.&nbsp;&nbsp; A good general rule of thumb for deciding whether to (A) 
+use a concrete syntax tree generated by a tool such as JTB, or (B) create 
+abstract syntax tree and visitor classes by hand, is to consider how close the 
+two are in form.&nbsp; The farther the concrete form is from the abstract, the 
+more difficult the code will be to understand and maintain, and more effort will 
+be expended in writing visitor classes.&nbsp; Which is the best approach for the 
+MiniJava project?<p><b>4.3:&nbsp; </b>The visitor pattern is an important concept to understand and 
+apply in the stages to come.&nbsp; In the first assignment, one student 
+expressed considerable irritation at having to write <tt>maxargs</tt> and <tt>interp</tt> code 
+across many different classes, explaining that it was hard to follow/debug the 
+code across so many different files.&nbsp; The visitor pattern addresses this 
+issue.&nbsp; If our classes are largely fixed (in abstract syntax form), and we 
+wish to add code for various tasks on this tree, it would be desirable to 
+organize all code for each task in a separate class of its own.&nbsp; One way of 
+doing this would involve a large recursive method with a big if-else chain 
+making extensive use of the &quot;instanceof&quot; operator.&nbsp; The visitor 
+pattern more elegantly makes use of Java's polymorphic method calling mechanism.&nbsp; 
+Study Program 4.7 and 4.8 carefully, and also study this
+<a href="examples/ch04/SLPExample-jtb/visitor/Interpreter.java">straight-line program interpreter visitor</a>.</p>
+
+<p>The abstract syntax tree for MiniJava is given in Figure 4.9.&nbsp; Your main 
+task for this stage is to figure out how to build this tree by adding semantic 
+actions (Java code) to your JavaCC grammar.&nbsp; We will begin this exercise 
+together in class and use the following process for each production:</p>
+
+<ul>
+  <li>A single stack will be used for returning abstract syntax subtrees.&nbsp; 
+  After each successful recursive call in our recursive descent parser, we 
+  assume that the associated abstract syntax tree is sitting on the top of this 
+  stack.</li>
+  <li>Create variables to hold each abstract syntax subtree.&nbsp; After each 
+  recursive call, pop the stack (casting the tree node properly) and store it in 
+  a variable.</li>
+  <li>If we're building a List object, subtrees should be added to the List 
+  object as each becomes available.</li>
+  <li>Once all subtrees and lists are collected, construct the abstract syntax 
+  tree node, and push it onto the stack.</li>
+  <li>There are some circumstances where we'll deviate from this pattern and 
+  make use of the flexibility the stack offers.&nbsp; Otherwise, it would make 
+  more sense to make use of production return values and not bother with all 
+  this popping, casting, and pushing.</li>
+</ul>
+<p><b>Don't be concerned if you lack a firm grasp on the material after reading.&nbsp;
+</b>While the reading is important preparation, most of your learning will come 
+through examples and exercise.&nbsp; You'll receive significant guidance in 
+beginning this phase, and with the use of visitors in the next phase.&nbsp; </p>
+
+<p>&nbsp;</p>
+
+</body></html>

@@ -1,0 +1,97 @@
+<!doctype html public "-//w3c//dtd html 4.0 transitional//en">
+<html>
+<head>
+   <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+   <meta name="GENERATOR" content="Microsoft FrontPage 12.0">
+   <title>Homework #9</title>
+   </head>
+<body>
+<table WIDTH="100%" >
+<tr>
+<td><img SRC="GburgCS.gif" height=84 width=182></td>
+
+<td><font size=+2>CS 3</font><font size="5">91 Selected Topics: Game AI<br></font><font size=+2>Homework #9</font></td>
+</tr>
+</table>
+
+<hr>
+<strong>
+<br>First draft players due the beginning of class on Thursday 4/14.&nbsp; These 
+should outperform the SimpleGinRummyPlayer<br>Final 
+draft players due the beginning of class on Thursday 4/28.&nbsp; These are your 
+final competition entries. You will present your work during class, including 
+your performance against the SimpleGinRummyPlayer and your 4/14 submission.</strong><p><b>Note: </b>This work is to be done in <b>groups of 2</b>.&nbsp; Each group will submit one assignment.&nbsp; Although 
+you may divide the work, both team members should be able to present/describe 
+their partner's work upon request.&nbsp; 
+<h1><font size="+2">Gin Rummy Competition</font></h1>
+<ul>
+	<li>Read the <a href="https://www.pagat.com/rummy/ginrummy.html">rules of 
+	Gin Rummy</a> from the <a href="https://www.pagat.com/rummy/ginrummy.html">
+	Pagat.com</a> website. </li>
+	<li>Read the
+	<a href="http://www.aifactory.co.uk/newsletter/2007_02_imperfect_info.htm">
+	design notes for AI Factory 7-card Gin Rummy AI players</a>.</li>
+	<li>Study our code base (distributed via email) and accompanying
+	<a href="gin/doc/index.html">documentation</a>.</li>
+	<li>Create a uniquely named Gin Rummy player implementing the 
+	<a href="gin/doc/GinRummyPlayer.html">GinRummyPlayer</a> interface with an ability to be constructed with no parameters.&nbsp; 
+You will be provided with an implementation of a simple Gin Rummy player.
+	<ul>
+		<li>Your player due on 4/14 should significantly outperform the given 
+		<a href="gin/doc/SimpleGinRummyPlayer.html">SimpleGinRummyPlayer</a> which ignores most game information.</li>
+		<li>Your player due on 4/28 should be your best effort for tournament 
+		play.</li>
+		<li>
+You are <em>not</em> expected to compute optimal two player play.&nbsp; This 
+would require resources and time that far beyond the state of the art for 
+imperfect information games.&nbsp; Thus, this is a open-ended challenge to engineer your best 
+player given the time constraints of the assignment.</li>
+		<li>
+I recommend beginning with a simple player.&nbsp; Remember the
+<a href="https://en.wikipedia.org/wiki/KISS_principle">KISS Principle</a>. 
+		Consider what information you<em> do</em> have in this imperfect 
+		information game:
+		<ul>
+			<li> your cards,</li>
+			<li> cards your opponent has drawn face-up from the discard pile,</li>
+			<li> cards buried in the discard pile, and,
+			</li>
+			<li> derived from all preceding information, cards potentially still 
+			in the draw pile or in your opponent's hand.</li>
+		</ul>
+
+		</li>
+		<li>Use this information to your advantage in the simplest ways at 
+		first.</li>
+		<li>
+		<p>Evaluation: Your player should be able to significantly outperform 
+		the <a href="gin/doc/SimpleGinRummyPlayer.html">SimpleGinRummyPlayer</a>.&nbsp; 
+		The high variance of outcomes for small sample sizes will likely require 
+		many games before distinctions can be made between players, so fast, 
+		efficient players will be easier to demonstrate as superior to our 
+		benchmark.&nbsp; </p>
+
+		</li>
+	</ul>
+	</li>
+</ul>
+<h2>Thoughts on design</h2>
+<p>This is another open-ended assignment, inviting creative thought and good 
+engineering.&nbsp; Read what you can find online about Gin Rummy strategy.</p>
+<p>One basic consideration is the number of deadwood points in your hand.&nbsp; 
+For example, how long into the game should one hold onto a pair of kings?&nbsp; 
+Even sets with great melding potential become dangerous if ranks are high and 
+many turns have passed.</p>
+<p>Another basic consideration is the number of cards still potentially 
+available that could complete melds in your hand.&nbsp; Certain card combination 
+patterns allow more melding possibilities than others, although what is known 
+about card availability must be taken into consideration.</p>
+<p>What can be <em>easily</em> inferred about the state of the opponent's hand?&nbsp; 
+How does this affect discard choices?</p>
+<p>This assignment is open-ended as long as your player can play an entire game 
+against itself in less than 1 second.&nbsp; This will allow us to easily have a 
+tournament with 1000 or more games per match.</p>
+<p>Your player should also not use more than one-third of the default Java heap 
+for dynamic memory allocation or more than half of the available cores.</p>
+
+</body></html>

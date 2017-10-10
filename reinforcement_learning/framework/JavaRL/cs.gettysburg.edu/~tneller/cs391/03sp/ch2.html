@@ -1,0 +1,132 @@
+<!doctype html public "-//w3c//dtd html 4.0 transitional//en">
+<html>
+<head>
+   <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+   <meta name="GENERATOR" content="Microsoft FrontPage 4.0">
+   <meta name="Author" content="Todd Neller">
+   <title>Chapter 2</title>
+</head>
+<body bgcolor="#FFFFFF">
+<table WIDTH="100%" >
+<tr>
+<td><img SRC="GburgCS.gif" height=84 width=182></td>
+
+<td><font size=+2>CS 391 - Special Topic: Machine Learning</font>
+<br><font size=+2>Chapter 2</font></td>
+</tr>
+</table>
+
+<hr>
+<br><b><u>Readings</u></b>
+<ul>
+<li>
+1/22: Sections 2.1-2.3 [2.4]</li>
+
+<li>
+1/24: Sections 2.5-2.7 [2.8-2.9] 2.10-2.11</li>
+</ul>
+<b><u>Topics</u></b>
+<ul>
+<li>
+The n-armed bandit problem</li>
+
+<li>
+Action-value methods: sample-average, greedy, epsilon-greedy (e-greedy)</li>
+
+<li>
+Softmax action selection</li>
+
+<li>
+Incremental action-value updating</li>
+
+<li>
+Nonstationary problems and action-value update step-size</li>
+
+<li>
+Optimistic initial action-value estimates</li>
+
+<li>
+Generalization to associative search</li>
+
+</ul>
+<b><u>Discussion Questions</u></b>
+<p>What is the difference between <i>evaluative</i> feedback and <i>instructive</i>
+feedback?<br>
+Describe the n-armed bandit problem.&nbsp; What would be the model and the
+reward function for an n-armed bandit RL system?<br>
+Write equation 2.1 and explain what is computed to estimate the action-value
+Q*(a).<br>
+What is a <i>greedy</i> action selection rule?<br>
+What is an <i>e-greedy</i> action selection rule?&nbsp; Explain how the greedy
+action selection rule is a special case of the e-greedy action selection rule.<br>
+Under what circumstances are greedy or e-greedy action selection rules more
+appropriate?<br>
+What is the trade-off as you increase/decrease epsilon?<br>
+What is the drawback to e-greedy's exploration/exploitation approach that
+softmax action selection addresses?<br>
+Consider Equation 2.2 and a 3-armed bandit problem where the expected value of
+action n is n.&nbsp; That is Q(a<sub>k</sub>) = k.<br>
+(1) For a low temperature tau, show that softmax is nearly greedy.<br>
+(2) For a high temperature tau, show that actions are nearly equiprobable.<br>
+(3) For an intermediate temperature tau, show that the probabilities of actions
+are ranked (i.e. ordered) according to their expected value.<br>
+(Note: Please do the math ahead of time and simply present your tau value and
+the results of softmax computation.)<br>
+Present the derivation of the incremental update rule.<br>
+Why is incremental updating important?<br>
+What is the general form of the incremental update rule?<br>
+What does is mean to have a <i>nonstationary</i> problem?<br>
+Why does a constant step-size parameter lead to an <i>exponential</i> or <i>recency-weighted</i>
+<i>average</i>?<br>
+Is convergence desirable or undesirable for a nonstationary problem?&nbsp; Why?<br>
+What does it mean to have <i>optimistic initial values</i>?<br>
+What is the benefit of using <i>optimistic initial values</i>?&nbsp; Does this
+apply to nonstationary problems? Why or why not?<br>
+Describe the difference between associative and nonassociative tasks.<br>
+Is the n-armed bandit associative or nonassociative?&nbsp; Why?<br>
+Now imagine you are in Vegas pathetically guarding and working a row of 1-armed
+bandits.&nbsp; Assume one of the machines hits the jackpot and dumps all of its
+accumulated coins.&nbsp; Is this an associative or non associative task?&nbsp;
+Why?<br>
+Summarize the chapter's conclusions on the state of the art.&nbsp;&nbsp;</p>
+<p><b><u>Programming Assignment</u></b>
+<p><b><u>HW1</u></b>
+<p>Due Monday 1/27 at the beginning of class.&nbsp; An improvised, informal
+presentation of your work may be requested in class.
+<p>Choose one:</p>
+<ol>
+  <li>Exercise 2.2</li>
+  <li>Exercise 2.7</li>
+  <li>Read section 2.8 on reinforcement comparison.&nbsp; Implement and compare
+    this method to e-greedy action selection, producing a graph similar to
+    Figure 2.5.</li>
+  <li>Read section 2.9 on pursuit methods.&nbsp; Implement and compare this
+    method to e-greedy action selection, producing a graph similar to Figure
+    2.6.</li>
+  <li>Choose your own adventure: Propose an alternate exercise ASAP. This
+    exercise should be at least as challenging and relevant to the chapter
+    material as the previous choices.&nbsp; For example, one might choose a
+    different RL application.</li>
+</ol>
+<p><b><u>HW2</u></b></p>
+<p>Due Monday 2/3 at the beginning of class.&nbsp; An improvised, informal
+presentation of your work may be requested in class.
+<p>Choose and do one of the above chapter 2 exercises you did not do last week.</p>
+<p>Notes:</p>
+<ul>
+  <li>Your implementations should make use of (i.e. extend) the Java
+    Reinforcement Learning Interface.&nbsp; This provides a common framework for
+    RL programming and facilitate reuse of code in future assignments.</li>
+  <li>If the exercise involves collection of significant amounts of data, you
+    should present it in graphical form (i.e. using Excel or Matlab) if
+    possible.&nbsp; In general, strive to communicate the significance of your
+    experimental data well.</li>
+  <li>Document your code and how it can be used.&nbsp; Write at least a
+    paragraph about your code in your README file.&nbsp; How much you should
+    write about your experimental data depends on how much there is (see
+    previous point).</li>
+  <li>A single run of an experiment does not make a point strongly.&nbsp; The
+    more trials, the less uncertainty of the significance of your results.</li>
+</ul>
+</body>
+</html>

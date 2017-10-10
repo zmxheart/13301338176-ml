@@ -1,0 +1,84 @@
+
+</body>
+</html>
+<!doctype html public "-//w3c//dtd html 4.0 transitional//en">
+<html>
+<head>
+   <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+   <meta name="GENERATOR" content="Microsoft FrontPage 12.0">
+   <title>Homework #5</title>
+   <style type="text/css">
+.style1 {
+	font-family: "Courier New", Courier, monospace;
+}
+</style>
+</head>
+<body>
+<table WIDTH="100%" >
+<tr>
+<td><img SRC="GburgCS.gif" height=84 width=182></td>
+
+<td><font size=+2>CS 107 - Introduction to Scientific Computation</font><br><font size=+2>Homework #5</font></td>
+</tr>
+</table>
+
+<hr>
+<br><b>Due: Wednesday 10/2 at the beginning of class<br>Submit from your .m file 
+directory using the command:&nbsp;</b><span class="style1">submit107 hw5 </span>&nbsp;<p><b>1. Statistics: </b>Create and submit functions <code>myMin</code>, <code>myMax</code>, <code>myMedian</code>, <code>myMean</code>, and <code>myStdDev</code>.  Each should take a floating-point number array of arbitrary dimensions as input, and return the 
+<a href="http://en.wikipedia.org/wiki/Sample_maximum_and_minimum">minimum</a>, 
+<a href="http://en.wikipedia.org/wiki/Sample_maximum_and_minimum">maximum</a>,
+<a href="http://en.wikipedia.org/wiki/Sample_median#The_sample_median">median</a>, 
+<a href="http://en.wikipedia.org/wiki/Arithmetic_mean">mean</a>, and
+<a href="http://en.wikipedia.org/wiki/Standard_deviation">standard deviation</a>, respectively.  In the case of <code>myMin</code> and <code>myMax</code>, also return the single-dimensional index of the minimum and maximum values, respectively.  Each implementation should make use of at least one loop, except <code>myMedian</code>, which can rely on MATLAB's <code>sort</code> function.
+(Note: Use the biased standard deviation formula where you divide by N (rather 
+than N-1).)
+</p>
+<p><b>2. Find: </b>&nbsp;Exercise 8.4.&nbsp; In addition, handle <em>matrix </em>
+input as well.&nbsp; Be sure to reread &quot;Single-Number 
+Indexing of Arrays&quot; on p. 161 and try it out before you begin.&nbsp; Submit 
+function <code>myfind</code>.&nbsp; Hint: Note the different output and output 
+dimensions for find([1 0 1 1]) and find ([1 0; 1 1]).</p>
+<p><b>3. Improving <code>primeFactors</code>:</b> Exercise 8.14.&nbsp; Submit both the 
+modified <code>smallestfactor</code> and <code>primeFactors</code> functions.&nbsp; 
+</p>
+<p>Example 1: Suppose <code>n</code> is 45. The function <code>smallestfactor</code> 
+will try 2 and 3, finding 3 divides 45 evenly.&nbsp; We add 3 to factors, divide 
+45 by 3 yielding the new n value 15, and repeat.&nbsp; In repeating, we again 
+call <code>smallestfactor</code>, <b>again trying 2</b>, then 3, and again find 
+that 3 divides 15 evenly.&nbsp; We again add 3 to factors, divide 15 by 3 
+yielding the new <code>n</code> value 5, and repeat.&nbsp;&nbsp; In repeating, we again call <code>
+smallestfactor</code>, <b>again trying 2</b>, then 3, then 4, then 5 and find 
+that 5 divides 5 evenly.&nbsp; We add 5 to factors, divide 5 by 5 yielding the 
+new <code>n</code> value 1, and then terminate the loop.&nbsp; Notice that the bold steps 
+preceding are unnecessary, wasted computation.&nbsp; Once we find a candidate 
+factor doesn't divide <code>n</code> evenly, we know it never will.&nbsp; For this reason, it 
+makes sense to add a parameter to <code>smallestfactor</code> so that we can 
+pick a starting point other than 2.&nbsp; Add an argument to <code>smallestfactor</code> 
+that defines the first potential factor of the iteration (in place of 2).&nbsp; 
+Next, change <code>primeFactors</code> so that, on the first call to <code>smallestfactor</code>, 
+2 is used for this argument, but on subsequent iterations, the argument is set 
+to the previous smallest factor found.&nbsp; In the preceding example, this 
+would mean that <code>k</code> would start at 2, 3, and 3, for the three iterations. </p>
+<p>Example 2: Let's assume, we've correctly modified the algorithm.&nbsp; Here 
+is a summary of the algorithm's execution with <code>n</code> = 315: <code>n </code> = 315, check for 
+factor <code>k</code> = 2(no), 3(yes), <code>n </code> = 105, next iteration, check for factor <code>k</code> = 3(yes), 
+<code>n </code> = 35, next iteration, check for factor <code>k</code> = 3(no), 4(no), 5(yes), <code>n </code> = 7, next 
+iteration, check for factor <code>k</code> = 5(no), 6(no), 7(yes), <code>n </code> = 1, termination with 
+the list of factors [3, 3, 5, 7].</p>
+<p>Hint: This is a <i>really</i> <i>simple </i>modification once you understand 
+what's being requested.&nbsp; Very little change to the given code will be 
+necessary.</p>
+<p><b>4. Prime List:</b> Given a list length <i>n</i> &gt;= 0, create function
+<code>primeList</code> to return a vector the first <i>n</i> prime numbers.&nbsp;  Submit function 
+<code>primeList</code>.&nbsp; 
+Note: <code>primeList(0)</code>, <code>primeList(1)</code>, and <code>primeList(5)</code> should yield  <code>[]</code>, <code>[2]</code>, and <code>
+[2, 3, 5, 7, 11]</code>, respectively.&nbsp; You may use any means to
+<a href="http://en.wikipedia.org/wiki/Prime_numbers#Testing_primality_and_integer_factorization">
+test to see if a number is prime</a>, e.g. exercise #3 above.</p>
+
+<p>Homework comment: Note how the author varies between all lowercase names and 
+lower <a href="http://en.wikipedia.org/wiki/CamelCase">camel case</a> names.&nbsp; 
+When not seeking to be consistent with the text, I prefer lowerCamelCase.</p>
+
+</body>
+</html>

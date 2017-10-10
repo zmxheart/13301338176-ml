@@ -1,0 +1,109 @@
+
+</body>
+</html>
+<!doctype html public "-//w3c//dtd html 4.0 transitional//en">
+<html>
+<head>
+   <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+   <meta name="GENERATOR" content="Microsoft FrontPage 12.0">
+   <title>Homework #6</title>
+   <style type="text/css">
+.style1 {
+	font-family: "Courier New", Courier, monospace;
+}
+</style>
+</head>
+<body>
+<table WIDTH="100%" >
+<tr>
+<td><img SRC="GburgCS.gif" height=84 width=182></td>
+
+<td><font size=+2>CS 107 - Introduction to Scientific Computation</font><br><font size=+2>Homework #6</font></td>
+</tr>
+</table>
+
+<hr>
+<br><b>Due: Wednesday 10/9 at the beginning of class</b>
+<p><b>1. Julia Set Fractals: </b>For this exercise, we will modify the 
+Mandelbrot Set exercise (developed in class) to allow exploration of Julia Set Fractals.&nbsp; Recall 
+that, for the Mandelbrot iteration, we pick an initial <i>z</i><sub>0</sub> = 0, 
+and iterate<i> z</i><sub><i>t</i>+1</sub> =<i> z<sub>t</sub></i><sup>2</sup> + c 
+until abs(<i>z</i>) &gt; 2 or we reach some maximum number of iterations.&nbsp; We 
+then return the number of iterations that abs(<i>z</i>) stayed within 2.&nbsp; 
+This is repeated for a lattice of <i>c</i> values on the complex plane, and we 
+color plot the returned iteration values to see a representation of the 
+Mandelbrot Set and surrounding points diverging to infinity at different rates.</p>
+<p>For each point <i>c</i> in our Mandelbrot Set plot, there is a corresponding<i>
+</i>Julia Set<i>.</i> (Here is
+<a href="http://aleph0.clarku.edu/~djoyce/julia/MandelbrotApplet.html">an applet to explore 
+both the Mandelbrot Set and Julia Sets</a> associated with a selected point <i>c</i>.) 
+We compute our plot data using a very similar process to the Mandelbrot Set 
+exercise.&nbsp; First, we choose the point <i>c</i> from our Mandelbrot Set. 
+This means we need to add a new, first argument <i>c</i> to <code>drawJulia.m</code>: 
+<code>function drawJulia(c, realMin, realMax, imagMin, imagMax, pts, iters)</code>.&nbsp;The 
+matrix of iterations we compute (S in the in-class example) should be the return 
+value of <code>drawJulia.</code></p>
+<p>&nbsp;For 
+<code>juliaIterate.m</code>, we will also add this c as a fixed first parameter, the same for 
+each call, letting c2 be the complex point we're varying over the plot:&nbsp; 
+<code>function i = juliaIterate(c, c2, niter)</code>.&nbsp; For the Julia Set iteration, we 
+initialize z<sub>0</sub> = c2, and iterate z<sub>t+1</sub> = z<sub>t</sub><sup>2</sup> 
+- c until abs(z) &gt; 2 or we reach some maximum number of iterations.&nbsp; We 
+then return the number of iterations that abs(z) stayed within 2. </p>
+<p>Here are some example inputs you might like to try:</p>
+<pre>&gt;&gt; drawJulia(.73 + .2145i, -1.5, 1.5, -1.5, 1.5, 1000, 200)
+>> drawJulia(.73 + .2145i, -.5, .5, -.5, .5, 1000, 200)
+>> drawJulia(.73 + .2145i, -.1, .1, -.1, .1, 1000, 200)
+
+>> drawJulia(.219 + .77i, -1.5, 1.5, -1.5, 1.5, 1000, 200)
+>> drawJulia(.219 + .77i, -.5, .5, -.5, .5, 1000, 200)
+>> drawJulia(.219 + .77i, -.1, .1, -.1, .1, 1000, 200)
+</pre>
+<p>You may also enjoy other color schemes by entering the command <code>colormap(MAP)</code>
+where <code>MAP</code> is one of <code>jet</code> (default), <code>hsv</code>, <code>hot</code>, <code>cool</code>, <code>flag</code>, <code>prism</code>, etc.</p>
+<p><b>2. Nested Loops:</b> Exercise 8.1.&nbsp; Your function should be in file&nbsp;<code>repeat.m</code>.</p>
+<p><b>3. Making Change:</b> Exercise 8.9.&nbsp; Your function should be in file&nbsp;<code>makechange.m</code>.</p>
+<p>Clarification: The two parameters for makechange are</p>
+<ul>
+	<li>
+	A floating point amount for which to make 
+	change, and	</li>
+	<li>
+	A vector of denominations of some currency in 
+	decreasing order.	</li>
+</ul>
+<p>At no point in your code should you be dealing with strings 
+(e.g. &#8216;usdenoms&#8217;).</p>
+<p >Here are some more example transcripts to show how 
+versatile the behavior should be:</p>
+<pre>
+>> makechange(12.34, [10 5 1 .5 .25 .10 .05 .01])
+ans =
+     1     0     2     0     1     0     1     4                     % Note: This means 1 * 10 + 0 * 5 + 2 * 1 + &#8230; etc..  Each vector position in the return value corresponds to the number of denominations in the same position of the 2nd input parameter (denominations).
+>> makechange(12.34, [8 4 2 1 .5 .25 .125 .0625])
+ans =
+     1     1     0     0     0     1     0     1
+>> makechange(12.34, 2.^(3:-1:-5))
+ans =
+     1     1     0     0     0     1     0     1     1
+>> makechange(12.34, 3.^(3:-1:-5))
+ans =
+     0     1     1     0     1     0     0     0     2
+</pre>
+<p>Final note: Floating point errors can give some unexpected 
+results in the number of the last (lowest) denomination.&nbsp; Use <em>rounding</em> 
+(<span class="style1">round</span>) when dividing the lowest denomination into 
+the smallest remaining amount; use <em>flooring</em> (<span class="style1">floor</span>) 
+in all other cases. </p>
+
+<p><b>4. Perfect Numbers:</b> Exercise 8.17. Your function should be in file&nbsp;<code>getPerfectNums.m</code>, 
+where 
+<code>function list = getPerfectNums(maxNum) </code>and 
+<code>maxNum</code> is the upper limit of your
+<a href="http://en.wikipedia.org/wiki/Perfect_number">perfect number</a> search, 
+and 
+<code>list</code> is an ascending list of perfect numbers. NOTE 1: There is an error in the text. The text reads "A perfect number is a number whose prime factors (including 1) add up to the number itself."  Instead, it should read "A perfect number is a number whose <b>positive divisors</b> (including 1 <b>and excluding itself</b>) add up to the number itself.  NOTE 2: Do not use Euclid's formula for the first four perfect numbers.  Test each integer from 1 to <code>maxNum</code>.</p>
+<p>&nbsp;</p>
+
+</body>
+</html>

@@ -1,0 +1,398 @@
+<!doctype html public "-//w3c//dtd html 4.0 transitional//en">
+<html>
+<head>
+   <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+   <meta name="GENERATOR" content="Microsoft FrontPage 12.0">
+   <title>Poker Squares (a.k.a. Poker Solitaire, Poker Square, Poker Patience)</title>
+   <style type="text/css">
+.style1 {
+	text-indent: -.25in;
+	line-height: 115%;
+	font-size: 11.0pt;
+	font-family: Calibri, sans-serif;
+	margin-left: .5in;
+	margin-right: 0in;
+	margin-top: 0in;
+	margin-bottom: .0001pt;
+}
+.style2 {
+	text-indent: -.25in;
+	line-height: 115%;
+	font-size: 11.0pt;
+	font-family: Calibri, sans-serif;
+	margin-left: .5in;
+	margin-right: 0in;
+	margin-top: 0in;
+	margin-bottom: 10.0pt;
+}
+.style3 {
+	border-collapse: collapse;
+	line-height: 115%;
+	font-size: 11.0pt;
+	font-family: Calibri, sans-serif;
+}
+.style4 {
+	font-family: "Times New Roman", Times, serif;
+}
+</style>
+</head>
+<body bgcolor="#FFFFFF">
+<table WIDTH="100%" >
+<tr>
+<td><a href="http://cs.gettysburg.edu"><img SRC="GburgCS.gif" height=84 width=182></a></td>
+
+<td>
+<h1>Poker Squares</h1>
+<h2>(a.k.a. Poker Solitaire, Poker Square, Poker Patience)</h2>
+</td>
+</tr>
+</table>
+
+<hr>
+<table BORDER=0 CELLPADDING=3 WIDTH="100%" BGCOLOR="#3333FF" >
+<tr>
+<td><font size="+1" color="#FF6600"><b>Poker Squares</b></font></td>
+</tr>
+</table>
+
+<ul>
+<li>
+<a href="pokersquares.pdf">Poker Squares Rules and Scoring Sheets</a></li>
+	<li>
+	References:
+	<ul>
+		<li><a href="Morehead-Mott-Smith-poker-squares-1949.jpg">Rules</a> from A.H. 
+		Morehead and G. Mott-Smith. <em>The Complete Book of Solitaire &amp; 
+		Patience Games</em>.&nbsp; p. 106, 
+		<a href="Morehead-Mott-Smith-poker-squares-1949.jpg">1949 1st edition</a> 
+		and p. 106, <a href="Morehead-Mott-Smith-poker-squares.jpg">1977 reprint</a>.</li>
+		<li>Rules for <a href="parlett-poker-patience-1980.jpg">Poker Patience</a> 
+		and <a href="parlett-poker-squares-1980.jpg">Poker Squares</a> from D. 
+		Parlett.&nbsp; <em>The Penguin Book of Patience.</em> pp. 232-233, 348, 1980 Penguin 
+		reprint of 1979 publication.</li>
+		<li><a href="lee-packard-poker-solitaire.pdf">Rules</a> from S. Lee and 
+		G. Packard. <em>100 Best Solitaire Games.</em>&nbsp; pp. 76-79, 2004.</li>
+		<li><a href="parlett-poker-squares.jpg">Rules</a> from D. Parlett. <em>
+		The Penguin Book of Card Games</em>. pp. 552-553, 2008.</li>
+	</ul>
+	</li>
+	<ul>
+		<li><a href="http://www.solitairecentral.com/rules/PokerSquares.html">Solitaire Central</a></li>
+		<li><a href="http://en.wikipedia.org/wiki/Poker_Squares">Wikipedia</a></li>
+		<li>
+		<a href="http://www.boardgamegeek.com/boardgame/41215/poker-squares">BoardGameGeek Poker Squares Page</a> (see also related
+		<a href="http://www.boardgamegeek.com/geeklist/152237/sequential-placement-optimization-games">sequential placement optimization games</a> list) 
+		</li>
+	</ul>
+	<li>Select Implementations:<ul>
+		<li>Web: <a href="http://games.emantranet.com/PokerSquare.aspx">http://games.emantranet.com/PokerSquare.aspx</a></li>
+		<li>Android: <a href="http://www.lambtongames.com/games/pokersolitaire/">http://www.lambtongames.com/games/pokersolitaire/</a></li>
+		<li>PC: <a href="http://pysolfc.sourceforge.net/">http://pysolfc.sourceforge.net/</a></li>
+		<li>iOS: Please email me if you have a recommendation.</li>
+		<li>Mac: Please email me if you have a recommendation.</li>
+	</ul>
+	</li>
+	<li>
+	<a href="http://www.amazon.com/gp/product/B00JTZDEGO/ref=as_li_tl?ie=UTF8&amp;camp=1789&amp;creative=390957&amp;creativeASIN=B00JTZDEGO&amp;linkCode=as2&amp;tag=towneho-20">
+	Four-Color Deck</a> or
+	<a href="ttp://www.amazon.com/gp/product/B0083HJVR0/ref=as_li_tl?ie=UTF8&amp;camp=1789&amp;creative=390957&amp;creativeASIN=B0083HJVR0&amp;linkCode=as2&amp;tag=towneho-20">
+	Decks</a></li>
+</ul>
+
+<table BORDER=0 CELLPADDING=3 WIDTH="100%" BGCOLOR="#3333FF" >
+<tr>
+<td><font size="+1" color="#FF6600"><b>Introduction</b></font></td>
+</tr>
+</table>
+
+<p class="style4"><b style="mso-bidi-font-weight:normal">Game materials: <o:p></o:p>
+</b></p>
+<p class="style1" style="mso-list: l0 level1 lfo1"><![if !supportLists]>
+<span style="font-family:Symbol;mso-fareast-font-family:Symbol;mso-bidi-font-family:
+Symbol"><span style="mso-list:Ignore">·<span class="style4" style="font-style: normal; font-variant: normal; font-weight: normal; font-size: 7.0pt; line-height: normal;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></span></span><![endif]><span class="style4">a shuffled standard (French) 
+52-card deck</span><o:p></o:p></p>
+<p class="style2" style="mso-list: l0 level1 lfo1"><![if !supportLists]>
+<span style="font-family:Symbol;mso-fareast-font-family:Symbol;mso-bidi-font-family:
+Symbol"><span style="mso-list:Ignore">·<span class="style4" style="font-style: normal; font-variant: normal; font-weight: normal; font-size: 7.0pt; line-height: normal;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></span></span><![endif]><span class="style4">a pen and
+<a href="pokersquaresgrids.pdf">Poker Squares grid</a> for each player</span><o:p></o:p></p>
+<p class="MsoNormal"><span class="style4">
+<b style="mso-bidi-font-weight:normal">Rules:</b></span><span class="style4" style="mso-spacerun:yes">&nbsp;
+</span><span class="style4">Each turn, a card is drawn from the deck and 
+announced.</span><span class="style4" style="mso-spacerun:yes">&nbsp; </span>
+<span class="style4">Each player must then privately write the card rank and 
+suit (e.g. &#8220;10C&#8221; for 10 of Clubs, &#8220;AH&#8221; for Ace of Hearts) in any empty cell of 
+their 5-by-5 grid.</span><span class="style4" style="mso-spacerun:yes">&nbsp;
+</span><span class="style4">Once written in the grid, cards may not be moved.</span><span class="style4" style="mso-spacerun:yes">&nbsp;
+</span><span class="style4">After all players have written the card, the next 
+turn begins.</span><span class="style4" style="mso-spacerun:yes">&nbsp; </span>
+<span class="style4">When player grids are full after 25 cards, grids are 
+scored. </span><span class="style4" style="mso-spacerun:yes">&nbsp;</span><o:p></o:p></p>
+<p class="MsoNormal"><span class="style4">
+<b style="mso-bidi-font-weight:normal">Scoring:</b></span><span class="style4" style="mso-spacerun:yes">&nbsp;
+</span><span class="style4">The 5-card hand of each grid row and column is 
+scored according to a point system.</span><span class="style4" style="mso-spacerun:yes">&nbsp;
+</span><span class="style4">The American point system scores hands as follows:</span><o:p></o:p></p>
+<table border="0" cellpadding="0" cellspacing="0" class="style3" style="width: 570.0pt; mso-yfti-tbllook: 1536; mso-padding-alt: 0in 0in 0in 0in" width="760">
+	<tr style="mso-yfti-irow:0;mso-yfti-firstrow:yes;height:27.45pt">
+		<td style="width:143.0pt;padding:.75pt .75pt .75pt .75pt;
+  height:27.45pt" width="191">
+		<p class="MsoNormal"><b><u>Poker Hand</u></b><o:p></o:p></p>
+		</td>
+		<td style="width:98.0pt;padding:.75pt .75pt .75pt .75pt;height:
+  27.45pt" width="131">
+		<p class="MsoNormal"><b><u>Points</u></b><o:p></o:p></p>
+		</td>
+		<td style="width:156.0pt;padding:.75pt .75pt .75pt .75pt;
+  height:27.45pt" width="208">
+		<p class="MsoNormal"><b><u>Description</u></b><o:p></o:p></p>
+		</td>
+		<td style="width:174.0pt;padding:.75pt .75pt .75pt .75pt;
+  height:27.45pt" width="232">
+		<p class="MsoNormal"><b><u>Example</u></b><o:p></o:p></p>
+		</td>
+	</tr>
+	<tr style="mso-yfti-irow:1;height:26.55pt">
+		<td style="width:143.0pt;padding:.75pt .75pt .75pt .75pt;
+  height:26.55pt" width="191">
+		<p class="MsoNormal">Royal Flush<o:p></o:p></p>
+		</td>
+		<td style="width:98.0pt;padding:.75pt .75pt .75pt .75pt;height:
+  26.55pt" width="131">
+		<p class="MsoNormal">100<o:p></o:p></p>
+		</td>
+		<td style="width:156.0pt;padding:.75pt .75pt .75pt .75pt;
+  height:26.55pt" width="208">
+		<p class="MsoNormal">A 10-J-Q-K-A sequence all of<br>the same suit<o:p></o:p></p>
+		</td>
+		<td style="width:174.0pt;padding:.75pt .75pt .75pt .75pt;
+  height:26.55pt" width="232">
+		<p class="MsoNormal">10&clubs;, J&clubs;, Q&clubs;, K&clubs;, A&clubs;</p>
+		</td>
+	</tr>
+	<tr style="mso-yfti-irow:2;height:30.0pt">
+		<td style="width:143.0pt;padding:.75pt .75pt .75pt .75pt;
+  height:30.0pt" width="191">
+		<p class="MsoNormal">Straight Flush<o:p></o:p></p>
+		</td>
+		<td style="width:98.0pt;padding:.75pt .75pt .75pt .75pt;height:
+  30.0pt" width="131">
+		<p class="MsoNormal">75<o:p></o:p></p>
+		</td>
+		<td style="width:156.0pt;padding:.75pt .75pt .75pt .75pt;
+  height:30.0pt" width="208">
+		<p class="MsoNormal">Five cards in sequence all of<br>the same suit<o:p></o:p></p>
+		</td>
+		<td style="width:174.0pt;padding:.75pt .75pt .75pt .75pt;
+  height:30.0pt" width="232">
+		<p class="MsoNormal">A&diams;, 
+		2&diams;, 
+		3&diams;, 
+		4&diams;, 
+		5&diams;</p>
+		</td>
+	</tr>
+	<tr style="mso-yfti-irow:3;height:27.45pt">
+		<td style="width:143.0pt;padding:.75pt .75pt .75pt .75pt;
+  height:27.45pt" width="191">
+		<p class="MsoNormal">Four of a Kind<o:p></o:p></p>
+		</td>
+		<td style="width:98.0pt;padding:.75pt .75pt .75pt .75pt;height:
+  27.45pt" width="131">
+		<p class="MsoNormal">50<o:p></o:p></p>
+		</td>
+		<td style="width:156.0pt;padding:.75pt .75pt .75pt .75pt;
+  height:27.45pt" width="208">
+		<p class="MsoNormal">Four cards of the same rank<o:p></o:p></p>
+		</td>
+		<td style="width:174.0pt;padding:.75pt .75pt .75pt .75pt;
+  height:27.45pt" width="232">
+		<p class="MsoNormal">
+		9&clubs;, 
+		9&diams;, 
+		9&hearts;, 
+		9&spades;, 
+		6&hearts;</p>
+		</td>
+	</tr>
+	<tr style="mso-yfti-irow:4;height:27.45pt">
+		<td style="width:143.0pt;padding:.75pt .75pt .75pt .75pt;
+  height:27.45pt" width="191">
+		<p class="MsoNormal">Full House<o:p></o:p></p>
+		</td>
+		<td style="width:98.0pt;padding:.75pt .75pt .75pt .75pt;height:
+  27.45pt" width="131">
+		<p class="MsoNormal">25<o:p></o:p></p>
+		</td>
+		<td style="width:156.0pt;padding:.75pt .75pt .75pt .75pt;
+  height:27.45pt" width="208">
+		<p class="MsoNormal">Three cards of one rank with <br>two cards of 
+		another rank<o:p></o:p></p>
+		</td>
+		<td style="width:174.0pt;padding:.75pt .75pt .75pt .75pt;
+  height:27.45pt" width="232">
+		<p class="MsoNormal">
+		7&spades;, 
+		7&clubs;, 
+		7&diams;, 
+		8&hearts;, 
+		8&spades;</p>
+		</td>
+	</tr>
+	<tr style="mso-yfti-irow:5;height:27.45pt">
+		<td style="width:143.0pt;padding:.75pt .75pt .75pt .75pt;
+  height:27.45pt" width="191">
+		<p class="MsoNormal">Flush<o:p></o:p></p>
+		</td>
+		<td style="width:98.0pt;padding:.75pt .75pt .75pt .75pt;height:
+  27.45pt" width="131">
+		<p class="MsoNormal">20<o:p></o:p></p>
+		</td>
+		<td style="width:156.0pt;padding:.75pt .75pt .75pt .75pt;
+  height:27.45pt" width="208">
+		<p class="MsoNormal">Five cards all of the same suit<o:p></o:p></p>
+		</td>
+		<td style="width:174.0pt;padding:.75pt .75pt .75pt .75pt;
+  height:27.45pt" width="232">
+		<p class="MsoNormal">
+		A&hearts;, 
+		2&hearts;, 
+		3&hearts;, 
+		5&hearts;, 
+		8&hearts;</p>
+		</td>
+	</tr>
+	<tr style="mso-yfti-irow:6;height:27.45pt">
+		<td style="width:143.0pt;padding:.75pt .75pt .75pt .75pt;
+  height:27.45pt" width="191">
+		<p class="MsoNormal">Straight<o:p></o:p></p>
+		</td>
+		<td style="width:98.0pt;padding:.75pt .75pt .75pt .75pt;height:
+  27.45pt" width="131">
+		<p class="MsoNormal">15<o:p></o:p></p>
+		</td>
+		<td style="width:156.0pt;padding:.75pt .75pt .75pt .75pt;
+  height:27.45pt" width="208">
+		<p class="MsoNormal">Five cards in sequence; Aces <br>may be high or low 
+		but not both<o:p></o:p></p>
+		</td>
+		<td style="width:174.0pt;padding:.75pt .75pt .75pt .75pt;
+  height:27.45pt" width="232">
+		<p class="MsoNormal">8&clubs;, 9&spades;, 10&hearts;, J&diams;, Q&clubs;</p>
+		</td>
+	</tr>
+	<tr style="mso-yfti-irow:7;height:27.45pt">
+		<td style="width:143.0pt;padding:.75pt .75pt .75pt .75pt;
+  height:27.45pt" width="191">
+		<p class="MsoNormal">Three of a Kind<o:p></o:p></p>
+		</td>
+		<td style="width:98.0pt;padding:.75pt .75pt .75pt .75pt;height:
+  27.45pt" width="131">
+		<p class="MsoNormal">10<o:p></o:p></p>
+		</td>
+		<td style="width:156.0pt;padding:.75pt .75pt .75pt .75pt;
+  height:27.45pt" width="208">
+		<p class="MsoNormal">Three cards of the same rank<o:p></o:p></p>
+		</td>
+		<td style="width:174.0pt;padding:.75pt .75pt .75pt .75pt;
+  height:27.45pt" width="232">
+		<p class="MsoNormal">
+		2&#9824;, 2&#9829;, 2&#9830;, 5&#9827;, 7&#9824;</p>
+		</td>
+	</tr>
+	<tr style="mso-yfti-irow:8;height:27.45pt">
+		<td style="width:143.0pt;padding:.75pt .75pt .75pt .75pt;
+  height:27.45pt" width="191">
+		<p class="MsoNormal">Two Pair<o:p></o:p></p>
+		</td>
+		<td style="width:98.0pt;padding:.75pt .75pt .75pt .75pt;height:
+  27.45pt" width="131">
+		<p class="MsoNormal">5<o:p></o:p></p>
+		</td>
+		<td style="width:156.0pt;padding:.75pt .75pt .75pt .75pt;
+  height:27.45pt" width="208">
+		<p class="MsoNormal">Two cards of one rank with two <br>cards of another 
+		rank<o:p></o:p></p>
+		</td>
+		<td style="width:174.0pt;padding:.75pt .75pt .75pt .75pt;
+  height:27.45pt" width="232">
+		<p class="MsoNormal">
+		3&hearts;, 
+		3&diams;, 
+		4&clubs;, 
+		4&spades;, 
+		A&clubs;</p>
+		</td>
+	</tr>
+	<tr style="mso-yfti-irow:9;height:27.45pt">
+		<td style="width:143.0pt;padding:.75pt .75pt .75pt .75pt;
+  height:27.45pt" width="191">
+		<p class="MsoNormal">One Pair<o:p></o:p></p>
+		</td>
+		<td style="width:98.0pt;padding:.75pt .75pt .75pt .75pt;height:
+  27.45pt" width="131">
+		<p class="MsoNormal">2<o:p></o:p></p>
+		</td>
+		<td style="width:156.0pt;padding:.75pt .75pt .75pt .75pt;
+  height:27.45pt" width="208">
+		<p class="MsoNormal">Two cards of one rank<o:p></o:p></p>
+		</td>
+		<td style="width:174.0pt;padding:.75pt .75pt .75pt .75pt;
+  height:27.45pt" width="232">
+		<p class="MsoNormal">
+		5&diams;, 
+		5&hearts;, 
+		9&clubs;, 
+		Q&spades;, 
+		A&hearts;</p>
+		</td>
+	</tr>
+	<tr style="mso-yfti-irow:10;mso-yfti-lastrow:yes;height:27.45pt">
+		<td style="width:143.0pt;padding:.75pt .75pt .75pt .75pt;
+  height:27.45pt" width="191">
+		<p class="MsoNormal">High Card<o:p></o:p></p>
+		</td>
+		<td style="width:98.0pt;padding:.75pt .75pt .75pt .75pt;height:
+  27.45pt" width="131">
+		<p class="MsoNormal">0<o:p></o:p></p>
+		</td>
+		<td style="width:156.0pt;padding:.75pt .75pt .75pt .75pt;
+  height:27.45pt" width="208">
+		<p class="MsoNormal">None of the above<o:p></o:p></p>
+		</td>
+		<td style="width:174.0pt;padding:.75pt .75pt .75pt .75pt;
+  height:27.45pt" width="232">
+		<p class="MsoNormal">2&diams;, 3&clubs;, 5&spades;, 8&hearts;, Q&diams;</p>
+		</td>
+	</tr>
+</table>
+<span style="font-size:11.0pt;line-height:115%;font-family:&quot;Calibri&quot;,&quot;sans-serif&quot;;
+mso-ascii-theme-font:minor-latin;mso-fareast-font-family:Calibri;mso-fareast-theme-font:
+minor-latin;mso-hansi-theme-font:minor-latin;mso-bidi-font-family:&quot;Times New Roman&quot;;
+mso-bidi-theme-font:minor-bidi;mso-ansi-language:EN-US;mso-fareast-language:
+EN-US;mso-bidi-language:AR-SA"><br></span>
+<span class="style4" style="font-size: 11.0pt; line-height: 115%; mso-ascii-theme-font: minor-latin; mso-fareast-font-family: Calibri; mso-fareast-theme-font: minor-latin; mso-hansi-theme-font: minor-latin; mso-bidi-font-family: &quot;Times New Roman&quot;; mso-bidi-theme-font: minor-bidi; mso-ansi-language: EN-US; mso-fareast-language: EN-US; mso-bidi-language: AR-SA">
+A player's total score is the sum of the hand scores for each of the 10 row and 
+column hands.<span style="mso-spacerun:yes">&nbsp; <br><br></span></span>
+
+<table BORDER=0 CELLPADDING=3 WIDTH="100%" BGCOLOR="#3333FF" >
+<tr>
+<td><font size="+1" color="#FF6600"><b>Additional</b></font><b><font size=+1 color="#FF6600"> Resources</font></b></td>
+</tr>
+</table>
+
+<ul>
+	<li>
+	<a href="The%20Poker%20Squares%20Challenge.pdf">PDF Slides: &quot;The Poker 
+	Squares Challenge&quot;</a>, Gettysburg College Computer Science Colloquium, 
+	January 31st, 2013</li>
+	<li>
+	<a href="code/">Local programming contest code</a> (<a href="2013ContestResults.txt">2013
+	contest results</a>)</li>
+</ul>
+<p><font face="Times New Roman">© </font>
+<a href="http://cs.gettysburg.edu/~tneller/index.html">Todd W. Neller</a></p>
+
+</body>
+</html>

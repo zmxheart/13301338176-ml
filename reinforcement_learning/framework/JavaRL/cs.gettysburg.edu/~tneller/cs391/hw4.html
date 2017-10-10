@@ -1,0 +1,93 @@
+<!doctype html public "-//w3c//dtd html 4.0 transitional//en">
+<html>
+<head>
+   <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+   <meta name="GENERATOR" content="Microsoft FrontPage 12.0">
+   <title>Homework #4</title>
+   </head>
+<body>
+<table WIDTH="100%" >
+<tr>
+<td><img SRC="GburgCS.gif" height=84 width=182></td>
+
+<td><font size=+2>CS 3</font><font size="5">91 Selected Topics: Game AI<br></font><font size=+2>Homework #4</font></td>
+</tr>
+</table>
+
+<hr>
+<br><b>Due the beginning of class </b>on Thursday 2/18.<p><b>Note: </b>This work is to be done in <b>groups of 2</b>.&nbsp; Each group will submit one assignment.&nbsp; Although 
+you may divide the work, both team members should be able to present/describe 
+their partner's work upon request.&nbsp; 
+<h1>FreeCell Solver++</h1>
+<p>Using elements of FreeCell Solvers from Homework #3 (repository link to be 
+emailed Thursday afternoon 2/11), implement an <strong>improved</strong> FreeCell solver program 
+according to a well-defined <strong>metric</strong>.&nbsp; </p>
+<p>In addition, create a data file for the output of at least 500 games from 
+random seeds (1-1000000) where each of the 500 output lines consists of the seed 
+number followed by either (1) the solution following the
+		<a href="http://freecellgamesolutions.com/notation.html">notation of the 
+		FreeCell solutions site</a> or (2) &quot;No solution found.&quot; if the search is 
+unsuccessful.</p>
+<p>What does it mean to be an <strong>improved</strong> FreeCell solver program 
+according to a well-defined <strong>metric?</strong></p>
+<ul>
+	<li>First, here's an example of what this doesn't mean: Submitting the HW3 
+	work with no original improvements or modifications, noting that it is an 
+	improvement upon your HW3 submission and calling it done.&nbsp; This would 
+	be judged as poor work.</li>
+	<li>Minimal satisfactory (C) work: Parameter tuning to a previous approach 
+	that slightly improves performance.</li>
+	<li>Very good work: Testing of multiple approaches to different components 
+	(e.g. heuristic evaluation, search algorithms) that yields a significant 
+	performance increase over your previous effort.</li>
+	<li>Excellent work: A significant performance increase over the best work 
+	from HW3.</li>
+</ul>
+<p>What should I choose as a <strong>metric?</strong></p>
+<ul>
+	<li>There are a number of reasonable choices.&nbsp; If you have any doubts 
+	of your choice, please email me.&nbsp; Here are a few examples of decent 
+	metrics (measures):<ul>
+		<li>Percentage of seeds solved in under ___ seconds - This metric 
+		rewards solid, fast solvers.</li>
+		<li>Average computational time for seeds solved under ___ seconds - 
+		First, let's assume that failed search attempts count as a full time 
+		penalty.&nbsp; This metric also rewards solid, fast solvers, but is 
+		nuanced to reward solvers that use much less than the allotted ___ 
+		seconds.</li>
+		<li>Average solution length - This metric rewards solvers that find 
+		short solutions.&nbsp; However, one would be wise to include in the 
+		metric some large length penalty for failed solution attempts to prevent 
+		good performance through &quot;cherry-picking&quot; the easiest problems and 
+		ignoring a high-percentage of failure</li>
+		<li>Real-time solution performance with next move recommendations 
+		required at one second intervals (or some other such time interval).&nbsp; 
+		- Interleaving search with necessary action introduces a new 
+		consideration of reliable, real-time progress towards a solution.</li>
+	</ul>
+	</li>
+	<li>Consider your metric carefully and critically.&nbsp; Choosing a poor 
+	metric (e.g. completed seed searches per minute) can yield unintended 
+	consequences when optimized (e.g. rapid search failure for many seeds per 
+	minute).&nbsp; Can you think of a poor solver that would score well with 
+	your metric?&nbsp; Choose another. </li>
+</ul>
+<p>How much should it <strong>improve</strong>?&nbsp; What do you mean by 
+&quot;significant&quot;?</p>
+<ul>
+	<li>This is where your <strong>metric</strong> and <strong>documentation of 
+	your efforts in a README plain text file</strong> come into play.&nbsp; 
+	Different metrics will have different significance.&nbsp; If our best 
+	solvers solve 99% of deals in less than one minute, an improvement to 99.2% 
+	doesn't tell us much for small seed sample sizes.&nbsp; If, however, you 
+	raise the bar by measuring the number of deals solved within 10 seconds, and 
+	you find that, by this metric, you improve performance by 20% for a large 
+	number of seeds, there's no argument that such data strongly argues the case 
+	of having made a significant improvement.</li>
+	<li>Part of the point is to gain experience in objective research 
+	experimentation.&nbsp; Good empirical research in Computer Science generally 
+	includes both innovative problem-solving and a data-supported case for the 
+	significance of the problem-solving approach.</li>
+</ul>
+
+</body></html>

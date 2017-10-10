@@ -1,0 +1,194 @@
+<!doctype html public "-//w3c//dtd html 4.0 transitional//en">
+<html>
+<head>
+   <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+   <meta name="GENERATOR" content="Microsoft FrontPage 12.0">
+   <title>Homework #8</title>
+</head>
+<body>
+<table WIDTH="100%" >
+<tr>
+<td><img SRC="GburgCS.gif" height=84 width=182></td>
+
+<td><font size=+2>CS 3</font><font size="5">74 Compilers<br></font><font size=+2>
+Homework #8</font></td>
+</tr>
+</table>
+
+<hr>
+<br><b>Due: Thursday 4/26 </b>at the beginning of class<p><b>Note: </b>This work is to be done in <b>assigned groups</b>.&nbsp; Each group will submit one assignment.&nbsp; Although 
+you may divide the work, both team members should be able to present/describe 
+their partner's work upon request.&nbsp; 
+<h1>Code Generation - Part III</h1>
+<p>At this point, we can generate code that prints compound arithmetic and 
+logical expressions, create new objects, make simple method calls (without 
+dynamic method lookup), and return results.&nbsp; Now we extend our 
+implementation to reflect the way Java performs dynamic method lookup.</p>
+
+<p>0. Preparation: Read section 14.2 on static versus dynamic method lookup.&nbsp; 
+In our previous implementation, a new object has a class identifier (e.g. 0, 1, 
+2, 3).&nbsp; We will be replacing these with the address of a lookup table for 
+method addresses, much like those shown in Figure 14.3.</p>
+
+<p><b>1. Symbol Table Addition: </b>You'll want to add to your symbol table 
+such that it will be easy to:</p>
+
+<ul>
+  <li>For each class, compute the position of each method in the method lookup 
+  table.&nbsp; For top level classes, one needs merely to keep the methods in a 
+  list.&nbsp; For subclasses, <i>overriding methods</i> keep the same position 
+  as the method that is overridden, and <i>new methods</i> are given higher 
+  indices.</li>
+</ul>
+
+<p><b>2. Allocating Tables:</b></p>
+<ul>
+  <li>In the &quot;.data&quot; section of your assembly, create a special internal 
+  variable for tables by emitting a label (e.g. &quot;_dml_tables&quot;) for the address 
+  of the list of dynamic method lookup tables.&nbsp; In the line before, use the 
+  &quot;.align&quot; directive to make sure that the variable is on a word boundary.&nbsp; In the next line, use the 
+  &quot;.word&quot; directive to set it to 0 initially.</li>
+  <li>After setting up the stack frame in your main method, emit code that does 
+  the following:</li>
+</ul>
+<p>Dynamically allocate <i>c</i> words of memory (using the sbrk syscall) and 
+store the address to your tables variable, where <i>c</i> is the number of 
+classes.<br>
+In this table, for each class, dynamically allocate <i>m</i> words of 
+memory and store the address in the main table, where <i>m</i> is the number of 
+methods for each class. That is, class <i>i </i>should have an address at the <i>
+i</i>th word of the table which points to another table with a size in words 
+equal to the number of methods in class<i> i</i>.<i> </i><br>
+In each <i>class </i>table, load the addresses of the appropriate address labels 
+for each method call.&nbsp; Your symbol table additions should help you compute 
+these labels.</p>
+
+<p><b>3. NewObject:</b> Change new object such that the class identifier is 
+replaced by the address of its dynamic method lookup table.</p>
+
+<p><b>4. Call:</b> Change your call implementation such that it uses the objects 
+dynamic lookup table to retrieve the correct method address and jump to this 
+address.&nbsp; That is, it loads the table address from offset 0 of the object.&nbsp; 
+Then it loads the method address from the appropriate offset in the table.&nbsp; 
+Finally, it jumps unconditionally to that address, placing the next instruction 
+in $ra.&nbsp; Note: there seems to be a discrepancy between the documentation 
+and the simulator.&nbsp; If you have your jump address in $v0, use &quot;jalr $ra, 
+$v0&quot;.</p>
+
+<p>Now retest your method calls/returns with NewObject.java, Factorial.java, and 
+DynamicMethodLookup.java.</p>
+
+<p><b>5. While:</b></p>
+
+<ul>
+  <li>Emit a numbered label (e.g. &quot;whileTest42&quot;).</li>
+  <li>Generate the test expression code.</li>
+  <li>On a result of 0, branch to the numbered ending label </li>
+  <li>Generate the statement code.</li>
+  <li>Branch unconditionally to the first label.</li>
+  <li>Emit a numbered ending label (e.g. &quot;whileDone42&quot;).</li>
+</ul>
+<p>Now you can test your code with BinaryTree.java and LinkedList.java</p>
+
+<p align="left"><b>6. NewArray: </b>Allocating a new array is similar to 
+allocating an object.&nbsp; Allocate an extra word at the beginning which holds 
+the <i>length </i>of the array.</p>
+
+<p align="left"><b>7. ArrayLength: </b>Generate code for the integer array 
+expression. Then load the length into $v0 from the first word of the array. </p>
+
+<p align="left"><b>8. ArrayLookup: </b></p>
+
+<ul>
+  <li>
+Generate code for the integer array expression.
+
+  </li>
+  <li>
+Push the array address from $v0 to the stack.
+
+  </li>
+  <li>
+Generate code for the array index expression.
+  </li>
+  <li>
+Pop the array address to $v1 from the stack.
+
+  </li>
+  <li>
+Compute the address of the array integer and load it into $v0
+
+  </li>
+</ul>
+<b>9. ArrayAssign:</b>
+
+<ul>
+  <li>
+Generate code for the array identifier.
+
+  </li>
+  <li>
+Push the array address from $v0 to the stack.
+
+  </li>
+  <li>
+Generate code for the array index expression.
+
+  </li>
+  <li>
+Pop the array address to $v1 from the stack.
+
+  </li>
+  <li>
+Compute the address of the array + offset and push the address 
+onto the stack.
+
+  </li>
+  <li>
+Generate code for the assignment expression.
+
+  </li>
+  <li>
+Pop the offset array address from the stack to $v1.
+
+  </li>
+  <li>
+Store the assignment expression result from $v0 to the address 
+in $v1.
+
+  </li>
+</ul>
+<p align="left">Now you can test your code with the remainder of the test cases: 
+SimpleArray.java, BinarySearch.java, BubbleSort.java, LinearSearch.java, 
+QuickSort.java, and TreeVisitor.java.</p>
+
+<h2>Congratulations!&nbsp; You have completed your MiniJava compiler!</h2>
+
+<ul>
+  <li><b>Take a moment to look over the generated assembly code and marvel that 
+  it works!&nbsp; </b>A compiler is one of the most complex pieces of software 
+  that an undergraduate implements.</li>
+  <li><b>Review the stages that make up the project to get the big picture.&nbsp;
+  </b>As you were going through the project, you couldn't have the perspective 
+  you have now.&nbsp; Take advantage of the project being fresh in your mind and 
+  consider the overall process: lexical analysis, parsing, abstract syntax tree 
+  building, symbol table building, type-checking, code generation.</li>
+  <li><b>Consider the valuable skills you've gained and resolve to improve them.&nbsp; 
+  Although <i>few</i> people write compilers...</b></li>
+  <ul>
+  <li><b>... many more write interpreters. </b>&nbsp;Interpreters are common in 
+  any application that allows user to extend its capabilities, adding value to 
+  the product with little cost to the software company.&nbsp; Rather than 
+  generating code, one can always write an interpreter.</li>
+  <li><b>... even more  write parsers.&nbsp; </b>Consider the amount of 
+  structured information that flows through networks and between processes.&nbsp; 
+  The front end compiler tools you've learned are the best way to write<b> </b>
+  correct, robust, bulletproof code for the common task of interpreting a stream 
+  of information.<b> </b></li>
+  </ul>
+  <li><b>Reflect on the value of recursion and design patterns in this task.&nbsp;
+  </b>&nbsp;There are many more design patterns that are useful for different 
+  problem solving tasks.&nbsp; Watch for them!</li>
+</ul>
+
+</body></html>

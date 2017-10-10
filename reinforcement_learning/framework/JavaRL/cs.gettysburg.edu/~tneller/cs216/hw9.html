@@ -1,0 +1,149 @@
+<!doctype html public "-//w3c//dtd html 4.0 transitional//en">
+<html>
+<head>
+   <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+   <meta name="GENERATOR" content="Microsoft FrontPage 12.0">
+   <title>Homework #9</title>
+</head>
+<body>
+<table WIDTH="100%" >
+<tr>
+<td><img SRC="GburgCS.gif" height=84 width=182></td>
+
+<td><font size=+2>CS 216 - Data Structures</font>
+<br><font size=+2>Homework #9</font></td>
+</tr>
+</table>
+
+<hr>
+<br><p><b>Due: before class on Wednesday 4/17</b></p>
+<h2>Poker Shuffle</h2>
+<p><em><strong>Poker Shuffle</strong></em> is a variant of 
+<a href="http://cs.gettysburg.edu/~tneller/games/pokersquares/index.html">Poker Squares</a> where player(s) are allowed to 
+rearrange cards at any time.&nbsp; Whereas Poker Squares has a player commit a 
+card to a grid position, a Poker Shuffle player may rearrange cards in the grid 
+so as to optimize their score.&nbsp; In this assignment, you will be creating a 
+Poker Shuffle playing program.</p>
+<p>Call your program <tt>PokerShuffle.java</tt>.&nbsp; It will be based on our 
+<a href="http://cs.gettysburg.edu/~tneller/games/pokersquares/code/">Poker 
+Shuffle contest code</a> and 
+<a href="http://cs.gettysburg.edu/~tneller/resources/sls/index.html">stochastic local search</a> code we will create together in 
+class.&nbsp; From standard input, you will read 25 cards represented as 
+space-separated two-character String according to the <tt>Card</tt> class <tt>toString</tt> 
+method.&nbsp; (<tt>Card</tt> objects may then be looked up using <tt>Card.cardMap</tt>.)</p>
+<p>Next you will run simulated annealing for 1000000 iterations so as to find a 
+card grid maximizing the return value of <tt>PokerSquares.getScore(Card[][])</tt>.&nbsp; You will 
+need to experiment with different initial temperatures and decay values to get 
+peak performance. </p>
+<p>Finally, you will print the optimized grid using the <tt>PokerSquares.printGrid</tt> 
+method to show the resulting optimized grid.&nbsp; Below are a series of example 
+runs including both the input line of 25 cards and the output optimized Poker 
+Shuffle grid. Note: You are not expected to get the same output (even 
+transposing rows and columns).&nbsp; Also, these are not necessarily optimal grids.&nbsp; 
+However, they are representative of performance you can achieve with modest 
+parameter tuning of our basic simulated annealing, and you should use them to test your 
+code's performance.</p>
+<hr>
+<pre>
+JC 9D 9S 6H 2C TH TS 6S AS 8S KC 2S KD 4H 5H AH AD QD 6D 2H 5S 7H AC 7C 8D 
+ 6D  2S  6H  2H  2C  25
+ 8D  6S  5S  4H  7C  15
+ QD  9S  8S  TH  JC  15
+ KD  TS  9D  5H  KC   2
+ AD  AS  7H  AH  AC  50
+ 20  20  15  20  20 202 Total
+</pre>
+<hr>
+<pre>
+7C AD TS 7S QS 5C JC QH JH 2S QC KD 8H KS 4C 5D TH AS 9C 9D TC 5H 8C 3D QD 
+ 7C  5C  5H  7S  5D  25
+ 9C  QS  4C  2S  9D   2
+ 8C  QD  8H  TS  3D   2
+ TC  QC  JH  KS  AD  15
+ JC  QH  TH  AS  KD  15
+ 75  50   0  20  20 224 Total
+</pre>
+<hr>
+<pre>
+5S 2S JH 8S 8H 2C 7S AD 6D KH AS QC QS 3D 3S 9D QH AC 4S KS 8C 4C JD 5H 6C 
+ KS  KH  AS  AD  AC  25
+ 7S  8H  5S  9D  6C  15
+ 8S  5H  4S  6D  4C   2
+ 8C  JH  2S  JD  2C   5
+ QS  QH  3S  3D  QC  25
+  2  20  75  20  20 209 Total
+</pre>
+<hr>
+<pre>
+AC 8S 4H JD 6D 7D KH TC 9C KS JH 6H QH JC QD 5H 8C 4S KD 3C 2S JS AH 3D 3S 
+ 3C  4S  3D  3S  4H  25
+ AC  KS  KD  KH  AH  25
+ TC  JS  JD  JC  JH  50
+ 8C  2S  QD  6D  QH   2
+ 9C  8S  7D  6H  5H  15
+ 20  20  20   2  20 199 Total</pre>
+<hr>
+<pre>
+AC KH 4D 2S 3S TS TH 4H 5D JD 7H 8C AD 7D KS QD 3D AS QC QS 3H JS 4C 9S 5H 
+ 2S  4C  3S  AC  5D  15
+ 7H  4H  3H  KH  5H  20
+ KS  TS  JS  AS  QS 100
+ 7D  4D  3D  AD  QD  20
+ 8C  TH  JD  9S  QC  15
+  2  25  25  10  25 257 Total  </pre>
+<hr>
+<pre>
+6H 9D 4C 6S 9C QD 3C 4D 5H 2C 3H JD AC 9H QH 2S 7H JC QS QC AS TH JH 3D KH 
+ JC  9C  3C  QC  AC  20
+ 6H  2C  3H  5H  4C  15
+ 6S  2S  7H  QS  AS   0
+ JH  9H  TH  QH  KH  75
+ JD  9D  3D  QD  4D  20
+ 25  25  10  50   5 245 Total
+</pre>
+<hr>
+<pre>
+6S AH 3D TS 7D 8C QD TD JS 5D JD 7H 6H JH 2H 9H 4C AS QS 6C AC 6D KC 4S 3C 
+ TS  QD  KC  JD  AH  15
+ 4S  7D  AC  JS  7H   2
+ AS  5D  4C  3D  2H  15
+ QS  TD  8C  JH  9H  15
+ 6S  6D  6C  3C  6H  50
+ 20  20  20  25  20 202 Total
+</pre>
+<hr>
+<pre>
+9S JS 6C 3H 4H 9D 3D 8H 2H 5C 9C 4D JH 7C 7H 6H 6S 2C AH QD 8D TH KH 2S JC 
+ 9D  9C  9S  4H  4D  25
+ 7H  7C  JS  JH  5C   5
+ TH  JC  QD  KH  AH  15
+ 6S  6C  3D  6H  3H  25
+ 8H  2C  8D  2H  2S  25
+ 15  20   0  20  15 165 Total </pre>
+<hr>
+<pre>
+9D TS 3D 7H KC 7C 4C 2S AS JD TH 8D 3H TC JS JH 3C 5C 2D 7S 2H 8C 6S 5D 6D 
+ 7S  TS  2S  AS  JS  20
+ 3C  6S  2D  4C  5D  15
+ 7H  TH  2H  3H  JH  20
+ 3D  6D  8D  9D  JD  20
+ 7C  TC  8C  KC  5C  20
+ 25  25  25   0  25 195 Total </pre>
+<hr>
+<pre>
+6C QC 2H 7H JD AS AH 3C 3H 9D KH 9S JC JH KD QH TH TC 6H JS 4H 7D AC 8C KC 
+ AH  7D  AS  7H  AC  25
+ QH  9S  9D  2H  QC   5
+ TH  3C  8C  3H  TC   5
+ KH  KD  6C  6H  KC  25
+ JH  JS  JD  4H  JC  50
+100   0   0  20 100 330 Total
+</pre>
+<p>Before:</p>
+<p>
+<img alt="Before Poker Shuffle Optimization" height="717" src="pokerShuffleBefore.png" width="715"></p>
+<p>After:</p>
+<p>
+<img alt="After Poker Shuffle Optimization" height="717" src="pokerShuffleAfter.png" width="715"></p>
+</body>
+</html>

@@ -1,0 +1,15 @@
+Title: Extending Search for Hybrid Systems: Action Timing
+
+Abstract:
+Artificial Intelligence tree search algorithms are designed for
+discrete systems.  In order to extend tree search algorithms for
+hybrid systems, there are two new decisions the search algorithm must
+make: choice of actions from a continuum, and choice of action
+timing.  In this paper, we focus on principled ways to choose when to
+branch the search tree.
+
+We introduce anytime, depth-first, iterative-refinement algorithms for
+satisficing and real-time decision-theoretic goals.  Further, we
+discuss iterative adjustment techniques.  Finally, we briefly discuss
+the use of information-based optimization for action timing choices.
+

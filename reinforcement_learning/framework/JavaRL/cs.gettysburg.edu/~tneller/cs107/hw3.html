@@ -1,0 +1,136 @@
+
+</body>
+</html>
+<!doctype html public "-//w3c//dtd html 4.0 transitional//en">
+<html>
+<head>
+   <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+   <meta name="GENERATOR" content="Microsoft FrontPage 12.0">
+   <title>Homework #3</title>
+   <style type="text/css">
+.style1 {
+	font-family: "Courier New", Courier, monospace;
+}
+</style>
+</head>
+<body>
+<table WIDTH="100%" >
+<tr>
+<td><img SRC="GburgCS.gif" height=84 width=182></td>
+
+<td><font size=+2>CS 107 - Introduction to Scientific Computation</font><br><font size=+2>Homework #3</font></td>
+</tr>
+</table>
+
+<hr>
+<br><b>Due: Wednesday 9/18 at the beginning of class<br><br>Submit using the 
+following commands in the directory where you have saved these files on our 
+system:<br></b><span class="style1">submit107 polynomial.m</span> <br>
+<span class="style1">submit107 trapezoidIntegrate.m</span> <br>
+<span class="style1">submit107 simpleDifferentiate.m</span>
+<p><b>1. Polynomial: </b>A polynomial is a function of the form c<sub>0</sub> *
+<em>x</em><sup>0</sup> + c<sub>1</sub> * <em>x</em><sup>1</sup> + c<sub>2</sub> 
+* <em>x</em><sup>2</sup> + ... + c<sub>n</sub> * <em>x</em><sup>n</sup>.&nbsp; 
+Since <em>x</em><sup>0</sup>=1, this is equivalent to c<sub>0</sub> + c<sub>1</sub> 
+* <em>x</em> + c<sub>2</sub> * <em>x</em><sup>2</sup> + ... + c<sub>n</sub> *
+<em>x</em><sup>n</sup>.&nbsp; All polynomial curve can be expressed in this 
+form.&nbsp; The familiar line <em>y</em> = m<em>x</em> + b has n=1 with c<sub>1</sub> 
+being slope m and c<sub>0</sub> being <em>y</em>-intercept b.&nbsp; A quadratic 
+curve <em>y</em> = a<em>x</em><sup>2</sup> + b<em>x</em> + c has n=2 with c<sub>0</sub>, 
+c<sub>1</sub>, and c<sub>2</sub> being c, b, and a, respectively.</p>
+<p>You will create a polynomial function &quot;polynomial&quot; in file polynomial.m that 
+takes in (1) a <em>scalar</em> x, and (2) a vector coeff of coefficients (e.g. 
+[c0 c1 c2]) and returns the y for that given polynomial.&nbsp; Note: The degree 
+n of the polynomial is implicitly given by the length of the coefficient vector.&nbsp;&nbsp; </p>
+<p>Example usage:</p>
+<p>&gt;&gt; polynomial(7, [5])<br>ans =<br>5<br>&gt;&gt; polynomial(7, [5 2])<br>ans =<br>19<br>
+&gt;&gt; polynomial(7, [5 2 3])<br>ans =<br>166</p>
+<p><b>2. Numerical Integration: </b>While symbolic integration, the symbolic 
+manipulation we 
+learn in Calculus classes, is important and has valuable applications, there are 
+many occasions where one is given raw data to integrate rather than a function.&nbsp; 
+Given a function y = f(<i>x</i>), integration attempts to find the area underneath the 
+curve over some interval.&nbsp; When one is given raw (<i>x</i>,<i>y</i>) values, a common 
+simple method for integration is, for each adjacent pair of points, (<i>x<sub>i</sub></i>, 
+<i>f</i>(<i>x<sub>i</sub></i>)) 
+and (<i>x</i><sub><i>i</i>+1</sub>, <i>f</i>(<i>x</i><sub><i>i</i>+1</sub>)) to consider the trapezoid formed by these points and (<i>x<sub>i</sub></i>, 0) 
+and (<i>x</i><sub><i>i</i>+1</sub>, 0).&nbsp; A simple, good <i>
+<a href="http://en.wikipedia.org/wiki/Numerical_integration">numerical 
+integration</a></i> approximation of the integral of a function can be formed by 
+computing and summing the area of these trapezoids.&nbsp; Note: Area below the 
+axis y = 0 is considered negative area.</p>
+<p>For this exercise, we'll take a function sin(<i>x</i>) with a known integral 
+function -cos(<i>x</i>), and compare the results of this trapezoidal numerical integration 
+technique with the known correct results.</p>
+<p>Begin by downloading the m-file called <code>
+<a href="code/trapezoidIntegrate.m">trapezoidIntegrate.m</a></code>.  and follow 
+the implementation instructions therein.</p>
+&nbsp;Example usage: Here is the printed output of three calls to 
+trapezoidIntegrate(dx) with dx assigned .1, 
+.001, and .00001, respectively.
+<pre>From 0 to 1.5708 with step 0.1, the approximate area is 0.928488.
+The actual area is 1, so the error is 0.0715117.
+
+From 0 to 1.5708 with step 0.001, the approximate area is 0.999204.
+The actual area is 1, so the error is 0.00079641.
+
+From 0 to 1.5708 with step 1e-005, the approximate area is 0.999994.
+The actual area is 1, so the error is 6.3268e-006.</pre>
+<b>3. 
+
+Numerical Differentiation:</b> Differentiation is the process of computing the 
+rate of change, or slope, of a function.&nbsp; In cases where we are given a 
+function that has no simple symbolic differentiation, we can turn to <i>
+<a href="http://en.wikipedia.org/wiki/Numerical_differentiation">numerical 
+differentiation</a></i>.&nbsp; 
+
+<p>Imagine you are standing at a point on a mountain slope, and you wish to 
+measure the slope where you're standing.&nbsp; A single point altitude doesn't 
+help.&nbsp; However, suppose you take an accurate altitude reading both one 
+small step uphill and one small step downhill.&nbsp; By dividing the rise 
+(change in altitude between the steps) by the run (distance horizontally between 
+the two steps), we gain a good estimate for the slope where you're standing.&nbsp;
+</p>
+<p>This analogy describes the simple <i>three-point estimation method</i>.&nbsp; Given an
+<i>x</i> 
+value, a function <i>f</i>(<i>x</i>), and a small step <i>h</i>, one can estimate the derivative 
+(i.e. slope) of <i>f</i> at <i>x</i> as (<i>f</i>(<i>x</i> + <i>h</i>) - <i>f</i>(<i>x</i> - 
+<i>h</i>)) / (2 * <i>h</i>). </p>
+<p>For this exercise, we'll again take the function sin(<i>x</i>) with a known 
+derivative function cos(<i>x</i>), and compare the results of this numerical 
+differentiation 
+technique with the known correct results along a sequence of points.</p>
+<p>Begin by creating a function called <code>simpleDifferentiate.m</code>.  
+Function <code>simpleDifferentiate </code>will take dx and h as parameters (in 
+that order).&nbsp; It will return the greatest (maximum absolute) error.&nbsp; First, assign values to a set of 
+variables:</p>
+<pre>
+xMin = 0; % minimum x test value
+xMax = 2 * pi; % maximum x test value
+x = xMin:dx:xMax; % x test values
+</pre>
+<p>Next, compute a vector of <i>y</i> values for sin(<i>x</i>).<br>
+Plot <i>x</i> versus <i>y</i> as dots and hold the graph output.<br>
+Compute estimates and exact values for the derivative (cos(x)) at each <i>x</i> test 
+value, plotting each with &quot;x&quot; marks and lines, respectively.&nbsp; An example 
+plot for the variable values above appears below.<br>
+Finally, compute the maximum absolute error in the estimation, and display the 
+following output (with &lt;placeholders&gt; substituted with values):</p>
+<pre>From &lt;xMin&gt; to &lt;xMax&gt; with step &lt;dx&gt;, we numerically differentiate with h = &lt;h&gt;.
+The greatest error is &lt;maximum absolute error&gt; at x = &lt;x value for maximum absolute error&gt;.
+</pre>
+For example, here is the output of three m-file executions with <em>dx</em> = .1 
+and <i>h</i> assigned .5, 
+.05, and .005, respectively.
+<pre>From 0 to 6.28319 with step 0.1, we numerically differentiate with h = 0.5.
+The greatest error is 0.0411489 at x = 0.
+From 0 to 6.28319 with step 0.1, we numerically differentiate with h = 0.05.
+The greatest error is 0.000416615 at x = 0.
+From 0 to 6.28319 with step 0.1, we numerically differentiate with h = 0.005.
+The greatest error is 4.16666e-006 at x = 0.</pre>
+<p align="center">
+<img border="0" src="derivScreenShot.png"></p>
+<p>&nbsp;</p>
+
+</body>
+</html>

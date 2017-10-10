@@ -1,0 +1,106 @@
+<!doctype html public "-//w3c//dtd html 4.0 transitional//en">
+<html>
+<head>
+   <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+   <meta name="GENERATOR" content="Microsoft FrontPage 12.0">
+   <title>Homework #12</title>
+   <style type="text/css">
+.style1 {
+	font-family: "Courier New", Courier, monospace;
+}
+</style>
+</head>
+<body>
+<table WIDTH="100%" >
+<tr>
+<td><img SRC="GburgCS.gif" height=84 width=182></td>
+
+<td><font size=+2>CS 111- Introduction to Computer Science</font>
+<br><font size=+2>Homework #12</font></td>
+</tr>
+</table>
+
+<hr>
+<br><b>Due: beginning of class Friday 4/21</b><p><strong>1. Recursive Choose:</strong> In class <code>Choose</code>, create a method <code>public static long choose(int n, int k)</code> that computes the choose function ("n choose k") 
+ according to the
+ <a href="http://en.wikipedia.org/wiki/Binomial_coefficient#Recursive_formula">
+ recursive formula</a>.&nbsp; <br><br><br>
+<img alt="" height="251" src="images/choose.PNG" width="966"><br><br>Add the following main method to Choose for 
+ testing:</p>
+<pre>
+	public static void main(String[] args) {
+		for (int n = 0; n < 10; n++) {
+			for (int k = 0; k <= n; k++) 
+				System.out.printf("%d\t", choose(n, k));
+			System.out.println();
+		}
+	}
+</pre>
+<p>Optional challenge: Use a dynamic programming approach to store (i.e., 
+&quot;cache&quot; or &quot;memoize&quot;) each computed choose result so as to avoid redundant 
+recomputation of results.&nbsp; Observe the significant speedup in performance 
+for values beyond the test code, e.g. n = 30, k = 15.</p>
+    
+<p><strong>2. Maze Solving:</strong> Beginning with this
+<a href="maze/Maze.java"><span class="style1">Maze.java</span> starter code</a>, 
+we will implement <span class="style1">makeMaze()</span> together in class.&nbsp; 
+For this assignment, you will implement the <span class="style1">public void 
+solveMaze()</span> method and its recursive helper/auxialiary method
+<span class="style1">private boolean solveMaze(int row, int col)</span> 
+according to this algorithm:</p>
+<ul>
+	<li>Set grid[row][col] equal to SOLUTION_PATH.</li>
+	<li>Base case: If we're in the bottom-right corner, return true.</li>
+	<li>Recursive case:<ul>
+		<li>For each direction<ul>
+			<li>If we can travel from [row][col] to [row2][col2] in that 
+			direction and it's not already on the SOLUTION_PATH,<ul>
+				<li>If we can solve the maze from [row2][col2], return true.
+				</li>
+			</ul>
+			</li>
+		</ul>
+		</li>
+		<li>Failing to find a solution, we set grid[row][col] back to REACHED 
+		and return false.</li>
+	</ul>
+	</li>
+</ul>
+<p>Note: The default call stack size is limited, so if you want to make a truly 
+eye-popping letter-size maze, run this class from the terminal window with &quot;java 
+-Xss4m Maze&quot; for increased call stack size and use 380 rows and 285 columns.&nbsp; 
+Here are example <a href="maze/maze.png">maze</a> and
+<a href="maze/maze-solution.png">maze solution</a> image files generated from 
+correct code.</p>
+<p><strong>3. N Queens Puzzle:</strong> The
+<a href="https://en.wikipedia.org/wiki/Eight_queens_puzzle"><em>n</em>-Queens 
+Puzzle</a> is to place <em>n</em> Chess queens on an <em>n</em>-by-<em>n</em> 
+board in such a way that no two queens can attack one another according to the 
+rules of <a href="https://en.wikipedia.org/wiki/Chess">Chess</a>.&nbsp; 
+Beginning with this <a href="nqueens/NQueensPuzzle.java"><span class="style1">
+NQueensPuzzle.java</span> starter code</a>, you will implement the
+<span class="style1">private boolean solve(int row)</span> according to this 
+algorithm:</p>
+<ul>
+	<li>If the row is equal to the number of queens, we've placed all queens and 
+	found a solution, so return true.</li>
+	<li>For each column in the given row in increasing order:<ul>
+		<li>Check each preceding row queen placement to see if that queen would 
+		conflict with (i.e. attack) this row and column.</li>
+		<li>If there is no conflict, place this row's queen in this column and 
+		recursively seek to solve a placement for the next rows.</li>
+		<li>If that solution attempt is successful (i.e. the recursive solve 
+		call returns true), return true.</li>
+	</ul>
+	</li>
+	<li>If no column placement led to a successful solution, return false.</li>
+</ul>
+<p>Hint: Since we're placing only one queen per row, the only possible conflicts 
+are </p>
+<ol>
+	<li>two queens sharing the same column, and</li>
+	<li>two queens sharing a same diagonal (i.e. the absolute value of their row 
+	difference is equal to the absolute value of their column difference).</li>
+</ol>
+</body>
+</html>
