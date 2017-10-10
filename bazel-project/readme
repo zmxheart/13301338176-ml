@@ -1,0 +1,108 @@
+脚本启动于 2017年03月21日 星期二 04时22分55秒
+Setting caffe dir: /home/haijunz/caffe-new/caffe
+WARNING: Expected CAFFE HEAD rev d8f79537977f9dbcc2b7054a9e95be00eb6f26d0 but found 3babd4e21ebaa7f579eb9fdc50767d3b0f8beaf3 instead. This SHA is not tested.
+WARNING: Can't find ANDROID_NDK_ROOT or ndk-build. SNPE needs android ndk to build the NativeCppExample
+updating: jni/armeabi-v7a/libgnustl_shared.so (deflated 67%)
+]0;haijunz@haijunz-ThinkPad-T420: ~/bazel-projecthaijunz@haijunz-ThinkPad-T420:~/bazel-project$ bze[K[Kazel
+                                                           [bazel release 0.4.4]
+Usage: bazel <command> <options> ...
+
+Available commands:
+  analyze-profile     Analyzes build profile data.
+  build               Builds the specified targets.
+  canonicalize-flags  Canonicalizes a list of bazel options.
+  clean               Removes output files and optionally stops the server.
+  coverage            Generates code coverage report for specified test targets.
+  dump                Dumps the internal state of the bazel server process.
+  fetch               Fetches external repositories that are prerequisites to the targets.
+  help                Prints help for commands, or the index.
+  info                Displays runtime info about the bazel server.
+  mobile-install      Installs targets to mobile devices.
+  query               Executes a dependency graph query.
+  run                 Runs the specified target.
+  shutdown            Stops the bazel server.
+  test                Builds and runs the specified test targets.
+  version             Prints version information for bazel.
+
+Getting more help:
+  bazel help <command>
+                   Prints help and options for <command>.
+  bazel help startup_options
+                   Options for the JVM hosting bazel.
+  bazel help target-syntax
+                   Explains the syntax for specifying targets.
+  bazel help info-keys
+                   Displays a list of keys used by the info command.
+]0;haijunz@haijunz-ThinkPad-T420: ~/bazel-projecthaijunz@haijunz-ThinkPad-T420:~/bazel-project$ bazel clean
+[32mINFO: [0mStarting clean (this may take a while). Consider using --async if the clean takes more than several minutes.
+]0;haijunz@haijunz-ThinkPad-T420: ~/bazel-projecthaijunz@haijunz-ThinkPad-T420:~/bazel-project$ bazel clean[Kls -ltrpython ssd_pascal.py[4Pvi[C[C[C[C[C[C[C[C[C[C[C[C[C[C^C
+]0;haijunz@haijunz-ThinkPad-T420: ~/bazel-projecthaijunz@haijunz-ThinkPad-T420:~/bazel-project$ bazel build genrule:hello
+[32mINFO: [0mLoading package: genrule
+[1A[K[32mINFO: [0mLoading package: @local_config_xcode//
+[1A[K[32mINFO: [0mLoading package: @local_config_cc//
+[1A[K[32mINFO: [0mLoading complete.  Analyzing...
+[1A[K[32mINFO: [0mFound 1 target...
+[32mINFO: [0mBuilding...
+[1A[K[32m[0 / 1] [0mBazelWorkspaceStatusAction stable-status.txt
+[1A[KTarget //genrule:hello up-to-date:
+  bazel-genfiles/genrule/hello_world.txt
+[32mINFO: [0mElapsed time: 3.887s, Critical Path: 0.07s
+]0;haijunz@haijunz-ThinkPad-T420: ~/bazel-projecthaijunz@haijunz-ThinkPad-T420:~/bazel-project$ ls -l
+总用量 44
+lrwxrwxrwx 1 haijunz haijunz   92  3月 21 04:23 [0m[01;36mbazel-bazel-project[0m -> [01;34m/home/haijunz/.cache/bazel/_bazel_haijunz/10db95d250cd198e56de73ecb3fe84e8/execroot/__main__[0m
+lrwxrwxrwx 1 haijunz haijunz  127  3月 21 04:23 [01;36mbazel-bin[0m -> [01;34m/home/haijunz/.cache/bazel/_bazel_haijunz/10db95d250cd198e56de73ecb3fe84e8/execroot/bazel-project/bazel-out/local-fastbuild/bin[0m
+lrwxrwxrwx 1 haijunz haijunz  132  3月 21 04:23 [01;36mbazel-genfiles[0m -> [01;34m/home/haijunz/.cache/bazel/_bazel_haijunz/10db95d250cd198e56de73ecb3fe84e8/execroot/bazel-project/bazel-out/local-fastbuild/genfiles[0m
+lrwxrwxrwx 1 haijunz haijunz  102  3月 21 04:23 [01;36mbazel-out[0m -> [01;34m/home/haijunz/.cache/bazel/_bazel_haijunz/10db95d250cd198e56de73ecb3fe84e8/execroot/__main__/bazel-out[0m
+lrwxrwxrwx 1 haijunz haijunz  132  3月 21 04:23 [01;36mbazel-testlogs[0m -> [01;34m/home/haijunz/.cache/bazel/_bazel_haijunz/10db95d250cd198e56de73ecb3fe84e8/execroot/bazel-project/bazel-out/local-fastbuild/testlogs[0m
+drwxrwxr-x 2 haijunz haijunz 4096  3月 21 04:20 [01;34mgenrule[0m
+-rw-rw-r-- 1 haijunz haijunz  302  3月 21 04:06 gtest.BUILD
+drwxrwxr-x 2 haijunz haijunz 4096  3月 21 04:08 [01;34mlib[0m
+drwxrwxr-x 2 haijunz haijunz 4096  3月 21 03:48 [01;34mmain[0m
+-rw-rw-r-- 1 haijunz haijunz    0  3月 21 04:22 readme
+drwxrwxr-x 2 haijunz haijunz 4096  3月 21 04:03 [01;34mtest[0m
+-rw-rw-r-- 1 haijunz haijunz  277  3月 21 04:06 WORKSPACE
+]0;haijunz@haijunz-ThinkPad-T420: ~/bazel-projecthaijunz@haijunz-ThinkPad-T420:~/bazel-project$ bazel build main:hello-world
+[32mINFO: [0mLoading package: main
+[1A[K[32mINFO: [0mLoading package: lib
+[1A[K[32mINFO: [0mFound 1 target...
+[32mINFO: [0mBuilding...
+[1A[K[32m[4 / 8] [0mCompiling main/hello-time.cc
+[1A[KTarget //main:hello-world up-to-date:
+  bazel-bin/main/hello-world
+[32mINFO: [0mElapsed time: 1.883s, Critical Path: 1.64s
+]0;haijunz@haijunz-ThinkPad-T420: ~/bazel-projecthaijunz@haijunz-ThinkPad-T420:~/bazel-project$ ./bazel-bin/main/hello-world
+Hello world
+Tue Mar 21 04:24:05 2017
+]0;haijunz@haijunz-ThinkPad-T420: ~/bazel-projecthaijunz@haijunz-ThinkPad-T420:~/bazel-project$ ./bazel-bin/main/hello-world Bazel
+Hello Bazel
+Tue Mar 21 04:24:13 2017
+]0;haijunz@haijunz-ThinkPad-T420: ~/bazel-projecthaijunz@haijunz-ThinkPad-T420:~/bazel-project$ bazel test test:hello-test
+[32mINFO: [0mLoading package: test
+[1A[K[32mINFO: [0mLoading package: @gtest//
+[1A[K[32mINFO: [0mLoading package: @bazel_tools//tools/coverage
+[1A[K[32mINFO: [0mFound 1 test target...
+[32mINFO: [0mBuilding...
+[1A[K[32m[4 / 20] [0mWriting file external/gtest/libmain.so-2.params
+[1A[K[32m[6 / 20] [0mCompiling external/gtest/src/gtest-typed-test.cc
+[1A[K[32m[10 / 20] [0mStill waiting for 7 jobs to complete:
+      Running (sandbox):
+        Compiling external/gtest/src/gtest.cc, 14 s
+        Compiling external/gtest/src/gtest-port.cc, 14 s
+        Compiling external/gtest/src/gtest-death-test.cc, 14 s
+        Compiling external/gtest/src/gtest-printers.cc, 11 s
+        Compiling external/gtest/src/gtest_main.cc, 11 s
+      Scheduling:
+        Compiling external/gtest/src/gtest-test-part.cc, 14 s
+        Compiling test/hello-test.cc, 14 s
+[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[32m[20 / 21] [0mTesting //test:hello-test
+[1A[K[32mPASS: [0m//test:hello-test
+[1A[KTarget //test:hello-test up-to-date:
+  bazel-bin/test/hello-test
+[32mINFO: [0mElapsed time: 29.732s, Critical Path: 29.20s
+//test:hello-test                                                        [0m[32mPASSED[0m in 1.3s
+
+Executed 1 out of 1 test: 1 test passes.
+There were tests whose specified size is too big. Use the --test_verbose_timeout_warnings command line option to see which ones these are.
+]0;haijunz@haijunz-ThinkPad-T420: ~/bazel-projecthaijunz@haijunz-ThinkPad-T420:~/bazel-project$ exit
+
+脚本完成，于 2017年03月21日 星期二 04时25分06秒

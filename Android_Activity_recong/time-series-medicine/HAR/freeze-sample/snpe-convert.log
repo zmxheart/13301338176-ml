@@ -1,0 +1,17 @@
+uts_placeholder  10 --out_node Loss/div  --dlc 1.dlc  
+Converted 4 variables to const ops.
+2017-10-03 14:50:15,025 - 388 - WARNING - WARNING_TF_SCOPE_OP_NOT_CONSUMED: Scope (NN) operation(s) not consumed by converter: [u'MatMul', u'Add', u'Relu', u'MatMul', u'Add', u'Relu', u'Add', u'RealDiv'].
+2017-10-03 14:50:15,025 - 122 - ERROR - Conversion failed: Some nodes in the Tensorflow graph were not resolved to a layer!
+haijunz@haijunz-ThinkPad-T420:~/13301338176_ML/Android_Activity_recong/time-series-medicine/HAR/freeze$ ls
+checkpoint  freeze.py  graph.chkp.data-00000-of-00001  graph.chkp.index  graph.chkp.meta  tiny_model.py
+haijunz@haijunz-ThinkPad-T420:~/13301338176_ML/Android_Activity_recong/time-series-medicine/HAR/freeze$ snpe-tensorflow-to-dlc --graph  graph.chkp.meta  -i Placeholder/inputs_placeholder  10 --out_node Placeholder/labels_placeholde  --dlc 1.dlc  
+2017-10-03 14:51:22,651 - 122 - ERROR - Conversion failed: ERROR_TF_NODE_NOT_FOUND_IN_GRAPH: Node not found in graph. Node name: Placeholder/labels_placeholde
+haijunz@haijunz-ThinkPad-T420:~/13301338176_ML/Android_Activity_recong/time-series-medicine/HAR/freeze$ snpe-tensorflow-to-dlc --graph  graph.chkp.meta  -i Placeholder/inputs_placeholder  10 --out_node Loss/div --dlc 1.dlc  
+Converted 4 variables to const ops.
+2017-10-03 14:51:45,285 - 388 - WARNING - WARNING_TF_SCOPE_OP_NOT_CONSUMED: Scope (NN) operation(s) not consumed by converter: [u'MatMul', u'Add', u'Relu', u'MatMul', u'Add', u'Relu', u'Add', u'RealDiv'].
+2017-10-03 14:51:45,285 - 122 - ERROR - Conversion failed: Some nodes in the Tensorflow graph were not resolved to a layer!
+haijunz@haijunz-ThinkPad-T420:~/13301338176_ML/Android_Activity_recong/time-series-medicine/HAR/freeze$ snpe-tensorflow-to-dlc --graph  graph.chkp.meta  -i Placeholder/inputs_placeholder  10 --out_node Loss/div --dlc 1.dlc  
+Converted 4 variables to const ops.
+2017-10-03 20:25:07,305 - 388 - WARNING - WARNING_TF_SCOPE_OP_NOT_CONSUMED: Scope (NN) operation(s) not consumed by converter: [u'MatMul', u'Add', u'Relu', u'MatMul', u'Add', u'Relu', u'Add', u'RealDiv'].
+2017-10-03 20:25:07,305 - 122 - ERROR - Conversion failed: Some nodes in the Tensorflow graph were not resolved to a layer!
+

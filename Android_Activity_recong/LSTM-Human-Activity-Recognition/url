@@ -1,0 +1,1 @@
+https://github.com/guillaume-chevalier/LSTM-Human-Activity-Recognition

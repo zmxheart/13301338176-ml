@@ -1,0 +1,167 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{9B3C2F4C-8916-416E-A5EE-AEAB67721B9A}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>AIFH_Vol3_Core</RootNamespace>
+    <AssemblyName>AIFH-Vol3-Core</AssemblyName>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="CsvHelper, Version=2.0.0.0, Culture=neutral, PublicKeyToken=8c4959082be5c823, processorArchitecture=MSIL">
+      <HintPath>..\packages\CsvHelper.2.13.2.0\lib\net40-client\CsvHelper.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="MathNet.Numerics, Version=3.8.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\MathNet.Numerics.3.8.0\lib\net40\MathNet.Numerics.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Numerics" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Core\AIFH.cs" />
+    <Compile Include="Core\AIFHError.cs" />
+    <Compile Include="Core\ANN\Activation\ActivationTANH.cs" />
+    <Compile Include="Core\ANN\Activation\ActivationLinear.cs" />
+    <Compile Include="Core\ANN\Activation\ActivationReLU.cs" />
+    <Compile Include="Core\ANN\Activation\ActivationSigmoid.cs" />
+    <Compile Include="Core\ANN\Activation\ActivationSoftMax.cs" />
+    <Compile Include="Core\ANN\Activation\IActivationFunction.cs" />
+    <Compile Include="Core\ANN\BasicLayer.cs" />
+    <Compile Include="Core\ANN\BasicNetwork.cs" />
+    <Compile Include="Core\ANN\Conv2DLayer.cs" />
+    <Compile Include="Core\ANN\DropoutLayer.cs" />
+    <Compile Include="Core\ANN\ILayer.cs" />
+    <Compile Include="Core\ANN\MaxPoolLayer.cs" />
+    <Compile Include="Core\ANN\Randomize\AbstractRandomizeNetwork.cs" />
+    <Compile Include="Core\ANN\Randomize\IRandomizeNetwork.cs" />
+    <Compile Include="Core\ANN\Randomize\RangeRandomizeNetwork.cs" />
+    <Compile Include="Core\ANN\Randomize\XaiverRandomizeNetwork.cs" />
+    <Compile Include="Core\ANN\TempStructureCounts.cs" />
+    <Compile Include="Core\ANN\Train\BackPropagation.cs" />
+    <Compile Include="Core\ANN\Train\Error\CrossEntropyErrorFunction.cs" />
+    <Compile Include="Core\ANN\Train\Error\IErrorFunction.cs" />
+    <Compile Include="Core\ANN\Train\Error\OutputErrorFunction.cs" />
+    <Compile Include="Core\ANN\Train\GradientCalc.cs" />
+    <Compile Include="Core\ANN\Train\IGradientCalcOwner.cs" />
+    <Compile Include="Core\ANN\Train\ResilientPropagation.cs" />
+    <Compile Include="Core\ANN\WeightedLayer.cs" />
+    <Compile Include="Core\DBNN\DeepBeliefNetwork.cs" />
+    <Compile Include="Core\DBNN\DeepLayer.cs" />
+    <Compile Include="Core\DBNN\HiddenLayer.cs" />
+    <Compile Include="Core\DBNN\RestrictedBoltzmannMachine.cs" />
+    <Compile Include="Core\DBNN\SupervisedTrainDBN.cs" />
+    <Compile Include="Core\DBNN\UnsupervisedTrainDBN.cs" />
+    <Compile Include="Core\Distance\AbstractDistance.cs" />
+    <Compile Include="Core\Distance\ChebyshevDistance.cs" />
+    <Compile Include="Core\Distance\EuclideanDistance.cs" />
+    <Compile Include="Core\Distance\ICalculateDistance.cs" />
+    <Compile Include="Core\Distance\ManhattanDistance.cs" />
+    <Compile Include="Core\Energetic\BoltzmannMachine.cs" />
+    <Compile Include="Core\Energetic\EnergeticNetwork.cs" />
+    <Compile Include="Core\Energetic\HopfieldNetwork.cs" />
+    <Compile Include="Core\Energetic\TrainHopfieldHebbian.cs" />
+    <Compile Include="Core\Energetic\TrainHopfieldStorkey.cs" />
+    <Compile Include="Core\Error\AbstractErrorCalculation.cs" />
+    <Compile Include="Core\Error\ErrorCalculationMSE.cs" />
+    <Compile Include="Core\Error\ErrorCalculationRMS.cs" />
+    <Compile Include="Core\Error\ErrorCalculationSSE.cs" />
+    <Compile Include="Core\Error\IErrorCalculation.cs" />
+    <Compile Include="Core\General\Data\BasicData.cs" />
+    <Compile Include="Core\General\Data\DataUtil.cs" />
+    <Compile Include="Core\General\Data\ErrorCalculation.cs" />
+    <Compile Include="Core\General\Data\TimeSeriesUtil.cs" />
+    <Compile Include="Core\General\Fns\AbstractRBF.cs" />
+    <Compile Include="Core\General\Fns\GaussianFunction.cs" />
+    <Compile Include="Core\General\Fns\IFn.cs" />
+    <Compile Include="Core\General\Fns\IFnRBF.cs" />
+    <Compile Include="Core\General\Fns\InverseMultiquadricFunction.cs" />
+    <Compile Include="Core\General\Fns\MexicanHatFunction.cs" />
+    <Compile Include="Core\General\Fns\MultiquadricFunction.cs" />
+    <Compile Include="Core\General\VectorAlgebra.cs" />
+    <Compile Include="Core\General\VectorUtil.cs" />
+    <Compile Include="Core\Learning\IClassificationAlgorithm.cs" />
+    <Compile Include="Core\Learning\ILearningMethod.cs" />
+    <Compile Include="Core\Learning\IMLContext.cs" />
+    <Compile Include="Core\Learning\IMLMethod.cs" />
+    <Compile Include="Core\Learning\IRegressionAlgorithm.cs" />
+    <Compile Include="Core\Learning\RBFNetwork.cs" />
+    <Compile Include="Core\Learning\Score\IScoreFunction.cs" />
+    <Compile Include="Core\Learning\Score\ScoreClassificationData.cs" />
+    <Compile Include="Core\Learning\Score\ScoreRegressionData.cs" />
+    <Compile Include="Core\Learning\TrainAnneal.cs" />
+    <Compile Include="Core\Normalize\DataSet.cs" />
+    <Compile Include="Core\Normalize\Equilateral.cs" />
+    <Compile Include="Core\Randomize\AbstractBoxMuller.cs" />
+    <Compile Include="Core\Randomize\AbstractGenerateRandom.cs" />
+    <Compile Include="Core\Randomize\BasicGenerateRandom.cs" />
+    <Compile Include="Core\Randomize\IGenerateRandom.cs" />
+    <Compile Include="Core\Randomize\IRandomFactory.cs" />
+    <Compile Include="Core\Randomize\LinearCongruentialRandom.cs" />
+    <Compile Include="Core\Randomize\MersenneTwisterFactory.cs" />
+    <Compile Include="Core\Randomize\MersenneTwisterGenerateRandom.cs" />
+    <Compile Include="Core\Randomize\MultiplyWithCarryGenerateRandom.cs" />
+    <Compile Include="Core\Randomize\RandomChoice.cs" />
+    <Compile Include="Core\Randomize\SecureGenerateRandom.cs" />
+    <Compile Include="Core\Selection\CategorySearchAxis.cs" />
+    <Compile Include="Core\Selection\GridModelSelection.cs" />
+    <Compile Include="Core\Selection\ISearchAxis.cs" />
+    <Compile Include="Core\Selection\ModelSelection.cs" />
+    <Compile Include="Core\Selection\NumericSearchAxis.cs" />
+    <Compile Include="Core\Selection\RandomModelSelection.cs" />
+    <Compile Include="Core\SOM\BestMatchingUnit.cs" />
+    <Compile Include="Core\SOM\Neighborhood\INeighborhoodFunction.cs" />
+    <Compile Include="Core\SOM\Neighborhood\NeighborhoodBubble.cs" />
+    <Compile Include="Core\SOM\Neighborhood\NeighborhoodRBF.cs" />
+    <Compile Include="Core\SOM\Neighborhood\NeighborhoodRBF1D.cs" />
+    <Compile Include="Core\SOM\Neighborhood\NeighborhoodSingle.cs" />
+    <Compile Include="Core\SOM\SelfOrganizingMap.cs" />
+    <Compile Include="Core\SOM\Train\BasicTrainSOM.cs" />
+    <Compile Include="Core\Util\ArrayUtil.cs" />
+    <Compile Include="Core\Util\FileUtil.cs" />
+    <Compile Include="Core\Util\MNISTReader.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

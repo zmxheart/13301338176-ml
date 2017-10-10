@@ -1,0 +1,168 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{BD1F5D28-B748-468A-B6F3-EBF779AD886F}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>AIFH_Vol2</RootNamespace>
+    <AssemblyName>AIFH-Vol2-Core</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="CsvHelper">
+      <HintPath>..\packages\CsvHelper.2.7.0\lib\net20\CsvHelper.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Class1.cs" />
+    <Compile Include="Core\ACO\ContinuousACO.cs" />
+    <Compile Include="Core\ACO\ContinuousAnt.cs" />
+    <Compile Include="Core\ACO\DiscreteACO.cs" />
+    <Compile Include="Core\ACO\DiscreteAnt.cs" />
+    <Compile Include="Core\ACO\ICostGraph.cs" />
+    <Compile Include="Core\AIFH.cs" />
+    <Compile Include="Core\AIFHError.cs" />
+    <Compile Include="Core\Distance\AbstractDistance.cs" />
+    <Compile Include="Core\Distance\ChebyshevDistance.cs" />
+    <Compile Include="Core\Distance\EuclideanDistance.cs" />
+    <Compile Include="Core\Distance\ICalculateDistance.cs" />
+    <Compile Include="Core\Distance\ManhattanDistance.cs" />
+    <Compile Include="Core\Error\AbstractErrorCalculation.cs" />
+    <Compile Include="Core\Error\ErrorCalculationMSE.cs" />
+    <Compile Include="Core\Error\ErrorCalculationRMS.cs" />
+    <Compile Include="Core\Error\ErrorCalculationSSE.cs" />
+    <Compile Include="Core\Error\IErrorCalculation.cs" />
+    <Compile Include="Core\Evolutionary\CODEC\GenomeAsPhenomeCODEC.cs" />
+    <Compile Include="Core\Evolutionary\CODEC\IGeneticCODEC.cs" />
+    <Compile Include="Core\Evolutionary\Genome\BasicGenome.cs" />
+    <Compile Include="Core\Evolutionary\Genome\IGenome.cs" />
+    <Compile Include="Core\Evolutionary\Genome\IGenomeFactory.cs" />
+    <Compile Include="Core\Evolutionary\Opp\CompoundOperator.cs" />
+    <Compile Include="Core\Evolutionary\Opp\IEvolutionaryOperator.cs" />
+    <Compile Include="Core\Evolutionary\Opp\OperationList.cs" />
+    <Compile Include="Core\Evolutionary\Opp\Selection\ISelectionOperator.cs" />
+    <Compile Include="Core\Evolutionary\Opp\Selection\TournamentSelection.cs" />
+    <Compile Include="Core\Evolutionary\Opp\Selection\TruncationSelection.cs" />
+    <Compile Include="Core\Evolutionary\Population\BasicPopulation.cs" />
+    <Compile Include="Core\Evolutionary\Population\IPopulation.cs" />
+    <Compile Include="Core\Evolutionary\Score\AdjustScore.cs" />
+    <Compile Include="Core\Evolutionary\Score\Multi\ParallelScore.cs" />
+    <Compile Include="Core\Evolutionary\Score\Multi\ParallelScoreTask.cs" />
+    <Compile Include="Core\Evolutionary\Sort\AbstractGenomeComparer.cs" />
+    <Compile Include="Core\Evolutionary\Sort\IGenomeComparer.cs" />
+    <Compile Include="Core\Evolutionary\Sort\MaximizeAdjustedScoreComp.cs" />
+    <Compile Include="Core\Evolutionary\Sort\MaximizeScoreComp.cs" />
+    <Compile Include="Core\Evolutionary\Sort\MinimizeAdjustedScoreComp.cs" />
+    <Compile Include="Core\Evolutionary\Sort\MinimizeScoreComp.cs" />
+    <Compile Include="Core\Evolutionary\Sort\SortGenomesForSpecies.cs" />
+    <Compile Include="Core\Evolutionary\Sort\SpeciesComparer.cs" />
+    <Compile Include="Core\Evolutionary\Species\BasicSpecies.cs" />
+    <Compile Include="Core\Evolutionary\Species\ISpeciation.cs" />
+    <Compile Include="Core\Evolutionary\Species\ISpecies.cs" />
+    <Compile Include="Core\Evolutionary\Species\SingleSpeciation.cs" />
+    <Compile Include="Core\Evolutionary\Species\ThresholdSpeciation.cs" />
+    <Compile Include="Core\Evolutionary\Train\BasicEA.cs" />
+    <Compile Include="Core\Evolutionary\Train\EAWorker.cs" />
+    <Compile Include="Core\Evolutionary\Train\IEvolutionaryAlgorithm.cs" />
+    <Compile Include="Core\General\Collections\ChooseObject.cs" />
+    <Compile Include="Core\General\Collections\ObjectHolder.cs" />
+    <Compile Include="Core\General\Data\BasicData.cs" />
+    <Compile Include="Core\General\Fns\AbstractRBF.cs" />
+    <Compile Include="Core\General\Fns\GaussianFunction.cs" />
+    <Compile Include="Core\General\Fns\IFn.cs" />
+    <Compile Include="Core\General\Fns\IFnRBF.cs" />
+    <Compile Include="Core\General\Fns\InverseMultiquadricFunction.cs" />
+    <Compile Include="Core\General\Fns\Link\IdentityLinkFunction.cs" />
+    <Compile Include="Core\General\Fns\Link\InverseLinkFunction.cs" />
+    <Compile Include="Core\General\Fns\Link\InverseSquaredLinkFunction.cs" />
+    <Compile Include="Core\General\Fns\Link\LogitLinkFunction.cs" />
+    <Compile Include="Core\General\Fns\Link\LogLinkFunction.cs" />
+    <Compile Include="Core\General\Fns\MexicanHatFunction.cs" />
+    <Compile Include="Core\General\Fns\MultiquadricFunction.cs" />
+    <Compile Include="Core\General\VectorAlgebra.cs" />
+    <Compile Include="Core\General\VectorUtil.cs" />
+    <Compile Include="Core\Genetic\Crossover\Splice.cs" />
+    <Compile Include="Core\Genetic\Crossover\SpliceNoRepeat.cs" />
+    <Compile Include="Core\Genetic\Genome\DoubleArrayGenome.cs" />
+    <Compile Include="Core\Genetic\Genome\DoubleArrayGenomeFactory.cs" />
+    <Compile Include="Core\Genetic\Genome\IArrayGenome.cs" />
+    <Compile Include="Core\Genetic\Genome\IntegerArrayGenome.cs" />
+    <Compile Include="Core\Genetic\Genome\IntegerArrayGenomeFactory.cs" />
+    <Compile Include="Core\Genetic\Mutate\MutatePerturb.cs" />
+    <Compile Include="Core\Genetic\Mutate\MutateShuffle.cs" />
+    <Compile Include="Core\Genetic\Species\ArraySpeciation.cs" />
+    <Compile Include="Core\Genetic\Species\TreeSpeciation.cs" />
+    <Compile Include="Core\Genetic\Trees\CrossoverTree.cs" />
+    <Compile Include="Core\Genetic\Trees\EvaluateTree.cs" />
+    <Compile Include="Core\Genetic\Trees\MutateTree.cs" />
+    <Compile Include="Core\Genetic\Trees\RandomNodeResult.cs" />
+    <Compile Include="Core\Genetic\Trees\TreeGenome.cs" />
+    <Compile Include="Core\Genetic\Trees\TreeGenomeFactory.cs" />
+    <Compile Include="Core\Genetic\Trees\TreeGenomeNode.cs" />
+    <Compile Include="Core\Learning\IClassificationAlgorithm.cs" />
+    <Compile Include="Core\Learning\IMLContext.cs" />
+    <Compile Include="Core\Learning\IMLMethod.cs" />
+    <Compile Include="Core\Learning\ILearningMethod.cs" />
+    <Compile Include="Core\Learning\IRegressionAlgorithm.cs" />
+    <Compile Include="Core\Learning\RBFNetwork.cs" />
+    <Compile Include="Core\Learning\RBFNetworkGenomeCODEC.cs" />
+    <Compile Include="Core\Learning\Score\IScoreFunction.cs" />
+    <Compile Include="Core\Learning\Score\ScoreClassificationData.cs" />
+    <Compile Include="Core\Learning\Score\ScoreRegressionData.cs" />
+    <Compile Include="Core\Learning\TrainPSO.cs" />
+    <Compile Include="Core\Normalize\DataSet.cs" />
+    <Compile Include="Core\Normalize\Equilateral.cs" />
+    <Compile Include="Core\Randomize\AbstractBoxMuller.cs" />
+    <Compile Include="Core\Randomize\AbstractGenerateRandom.cs" />
+    <Compile Include="Core\Randomize\BasicGenerateRandom.cs" />
+    <Compile Include="Core\Randomize\IGenerateRandom.cs" />
+    <Compile Include="Core\Randomize\IRandomFactory.cs" />
+    <Compile Include="Core\Randomize\LinearCongruentialRandom.cs" />
+    <Compile Include="Core\Randomize\MersenneTwisterFactory.cs" />
+    <Compile Include="Core\Randomize\MersenneTwisterGenerateRandom.cs" />
+    <Compile Include="Core\Randomize\MultiplyWithCarryGenerateRandom.cs" />
+    <Compile Include="Core\Randomize\RandomChoice.cs" />
+    <Compile Include="Core\Randomize\SecureGenerateRandom.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

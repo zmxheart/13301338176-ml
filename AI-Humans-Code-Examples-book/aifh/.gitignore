@@ -1,0 +1,97 @@
+# Pickl files - Python
+*.pkl.gz
+
+# Java
+.gradle
+.idea
+.RData
+
+*.class
+*.jar
+*.war
+*.ear
+*.iml
+
+!gradle-wrapper.jar
+
+# Python
+
+*.py[c|o]
+*.swp
+*.Rout
+
+
+#OS junk files
+[Tt]humbs.db
+*.DS_Store
+
+#Visual Studio files
+*.[Oo]bj
+*.user
+*.aps
+*.pch
+*.vspscc
+*.vssscc
+*_i.c
+*_p.c
+*.ncb
+*.suo
+*.tlb
+*.tlh
+*.bak
+*.[Cc]ache
+*.ilk
+*.log
+*.lib
+*.sbr
+*.sdf
+*.opensdf
+*.unsuccessfulbuild
+ipch/
+obj/
+[Bb]in
+[Dd]ebug*/
+[Rr]elease*/
+[Oo]bj/
+x64/
+build/
+Ankh.NoLoad
+
+#MonoDevelop
+*.pidb
+*.userprefs
+
+#Visual Studio: Tooling
+_ReSharper*/
+*.resharper
+[Tt]est[Rr]esult*
+*.sass-cache
+
+#Visual Studio: Project files
+[Bb]uild/
+
+# Office Temp Files
+~$*
+
+#NuGet
+packages/
+
+# Visual Studio: ncrunch
+*ncrunch*
+*crunch*.local.xml
+
+# Visual Studio: database projects
+*.dbmdl
+
+# Visual Studio: Test files
+*.testsettings
+
+# CMake
+CMakeCache.txt
+CMakeFiles
+cmake_install.cmake
+install_manifest.txt
+
+# Other files
+*.gz
+.ipynb_checkpoints

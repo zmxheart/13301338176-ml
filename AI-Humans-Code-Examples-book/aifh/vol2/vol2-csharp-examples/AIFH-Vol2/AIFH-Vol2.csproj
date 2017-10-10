@@ -1,0 +1,99 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{568072D7-0E71-4DF8-B8AB-3FF6B3501AC9}</ProjectGuid>
+    <OutputType>Exe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>AIFH_Vol2</RootNamespace>
+    <AssemblyName>AIFH-Vol2</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="CsvHelper">
+      <HintPath>..\packages\CsvHelper.2.7.0\lib\net20\CsvHelper.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="ExampleHolder.cs" />
+    <Compile Include="Examples\ACO\ExampleTrainIrisACO.cs" />
+    <Compile Include="Examples\ACO\TSPExampleACO.cs" />
+    <Compile Include="Examples\Capstone\Model\Milestone1\CalcHistogram.cs" />
+    <Compile Include="Examples\Capstone\Model\Milestone1\CalcMean.cs" />
+    <Compile Include="Examples\Capstone\Model\Milestone1\CalcSurvival.cs" />
+    <Compile Include="Examples\Capstone\Model\Milestone1\NormalizeTitanic.cs" />
+    <Compile Include="Examples\Capstone\Model\Milestone1\TitanicStats.cs" />
+    <Compile Include="Examples\Capstone\Model\Milestone2\CrossValidate.cs" />
+    <Compile Include="Examples\Capstone\Model\Milestone2\CrossValidateFold.cs" />
+    <Compile Include="Examples\Capstone\Model\Milestone2\FitTitanic.cs" />
+    <Compile Include="Examples\Capstone\Model\Milestone2\ScoreTitanic.cs" />
+    <Compile Include="Examples\Capstone\Model\Milestone3\SubmitTitanic.cs" />
+    <Compile Include="Examples\Capstone\Model\TitanicConfig.cs" />
+    <Compile Include="Examples\GA\Iris\ModelIris.cs" />
+    <Compile Include="Examples\GA\Iris\ModelSpeciationIris.cs" />
+    <Compile Include="Examples\GA\TSP\City.cs" />
+    <Compile Include="Examples\GA\TSP\TSPScore.cs" />
+    <Compile Include="Examples\GA\TSP\GeneticTSPExample.cs" />
+    <Compile Include="Examples\GP\EvaluateExpression.cs" />
+    <Compile Include="Examples\GP\FindEquation.cs" />
+    <Compile Include="Examples\GP\ScoreSmallExpression.cs" />
+    <Compile Include="Examples\Operations\CrossoverExample.cs" />
+    <Compile Include="Examples\Operations\MutateExample.cs" />
+    <Compile Include="Examples\Selection\NullScore.cs" />
+    <Compile Include="Examples\Swarm\PSO\IrisPSOExample.cs" />
+    <Compile Include="Examples\Util\SimpleLearn.cs" />
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Examples\Selection\TournamentCompareExample.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+    <None Include="packages.config" />
+    <EmbeddedResource Include="Resources\iris.csv" />
+    <EmbeddedResource Include="Resources\simple-poly.csv" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\AIFH-Vol2-Core\AIFH-Vol2-Core.csproj">
+      <Project>{BD1F5D28-B748-468A-B6F3-EBF779AD886F}</Project>
+      <Name>AIFH-Vol2-Core</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

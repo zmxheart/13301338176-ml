@@ -1,0 +1,162 @@
+apply plugin: 'java'
+apply plugin: 'application'
+
+targetCompatibility = 1.8
+sourceCompatibility = 1.8
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    testCompile 'org.hamcrest:hamcrest-all:1.3'
+    testCompile 'junit:junit:4.10'
+    compile 'net.sf.opencsv:opencsv:2.3'
+    compile 'gov.nist.math:jama:1.0.3'
+    compile 'org.lwjgl.lwjgl:lwjgl:2.9.1'
+    compile 'org.encog:encog-core:3.2.0'
+    compile 'jfree:jfreechart:1.0.12'
+}
+
+task wrapper(type: Wrapper) {
+    gradleVersion = '2.2'
+}
+
+task(runCSVExample, group: 'examples', description: 'Introduction.  This example reads a CSV file',
+        dependsOn: 'classes', type: JavaExec) {
+    main = 'com.heatonresearch.aifh.examples.intro.CSVExample'
+    classpath = sourceSets.main.runtimeClasspath
+}
+
+task(runLogicExample, group: 'examples', description: 'Chapter 1.  Logic gates.',
+        dependsOn: 'classes', type: JavaExec) {
+    main = 'com.heatonresearch.aifh.examples.classic.logic.LogicExample'
+    classpath = sourceSets.main.runtimeClasspath
+}
+
+task(runSOMColorsExample, group: 'examples', description: 'Chapter 2.  Self organizing map: Colors example.',
+        dependsOn: 'classes', type: JavaExec) {
+    main = 'com.heatonresearch.aifh.examples.classic.som.colors.SomColors'
+    classpath = sourceSets.main.runtimeClasspath
+}
+
+task(runClusterNationsExample, group: 'examples', description: 'Chapter 2.  Cluster nations with Hexagon lattice.',
+        dependsOn: 'classes', type: JavaExec) {
+    main = 'com.heatonresearch.aifh.examples.classic.som.cluster.ClusterNations'
+    classpath = sourceSets.main.runtimeClasspath
+}
+
+task(runBoltzmannTSPExample, group: 'examples', description: 'Chapter 3.  Boltzmann Traveling Salesman (TSP).',
+        dependsOn: 'classes', type: JavaExec) {
+    main = 'com.heatonresearch.aifh.examples.classic.boltzmann.tsp.BoltzTSP'
+    classpath = sourceSets.main.runtimeClasspath
+}
+
+task(runHopfieldHebbianExample, group: 'examples', description: 'Chapter 3.  Hopfield Associate - Hebbian.',
+        dependsOn: 'classes', type: JavaExec) {
+    main = 'com.heatonresearch.aifh.examples.classic.hopfield.HopfieldAssociateHebbian'
+    classpath = sourceSets.main.runtimeClasspath
+}
+
+task(runHopfieldStorkeyExample, group: 'examples', description: 'Chapter 3.  Hopfield Associate - Storkey.',
+        dependsOn: 'classes', type: JavaExec) {
+    main = 'com.heatonresearch.aifh.examples.classic.hopfield.HopfieldAssociateStorkey'
+    classpath = sourceSets.main.runtimeClasspath
+}
+
+task(runIrisAnnealExample, group: 'examples', description: 'Chapter 4.  Iris ANN annealed.',
+        dependsOn: 'classes', type: JavaExec) {
+    main = 'com.heatonresearch.aifh.examples.rbf.LearnIrisAnneal'
+    classpath = sourceSets.main.runtimeClasspath
+}
+
+task(runIrisROCExample, group: 'examples', description: 'Chapter 5.  Iris ANN annealed ROC chart.',
+        dependsOn: 'classes', type: JavaExec) {
+    main = 'com.heatonresearch.aifh.examples.rbf.LearnIrisAnnealROC'
+    classpath = sourceSets.main.runtimeClasspath
+}
+
+task(runXORBackpropExample, group: 'examples', description: 'Chapter 6.  XOR using Backpropagation.',
+        dependsOn: 'classes', type: JavaExec) {
+    main = 'com.heatonresearch.aifh.examples.ann.LearnXORBackprop'
+    classpath = sourceSets.main.runtimeClasspath
+}
+
+task(runIrisBackpropExample, group: 'examples', description: 'Chapter 6.  Iris classification using Backpropagation.',
+        dependsOn: 'classes', type: JavaExec) {
+    main = 'com.heatonresearch.aifh.examples.ann.LearnIrisBackprop'
+    classpath = sourceSets.main.runtimeClasspath
+}
+
+task(runAutoMPGBackpropExample, group: 'examples', description: 'Chapter 6.  MPG automobile regression using Backpropagation.',
+        dependsOn: 'classes', type: JavaExec) {
+    main = 'com.heatonresearch.aifh.examples.ann.LearnAutoMPGBackprop'
+    classpath = sourceSets.main.runtimeClasspath
+}
+
+task(runDigitsBackpropExample, group: 'examples', description: 'Chapter 6.  MNIST Digit classification using Backpropagation.',
+        dependsOn: 'classes', type: JavaExec) {
+    main = 'com.heatonresearch.aifh.examples.ann.LearnDigitsBackprop'
+    classpath = sourceSets.main.runtimeClasspath
+}
+
+task(runXORRPROPExample, group: 'examples', description: 'Chapter 7.  XOR using RPROP.',
+        dependsOn: 'classes', type: JavaExec) {
+    main = 'com.heatonresearch.aifh.examples.ann.LearnXORRPROP'
+    classpath = sourceSets.main.runtimeClasspath
+}
+
+task(runNEATXORExample, group: 'examples', description: 'Chapter 8.  NEAT XOR network.',
+        dependsOn: 'classes', type: JavaExec) {
+    main = 'com.heatonresearch.aifh.examples.neat.NEATXORExample'
+    classpath = sourceSets.main.runtimeClasspath
+}
+
+task(runHyperNEATBoxesExample, group: 'examples', description: 'Chapter 8.  HyperNEAT Boxes Example.',
+        dependsOn: 'classes', type: JavaExec) {
+    main = 'com.heatonresearch.aifh.examples.neat.hyperneat.VisualizeBoxesMain'
+    classpath = sourceSets.main.runtimeClasspath
+}
+
+task(runDBNExample, group: 'examples', description: 'Chapter 9.  Simple dbnn belief neural network.',
+        dependsOn: 'classes', type: JavaExec) {
+    main = 'com.heatonresearch.aifh.examples.dbn.SimpleDBN'
+    classpath = sourceSets.main.runtimeClasspath
+}
+
+task(runDigitsConvExample, group: 'examples', description: 'Chapter 10.  Convolution network for MNIST digits.',
+        dependsOn: 'classes', type: JavaExec) {
+    main = 'com.heatonresearch.aifh.examples.ann.LearnDigitsConv'
+    classpath = sourceSets.main.runtimeClasspath
+}
+
+task(runListSearches, group: 'examples', description: 'Chapter 11.  Compare grid and random search.',
+        dependsOn: 'classes', type: JavaExec) {
+    main = 'com.heatonresearch.aifh.examples.search.ListSearches'
+    classpath = sourceSets.main.runtimeClasspath
+}
+
+task(runIrisModelSearchGrid, group: 'examples', description: 'Chapter 11.  Grid model search.',
+        dependsOn: 'classes', type: JavaExec) {
+    main = 'com.heatonresearch.aifh.examples.search.IrisModelSearchGrid'
+    classpath = sourceSets.main.runtimeClasspath
+}
+
+task(runDigitsDropoutExample, group: 'examples', description: 'Chapter 12.  Dropout network for MNIST digits.',
+        dependsOn: 'classes', type: JavaExec) {
+    main = 'com.heatonresearch.aifh.examples.ann.LearnDigitsDropout'
+    classpath = sourceSets.main.runtimeClasspath
+}
+
+task(runPredictSunspots, group: 'examples', description: 'Chapter 13.  Predict sunspots.',
+        dependsOn: 'classes', type: JavaExec) {
+    main = 'com.heatonresearch.aifh.examples.timeseries.PredictSunspots'
+    classpath = sourceSets.main.runtimeClasspath
+}
+
+task(runModelKaggleOtto, group: 'examples', description: 'Chapter 16.  Modeling, Kaggle Otto Group.',
+        dependsOn: 'classes', type: JavaExec) {
+    main = 'com.heatonresearch.aifh.examples.ann.LearnDigitsDropout'
+    classpath = sourceSets.main.runtimeClasspath
+}
+

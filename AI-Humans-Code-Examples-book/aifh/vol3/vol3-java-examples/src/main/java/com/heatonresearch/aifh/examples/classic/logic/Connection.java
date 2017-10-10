@@ -1,0 +1,84 @@
+/*
+ * Artificial Intelligence for Humans
+ * Volume 3: Deep Learning and Neural Networks
+ * Java Version
+ * http://www.aifh.org
+ * http://www.jeffheaton.com
+ *
+ * Code repository:
+ * https://github.com/jeffheaton/aifh
+ *
+ * Copyright 2014-2015 by Jeff Heaton
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *
+ * For more information on Heaton Research copyrights, licenses
+ * and trademarks visit:
+ * http://www.heatonresearch.com/copyright
+ */
+package com.heatonresearch.aifh.examples.classic.logic;
+
+/**
+ * Connection between two neurons.
+ */
+public class Connection {
+    /**
+     * The weight of the connection.
+     */
+    private double weight;
+
+    /**
+     * The parent/source.
+     */
+    private Neuron parent;
+
+    /**
+     * Create a connection.
+     * @param weight The weight.
+     * @param parent The parent/source neuron.
+     */
+    public Connection(double weight, Neuron parent) {
+        this.weight = weight;
+        this.parent = parent;
+    }
+
+    /**
+     * @return The weight.
+     */
+    public double getWeight() {
+        return this.weight;
+    }
+
+    /**
+     * Set the weight.
+     * @param weight The weight.
+     */
+    public void setWeight(double weight) {
+        this.weight = weight;
+    }
+
+    /**
+     * @return The parent neuron.
+     */
+    public Neuron getParent() {
+        return this.parent;
+    }
+
+    /**
+     * Set the parent neuron.
+     * @param parent The parent neuron.
+     */
+    public void setParent(Neuron parent) {
+        this.parent = parent;
+    }
+}
