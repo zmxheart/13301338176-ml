@@ -1,0 +1,60 @@
+Building notes
+2013-05-06  Andy Green <andy.green@linaro.org>
+
+These sources are GPL2, you can find them here
+
+http://git.linaro.org/gitweb?p=tools/arm-probe.git;a=summary
+
+
+This probject uses GNU autotools.
+
+Make sure you have 
+
+ - libtool
+ - automake
+ - autoconf
+
+packages installed.
+
+To build the websockets-based daemon, you will need to build libwebsockets,
+built and installed on your box, which you can get from here
+
+git://git.libwebsockets.org/libwebsockets
+
+It uses CMake, see README.build in that project for examples of how to
+configure, build and install.
+
+
+After building and installing libwebsocket, to initially configure arm-probe
+sources for your system, or if you change the autotools-related content:
+
+ - ./autogen.sh
+ - ./configure
+
+You might want to use "./configure --prefix=/usr", which will later install
+the built libraries and apps in /usr/bin, /usr/lib etc instead of the
+default /usr/local/...   If you want to do that, notice that on 64-bit systems
+(eg, on Fedora...) you will also need to give --libdir=/usr/lib64 which is
+otherwise taken care of automatically.
+
+afterwards, you can make as usual with
+
+ - make
+ - sudo make install
+
+from the top level.
+
+
+* libarmep is a library wrapping all of the access and protocol complexity
+    of dealing with one or more arm energy probes
+
+* arm-probe is the commandline utilty for the arm probes which issues
+    output on stdout and adds columns on to stdin if anything is piped
+    there.  The tabbed ascii format is compatible with gnuplot.  Actually
+    the code for this is very small since libarmep copes with the dirty
+    business.
+
+* aepd provides the realtime HTML5 web interface part, run aepd and open
+    a chrome browser window to http://localhost:15164 for a realtime scope-
+    type display
+

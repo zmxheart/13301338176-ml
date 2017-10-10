@@ -1,0 +1,9 @@
+# arm-probe configuration file
+#
+# setup name
+msm8916-qrd
+
+# <device path>
+/dev/serial/by-id/usb-NXP_SEMICOND_ARM_Energy_Probe_S_NO12300012-if00
+ V5.0	0.033000	-14.500000	-0.179000	13.363000	-0.000000	0.163300	0	V5.0	DC_IN	#ff0000	SoC
+

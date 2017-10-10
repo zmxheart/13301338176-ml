@@ -1,0 +1,48 @@
+digraph "ION architecture" {
+	"gralloc" [
+		label = "Userland application\n(gralloc)"
+		shape = box
+		style = filled
+		color = firebrick
+	];
+	"core" [ 
+		label = "ION core"
+		shape = box
+		style = filled
+		color = orchid4
+	];
+	"driver" [
+		label = "driver"
+		shape = box
+		style = filled
+		color = cyan
+	];
+	"heapS" [
+		label = "heap \"system\"\nbased on vmalloc"
+		shape = box
+		style = filled
+		color = darkolivegreen3
+	];
+	"heapSC" [
+		label = "heap \"system contiguous\"\nbased on kmalloc"
+		shape = box
+		style = filled
+		color = darkolivegreen3
+	];
+	"heapC" [
+		label = "heap \"carveout\"\n based on preserved memory"
+		shape = box
+		style = filled
+		color = darkolivegreen3
+	];
+
+	{ rank=same; "gralloc" }
+	{ rank=same; "core" "driver" }
+	{ rank=same; "heapS" "heapSC" "heapC" }
+
+	"gralloc" -> "core" [label="ioctl\nBuffer allocation\nBuffer sharing"] 
+	"driver" -> "core" [label="Client registration\nBuffer allocation\nBuffer sharing"]
+	"core" -> "heapS" [label="memory allocation"]
+	"core" -> "heapSC" [label="memory allocation"]
+	"core" -> "heapC" [label="memory allocation"]
+}

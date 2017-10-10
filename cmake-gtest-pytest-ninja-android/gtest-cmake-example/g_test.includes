@@ -1,0 +1,14 @@
+build/test/gtest/src/gtest/googlemock/include/gmock
+build/test/gtest/src/gtest/googlemock/include/gmock/internal
+build/test/gtest/src/gtest/googlemock/include/gmock/internal/custom
+build/test/gtest/src/gtest/googlemock/test
+build/test/gtest/src/gtest/googletest/include/gtest
+build/test/gtest/src/gtest/googletest/include/gtest/internal
+build/test/gtest/src/gtest/googletest/include/gtest/internal/custom
+build/test/gtest/src/gtest/googletest/samples
+build/test/gtest/src/gtest/googletest/src
+build/test/gtest/src/gtest/googletest/test
+build/test/gtest/src/gtest/googletest/xcode/Samples/FrameworkSample
+libbar
+libfoo
+test/testfoo
