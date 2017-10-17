@@ -1,0 +1,4 @@
+ary, thanks for sharing – indeed, reinforcement learning has been an expanding area of research at Google (mainly DeepMind), OpenAI, Amazon, and as this article suggests, Apple.
+Btw, Qualcomm is at it too. At CRD, we have been researching application of reinforcement learning to make our MSMs more energy efficient. Our initial results show reduced CPU and DDR energy consumption on synthetic AP workloads, with the help of a reinforcement learning based DCVS control algorithm. We are currently working on validating the savings on standard Android benchmark workloads, and hopefully expand the scope of this research to other MSM resources and subsystems.
+ 
+Glad to discuss details with anyone interested.
