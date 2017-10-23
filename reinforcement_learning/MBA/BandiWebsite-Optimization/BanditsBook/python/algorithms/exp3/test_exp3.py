@@ -1,4 +1,4 @@
-execfile("core.py")
+execfile("../../core.py")
 
 import random
 
@@ -9,7 +9,7 @@ random.shuffle(means)
 arms = map(lambda (mu): BernoulliArm(mu), means)
 print("Best arm is " + str(ind_max(means)))
 
-f = open("algorithms/exp3/exp3_results.tsv", "w")
+f = open("./exp3_results.tsv", "w")
 
 for exp3_gamma in [0.1, 0.2, 0.3, 0.4, 0.5]:
   algo = Exp3(exp3_gamma, [])

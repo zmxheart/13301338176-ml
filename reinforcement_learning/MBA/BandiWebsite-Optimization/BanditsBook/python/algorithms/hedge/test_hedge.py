@@ -1,4 +1,4 @@
-execfile("core.py")
+execfile("../../core.py")
 
 import random
 
@@ -9,7 +9,7 @@ random.shuffle(means)
 arms = map(lambda (mu): BernoulliArm(mu), means)
 print("Best arm is " + str(ind_max(means)))
 
-f = open("algorithms/hedge/hedge_results.tsv", "w")
+f = open("./hedge_results.tsv", "w")
 
 for eta in [.5, .8, .9, 1, 2]:
   algo = Hedge(eta, [], [])

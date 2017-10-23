@@ -1,4 +1,4 @@
-execfile("core.py")
+execfile("./core.py")
 
 arm1 = BernoulliArm(0.7)
 arm1.draw()

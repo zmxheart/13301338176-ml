@@ -27,6 +27,10 @@ def test_algorithm(algo, arms, num_sims, horizon):
         cumulative_rewards[index] = cumulative_rewards[index - 1] + reward
       
       algo.update(chosen_arm, reward)
-  
+      print "for  horizon"
+    print "for num_sims  "
+
+
+  print "test_algorithm finished  "
   return [sim_nums, times, chosen_arms, rewards, cumulative_rewards]
 

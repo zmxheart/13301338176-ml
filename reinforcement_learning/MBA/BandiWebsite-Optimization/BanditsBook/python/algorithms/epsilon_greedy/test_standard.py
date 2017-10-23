@@ -1,4 +1,4 @@
-execfile("core.py")
+execfile("../../core.py")
 
 import random
 
@@ -9,7 +9,7 @@ random.shuffle(means)
 arms = map(lambda (mu): BernoulliArm(mu), means)
 print("Best arm is " + str(ind_max(means)))
 
-f = open("algorithms/epsilon_greedy/standard_results.tsv", "w")
+f = open("./standard_results.tsv", "w")
 
 for epsilon in [0.1, 0.2, 0.3, 0.4, 0.5]:
   algo = EpsilonGreedy(epsilon, [], [])
@@ -18,5 +18,6 @@ for epsilon in [0.1, 0.2, 0.3, 0.4, 0.5]:
   for i in range(len(results[0])):
       f.write(str(epsilon) + "\t")
       f.write("\t".join([str(results[j][i]) for j in range(len(results))]) + "\n")
+      print "..in ..loop"
 
 f.close()

@@ -1,4 +1,4 @@
-execfile("core.py")
+execfile("../../core.py")
 
 import random
 
@@ -9,7 +9,7 @@ random.shuffle(means)
 arms = map(lambda (mu): BernoulliArm(mu), means)
 print("Best arm is " + str(ind_max(means)))
 
-f = open("algorithms/softmax/standard_softmax_results.tsv", "w")
+f = open("./standard_softmax_results.tsv", "w")
 
 for temperature in [0.1, 0.2, 0.3, 0.4, 0.5]:
   algo = Softmax(temperature, [], [])
