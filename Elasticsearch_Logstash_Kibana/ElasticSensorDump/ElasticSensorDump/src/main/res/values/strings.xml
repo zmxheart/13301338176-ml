@@ -1,0 +1,14 @@
+<resources>
+    <string name="app_name">Elastic Sensor Dump</string>
+    <string name="buttonStart">Start Collecting</string>
+    <string name="buttonStop">Stop Collecting</string>
+    <string name="loggingStopped">Logging Stopped</string>
+    <string name="Collection_Interval">Collection Interval</string>
+    <string name="milliseconds">ms</string>
+    <string name="No_Sensor_Readings">No sensor Readings</string>
+    <string name="Sensor_Readings">"Sensor Readings: </string>
+    <string name="Documents_Written">Documents Written: </string>
+    <string name="GPS_Updates">GPS Updates: </string>
+    <string name="Errors">Errors: </string>
+    <string name="Settings">Settings</string>
+</resources>
