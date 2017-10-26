@@ -1,0 +1,19 @@
+ctest -j4 -DCTEST_MEMORYCHECK_COMMAND="/usr/bin/valgrind" -DMemoryCheckCommand="/usr/bin/valgrind" --output-on-failure -T MemCheck 
+
+include (CTest)
+
+
+set( MEMORYCHECK_COMMAND_OPTIONS "--trace-children=yes --leak-check=full" )
+
+To run tests with valgrind we have to use CMake's ctest executable with the test action memcheck:
+
+$ ctest -T memcheck
+...
+1/1 MemCheck #1: example_test .....................   Passed    0.77 sec
+
+100% tests passed, 0 tests failed out of 1
+
+Total Test time (real) =   0.77 sec
+-- Processing memory checking output: 
+Memory checking results:
+Memory Leak - 2
