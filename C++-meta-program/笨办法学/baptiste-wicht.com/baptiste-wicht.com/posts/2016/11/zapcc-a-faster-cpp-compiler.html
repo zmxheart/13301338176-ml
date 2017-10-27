@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html prefix="og: http://ogp.me/ns# article: http://ogp.me/ns/article# " lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>zapcc - a faster C++ compiler | Blog blog("Baptiste Wicht");</title>
+<script src="/cdn-cgi/apps/head/98vpnawSZZMscPn4oDND-ZgswjM.js"></script><link href="../../../assets/css/all-nocdn.css" rel="stylesheet" type="text/css">
+<meta name="theme-color" content="#5670d4">
+<meta name="generator" content="Nikola (getnikola.com)">
+<link rel="alternate" type="application/rss+xml" title="RSS" href="../../../rss.xml">
+<link rel="canonical" href="http://baptiste-wicht.com/posts/2016/11/zapcc-a-faster-cpp-compiler.html">
+<!--[if lt IE 9]><script src="../../../assets/js/html5.js"></script><![endif]--><meta name="author" content="Baptiste Wicht">
+<link rel="prev" href="../09/blazing-fast-unit-test-compilation-with-doctest-11.html" title="Blazing fast unit test compilation with doctest 1.1" type="text/html">
+<link rel="next" href="new-design-faster-and-mobile-compatible.html" title="New design: Faster and mobile compatible" type="text/html">
+<meta property="og:site_name" content='Blog blog("Baptiste Wicht");'>
+<meta property="og:title" content="zapcc - a faster C++ compiler">
+<meta property="og:url" content="http://baptiste-wicht.com/posts/2016/11/zapcc-a-faster-cpp-compiler.html">
+<meta property="og:description" content="Update: For a comparison against more modern compiler versions, you can read: zapcc C++ compilation speed against gcc 5.4 and clang 3.9
+I just joined the private beta program of zapcc. Zapcc is a c++ ">
+<meta property="og:type" content="article">
+<meta property="article:published_time" content="2016-11-26T13:17:50+01:00">
+<meta property="article:tag" content="C++">
+<meta property="article:tag" content="clang">
+<meta property="article:tag" content="Compilers">
+<meta property="article:tag" content="etl">
+<meta property="article:tag" content="gcc">
+<meta property="article:tag" content="projects">
+<meta property="article:tag" content="zapcc">
+<link href="../../../favicon.ico" rel="icon" type="image/x-icon">
+<link rel="publisher" href="https://plus.google.com/+BaptisteWicht">
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-2175227-7', 'auto');
+  var metas = document.getElementsByTagName('meta'), tagsList = [];
+  for (var i=0; i<metas.length; i++) {
+    if (metas[i].getAttribute('property') == 'article:tag') {
+      tagsList.push( metas[i].getAttribute('content'));
+    }
+  }
+  ga('set', 'dimension1', tagsList.join('|'));
+  ga('send', 'pageview');
+</script>
+</head>
+<body>
+
+<a href="#content" class="sr-only sr-only-focusable">Skip to main content</a>
+<div class="container-fluid">
+
+<div class="row">
+<div class="col-sm-3 col-lg-2">
+<nav class="navbar navbar-inverse navbar-fixed-side"><div class="navbar-header">
+<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+<span class="sr-only">Toggle navigation</span>
+<span class="icon-bar"></span>
+<span class="icon-bar"></span>
+<span class="icon-bar"></span>
+</button>
+<a class="navbar-brand" href="http://baptiste-wicht.com/">
+<span id="blog-title">Blog blog("Baptiste Wicht");</span>
+</a>
+</div>
+
+<div class="collapse navbar-collapse navbar-ex1-collapse">
+<ul class="nav navbar-nav">
+<li>
+<a href="../../../stories/about.html">About</a>
+</li>
+<li>
+<a href="../../../stories/publications.html">Publications</a>
+</li>
+<li>
+<a href="../../../stories/projects.html">Projects</a>
+</li>
+<li>
+<a href="../../../categories/index.html">Tags</a>
+</li>
+<li>
+<a href="../../../archive.html">Archives</a>
+</li>
+<li>
+<a href="http://feeds.feedburner.com/BaptisteWicht">RSS</a>
+</li>
+<li class="navbar-content">
+<h3>Related posts</h3>
+</li>
+<li><a href="../../2017/08/compiler-benchmark-gcc-clang-cpp-library-etl.html">Compiler benchmark GCC and Clang on C++ library (ETL)</a></li>
+<li><a href="../12/zapcc-cpp-compilation-speed-against-gcc-54-and-clang-39.html">zapcc C++ compilation speed against gcc 5.4 and clang 3.9</a></li>
+<li><a href="../../2017/03/release-zapcc-10-fast-cpp-compiler.html">Release of zapcc 1.0 - Fast C++ compiler</a></li>
+<li><a href="../../2017/03/partial-type-erasing-deep-learning-library-dll-improve-compilation-time.html">Partial type erasing in Deep Learning Library (DLL) to improve compilation time</a></li>
+<li><a href="../../2017/03/disappointing-zapcc-performance-on-deep-learning-library-dll.html">Disappointing zapcc performance on Deep Learning Library (DLL)</a></li>
+<li><a href="../09/blazing-fast-unit-test-compilation-with-doctest-11.html">Blazing fast unit test compilation with doctest 1.1</a></li>
+<li class="navbar-block">
+<li class="wicht-navbar-right">
+<a target="_blank" title="Follow @wichtounet on Twitter" href="https://twitter.com/wichtounet">
+<img src="../../../assets/img/twitter.png" alt="Follow @wichtounet on Twitter"></a>
+</li>
+<li class="wicht-navbar-right">
+<a target="_blank" title="Follow +BaptisteWicht on Google+" href="https://plus.google.com/+BaptisteWicht">
+<img src="../../../assets/img/google_plus.png" alt="Follow +BaptisteWicht on Google+"></a>
+</li>
+</ul>
+</div>
+
+</nav>
+</div> 
+<div class="col-sm-9 col-lg-10">
+<div id="content"></div>
+<article class="post-text h-entry hentry postpage" itemscope="itemscope" itemtype="http://schema.org/Article"><header><h1 class="p-name entry-title" itemprop="headline name"><a href="#" class="u-url">zapcc - a faster C++ compiler</a></h1>
+<div class="metadata">
+<p class="byline author vcard"><span class="byline-name fn" itemprop="author">
+Baptiste Wicht
+</span></p>
+<p class="dateline"><a href="#" rel="bookmark"><time class="published dt-published" datetime="2016-11-26T13:17:50+01:00" itemprop="datePublished" title="2016-11-26 13:17">2016-11-26 13:17</time></a></p>
+<p class="commentline">
+<a href="zapcc-a-faster-cpp-compiler.html#disqus_thread" data-disqus-identifier="cache/posts/2016/11/zapcc-a-faster-c++-compiler.html">Comments</a>
+</p>
+<p class="sourceline"><a href="zapcc-a-faster-cpp-compiler.rst" class="sourcelink">Source</a></p>
+</div>
+</header><div class="e-content entry-content" itemprop="articleBody text">
+<div>
+<p>Update: For a comparison against more modern compiler versions, you can read: <a class="reference external" href="http://baptiste-wicht.com/posts/2016/12/zapcc-cpp-compilation-speed-against-gcc-54-and-clang-39.html">zapcc C++ compilation speed against gcc 5.4 and clang 3.9</a></p>
+<p>I just joined the private beta program of zapcc. Zapcc is a c++ compiler, based
+on Clang which aims at being much faster than other C++ compilers. How they are
+doing this is using a caching server that saves some of the compiler structures,
+which should speed up compilation a lot. The private beta is free, but once the
+compiler is ready, it will be a commercial compiler.</p>
+<p>Every C++ developer knows that compilation time can quickly be an issue when
+programs are getting very big and especially when working with template-heavy
+code.</p>
+<p>To benchmark this new compiler, I use my Expression Template Library
+(<a class="reference external" href="https://github.com/wichtounet/etl/">ETL</a>). This is a purely header-only
+library with lots of templates. There are lots of test cases which is what I'm
+going to compile. I'm going to compare against Clang-3.7 and gcc-4.9.3.</p>
+<p>I have configured zapcc to let is use 2Go RAM per caching server, which is the
+maximum allowed. Moreover, I killed the servers before each tests.</p>
+<div class="section" id="debug-build">
+<h2>Debug build</h2>
+<p>Let's start with a debug build. In that configuration, there is no optimization
+going on and several of the features of the library (GPU, BLAS, ...) are
+disabled. This is the fastest way to compile ETL. I gathered this result on
+a 4 core, 8 threads, Intel processor, with an SSD.</p>
+<p>The following table presents the results with different number of threads and
+the difference of zapcc compared to the other compilers:</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="42%">
+<col width="11%">
+<col width="13%">
+<col width="11%">
+<col width="11%">
+<col width="11%">
+</colgroup>
+<thead valign="bottom"><tr>
+<th class="head">Compiler</th>
+<th class="head">-j1</th>
+<th class="head">-j2</th>
+<th class="head">-j4</th>
+<th class="head">-j6</th>
+<th class="head">-j8</th>
+</tr></thead>
+<tbody valign="top">
+<tr>
+<td>g++-4.9.3</td>
+<td>350s</td>
+<td>185s</td>
+<td>104s</td>
+<td>94s</td>
+<td>91s</td>
+</tr>
+<tr>
+<td>clang++-3.7</td>
+<td>513s</td>
+<td>271s</td>
+<td>153s</td>
+<td>145s</td>
+<td>138s</td>
+</tr>
+<tr>
+<td>zapcc++</td>
+<td>158s</td>
+<td>87s</td>
+<td>47s</td>
+<td>44s</td>
+<td>42s</td>
+</tr>
+<tr>
+<td>Speedup VS Clang</td>
+<td>3.24</td>
+<td>3.103</td>
+<td>3.25</td>
+<td>3.29</td>
+<td>3.28</td>
+</tr>
+<tr>
+<td>Speedup VS GCC</td>
+<td>2.21</td>
+<td>2.12</td>
+<td>2.21</td>
+<td>2.13</td>
+<td>2.16</td>
+</tr>
+</tbody>
+</table>
+<p>The result is pretty clear! zapcc is around <strong>three times faster than Clang</strong> and around
+<strong>two times faster than GCC</strong>. This is pretty impressive!</p>
+<p>For those that think than Clang is always faster than GCC, keep in mind that
+this is not the case for template-heavy code such as this library. In all my
+tests, Clang has always been slower and much memory hungrier than GCC on
+template-heavy C++ code. And sometimes the difference is very significant.</p>
+<p>Interestingly, we can also see that going past the physical cores is not really
+interesting on this computer. On some computer, the speedups are interesting,
+but not on this one. Always benchmark!</p>
+</div>
+<div class="section" id="release-build">
+<h2>Release build</h2>
+<p>We have seen the results on a debug build, let's now compare on something a bit
+more timely, a release build with all options of ETL enabled (GPU, BLAS, ...),
+which should make it significantly longer to compile.</p>
+<p>Again, the table:</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="40%">
+<col width="12%">
+<col width="12%">
+<col width="12%">
+<col width="12%">
+<col width="12%">
+</colgroup>
+<thead valign="bottom"><tr>
+<th class="head">Compiler</th>
+<th class="head">-j1</th>
+<th class="head">-j2</th>
+<th class="head">-j4</th>
+<th class="head">-j6</th>
+<th class="head">-j8</th>
+</tr></thead>
+<tbody valign="top">
+<tr>
+<td>g++-4.9.3</td>
+<td>628s</td>
+<td>336s</td>
+<td>197s</td>
+<td>189s</td>
+<td>184s</td>
+</tr>
+<tr>
+<td>clang++-3.7</td>
+<td>663s</td>
+<td>388s</td>
+<td>215s</td>
+<td>212s</td>
+<td>205s</td>
+</tr>
+<tr>
+<td>zapcc++</td>
+<td>515s</td>
+<td>281s</td>
+<td>173s</td>
+<td>168s</td>
+<td>158s</td>
+</tr>
+<tr>
+<td>Speedup VS Clang</td>
+<td>1.28</td>
+<td>1.38</td>
+<td>1.24</td>
+<td>1.26</td>
+<td>1.29</td>
+</tr>
+<tr>
+<td>Speedup VS GCC</td>
+<td>1.21</td>
+<td>1.30</td>
+<td>1.13</td>
+<td>1.12</td>
+<td>1.16</td>
+</tr>
+</tbody>
+</table>
+<p>This time, we can see that the difference is much lower. Zapcc is <strong>between 1.2
+and 1.4 times faster than Clang</strong> and <strong>between 1.1 and 1.3 times faster than
+GCC</strong>. This shows that most of the speedups from zapcc are in the front end of
+the compiler. This is not a lot but still significant over long builds,
+especially if you have few threads where the absolute difference would be
+higher.</p>
+<p>We can also observe that Clang is now almost on par with GCC which shows that
+optimization is faster in Clang while front and backend is faster in gcc.</p>
+<p>You also have to keep in mind that zapcc memory usage is higher than Clang
+because of all the caching. Moreover, the server are still up in between
+compilations, so this memory usage stays between builds, which may not be what
+you want.</p>
+<p>As for runtime, I have not seen any significant difference in performance
+between the clang version and the zapcc. According to the official benchmarks
+and documentation, there should not be any difference in that between zapcc and
+the version of clang on which zapcc is based.</p>
+</div>
+<div class="section" id="incremental-build">
+<h2>Incremental build</h2>
+<p>Normally, zapcc should shine at incremental building, but I was unable to show
+any speedup when changing a single without killing the zapcc servers. Maybe
+I did something wrong in my usage of zapcc.</p>
+</div>
+<div class="section" id="conclusion">
+<h2>Conclusion</h2>
+<p>In conclusion, we can see that zapcc is always faster than both GCC and Clang,
+on my template-heavy library. Moreover, on debug builds, it is much faster than
+any of the two compilers, being more than 2 times faster than GCC and more than
+3 times faster than clang. This is really great. Moreover, I have not seen any
+issue with the tool so far, it can seamlessly replace Clang without problem.</p>
+<p>It's a bit weird that you cannot allocate more than 2Go to the zapcc servers.</p>
+<p>For a program, that's really impressive. I hope that they are continuing the
+good work and especially that this motivates other compilers to improve the
+speed of compilation (especially of templates).</p>
+<p>If you want more information, you can go to the
+<a class="reference external" href="https://www.zapcc.com/">official website of zapcc</a></p>
+</div>
+</div>
+</div>
+<aside class="postpromonav"><nav><ul itemprop="keywords" class="tags">
+<li><a class="tag p-category" href="../../../categories/c%2B%2B.html" rel="tag">C++</a></li>
+<li><a class="tag p-category" href="../../../categories/clang.html" rel="tag">clang</a></li>
+<li><a class="tag p-category" href="../../../categories/compilers.html" rel="tag">Compilers</a></li>
+<li><a class="tag p-category" href="../../../categories/etl.html" rel="tag">etl</a></li>
+<li><a class="tag p-category" href="../../../categories/gcc.html" rel="tag">gcc</a></li>
+<li><a class="tag p-category" href="../../../categories/projects.html" rel="tag">projects</a></li>
+<li><a class="tag p-category" href="../../../categories/zapcc.html" rel="tag">zapcc</a></li>
+</ul>
+<ul class="pager hidden-print">
+<li class="previous">
+<a href="../09/blazing-fast-unit-test-compilation-with-doctest-11.html" rel="prev" title="Blazing fast unit test compilation with doctest 1.1">Previous post</a>
+</li>
+<li class="next">
+<a href="new-design-faster-and-mobile-compatible.html" rel="next" title="New design: Faster and mobile compatible">Next post</a>
+</li>
+</ul></nav></aside><section class="comments hidden-print"><h2>Comments</h2>
+<div id="disqus_thread"></div>
+<script>
+        var disqus_shortname ="blogwichtounet",
+            disqus_url="http://baptiste-wicht.com/posts/2016/11/zapcc-a-faster-cpp-compiler.html",
+        disqus_title="zapcc - a faster C++ compiler",
+        disqus_identifier="cache/posts/2016/11/zapcc-a-faster-c++-compiler.html",
+        disqus_config = function () {
+            this.language = "en";
+        };
+        (function() {
+            var dsq = document.createElement('script'); dsq.async = true;
+            dsq.src = 'https://' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        })();
+    </script><noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a>
+</noscript>
+<a href="https://disqus.com" class="dsq-brlink" rel="nofollow">Comments powered by <span class="logo-disqus">Disqus</span></a>
+</section></article><script>var disqus_shortname="blogwichtounet";(function(){var a=document.createElement("script");a.async=true;a.src="https://"+disqus_shortname+".disqus.com/count.js";(document.getElementsByTagName("head")[0]||document.getElementsByTagName("body")[0]).appendChild(a)}());</script>
+</div> 
+</div>
+
+</div>
+
+
+
+<footer>
+Contents © 2017 <a href="/cdn-cgi/l/email-protection#22404352564b515647554b414a5662454f434b4e0c414d4f">Baptiste Wicht</a> - Powered by <a href="http://getnikola.com" rel="nofollow">Nikola</a> - License:
+<a rel="license" href="http://creativecommons.org/licenses/by/4.0/"><img alt="Creative Commons License" style="padding-left:5px;border-width:0" src="../../../assets/img/cc.png"></a>
+<ul class="footer_inline_ul">
+<li>
+<a href="zapcc-a-faster-cpp-compiler.rst" id="sourcelink">Source</a>
+</li>
+</ul></footer><script src="/cdn-cgi/scripts/78d64697/cloudflare-static/email-decode.min.js"></script><script src="../../../assets/js/all-nocdn.js"></script>
+</body>
+</html>

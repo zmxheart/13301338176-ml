@@ -1,0 +1,600 @@
+<?xml version="1.0" encoding="utf-8"?>
+<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:dc="http://purl.org/dc/elements/1.1/"><channel><title>Blog blog("Baptiste Wicht"); (Posts about Sonar)</title><link>http://baptiste-wicht.com/</link><description></description><atom:link rel="self" type="application/rss+xml" href="http://baptiste-wicht.com/categories/sonar.xml"></atom:link><language>en</language><lastBuildDate>Sun, 04 Jun 2017 20:17:44 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Use clang-tidy for static analysis and integration in Sonarqube</title><link>http://baptiste-wicht.com/posts/2017/03/clang-tidy-static-analysis-integration-in-sonarqube.html</link><dc:creator>Baptiste Wicht</dc:creator><description>&lt;div&gt;&lt;p&gt;clang-tidy is an extensive linter C++. It provides a complete framework for
+analysis of C++ code. Some of the checks are very simple but some of them are
+very complete and most of the checks from the clang-static-analyzer are
+integrated into clang-tidy.&lt;/p&gt;
+&lt;div class="section" id="usage"&gt;
+&lt;h2&gt;Usage&lt;/h2&gt;
+&lt;p&gt;If you want to see the list of checks available on clang-tidy, you can use the
+list-checks options:&lt;/p&gt;
+&lt;pre class="code text"&gt;&lt;a name="rest_code_097a78d40f4046e993cb65035e8f026b-1"&gt;&lt;/a&gt;clang-tidy -list-checks
+&lt;/pre&gt;&lt;p&gt;You can then choose the tests you are interested in and perform an analysis of
+your code. For, it is highly recommended to use a Clang compilation database,
+you can have a look at Bear to generate this compilation database if you don't
+have it yet. The usage of clang-tidy, is pretty simple, you set the list of
+checks you want, the header on which you want to have warnings reported and the
+list of source files to analyse:&lt;/p&gt;
+&lt;pre class="code text"&gt;&lt;a name="rest_code_5c3d2b46a40542d1a886b67a6cf0ce0f-1"&gt;&lt;/a&gt;clang-tidy -checks='*' -header-filter="^include" -p . src/*.cpp
+&lt;/pre&gt;&lt;p&gt;You'll very likely see a lot of warnings. And you will very likely see a lot of
+false positives and a lot of warnings you don't agree too. For insance, there
+are a lot of warnings from the CPP Core Guidelines and the Google Guidelines
+that I don't follow in my coding. You should not take the complete list of tests
+as rule, you should devise your own list of what you really want to fix in your
+code. If you want to disable one check X, you can use the - operation:&lt;/p&gt;
+&lt;pre class="code text"&gt;&lt;a name="rest_code_cbbaba3d60ea4314a400a9f7c0c8fa08-1"&gt;&lt;/a&gt;clang-tidy -checks='*,-X' -header-filter="^include" -p . src/*.cpp
+&lt;/pre&gt;&lt;p&gt;You can also enable the checks one by one or parts of them with *:&lt;/p&gt;
+&lt;pre class="code text"&gt;&lt;a name="rest_code_91ce81be43cc4b0ab4d00b1f298e655a-1"&gt;&lt;/a&gt;clang-tidy -checks='google-*' -header-filter="^include" -p . src/*.cpp
+&lt;/pre&gt;&lt;p&gt;One problem with the clang-tidy tool is that it is utterly slow, especially if
+you enable the clang-static-analyzer checks. Moreover, if you use it like it is
+set before, it will only use one thread for the complete set of files. This may
+not be an issue on small projects, but this will definitely be a big issue for
+large projects and template-heavy code (like my ETL project). You could create
+an implicit target into your Makefile to use it on each file independently and
+then use the -j option of make to make them in parallel, but it not really
+practical.&lt;/p&gt;
+&lt;p&gt;For this, I just discovered that clang propose a Python script,
+run-clang-tidy.py that does it all for us! On Gentoo, it is installed at
+/usr/share/run-clang-tidy.py.&lt;/p&gt;
+&lt;pre class="code text"&gt;&lt;a name="rest_code_42a80053a2734bd5bf4fa14d7825c424-1"&gt;&lt;/a&gt;run-clang-tidy.py -checks='*' -header-filter="^include" -p . -j9
+&lt;/pre&gt;&lt;p&gt;This will automatically run clang-tidy on each file from the compilation
+database and use 9 threads to perform the checks. This is definitely much
+faster. For me, this is the best way to run clang-tidy.&lt;/p&gt;
+&lt;p&gt;One small point I don't like is that the script always print the list of enabled
+checks. For, this I changed this line in the script:&lt;/p&gt;
+&lt;pre class="code python"&gt;&lt;a name="rest_code_fde3c156e5484523a31f93d4698c577b-1"&gt;&lt;/a&gt;&lt;span class="n"&gt;invocation&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;args&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;clang_tidy_binary&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;'-list-checks'&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
+&lt;/pre&gt;&lt;p&gt;with:&lt;/p&gt;
+&lt;pre class="code python"&gt;&lt;a name="rest_code_10fb77fb275a4f698765be87bf2e4395-1"&gt;&lt;/a&gt;&lt;span class="n"&gt;invocation&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;args&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;clang_tidy_binary&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
+&lt;/pre&gt;&lt;p&gt;This makes it more quiet.&lt;/p&gt;
+&lt;p&gt;One thing I didn't mention is that clang-tidy is able to fix some of the errors
+directly if you use the -fix option. Personally, I don't like this, but for
+a large code base and a carefully selected set of checks, this could be really
+useful. Note that not all the checks are automatically fixable by clang-tidy.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="section" id="results"&gt;
+&lt;h2&gt;Results&lt;/h2&gt;
+&lt;p&gt;I have run clang-tidy on my cpp-utils library and here some interesting results.
+I have not run all the checks, here is the command I used:&lt;/p&gt;
+&lt;pre class="code text"&gt;&lt;a name="rest_code_607905eaa8774e0aa00e4715eec695d6-1"&gt;&lt;/a&gt;/usr/share/clang/run-clang-tidy.py -p . -header-filter '^include/cpp_utils' -checks='cert-*,cppcoreguidelines-*,google-*,llvm-*,misc-*,modernize-*,performance-*,readility-*,-cppcoreguidelines-pro-type-reinterpret-cast,-cppcoreguidelines-pro-bounds-pointer-arithmetic,-google-readability-namespace-comments,-llvm-namespace-comment,-llvm-include-order,-google-runtime-references' -j9 2&amp;gt;/dev/null  | /usr/bin/zgrep -v "^clang-tidy"
+&lt;/pre&gt;&lt;p&gt;Let's go over some warnings I got:&lt;/p&gt;
+&lt;pre class="code text"&gt;&lt;a name="rest_code_4341cfb8f71949b4bf99d22fcd3d8ffa-1"&gt;&lt;/a&gt;include/cpp_utils/assert.hpp:91:103: warning: consider replacing 'long' with 'int64' [google-runtime-int]
+&lt;a name="rest_code_4341cfb8f71949b4bf99d22fcd3d8ffa-2"&gt;&lt;/a&gt;void assertion_failed_msg(const CharT* expr, const char* msg, const char* function, const char* file, long line) {
+&lt;a name="rest_code_4341cfb8f71949b4bf99d22fcd3d8ffa-3"&gt;&lt;/a&gt;                                                                                                      ^
+&lt;/pre&gt;&lt;p&gt;I got this one several times. It is indeed more portable to use &lt;code&gt;int64&lt;/code&gt; rather than &lt;code&gt;long&lt;/code&gt;.&lt;/p&gt;
+&lt;pre class="code text"&gt;&lt;a name="rest_code_12d0bca3b5ed43f0a550dcef7b18a988-1"&gt;&lt;/a&gt;include/cpp_utils/aligned_allocator.hpp:53:9: warning: use 'using' instead of 'typedef' [modernize-use-using]
+&lt;a name="rest_code_12d0bca3b5ed43f0a550dcef7b18a988-2"&gt;&lt;/a&gt;        typedef aligned_allocator&amp;lt;U, A&amp;gt; other;
+&lt;a name="rest_code_12d0bca3b5ed43f0a550dcef7b18a988-3"&gt;&lt;/a&gt;        ^
+&lt;/pre&gt;&lt;p&gt;This one is part of the modernize checks, indicating that one should use
+&lt;code&gt;using&lt;/code&gt; rather than a &lt;code&gt;typedef&lt;/code&gt; and I completely agree.&lt;/p&gt;
+&lt;pre class="code cpp"&gt;&lt;a name="rest_code_d0d13f55c06f47cd9c2992f049f1e972-1"&gt;&lt;/a&gt;&lt;span class="n"&gt;include&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;cpp_utils&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;aligned_allocator&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nl"&gt;hpp&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="mi"&gt;79&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;&lt;span class="mi"&gt;5&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt; &lt;span class="nl"&gt;warning&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="n"&gt;use&lt;/span&gt; &lt;span class="err"&gt;'&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="k"&gt;default&lt;/span&gt;&lt;span class="err"&gt;'&lt;/span&gt; &lt;span class="n"&gt;to&lt;/span&gt; &lt;span class="n"&gt;define&lt;/span&gt; &lt;span class="n"&gt;a&lt;/span&gt; &lt;span class="n"&gt;trivial&lt;/span&gt; &lt;span class="k"&gt;default&lt;/span&gt; &lt;span class="n"&gt;constructor&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;modernize&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;use&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="k"&gt;default&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
+&lt;a name="rest_code_d0d13f55c06f47cd9c2992f049f1e972-2"&gt;&lt;/a&gt;    &lt;span class="n"&gt;aligned_allocator&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt; &lt;span class="p"&gt;{}&lt;/span&gt;
+&lt;a name="rest_code_d0d13f55c06f47cd9c2992f049f1e972-3"&gt;&lt;/a&gt;    &lt;span class="o"&gt;^&lt;/span&gt;
+&lt;a name="rest_code_d0d13f55c06f47cd9c2992f049f1e972-4"&gt;&lt;/a&gt;                        &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="k"&gt;default&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;/pre&gt;&lt;p&gt;Another one from the modernize checks that I really like. This is completely
+true.&lt;/p&gt;
+&lt;!-- code.:
+
+include/cpp_utils/maybe_parallel.hpp:33:5: warning: constructors that are callable with a single argument must be marked explicit to avoid unintentional implicit conversions [google-explicit-constructor]
+    thread_pool(Args... /*args*/){
+    ^
+    explicit --&gt;
+&lt;p&gt;I don't agree that every constructor with one argument should be explicit,
+sometimes you want implicit conversion. Nevertheless, this particular case is
+very interesting since it is variadic, it can have one template argument and as
+thus it can be implicitly converted from anything, which is pretty bad I think.&lt;/p&gt;
+&lt;pre class="code cpp"&gt;&lt;a name="rest_code_41f1325a0f0a4bb3b426dfc8dec16a61-1"&gt;&lt;/a&gt;&lt;span class="n"&gt;test&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;array_wrapper&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nl"&gt;cpp&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="mi"&gt;15&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;&lt;span class="mi"&gt;18&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt; &lt;span class="nl"&gt;warning&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="n"&gt;C&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;style&lt;/span&gt; &lt;span class="n"&gt;casts&lt;/span&gt; &lt;span class="n"&gt;are&lt;/span&gt; &lt;span class="n"&gt;discouraged&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt; &lt;span class="n"&gt;use&lt;/span&gt; &lt;span class="k"&gt;reinterpret_cast&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;google&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;readability&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;casting&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
+&lt;a name="rest_code_41f1325a0f0a4bb3b426dfc8dec16a61-2"&gt;&lt;/a&gt;    &lt;span class="kt"&gt;float&lt;/span&gt;&lt;span class="o"&gt;*&lt;/span&gt; &lt;span class="n"&gt;mem&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="kt"&gt;float&lt;/span&gt;&lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="n"&gt;malloc&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;sizeof&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="kt"&gt;float&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt; &lt;span class="mi"&gt;8&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+&lt;a name="rest_code_41f1325a0f0a4bb3b426dfc8dec16a61-3"&gt;&lt;/a&gt;                 &lt;span class="o"&gt;^&lt;/span&gt;
+&lt;a name="rest_code_41f1325a0f0a4bb3b426dfc8dec16a61-4"&gt;&lt;/a&gt;                 &lt;span class="k"&gt;reinterpret_cast&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="kt"&gt;float&lt;/span&gt;&lt;span class="o"&gt;*&amp;gt;&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;         &lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/pre&gt;&lt;p&gt;On this one, I completely agree, C-style casts should be avoided and much
+clearer C++ style casts should be preferred.&lt;/p&gt;
+&lt;pre class="code cpp"&gt;&lt;a name="rest_code_2363916daf3248c1a3c905bfdeb1ee5f-1"&gt;&lt;/a&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;home&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;wichtounet&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;dev&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;cpp_utils_test&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;include&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;cpp_utils&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;aligned_allocator&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nl"&gt;hpp&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="mi"&gt;126&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;&lt;span class="mi"&gt;19&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt; &lt;span class="nl"&gt;warning&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="n"&gt;thrown&lt;/span&gt; &lt;span class="n"&gt;exception&lt;/span&gt; &lt;span class="n"&gt;type&lt;/span&gt; &lt;span class="n"&gt;is&lt;/span&gt; &lt;span class="n"&gt;not&lt;/span&gt; &lt;span class="n"&gt;nothrow&lt;/span&gt; &lt;span class="n"&gt;copy&lt;/span&gt; &lt;span class="n"&gt;constructible&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;cert&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;err60&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;cpp&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
+&lt;a name="rest_code_2363916daf3248c1a3c905bfdeb1ee5f-2"&gt;&lt;/a&gt;            &lt;span class="k"&gt;throw&lt;/span&gt; &lt;span class="n"&gt;std&lt;/span&gt;&lt;span class="o"&gt;::&lt;/span&gt;&lt;span class="n"&gt;length_error&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;"aligned_allocator&amp;lt;T&amp;gt;::allocate() - Integer overflow."&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+&lt;a name="rest_code_2363916daf3248c1a3c905bfdeb1ee5f-3"&gt;&lt;/a&gt;                  &lt;span class="o"&gt;^&lt;/span&gt;
+&lt;/pre&gt;&lt;p&gt;This is one of the checks I don't agree with. Even though it makes sense to
+prefer exception that are nothrow copy constructible, they should be caught by
+const reference anyway. Moreover, this is here an exception from the standard
+library.&lt;/p&gt;
+&lt;pre class="code text"&gt;&lt;a name="rest_code_a9b73a5c8cf8408093759d5ec4b4d46c-1"&gt;&lt;/a&gt;/home/wichtounet/dev/cpp_utils_test/include/cpp_utils/aligned_allocator.hpp:141:40: warning: do not use const_cast [cppcoreguidelines-pro-type-const-cast]
+&lt;a name="rest_code_a9b73a5c8cf8408093759d5ec4b4d46c-2"&gt;&lt;/a&gt;        free((reinterpret_cast&amp;lt;void**&amp;gt;(const_cast&amp;lt;std::remove_const_t&amp;lt;T&amp;gt;*&amp;gt;(ptr)))[-1]);
+&lt;a name="rest_code_a9b73a5c8cf8408093759d5ec4b4d46c-3"&gt;&lt;/a&gt;                                       ^
+&lt;/pre&gt;&lt;p&gt;In general, I agree that using const_cast should be avoided as much as possible.
+But there are some cases where they make sense. In this particular case, I don't
+modify the object itself but some memory before the object that is unrelated and
+I initialize myself.&lt;/p&gt;
+&lt;p&gt;I also had a few false positives, but overall nothing too bad. I'm quite
+satisfied with the quality of the results. I'll fix these warnings in the coming
+week.&lt;/p&gt;
+&lt;p&gt;Integration in Sonarqube&lt;/p&gt;
+&lt;p&gt;The sonar-cxx plugin just integrated support for clang-tidy in main. You need
+to build the version yourself, the 0.9.8-SNAPSHOT version. You then can use
+something like this in your sonar-project.properties file:&lt;/p&gt;
+&lt;pre class="code text"&gt;&lt;a name="rest_code_3b2c06213ac94d8bac9a28d7e67c5be0-1"&gt;&lt;/a&gt;sonar.cxx.clangtidy.reportPath=clang-tidy-report
+&lt;/pre&gt;&lt;p&gt;and sonar-cxx will parse the results and integrate the issues in your sonar
+report.&lt;/p&gt;
+&lt;p&gt;Here is an example:&lt;/p&gt;
+&lt;img alt="/images/sonar-cxx-clang-tidy.png" src="http://baptiste-wicht.com/images/sonar-cxx-clang-tidy.png"&gt;
+&lt;p&gt;You can see two of the warnings from clang-tidy :)&lt;/p&gt;
+&lt;p&gt;For now, I haven't integrate this in my Continuous Integration system because
+I'm still having issues with clang-tidy and the compilation database. Because
+the compilation contains absolute paths to the file and to the current
+directory, it cannot be shared directly between servers. I have to find a way to
+fix that so that clang-tidy can use on the other computer. I'll probably wait
+till the sonar-cxx 0.9.8 version is released before integrating all this in
+Sonarqube, but this is a great news for this plugin :)&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="section" id="conclusion"&gt;
+&lt;h2&gt;Conclusion&lt;/h2&gt;
+&lt;p&gt;clang-tidy is C++ linter that can analyze your code and checks for hundreds of
+problems in it. With it, I have found some very interesting problems in the code
+of my cpp_utils library. Moreover, you can now integrate it Sonarqube by using
+the sonar-cxx plugin. Since it is a bit slow, I'll probably not integrate it in
+my bigger projects, but I'll integrate at least in the cpp_utils library when
+sonar-cxx 0.9.8 will be released.&lt;/p&gt;
+&lt;/div&gt;&lt;/div&gt;</description><category>C++</category><category>clang</category><category>projects</category><category>Sonar</category><guid>http://baptiste-wicht.com/posts/2017/03/clang-tidy-static-analysis-integration-in-sonarqube.html</guid><pubDate>Sat, 11 Mar 2017 08:54:00 GMT</pubDate></item><item><title>Aggregator Plugin : Display global metrics in Sonarqube</title><link>http://baptiste-wicht.com/posts/2015/11/aggregator-plugin-display-global-metrics-in-sonarqube.html</link><dc:creator>Baptiste Wicht</dc:creator><description>&lt;div&gt;&lt;p&gt;Recently, I wanted to know how many lines of code I had on my Sonar server with all my C++ projects. Sonarsource proposes a commercial plugins (Views) that allows to do that (and much more...), but I didn't wanted to pay thousands of dollars simply to get a total of my lines of code, therefore I wrote a very  simple Sonar plugin to compute some global metrics.&lt;/p&gt;
+&lt;p&gt;This plugin is very simple, it only provides a global widgets that aggregates some stats over all your projects. For instance, here is the results on my Sonar server:&lt;/p&gt;
+&lt;img alt="/images/aggregator_widget.png" class="align-center" src="http://baptiste-wicht.com/images/aggregator_widget.png"&gt;
+&lt;p&gt;The plugin is freely available on Github: &lt;a class="reference external" href="https://github.com/wichtounet/aggregator-plugin"&gt;https://github.com/wichtounet/aggregator-plugin&lt;/a&gt; . However, it has only be tested on my Sonar server (4.5.2) and it is my first Sonar plugin, so it may not work everywhere. If you experience issues, don't hesitate to open an issue on Github or to propose a Pull Request.&lt;/p&gt;
+&lt;p&gt;You can install the plugin by putting the .jar file (from the Github Releases page) into your sonar/extensions/plugins directory and restart Sonar. You should then have access to a new global widget that you can add to a dashboard.&lt;/p&gt;
+&lt;p&gt;I hope this plugin helps some of you.&lt;/p&gt;&lt;/div&gt;</description><category>projects</category><category>Releases</category><category>Sonar</category><guid>http://baptiste-wicht.com/posts/2015/11/aggregator-plugin-display-global-metrics-in-sonarqube.html</guid><pubDate>Fri, 20 Nov 2015 10:37:55 GMT</pubDate></item><item><title>Continuous Performance Management with CPM for C++</title><link>http://baptiste-wicht.com/posts/2015/06/continuous-performance-management-with-cpm-for-cpp.html</link><dc:creator>Baptiste Wicht</dc:creator><description>&lt;div&gt;&lt;p&gt;For some time, I have wanted some tool to monitor the performance of some of my projects. There are plenty of tools for Continuous Integration and Sonar is really great for continuous monitoring of code quality, but I haven't found anything satisfying for monitoring performance of C++ code. So I decided to write my own. &lt;a class="reference external" href="https://github.com/wichtounet/cpm"&gt;Continous Performance Monitor (CPM)&lt;/a&gt; is a simple C++ tool that helps you running benchmarks for your C++ programs and generate web reports based on the results. In this article, I will present this tool. CPM is especially made to benchmark several sub parts of libraries, but it perfectly be used to benchmark a whole program as well.&lt;/p&gt;
+&lt;p&gt;The idea is to couple it with a Continuous Integration tool (I use Jenkins for instance) and run the benchmarks for every new push in a repository. With that, you can check if you have performance regression for instance or simply see if your changes were really improving the performance as much as you thought.&lt;/p&gt;
+&lt;p&gt;It is made of two separate parts:&lt;/p&gt;
+&lt;ol class="arabic simple"&gt;
+&lt;li&gt;A header-only library that you can use to benchmark your program and that will give you the performance results. It will also generate a JSON report of the collected data.&lt;/li&gt;
+&lt;li&gt;A program that will generate a web version of the reports with analysis over time, over different compilers or over different configurations.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;CPM is especially made to benchmark functions that takes input data and which runtime depends on the dimensions of the input data. For each benchmark, CPM will execute it with several different input sizes. There are different ways to define a benchmark:&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;&lt;em&gt;two_pass&lt;/em&gt;: The benchmark is made of two part, the initialization part is called once for each input size and then the benchmark part is repeated several times for the measure. This is the most general version.&lt;/li&gt;
+&lt;li&gt;&lt;em&gt;global&lt;/em&gt;: The benchmark will be run with different input sizes but uses global data that will be randomized before each measure&lt;/li&gt;
+&lt;li&gt;&lt;em&gt;simple&lt;/em&gt;: The benchmark will be run with different input sizes, data will not be randomized&lt;/li&gt;
+&lt;li&gt;&lt;em&gt;once&lt;/em&gt;: The benchmark will be run with no input size.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Note: The randomization of the data can be disabled.&lt;/p&gt;
+&lt;p&gt;You can run independent benchmarks or you can run sections of benchmarks. A section is used to compared different implementations of the same thing. For instance, I use them to compare different implementation of convolution or to see how ETL compete with other Expression Templates library.&lt;/p&gt;
+&lt;img alt="/images/cpm_large.png" src="http://baptiste-wicht.com/images/cpm_large.png"&gt;
+&lt;div class="section" id="examples"&gt;
+&lt;h2&gt;Examples&lt;/h2&gt;
+&lt;p&gt;I've uploaded three generated reports so that you can have look at some results:&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;Results of the ETL benchmark (one page per benchmark): &lt;a class="reference external" href="http://baptiste-wicht.com/cpm/etl/"&gt;Site 1&lt;/a&gt; &lt;a class="reference external" href="https://github.com/wichtounet/etl/blob/master/workbench/benchmark.cpp"&gt;Source 1&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;Results of simple ETL / Blaze / Eigen3 comparison: &lt;a class="reference external" href="http://baptiste-wicht.com/cpm/etl_blaze_eigen/"&gt;Site 2&lt;/a&gt; &lt;a class="reference external" href="https://github.com/wichtounet/etl_vs_blaze/blob/master/src/simple.cpp"&gt;Source 2&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;Results of the CPM dummy examples: &lt;a class="reference external" href="http://baptiste-wicht.com/cpm/examples/"&gt;Site 3&lt;/a&gt; &lt;a class="reference external" href="https://github.com/wichtounet/cpm/blob/master/examples/simple.cpp"&gt;Source 3&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;div class="section" id="run-benchmarks"&gt;
+&lt;h2&gt;Run benchmarks&lt;/h2&gt;
+&lt;p&gt;There are two ways of running CPM. You can directly use the library to run the benchmarks or you can use the macro facilities to make it easier. I recommend to use the second way since it is easier and I'm gonna try to keep it stable while the library can change. If you want an example of using the library directly, you can take a look at &lt;a class="reference external" href="https://github.com/wichtounet/cpm/blob/master/examples/simple.cpp"&gt;this example&lt;/a&gt;. In this chapter, I'm gonna focus on the macro-way.&lt;/p&gt;
+&lt;p&gt;The library is available &lt;a class="reference external" href="https://github.com/wichtounet/cpm"&gt;here&lt;/a&gt;, you can either include as a submodule of your projects or install it globally to have access to its headers.&lt;/p&gt;
+&lt;p&gt;The first thing to do is to include the CPM header:&lt;/p&gt;
+&lt;pre class="code cpp"&gt;&lt;a name="rest_code_636b80cd143a4e72ba27a682a77ab659-1"&gt;&lt;/a&gt;&lt;span class="cp"&gt;#define CPM_BENCHMARK "Example Benchmarks"&lt;/span&gt;
+&lt;a name="rest_code_636b80cd143a4e72ba27a682a77ab659-2"&gt;&lt;/a&gt;&lt;span class="cp"&gt;#include&lt;/span&gt; &lt;span class="cpf"&gt;"cpm/cpm.hpp"&lt;/span&gt;&lt;span class="cp"&gt;&lt;/span&gt;
+&lt;/pre&gt;&lt;p&gt;You have to name your benchmark. This will automatically creates a main and will run all the declared benchmark.&lt;/p&gt;
+&lt;div class="section" id="define-benchmarks"&gt;
+&lt;h3&gt;Define benchmarks&lt;/h3&gt;
+&lt;p&gt;Benchmarks can be defined either in a CPM_BENCH functor or in the global scope with &lt;code&gt;CPM_DIRECT_BENCH&lt;/code&gt;.&lt;/p&gt;
+&lt;ol class="arabic simple"&gt;
+&lt;li&gt;simple&lt;/li&gt;
+&lt;/ol&gt;
+&lt;pre class="code cpp"&gt;&lt;a name="rest_code_fc5a9e6f992d458295011dde4f212027-1"&gt;&lt;/a&gt;&lt;span class="n"&gt;CPM_DIRECT_BENCH_SIMPLE&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;"bench_name"&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="p"&gt;[](&lt;/span&gt;&lt;span class="n"&gt;std&lt;/span&gt;&lt;span class="o"&gt;::&lt;/span&gt;&lt;span class="kt"&gt;size_t&lt;/span&gt; &lt;span class="n"&gt;d&lt;/span&gt;&lt;span class="p"&gt;){&lt;/span&gt; &lt;span class="n"&gt;std&lt;/span&gt;&lt;span class="o"&gt;::&lt;/span&gt;&lt;span class="n"&gt;this_thread&lt;/span&gt;&lt;span class="o"&gt;::&lt;/span&gt;&lt;span class="n"&gt;sleep_for&lt;/span&gt;&lt;span class="p"&gt;((&lt;/span&gt;&lt;span class="n"&gt;factor&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt; &lt;span class="n"&gt;d&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt; &lt;span class="mi"&gt;2&lt;/span&gt;&lt;span class="n"&gt;_ns&lt;/span&gt; &lt;span class="p"&gt;);&lt;/span&gt; &lt;span class="p"&gt;})&lt;/span&gt;
+&lt;/pre&gt;&lt;p&gt;The first argument is the name of the benchmark and the second argument is the function that will be benchmarked by the system, this function takes the input size as input.&lt;/p&gt;
+&lt;ol class="arabic simple" start="2"&gt;
+&lt;li&gt;global&lt;/li&gt;
+&lt;/ol&gt;
+&lt;pre class="code cpp"&gt;&lt;a name="rest_code_f08f6cdda910473a95e3001f7df77d39-1"&gt;&lt;/a&gt;&lt;span class="n"&gt;CPM_BENCH&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+&lt;a name="rest_code_f08f6cdda910473a95e3001f7df77d39-2"&gt;&lt;/a&gt;    &lt;span class="n"&gt;test&lt;/span&gt; &lt;span class="n"&gt;a&lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt;&lt;span class="mi"&gt;3&lt;/span&gt;&lt;span class="p"&gt;};&lt;/span&gt;
+&lt;a name="rest_code_f08f6cdda910473a95e3001f7df77d39-3"&gt;&lt;/a&gt;    &lt;span class="n"&gt;CPM_GLOBAL&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;"bench_name"&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="o"&gt;&amp;amp;&lt;/span&gt;&lt;span class="n"&gt;a&lt;/span&gt;&lt;span class="p"&gt;](&lt;/span&gt;&lt;span class="n"&gt;std&lt;/span&gt;&lt;span class="o"&gt;::&lt;/span&gt;&lt;span class="kt"&gt;size_t&lt;/span&gt; &lt;span class="n"&gt;d&lt;/span&gt;&lt;span class="p"&gt;){&lt;/span&gt; &lt;span class="n"&gt;std&lt;/span&gt;&lt;span class="o"&gt;::&lt;/span&gt;&lt;span class="n"&gt;this_thread&lt;/span&gt;&lt;span class="o"&gt;::&lt;/span&gt;&lt;span class="n"&gt;sleep_for&lt;/span&gt;&lt;span class="p"&gt;((&lt;/span&gt;&lt;span class="n"&gt;factor&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt; &lt;span class="n"&gt;d&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt; &lt;span class="n"&gt;a&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;d&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="n"&gt;_ns&lt;/span&gt; &lt;span class="p"&gt;);&lt;/span&gt; &lt;span class="p"&gt;},&lt;/span&gt; &lt;span class="n"&gt;a&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+&lt;a name="rest_code_f08f6cdda910473a95e3001f7df77d39-4"&gt;&lt;/a&gt;&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;/pre&gt;&lt;p&gt;The first argument is the name of the benchmark, the second is the function being benchmarked and the following arguments must be references to global data that will be randomized by CPM.&lt;/p&gt;
+&lt;ol class="arabic simple" start="3"&gt;
+&lt;li&gt;two_pass&lt;/li&gt;
+&lt;/ol&gt;
+&lt;pre class="code cpp"&gt;&lt;a name="rest_code_72c822830c0c43c3921a3c7c21be2daa-1"&gt;&lt;/a&gt;&lt;span class="n"&gt;CPM_DIRECT_BENCH_TWO_PASS&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;"bench_name"&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+&lt;a name="rest_code_72c822830c0c43c3921a3c7c21be2daa-2"&gt;&lt;/a&gt;    &lt;span class="p"&gt;[](&lt;/span&gt;&lt;span class="n"&gt;std&lt;/span&gt;&lt;span class="o"&gt;::&lt;/span&gt;&lt;span class="kt"&gt;size_t&lt;/span&gt; &lt;span class="n"&gt;d&lt;/span&gt;&lt;span class="p"&gt;){&lt;/span&gt; &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="n"&gt;std&lt;/span&gt;&lt;span class="o"&gt;::&lt;/span&gt;&lt;span class="n"&gt;make_tuple&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;test&lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt;&lt;span class="n"&gt;d&lt;/span&gt;&lt;span class="p"&gt;});&lt;/span&gt; &lt;span class="p"&gt;},&lt;/span&gt;
+&lt;a name="rest_code_72c822830c0c43c3921a3c7c21be2daa-3"&gt;&lt;/a&gt;    &lt;span class="p"&gt;[](&lt;/span&gt;&lt;span class="n"&gt;std&lt;/span&gt;&lt;span class="o"&gt;::&lt;/span&gt;&lt;span class="kt"&gt;size_t&lt;/span&gt; &lt;span class="n"&gt;d&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;test&lt;/span&gt;&lt;span class="o"&gt;&amp;amp;&lt;/span&gt; &lt;span class="n"&gt;d2&lt;/span&gt;&lt;span class="p"&gt;){&lt;/span&gt; &lt;span class="n"&gt;std&lt;/span&gt;&lt;span class="o"&gt;::&lt;/span&gt;&lt;span class="n"&gt;this_thread&lt;/span&gt;&lt;span class="o"&gt;::&lt;/span&gt;&lt;span class="n"&gt;sleep_for&lt;/span&gt;&lt;span class="p"&gt;((&lt;/span&gt;&lt;span class="n"&gt;factor&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt; &lt;span class="mi"&gt;3&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;d&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="n"&gt;d2&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;d&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="n"&gt;_ns&lt;/span&gt; &lt;span class="p"&gt;);&lt;/span&gt; &lt;span class="p"&gt;}&lt;/span&gt;
+&lt;a name="rest_code_72c822830c0c43c3921a3c7c21be2daa-4"&gt;&lt;/a&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/pre&gt;&lt;p&gt;Again, the first argument is the name. The second argument is the initialization functor. This functor must returns a tuple with all the information that will be passed (unpacked) to the third argument (the benchmark functor). Everything that is being returned by the initialization functor will be randomized.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="section" id="select-the-input-sizes"&gt;
+&lt;h3&gt;Select the input sizes&lt;/h3&gt;
+&lt;p&gt;By default, CPM will invoke your benchmarks with values from 10 to 1000000, multiplying it by 10 each step. This can be tuned for each benchmark and section independently. Each benchmark macro has a _P suffix that allows you to set the size policy:&lt;/p&gt;
+&lt;pre class="code cpp"&gt;&lt;a name="rest_code_d4708b93bf6b433aad3e32ada84c7187-1"&gt;&lt;/a&gt;&lt;span class="n"&gt;CPM_SIMPLE_P&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;
+&lt;a name="rest_code_d4708b93bf6b433aad3e32ada84c7187-2"&gt;&lt;/a&gt;    &lt;span class="n"&gt;VALUES_POLICY&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="mi"&gt;2&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="mi"&gt;3&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="mi"&gt;4&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="mi"&gt;5&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="mi"&gt;6&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt;
+&lt;a name="rest_code_d4708b93bf6b433aad3e32ada84c7187-3"&gt;&lt;/a&gt;    &lt;span class="s"&gt;"simple_a_n"&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+&lt;a name="rest_code_d4708b93bf6b433aad3e32ada84c7187-4"&gt;&lt;/a&gt;    &lt;span class="p"&gt;[](&lt;/span&gt;&lt;span class="n"&gt;std&lt;/span&gt;&lt;span class="o"&gt;::&lt;/span&gt;&lt;span class="kt"&gt;size_t&lt;/span&gt; &lt;span class="n"&gt;d&lt;/span&gt;&lt;span class="p"&gt;){&lt;/span&gt; &lt;span class="n"&gt;std&lt;/span&gt;&lt;span class="o"&gt;::&lt;/span&gt;&lt;span class="n"&gt;this_thread&lt;/span&gt;&lt;span class="o"&gt;::&lt;/span&gt;&lt;span class="n"&gt;sleep_for&lt;/span&gt;&lt;span class="p"&gt;((&lt;/span&gt;&lt;span class="n"&gt;factor&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt; &lt;span class="n"&gt;d&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="n"&gt;_ns&lt;/span&gt; &lt;span class="p"&gt;);&lt;/span&gt; &lt;span class="p"&gt;});&lt;/span&gt;
+&lt;/pre&gt;&lt;p&gt;You can also have several sizes (for multidimensional data structures or algorithms):&lt;/p&gt;
+&lt;pre class="code cpp"&gt;&lt;a name="rest_code_7fa86a2bb9054c15a6ed0d42ad5bcae6-1"&gt;&lt;/a&gt;&lt;span class="n"&gt;CPM_DIRECT_BENCH_TWO_PASS_P&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;
+&lt;a name="rest_code_7fa86a2bb9054c15a6ed0d42ad5bcae6-2"&gt;&lt;/a&gt;    &lt;span class="n"&gt;NARY_POLICY&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;VALUES_POLICY&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;16&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;16&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;32&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;32&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;64&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;64&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt; &lt;span class="n"&gt;VALUES_POLICY&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;4&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;8&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;8&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;16&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;16&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;24&lt;/span&gt;&lt;span class="p"&gt;)),&lt;/span&gt;
+&lt;a name="rest_code_7fa86a2bb9054c15a6ed0d42ad5bcae6-3"&gt;&lt;/a&gt;    &lt;span class="s"&gt;"convmtx2"&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+&lt;a name="rest_code_7fa86a2bb9054c15a6ed0d42ad5bcae6-4"&gt;&lt;/a&gt;    &lt;span class="p"&gt;[](&lt;/span&gt;&lt;span class="n"&gt;std&lt;/span&gt;&lt;span class="o"&gt;::&lt;/span&gt;&lt;span class="kt"&gt;size_t&lt;/span&gt; &lt;span class="n"&gt;d1&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;std&lt;/span&gt;&lt;span class="o"&gt;::&lt;/span&gt;&lt;span class="kt"&gt;size_t&lt;/span&gt; &lt;span class="n"&gt;d2&lt;/span&gt;&lt;span class="p"&gt;){&lt;/span&gt; &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="n"&gt;std&lt;/span&gt;&lt;span class="o"&gt;::&lt;/span&gt;&lt;span class="n"&gt;make_tuple&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;dmat&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;d1&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;d1&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt; &lt;span class="n"&gt;dmat&lt;/span&gt;&lt;span class="p"&gt;((&lt;/span&gt;&lt;span class="n"&gt;d1&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="n"&gt;d2&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;d1&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="n"&gt;d2&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt; &lt;span class="n"&gt;d2&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt; &lt;span class="n"&gt;d2&lt;/span&gt;&lt;span class="p"&gt;));&lt;/span&gt; &lt;span class="p"&gt;},&lt;/span&gt;
+&lt;a name="rest_code_7fa86a2bb9054c15a6ed0d42ad5bcae6-5"&gt;&lt;/a&gt;    &lt;span class="p"&gt;[](&lt;/span&gt;&lt;span class="n"&gt;std&lt;/span&gt;&lt;span class="o"&gt;::&lt;/span&gt;&lt;span class="kt"&gt;size_t&lt;/span&gt; &lt;span class="cm"&gt;/*d1*/&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;std&lt;/span&gt;&lt;span class="o"&gt;::&lt;/span&gt;&lt;span class="kt"&gt;size_t&lt;/span&gt; &lt;span class="n"&gt;d2&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;dmat&lt;/span&gt;&lt;span class="o"&gt;&amp;amp;&lt;/span&gt; &lt;span class="n"&gt;a&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;dmat&lt;/span&gt;&lt;span class="o"&gt;&amp;amp;&lt;/span&gt; &lt;span class="n"&gt;b&lt;/span&gt;&lt;span class="p"&gt;){&lt;/span&gt; &lt;span class="n"&gt;b&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;etl&lt;/span&gt;&lt;span class="o"&gt;::&lt;/span&gt;&lt;span class="n"&gt;convmtx2&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;a&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;d2&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;d2&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt; &lt;span class="p"&gt;}&lt;/span&gt;
+&lt;a name="rest_code_7fa86a2bb9054c15a6ed0d42ad5bcae6-6"&gt;&lt;/a&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;div class="section" id="configure-benchmarks"&gt;
+&lt;h3&gt;Configure benchmarks&lt;/h3&gt;
+&lt;p&gt;By default, each benchmark is run 10 times for warmup and then repeated 50 times, but you can define your own values:&lt;/p&gt;
+&lt;pre class="code cpp"&gt;&lt;a name="rest_code_a27ffa33be2e4608bf8f446d9038795b-1"&gt;&lt;/a&gt;&lt;span class="cp"&gt;#define CPM_WARMUP 3&lt;/span&gt;
+&lt;a name="rest_code_a27ffa33be2e4608bf8f446d9038795b-2"&gt;&lt;/a&gt;&lt;span class="cp"&gt;#define CPM_REPEAT 10&lt;/span&gt;
+&lt;/pre&gt;&lt;p&gt;This must be done before the inclusion of the header.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="section" id="define-sections"&gt;
+&lt;h3&gt;Define sections&lt;/h3&gt;
+&lt;p&gt;Sections are simply a group of benchmarks, so instead of putting several benchmarks inside a &lt;code&gt;CPM_BENCH&lt;/code&gt;, you can put them inside a &lt;code&gt;CPM_SECTION&lt;/code&gt;. For instance:&lt;/p&gt;
+&lt;pre class="code cpp"&gt;&lt;a name="rest_code_cc0158d0ba8447aeb63147d2e3c0821d-1"&gt;&lt;/a&gt;&lt;span class="n"&gt;CPM_SECTION&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;"mmul"&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;a name="rest_code_cc0158d0ba8447aeb63147d2e3c0821d-2"&gt;&lt;/a&gt;    &lt;span class="n"&gt;CPM_SIMPLE&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;"std"&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="p"&gt;[](&lt;/span&gt;&lt;span class="n"&gt;std&lt;/span&gt;&lt;span class="o"&gt;::&lt;/span&gt;&lt;span class="kt"&gt;size_t&lt;/span&gt; &lt;span class="n"&gt;d&lt;/span&gt;&lt;span class="p"&gt;){&lt;/span&gt; &lt;span class="n"&gt;std&lt;/span&gt;&lt;span class="o"&gt;::&lt;/span&gt;&lt;span class="n"&gt;this_thread&lt;/span&gt;&lt;span class="o"&gt;::&lt;/span&gt;&lt;span class="n"&gt;sleep_for&lt;/span&gt;&lt;span class="p"&gt;((&lt;/span&gt;&lt;span class="n"&gt;factor&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt; &lt;span class="n"&gt;d&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt; &lt;span class="mi"&gt;9&lt;/span&gt;&lt;span class="n"&gt;_ns&lt;/span&gt; &lt;span class="p"&gt;);&lt;/span&gt; &lt;span class="p"&gt;});&lt;/span&gt;
+&lt;a name="rest_code_cc0158d0ba8447aeb63147d2e3c0821d-3"&gt;&lt;/a&gt;    &lt;span class="n"&gt;CPM_SIMPLE&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;"fast"&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="p"&gt;[](&lt;/span&gt;&lt;span class="n"&gt;std&lt;/span&gt;&lt;span class="o"&gt;::&lt;/span&gt;&lt;span class="kt"&gt;size_t&lt;/span&gt; &lt;span class="n"&gt;d&lt;/span&gt;&lt;span class="p"&gt;){&lt;/span&gt; &lt;span class="n"&gt;std&lt;/span&gt;&lt;span class="o"&gt;::&lt;/span&gt;&lt;span class="n"&gt;this_thread&lt;/span&gt;&lt;span class="o"&gt;::&lt;/span&gt;&lt;span class="n"&gt;sleep_for&lt;/span&gt;&lt;span class="p"&gt;((&lt;/span&gt;&lt;span class="n"&gt;factor&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;d&lt;/span&gt; &lt;span class="o"&gt;/&lt;/span&gt; &lt;span class="mi"&gt;3&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="n"&gt;_ns&lt;/span&gt; &lt;span class="p"&gt;);&lt;/span&gt; &lt;span class="p"&gt;});&lt;/span&gt;
+&lt;a name="rest_code_cc0158d0ba8447aeb63147d2e3c0821d-4"&gt;&lt;/a&gt;    &lt;span class="n"&gt;CPM_SIMPLE&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;"common"&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="p"&gt;[](&lt;/span&gt;&lt;span class="n"&gt;std&lt;/span&gt;&lt;span class="o"&gt;::&lt;/span&gt;&lt;span class="kt"&gt;size_t&lt;/span&gt; &lt;span class="n"&gt;d&lt;/span&gt;&lt;span class="p"&gt;){&lt;/span&gt; &lt;span class="n"&gt;std&lt;/span&gt;&lt;span class="o"&gt;::&lt;/span&gt;&lt;span class="n"&gt;this_thread&lt;/span&gt;&lt;span class="o"&gt;::&lt;/span&gt;&lt;span class="n"&gt;sleep_for&lt;/span&gt;&lt;span class="p"&gt;((&lt;/span&gt;&lt;span class="n"&gt;factor&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;d&lt;/span&gt; &lt;span class="o"&gt;/&lt;/span&gt; &lt;span class="mi"&gt;2&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt; &lt;span class="mi"&gt;3&lt;/span&gt;&lt;span class="n"&gt;_ns&lt;/span&gt; &lt;span class="p"&gt;);&lt;/span&gt; &lt;span class="p"&gt;});&lt;/span&gt;
+&lt;a name="rest_code_cc0158d0ba8447aeb63147d2e3c0821d-5"&gt;&lt;/a&gt;&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;a name="rest_code_cc0158d0ba8447aeb63147d2e3c0821d-6"&gt;&lt;/a&gt;&lt;span class="n"&gt;CPM_SECTION&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;"conv"&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;a name="rest_code_cc0158d0ba8447aeb63147d2e3c0821d-7"&gt;&lt;/a&gt;    &lt;span class="n"&gt;CPM_TWO_PASS&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;"std"&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+&lt;a name="rest_code_cc0158d0ba8447aeb63147d2e3c0821d-8"&gt;&lt;/a&gt;        &lt;span class="p"&gt;[](&lt;/span&gt;&lt;span class="n"&gt;std&lt;/span&gt;&lt;span class="o"&gt;::&lt;/span&gt;&lt;span class="kt"&gt;size_t&lt;/span&gt; &lt;span class="n"&gt;d&lt;/span&gt;&lt;span class="p"&gt;){&lt;/span&gt; &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="n"&gt;std&lt;/span&gt;&lt;span class="o"&gt;::&lt;/span&gt;&lt;span class="n"&gt;make_tuple&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;test&lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt;&lt;span class="n"&gt;d&lt;/span&gt;&lt;span class="p"&gt;});&lt;/span&gt; &lt;span class="p"&gt;},&lt;/span&gt;
+&lt;a name="rest_code_cc0158d0ba8447aeb63147d2e3c0821d-9"&gt;&lt;/a&gt;        &lt;span class="p"&gt;[](&lt;/span&gt;&lt;span class="n"&gt;std&lt;/span&gt;&lt;span class="o"&gt;::&lt;/span&gt;&lt;span class="kt"&gt;size_t&lt;/span&gt; &lt;span class="n"&gt;d&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;test&lt;/span&gt;&lt;span class="o"&gt;&amp;amp;&lt;/span&gt; &lt;span class="n"&gt;d2&lt;/span&gt;&lt;span class="p"&gt;){&lt;/span&gt; &lt;span class="n"&gt;std&lt;/span&gt;&lt;span class="o"&gt;::&lt;/span&gt;&lt;span class="n"&gt;this_thread&lt;/span&gt;&lt;span class="o"&gt;::&lt;/span&gt;&lt;span class="n"&gt;sleep_for&lt;/span&gt;&lt;span class="p"&gt;((&lt;/span&gt;&lt;span class="n"&gt;factor&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt; &lt;span class="mi"&gt;5&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;d&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="n"&gt;d2&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;d&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="n"&gt;_ns&lt;/span&gt; &lt;span class="p"&gt;);&lt;/span&gt; &lt;span class="p"&gt;}&lt;/span&gt;
+&lt;a name="rest_code_cc0158d0ba8447aeb63147d2e3c0821d-10"&gt;&lt;/a&gt;        &lt;span class="p"&gt;);&lt;/span&gt;
+&lt;a name="rest_code_cc0158d0ba8447aeb63147d2e3c0821d-11"&gt;&lt;/a&gt;    &lt;span class="n"&gt;CPM_TWO_PASS&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;"fast"&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+&lt;a name="rest_code_cc0158d0ba8447aeb63147d2e3c0821d-12"&gt;&lt;/a&gt;        &lt;span class="p"&gt;[](&lt;/span&gt;&lt;span class="n"&gt;std&lt;/span&gt;&lt;span class="o"&gt;::&lt;/span&gt;&lt;span class="kt"&gt;size_t&lt;/span&gt; &lt;span class="n"&gt;d&lt;/span&gt;&lt;span class="p"&gt;){&lt;/span&gt; &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="n"&gt;std&lt;/span&gt;&lt;span class="o"&gt;::&lt;/span&gt;&lt;span class="n"&gt;make_tuple&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;test&lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt;&lt;span class="n"&gt;d&lt;/span&gt;&lt;span class="p"&gt;});&lt;/span&gt; &lt;span class="p"&gt;},&lt;/span&gt;
+&lt;a name="rest_code_cc0158d0ba8447aeb63147d2e3c0821d-13"&gt;&lt;/a&gt;        &lt;span class="p"&gt;[](&lt;/span&gt;&lt;span class="n"&gt;std&lt;/span&gt;&lt;span class="o"&gt;::&lt;/span&gt;&lt;span class="kt"&gt;size_t&lt;/span&gt; &lt;span class="n"&gt;d&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;test&lt;/span&gt;&lt;span class="o"&gt;&amp;amp;&lt;/span&gt; &lt;span class="n"&gt;d2&lt;/span&gt;&lt;span class="p"&gt;){&lt;/span&gt; &lt;span class="n"&gt;std&lt;/span&gt;&lt;span class="o"&gt;::&lt;/span&gt;&lt;span class="n"&gt;this_thread&lt;/span&gt;&lt;span class="o"&gt;::&lt;/span&gt;&lt;span class="n"&gt;sleep_for&lt;/span&gt;&lt;span class="p"&gt;((&lt;/span&gt;&lt;span class="n"&gt;factor&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt; &lt;span class="mi"&gt;3&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;d&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="n"&gt;d2&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;d&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="n"&gt;_ns&lt;/span&gt; &lt;span class="p"&gt;);&lt;/span&gt; &lt;span class="p"&gt;}&lt;/span&gt;
+&lt;a name="rest_code_cc0158d0ba8447aeb63147d2e3c0821d-14"&gt;&lt;/a&gt;        &lt;span class="p"&gt;);&lt;/span&gt;
+&lt;a name="rest_code_cc0158d0ba8447aeb63147d2e3c0821d-15"&gt;&lt;/a&gt;&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;/pre&gt;&lt;p&gt;You can also set different warmup and repeat values for each section by using &lt;code&gt;CPM_SECTION_O&lt;/code&gt;:&lt;/p&gt;
+&lt;pre class="code cpp"&gt;&lt;a name="rest_code_df87c617efff48909c6aeac06cd1b55a-1"&gt;&lt;/a&gt;&lt;span class="n"&gt;CPM_SECTION_O&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;"fft"&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="mi"&gt;11&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="mi"&gt;51&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;a name="rest_code_df87c617efff48909c6aeac06cd1b55a-2"&gt;&lt;/a&gt;    &lt;span class="n"&gt;test&lt;/span&gt; &lt;span class="n"&gt;a&lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt;&lt;span class="mi"&gt;3&lt;/span&gt;&lt;span class="p"&gt;};&lt;/span&gt;
+&lt;a name="rest_code_df87c617efff48909c6aeac06cd1b55a-3"&gt;&lt;/a&gt;    &lt;span class="n"&gt;test&lt;/span&gt; &lt;span class="n"&gt;b&lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt;&lt;span class="mi"&gt;5&lt;/span&gt;&lt;span class="p"&gt;};&lt;/span&gt;
+&lt;a name="rest_code_df87c617efff48909c6aeac06cd1b55a-4"&gt;&lt;/a&gt;    &lt;span class="n"&gt;CPM_GLOBAL&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;"std"&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="o"&gt;&amp;amp;&lt;/span&gt;&lt;span class="n"&gt;a&lt;/span&gt;&lt;span class="p"&gt;](&lt;/span&gt;&lt;span class="n"&gt;std&lt;/span&gt;&lt;span class="o"&gt;::&lt;/span&gt;&lt;span class="kt"&gt;size_t&lt;/span&gt; &lt;span class="n"&gt;d&lt;/span&gt;&lt;span class="p"&gt;){&lt;/span&gt; &lt;span class="n"&gt;std&lt;/span&gt;&lt;span class="o"&gt;::&lt;/span&gt;&lt;span class="n"&gt;this_thread&lt;/span&gt;&lt;span class="o"&gt;::&lt;/span&gt;&lt;span class="n"&gt;sleep_for&lt;/span&gt;&lt;span class="p"&gt;((&lt;/span&gt;&lt;span class="n"&gt;factor&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt; &lt;span class="n"&gt;d&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;d&lt;/span&gt; &lt;span class="o"&gt;%&lt;/span&gt; &lt;span class="n"&gt;a&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;d&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="n"&gt;_ns&lt;/span&gt; &lt;span class="p"&gt;);&lt;/span&gt; &lt;span class="p"&gt;},&lt;/span&gt; &lt;span class="n"&gt;a&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+&lt;a name="rest_code_df87c617efff48909c6aeac06cd1b55a-5"&gt;&lt;/a&gt;    &lt;span class="n"&gt;CPM_GLOBAL&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;"mkl"&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="o"&gt;&amp;amp;&lt;/span&gt;&lt;span class="n"&gt;b&lt;/span&gt;&lt;span class="p"&gt;](&lt;/span&gt;&lt;span class="n"&gt;std&lt;/span&gt;&lt;span class="o"&gt;::&lt;/span&gt;&lt;span class="kt"&gt;size_t&lt;/span&gt; &lt;span class="n"&gt;d&lt;/span&gt;&lt;span class="p"&gt;){&lt;/span&gt; &lt;span class="n"&gt;std&lt;/span&gt;&lt;span class="o"&gt;::&lt;/span&gt;&lt;span class="n"&gt;this_thread&lt;/span&gt;&lt;span class="o"&gt;::&lt;/span&gt;&lt;span class="n"&gt;sleep_for&lt;/span&gt;&lt;span class="p"&gt;((&lt;/span&gt;&lt;span class="n"&gt;factor&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt; &lt;span class="n"&gt;d&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;d&lt;/span&gt; &lt;span class="o"&gt;%&lt;/span&gt; &lt;span class="n"&gt;b&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;d&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="n"&gt;_ns&lt;/span&gt; &lt;span class="p"&gt;);&lt;/span&gt; &lt;span class="p"&gt;},&lt;/span&gt; &lt;span class="n"&gt;b&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+&lt;a name="rest_code_df87c617efff48909c6aeac06cd1b55a-6"&gt;&lt;/a&gt;&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;/pre&gt;&lt;p&gt;will be warmup 11 times and run 51 times.&lt;/p&gt;
+&lt;p&gt;The size policy can also be changed for the complete section (cannot be changed independently for benchmarks inside the section):&lt;/p&gt;
+&lt;pre class="code cpp"&gt;&lt;a name="rest_code_89f4468365d3444e92b021ad026f90a4-1"&gt;&lt;/a&gt;&lt;span class="n"&gt;CPM_SECTION_P&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;"mmul"&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+&lt;a name="rest_code_89f4468365d3444e92b021ad026f90a4-2"&gt;&lt;/a&gt;    &lt;span class="n"&gt;NARY_POLICY&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;STD_STOP_POLICY&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;VALUES_POLICY&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="mi"&gt;2&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="mi"&gt;3&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="mi"&gt;4&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="mi"&gt;5&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="mi"&gt;6&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt; &lt;span class="n"&gt;VALUES_POLICY&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;2&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="mi"&gt;4&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="mi"&gt;8&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="mi"&gt;16&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="mi"&gt;32&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="mi"&gt;64&lt;/span&gt;&lt;span class="p"&gt;)))&lt;/span&gt;
+&lt;a name="rest_code_89f4468365d3444e92b021ad026f90a4-3"&gt;&lt;/a&gt;    &lt;span class="n"&gt;test&lt;/span&gt; &lt;span class="n"&gt;a&lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt;&lt;span class="mi"&gt;3&lt;/span&gt;&lt;span class="p"&gt;};&lt;/span&gt;
+&lt;a name="rest_code_89f4468365d3444e92b021ad026f90a4-4"&gt;&lt;/a&gt;    &lt;span class="n"&gt;test&lt;/span&gt; &lt;span class="n"&gt;b&lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt;&lt;span class="mi"&gt;5&lt;/span&gt;&lt;span class="p"&gt;};&lt;/span&gt;
+&lt;a name="rest_code_89f4468365d3444e92b021ad026f90a4-5"&gt;&lt;/a&gt;    &lt;span class="n"&gt;CPM_GLOBAL&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;"std"&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="o"&gt;&amp;amp;&lt;/span&gt;&lt;span class="n"&gt;a&lt;/span&gt;&lt;span class="p"&gt;](&lt;/span&gt;&lt;span class="n"&gt;std&lt;/span&gt;&lt;span class="o"&gt;::&lt;/span&gt;&lt;span class="kt"&gt;size_t&lt;/span&gt; &lt;span class="n"&gt;d1&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="n"&gt;std&lt;/span&gt;&lt;span class="o"&gt;::&lt;/span&gt;&lt;span class="kt"&gt;size_t&lt;/span&gt; &lt;span class="n"&gt;d2&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;std&lt;/span&gt;&lt;span class="o"&gt;::&lt;/span&gt;&lt;span class="kt"&gt;size_t&lt;/span&gt; &lt;span class="n"&gt;d3&lt;/span&gt;&lt;span class="p"&gt;){&lt;/span&gt; &lt;span class="cm"&gt;/* Something */&lt;/span&gt; &lt;span class="p"&gt;},&lt;/span&gt; &lt;span class="n"&gt;a&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+&lt;a name="rest_code_89f4468365d3444e92b021ad026f90a4-6"&gt;&lt;/a&gt;    &lt;span class="n"&gt;CPM_GLOBAL&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;"mkl"&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="o"&gt;&amp;amp;&lt;/span&gt;&lt;span class="n"&gt;a&lt;/span&gt;&lt;span class="p"&gt;](&lt;/span&gt;&lt;span class="n"&gt;std&lt;/span&gt;&lt;span class="o"&gt;::&lt;/span&gt;&lt;span class="kt"&gt;size_t&lt;/span&gt; &lt;span class="n"&gt;d1&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="n"&gt;std&lt;/span&gt;&lt;span class="o"&gt;::&lt;/span&gt;&lt;span class="kt"&gt;size_t&lt;/span&gt; &lt;span class="n"&gt;d2&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;std&lt;/span&gt;&lt;span class="o"&gt;::&lt;/span&gt;&lt;span class="kt"&gt;size_t&lt;/span&gt; &lt;span class="n"&gt;d3&lt;/span&gt;&lt;span class="p"&gt;){&lt;/span&gt; &lt;span class="cm"&gt;/* Something */&lt;/span&gt; &lt;span class="p"&gt;},&lt;/span&gt; &lt;span class="n"&gt;a&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+&lt;a name="rest_code_89f4468365d3444e92b021ad026f90a4-7"&gt;&lt;/a&gt;    &lt;span class="n"&gt;CPM_GLOBAL&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;"bla"&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="o"&gt;&amp;amp;&lt;/span&gt;&lt;span class="n"&gt;a&lt;/span&gt;&lt;span class="p"&gt;](&lt;/span&gt;&lt;span class="n"&gt;std&lt;/span&gt;&lt;span class="o"&gt;::&lt;/span&gt;&lt;span class="kt"&gt;size_t&lt;/span&gt; &lt;span class="n"&gt;d1&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="n"&gt;std&lt;/span&gt;&lt;span class="o"&gt;::&lt;/span&gt;&lt;span class="kt"&gt;size_t&lt;/span&gt; &lt;span class="n"&gt;d2&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;std&lt;/span&gt;&lt;span class="o"&gt;::&lt;/span&gt;&lt;span class="kt"&gt;size_t&lt;/span&gt; &lt;span class="n"&gt;d3&lt;/span&gt;&lt;span class="p"&gt;){&lt;/span&gt; &lt;span class="cm"&gt;/* Something */&lt;/span&gt; &lt;span class="p"&gt;},&lt;/span&gt; &lt;span class="n"&gt;a&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+&lt;a name="rest_code_89f4468365d3444e92b021ad026f90a4-8"&gt;&lt;/a&gt;&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;div class="section" id="run"&gt;
+&lt;h3&gt;Run&lt;/h3&gt;
+&lt;p&gt;Once your benchmarks and sections are defined, you can build you program as a normal C++ main and run it. You can pass several options:&lt;/p&gt;
+&lt;pre class="code text"&gt;&lt;a name="rest_code_7f4a739ac3f04b099ae55a3cd7fe60d9-1"&gt;&lt;/a&gt;./debug/bin/full -h
+&lt;a name="rest_code_7f4a739ac3f04b099ae55a3cd7fe60d9-2"&gt;&lt;/a&gt;Usage:
+&lt;a name="rest_code_7f4a739ac3f04b099ae55a3cd7fe60d9-3"&gt;&lt;/a&gt;  ./debug/bin/full [OPTION...]
+&lt;a name="rest_code_7f4a739ac3f04b099ae55a3cd7fe60d9-4"&gt;&lt;/a&gt;
+&lt;a name="rest_code_7f4a739ac3f04b099ae55a3cd7fe60d9-5"&gt;&lt;/a&gt;  -n, --name arg           Benchmark name
+&lt;a name="rest_code_7f4a739ac3f04b099ae55a3cd7fe60d9-6"&gt;&lt;/a&gt;  -t, --tag arg            Tag name
+&lt;a name="rest_code_7f4a739ac3f04b099ae55a3cd7fe60d9-7"&gt;&lt;/a&gt;  -c, --configuration arg  Configuration
+&lt;a name="rest_code_7f4a739ac3f04b099ae55a3cd7fe60d9-8"&gt;&lt;/a&gt;  -o, --output arg         Output folder
+&lt;a name="rest_code_7f4a739ac3f04b099ae55a3cd7fe60d9-9"&gt;&lt;/a&gt;  -h, --help               Print help
+&lt;/pre&gt;&lt;p&gt;The tag is used to distinguish between runs, I recommend that you use a SCM identifier for the tag. If you want to run your program with different configurations (compiler options for instance), you'll have to set the configuration with the --configuration option.&lt;/p&gt;
+&lt;p&gt;Here is a possible output:&lt;/p&gt;
+&lt;pre class="code text"&gt;&lt;a name="rest_code_9378d07dd08446fe9b344d4b0915cd51-1"&gt;&lt;/a&gt; Start CPM benchmarks
+&lt;a name="rest_code_9378d07dd08446fe9b344d4b0915cd51-2"&gt;&lt;/a&gt;    Results will be automatically saved in /home/wichtounet/dev/cpm/results/10.cpm
+&lt;a name="rest_code_9378d07dd08446fe9b344d4b0915cd51-3"&gt;&lt;/a&gt;    Each test is warmed-up 10 times
+&lt;a name="rest_code_9378d07dd08446fe9b344d4b0915cd51-4"&gt;&lt;/a&gt;    Each test is repeated 50 times
+&lt;a name="rest_code_9378d07dd08446fe9b344d4b0915cd51-5"&gt;&lt;/a&gt;    Time Sun Jun 14 15:33:51 2015
+&lt;a name="rest_code_9378d07dd08446fe9b344d4b0915cd51-6"&gt;&lt;/a&gt;
+&lt;a name="rest_code_9378d07dd08446fe9b344d4b0915cd51-7"&gt;&lt;/a&gt;    Tag: 10
+&lt;a name="rest_code_9378d07dd08446fe9b344d4b0915cd51-8"&gt;&lt;/a&gt;    Configuration:
+&lt;a name="rest_code_9378d07dd08446fe9b344d4b0915cd51-9"&gt;&lt;/a&gt;    Compiler: clang-3.5.0
+&lt;a name="rest_code_9378d07dd08446fe9b344d4b0915cd51-10"&gt;&lt;/a&gt;    Operating System: Linux x86_64 3.16.5-gentoo
+&lt;a name="rest_code_9378d07dd08446fe9b344d4b0915cd51-11"&gt;&lt;/a&gt;
+&lt;a name="rest_code_9378d07dd08446fe9b344d4b0915cd51-12"&gt;&lt;/a&gt;
+&lt;a name="rest_code_9378d07dd08446fe9b344d4b0915cd51-13"&gt;&lt;/a&gt; simple_a(10) : mean: 52.5us (52.3us,52.7us) stddev: 675ns min: 48.5us max: 53.3us througput: 190KEs
+&lt;a name="rest_code_9378d07dd08446fe9b344d4b0915cd51-14"&gt;&lt;/a&gt; simple_a(100) : mean: 50.1us (48us,52.2us) stddev: 7.53us min: 7.61us max: 52.3us througput: 2MEs
+&lt;a name="rest_code_9378d07dd08446fe9b344d4b0915cd51-15"&gt;&lt;/a&gt; simple_a(1000) : mean: 52.7us (52.7us,52.7us) stddev: 48.7ns min: 52.7us max: 53us througput: 19MEs
+&lt;a name="rest_code_9378d07dd08446fe9b344d4b0915cd51-16"&gt;&lt;/a&gt; simple_a(10000) : mean: 62.6us (62.6us,62.7us) stddev: 124ns min: 62.6us max: 63.5us througput: 160MEs
+&lt;a name="rest_code_9378d07dd08446fe9b344d4b0915cd51-17"&gt;&lt;/a&gt; simple_a(100000) : mean: 161us (159us,162us) stddev: 5.41us min: 132us max: 163us througput: 622MEs
+&lt;a name="rest_code_9378d07dd08446fe9b344d4b0915cd51-18"&gt;&lt;/a&gt; simple_a(1000000) : mean: 1.16ms (1.16ms,1.17ms) stddev: 7.66us min: 1.15ms max: 1.18ms througput: 859MEs
+&lt;a name="rest_code_9378d07dd08446fe9b344d4b0915cd51-19"&gt;&lt;/a&gt;
+&lt;a name="rest_code_9378d07dd08446fe9b344d4b0915cd51-20"&gt;&lt;/a&gt;-----------------------------------------
+&lt;a name="rest_code_9378d07dd08446fe9b344d4b0915cd51-21"&gt;&lt;/a&gt;|            gemm |       std |     mkl |
+&lt;a name="rest_code_9378d07dd08446fe9b344d4b0915cd51-22"&gt;&lt;/a&gt;-----------------------------------------
+&lt;a name="rest_code_9378d07dd08446fe9b344d4b0915cd51-23"&gt;&lt;/a&gt;|           10x10 | 51.7189us | 64.64ns |
+&lt;a name="rest_code_9378d07dd08446fe9b344d4b0915cd51-24"&gt;&lt;/a&gt;|         100x100 | 52.4336us | 63.42ns |
+&lt;a name="rest_code_9378d07dd08446fe9b344d4b0915cd51-25"&gt;&lt;/a&gt;|       1000x1000 | 56.0097us |  63.2ns |
+&lt;a name="rest_code_9378d07dd08446fe9b344d4b0915cd51-26"&gt;&lt;/a&gt;|     10000x10000 | 95.6123us | 63.52ns |
+&lt;a name="rest_code_9378d07dd08446fe9b344d4b0915cd51-27"&gt;&lt;/a&gt;|   100000x100000 | 493.795us | 63.48ns |
+&lt;a name="rest_code_9378d07dd08446fe9b344d4b0915cd51-28"&gt;&lt;/a&gt;| 1000000x1000000 | 4.46646ms |  63.8ns |
+&lt;a name="rest_code_9378d07dd08446fe9b344d4b0915cd51-29"&gt;&lt;/a&gt;-----------------------------------------
+&lt;/pre&gt;&lt;p&gt;The program will give you for each benchmark, the mean duration (with confidence interval), the standard deviation of the samples, the min and max duration and an estimated throughput. The throughput is simply using the size and the mean duration. Each section is directly compared with an array-like output. Once the benchmark is run, a JSON report will be generated inside the output folder.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class="section" id="continuous-monitoring"&gt;
+&lt;h2&gt;Continuous Monitoring&lt;/h2&gt;
+&lt;p&gt;Once you have run the benchmark, you can use the CPM program to generate the web reports. It will generate:&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;1 performance graph for each benchmark and section&lt;/li&gt;
+&lt;li&gt;1 graph comparing the performances over time of your benchmark sections if you have run the benchmark several time&lt;/li&gt;
+&lt;li&gt;1 graph comparing different compiler if you have compiled your program with different compiler&lt;/li&gt;
+&lt;li&gt;1 graph comparing different configuration if you have run the benchmark with different configuration&lt;/li&gt;
+&lt;li&gt;1 table summary for each benchmark / section&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;First you have to build and install the CPM program (you can have a look at the &lt;a class="reference external" href="https://github.com/wichtounet/cpm/blob/master/README.rst"&gt;Readme&lt;/a&gt; for more informations.&lt;/p&gt;
+&lt;p&gt;Several options are available:&lt;/p&gt;
+&lt;pre class="code text"&gt;&lt;a name="rest_code_b2eea5446f1f4af9bccdf10a38c2bd34-1"&gt;&lt;/a&gt;Usage:
+&lt;a name="rest_code_b2eea5446f1f4af9bccdf10a38c2bd34-2"&gt;&lt;/a&gt;  cpm [OPTION...]  results_folder
+&lt;a name="rest_code_b2eea5446f1f4af9bccdf10a38c2bd34-3"&gt;&lt;/a&gt;
+&lt;a name="rest_code_b2eea5446f1f4af9bccdf10a38c2bd34-4"&gt;&lt;/a&gt;      --time-sizes             Display multiple sizes in the time graphs
+&lt;a name="rest_code_b2eea5446f1f4af9bccdf10a38c2bd34-5"&gt;&lt;/a&gt;  -t, --theme arg              Theme name [raw,bootstrap,boostrap-tabs] (default:bootstrap)
+&lt;a name="rest_code_b2eea5446f1f4af9bccdf10a38c2bd34-6"&gt;&lt;/a&gt;  -c, --hctheme theme_name     Highcharts Theme name [std,dark_unica] (default:dark_unica)
+&lt;a name="rest_code_b2eea5446f1f4af9bccdf10a38c2bd34-7"&gt;&lt;/a&gt;  -o, --output output_folder   Output folder (default:reports)
+&lt;a name="rest_code_b2eea5446f1f4af9bccdf10a38c2bd34-8"&gt;&lt;/a&gt;      --input arg              Input results
+&lt;a name="rest_code_b2eea5446f1f4af9bccdf10a38c2bd34-9"&gt;&lt;/a&gt;  -s, --sort-by-tag            Sort by tag instaed of time
+&lt;a name="rest_code_b2eea5446f1f4af9bccdf10a38c2bd34-10"&gt;&lt;/a&gt;  -p, --pages                  General several HTML pages (one per bench/section)
+&lt;a name="rest_code_b2eea5446f1f4af9bccdf10a38c2bd34-11"&gt;&lt;/a&gt;  -d, --disable-time           Disable time graphs
+&lt;a name="rest_code_b2eea5446f1f4af9bccdf10a38c2bd34-12"&gt;&lt;/a&gt;      --disable-compiler       Disable compiler graphs
+&lt;a name="rest_code_b2eea5446f1f4af9bccdf10a38c2bd34-13"&gt;&lt;/a&gt;      --disable-configuration  Disable configuration graphs
+&lt;a name="rest_code_b2eea5446f1f4af9bccdf10a38c2bd34-14"&gt;&lt;/a&gt;      --disable-summary        Disable summary table
+&lt;a name="rest_code_b2eea5446f1f4af9bccdf10a38c2bd34-15"&gt;&lt;/a&gt;  -h, --help                   Print help
+&lt;/pre&gt;&lt;p&gt;There are 3 themes:&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;&lt;em&gt;bootstrap&lt;/em&gt;: The default theme, using Bootstrap to make a responsive interface.&lt;/li&gt;
+&lt;li&gt;&lt;em&gt;bootstrap-tabs&lt;/em&gt;: Similar to the &lt;em&gt;bootstrap&lt;/em&gt; theme except that only is displayed at the same time for each benchmark, with tabs.&lt;/li&gt;
+&lt;li&gt;&lt;em&gt;raw&lt;/em&gt; : A very basic theme, only using Highcharts library for graphs. It is very minimalistic&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;For instance, here are how the reports are generated for the ETL benchmark:&lt;/p&gt;
+&lt;pre class="code text"&gt;&lt;a name="rest_code_0f819bc5d4bd49f4a25e3d9fc0d62097-1"&gt;&lt;/a&gt;cpm -p -s -t bootstrap -c dark_unica -o reports results
+&lt;/pre&gt;&lt;p&gt;Here is the graph generated for the "R = A + B + C" benchmark and different compilers:&lt;/p&gt;
+&lt;img alt="/images/cpm_etl_compiler.png" src="http://baptiste-wicht.com/images/cpm_etl_compiler.png"&gt;
+&lt;p&gt;and its summary:&lt;/p&gt;
+&lt;img alt="/images/cpm_etl_summary.png" src="http://baptiste-wicht.com/images/cpm_etl_summary.png"&gt;
+&lt;p&gt;Here is the graph for a 2D convolution with ETL:&lt;/p&gt;
+&lt;img alt="/images/cpm_etl_section.png" src="http://baptiste-wicht.com/images/cpm_etl_section.png"&gt;
+&lt;p&gt;And the graph for different configurations of ETL and the dense matrix matrix multiplication:&lt;/p&gt;
+&lt;img alt="/images/cpm_etl_configuration.png" src="http://baptiste-wicht.com/images/cpm_etl_configuration.png"&gt;
+&lt;/div&gt;
+&lt;div class="section" id="conclusion-and-future-work"&gt;
+&lt;h2&gt;Conclusion and Future Work&lt;/h2&gt;
+&lt;p&gt;Although CPM is already working, there are several things that could be done to improve it further:&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;The generated web report could benefit from a global summary.&lt;/li&gt;
+&lt;li&gt;The throughput evaluation should be evaluated more carefully.&lt;/li&gt;
+&lt;li&gt;The tool should automatically evaluate the number of times that each tests should be run to have a good result instead of global warmup and repeat constants.&lt;/li&gt;
+&lt;li&gt;A better bootstrapping procedure should be used to determine the quality of the results and compute the confidence intervals.&lt;/li&gt;
+&lt;li&gt;The performances of the website with lots of graphs should be improved.&lt;/li&gt;
+&lt;li&gt;Make CPM more general-purpose to support larger needs.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Here it is, I have summed most of the features of the CPM Continuous Performance Analysis tool. I hope that it will be helpful to some of you as well.&lt;/p&gt;
+&lt;p&gt;If you have other ideas or want to contribute something to the project, you can directly open an issue or a pull request on &lt;a class="reference external" href="https://github.com/wichtounet/cpm"&gt;Github&lt;/a&gt;. Or contact me via this site or Github.&lt;/p&gt;
+&lt;/div&gt;&lt;/div&gt;</description><category>Benchmarks</category><category>C++</category><category>Performances</category><category>Sonar</category><category>Tools</category><guid>http://baptiste-wicht.com/posts/2015/06/continuous-performance-management-with-cpm-for-cpp.html</guid><pubDate>Sun, 14 Jun 2015 12:02:57 GMT</pubDate></item><item><title>Sonar C++ Community Plugin Review</title><link>http://baptiste-wicht.com/posts/2015/05/sonar-cpp-community-plugin-review.html</link><dc:creator>Baptiste Wicht</dc:creator><description>&lt;div&gt;&lt;p&gt;It's been a long time since I have written on this blog. I have had quite a lot of work between my Ph.D and my teaching. I have several projects going on, I'll try to write updates on them later on.&lt;/p&gt;
+&lt;p&gt;Some time ago, I wrote an article &lt;cite&gt;about the official C++ plugin for Sonar &amp;lt;http://baptiste-wicht.com/posts/2014/10/sonarqube-inspections-for-cpp-projects.html&amp;gt;&lt;/cite&gt;. I was quite disappointed by the quality of a plugin. I was expecting more from an expensive official plugin.&lt;/p&gt;
+&lt;p&gt;There is an open-source alternative to the commercial plugin: &lt;cite&gt;sonar-cxx-plugin &amp;lt;https://github.com/wenns/sonar-cxx&amp;gt;&lt;/cite&gt;. I already tested it quite some time ago (a development version of the 0.9.1 version) and the results were quite bad. I'm using C++11 and C++14 in almost all of my projects and the support was quite bad at that time. Happily, this support has now gotten much better :) In this article, I'll talk about the version 0.9.2.&lt;/p&gt;
+&lt;div class="section" id="usage"&gt;
+&lt;h2&gt;Usage&lt;/h2&gt;
+&lt;p&gt;The usage of this plugin is very easy, you don't need any complicated build wrapping techniques for it. You simply need to complete a &lt;em&gt;sonar-project.properties&lt;/em&gt; file:&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+sonar.projectKey=etl
+sonar.projectName=etl
+sonar.projectVersion=1.0
+
+sonar.sourceEncoding=UTF-8
+sonar.sources=include,test,workbench
+sonar.language=c++
+&lt;/pre&gt;
+&lt;p&gt;After that, you simply have to use &lt;em&gt;sonar-runner&lt;/em&gt; as for any other Sonar project:&lt;/p&gt;
+&lt;blockquote&gt;
+sonar-runner&lt;/blockquote&gt;
+&lt;p&gt;And the analysis will be run.&lt;/p&gt;
+&lt;p&gt;I haven't had any issues with the analysis. However, the plugin is not yet completely C++11/C++14 compatible, therefore I'm encountering a lot of parser errors during the analysis. When an error is encountered by the parser, the line is skipped and the parser goes to the next line. This means that the analysis of the line is incomplete, which may lead to false positives or to missing issues. This comes from that sonar-cxx uses its own parser, which is to on par with clang-compatible parsers for instance.&lt;/p&gt;
+&lt;p&gt;Here is the Sonar summary of my ETL project:&lt;/p&gt;
+&lt;img alt="/images/sonar_summary.png" src="http://baptiste-wicht.com/images/sonar_summary.png"&gt;
+&lt;/div&gt;
+&lt;div class="section" id="inspections"&gt;
+&lt;h2&gt;Inspections&lt;/h2&gt;
+&lt;p&gt;This plugin supports some inspections on itself. Nevertheless, you have to enable since it seems that most of them are disable by default. Code duplication is also automatically generated during the analysis:&lt;/p&gt;
+&lt;img alt="/images/sonar_duplicated.png" src="http://baptiste-wicht.com/images/sonar_duplicated.png"&gt;
+&lt;p&gt;The philosophy of this project is not to develop all inspections, but to integrate with other tools. For instance, cppcheck is already supported and the integration works perfectly. Here are the tools that sonar-cxx supports for quality analysis:&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;cppcheck&lt;/li&gt;
+&lt;li&gt;valgrind&lt;/li&gt;
+&lt;li&gt;Vera++&lt;/li&gt;
+&lt;li&gt;RATS&lt;/li&gt;
+&lt;li&gt;PC-Lint&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;I have only tested cppcheck for now. I plan to use valgrind running on my tests in the future. I don't plan to use the others.&lt;/p&gt;
+&lt;p&gt;It should also be noted that the plugin supports compiler warnings coming from G++ and Visual Studio. I don't use this since I compile all my projects with -Werror.&lt;/p&gt;
+&lt;p&gt;The biggest absent here is Clang, there is no support for its warnings, its static-analyzer or its advanced clang-tidy tool. If clang-tidy support does not come in the near future, I'm planning to try to add it myself, provided I find some time.&lt;/p&gt;
+&lt;p&gt;You can have to some inspections on one of my project:&lt;/p&gt;
+&lt;img alt="/images/sonar_inspections.png" src="http://baptiste-wicht.com/images/sonar_inspections.png"&gt;
+&lt;p&gt;As with any Sonar projects, you have access to the Hotsposts view:&lt;/p&gt;
+&lt;img alt="/images/sonar_hotspots.png" src="http://baptiste-wicht.com/images/sonar_hotspots.png"&gt;
+&lt;/div&gt;
+&lt;div class="section" id="unit-tests-integration"&gt;
+&lt;h2&gt;Unit Tests Integration&lt;/h2&gt;
+&lt;p&gt;I have been able to integrate my unit tests results inside Sonar. The plugin expects JUnit compatible format. Several of C++ unit test libraries already generates compatible format. In my case, I used Catch and it worked very well.&lt;/p&gt;
+&lt;p&gt;What is even more interesting is the support for code coverage. You have to run your coverage-enabled executable and then use gcovr to generate an XML file that the plugin can read.&lt;/p&gt;
+&lt;p&gt;This support works quite well. The only thing I haven't been able to make work is the execution time computation of the unit tests, but that is not something I really care about.&lt;/p&gt;
+&lt;p&gt;Here are the coverage results for one of my files:&lt;/p&gt;
+&lt;img alt="/images/sonar_coverage.png" src="http://baptiste-wicht.com/images/sonar_coverage.png"&gt;
+&lt;/div&gt;
+&lt;div class="section" id="conclusion"&gt;
+&lt;h2&gt;Conclusion&lt;/h2&gt;
+&lt;p&gt;&lt;strong&gt;Pros&lt;/strong&gt;&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;Support of a lot of external tools&lt;/li&gt;
+&lt;li&gt;Very easy to use&lt;/li&gt;
+&lt;li&gt;Duplicated code analysis&lt;/li&gt;
+&lt;li&gt;Very good code coverage analysis integration&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;Cons&lt;/strong&gt;&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;Too few integrated inspections&lt;/li&gt;
+&lt;li&gt;Limited parsing of C++&lt;/li&gt;
+&lt;li&gt;Not fully compatible with C++11/C++14&lt;/li&gt;
+&lt;li&gt;False positives&lt;/li&gt;
+&lt;li&gt;Not enough love for clang (compiler warnings, clang-tidy, tooling, static-analyzer, ...)&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;The provided metrics are really good, the usage is quite simple and this plugin supports some external tools adding interesting inspections. Even if this plugin is not perfect, it is a very good way to do Continuous Quality Analysis of your C++ projects. I personally find it superior to the official plugin. The usage is more simple (no build-wrapper that does not work), it supports more external tools and supports JUnit reports. On the other hand, it has much less integrated inspections and rely more on external tools. Both have problems with modern C++ features.&lt;/p&gt;
+&lt;p&gt;What I would really like in this plugin is the support of the clang-tidy analyzer (and other Clang analysis tools) and also complete C++11/C++14 support. I honestly think that the only way to fix the latter is to switch to Clang parsing with libtooling rather than developing an in-house parser, but that is not up to me.&lt;/p&gt;
+&lt;p&gt;I will definitely continue to use this plugin to generate metrics for my C++ projects. I use it with Jenkins which launch the analysis every time I push to one my git repositories. This plugin definitely shows promises.&lt;/p&gt;
+&lt;/div&gt;&lt;/div&gt;</description><category>C++</category><category>Review</category><category>Sonar</category><category>Tools</category><guid>http://baptiste-wicht.com/posts/2015/05/sonar-cpp-community-plugin-review.html</guid><pubDate>Thu, 14 May 2015 15:09:59 GMT</pubDate></item><item><title>SonarQube inspections for C++ projects</title><link>http://baptiste-wicht.com/posts/2014/10/sonarqube-inspections-for-cpp-projects.html</link><dc:creator>Baptiste Wicht</dc:creator><description>&lt;div&gt;&lt;p&gt;Back in the days, when I used to develop in Java (I hadn't discovered the
+wonders of C++ :) ), I used Sonar a lot for my projects. Sonar is a great tool
+for quality inspections of a project. Sonar has been made for Java and is mostly
+free and opensource (some plugins are commercial) to inspect Java projects.
+Unfortunately, this is not the case for C++ inspection. Indeed, the C++ plugin
+cost 7000 euros (more than 8500$). As I mostly work on C++ for opensource and
+school projects, I'm definitely not able to buy it. I wanted for a long time to
+test the commercial C++ plugin. For this article, sonarsource provided me with a
+short (very short) time license for the C++ plugin.&lt;/p&gt;
+&lt;p&gt;There is also another option for C++ which is the C++ community plugin:
+&lt;a class="reference external" href="https://github.com/wenns/sonar-cxx"&gt;https://github.com/wenns/sonar-cxx&lt;/a&gt;. I have tested it some time ago, but I was
+not satisfied with it, I had several errors and had to use a dev version to make
+it work a bit. Moreover, the C++11 support is inexistant and management of
+parsing error is not really satisfying. But maybe it is good for you. This
+article will only focus on the commercial plugin.&lt;/p&gt;
+&lt;div class="section" id="usage"&gt;
+&lt;h2&gt;Usage&lt;/h2&gt;
+&lt;p&gt;For each project that you want to analyze with Sonar, you have to create a
+sonar-project.properties files describing some basic information about your
+project.&lt;/p&gt;
+&lt;p&gt;Then, there are two ways to inspect a C++ project. The first one and recommended
+one is to use the &lt;em&gt;build-wrapper&lt;/em&gt; executable. It is a sub project that you have
+to download and install alongside Sonar. It works by wrapping the commands to
+your build systems:&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+build-wrapper make all
+&lt;/pre&gt;
+&lt;p&gt;and this should generate enough informations for not having to fill each field
+in the project configuration. The, you have to use the &lt;em&gt;sonar-runner&lt;/em&gt; program to
+upload to Sonar.&lt;/p&gt;
+&lt;p&gt;I tried it on several projects and there seems to be a problem with the
+includes. It didn't include the header files in the Sonar inspections.&lt;/p&gt;
+&lt;p&gt;I finally ended up using manual configuration of the Sonar project and the
+header files were included correctly. However, you normally have to include many
+information in the configuration including all macros for instance. For now, I
+haven't bothered generating them and it doesn't seem to impact too much the
+results.&lt;/p&gt;
+&lt;p&gt;When I look in the log, it seems that there are still a lot of parsing errors.
+They seem mostly related to some compiler macro, especially the __has_feature__
+macro of clang. This is the same problem with the build-wrapper. When I don't
+use the build-wrapper I also have other problems with macros for unit testing.&lt;/p&gt;
+&lt;p&gt;I also have other errors coming during the inspection, for instance:&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+error directive: This file requires compiler and library support for the ISO C++
+2011 standard. This support is currently experimental, and must be enabled with
+the -std=c++11 or -std=gnu++11 compiler options
+&lt;/pre&gt;
+&lt;p&gt;I think it comes from the fact that I compile with std=c++1y and that Sonar
+does not support C++14.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="section" id="inspections"&gt;
+&lt;h2&gt;Inspections&lt;/h2&gt;
+&lt;p&gt;Here is the results of inspection on my ETL project:&lt;/p&gt;
+&lt;img alt="/images/etl_dashboard.png" src="http://baptiste-wicht.com/images/etl_dashboard.png"&gt;
+&lt;p&gt;I really like the web interface of Sonar, it really sums well all the
+information and the various plugins play quite nice with each other. Moreover,
+when you check issues, you can see directly the source code very clearly. I
+really think this is the strong point of Sonar.&lt;/p&gt;
+&lt;p&gt;Here is the Hotspots view for instance:&lt;/p&gt;
+&lt;img alt="/images/etl_dashboard.png" src="http://baptiste-wicht.com/images/etl_dashboard.png"&gt;
+&lt;p&gt;Or the Time Machine view:&lt;/p&gt;
+&lt;img alt="/images/etl_dashboard.png" src="http://baptiste-wicht.com/images/etl_dashboard.png"&gt;
+&lt;p&gt;The issues that are reported by Sonar are quite good. On this project there is a
+lot of them related to naming conventions because I don't follow the conventions
+configured by default. However, you can easily configure the inspections to give
+your own naming regex or simple enable/disable some inspections.&lt;/p&gt;
+&lt;p&gt;There are some good inspections:&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;Some missing explicit keyword&lt;/li&gt;
+&lt;li&gt;Some commented block of code that can be removed&lt;/li&gt;
+&lt;li&gt;An if-elseif construct that should have had a else&lt;/li&gt;
+&lt;li&gt;Files with too high complexity&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;However, there are also some important false positives. For instance:&lt;/p&gt;
+&lt;img alt="/images/etl_false_positive_1.png" src="http://baptiste-wicht.com/images/etl_false_positive_1.png"&gt;
+&lt;p&gt;In here, there are no reasons to output this issue since the operator is
+deleted. It proves that the C++11 support is rather incomplete. I have other
+false positives of the same kind for &lt;em&gt;= default&lt;/em&gt; operators and constructors.
+Here is another example:&lt;/p&gt;
+&lt;img alt="/images/etl_false_positive_2.png" src="http://baptiste-wicht.com/images/etl_false_positive_2.png"&gt;
+&lt;p&gt;In this case, the varadic template support is mixed with the old ellipsis
+notation, making it again a lack of C++11 support. There are also other false
+positives for instance because of lambdas, but all of them were related to
+C++11.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="section" id="various"&gt;
+&lt;h2&gt;Various&lt;/h2&gt;
+&lt;p&gt;If you don't think you have enough quality rules, you can also include the one
+from cppcheck simply by givin the path to cppcheck in sonar-project.properties.
+I think this is great, since it works all by itself. You can also create your
+own rule, but you'll have to use XPath for path.&lt;/p&gt;
+&lt;p&gt;If you want, you can also include unit test reports inside Sonar. I haven't
+tested this support since they only support cppunit test reports and I use only
+Catch for my unit tests. It would have been great if JUnit format would have
+been supported since many tool support it.&lt;/p&gt;
+&lt;p&gt;The last option that is supported by this plugin is the support of GCOV reports
+for code coverage information. I haven't been able to make it work, I had errors
+indicating that the source files were not found. I didn't figure this out. It
+may come from the fact that I used llvm and clang to generate the GCOV reports
+and not G++.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="section" id="conclusion"&gt;
+&lt;h2&gt;Conclusion&lt;/h2&gt;
+&lt;p&gt;First, here are some pros and cons for the C++ support in SonarQube.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Pros&lt;/strong&gt;&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;Good default inspections&lt;/li&gt;
+&lt;li&gt;Great web interface.&lt;/li&gt;
+&lt;li&gt;cppcheck very well integrated&lt;/li&gt;
+&lt;li&gt;Issues are easily configurable&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;Cons&lt;/strong&gt;&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;C++11 support is incomplete and no C++14 support&lt;/li&gt;
+&lt;li&gt;build-wrapper support seems instable. It should be integrated directly into
+sonar.&lt;/li&gt;
+&lt;li&gt;Unit tests support is limited to cppunit&lt;/li&gt;
+&lt;li&gt;Haven't been able to make Code Coverage work&lt;/li&gt;
+&lt;li&gt;Macro support not flexible enough&lt;/li&gt;
+&lt;li&gt;Too expensive&lt;/li&gt;
+&lt;li&gt;Quite complicated&lt;/li&gt;
+&lt;li&gt;No support for other static analyzer than cppcheck&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;The general web interface feeling is quite good, everything looks great and the
+report are really useful. However, the usage of the tool does not feel very
+professional. I had a lot more problems than I expected to use it. I was also
+really disappointed by the C++11. The syntax seems to be supported but not the
+language feature in the inspections, making the C++11 support completely
+useless. This is weird since they cite C+11 as supported. Moreover, there not
+yet any C++14 support, but this is less dramatic. It is also a bit sad that they
+limit the import to cppcheck and no other static analyzers and the same stands
+for cppunit.&lt;/p&gt;
+&lt;p&gt;In my opinion, it is really an inferior product compared to the Java support.
+I was expecting more from a 8500 dollars product.&lt;/p&gt;
+&lt;p&gt;For now, I won't probably use it anymore on my projects since all of them use at
+least C++11, but I will probably retry Sonar for C++ in the future hoping that
+it will become as the Sonar Java support.&lt;/p&gt;
+&lt;/div&gt;&lt;/div&gt;</description><category>C++</category><category>Review</category><category>Sonar</category><category>Tools</category><guid>http://baptiste-wicht.com/posts/2014/10/sonarqube-inspections-for-cpp-projects.html</guid><pubDate>Sun, 05 Oct 2014 12:55:46 GMT</pubDate></item><item><title>Sonar 2.1 has been released</title><link>http://baptiste-wicht.com/posts/2010/05/sonar-2-1-has-been-released.html</link><dc:creator>Baptiste Wicht</dc:creator><description>&lt;div&gt;&lt;p&gt;The version 2.1 of Sonar has just been released. This version includes 51 bugfixes and improvements. The major new features are :&lt;/p&gt;
+&lt;ul&gt;
+    &lt;li&gt;A new page "Librairies" displays all the librairies of the project (Maven dependencies)&lt;/li&gt;
+    &lt;li&gt;A new page "Dependencies" searches for library usages&lt;/li&gt;
+    &lt;li&gt;A new page "System Info" display the system properties, installed plugins, database and VM memory stats.&lt;/li&gt;
+    &lt;li&gt;New rules to detect unused methods.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Normally, all the plugins compatible with version 2.0 should be compatible with this new version.&lt;/p&gt;&lt;/div&gt;</description><category>Java</category><category>Releases</category><category>Sonar</category><guid>http://baptiste-wicht.com/posts/2010/05/sonar-2-1-has-been-released.html</guid><pubDate>Wed, 05 May 2010 08:45:17 GMT</pubDate></item><item><title>First build of JTheque with Sonar 2.0</title><link>http://baptiste-wicht.com/posts/2010/05/first-build-jtheque-sonar-2-0.html</link><dc:creator>Baptiste Wicht</dc:creator><description>&lt;div&gt;&lt;p&gt;This week-end I updated the version of Sonar to &lt;a href="http://www.baptiste-wicht.com/2010/03/sonar-2-0-released/"&gt;the new version 2.0&lt;/a&gt; and migrated it from Tomcat 5.5 to Tomcat 6.0. I waited until now for the plugins I use to be compatible. Now, all my plugins are compatible :&lt;/p&gt;
+&lt;ul&gt;
+    &lt;li&gt;Motion Chart : An elegant chart demonstrating the evolutions of metrics build after build&lt;/li&gt;
+    &lt;li&gt;Quality Index : Compute a quality index for each project based on 4 axes : Coding, Complexity, Coverage and Style&lt;/li&gt;
+    &lt;li&gt;Radiator : Display a view like the main view of all projects (all the rectangles with a lot of colors) for all the components of a project&lt;/li&gt;
+    &lt;li&gt;Rules Meter : Indicate for each project how many rules were activated during analysis&lt;/li&gt;
+    &lt;li&gt;SCM Activity : Compute some metrics about the SCM Activity of the project&lt;/li&gt;
+    &lt;li&gt;TagList : Analyze some tag (@TODO, @FIXME, ...) in your code and display them in the project&lt;/li&gt;
+    &lt;li&gt;Technical Debt : Compute a technical debt estimation for all the problems of your project&lt;/li&gt;
+    &lt;li&gt;Timeline : Display a chart of the evolution of the metrics build after build&lt;/li&gt;
+    &lt;li&gt;Build Stability : Display the stability of the builds on the continuous integration system&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Now I made the first build of JTheque with Sonar 2.0.&lt;/p&gt;
+&lt;p&gt;At first view, there is not a lot of changes with this new version, but the main view has been a little improved and the new analysis are good. Now you've metrics about your design and about the dependencies to cut to make your design better. They added a good dependency matrix to each project.&lt;/p&gt;
+&lt;p&gt;This version works well like the older. The only things to pay attention for the update is the long time the database upgrade takes.&lt;/p&gt;
+&lt;p&gt;I've also updated Hudson to the last version and also migrated it to my Tomcat 6.0.&lt;/p&gt;&lt;/div&gt;</description><category>Java</category><category>JTheque</category><category>Sonar</category><guid>http://baptiste-wicht.com/posts/2010/05/first-build-jtheque-sonar-2-0.html</guid><pubDate>Sun, 02 May 2010 13:09:45 GMT</pubDate></item><item><title>The version 2.0 of Sonar has been released</title><link>http://baptiste-wicht.com/posts/2010/03/sonar-2-0-released.html</link><dc:creator>Baptiste Wicht</dc:creator><description>&lt;div&gt;&lt;p&gt;The developers of Sonar have just released the version 2.0 of Sonar.&lt;/p&gt;
+&lt;p&gt;Several major features:&lt;/p&gt;
+&lt;ul&gt;
+    &lt;li&gt;Architecture analysis : The architecture of the projects are now analyzed. We can see a matrix of project dependencies and a list of dependencies to delete to improve architecture quality.&lt;/li&gt;
+    &lt;li&gt;Object oriented analysis : New metrics for the quality of the object oriented conception.&lt;/li&gt;
+    &lt;li&gt;Improvements of the user interface.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Only good stuff :)&lt;/p&gt;
+&lt;p&gt;I didn't test this new version, i will wait that my plugins be compatibles with the new version, but i will give informations of the new version once installed.&lt;/p&gt;
+&lt;p&gt;More informations on the &lt;a title="Sonar source" href="http://sonar.codehaus.org/sonar-2-0-in-screenshots/" target="_blank"&gt;Sonar website&lt;/a&gt;.&lt;/p&gt;&lt;/div&gt;</description><category>Java</category><category>Releases</category><category>Sonar</category><guid>http://baptiste-wicht.com/posts/2010/03/sonar-2-0-released.html</guid><pubDate>Thu, 11 Mar 2010 14:27:25 GMT</pubDate></item></channel></rss>

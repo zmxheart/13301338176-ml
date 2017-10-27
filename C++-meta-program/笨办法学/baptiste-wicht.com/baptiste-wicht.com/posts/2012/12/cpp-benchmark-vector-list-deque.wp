@@ -1,0 +1,221 @@
+<script type="text/javascript" src="https://www.google.com/jsapi"></script><script type="text/javascript">google.load('visualization','1',{packages:['corechart']});</script>
+
+Last week, I wrote a benchmark comparing the performance of std::vector and std::list on different workloads. This previous article received a lot of comments and several suggestions to improve it. The present article is an improvement over the previous article.
+
+In this article, I will compare the performance of std::vector, std::list and std::deque on several different workloads and with different data types. In this article, when I talk about a list refers to std::list, a vector refers to std::vector and deque to std::deque.
+
+It is generally said that a list should be used when random insert and remove will be performed (performed in O(1) versus O(n) for a vector or a deque). If we look only at the complexity, the scale of linear search in both data structures should be equivalent, complexity being in O(n). When random insert/replace operations are performed on a vector or a deque, all the subsequent data needs to be moved and so each element will be copied. That is why the size of the data type is an important factor when comparing those two data structures. Because the size of the data type will play an important role on the cost of copying an element.
+
+However, in practice, there is a huge difference: the usage of the memory caches. All the data in a vector is contiguous where the std::list allocates separately memory for each element. How does that change the results in practice ? The deque is a data structure aiming at having the advantages of both data structures without their drawbacks, we will see how it perform in practice. Complexity analysis does not take the memory hierarchy into level. I believe that in practice, memory hierarchy usage is as important as complexity analysis.
+
+Keep in mind that all the tests performed are made on vector, list and deque even if other data structures could be better suited to the given workload.
+
+In the graphs and in the text, <em>n</em> is used to refer to the number of elements of the collection.
+
+All the tests performed have been performed on an Intel Core i7 Q 820  @ 1.73GHz. The code has been compiled in 64 bits with GCC 4.7.2 with -02 and -march=native. The code has been compiled with C++11 support (-std=c++11).
+
+For each graph, the vertical axis represent the amount of time necessary to perform the operations, so the lower values are the better. The horizontal axis is always the number of elements of the collection. For some graph, the logarithmic scale could be clearer, a button is available after each graph to change the vertical scale to a logarithmic scale.
+
+The data types are varying in size, they hold an array of longs and the size of the array varies to change the size of the data type. The non-trivial data type is made of two longs and has very stupid assignment operator and copy constructor that just does some maths (totally meaningless but costly). One may argue that is not a common copy constructor neither a common assignment operator and one will be right, however, the important point here is that it is costly operators which is enough for this benchmark.
+
+<h2>Fill</h2>
+
+The first test that is performed is to fill the data structures by adding elements to the back of the container (using <em>push_back</em>). Two variations of vector are used, <em>vector_pre</em> being a std::vector using vector::reserve at the beginning, resulting in only one allocation of memory.
+
+Lets see the results with a very small data type:
+
+<div id="graph_0" style="width: 600px; height: 400px;"></div><input id="button_graph_0" type="button" value="Logarithmic scale"><script type="text/javascript">function draw_graph_0(){var graph=new google.visualization.LineChart(document.getElementById('graph_0'));var data=google.visualization.arrayToDataTable([['x','list','vector','deque','vector_pre'],['100000',2545,271,2012,317],['200000',4927,552,998,334],['300000',7310,944,1707,595],['400000',9463,936,2056,1099],['500000',12591,1140,2642,1058],['600000',14351,1894,3125,1237],['700000',16561,1995,3686,1208],['800000',18820,2648,4291,1365],['900000',20832,2777,4962,2268],['1000000',23430,3015,5396,2585],]);var options={curveType:"function",animation:{duration:1200,easing:"in"},title:"fill_back - 8 bytes",width:'600px',height:'400px',hAxis:{title:"Number of elements",slantedText:true},vAxis:{title:"us",viewWindow:{min:0}}};graph.draw(data,options);var button=document.getElementById('button_graph_0');button.onclick=function(){if(options.vAxis.logScale){button.value="Logarithmic Scale";}else{button.value="Normal scale";}options.vAxis.logScale=!options.vAxis.logScale;graph.draw(data,options);};}</script>
+
+The pre-allocated vector is the fastest by a small margin and the list is 3 times slower than a vector. deque and vector.
+
+If we consider higher data type:
+
+<div id="graph_1" style="width: 600px; height: 400px;"></div><input id="button_graph_1" type="button" value="Logarithmic scale"><script type="text/javascript">function draw_graph_1(){var graph=new google.visualization.LineChart(document.getElementById('graph_1'));var data=google.visualization.arrayToDataTable([['x','list','vector','deque','vector_pre'],['100000',104867,55545,66852,21738],['200000',226215,108289,136035,42532],['300000',340910,198343,153446,60317],['400000',445035,217325,269316,80616],['500000',559619,236576,189613,101371],['600000',688422,391354,303729,122447],['700000',799902,405771,426373,138868],['800000',921441,415707,537057,160637],['900000',1006331,439635,263650,177052],['1000000',1113690,464416,372000,199434],]);var options={curveType:"function",animation:{duration:1200,easing:"in"},title:"fill_back - 4096 bytes",width:'600px',height:'400px',hAxis:{title:"Number of elements",slantedText:true},vAxis:{title:"us",viewWindow:{min:0}}};graph.draw(data,options);var button=document.getElementById('button_graph_1');button.onclick=function(){if(options.vAxis.logScale){button.value="Logarithmic Scale";}else{button.value="Normal scale";}options.vAxis.logScale=!options.vAxis.logScale;graph.draw(data,options);};}</script>
+
+This time vector and list are performing at about the same speed. The deque is a bit faster than list and vector. The pre-allocated vector is clearly the winner here. The variations in the results of deque and vector are probably coming from my system that doesn't like allocating so much memory back and forth at this speed.
+
+Finally, if we use a non-trivial data type:
+
+<div id="graph_2" style="width: 600px; height: 400px;"></div><input id="button_graph_2" type="button" value="Logarithmic scale"><script type="text/javascript">function draw_graph_2(){var graph=new google.visualization.LineChart(document.getElementById('graph_2'));var data=google.visualization.arrayToDataTable([['x','list','vector','deque','vector_pre'],['100000',8093,8123,10251,8095],['200000',15433,15305,16061,13897],['300000',25964,24643,24450,19954],['400000',33414,30322,32148,27171],['500000',40416,37817,40752,35058],['600000',48991,48594,48785,41049],['700000',55059,55124,55092,47609],['800000',63688,61360,64505,55659],['900000',70550,67636,72329,60952],['1000000',79271,73533,79522,67787],]);var options={curveType:"function",animation:{duration:1200,easing:"in"},title:"fill_back - 16 bytes",width:'600px',height:'400px',hAxis:{title:"Number of elements",slantedText:true},vAxis:{title:"us",viewWindow:{min:0}}};graph.draw(data,options);var button=document.getElementById('button_graph_2');button.onclick=function(){if(options.vAxis.logScale){button.value="Logarithmic Scale";}else{button.value="Normal scale";}options.vAxis.logScale=!options.vAxis.logScale;graph.draw(data,options);};}</script>
+
+All data structures are performing more or less the same, with vector_pre being the fastest.
+
+For push_back operations, pre-allocated vectors is a very good choice if the size is known in advance. The others performs more of less the same.
+
+I would have expected a better result for pre-allocated vector. If someone find an explanation for such a small margin, I'm interested.
+
+<h2>Linear Search</h2>
+
+The first operation is that is tested is the search. The container is filled with all the numbers in [0, N] and shuffled. Then, each number in [0,N] is searched in the container with std::find that performs a simple linear search. In theory, all the data structures should perform the same if we consider their complexity.
+
+<div id="graph_3" style="width: 600px; height: 400px;"></div><input id="button_graph_3" type="button" value="Logarithmic scale"><script type="text/javascript">function draw_graph_3(){var graph=new google.visualization.LineChart(document.getElementById('graph_3'));var data=google.visualization.arrayToDataTable([['x','deque','list','vector'],['1000',593,1098,318],['2000',2927,5307,1271],['3000',5891,12228,3020],['4000',8663,24415,5081],['5000',12859,36316,8066],['6000',18493,55057,11463],['7000',25057,74344,16022],['8000',38980,99990,21051],['9000',44951,127575,26650],['10000',52281,158216,32557],]);var options={curveType:"function",animation:{duration:1200,easing:"in"},title:"linear_search - 8 bytes",width:'600px',height:'400px',hAxis:{title:"Number of elements",slantedText:true},vAxis:{title:"us",viewWindow:{min:0}}};graph.draw(data,options);var button=document.getElementById('button_graph_3');button.onclick=function(){if(options.vAxis.logScale){button.value="Logarithmic Scale";}else{button.value="Normal scale";}options.vAxis.logScale=!options.vAxis.logScale;graph.draw(data,options);};}</script>
+
+It is clear from the graph that the list has very poor performance for searching. The growth is much worse for a list than for a vector or a deque.
+
+The only reason is the usage of the cache line. When a data is accessed, the data is fetched from the main memory to the cache. Not only the accessed data is accessed, but a whole cacheline is fetched. As the elements in a vector are contiguous, when you access an element, the next element is automatically in the cache. As the main memory is orders of magnitude slower than the cache, this makes a huge difference. In the list case, the processor spends its whole time waiting for data being fetched from memory to the cache, at each fetch, the processor fetches a lot of unnecessary data that are almost always useless.
+
+The deque is a bit slower than the vector, that is logical because here there are more cache misses due to the segmented parts.
+
+If we take a bigger data type:
+
+<div id="graph_4" style="width: 600px; height: 400px;"></div><input id="button_graph_4" type="button" value="Logarithmic scale"><script type="text/javascript">function draw_graph_4(){var graph=new google.visualization.LineChart(document.getElementById('graph_4'));var data=google.visualization.arrayToDataTable([['x','deque','list','vector'],['1000',1116,2683,776],['2000',4983,16675,3537],['3000',12255,44379,10874],['4000',23212,83026,20189],['5000',37392,133353,33609],['6000',55295,193428,47636],['7000',74877,261314,63911],['8000',100903,340157,84647],['9000',126299,435816,107922],['10000',156386,545160,135680],]);var options={curveType:"function",animation:{duration:1200,easing:"in"},title:"linear_search - 128 bytes",width:'600px',height:'400px',hAxis:{title:"Number of elements",slantedText:true},vAxis:{title:"us",viewWindow:{min:0}}};graph.draw(data,options);var button=document.getElementById('button_graph_4');button.onclick=function(){if(options.vAxis.logScale){button.value="Logarithmic Scale";}else{button.value="Normal scale";}options.vAxis.logScale=!options.vAxis.logScale;graph.draw(data,options);};}</script>
+
+The list is still much slower than the others, but what is interesting is that gap between the deque and the array is decreasing. Let's try with a 4KB data type:
+
+><div id="graph_5" style="width: 600px; height: 400px;"></div><input id="button_graph_5" type="button" value="Logarithmic scale"><script type="text/javascript">function draw_graph_5(){var graph=new google.visualization.LineChart(document.getElementById('graph_5'));var data=google.visualization.arrayToDataTable([['x','deque','list','vector'],['1000',4258,7190,4445],['2000',20584,38411,19825],['3000',48236,113189,55341],['4000',87475,223174,118453],['5000',136945,362421,191967],['6000',197856,530943,281252],['7000',273359,726323,387940],['8000',351223,954463,511276],['9000',447525,1211581,652269],['10000',551556,1497916,807161],]);var options={curveType:"function",animation:{duration:1200,easing:"in"},title:"linear_search - 4096 bytes",width:'600px',height:'400px',hAxis:{title:"Number of elements",slantedText:true},vAxis:{title:"us",viewWindow:{min:0}}};graph.draw(data,options);var button=document.getElementById('button_graph_5');button.onclick=function(){if(options.vAxis.logScale){button.value="Logarithmic Scale";}else{button.value="Normal scale";}options.vAxis.logScale=!options.vAxis.logScale;graph.draw(data,options);};}</script>
+
+The performance of the list are still poor but the gap is decreasing. The interesting point is that deque is now faster than vector. I'm not really sure of the reason of this result. It is possible that it comes only from this special size. One thing is sure, the bigger the data size, the more cache misses the processor will get because elements don't fit in cache lines.
+
+For search, list is clearly slow where deque and vector have about the same performance. It seems that deque is faster than a vector for very large data sizes.
+
+<h2>Random Insert (+Linear Search)</h2>
+
+In the case of random insert, in theory, the list should be much faster, its insert operation being in O(1) versus O(n) for a vector or a deque.
+
+The container is filled with all the numbers in [0, N] and shuffled. Then, 1000 random values are inserted at a random position in the container. The random position is found by linear search. In both cases, the complexity of the search is O(n), the only difference comes from the insert that follow the search. We saw before that the performance of the list were poor for searching, so we'll see if the fast insertion can compensate the slow search.
+
+<div id="graph_6" style="width: 600px; height: 400px;"></div><input id="button_graph_6" type="button" value="Logarithmic scale"><script type="text/javascript">function draw_graph_6(){var graph=new google.visualization.LineChart(document.getElementById('graph_6'));var data=google.visualization.arrayToDataTable([['x','deque','list','vector'],['10000',8,27,8],['20000',15,45,14],['30000',22,63,21],['40000',29,74,27],['50000',37,87,38],['60000',43,105,44],['70000',50,114,48],['80000',61,130,55],['90000',66,139,61],['100000',70,155,68],]);var options={curveType:"function",animation:{duration:1200,easing:"in"},title:"random_insert - 8 bytes",width:'600px',height:'400px',hAxis:{title:"Number of elements",slantedText:true},vAxis:{title:"ms",viewWindow:{min:0}}};graph.draw(data,options);var button=document.getElementById('button_graph_6');button.onclick=function(){if(options.vAxis.logScale){button.value="Logarithmic Scale";}else{button.value="Normal scale";}options.vAxis.logScale=!options.vAxis.logScale;graph.draw(data,options);};}</script>
+
+List is clearly slower than the other two data structures that exhibit the same performance. This comes from the very slow linear search. Even if the two other data structures have to move a lot of data, the copy is cheap for small data types.
+
+Let's increase the size a bit:
+
+<div id="graph_7" style="width: 600px; height: 400px;"></div><input id="button_graph_7" type="button" value="Logarithmic scale"><script type="text/javascript">function draw_graph_7(){var graph=new google.visualization.LineChart(document.getElementById('graph_7'));var data=google.visualization.arrayToDataTable([['x','deque','list','vector'],['10000',21,53,25],['20000',39,80,48],['30000',57,103,68],['40000',71,122,90],['50000',88,146,112],['60000',102,165,130],['70000',124,190,152],['80000',140,214,175],['90000',157,238,195],['100000',174,268,213],]);var options={curveType:"function",animation:{duration:1200,easing:"in"},title:"random_insert - 32 bytes",width:'600px',height:'400px',hAxis:{title:"Number of elements",slantedText:true},vAxis:{title:"ms",viewWindow:{min:0}}};graph.draw(data,options);var button=document.getElementById('button_graph_7');button.onclick=function(){if(options.vAxis.logScale){button.value="Logarithmic Scale";}else{button.value="Normal scale";}options.vAxis.logScale=!options.vAxis.logScale;graph.draw(data,options);};}</script>
+
+The result are interesting. The list is still the slowest but with a smaller margin. This time deque is faster than the vector by a small margin.
+
+Again, increasing the data size:
+
+<div id="graph_8" style="width: 600px; height: 400px;"></div><input id="button_graph_8" type="button" value="Logarithmic scale"><script type="text/javascript">function draw_graph_8(){var graph=new google.visualization.LineChart(document.getElementById('graph_8'));var data=google.visualization.arrayToDataTable([['x','deque','list','vector'],['10000',64,80,89],['20000',108,128,154],['30000',158,182,248],['40000',212,248,347],['50000',281,348,469],['60000',402,443,735],['70000',569,643,1034],['80000',767,775,1347],['90000',978,1002,1614],['100000',1190,1202,1962],]);var options={curveType:"function",animation:{duration:1200,easing:"in"},title:"random_insert - 128 bytes",width:'600px',height:'400px',hAxis:{title:"Number of elements",slantedText:true},vAxis:{title:"ms",viewWindow:{min:0}}};graph.draw(data,options);var button=document.getElementById('button_graph_8');button.onclick=function(){if(options.vAxis.logScale){button.value="Logarithmic Scale";}else{button.value="Normal scale";}options.vAxis.logScale=!options.vAxis.logScale;graph.draw(data,options);};}</script>
+
+This time, the vector is clearly the looser and deque and list have the same performance. We can say that with a size of 128 bytes, the time to move a lot of the elements is more expensive than searching in the list.
+
+A huge data type gives us clearer results:
+
+<div id="graph_9" style="width: 600px; height: 400px;"></div><input id="button_graph_9" type="button" value="Logarithmic scale"><script type="text/javascript">function draw_graph_9(){var graph=new google.visualization.LineChart(document.getElementById('graph_9'));var data=google.visualization.arrayToDataTable([['x','deque','list','vector'],['10000',4430,178,8074],['20000',7918,311,14121],['30000',11043,444,20014],['40000',13806,555,26783],['50000',17421,694,33519],['60000',20663,904,39175],['70000',23599,1147,45111],['80000',26736,1470,50887],['90000',29524,1940,60139],['100000',32005,2534,65098],]);var options={curveType:"function",animation:{duration:1200,easing:"in"},title:"random_insert - 4096 bytes",width:'600px',height:'400px',hAxis:{title:"Number of elements",slantedText:true},vAxis:{title:"ms",viewWindow:{min:0}}};graph.draw(data,options);var button=document.getElementById('button_graph_9');button.onclick=function(){if(options.vAxis.logScale){button.value="Logarithmic Scale";}else{button.value="Normal scale";}options.vAxis.logScale=!options.vAxis.logScale;graph.draw(data,options);};}</script>
+
+The list is more than 20 times faster than the vector and an order of magnitude faster than the deque ! The deque is also twice faster than the vector.
+
+The fact than the deque is faster than vector is quite simple. When an insertion is made in a deque, the elements can either moved to the end or the beginning. The closer point will be chosen. An insert in the middle is the most costly operation with O(n/2) complexity. It is always more efficient to insert elements in a deque than in vector because at least twice less elements will be moved.
+
+If we look at the non-trivial data type:
+
+<div id="graph_10" style="width: 600px; height: 400px;"></div><input id="button_graph_10" type="button" value="Logarithmic scale"><script type="text/javascript">function draw_graph_10(){var graph=new google.visualization.LineChart(document.getElementById('graph_10'));var data=google.visualization.arrayToDataTable([['x','deque','list','vector'],['10000',230,41,425],['20000',376,65,705],['30000',552,84,1054],['40000',692,101,1345],['50000',862,119,1661],['60000',1003,141,1984],['70000',1186,155,2277],['80000',1358,172,2681],['90000',1540,186,2965],['100000',1658,203,3236],]);var options={curveType:"function",animation:{duration:1200,easing:"in"},title:"random_insert - 16 bytes",width:'600px',height:'400px',hAxis:{title:"Number of elements",slantedText:true},vAxis:{title:"ms",viewWindow:{min:0}}};graph.draw(data,options);var button=document.getElementById('button_graph_10');button.onclick=function(){if(options.vAxis.logScale){button.value="Logarithmic Scale";}else{button.value="Normal scale";}options.vAxis.logScale=!options.vAxis.logScale;graph.draw(data,options);};}</script>
+
+The results are about the same as for the previous graph, but the data type is only 16B. The cost of the copy constructors and assignment operators is very important for vector and deque. The list doesn't care because no copy neither assignment of the existing elements is made during insertions (only the inserted element is copied).
+
+<h2>Random Remove</h2>
+
+In theory, random remove is the same case than random insert. Now that we've seen the results with random insert, we could expect the same behavior for random remove.
+
+The container is filled with all the numbers in [0, N] and shuffled. Then, 1000 random values are removed from a random position in the container.
+
+If we take the same data sizes as the random insert case:
+
+<div id="graph_11" style="width: 600px; height: 400px;"></div><input id="button_graph_11" type="button" value="Logarithmic scale"><script type="text/javascript">function draw_graph_11(){var graph=new google.visualization.LineChart(document.getElementById('graph_11'));var data=google.visualization.arrayToDataTable([['x','deque','list','vector'],['10000',6,19,5],['20000',12,41,11],['30000',20,55,18],['40000',27,68,25],['50000',34,81,33],['60000',43,101,40],['70000',49,113,45],['80000',59,126,52],['90000',67,138,61],['100000',72,157,65],]);var options={curveType:"function",animation:{duration:1200,easing:"in"},title:"random_remove - 8 bytes",width:'600px',height:'400px',hAxis:{title:"Number of elements",slantedText:true},vAxis:{title:"ms",viewWindow:{min:0}}};graph.draw(data,options);var button=document.getElementById('button_graph_11');button.onclick=function(){if(options.vAxis.logScale){button.value="Logarithmic Scale";}else{button.value="Normal scale";}options.vAxis.logScale=!options.vAxis.logScale;graph.draw(data,options);};}</script>
+
+<div id="graph_12" style="width: 600px; height: 400px;"></div><input id="button_graph_12" type="button" value="Logarithmic scale"><script type="text/javascript">function draw_graph_12(){var graph=new google.visualization.LineChart(document.getElementById('graph_12'));var data=google.visualization.arrayToDataTable([['x','deque','list','vector'],['10000',40,40,63],['20000',85,83,134],['30000',127,132,198],['40000',181,189,282],['50000',245,263,473],['60000',363,376,664],['70000',524,502,960],['80000',743,688,1343],['90000',977,812,1639],['100000',1228,1017,2004],]);var options={curveType:"function",animation:{duration:1200,easing:"in"},title:"random_remove - 128 bytes",width:'600px',height:'400px',hAxis:{title:"Number of elements",slantedText:true},vAxis:{title:"ms",viewWindow:{min:0}}};graph.draw(data,options);var button=document.getElementById('button_graph_12');button.onclick=function(){if(options.vAxis.logScale){button.value="Logarithmic Scale";}else{button.value="Normal scale";}options.vAxis.logScale=!options.vAxis.logScale;graph.draw(data,options);};}</script>
+
+<div id="graph_13" style="width: 600px; height: 400px;"></div><input id="button_graph_13" type="button" value="Logarithmic scale"><script type="text/javascript">function draw_graph_13(){var graph=new google.visualization.LineChart(document.getElementById('graph_13'));var data=google.visualization.arrayToDataTable([['x','deque','list','vector'],['10000',2906,109,5649],['20000',6190,233,11760],['30000',9379,359,18218],['40000',12840,490,23634],['50000',16027,585,30046],['60000',18918,773,36100],['70000',22213,999,42453],['80000',25788,1317,48793],['90000',28975,1762,55043],['100000',30860,2128,59791],]);var options={curveType:"function",animation:{duration:1200,easing:"in"},title:"random_remove - 4096 bytes",width:'600px',height:'400px',hAxis:{title:"Number of elements",slantedText:true},vAxis:{title:"ms",viewWindow:{min:0}}};graph.draw(data,options);var button=document.getElementById('button_graph_13');button.onclick=function(){if(options.vAxis.logScale){button.value="Logarithmic Scale";}else{button.value="Normal scale";}options.vAxis.logScale=!options.vAxis.logScale;graph.draw(data,options);};}</script>
+
+<div id="graph_14" style="width: 600px; height: 400px;"></div><input id="button_graph_14" type="button" value="Logarithmic scale"><script type="text/javascript">function draw_graph_14(){var graph=new google.visualization.LineChart(document.getElementById('graph_14'));var data=google.visualization.arrayToDataTable([['x','deque','list','vector'],['10000',149,27,294],['20000',319,50,608],['30000',481,68,934],['40000',638,89,1236],['50000',794,108,1547],['60000',954,120,1894],['70000',1101,144,2185],['80000',1253,160,2513],['90000',1399,177,2812],['100000',1595,194,3108],]);var options={curveType:"function",animation:{duration:1200,easing:"in"},title:"random_remove - 16 bytes",width:'600px',height:'400px',hAxis:{title:"Number of elements",slantedText:true},vAxis:{title:"ms",viewWindow:{min:0}}};graph.draw(data,options);var button=document.getElementById('button_graph_14');button.onclick=function(){if(options.vAxis.logScale){button.value="Logarithmic Scale";}else{button.value="Normal scale";}options.vAxis.logScale=!options.vAxis.logScale;graph.draw(data,options);};}</script>
+
+The behavior of random remove is the same as the behavior of random insert, for the same reasons. The results are not very interesting, so, let's get to the next workload.
+
+<h2>Push Front</h2>
+
+The next operation that we will compare is inserting elements in front of the collection. This is the worst case for vector, because after each insertion, all the previously inserted will be moved and copied. For a list or a deque, it does not make a difference compared to pushing to the back.
+
+So let's see the results:
+
+<div id="graph_15" style="width: 600px; height: 400px;"></div><input id="button_graph_15" type="button" value="Logarithmic scale"><script type="text/javascript">function draw_graph_15(){var graph=new google.visualization.LineChart(document.getElementById('graph_15'));var data=google.visualization.arrayToDataTable([['x','deque','list','vector'],['10000',0,0,33],['20000',0,0,135],['30000',0,0,313],['40000',0,0,585],['50000',0,1,913],['60000',0,1,1327],['70000',0,1,1823],['80000',0,1,2405],['90000',0,2,3107],['100000',0,2,4017],]);var options={curveType:"function",animation:{duration:1200,easing:"in"},title:"fill_front - 8 bytes",width:'600px',height:'400px',hAxis:{title:"Number of elements",slantedText:true},vAxis:{title:"ms",viewWindow:{min:0}}};graph.draw(data,options);var button=document.getElementById('button_graph_15');button.onclick=function(){if(options.vAxis.logScale){button.value="Logarithmic Scale";}else{button.value="Normal scale";}options.vAxis.logScale=!options.vAxis.logScale;graph.draw(data,options);};}</script>
+
+The results are crystal-clear and as expected, vector is very bad at inserting elements to the front. The list and the deque results are almost invisible in the graph because it is a free operation for the two data structures. This does not need further explanations. There is no need to change the data size, it will only make vector much slower and my processor hotter.
+
+<h2>Sort</h2>
+
+The next operation that is tested is the time necessary to sort the data structures. For the vector and the deque std::sort is used and for a list the member function sort is used.
+
+<div id="graph_16" style="width: 600px; height: 400px;"></div><input id="button_graph_16" type="button" value="Logarithmic scale"><script type="text/javascript">function draw_graph_16(){var graph=new google.visualization.LineChart(document.getElementById('graph_16'));var data=google.visualization.arrayToDataTable([['x','deque','list','vector'],['100000',9,25,6],['200000',19,61,14],['300000',29,115,22],['400000',40,175,30],['500000',50,233,39],['600000',60,321,48],['700000',71,378,57],['800000',85,457,66],['900000',95,517,74],['1000000',108,593,83],]);var options={curveType:"function",animation:{duration:1200,easing:"in"},title:"sort - 8 bytes",width:'600px',height:'400px',hAxis:{title:"Number of elements",slantedText:true},vAxis:{title:"ms",viewWindow:{min:0}}};graph.draw(data,options);var button=document.getElementById('button_graph_16');button.onclick=function(){if(options.vAxis.logScale){button.value="Logarithmic Scale";}else{button.value="Normal scale";}options.vAxis.logScale=!options.vAxis.logScale;graph.draw(data,options);};}</script>
+
+For a small data type, the list is several times slower than the other two data structures. This is again due to the very poor spatial locality of the list during the search. vector is slightly faster than a deque, but the difference is not very significant.
+
+If we increase the size:
+
+<div id="graph_17" style="width: 600px; height: 400px;"></div><input id="button_graph_17" type="button" value="Logarithmic scale"><script type="text/javascript">function draw_graph_17(){var graph=new google.visualization.LineChart(document.getElementById('graph_17'));var data=google.visualization.arrayToDataTable([['x','deque','list','vector'],['100000',25,32,20],['200000',65,80,48],['300000',103,143,80],['400000',136,197,113],['500000',180,246,149],['600000',223,340,181],['700000',274,396,222],['800000',302,469,266],['900000',358,514,303],['1000000',395,579,337],]);var options={curveType:"function",animation:{duration:1200,easing:"in"},title:"sort - 128 bytes",width:'600px',height:'400px',hAxis:{title:"Number of elements",slantedText:true},vAxis:{title:"ms",viewWindow:{min:0}}};graph.draw(data,options);var button=document.getElementById('button_graph_17');button.onclick=function(){if(options.vAxis.logScale){button.value="Logarithmic Scale";}else{button.value="Normal scale";}options.vAxis.logScale=!options.vAxis.logScale;graph.draw(data,options);};}</script>
+
+The order remains the same but the difference between the list and the other is decreasing.
+
+With a 1KB data type:
+
+<div id="graph_18" style="width: 600px; height: 400px;"></div><input id="button_graph_18" type="button" value="Logarithmic scale"><script type="text/javascript">function draw_graph_18(){var graph=new google.visualization.LineChart(document.getElementById('graph_18'));var data=google.visualization.arrayToDataTable([['x','deque','list','vector'],['100000',176,39,168],['200000',389,94,376],['300000',620,168,595],['400000',859,228,823],['500000',1100,285,1059],['600000',1355,392,1301],['700000',1609,452,1555],['800000',1844,539,1797],['900000',2111,597,2054],['1000000',2397,670,2278],]);var options={curveType:"function",animation:{duration:1200,easing:"in"},title:"sort - 1024 bytes",width:'600px',height:'400px',hAxis:{title:"Number of elements",slantedText:true},vAxis:{title:"ms",viewWindow:{min:0}}};graph.draw(data,options);var button=document.getElementById('button_graph_18');button.onclick=function(){if(options.vAxis.logScale){button.value="Logarithmic Scale";}else{button.value="Normal scale";}options.vAxis.logScale=!options.vAxis.logScale;graph.draw(data,options);};}</script>
+
+The list is almost five times faster than the vector and the deque which are both performing the same (with a very slight advantage for vector).
+
+If we use the non-trivial data type:
+
+<div id="graph_19" style="width: 600px; height: 400px;"></div><input id="button_graph_19" type="button" value="Logarithmic scale"><script type="text/javascript">function draw_graph_19(){var graph=new google.visualization.LineChart(document.getElementById('graph_19'));var data=google.visualization.arrayToDataTable([['x','deque','list','vector'],['100000',92,26,89],['200000',195,70,188],['300000',301,135,296],['400000',410,195,399],['500000',519,255,510],['600000',638,350,623],['700000',763,410,729],['800000',858,492,846],['900000',971,552,954],['1000000',1090,628,1072],]);var options={curveType:"function",animation:{duration:1200,easing:"in"},title:"sort - 16 bytes",width:'600px',height:'400px',hAxis:{title:"Number of elements",slantedText:true},vAxis:{title:"ms",viewWindow:{min:0}}};graph.draw(data,options);var button=document.getElementById('button_graph_19');button.onclick=function(){if(options.vAxis.logScale){button.value="Logarithmic Scale";}else{button.value="Normal scale";}options.vAxis.logScale=!options.vAxis.logScale;graph.draw(data,options);};}</script>
+
+Again, the cost of the operators of this type have a strong impact on the vector and deque.
+
+<h2>Destruction</h2>
+
+The next test is to calculate the time necessary to the destruction of a container. The containers are dynamically allocated, are filled with n numbers and then their destruction time (via delete) is computed.
+
+<div id="graph_20" style="width: 600px; height: 400px;"></div><input id="button_graph_20" type="button" value="Logarithmic scale"><script type="text/javascript">function draw_graph_20(){var graph=new google.visualization.LineChart(document.getElementById('graph_20'));var data=google.visualization.arrayToDataTable([['x','deque','list','vector'],['100000',34,1489,0],['200000',70,2838,0],['300000',102,4677,0],['400000',142,6072,0],['500000',173,7737,0],['600000',215,8828,0],['700000',353,10599,1],['800000',321,12115,0],['900000',355,13932,1],['1000000',410,15345,0],]);var options={curveType:"function",animation:{duration:1200,easing:"in"},title:"destruction - 8 bytes",width:'600px',height:'400px',hAxis:{title:"Number of elements",slantedText:true},vAxis:{title:"us",viewWindow:{min:0}}};graph.draw(data,options);var button=document.getElementById('button_graph_20');button.onclick=function(){if(options.vAxis.logScale){button.value="Logarithmic Scale";}else{button.value="Normal scale";}options.vAxis.logScale=!options.vAxis.logScale;graph.draw(data,options);};}</script>
+
+The results are already interesting. The vector is almost free to destroy, which is logical because that incurs only freeing one array and the vector itself. The deque is slower due to the freeing of each segments. But the list is much more costly than the other two, more than an order of magnitude slower. This is expected because the list have to free the dynamic memory of each node and also has to iterate through all the elements which we saw was slow.
+
+If we increase the data type:
+
+<div id="graph_21" style="width: 600px; height: 400px;"></div><input id="button_graph_21" type="button" value="Logarithmic scale"><script type="text/javascript">function draw_graph_21(){var graph=new google.visualization.LineChart(document.getElementById('graph_21'));var data=google.visualization.arrayToDataTable([['x','deque','list','vector'],['100000',898,4403,1],['200000',2488,8499,1],['300000',4091,12499,1430],['400000',5461,16379,1909],['500000',6729,21128,2459],['600000',8164,25719,2729],['700000',9517,31046,3227],['800000',10871,34550,3756],['900000',12392,37176,4163],['1000000',13762,40119,4523],]);var options={curveType:"function",animation:{duration:1200,easing:"in"},title:"destruction - 128 bytes",width:'600px',height:'400px',hAxis:{title:"Number of elements",slantedText:true},vAxis:{title:"us",viewWindow:{min:0}}};graph.draw(data,options);var button=document.getElementById('button_graph_21');button.onclick=function(){if(options.vAxis.logScale){button.value="Logarithmic Scale";}else{button.value="Normal scale";}options.vAxis.logScale=!options.vAxis.logScale;graph.draw(data,options);};}</script>
+
+This time we can see that the deque is three times slower than a vector and that the list is still an order of magnitude slower than a vector ! However, the is less difference than before.
+
+With our biggest data type, now:
+
+<div id="graph_22" style="width: 600px; height: 400px;"></div><input id="button_graph_22" type="button" value="Logarithmic scale"><script type="text/javascript">function draw_graph_22(){var graph=new google.visualization.LineChart(document.getElementById('graph_22'));var data=google.visualization.arrayToDataTable([['x','deque','list','vector'],['100000',20575,22434,15499],['200000',44234,47254,29848],['300000',67196,69374,39818],['400000',89253,91128,54229],['500000',108689,112557,68090],['600000',131751,135764,75063],['700000',150801,155610,90761],['800000',172365,176957,102830],['900000',192575,193897,112728],['1000000',211507,215274,126348],]);var options={curveType:"function",animation:{duration:1200,easing:"in"},title:"destruction - 4096 bytes",width:'600px',height:'400px',hAxis:{title:"Number of elements",slantedText:true},vAxis:{title:"us",viewWindow:{min:0}}};graph.draw(data,options);var button=document.getElementById('button_graph_22');button.onclick=function(){if(options.vAxis.logScale){button.value="Logarithmic Scale";}else{button.value="Normal scale";}options.vAxis.logScale=!options.vAxis.logScale;graph.draw(data,options);};}</script>
+
+There is no more difference between list and deque. The vector is still twice faster than them.
+
+Even if the vector is always faster than the list and deque, keep in mind that the graphs for destruction are in microseconds and so the operations are not very costly. It could make a difference is very time-sensitive application but unlikely in most applications. Moreover, destruction is made only once per data structure, generally, it is not a very important operation.
+
+<h2>Number Crunching</h2>
+
+Finally, we can also test a number crunching operation. Here, random elements are inserted into the container that is kept sorted. It means, that the position where the element has to be inserted is first searched by iterating through elements and the inserted. As we talk about number crunching, only 8 bytes elements are tested.
+
+<div id="graph_23" style="width: 600px; height: 400px;"></div><input id="button_graph_23" type="button" value="Logarithmic scale"><script type="text/javascript">function draw_graph_23(){var graph=new google.visualization.LineChart(document.getElementById('graph_23'));var data=google.visualization.arrayToDataTable([['x','deque','list','vector'],['10000',39,187,33],['20000',150,1247,134],['30000',339,3380,310],['40000',623,6513,547],['50000',958,10757,864],['60000',1394,16098,1257],['70000',1894,22623,1713],['80000',2479,30656,2249],['90000',3162,39451,2858],['100000',3932,49906,3576],]);var options={curveType:"function",animation:{duration:1200,easing:"in"},title:"number_crunching",width:'600px',height:'400px',hAxis:{title:"Number of elements",slantedText:true},vAxis:{title:"ms",viewWindow:{min:0}}};graph.draw(data,options);var button=document.getElementById('button_graph_23');button.onclick=function(){if(options.vAxis.logScale){button.value="Logarithmic Scale";}else{button.value="Normal scale";}options.vAxis.logScale=!options.vAxis.logScale;graph.draw(data,options);};}</script>
+
+Even if there is only 100'000 elements, the list is already an order of magnitude slower than the other two data structures. If we look a the curves of the results, it is easy to see that this will be only worse with higher collection sizes. The list is absolutely not adapted for number crunching operations due to its poor spatial locality.
+
+<h2>Conclusion</h2>
+
+To conclude, we can get some facts about each data structure:
+
+ * std::list is very very slow to iterate through the collection due to its very poor spatial locality.
+ * std::vector and std::deque perform always faster than std::list with very small data
+ * std::list handles very well large elements
+ * std::deque performs better than a std::vector for inserting at random positions (especially at the front, which is constant time)
+ * std::deque and std::vector do not support very well data types with high cost of copy/assignment
+
+This draw simple conclusions on usage of each data structure:
+
+ * Number crunching: use std::vector or std::deque
+ * Linear search: use std::vector or std::deque
+ * Random Insert/Remove:
+     * Small data size: use std::vector
+     * Large element size: use std::list (unless if intended principally for searching)
+ * Non-trivial data type: use std::list unless you need the container especially for searching. But for multiple modifications of the container, it will be very slow.
+ * Push to front: use std::deque or std::list
+
+I have to say that before writing this new version of the benchmark I did not know std::deque a lot. This is a very good data structure that is very good at inserting at both ends and even in the middle while exposing a very good spatial locality. Even if sometimes slower than a vector, when the operations involves both searching and inserting in the middle, I would say that this structure should be preferred over vectors, especially for data types of medium sizes.
+
+If you have the time, in practice, the best way to decide is always to benchmark each version, or even to try another data structures. Two operations with the same Big O complexity can perform quite differently in practice.
+
+I hope that you found this article interesting. If you have any comment or have an idea about an other workload that you would like to test, don't hesitate to post a comment ;) If you have a question on results, don't hesitate as well.
+
+The code source of the benchmark is available online: <a href="https://github.com/wichtounet/articles/blob/master/src/vector_list/bench.cpp" title="Source code of the benchmark">https://github.com/wichtounet/articles/blob/master/src/vector_list/bench.cpp</a>
+
+The older version of the article is still available: <a href="http://www.baptiste-wicht.com/2012/11/cpp-benchmark-vector-vs-list/" title="C++ benchmark – std::vector VS std::list">C++ benchmark – std::vector VS std::list</a>
+
+<script type="text/javascript">function draw_visualization(){draw_graph_0();draw_graph_1();draw_graph_2();draw_graph_3();draw_graph_4();draw_graph_5();draw_graph_6();draw_graph_7();draw_graph_8();draw_graph_9();draw_graph_10();draw_graph_11();draw_graph_12();draw_graph_13();draw_graph_14();draw_graph_15();draw_graph_16();draw_graph_17();draw_graph_18();draw_graph_19();draw_graph_20();draw_graph_21();draw_graph_22();draw_graph_23();}google.setOnLoadCallback(draw_visualization);</script>

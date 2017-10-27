@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html prefix="og: http://ogp.me/ns# article: http://ogp.me/ns/article# " lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>How I improved (a bit) compile time of ETL ? | Blog blog("Baptiste Wicht");</title>
+<script src="/cdn-cgi/apps/head/98vpnawSZZMscPn4oDND-ZgswjM.js"></script><link href="../../../assets/css/all-nocdn.css" rel="stylesheet" type="text/css">
+<meta name="theme-color" content="#5670d4">
+<meta name="generator" content="Nikola (getnikola.com)">
+<link rel="alternate" type="application/rss+xml" title="RSS" href="../../../rss.xml">
+<link rel="canonical" href="http://baptiste-wicht.com/posts/2015/06/how-i-improved-a-bit-compile-time-of-etl.html">
+<!--[if lt IE 9]><script src="../../../assets/js/html5.js"></script><![endif]--><meta name="author" content="Baptiste Wicht">
+<link rel="prev" href="continuous-performance-management-with-cpm-for-cpp.html" title="Continuous Performance Management with CPM for C++" type="text/html">
+<link rel="next" href="improve-etl-compile-time-with-precompiled-headers.html" title="Improve ETL compile-time with Precompiled Headers" type="text/html">
+<meta property="og:site_name" content='Blog blog("Baptiste Wicht");'>
+<meta property="og:title" content="How I improved (a bit) compile time of ETL ?">
+<meta property="og:url" content="http://baptiste-wicht.com/posts/2015/06/how-i-improved-a-bit-compile-time-of-etl.html">
+<meta property="og:description" content="Recently I read several articles about C++ and compile time and I wondered if I could improve the compile time of my Expression Template Library (ETL) project. ETL is a header-only and template-heavy ">
+<meta property="og:type" content="article">
+<meta property="article:published_time" content="2015-06-16T22:00:21+02:00">
+<meta property="article:tag" content="C++">
+<meta property="article:tag" content="Compilers">
+<meta property="article:tag" content="gcc">
+<meta property="article:tag" content="Performance">
+<link href="../../../favicon.ico" rel="icon" type="image/x-icon">
+<link rel="publisher" href="https://plus.google.com/+BaptisteWicht">
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-2175227-7', 'auto');
+  var metas = document.getElementsByTagName('meta'), tagsList = [];
+  for (var i=0; i<metas.length; i++) {
+    if (metas[i].getAttribute('property') == 'article:tag') {
+      tagsList.push( metas[i].getAttribute('content'));
+    }
+  }
+  ga('set', 'dimension1', tagsList.join('|'));
+  ga('send', 'pageview');
+</script>
+</head>
+<body>
+
+<a href="#content" class="sr-only sr-only-focusable">Skip to main content</a>
+<div class="container-fluid">
+
+<div class="row">
+<div class="col-sm-3 col-lg-2">
+<nav class="navbar navbar-inverse navbar-fixed-side"><div class="navbar-header">
+<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+<span class="sr-only">Toggle navigation</span>
+<span class="icon-bar"></span>
+<span class="icon-bar"></span>
+<span class="icon-bar"></span>
+</button>
+<a class="navbar-brand" href="http://baptiste-wicht.com/">
+<span id="blog-title">Blog blog("Baptiste Wicht");</span>
+</a>
+</div>
+
+<div class="collapse navbar-collapse navbar-ex1-collapse">
+<ul class="nav navbar-nav">
+<li>
+<a href="../../../stories/about.html">About</a>
+</li>
+<li>
+<a href="../../../stories/publications.html">Publications</a>
+</li>
+<li>
+<a href="../../../stories/projects.html">Projects</a>
+</li>
+<li>
+<a href="../../../categories/index.html">Tags</a>
+</li>
+<li>
+<a href="../../../archive.html">Archives</a>
+</li>
+<li>
+<a href="http://feeds.feedburner.com/BaptisteWicht">RSS</a>
+</li>
+<li class="navbar-content">
+<h3>Related posts</h3>
+</li>
+<li><a href="improve-etl-compile-time-with-precompiled-headers.html">Improve ETL compile-time with Precompiled Headers</a></li>
+<li><a href="../../2016/01/improve-dll-and-etl-compile-time-further.html">Improve DLL and ETL Compile Time further</a></li>
+<li><a href="../../2016/09/expression-templates-library-etl-10.html">Expression Templates Library (ETL) 1.0</a></li>
+<li><a href="../../2012/11/gcc-4-7-clang-3-1-eddic.html">GCC 4.7 vs CLang 3.1 on eddic</a></li>
+<li><a href="../../2017/03/disappointing-zapcc-performance-on-deep-learning-library-dll.html">Disappointing zapcc performance on Deep Learning Library (DLL)</a></li>
+<li><a href="../../2017/08/expression-templates-library-etl-11.html">Expression Templates Library (ETL) 1.1</a></li>
+<li class="navbar-block">
+<li class="wicht-navbar-right">
+<a target="_blank" title="Follow @wichtounet on Twitter" href="https://twitter.com/wichtounet">
+<img src="../../../assets/img/twitter.png" alt="Follow @wichtounet on Twitter"></a>
+</li>
+<li class="wicht-navbar-right">
+<a target="_blank" title="Follow +BaptisteWicht on Google+" href="https://plus.google.com/+BaptisteWicht">
+<img src="../../../assets/img/google_plus.png" alt="Follow +BaptisteWicht on Google+"></a>
+</li>
+</ul>
+</div>
+
+</nav>
+</div> 
+<div class="col-sm-9 col-lg-10">
+<div id="content"></div>
+<article class="post-text h-entry hentry postpage" itemscope="itemscope" itemtype="http://schema.org/Article"><header><h1 class="p-name entry-title" itemprop="headline name"><a href="#" class="u-url">How I improved (a bit) compile time of ETL ?</a></h1>
+<div class="metadata">
+<p class="byline author vcard"><span class="byline-name fn" itemprop="author">
+Baptiste Wicht
+</span></p>
+<p class="dateline"><a href="#" rel="bookmark"><time class="published dt-published" datetime="2015-06-16T22:00:21+02:00" itemprop="datePublished" title="2015-06-16 22:00">2015-06-16 22:00</time></a></p>
+<p class="commentline">
+<a href="how-i-improved-a-bit-compile-time-of-etl.html#disqus_thread" data-disqus-identifier="cache/posts/2015/06/how-i-improved-a-bit-compile-time-of-etl.html">Comments</a>
+</p>
+<p class="sourceline"><a href="how-i-improved-a-bit-compile-time-of-etl.rst" class="sourcelink">Source</a></p>
+</div>
+</header><div class="e-content entry-content" itemprop="articleBody text">
+<div>
+<p>Recently I read several articles about C++ and compile time and I wondered if I could improve the compile time of my Expression Template Library (ETL) project. ETL is a header-only and template-heavy library. I'm not going to the change the design completely or to use type erasure techniques to reduce the compile time, ETL is all about performance.</p>
+<p>As a disclaimer, don't expect fancy results from this post, I haven't been able to reduce compile time a lot, but I still wanted to share my experience.</p>
+<p>I've used g++-4.9.2 to perform these tests.</p>
+<p>I'm compiling the complete test suite (around 6900 source lines of codes in 36 files) in release mode. Each test file includes the ETL (around 10K SLOC). Each test is run with 8 threads (make -j8). For each result, I have run a complete build 5 times and taken the best result as the final result. Everything is run on a SSD and I have more than enough RAM to handle all the compilation in parallel.</p>
+<p>The reference build time was 87.5 seconds.</p>
+<div class="section" id="compile-and-generate-dependency-files-at-the-same-time">
+<h2>Compile and generate dependency files at the same time</h2>
+<p>To help write my makefiles, I'm using a set of functions that I have written. This includes automatic dependency generation using -MM -MT options of the compiler. Until now, I had two targets, one to compile the cpp file into the object file and another one to generate the dependency file. I recently saw that compilers were able to do both at the same time! Clang, G++ and the Intel compiler all have a -MD -MF options that lets you generate the dependency file at the same time you compile your file, saving you at least one read of the file.</p>
+<p>My compilation rule in my makefile has now become:</p>
+<pre class="code makefile"><a name="rest_code_f9f82a2528d84d9bbfcc601928acbaff-1"></a><span class="nf">release/$(1)/%.cpp.o</span><span class="o">:</span> <span class="k">$(</span>1<span class="k">)</span>/%.<span class="n">cpp</span>
+<a name="rest_code_f9f82a2528d84d9bbfcc601928acbaff-2"></a>    @ mkdir -p release/<span class="k">$(</span><span class="m">1</span><span class="k">)</span>/
+<a name="rest_code_f9f82a2528d84d9bbfcc601928acbaff-3"></a>    <span class="k">$(</span>CXX<span class="k">)</span> <span class="k">$(</span>CXX_FLAGS<span class="k">)</span> <span class="k">$(</span>RELEASE_FLAGS<span class="k">)</span> <span class="k">$(</span><span class="m">2</span><span class="k">)</span> -MD -MF release/<span class="k">$(</span><span class="m">1</span><span class="k">)</span>/<span class="nv">$$</span>*.cpp.d -o release/<span class="k">$(</span><span class="m">1</span><span class="k">)</span>/<span class="nv">$$</span>*.cpp.o -c <span class="k">$(</span><span class="m">1</span><span class="k">)</span>/<span class="nv">$$</span>*.cpp
+<a name="rest_code_f9f82a2528d84d9bbfcc601928acbaff-4"></a>    @ sed -i -e <span class="s1">'<a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="bac9fa">[email&#160;protected]</a>^\(.*\)\.o:@\1.d \1.o:@'</span> release/<span class="k">$(</span><span class="m">1</span><span class="k">)</span>/<span class="nv">$$</span>*.cpp.d
+</pre>
+<p>This reduced the compilation time to 86.8 seconds. Not that much reduction, but it still is quite nice to know that. I would have expected this to reduce more the compile time.</p>
+<div class="section" id="use-pragma-once">
+<h3>Use #pragma once</h3>
+<p>Normally, I'm not a fan of #pragma since it is not standard, but for now ETL only supports three compilers and only very recent of them, so I have the guarantee that #pragma once is available, so what the hell!</p>
+<p>I've replaced all the include guards by single #pragma once directives.</p>
+<p>Again, the results are not impressive, this reduced the compile time to 86.2 seconds. I would only advise to use this if you are sure of the compilers you want to support and you need the extra time.</p>
+</div>
+<div class="section" id="avoid-iostream">
+<h3>Avoid &lt;iostream&gt;</h3>
+<p>I've read that the &lt;iostream&gt; header was one of the slowest to compile of the STL. It is only one that is included several times in my headers only for stream operators and it turns out that there is a &lt;iosfwd&gt; header that forward declares a lot of things from the &lt;iostream&gt; and other I/O headers.</p>
+<p>By replacing all &lt;iostream&gt; include by &lt;iosfwd&gt;, compile time has gone down to 84.1 seconds.</p>
+</div>
+<div class="section" id="conclusion">
+<h3>Conclusion</h3>
+<p>By using the three techniques, I've reduced the compile time from 87.5 to 84.1 seconds. I would have honestly hoped for more improvements, but this is a already a good start.</p>
+<p>As a side note, clang compile time is 45.2 seconds under the same conditions (was 46.2 seconds before the optimizations). It is really much faster :) I'm still using GCC a lot since in several cases, it does generate much better code and in average, the generated code if faster (on my benchmarks at least). I don't have the numbers for icc, but icc is definitely the slowest of the three. When I have it available (at work), I use for release build before running something. The generated executables are generally faster (I only use Intel processors) and sometimes the difference can be quite important.</p>
+<p>If you have ideas to reduce further the compile time on this test case, I'd be glad to hear them and put them to the test.</p>
+<p>I hope that this small experience would be helpful to some of you :)</p>
+</div>
+<div class="section" id="other-techniques">
+<h3>Other techniques</h3>
+<p>There are several other techniques that you can use to reduce compile time:</p>
+<ol class="arabic simple">
+<li>Precompiled Headers are supported by both Clang and GCC, altough not in a compatible. I haven't tested this in a while, but it is quite effective and a very interesting technique. The main problem with this is that is not standard and not compatible between compilers. But it probably is the most efficient techniques when you have lots of headers and lots of templates as in my case.</li>
+<li>Unity builds can make full rebuild much faster. I personally don't like unity builds especially because it is only really good for full builds and you generally don't do full rebuilds that much (I know, I know, this is also the test done in this article :) ). Moreover, it also sucks at doing parallel builds.</li>
+<li>Pimpl idioms and other type erasure techniques can reduce compile time a lot. If it is well done, it can be implemented without so much overhead.</li>
+<li>Explicit instantiation of templates can also help, but only in the case of a user program. In the case of a library itself, you cannot do anything.</li>
+<li>Reduce inclusions and use forward declarations, obviously...</li>
+<li>Use tools like distcc (I very rarely use it) and ccache (I generally use it).</li>
+<li>Update your compiler</li>
+<li>Upgrade your computer ;)</li>
+<li>...</li>
+</ol>
+</div>
+</div>
+</div>
+</div>
+<aside class="postpromonav"><nav><ul itemprop="keywords" class="tags">
+<li><a class="tag p-category" href="../../../categories/c%2B%2B.html" rel="tag">C++</a></li>
+<li><a class="tag p-category" href="../../../categories/compilers.html" rel="tag">Compilers</a></li>
+<li><a class="tag p-category" href="../../../categories/gcc.html" rel="tag">gcc</a></li>
+<li><a class="tag p-category" href="../../../categories/performance.html" rel="tag">Performance</a></li>
+</ul>
+<ul class="pager hidden-print">
+<li class="previous">
+<a href="continuous-performance-management-with-cpm-for-cpp.html" rel="prev" title="Continuous Performance Management with CPM for C++">Previous post</a>
+</li>
+<li class="next">
+<a href="improve-etl-compile-time-with-precompiled-headers.html" rel="next" title="Improve ETL compile-time with Precompiled Headers">Next post</a>
+</li>
+</ul></nav></aside><section class="comments hidden-print"><h2>Comments</h2>
+<div id="disqus_thread"></div>
+<script src="/cdn-cgi/scripts/78d64697/cloudflare-static/email-decode.min.js"></script><script>
+        var disqus_shortname ="blogwichtounet",
+            disqus_url="http://baptiste-wicht.com/posts/2015/06/how-i-improved-a-bit-compile-time-of-etl.html",
+        disqus_title="How I improved (a bit) compile time of ETL ?",
+        disqus_identifier="cache/posts/2015/06/how-i-improved-a-bit-compile-time-of-etl.html",
+        disqus_config = function () {
+            this.language = "en";
+        };
+        (function() {
+            var dsq = document.createElement('script'); dsq.async = true;
+            dsq.src = 'https://' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        })();
+    </script><noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a>
+</noscript>
+<a href="https://disqus.com" class="dsq-brlink" rel="nofollow">Comments powered by <span class="logo-disqus">Disqus</span></a>
+</section></article><script>var disqus_shortname="blogwichtounet";(function(){var a=document.createElement("script");a.async=true;a.src="https://"+disqus_shortname+".disqus.com/count.js";(document.getElementsByTagName("head")[0]||document.getElementsByTagName("body")[0]).appendChild(a)}());</script>
+</div> 
+</div>
+
+</div>
+
+
+
+<footer>
+Contents © 2017 <a href="/cdn-cgi/l/email-protection#06646776726f757263716f656e7246616b676f6a2865696b">Baptiste Wicht</a> - Powered by <a href="http://getnikola.com" rel="nofollow">Nikola</a> - License:
+<a rel="license" href="http://creativecommons.org/licenses/by/4.0/"><img alt="Creative Commons License" style="padding-left:5px;border-width:0" src="../../../assets/img/cc.png"></a>
+<ul class="footer_inline_ul">
+<li>
+<a href="how-i-improved-a-bit-compile-time-of-etl.rst" id="sourcelink">Source</a>
+</li>
+</ul></footer><script src="/cdn-cgi/scripts/78d64697/cloudflare-static/email-decode.min.js"></script><script src="../../../assets/js/all-nocdn.js"></script>
+</body>
+</html>

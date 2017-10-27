@@ -1,0 +1,147 @@
+<script type="text/javascript" src="https://www.google.com/jsapi"></script><script type="text/javascript">google.load('visualization','1',{packages:['corechart']});</script>
+
+<strong>A updated version of this article is available: <a title="C++ benchmark – std::vector VS std::list VS std::deque" href="http://www.baptiste-wicht.com/2012/12/cpp-benchmark-vector-list-deque/">C++ benchmark – std::vector VS std::list VS std::deque</a></strong>
+
+In C++, the two most used data structures are the std::vector and the std::list. In this article, we will compare the performance in practice of these two data structures on several different workloads. In this article, when I talk about a list it is the std::list implementation and vector refers to the std::vector implementation.
+
+It is generally said that a list should be used when random insert and remove will be performed (performed in O(1) versus O(n) for a vector). If we look only at the complexity, search in both data structures should be roughly equivalent, complexity being in O(n). When random insert/replace operations are performed on a vector, all the subsequent data needs to be moved and so each element will be copied. That is why the size of the data type is an important factor when comparing those two data structures.
+
+However, in practice, there is a huge difference, the usage of the memory caches. All the data in a vector is contiguous where the std::list allocates separately memory for each element. How does that change the results in practice ?
+
+Keep in mind that all the tests performed are made on vector and list even if other data structures could be better suited to the given workload.
+
+In the graphs and in the text, <em>n</em> is used to refer to the number of elements of the collection.
+
+All the tests performed have been performed on an Intel Core i7 Q 820  @ 1.73GHz. The code has been compiled in 64 bits with GCC 4.7.2 with -02 and -march=native. The code has been compiled with C++11 support (-std=c++11).
+
+<h2>Fill</h2>
+
+The first test that is performed is to fill the data structures by adding elements to the back of the container. Two variations of vector are used, vector_pre being a std::vector with the size passed in parameters to the constructor, resulting in only one allocation of memory.
+
+<div id="graph_0" style="width: 600px; height: 400px;"></div><input id="button_graph_0" type="button" value="Logarithmic scale"><script type="text/javascript">function draw_graph_0(){var graph=new google.visualization.LineChart(document.getElementById('graph_0'));var data=google.visualization.arrayToDataTable([['x','vector_pre','vector','list'],['1000',0,0,1],['10000',0,1,10],['100000',4,11,100],['1000000',7,234,1023]]);var options={curveType:"function",animation:{duration:1200,easing:"in"},title:"Fill (8 bytes)",width:'600px',height:'400px',vAxis:{title:"Milliseconds",viewWindow:{min:0}}};graph.draw(data,options);var button=document.getElementById('button_graph_0');button.onclick=function(){if(options.vAxis.logScale){button.value="Logarithmic Scale";}else{button.value="Normal scale";}options.vAxis.logScale=!options.vAxis.logScale;graph.draw(data,options);};}</script><div id="graph_1" style="width: 600px; height: 400px;"></div><input id="button_graph_1" type="button" value="Logarithmic scale"><script type="text/javascript">function draw_graph_1(){var graph=new google.visualization.LineChart(document.getElementById('graph_1'));var data=google.visualization.arrayToDataTable([['x','vector_pre','vector','list'],['1000',0,9,1],['10000',12,245,18],['100000',949,2635,1153],['1000000',9138,23654,11270]]);var options={curveType:"function",animation:{duration:1200,easing:"in"},title:"Fill (1024 bytes)",width:'600px',height:'400px',vAxis:{title:"Milliseconds",viewWindow:{min:0}}};graph.draw(data,options);var button=document.getElementById('button_graph_1');button.onclick=function(){if(options.vAxis.logScale){button.value="Logarithmic Scale";}else{button.value="Normal scale";}options.vAxis.logScale=!options.vAxis.logScale;graph.draw(data,options);};}</script>
+
+All data structures are impacted the same way when the data size increases, because there will be more memory to allocate. The vector_pre is clearly the winner of this test, being one order of magnitude faster than a list and about twice faster than a vector without pre-allocation. The result are directly linked to the allocations that have to be performed, allocation being slow. Whatever the data size is, push_back to a vector will always be faster than to a list. This is logical becomes vector allocates more memory than necessary and so does not need to allocate memory for each element.
+
+But this test is not very interesting, generally building the data structure is not critical. What is critical is the operations that are performed on the data structure. That will be tested in the next sections.
+
+<!--nextpage-->
+
+<h2>Random Find</h2>
+
+The first operation is that is tested is the search. The container is filled with all the numbers in [0, N] and shuffled. Then, each number in [0,N] is searched in the container with std::find that performs a simple linear search.
+
+<div id="graph_2" style="width: 600px; height: 400px;"></div><input id="button_graph_2" type="button" value="Logarithmic scale"><script type="text/javascript">function draw_graph_2(){var graph=new google.visualization.LineChart(document.getElementById('graph_2'));var data=google.visualization.arrayToDataTable([['x','vector','list'],['100',0,11],['1000',0,1545],['5000',0,35886],['10000',0,150865],['20000',0,614496]]);var options={curveType:"function",animation:{duration:1200,easing:"in"},title:"Find (8 bytes)",width:'600px',height:'400px',vAxis:{title:"Microseconds",viewWindow:{min:0}}};graph.draw(data,options);var button=document.getElementById('button_graph_2');button.onclick=function(){if(options.vAxis.logScale){button.value="Logarithmic Scale";}else{button.value="Normal scale";}options.vAxis.logScale=!options.vAxis.logScale;graph.draw(data,options);};}</script>
+
+Yes, vector is present in the graph, its line is the same as the x line ! Performing a <strong>linear search in a vector is several orders of magnitude faster than in a list</strong>.
+
+The only reason is the usage of the cache line. When a data is accessed, the data is fetched from the main memory to the cache. Not only the accessed data is accessed, but a whole cacheline is fetched. As the elements in a vector are contiguous, when you access an element, the next element is automatically in the cache. As the main memory is orders of magnitude slower than the cache, this makes a huge difference. In the list case, the processor spends its whole time waiting for data being fetched from memory to the cache.
+
+If we augment the size of the data type to 1KB, the results remain the same, but slower:
+
+<div id="graph_3" style="width: 600px; height: 400px;"></div><input id="button_graph_3" type="button" value="Logarithmic scale"><script type="text/javascript">function draw_graph_3(){var graph=new google.visualization.LineChart(document.getElementById('graph_3'));var data=google.visualization.arrayToDataTable([['x','vector','list'],['100',0,11],['1000',0,3551],['5000',0,195429],['10000',0,829631],['20000',0,3356432]]);var options={curveType:"function",animation:{duration:1200,easing:"in"},title:"Find (1024 bytes)",width:'600px',height:'400px',vAxis:{title:"Microseconds",viewWindow:{min:0}}};graph.draw(data,options);var button=document.getElementById('button_graph_3');button.onclick=function(){if(options.vAxis.logScale){button.value="Logarithmic Scale";}else{button.value="Normal scale";}options.vAxis.logScale=!options.vAxis.logScale;graph.draw(data,options);};}</script>
+
+<!--nextpage-->
+
+<h2>Random Insert</h2>
+
+In the case of random insert, in theory, the list should be much faster, its insert operation being in O(1) versus O(n) for a vector.
+
+The container is filled with all the numbers in [0, N] and shuffled. Then, 1000 random values are inserted at a random position in the container. The random position is found by linear search. In both cases, the complexity of the search is O(n), the only difference comes from the insert that follow the search.
+
+<div id="graph_4" style="width: 600px; height: 400px;"></div><input id="button_graph_4" type="button" value="Logarithmic scale"><script type="text/javascript">function draw_graph_4(){var graph=new google.visualization.LineChart(document.getElementById('graph_4'));var data=google.visualization.arrayToDataTable([['x','vector','list'],['1000',9,85],['2000',9,85],['4000',10,94],['6000',12,98],['8000',13,106],['10000',14,106]]);var options={curveType:"function",animation:{duration:1200,easing:"in"},title:"Insert (8 bytes)",width:'600px',height:'400px',vAxis:{title:"Milliseconds",viewWindow:{min:0}}};graph.draw(data,options);var button=document.getElementById('button_graph_4');button.onclick=function(){if(options.vAxis.logScale){button.value="Logarithmic Scale";}else{button.value="Normal scale";}options.vAxis.logScale=!options.vAxis.logScale;graph.draw(data,options);};}</script>
+
+When, the vector should be slower than the list, it is almost an order of magnitude faster. Again, this is because finding the position in a list is much slower than copying a lot of small elements.
+
+If we increase the size:
+
+<div id="graph_5" style="width: 600px; height: 400px;"></div><input id="button_graph_5" type="button" value="Logarithmic scale"><script type="text/javascript">function draw_graph_5(){var graph=new google.visualization.LineChart(document.getElementById('graph_5'));var data=google.visualization.arrayToDataTable([['x','vector','list'],['1000',27,120],['2000',30,113],['4000',34,122],['6000',37,140],['8000',42,145],['10000',47,155]]);var options={curveType:"function",animation:{duration:1200,easing:"in"},title:"Insert (32 bytes)",width:'600px',height:'400px',vAxis:{title:"Milliseconds",viewWindow:{min:0}}};graph.draw(data,options);var button=document.getElementById('button_graph_5');button.onclick=function(){if(options.vAxis.logScale){button.value="Logarithmic Scale";}else{button.value="Normal scale";}options.vAxis.logScale=!options.vAxis.logScale;graph.draw(data,options);};}</script>
+
+The two lines are getting closer, but vector is still faster.
+
+Increase it to 1KB:
+
+<div id="graph_6" style="width: 600px; height: 400px;"></div><input id="button_graph_6" type="button" value="Logarithmic scale"><script type="text/javascript">function draw_graph_6(){var graph=new google.visualization.LineChart(document.getElementById('graph_6'));var data=google.visualization.arrayToDataTable([['x','vector','list'],['1000',1821,167],['2000',1941,163],['4000',2383,191],['6000',2679,207],['8000',2960,214],['10000',3308,228]]);var options={curveType:"function",animation:{duration:1200,easing:"in"},title:"Insert (1024 bytes)",width:'600px',height:'400px',vAxis:{title:"Milliseconds",viewWindow:{min:0}}};graph.draw(data,options);var button=document.getElementById('button_graph_6');button.onclick=function(){if(options.vAxis.logScale){button.value="Logarithmic Scale";}else{button.value="Normal scale";}options.vAxis.logScale=!options.vAxis.logScale;graph.draw(data,options);};}</script>
+
+This time, list outperforms vector by an order of magnitude ! The performance of random insert in a list are not impacted much by the size of the data type, where vector suffers a lot when big sizes are used. We can also see that list doesn't seem to care about the size of the collection. It is because the size of the collection only impact the search and not the insertion and as few search are performed, it does not change the results a lot.
+
+If the iterator was already known (no need for linear search), it would be faster to insert into a list than into the vector.
+
+<h2>Random Remove</h2>
+
+In theory, random remove is the same case than random insert. Now that we've seen the results with random insert, we could expect the same behavior for random remove.
+
+The container is filled with all the numbers in [0, N] and shuffled. Then, 1000 random values are removed from a random position in the container.
+
+<div id="graph_7" style="width: 600px; height: 400px;"></div><input id="button_graph_7" type="button" value="Logarithmic scale"><script type="text/javascript">function draw_graph_7(){var graph=new google.visualization.LineChart(document.getElementById('graph_7'));var data=google.visualization.arrayToDataTable([['x','vector','list'],['100',0,0],['1000',0,0],['10000',40,0],['50000',949,2],['100000',3937,4],['200000',16003,9],['300000',42393,12]]);var options={curveType:"function",animation:{duration:1200,easing:"in"},title:"Push front (8 bytes)",width:'600px',height:'400px',vAxis:{title:"Milliseconds",viewWindow:{min:0}}};graph.draw(data,options);var button=document.getElementById('button_graph_7');button.onclick=function(){if(options.vAxis.logScale){button.value="Logarithmic Scale";}else{button.value="Normal scale";}options.vAxis.logScale=!options.vAxis.logScale;graph.draw(data,options);};}</script>
+
+Again, vector is several times faster and looks to scale better. Again, this is because it is very cheap to copy small elements.
+
+Let's increase it directly to 1KB element.
+
+<div id="graph_8" style="width: 600px; height: 400px;"></div><input id="button_graph_8" type="button" value="Logarithmic scale"><script type="text/javascript">function draw_graph_8(){var graph=new google.visualization.LineChart(document.getElementById('graph_8'));var data=google.visualization.arrayToDataTable([['x','vector','list'],['1000',0,0],['10000',2,26],['100000',163,684],['1000000',2147,15950],]);var options={curveType:"function",animation:{duration:1200,easing:"in"},title:"Sort (8 bytes)",width:'600px',height:'400px',vAxis:{title:"Milliseconds",viewWindow:{min:0}}};graph.draw(data,options);var button=document.getElementById('button_graph_8');button.onclick=function(){if(options.vAxis.logScale){button.value="Logarithmic Scale";}else{button.value="Normal scale";}options.vAxis.logScale=!options.vAxis.logScale;graph.draw(data,options);};}</script>
+
+The two lines have been reversed !
+
+The behavior of random remove is the same as the behavior of random insert, for the same reasons.
+
+<!--nextpage-->
+
+<h2>Push Front</h2>
+
+The next operation that we will compare is inserting elements in front of the collection. This is the worst case for vector, because after each insertion, all the previously inserted will be moved and copied. For a list, it does not make a difference compared to pushing to the back.
+
+<div id="graph_9" style="width: 600px; height: 400px;"></div><input id="button_graph_9" type="button" value="Logarithmic scale"><script type="text/javascript">function draw_graph_9(){var graph=new google.visualization.LineChart(document.getElementById('graph_9'));var data=google.visualization.arrayToDataTable([['x','vector','list'],['100',0,0],['1000',0,0],['10000',40,0],['50000',949,2],['100000',3937,4],['200000',16003,9],['300000',42393,12]]);var options={curveType:"function",animation:{duration:1200,easing:"in"},title:"Push front (8 bytes)",width:'600px',height:'400px',vAxis:{title:"Milliseconds",viewWindow:{min:0}}};graph.draw(data,options);var button=document.getElementById('button_graph_9');button.onclick=function(){if(options.vAxis.logScale){button.value="Logarithmic Scale";}else{button.value="Normal scale";}options.vAxis.logScale=!options.vAxis.logScale;graph.draw(data,options);};}</script>
+
+The results are crystal-clear and as expected. vector is very bad at inserting elements to the front. This does not need further explanations. There is no need to change the data size, it will only make vector much slower.
+
+<h2>Sort</h2>
+
+The next operation that is tested is the performance of sorting a vector or a list. For a vector std::sort is used and for a list the member function sort is used.
+
+<div id="graph_10" style="width: 600px; height: 400px;"></div><input id="button_graph_10" type="button" value="Logarithmic scale"><script type="text/javascript">function draw_graph_10(){var graph=new google.visualization.LineChart(document.getElementById('graph_10'));var data=google.visualization.arrayToDataTable([['x','vector','list'],['1000',0,0],['10000',2,26],['100000',163,684],['1000000',2147,15950],]);var options={curveType:"function",animation:{duration:1200,easing:"in"},title:"Sort (8 bytes)",width:'600px',height:'400px',vAxis:{title:"Milliseconds",viewWindow:{min:0}}};graph.draw(data,options);var button=document.getElementById('button_graph_10');button.onclick=function(){if(options.vAxis.logScale){button.value="Logarithmic Scale";}else{button.value="Normal scale";}options.vAxis.logScale=!options.vAxis.logScale;graph.draw(data,options);};}</script>
+
+We can see that sorting a list is several times slower. It comes from the poor usage of the cache.
+
+If we increase the size of the element to 1KB:
+
+<div id="graph_11" style="width: 600px; height: 400px;"></div><input id="button_graph_11" type="button" value="Logarithmic scale"><script type="text/javascript">function draw_graph_11(){var graph=new google.visualization.LineChart(document.getElementById('graph_11'));var data=google.visualization.arrayToDataTable([['x','vector','list'],['1000',2,0],['10000',224,50],['100000',4289,1083],['1000000',50973,17975],]);var options={curveType:"function",animation:{duration:1200,easing:"in"},title:"Sort (1024 bytes)",width:'600px',height:'400px',vAxis:{title:"Milliseconds",viewWindow:{min:0}}};graph.draw(data,options);var button=document.getElementById('button_graph_11');button.onclick=function(){if(options.vAxis.logScale){button.value="Logarithmic Scale";}else{button.value="Normal scale";}options.vAxis.logScale=!options.vAxis.logScale;graph.draw(data,options);};}</script>
+
+This time the list is faster than the vector. It is not very clear on the graph, but the values for the list are almost the same as for the previous results. That is because std::list::sort() does not perform any copy, only pointers to the elements are changed. On the other hand, swapping two elements in a vector involves at least three copies, so the cost of sorting will increase as the cost of copying increases.
+
+<!--nextpage-->
+
+<h2>Number Crunching</h2>
+
+Finally, we can also test a number crunching operation. Here, random elements are inserted into the container that is kept sorted. It means, that the position where the element has to be inserted is first searched by iterating through elements and the inserted. As we talk about number crunching, only 8 bytes elements are tested.
+
+<div id="graph_12" style="width: 600px; height: 400px;"></div><input id="button_graph_12" type="button" value="Logarithmic scale"><script type="text/javascript">function draw_graph_12(){var graph=new google.visualization.LineChart(document.getElementById('graph_12'));var data=google.visualization.arrayToDataTable([['x','vector','list'],['1000',0,0],['10000',45,166],['50000',928,10665],['100000',3753,50766],['200000',15185,231480],['300000',34293,715892]]);var options={curveType:"function",animation:{duration:1200,easing:"in"},title:"Random Sorted Insert (8 bytes)",width:'600px',height:'400px',vAxis:{title:"Milliseconds",viewWindow:{min:0}}};graph.draw(data,options);var button=document.getElementById('button_graph_12');button.onclick=function(){if(options.vAxis.logScale){button.value="Logarithmic Scale";}else{button.value="Normal scale";}options.vAxis.logScale=!options.vAxis.logScale;graph.draw(data,options);};}</script>
+
+We can clearly see that vector is more than an order of magnitude faster than list and this will only be more as the size of the collection increase. This is because traversing the list is much more expensive than copying the elements of the vector.
+
+<h2>Conclusion</h2>
+
+To conclude, we can get some facts about each data structure:
+
+<ul>
+	<li>std::vector is insanely faster than std::list to find an element</li>
+	<li>std::vector performs always faster than std::list with very small data</li>
+	<li>std::vector is always faster to push elements at the back than std::list</li>
+	<li>std::list handles very well large elements, especially for sorting or inserting in the front</li>
+</ul>
+
+This draw simple conclusions on usage of each data structure:
+
+<ul>
+	<li>Number crunching: use std::vector</li>
+	<li>Linear search: use std::vector</li>
+	<li>Random Insert/Remove: use std::list (if data size very small (&lt; 64B on my computer), use std::vector)</li>
+	<li>Big data size: use std::list (not if intended for searching)</li>
+</ul>
+
+If you have the time, in practice, the best way to decide is always to benchmark both versions, or even to try another data structures.
+
+I hope that you found this article interesting. If you have any comment or have an idea about an other workload that you would like to test, don't hesitate to post a comment ;) If you have a question on results, don't hesitate as well.
+
+The code source of the benchmark is available online: <a title="Source code of the benchmark" href="https://github.com/wichtounet/articles/blob/master/src/vector_list/bench.cpp">https://github.com/wichtounet/articles/blob/master/src/vector_list/bench.cpp</a>
+
+<script type="text/javascript">function draw_visualization(){draw_graph_0();draw_graph_1();draw_graph_2();draw_graph_3();draw_graph_4();draw_graph_5();draw_graph_6();draw_graph_7();draw_graph_8();draw_graph_9();draw_graph_10();draw_graph_11();draw_graph_12();}google.setOnLoadCallback(draw_visualization);</script>

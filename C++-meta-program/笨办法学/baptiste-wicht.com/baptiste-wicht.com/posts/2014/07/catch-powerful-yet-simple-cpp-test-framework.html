@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html prefix="og: http://ogp.me/ns# article: http://ogp.me/ns/article# " lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Catch: A powerful yet simple C++ test framework | Blog blog("Baptiste Wicht");</title>
+<script src="/cdn-cgi/apps/head/98vpnawSZZMscPn4oDND-ZgswjM.js"></script><link href="../../../assets/css/all-nocdn.css" rel="stylesheet" type="text/css">
+<meta name="theme-color" content="#5670d4">
+<meta name="generator" content="Nikola (getnikola.com)">
+<link rel="alternate" type="application/rss+xml" title="RSS" href="../../../rss.xml">
+<link rel="canonical" href="http://baptiste-wicht.com/posts/2014/07/catch-powerful-yet-simple-cpp-test-framework.html">
+<!--[if lt IE 9]><script src="../../../assets/js/html5.js"></script><![endif]--><meta name="author" content="Baptiste Wicht">
+<link rel="prev" href="etl-cpp-library-for-vector-and-matrix-computations.html" title="ETL - C++ library for vector and matrix computations" type="text/html">
+<link rel="next" href="../08/a-mutt-journey-search-mails-with-notmuch.html" title="A Mutt journey: Search mails with notmuch" type="text/html">
+<meta property="og:site_name" content='Blog blog("Baptiste Wicht");'>
+<meta property="og:title" content="Catch: A powerful yet simple C++ test framework">
+<meta property="og:url" content="http://baptiste-wicht.com/posts/2014/07/catch-powerful-yet-simple-cpp-test-framework.html">
+<meta property="og:description" content="Recently, I came accross a new test framework for C++ program: Catch.
+Until I found Catch, I was using Boost Test Framework. It is working quite well,
+but the problem is that you need to build Boost a">
+<meta property="og:type" content="article">
+<meta property="article:published_time" content="2014-07-28T13:21:49+02:00">
+<meta property="article:tag" content="C++">
+<meta property="article:tag" content="Tests">
+<link href="../../../favicon.ico" rel="icon" type="image/x-icon">
+<link rel="publisher" href="https://plus.google.com/+BaptisteWicht">
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-2175227-7', 'auto');
+  var metas = document.getElementsByTagName('meta'), tagsList = [];
+  for (var i=0; i<metas.length; i++) {
+    if (metas[i].getAttribute('property') == 'article:tag') {
+      tagsList.push( metas[i].getAttribute('content'));
+    }
+  }
+  ga('set', 'dimension1', tagsList.join('|'));
+  ga('send', 'pageview');
+</script>
+</head>
+<body>
+
+<a href="#content" class="sr-only sr-only-focusable">Skip to main content</a>
+<div class="container-fluid">
+
+<div class="row">
+<div class="col-sm-3 col-lg-2">
+<nav class="navbar navbar-inverse navbar-fixed-side"><div class="navbar-header">
+<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+<span class="sr-only">Toggle navigation</span>
+<span class="icon-bar"></span>
+<span class="icon-bar"></span>
+<span class="icon-bar"></span>
+</button>
+<a class="navbar-brand" href="http://baptiste-wicht.com/">
+<span id="blog-title">Blog blog("Baptiste Wicht");</span>
+</a>
+</div>
+
+<div class="collapse navbar-collapse navbar-ex1-collapse">
+<ul class="nav navbar-nav">
+<li>
+<a href="../../../stories/about.html">About</a>
+</li>
+<li>
+<a href="../../../stories/publications.html">Publications</a>
+</li>
+<li>
+<a href="../../../stories/projects.html">Projects</a>
+</li>
+<li>
+<a href="../../../categories/index.html">Tags</a>
+</li>
+<li>
+<a href="../../../archive.html">Archives</a>
+</li>
+<li>
+<a href="http://feeds.feedburner.com/BaptisteWicht">RSS</a>
+</li>
+<li class="navbar-content">
+<h3>Related posts</h3>
+</li>
+<li><a href="../../2016/05/speedup-compilation-by-13-by-simplifying-unit-test-with-catch.html">Speed up compilation by 13% by simplifying Catch unit tests</a></li>
+<li><a href="../../2016/06/reduce-compilation-time-by-another-16-with-catch.html">Reduce Catch tests compilation time by another 16%</a></li>
+<li><a href="../../2016/09/blazing-fast-unit-test-compilation-with-doctest-11.html">Blazing fast unit test compilation with doctest 1.1</a></li>
+<li><a href="../../2010/05/better-exception-handling-in-java-7-multicatch-and-final-rethrow.html">Better exception handling in Java 7 : Multicatch and final rethrow</a></li>
+<li><a href="../../2017/09/cpp11-concurrency-tutorial-futures.html">C++11 Concurrency Tutorial - Part 5: Futures</a></li>
+<li><a href="../../2012/10/run-boost-test-parallel-cmake.html">Run your Boost Tests in parallel with CMake</a></li>
+<li class="navbar-block">
+<li class="wicht-navbar-right">
+<a target="_blank" title="Follow @wichtounet on Twitter" href="https://twitter.com/wichtounet">
+<img src="../../../assets/img/twitter.png" alt="Follow @wichtounet on Twitter"></a>
+</li>
+<li class="wicht-navbar-right">
+<a target="_blank" title="Follow +BaptisteWicht on Google+" href="https://plus.google.com/+BaptisteWicht">
+<img src="../../../assets/img/google_plus.png" alt="Follow +BaptisteWicht on Google+"></a>
+</li>
+</ul>
+</div>
+
+</nav>
+</div> 
+<div class="col-sm-9 col-lg-10">
+<div id="content"></div>
+<article class="post-text h-entry hentry postpage" itemscope="itemscope" itemtype="http://schema.org/Article"><header><h1 class="p-name entry-title" itemprop="headline name"><a href="#" class="u-url">Catch: A powerful yet simple C++ test framework</a></h1>
+<div class="metadata">
+<p class="byline author vcard"><span class="byline-name fn" itemprop="author">
+Baptiste Wicht
+</span></p>
+<p class="dateline"><a href="#" rel="bookmark"><time class="published dt-published" datetime="2014-07-28T13:21:49+02:00" itemprop="datePublished" title="2014-07-28 13:21">2014-07-28 13:21</time></a></p>
+<p class="commentline">
+<a href="catch-powerful-yet-simple-cpp-test-framework.html#disqus_thread" data-disqus-identifier="cache/posts/2014/07/catch-powerful-yet-simple-cpp-test-framework.html">Comments</a>
+</p>
+<p class="sourceline"><a href="catch-powerful-yet-simple-cpp-test-framework.rst" class="sourcelink">Source</a></p>
+</div>
+</header><div class="e-content entry-content" itemprop="articleBody text">
+<div>
+<p>Recently, I came accross a new test framework for C++ program: Catch.</p>
+<p>Until I found Catch, I was using Boost Test Framework. It is working quite well,
+but the problem is that you need to build Boost and link to the Boost Test
+Framework, which is not highly convenient. I wanter something lighter and easier
+to integrate.</p>
+<p>Catch is header only, you only have to include one header for each test file.
+Moreover, it is very easy to combine several source files without linking
+problems.</p>
+<div class="section" id="usage">
+<h2>Usage</h2>
+<p>The usage is really simple. Here is a basic example:</p>
+<pre class="code cpp"><a name="rest_code_dd4bac5ffe5c43518aabed71ccbbd089-1"></a><span class="cp">#define CATCH_CONFIG_MAIN</span>
+<a name="rest_code_dd4bac5ffe5c43518aabed71ccbbd089-2"></a><span class="cp">#include</span> <span class="cpf">"catch.hpp"</span><span class="cp"></span>
+<a name="rest_code_dd4bac5ffe5c43518aabed71ccbbd089-3"></a>
+<a name="rest_code_dd4bac5ffe5c43518aabed71ccbbd089-4"></a><span class="n">TEST_CASE</span><span class="p">(</span> <span class="s">"stupid/1=2"</span><span class="p">,</span> <span class="s">"Prove that one equals 2"</span> <span class="p">){</span>
+<a name="rest_code_dd4bac5ffe5c43518aabed71ccbbd089-5"></a>    <span class="kt">int</span> <span class="n">one</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+<a name="rest_code_dd4bac5ffe5c43518aabed71ccbbd089-6"></a>    <span class="n">REQUIRE</span><span class="p">(</span> <span class="n">one</span> <span class="o">==</span> <span class="mi">2</span> <span class="p">);</span>
+<a name="rest_code_dd4bac5ffe5c43518aabed71ccbbd089-7"></a><span class="p">}</span>
+</pre>
+<p>The define is made to ensure that Catch will generate a main for you. This
+should only defined in one of your tests files if you have several. You define a
+new test case using the <code>TEST_CASE</code> macro. There are two parameters, the
+first one is the name of the test case, you can use any name, you don't have to
+use a valid C++ name. The second parameter is a longer description of the test
+case.</p>
+<p>You then use <code>REQUIRE</code> to verify a condition. You can also use
+<code>CHECK</code> to verify a condition, the difference being that it does not stop
+if the condition is not true. <code>CHECK</code> is a good tool to put together some
+conditions that are related. There also exists <code>REQUIRE_FALSE</code> and
+<code>CHECK_FALSE</code> versions.</p>
+<p>As you can see, there are no <code>REQUIRE_EQUALS</code> or things like that, you can
+use any comparison operator you want in the <code>REQUIRE</code>.</p>
+<p>This produces an executable that will, by default, run every test contained in
+the executable. You can also configure the output report to be XML or JUnit if
+you want or run a subset of your tests. Take a look at the command line usage by
+running the executable with the -h option if you want more information.</p>
+<p>Here is the result of the previous test:</p>
+<pre class="literal-block">~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+catch_test_1 is a Catch v1.0 b52 host application.
+Run with -? for options
+
+-------------------------------------------------------------------------------
+stupid/1=2
+-------------------------------------------------------------------------------
+src/catch/test1.cpp:4
+...............................................................................
+
+src/catch/test1.cpp:6: FAILED:
+  REQUIRE( one == 2 )
+with expansion:
+  1 == 2
+
+===============================================================================
+test cases: 1 | 1 failed
+assertions: 1 | 1 failed
+</pre>
+<p>For each failed condition, the source location is printed as well as some
+information on the test that failed. What is also interesting is the "with
+expansion" information that shows LHS and RHS of the comparison operator.</p>
+<p>You can also check for exceptions with several macros:</p>
+<ul class="simple">
+<li>
+<code>REQUIRE_THROWS(expression)</code> and <code>CHECK_THROWS(expression)</code>
+verify that an exception is thrown when the given expresssion is evaluated.</li>
+<li>
+<code>REQUIRE_THROWS_AS(expression, exception_type)</code> and
+<code>CHECK_THROWS_AS(expression, exception_type)</code> verify the the given
+exception is thrown.</li>
+<li>
+<code>REQUIRE_NOTHROW(expression)</code> and <code>CHECK_NOTHROW(expression)</code>
+verify that no exception is thrown.</li>
+</ul>
+</div>
+<div class="section" id="conclusion">
+<h2>Conclusion</h2>
+<p>I have only covered the most basic features, there is more that you can do with
+Catch: fixtures, logging and BDD-style test cases for instance. For more
+information you can read the <a class="reference external" href="https://github.com/philsquared/Catch/blob/master/docs/reference-index.md">reference documentation</a>.</p>
+<p>I'm really satisfied with this framework. It also can be used for Objective-C if
+you are interested. You can download Catch <a class="reference external" href="https://github.com/philsquared/Catch">on Github</a>.</p>
+<p>If you want more examples, you can take a look at the <a class="reference external" href="https://github.com/wichtounet/etl/tree/master/test">ETL</a> tests that are all
+made with Catch.</p>
+</div>
+</div>
+</div>
+<aside class="postpromonav"><nav><ul itemprop="keywords" class="tags">
+<li><a class="tag p-category" href="../../../categories/c%2B%2B.html" rel="tag">C++</a></li>
+<li><a class="tag p-category" href="../../../categories/tests.html" rel="tag">Tests</a></li>
+</ul>
+<ul class="pager hidden-print">
+<li class="previous">
+<a href="etl-cpp-library-for-vector-and-matrix-computations.html" rel="prev" title="ETL - C++ library for vector and matrix computations">Previous post</a>
+</li>
+<li class="next">
+<a href="../08/a-mutt-journey-search-mails-with-notmuch.html" rel="next" title="A Mutt journey: Search mails with notmuch">Next post</a>
+</li>
+</ul></nav></aside><section class="comments hidden-print"><h2>Comments</h2>
+<div id="disqus_thread"></div>
+<script>
+        var disqus_shortname ="blogwichtounet",
+            disqus_url="http://baptiste-wicht.com/posts/2014/07/catch-powerful-yet-simple-cpp-test-framework.html",
+        disqus_title="Catch: A powerful yet simple C++ test framework",
+        disqus_identifier="cache/posts/2014/07/catch-powerful-yet-simple-cpp-test-framework.html",
+        disqus_config = function () {
+            this.language = "en";
+        };
+        (function() {
+            var dsq = document.createElement('script'); dsq.async = true;
+            dsq.src = 'https://' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        })();
+    </script><noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a>
+</noscript>
+<a href="https://disqus.com" class="dsq-brlink" rel="nofollow">Comments powered by <span class="logo-disqus">Disqus</span></a>
+</section></article><script>var disqus_shortname="blogwichtounet";(function(){var a=document.createElement("script");a.async=true;a.src="https://"+disqus_shortname+".disqus.com/count.js";(document.getElementsByTagName("head")[0]||document.getElementsByTagName("body")[0]).appendChild(a)}());</script>
+</div> 
+</div>
+
+</div>
+
+
+
+<footer>
+Contents © 2017 <a href="/cdn-cgi/l/email-protection#e082819094899394859789838894a0878d81898cce838f8d">Baptiste Wicht</a> - Powered by <a href="http://getnikola.com" rel="nofollow">Nikola</a> - License:
+<a rel="license" href="http://creativecommons.org/licenses/by/4.0/"><img alt="Creative Commons License" style="padding-left:5px;border-width:0" src="../../../assets/img/cc.png"></a>
+<ul class="footer_inline_ul">
+<li>
+<a href="catch-powerful-yet-simple-cpp-test-framework.rst" id="sourcelink">Source</a>
+</li>
+</ul></footer><script src="/cdn-cgi/scripts/78d64697/cloudflare-static/email-decode.min.js"></script><script src="../../../assets/js/all-nocdn.js"></script>
+</body>
+</html>

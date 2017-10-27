@@ -1,0 +1,356 @@
+<?xml version="1.0" encoding="utf-8"?>
+<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:dc="http://purl.org/dc/elements/1.1/"><channel><title>Blog blog("Baptiste Wicht"); (Posts about Web)</title><link>http://baptiste-wicht.com/</link><description></description><atom:link rel="self" type="application/rss+xml" href="http://baptiste-wicht.com/categories/web.xml"></atom:link><language>en</language><lastBuildDate>Sun, 04 Jun 2017 20:17:47 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Vivaldi + Vimium = Finally no more Firefox!</title><link>http://baptiste-wicht.com/posts/2017/01/vivaldi-vimium-finally-no-more-firefox.html</link><dc:creator>Baptiste Wicht</dc:creator><description>&lt;div&gt;&lt;p&gt;I've been using the Pentadactyl Firefox extension for a long time. This
+extensions "vimifies" Firefox and it does a very good job of it. This is
+probably the best extension I have ever seen on any browser. This post is really
+not against Pentadactyl, this is a great addon and it still works great.&lt;/p&gt;
+&lt;p&gt;However, I have been more and more dissatisfied of Mozilla Firefox over the
+years. Indeed, the browser is becoming slower and slower all the time and I'm
+experiencing more and more issues on Gentoo with it. But the biggest problem
+I've with Firefox right now is the philosophy of the developers that is really
+crappy. Currently, there is only one thing that is good in Firefox compared to
+the other browsers, its extensions. Basically, an extension in Firefox can do
+almost anything. Pentadactyl is able to transform most of the interface and get
+rid of all of the useless parts of the interface. It is currently impossible to
+do so in other browsers. These powerful addons are using the XUL/XPCOM
+programming interface to do so. Pentadactyl is the only reason I've kept to
+Firefox so long. But Firefox has announced, already more than a year ago, that
+it will deprecate its XUL/XPCOM interface in favour of webextensions. This means
+that a lot of very good addons will not be able to work anymore once the
+deprecation has been completed. Several writers of popular Firefox have
+announced that they will not even try to port their addons and some addons will
+simply not be possible anymore. This is the case for Pentadactyl which is on the
+line for when the deprecation occurs. The data for deprecated has already been
+delayed but is likely to come anyway.&lt;/p&gt;
+&lt;p&gt;For several months, I've been looking at several possible replacements for my
+current Pentadactyl browser. I've tried qutebrowser, but it is really too
+limited in terms of features so far. I've also tried again Chromium which is
+a great browser but unfortunately, there are very few possibilities for addons
+to modify the interface. Vimium is a great addon for Chromium which is basically
+the very much more lightweight alternative to Pentadactyl. It has much less
+features, but most of the missing features are simply things that cannot be done
+in Chromium.&lt;/p&gt;
+&lt;p&gt;Only recently did I test Vivaldi. Vivaldi is a free multi-platform browser,
+based on Chromium and supporting Chromium extensions. The major difference with
+Chrome is how the UI is customizable, due to the use of a dynamic UI, stylable
+with CSS. With the customizability of Vivaldi plus the great shortcuts and
+vim-like behaviour of vimium, I really feel like I found a new Pentadactyl with
+the advantage of not having to bear Firefox!&lt;/p&gt;
+&lt;p&gt;Here is how it is looking with the follow URLs feature from vimium:&lt;/p&gt;
+&lt;img alt="View of my Vivaldi browser" class="align-center" src="http://baptiste-wicht.com/images/vivaldi.png"&gt;
+&lt;p&gt;Note: The gray bar on the left is the console to the left and the top kind of
+bar is awesome wm, they are not part of the browser.&lt;/p&gt;
+&lt;p&gt;I'm using the dark theme with native windows. I've disabled the address bar,
+moved the tab bar to the bottom and completely hidden the side panel. All that
+remained was the title bar and the scroll bar.&lt;/p&gt;
+&lt;p&gt;To get rid of the title bar, you can use CSS. First, you have to only display
+the Vivaldi button in the settings page. Then, you can use this custom CSS:&lt;/p&gt;
+&lt;pre class="code CSS"&gt;&lt;a name="rest_code_186fe8fab81a4aaa8c065de05d9d0460-1"&gt;&lt;/a&gt;&lt;span class="nt"&gt;button&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nc"&gt;vivaldi&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+&lt;a name="rest_code_186fe8fab81a4aaa8c065de05d9d0460-2"&gt;&lt;/a&gt;    &lt;span class="k"&gt;display&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="kc"&gt;none&lt;/span&gt; &lt;span class="cp"&gt;!important&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;a name="rest_code_186fe8fab81a4aaa8c065de05d9d0460-3"&gt;&lt;/a&gt;&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;a name="rest_code_186fe8fab81a4aaa8c065de05d9d0460-4"&gt;&lt;/a&gt;
+&lt;a name="rest_code_186fe8fab81a4aaa8c065de05d9d0460-5"&gt;&lt;/a&gt;&lt;span class="p"&gt;#&lt;/span&gt;&lt;span class="nn"&gt;header&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+&lt;a name="rest_code_186fe8fab81a4aaa8c065de05d9d0460-6"&gt;&lt;/a&gt;    &lt;span class="k"&gt;min-height&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt; &lt;span class="cp"&gt;!important&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;a name="rest_code_186fe8fab81a4aaa8c065de05d9d0460-7"&gt;&lt;/a&gt;    &lt;span class="k"&gt;z-index&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="kc"&gt;auto&lt;/span&gt; &lt;span class="cp"&gt;!important&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;a name="rest_code_186fe8fab81a4aaa8c065de05d9d0460-8"&gt;&lt;/a&gt;&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;a name="rest_code_186fe8fab81a4aaa8c065de05d9d0460-9"&gt;&lt;/a&gt;
+&lt;a name="rest_code_186fe8fab81a4aaa8c065de05d9d0460-10"&gt;&lt;/a&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nc"&gt;button-toolbar&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nc"&gt;home&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt; &lt;span class="k"&gt;display&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="kc"&gt;none&lt;/span&gt; &lt;span class="p"&gt;}&lt;/span&gt;
+&lt;/pre&gt;&lt;p&gt;to hide the title completely! To get rid of the scroll bar, you need to use the
+Stylish extension and use this custom CSS:&lt;/p&gt;
+&lt;pre class="code CSS"&gt;&lt;a name="rest_code_0aba56aec8ab462280770f308f7c6469-1"&gt;&lt;/a&gt;&lt;span class="p"&gt;::&lt;/span&gt;&lt;span class="nd"&gt;-webkit-scrollbar&lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt;&lt;span class="k"&gt;display&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="kc"&gt;none&lt;/span&gt; &lt;span class="cp"&gt;!important&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt; &lt;span class="k"&gt;width&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="kt"&gt;px&lt;/span&gt;&lt;span class="p"&gt;;}&lt;/span&gt;
+&lt;a name="rest_code_0aba56aec8ab462280770f308f7c6469-2"&gt;&lt;/a&gt;&lt;span class="p"&gt;::&lt;/span&gt;&lt;span class="nd"&gt;-webkit-scrollbar-button&lt;/span&gt;&lt;span class="o"&gt;,&lt;/span&gt;&lt;span class="p"&gt;::&lt;/span&gt;&lt;span class="nd"&gt;-webkit-scrollbar-track&lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt;&lt;span class="k"&gt;display&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="kc"&gt;none&lt;/span&gt; &lt;span class="cp"&gt;!important&lt;/span&gt;&lt;span class="p"&gt;;}&lt;/span&gt;
+&lt;a name="rest_code_0aba56aec8ab462280770f308f7c6469-3"&gt;&lt;/a&gt;&lt;span class="p"&gt;::&lt;/span&gt;&lt;span class="nd"&gt;-webkit-scrollbar-thumb&lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt;&lt;span class="k"&gt;display&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="kc"&gt;none&lt;/span&gt; &lt;span class="cp"&gt;!important&lt;/span&gt;&lt;span class="p"&gt;;}&lt;/span&gt;
+&lt;a name="rest_code_0aba56aec8ab462280770f308f7c6469-4"&gt;&lt;/a&gt;&lt;span class="p"&gt;::&lt;/span&gt;&lt;span class="nd"&gt;-webkit-scrollbar-track&lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt;&lt;span class="k"&gt;display&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="kc"&gt;none&lt;/span&gt; &lt;span class="cp"&gt;!important&lt;/span&gt;&lt;span class="p"&gt;;}&lt;/span&gt;
+&lt;/pre&gt;&lt;p&gt;And then, no more scroll bar :)&lt;/p&gt;
+&lt;p&gt;If you want to have full HTML5 video support, you need to install extra codecs.
+On Gentoo, I've uploaded a ebuild on my overlay (wichtounet on layman) with the
+name vivaldi-ffmpeg-codecs and everything should be working fine :)&lt;/p&gt;
+&lt;p&gt;Vimium is clearly inferior to Pentadactyl in that for instance it only works in
+web page, not in system page and you still have to use the browser for a few
+things, but it does not seem too bar so far. Moreover, I wasn't using all the
+features of Pentadactyl. I haven't been used this browser for a long time, so
+maybe there are things that I will miss from Pentadactyl, but I won't certainly
+miss Firefox!&lt;/p&gt;&lt;/div&gt;</description><category>Gentoo</category><category>Google</category><category>Personal</category><category>Web</category><guid>http://baptiste-wicht.com/posts/2017/01/vivaldi-vimium-finally-no-more-firefox.html</guid><pubDate>Sat, 14 Jan 2017 19:55:26 GMT</pubDate></item><item><title>New design: Faster and mobile compatible</title><link>http://baptiste-wicht.com/posts/2016/11/new-design-faster-and-mobile-compatible.html</link><dc:creator>Baptiste Wicht</dc:creator><description>&lt;div&gt;&lt;p&gt;I've finally taken the time to improve the design of the website!&lt;/p&gt;
+&lt;p&gt;The site was becoming slower and slower, the design was not responsive at all
+and was an horror on mobile.&lt;/p&gt;
+&lt;p&gt;I've changed the design to focus more on content and removed superfluous things
+such as the Google profile or slow things such as the 3D tag cloud. Moreover,
+the design is now responsive again. It was a matter of removing a lot of bad
+things I did in the CSS. Instead of having a vertical and an horizontal bars,
+I now have only one vertical bar with both the navigation and a bit more
+information. With these changes, the design is now also working on mobile phone!
+It's about time.&lt;/p&gt;
+&lt;p&gt;Moreover, I've also spent quite some time working on the speed of the website.
+For this, I've bundled most of the JS and CSS files together and reduced them.
+Moreover, the static files are now hosted and cached by CloudFlare. I've also
+removed the 3D tag cloud which was quite slow. The Google API usage for the
+Google profile badge were also quite slow. Overall, the index page is now really
+fast. The article pages are also much faster but it's not perfect, especially
+because of Disqus that does tons of requests and redirects everywhere. I've also
+got rid of the Disqus ads which were really insignificant in the end. It may
+take a while for the ads to disappear according to Disqus.&lt;/p&gt;
+&lt;p&gt;I know that it's still not perfect, but I hope that user experience on the blog
+is now improved for all readers and now article can be read on mobile normally.
+I'll try to continue monitoring the speed and usability of the website to see if
+I can improve it further in the coming days.&lt;/p&gt;
+&lt;p&gt;If you have any issue on the updated website, don't hesitate to let me know
+either by commenting on this post or sending me an email (check the Contact
+page).&lt;/p&gt;&lt;/div&gt;</description><category>Performance</category><category>The site</category><category>Web</category><guid>http://baptiste-wicht.com/posts/2016/11/new-design-faster-and-mobile-compatible.html</guid><pubDate>Mon, 28 Nov 2016 06:55:48 GMT</pubDate></item><item><title>New WordPress Plugin - Google Visualization Charts</title><link>http://baptiste-wicht.com/posts/2012/12/wordpress-plugin-google-visualization-charts.html</link><dc:creator>Baptiste Wicht</dc:creator><description>&lt;div&gt;&lt;script type="text/javascript" src="https://www.google.com/jsapi"&gt;&lt;/script&gt;
+
+&lt;script type="text/javascript"&gt;google.load('visualization','1',{packages:['corechart']});&lt;/script&gt;
+
+&lt;p&gt;As I started writing some big benchmarks, I discovered that there were no really good plugins to generate graphs in WordPress (at least not free ones). Then, I discovered the Google Visualization API that generates awesome charts. I decided to create a new WordPress plugin to help generates these charts.&lt;/p&gt;
+&lt;p&gt;The Google Visualization API is very powerful. There are a lot of different charts that are available. The charts can be customized easily. The charts are interactive, the user can get the values of any points in the graphs. The charts are rendered using HTML5/SVG technology to provide cross-browser compatibility (including VML for older IE versions) and cross platform portability to iPhones, iPads and Android. No plugins are needed, only the inclusion of the JavaScript library.&lt;/p&gt;
+&lt;p&gt;The plugin supports two different graphs: line charts and bar charts. For each graph, the title of the graph and the titles of the axis can be configured. The height and width of the graph can also be configured. I also added an option to change the scale of the graph to a logarithmic scale.&lt;/p&gt;
+&lt;h3&gt;Examples&lt;/h3&gt;
+
+&lt;p&gt;Here is an example of line chart:&lt;/p&gt;
+&lt;div id="graph_0" style="width: 600px; height: 400px;"&gt;&lt;/div&gt;
+
+&lt;p&gt;&lt;input id="button_graph_0" type="button" value="Logarithmic scale"&gt;&lt;script type="text/javascript"&gt;function draw_graph_0(){var graph=new google.visualization.LineChart(document.getElementById('graph_0'));var data=google.visualization.arrayToDataTable([['x','list','vector','deque','vector_pre'],['100000',2545,271,2012,317],['200000',4927,552,998,334],['300000',7310,944,1707,595],['400000',9463,936,2056,1099],['500000',12591,1140,2642,1058],['600000',14351,1894,3125,1237],['700000',16561,1995,3686,1208],['800000',18820,2648,4291,1365],['900000',20832,2777,4962,2268],['1000000',23430,3015,5396,2585],]);var options={curveType:"function",animation:{duration:1200,easing:"in"},title:"fill_back - 8 bytes",width:'600px',height:'400px',hAxis:{title:"Number of elements",slantedText:true},vAxis:{title:"us",viewWindow:{min:0}}};graph.draw(data,options);var button=document.getElementById('button_graph_0');button.onclick=function(){if(options.vAxis.logScale){button.value="Logarithmic Scale";}else{button.value="Normal scale";}options.vAxis.logScale=!options.vAxis.logScale;graph.draw(data,options);};}&lt;/script&gt;&lt;/p&gt;
+&lt;p&gt;The chart is generated using the given code:&lt;/p&gt;
+&lt;pre class="code literal-block"&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="x"&gt;[line_chart title="fill_back - 8 bytes" h_title="Number of elements" v_title="us" scale_button="true" width="600px" height="400px"]&lt;/span&gt;
+&lt;span class="x"&gt;['x', 'list', 'vector', 'deque', 'vector_pre'],&lt;/span&gt;
+&lt;span class="x"&gt;['100000', 2545, 271, 2012, 317],&lt;/span&gt;
+&lt;span class="x"&gt;['200000', 4927, 552, 998, 334],&lt;/span&gt;
+&lt;span class="x"&gt;['300000', 7310, 944, 1707, 595],&lt;/span&gt;
+&lt;span class="x"&gt;['400000', 9463, 936, 2056, 1099],&lt;/span&gt;
+&lt;span class="x"&gt;['500000', 12591, 1140, 2642, 1058],&lt;/span&gt;
+&lt;span class="x"&gt;['600000', 14351, 1894, 3125, 1237],&lt;/span&gt;
+&lt;span class="x"&gt;['700000', 16561, 1995, 3686, 1208],&lt;/span&gt;
+&lt;span class="x"&gt;['800000', 18820, 2648, 4291, 1365],&lt;/span&gt;
+&lt;span class="x"&gt;['900000', 20832, 2777, 4962, 2268],&lt;/span&gt;
+&lt;span class="x"&gt;['1000000', 23430, 3015, 5396, 2585],&lt;/span&gt;
+&lt;span class="x"&gt;[line_chart]&lt;/span&gt;
+&lt;/pre&gt;
+
+
+&lt;p&gt;And here is an another example of a bar chart:&lt;/p&gt;
+&lt;div id="graph_1" style="width: 600px; height: 400px;"&gt;&lt;/div&gt;
+
+&lt;p&gt;&lt;input id="button_graph_1" type="button" value="Logarithmic scale"&gt;&lt;script type="text/javascript"&gt;function draw_graph_1(){var graph=new google.visualization.ColumnChart(document.getElementById('graph_1'));var data=google.visualization.arrayToDataTable([['Compiler','testsuite','assembly','linked_list'],['GCC -O2',6.58,1.2,0.51],['GCC -O3',6.59,1.2,0.5],['CLang -O2',6.74,1.2,0.49],['CLang -O3',6.58,1.2,0.49],]);var options={title:"Runtime Performance - Less is better",animation:{duration:1200,easing:"in"},width:'600px',height:'400px',hAxis:{title:"Options"},vAxis:{title:"Seconds",viewWindow:{min:0}}};graph.draw(data,options);var button=document.getElementById('button_graph_1');button.onclick=function(){if(options.vAxis.logScale){button.value="Logarithmic Scale";}else{button.value="Normal scale";}options.vAxis.logScale=!options.vAxis.logScale;graph.draw(data,options);};}&lt;/script&gt;&lt;/p&gt;
+&lt;p&gt;Here is the code of the chart:&lt;/p&gt;
+&lt;pre class="code literal-block"&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="x"&gt;[bar_chart width="600px" height="400px" title="Runtime Performance - Less is better" h_title="Options" v_title="Seconds" scale_button="true"]&lt;/span&gt;
+&lt;span class="x"&gt;['Compiler', 'testsuite', 'assembly', 'linked_list'],&lt;/span&gt;
+&lt;span class="x"&gt;['GCC -O2',  6.58,   1.2, 0.51],&lt;/span&gt;
+&lt;span class="x"&gt;['GCC -O3',  6.59,   1.2, 0.5],&lt;/span&gt;
+&lt;span class="x"&gt;['CLang -O2',  6.74,   1.2, 0.49],&lt;/span&gt;
+&lt;span class="x"&gt;['CLang -O3',  6.58,   1.2, 0.49],&lt;/span&gt;
+&lt;span class="x"&gt;[/bar_chart]&lt;/span&gt;
+&lt;/pre&gt;
+
+
+&lt;p&gt;For more examples, you can consult &lt;a href="http://www.baptiste-wicht.com/2012/12/cpp-benchmark-vector-list-deque/" title="C++ benchmark – std::vector VS std::list VS std::deque"&gt;this article&lt;/a&gt; or &lt;a href="http://www.baptiste-wicht.com/2012/11/integer-linear-time-sorting-algorithms/" title="Integer Linear Time Sorting Algorithms"&gt;this other one&lt;/a&gt;.&lt;/p&gt;
+&lt;h3&gt;Downloads&lt;/h3&gt;
+
+&lt;p&gt;The plugin is available on the WordPress Plugin Directory: &lt;a href="http://wordpress.org/extend/plugins/google-visualization-charts/" title="Google Visualization Charts plugin"&gt;Google Visualization Charts&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;I hope that this plugin will be useful. I will try to add support for new charts in the future.&lt;/p&gt;
+&lt;p&gt;Don't hesitate to comment if you find a bug or if you have an idea of improvement :) As it is my very first WordPress plugin, I'm welcoming all comments.&lt;/p&gt;
+&lt;script type="text/javascript"&gt;function draw_visualization(){draw_graph_0();draw_graph_1();}google.setOnLoadCallback(draw_visualization);&lt;/script&gt;&lt;/div&gt;</description><category>PHP</category><category>Web</category><category>WordPress</category><guid>http://baptiste-wicht.com/posts/2012/12/wordpress-plugin-google-visualization-charts.html</guid><pubDate>Mon, 10 Dec 2012 07:54:43 GMT</pubDate></item><item><title>Jelastic Java Host - Recommended by James Gosling !</title><link>http://baptiste-wicht.com/posts/2012/08/jelastic-java-host-recommended-james-gosling.html</link><dc:creator>Baptiste Wicht</dc:creator><description>&lt;div&gt;&lt;p&gt;I recently came across an interesting tool. Jelastic is a Platform as a Service (PaaS) provider for Java. Basically, it's a cloud for Java applications.&lt;/p&gt;
+&lt;p&gt;The most interesting point about Jelastic (in my opinion) is the fact that it can run any Java application. There are no API to use or special change that have to be made: you can take any Java app that you have and run it on Jelastic. Jelastic runs Glassfish, Tomcat and Jetty application servers. It's up to the developer to choose the application server. Because it's only made for Java, you have directly access to the application server where you can deploy to, you don't have access to the machine itself.&lt;/p&gt;
+&lt;p&gt;Another great advantage of Jelastic is that it automatically scales vertically. At the beginning, you application is only allowed a very small amount of CPU and memory and when the system detects that it needs more, it automatically gives more resources to the application. And when the application has too much resources, there are released. That has the advantage that you don't need to worry about the resources of your application and that the costs are to the minimum when the application doesn't need a lot of resources. Of course, you can also put limits on the scalability. An application can also be run in several different application servers (horizontal scaling). It supports automatic load balancing for the different instances.&lt;/p&gt;
+&lt;p&gt;A Jelastic environment provides also access to a database server of your choice (MySQL, MariaDB, PostgreSQL, MongoDB, CouchDB). It also has several other good features. You can look at the official list if you want a complete list of features.&lt;/p&gt;
+&lt;p&gt;The official Jelastic site provides several very good guides about how to deploy a specific type of application to Jelastic. For example, there are guides for Play! Framework, Clojure or Alfresco.&lt;/p&gt;
+&lt;p&gt;The interesting point about Jelastic is that it has been recommended by James Gosling itself (the father of Java):&lt;/p&gt;
+&lt;p&gt;&lt;/p&gt;&lt;blockquote&gt;I really like Jelastic. It’s actually software package that a number of ISPs are using. It’s a Java hosting system and so you don’t get a bare Linux machine. What you get is a JavaEE container, and you can drop WAR files on them and they have this really nice control panel where you get a slider that says how many clones of Glassfish do you want and check boxes for [databases]. You don’t have to go into Linux – Oh my God, what it takes to install anything: it’s like which version of Linux is compatible with which app server and what time… they actually take care of that and it works lovely. I actually built these clusters and they can span multiple ISPs, multiple countries, multiple datacenters, and that’s how I deal with my personal extreme paranoia of the survivability of these things.&lt;/blockquote&gt;
+&lt;p&gt;James is working in a small startup, Liquid Robotics that handles a set of automatic robots in the ocean.&lt;/p&gt;
+&lt;p&gt;I think that all these information are making of Jelastic a very good choice for a Java host !&lt;/p&gt;
+&lt;p&gt;More information&lt;/p&gt;
+&lt;ul&gt;
+    &lt;li&gt;Source : &lt;a title="James Gosling (Father of Java) Loves Jelastic" href="http://blog.jelastic.com/2012/08/23/james-gosling-father-of-java-loves-jelastic/" target="_blank"&gt;James Gosling (Father of Java) Loves Jelastic&lt;/a&gt;&lt;/li&gt;
+    &lt;li&gt;Official Site : &lt;a title="Official Jelastic site" href="http://jelastic.com/" target="_blank"&gt;http://www.jelastic.com&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;&lt;/div&gt;</description><category>Java</category><category>Web</category><guid>http://baptiste-wicht.com/posts/2012/08/jelastic-java-host-recommended-james-gosling.html</guid><pubDate>Tue, 28 Aug 2012 08:35:19 GMT</pubDate></item><item><title>taskwarrior-php 0.1 : A simple PHP Frontend for Taskwarrior</title><link>http://baptiste-wicht.com/posts/2012/07/taskwarrior-php-frontend-0-1.html</link><dc:creator>Baptiste Wicht</dc:creator><description>&lt;div&gt;&lt;p&gt;I released the version 0.1 of &lt;strong&gt;taskwarrior-php&lt;/strong&gt;.&lt;/p&gt;
+&lt;p&gt;This project is a simple PHP Frontend for Taskwarrior. For now, the frontend is quite basic. All the tasks are displayed and sorted by projects. The completion of each project is also computed.&lt;/p&gt;
+&lt;p&gt;&lt;a href="http://www.baptiste-wicht.com/?attachment_id=2035" rel="attachment wp-att-2035"&gt;&lt;img class="size-medium wp-image-2035" title="taskwarrior-php Screenshot" src="http://baptiste-wicht.com/wp-content/uploads/2012/07/taskwarrior-php-1-300x271.png" alt="taskwarrior-php Screenshot" width="300" height="271"&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;You can also insert a new task. For now, only the project and the description of the task can be modified.&lt;/p&gt;
+&lt;h3&gt;Download&lt;/h3&gt;
+
+&lt;p&gt;The application is available on the Git repository : &lt;a href="https://github.com/wichtounet/taskwarrior-php"&gt;https://github.com/wichtounet/taskwarrior-php&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;The installation is simple, you just have to put all the files in a folder of a PHP server. Then, you have to edit the config.php to set the location of your Taskwarrior files.&lt;/p&gt;
+&lt;p&gt;It is necessary that the Taskwarrior files are on the PHP server as well. For that, you can use the FTP pull and push commands of Taskwarrior.&lt;/p&gt;
+&lt;p&gt;Don't hesitate to contact me if you have some ideas for this project or if you find some bugs.&lt;/p&gt;&lt;/div&gt;</description><category>Linux</category><category>Releases</category><category>Tools</category><category>Web</category><guid>http://baptiste-wicht.com/posts/2012/07/taskwarrior-php-frontend-0-1.html</guid><pubDate>Mon, 09 Jul 2012 07:21:14 GMT</pubDate></item><item><title>Enhanced Code Snippets with SyntaxHighlighter Evolved</title><link>http://baptiste-wicht.com/posts/2012/03/enhanced-code-snippets-syntaxhighlighter-evolved.html</link><dc:creator>Baptiste Wicht</dc:creator><description>&lt;div&gt;&lt;p&gt;After a long time of service, I decided to replace the old WP-Syntax plugin with a more modern one: &lt;a href="http://wordpress.org/extend/plugins/syntaxhighlighter/" title="SyntaxHighlighter Evolved"&gt;SyntaxHighlighter Evolved&lt;/a&gt;. &lt;/p&gt;
+&lt;p&gt;I thought that the style of the code snippets of WP-Syntax started looking a bit old. The new plugin has several advantages:&lt;/p&gt;
+&lt;ul&gt;
+    &lt;li&gt;The code snippets look better&lt;/li&gt;
+    &lt;li&gt;A useful toolbar is available on each snippet allowing you to copy the code, to print it or to view the source only&lt;/li&gt;
+    &lt;li&gt;The configuration is more complete&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;This plugin use the &lt;a href="http://alexgorbatchev.com/SyntaxHighlighter/" title="SyntaxHighlighter JavaScript package by Alex Gorbatchev"&gt;SyntaxHighlighter JavaScript package by Alex Gorbatchev&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;Here is an example using this new plugin: &lt;/p&gt;
+&lt;pre class="code literal-block"&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="n"&gt;ExecutorService&lt;/span&gt; &lt;span class="n"&gt;threadPool&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;Executors&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="na"&gt;newFixedThreadPool&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;4&lt;/span&gt;&lt;span class="o"&gt;);&lt;/span&gt;
+
+&lt;span class="n"&gt;CompletionService&lt;/span&gt;&lt;span class="o"&gt;&amp;amp;&lt;/span&gt;&lt;span class="n"&gt;lt&lt;/span&gt;&lt;span class="o"&gt;;&lt;/span&gt;&lt;span class="n"&gt;String&lt;/span&gt;&lt;span class="o"&gt;&amp;amp;&lt;/span&gt;&lt;span class="n"&gt;gt&lt;/span&gt;&lt;span class="o"&gt;;&lt;/span&gt; &lt;span class="n"&gt;pool&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="k"&gt;new&lt;/span&gt; &lt;span class="n"&gt;ExecutorCompletionService&lt;/span&gt;&lt;span class="o"&gt;&amp;amp;&lt;/span&gt;&lt;span class="n"&gt;lt&lt;/span&gt;&lt;span class="o"&gt;;&lt;/span&gt;&lt;span class="n"&gt;String&lt;/span&gt;&lt;span class="o"&gt;&amp;amp;&lt;/span&gt;&lt;span class="n"&gt;gt&lt;/span&gt;&lt;span class="o"&gt;;(&lt;/span&gt;&lt;span class="n"&gt;threadPool&lt;/span&gt;&lt;span class="o"&gt;);&lt;/span&gt;
+
+&lt;span class="k"&gt;for&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="kt"&gt;int&lt;/span&gt; &lt;span class="n"&gt;i&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="o"&gt;;&lt;/span&gt; &lt;span class="n"&gt;i&lt;/span&gt; &lt;span class="o"&gt;&amp;amp;&lt;/span&gt;&lt;span class="n"&gt;lt&lt;/span&gt;&lt;span class="o"&gt;;&lt;/span&gt; &lt;span class="mi"&gt;10&lt;/span&gt;&lt;span class="o"&gt;;&lt;/span&gt; &lt;span class="n"&gt;i&lt;/span&gt;&lt;span class="o"&gt;++){&lt;/span&gt;
+   &lt;span class="n"&gt;pool&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="na"&gt;submit&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="k"&gt;new&lt;/span&gt; &lt;span class="n"&gt;StringTask&lt;/span&gt;&lt;span class="o"&gt;());&lt;/span&gt;
+&lt;span class="o"&gt;}&lt;/span&gt;
+
+&lt;span class="k"&gt;for&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="kt"&gt;int&lt;/span&gt; &lt;span class="n"&gt;i&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="o"&gt;;&lt;/span&gt; &lt;span class="n"&gt;i&lt;/span&gt; &lt;span class="o"&gt;&amp;amp;&lt;/span&gt;&lt;span class="n"&gt;lt&lt;/span&gt;&lt;span class="o"&gt;;&lt;/span&gt; &lt;span class="mi"&gt;10&lt;/span&gt;&lt;span class="o"&gt;;&lt;/span&gt; &lt;span class="n"&gt;i&lt;/span&gt;&lt;span class="o"&gt;++){&lt;/span&gt;
+   &lt;span class="n"&gt;String&lt;/span&gt; &lt;span class="n"&gt;result&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;pool&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="na"&gt;take&lt;/span&gt;&lt;span class="o"&gt;().&lt;/span&gt;&lt;span class="na"&gt;get&lt;/span&gt;&lt;span class="o"&gt;();&lt;/span&gt;
+
+   &lt;span class="c1"&gt;//Compute the result&lt;/span&gt;
+&lt;span class="o"&gt;}&lt;/span&gt;
+
+&lt;span class="n"&gt;threadPool&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="na"&gt;shutdown&lt;/span&gt;&lt;span class="o"&gt;();&lt;/span&gt;
+&lt;/pre&gt;
+
+
+&lt;p&gt;For now, only two posts are using this new plugin:&lt;/p&gt;
+&lt;ul&gt;
+    &lt;li&gt;&lt;a href="http://www.baptiste-wicht.com/2012/03/cpp11-concurrency-part1-start-threads/" title="C++11 Concurrency – Part 1 : Start Threads"&gt;C++11 Concurrency – Part 1 : Start Threads&lt;/a&gt;&lt;/li&gt;
+    &lt;li&gt;&lt;a href="http://www.baptiste-wicht.com/2012/03/cp11-concurrency-tutorial-part-2-protect-shared-data/" title="C++11 Concurrency Tutorial – Part 2 : Protect shared data"&gt;C++11 Concurrency Tutorial – Part 2 : Protect shared data&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;The other ones are still using the old plugin. I will convert the other posts when I will find some time. &lt;/p&gt;
+&lt;p&gt;I hope that this change will makes the site better for you.&lt;/p&gt;&lt;/div&gt;</description><category>The site</category><category>Web</category><category>WordPress</category><guid>http://baptiste-wicht.com/posts/2012/03/enhanced-code-snippets-syntaxhighlighter-evolved.html</guid><pubDate>Fri, 30 Mar 2012 06:53:48 GMT</pubDate></item><item><title>A new theme for the site</title><link>http://baptiste-wicht.com/posts/2012/03/a-new-theme-for-the-site.html</link><dc:creator>Baptiste Wicht</dc:creator><description>&lt;div&gt;&lt;p&gt;I changed the theme on the site. I used the Sleek theme from Studiopress. &lt;/p&gt;
+&lt;p&gt;The main reason to change to this theme was that I replaced some of my addons. For example, the breadcrumbs are already included in the theme. There is also an included widgets for Twitter. &lt;/p&gt;
+&lt;p&gt;Another reason is that I find this theme more good looking than the hold one. And finally, this new theme is more up-to-date.&lt;/p&gt;
+&lt;p&gt;I hope that you will find this theme adapted. &lt;/p&gt;
+&lt;p&gt;I've still some work to do adapting this theme for the site. If you encounter any kind of problems with the new design, don't hesitate to let a comment or to contact me.&lt;/p&gt;&lt;/div&gt;</description><category>The site</category><category>Web</category><category>WordPress</category><guid>http://baptiste-wicht.com/posts/2012/03/a-new-theme-for-the-site.html</guid><pubDate>Sat, 17 Mar 2012 04:05:49 GMT</pubDate></item><item><title>WordPress 3.3 “Sonny” released!</title><link>http://baptiste-wicht.com/posts/2011/12/wordpress-3-3-sonny-released.html</link><dc:creator>Baptiste Wicht</dc:creator><description>&lt;div&gt;&lt;p&gt;WordPress 3.3 introduces some very interesting features, specially for the blogger itself. It includes a new drag-and-drop uploader, hover menus for the navigation, a new toolbar, improved co-editing support, and a new Tumblr importer.&lt;/p&gt;
+&lt;p&gt;The admin interface has add a great cleanup too.&lt;/p&gt;
+&lt;p&gt;More information on the official release notes : &lt;a title='Wordpress 3.3 "Sonny" released' href="http://wordpress.org/news/2011/12/sonny/" target="_blank"&gt;http://wordpress.org/news/2011/12/sonny/&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;I already updated the blog to Wordpress 3.3 and it looks great for now. For the first time, I didn't have to disable all the addons prior to updating. This time it worked directly :)&lt;/p&gt;&lt;/div&gt;</description><category>Releases</category><category>The site</category><category>Web</category><category>WordPress</category><guid>http://baptiste-wicht.com/posts/2011/12/wordpress-3-3-sonny-released.html</guid><pubDate>Tue, 13 Dec 2011 00:39:39 GMT</pubDate></item><item><title>New Wordpress theme for the site</title><link>http://baptiste-wicht.com/posts/2011/11/new-theme-site.html</link><dc:creator>Baptiste Wicht</dc:creator><description>&lt;div&gt;&lt;p&gt;After a long time with the old F2 theme, I decided to choose a more modern design. I chose the WP Plus design which is based on the Google Plus Design. &lt;/p&gt;
+&lt;p&gt;I think that this design is more practical and cleaner for the users and more comfortable. &lt;/p&gt;
+&lt;p&gt;Moreover, I also took some time to change some of my addons. I replaced All In One SEO with Wordpress SEO plugin from Joost de Valk. I think that this plugin is better than the first one, but more of that, it also replaced one addon generating the XML sitemap and helped me adding a breadcrumb to the site. &lt;/p&gt;
+&lt;p&gt;I hope that these changes will improve the user experience on my website. &lt;/p&gt;
+&lt;p&gt;If you encounter any kind of problems with the new design, don't hesitate to let a comment or to contact me.&lt;/p&gt;&lt;/div&gt;</description><category>Personal</category><category>The site</category><category>Web</category><category>WordPress</category><guid>http://baptiste-wicht.com/posts/2011/11/new-theme-site.html</guid><pubDate>Fri, 18 Nov 2011 00:56:17 GMT</pubDate></item><item><title>Packt Open Source Awards 2011</title><link>http://baptiste-wicht.com/posts/2011/09/packt-open-source-awards-2011.html</link><dc:creator>Baptiste Wicht</dc:creator><description>&lt;div&gt;&lt;p&gt;Packt launched the &lt;a title="Packt Open Source Awards 2011" href="http://www.packtpub.com/open-source-awards-home" target="_blank"&gt;Open Source Awards 2011&lt;/a&gt; contest. This is a contest that aims to encourage, support, recognize and reward Open Source projects.&lt;/p&gt;
+&lt;p&gt;This contest has been running since 2006.&lt;/p&gt;
+&lt;p&gt;The nominations started the first of August and finished on the 9th of September. The finalists of each category are available on the website. &lt;/p&gt;
+&lt;p&gt;You can vote for your favorite open source project in each of these categories:&lt;/p&gt;
+&lt;ul&gt;
+    &lt;li&gt;Open Source CMS&lt;/li&gt;
+    &lt;li&gt;Open Source Mobile Toolkits and Libraries&lt;/li&gt;
+    &lt;li&gt;Most Promising Open Source project&lt;/li&gt;
+    &lt;li&gt;Open Source Business Applications&lt;/li&gt;
+    &lt;li&gt;Open Source JavaScript Libraries&lt;/li&gt;
+    &lt;li&gt;Open Source Multimedia Software&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;The winner of each category will win 2500$ !&lt;/p&gt;
+&lt;p&gt;Morevoer, if you vote for your favorite project, you will be entered into a prize draw to win a Kindle!&lt;/p&gt;
+&lt;p&gt;The votes are open, you can vote now &lt;a href="http://www.packtpub.com/open-source-awards-home/voting-stage" title="Vote for your project"&gt;on this page&lt;/a&gt;. &lt;/p&gt;
+&lt;p&gt;You can have more information about the awards &lt;a title="Information about the Awards" href="http://www.packtpub.com/blog/2011-open-source-awards-announcement" target="_blank"&gt;here&lt;/a&gt;.&lt;/p&gt;&lt;/div&gt;</description><category>Others</category><category>Promotion</category><category>Web</category><guid>http://baptiste-wicht.com/posts/2011/09/packt-open-source-awards-2011.html</guid><pubDate>Fri, 23 Sep 2011 05:51:45 GMT</pubDate></item><item><title>Google+ is now open to all</title><link>http://baptiste-wicht.com/posts/2011/09/google-is-open-to-all.html</link><dc:creator>Baptiste Wicht</dc:creator><description>&lt;div&gt;&lt;p&gt;After about 90 days of trial on invitation-only mode, &lt;a href="http://plus.google.com" title="Google+"&gt;Google+&lt;/a&gt; is now open to everybody. &lt;/p&gt;
+&lt;p&gt;For those who don't know, Google+ is the social network platform of Google, with several interesting features like Circles, Hangouts, ...&lt;/p&gt;
+&lt;p&gt;For example, you can &lt;a href="https://plus.google.com/103113673902796202116/" title="My Page on Google+"&gt;see my page on Google+&lt;/a&gt;. &lt;/p&gt;
+&lt;p&gt;Personally, I find this social network very interesting, but there are not enough people on it to concurrence really Facebook and the others networks. Don't hesitate to give it a try, it's worth it!&lt;/p&gt;&lt;/div&gt;</description><category>Google</category><category>Tools</category><category>Web</category><guid>http://baptiste-wicht.com/posts/2011/09/google-is-open-to-all.html</guid><pubDate>Thu, 22 Sep 2011 12:50:53 GMT</pubDate></item><item><title>No more ads on the site !</title><link>http://baptiste-wicht.com/posts/2011/06/no-more-ads-on-the-site.html</link><dc:creator>Baptiste Wicht</dc:creator><description>&lt;div&gt;&lt;p&gt;Hi,&lt;/p&gt;
+&lt;p&gt;As you have perhaps noticed, there is no more Google Adsense on the site. I removed them for several reasons :&lt;/p&gt;
+&lt;p&gt;&lt;/p&gt;&lt;ul&gt;
+    &lt;li&gt;They were not really visually good&lt;/li&gt;
+    &lt;li&gt;They slowed down the site by a factor of two&lt;/li&gt;
+    &lt;li&gt;That gave a bad image of the site&lt;/li&gt;
+    &lt;li&gt;This is not the main goal of the website to make money&lt;/li&gt;
+    &lt;li&gt;They didn't made enough money to counter the previous disadvantages&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;So you will now have a faster and a bit nicer website to look at :)&lt;/p&gt;
+&lt;p&gt;The only page that contains ads on the site is the search because of the use of Google Custom Search that includes Google Ads, but this is not my ads. I will perhaps consider to add another search system in the future.&lt;/p&gt;
+&lt;p&gt;I hope this will make the site more enjoyable&lt;/p&gt;
+&lt;p&gt;P.S. Is there is still a page with ads that I have forgotten to update, just let a comment with the URL of the page and I will remove the ads&lt;/p&gt;&lt;/div&gt;</description><category>Google</category><category>Personal</category><category>The site</category><category>Web</category><guid>http://baptiste-wicht.com/posts/2011/06/no-more-ads-on-the-site.html</guid><pubDate>Tue, 28 Jun 2011 06:33:07 GMT</pubDate></item><item><title>Upload files to FTP using Bash</title><link>http://baptiste-wicht.com/posts/2011/06/upload-files-to-ftp-using-bash.html</link><dc:creator>Baptiste Wicht</dc:creator><description>&lt;div&gt;&lt;p&gt;This morning, I wanted to automatically update a little website from my computer without using Filezilla. So I searched a little bit and found that there is a very useful tool called &lt;a href="http://www.ncftp.com/"&gt;nftp&lt;/a&gt;. To install it, you only have to use apt-get : &lt;/p&gt;
+&lt;pre&gt;sudo apt-get install ncftp&lt;/pre&gt;
+
+&lt;p&gt;This tool can be used directly from bash to upload files to FTP (and also to get files of course). &lt;/p&gt;
+&lt;p&gt;In my case, I just have to put a complete hierarchy of files into a specific folder of my website. So I wrote a little script that put everything on the FTP server : &lt;/p&gt;
+&lt;pre&gt;read -s -p "Enter Password: " mypassword
+ncftp &amp;lt;&amp;lt;EOF
+open -u username -p $mypassword yoursitehost
+cd "folder on the website"
+lcd "folder on the computer"
+put -R *
+bye
+EOF&lt;/pre&gt;
+
+&lt;p&gt;This script asks you your password. With that, you don't have to put it in clear inside your program. The most important command here is the put -R * that make a recursive upload of the current folder in the current remote folder. &lt;/p&gt;
+&lt;p&gt;If I launch it from my computer (using the good values of course), it gives me that : &lt;/p&gt;
+&lt;pre&gt;$ bash website.sh
+NcFTP 3.2.4 (Apr 07, 2010) by Mike Gleason (http://www.NcFTP.com/contact/).
+Copyright (c) 1992-2009 by Mike Gleason.
+All rights reserved.
+Connecting to 74.208.211.161...                                                 
+FTP Server ready.
+Logging in...                                                                   
+User username logged in
+Logged in to baptiste-wicht.com.                                                
+docs/report.pdf:                                        39.92 kB   79.26 kB/s  
+docs/requirements.pdf:                                  40.60 kB   80.91 kB/s  
+docs/logbook.pdf:                                       32.39 kB   64.34 kB/s  
+docs/week1.pdf:                                         32.13 kB   64.05 kB/s  
+docs/01.06.2011.pdf:                                    34.77 kB   69.26 kB/s  
+documents.php:                                         869.00 B    6.72 kB/s  
+footer.php:                                             99.00 B   45.00 B/s   
+header.php:                                            851.00 B  151.56 B/s   
+index.php:                                             230.00 B   37.11 B/s   
+links.php:                                             188.00 B   37.73 B/s   
+minutes.php:                                           254.00 B    1.96 kB/s  
+styles/default.css:                                      1.00 kB    8.01 kB/s  
+weeks.php:                                             237.00 B   65.24 B/s&lt;/pre&gt;
+
+&lt;p&gt;You will see the current status of all the files during the upload. The tool is enough smart to detect if a file must be sent or not (so it upload only newer files). &lt;/p&gt;
+&lt;p&gt;I hope this can help some of you.&lt;/p&gt;&lt;/div&gt;</description><category>Linux</category><category>Web</category><guid>http://baptiste-wicht.com/posts/2011/06/upload-files-to-ftp-using-bash.html</guid><pubDate>Fri, 03 Jun 2011 05:52:50 GMT</pubDate></item><item><title>This website is now running WordPress 3.1.3</title><link>http://baptiste-wicht.com/posts/2011/06/this-website-is-now-running-wordpress-3-1-3.html</link><dc:creator>Baptiste Wicht</dc:creator><description>&lt;div&gt;&lt;p&gt;I just made the update of this website to WordPress 3.1.3. &lt;/p&gt;
+&lt;p&gt;I've had no problems with the update. But at the start the automatic updater throws me an Out Of Memory Error. But after disabling all my plugins, the automatic update had no problem to update my entire website without any errors :)&lt;/p&gt;
+&lt;p&gt;Don't hesitate to contact me (in the comments or via the contact form) if you found any problem on the website.&lt;/p&gt;&lt;/div&gt;</description><category>The site</category><category>Web</category><category>WordPress</category><guid>http://baptiste-wicht.com/posts/2011/06/this-website-is-now-running-wordpress-3-1-3.html</guid><pubDate>Thu, 02 Jun 2011 12:12:07 GMT</pubDate></item><item><title>Solve "File param is missing" problem of W3 Total Cache</title><link>http://baptiste-wicht.com/posts/2011/06/solve-file-param-is-missing-problem-of-w3-total-cache.html</link><dc:creator>Baptiste Wicht</dc:creator><description>&lt;div&gt;&lt;p&gt;As you may have seen, my website had not CSS these last days. &lt;/p&gt;
+&lt;p&gt;This was due to a bug in the W3 Total Cache plugin of Wordpress. The minified CSS file wasn't accessible. When we tried to access it from the site, there was an error : "File param is missing"&lt;/p&gt;
+&lt;p&gt;There is an easy solution to solve this problem. You just have to disable the "Rewrite URL structure" option on the Minify tab in the W3 Total Cache options. This will solve the problems. The only issue with this solution, is that you will not have fancy links for your CSS and JS minified files, but I think it's a really little problem comparing to the lack of CSS :)&lt;/p&gt;
+&lt;p&gt;Hope this will be helpful to some of you.&lt;/p&gt;&lt;/div&gt;</description><category>Performances</category><category>The site</category><category>Web</category><category>WordPress</category><guid>http://baptiste-wicht.com/posts/2011/06/solve-file-param-is-missing-problem-of-w3-total-cache.html</guid><pubDate>Thu, 02 Jun 2011 07:42:27 GMT</pubDate></item><item><title>Save time with the Gmail Priority Inbox</title><link>http://baptiste-wicht.com/posts/2010/09/save-time-with-the-gmail-priority-inbox.html</link><dc:creator>Baptiste Wicht</dc:creator><description>&lt;div&gt;&lt;p&gt;Some days ago, Gmail released a new feature, the &lt;strong&gt;Priority Inbox&lt;/strong&gt;. Actually, the feature is not released on all accounts, but if it is released on yours, you can see a message "Try Gmail Priority Inbox", in top right high corner, just after your user name.&lt;/p&gt;
+&lt;p&gt;Once you activated this new inbox, you will see two inbox, the new Priority Inbox on top and the old Inbox. The Inbox has not changed, but now you can use the Priority Inbox. In this view, you will see your messages sorted in two categories, the first one contains the important unread messages and the second one contains all the other messages.&lt;/p&gt;
+&lt;p&gt;If you found an error, namely a non-important message tagged as important or the contrary, you have two new buttons :&lt;/p&gt;
+&lt;p&gt;&lt;a href="http://baptiste-wicht.com/wp-content/uploads/2010/09/Gmail-Buttons.png"&gt;&lt;img class="size-full wp-image-1018" title="GMail Priority Buttons" src="http://baptiste-wicht.com/wp-content/uploads/2010/09/Gmail-Buttons.png" alt="GMail Priority Buttons" width="77" height="32"&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;With these buttons, you can move a message from the priority messages to the others and vice versa. When you do that, the algorithm between the sorting will save your action and try to improve the efficiency of the Priority Inbox to not make the same error again.&lt;/p&gt;
+&lt;p&gt;At this time, I'm completely happy with this new feature, I've had only one message marked as important that was not, but it's all. I think it's a great tool that Google has offerred to us.&lt;/p&gt;
+&lt;p&gt;If you want more informations, let's watch this video from Google :&lt;/p&gt;
+&lt;p&gt;&lt;object width="640" height="385"&gt;&lt;param name="movie" value="http://www.youtube.com/v/5nt3gE9dGHQ?fs=1&amp;amp;amp"&gt;&lt;param name="allowFullScreen" value="true"&gt;&lt;param name="allowscriptaccess" value="always"&gt;&lt;embed src="http://www.youtube.com/v/5nt3gE9dGHQ?fs=1&amp;amp;amp" type="application/x-shockwave-flash" allowscriptaccess="always" allowfullscreen="true" width="640" height="385"&gt;&lt;/embed&gt;&lt;/object&gt;&lt;/p&gt;&lt;/div&gt;</description><category>Google</category><category>Personal</category><category>Web</category><guid>http://baptiste-wicht.com/posts/2010/09/save-time-with-the-gmail-priority-inbox.html</guid><pubDate>Sat, 04 Sep 2010 03:44:27 GMT</pubDate></item><item><title>Top 15 Best Wordpress Plugins</title><link>http://baptiste-wicht.com/posts/2010/07/top-15-best-wordpress-plugins.html</link><dc:creator>Baptiste Wicht</dc:creator><description>&lt;div&gt;&lt;p&gt;When working on a Wordpress site or blog, it's essential to install several plugins to optimize the site readibility, accessibility, performances, ...&lt;/p&gt;
+&lt;p&gt;Here are 15 plugins that I think the best of the Wordpress plugins and that I use everyday. The list is not in interest order but in alphabetical order.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;&lt;a title="Akismet" href="http://akismet.com/" target="_blank"&gt;Akismet&lt;/a&gt;&lt;/strong&gt; - Avoid spam&lt;/p&gt;
+&lt;p&gt;This plugin automatically filters spams for you. It's really simple, you just have to install it and it works great. In my little blog, it filters more than hundred spams a day.&lt;/p&gt;
+&lt;p&gt;&lt;a href="http://baptiste-wicht.com/wp-content/uploads/2010/07/Akismet.png"&gt;&lt;img class="size-medium wp-image-798" title="Akismet Stats" src="http://baptiste-wicht.com/wp-content/uploads/2010/07/Akismet-300x270.png" alt="Akismet Stats" width="300" height="270"&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;p class="more"&gt;&lt;a href="http://baptiste-wicht.com/posts/2010/07/top-15-best-wordpress-plugins.html"&gt;Read more…&lt;/a&gt;&lt;/p&gt;&lt;/div&gt;</description><category>Web</category><category>WordPress</category><guid>http://baptiste-wicht.com/posts/2010/07/top-15-best-wordpress-plugins.html</guid><pubDate>Fri, 23 Jul 2010 05:02:34 GMT</pubDate></item><item><title>Play Framework - The template engine</title><link>http://baptiste-wicht.com/posts/2010/07/play-framework-template-engine.html</link><dc:creator>Baptiste Wicht</dc:creator><description>&lt;div&gt;&lt;p&gt;In the previous post about &lt;strong&gt;Play Framework&lt;/strong&gt;, we seen &lt;a title="Getting started with Play Framework" href="http://www.baptiste-wicht.com/2010/07/getting-started-play-framework/" target="_blank"&gt;how to install Play and create a first simple application&lt;/a&gt;. In this post, we'll see how to customize the views and use the template engine of the framework to easily create web pages.&lt;/p&gt;
+&lt;p&gt;Play has its own template engine to generate HTML web pages. The template engine use Groovy as expression language. You will use Groovy language to create all the dynamic parts of the web pages. But there is no need to learn completely Grooxy, it's really close to Java and if you know already knows Java, there is no problem to use Groovy in your templates. All the templates are located in the app/views folder in your application. All the dynamic part of the web page is resolved during the execution of the template and the result is a part of the HTTP Response.&lt;/p&gt;
+&lt;p class="more"&gt;&lt;a href="http://baptiste-wicht.com/posts/2010/07/play-framework-template-engine.html"&gt;Read more…&lt;/a&gt;&lt;/p&gt;&lt;/div&gt;</description><category>Java</category><category>Play!</category><category>Web</category><guid>http://baptiste-wicht.com/posts/2010/07/play-framework-template-engine.html</guid><pubDate>Mon, 19 Jul 2010 04:55:51 GMT</pubDate></item><item><title>Getting started with Play Framework</title><link>http://baptiste-wicht.com/posts/2010/07/getting-started-play-framework.html</link><dc:creator>Baptiste Wicht</dc:creator><description>&lt;div&gt;&lt;p&gt;It's time for me to test the &lt;strong&gt;Play Framework&lt;/strong&gt; and I'll try to make some posts during my tests about this web framework. &lt;/p&gt;
+&lt;p&gt;Play Framework is a framework to create web applications in Java. The main goals of this framework are (according to the official site) : &lt;/p&gt;
+&lt;p&gt;&lt;/p&gt;&lt;ul&gt;
+    &lt;li&gt;&lt;strong&gt;Hot reload&lt;/strong&gt; : You can edit your java files and html files and you just have to refresh the browser to see the results&lt;/li&gt;
+    &lt;li&gt;&lt;strong&gt;Stateless model&lt;/strong&gt; : Play is ready for REST, it can be scaled running multiple instances of the same applications on several servers&lt;/li&gt;
+    &lt;li&gt;&lt;strong&gt;Efficient Template System&lt;/strong&gt; : The template system is really easy to use, based on Groovy.&lt;/li&gt;
+    &lt;li&gt;&lt;strong&gt;Resolve errors quickly&lt;/strong&gt; : When an error occurs, Play displays directly the code source in the browser and the location of the error&lt;/li&gt;
+    &lt;li&gt;&lt;strong&gt;Integration&lt;/strong&gt; : Play provide integration for Hibernate, OpenID, MemCached and others popular frameworks&lt;/li&gt;
+    &lt;li&gt;&lt;strong&gt;Pure Java&lt;/strong&gt; : You make only Java and HTML, no other things to learn and easy integration in IDE. &lt;/li&gt;
+    &lt;li&gt;&lt;strong&gt;Fast&lt;/strong&gt; : The startup of application is really fast the rendering of the pages also very fast.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;In this post, we'll see how to install the Play Framework and how to write our first Hello World. &lt;/p&gt;
+&lt;p class="more"&gt;&lt;a href="http://baptiste-wicht.com/posts/2010/07/getting-started-play-framework.html"&gt;Read more…&lt;/a&gt;&lt;/p&gt;&lt;/div&gt;</description><category>Java</category><category>Play!</category><category>Web</category><guid>http://baptiste-wicht.com/posts/2010/07/getting-started-play-framework.html</guid><pubDate>Mon, 05 Jul 2010 05:02:34 GMT</pubDate></item><item><title>Wordpress 3.0 installed !</title><link>http://baptiste-wicht.com/posts/2010/06/wordpress-3-0-installed.html</link><dc:creator>Baptiste Wicht</dc:creator><description>&lt;div&gt;&lt;p&gt;Wordpress 3.0 (Thelounious) has been released this week. I just updated the blog with the new version. I had no problem during the upgrade process, all automatically. Good job !&lt;/p&gt;
+&lt;p&gt;This major release of Wordpress solve more tan 1200 bug, add several performance improvements and add several new features :&lt;/p&gt;
+&lt;ul&gt;
+    &lt;li&gt;Merge of Wordpress MU : You can now add several different blogs on the same installation of Wordpress&lt;/li&gt;
+    &lt;li&gt;New default Theme : Twenty Ten&lt;/li&gt;
+    &lt;li&gt;Bulk updates for the plugins. You can updates all your plugins and themes at once.&lt;/li&gt;
+    &lt;li&gt; More possibilities for the themes : custom background, headers, shortlinks, ...&lt;/li&gt;
+    &lt;li&gt;Custom post types&lt;/li&gt;
+    &lt;li&gt;Lighter interface&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;If you want more information, this video can help you :&lt;/p&gt;
+&lt;p&gt;&lt;embed src="http://v.wordpress.com/wp-content/plugins/video/flvplayer.swf?ver=1.21" type="application/x-shockwave-flash" width="640" height="360" wmode="transparent" seamlesstabbing="true" allowfullscreen="true" allowscriptaccess="always" overstretch="true" flashvars="guid=BQtfIEY1&amp;amp;width=640&amp;amp;height=360&amp;amp;locksize=no&amp;amp;dynamicseek=false&amp;amp;qc_publisherId=p-18-mFEk4J448M" title='Introducing WordPress 3.0 "Thelonious"'&gt;&lt;/embed&gt;&lt;/p&gt;&lt;/div&gt;</description><category>Personal</category><category>The site</category><category>Web</category><category>WordPress</category><guid>http://baptiste-wicht.com/posts/2010/06/wordpress-3-0-installed.html</guid><pubDate>Sat, 19 Jun 2010 07:07:59 GMT</pubDate></item><item><title>Improve performances of WordPress with W3 Total Cache</title><link>http://baptiste-wicht.com/posts/2010/05/improve-performances-wordpress-w3-total-cache.html</link><dc:creator>Baptiste Wicht</dc:creator><description>&lt;div&gt;&lt;p&gt;&lt;strong&gt;Performances&lt;/strong&gt; of a website is often a hot topic. That's not always easy to create quick websites with low response time and without high server usage.&lt;/p&gt;
+&lt;p&gt;WordPress is not very slow but when you've a lot of readers (this is not really my case :) ) at the same time, the response time can be critical.&lt;/p&gt;
+&lt;p&gt;But there is some ways to improve very easily the performances of a WordPress website using some plugins. There is a lot of plugins to do that in WordPress, but the one I'm going to introduce is the one which I found the best.&lt;/p&gt;
+&lt;p&gt;I will talk about &lt;strong&gt;W3 Total Cache&lt;/strong&gt; from Frederick Townes.&lt;/p&gt;
+&lt;p class="more"&gt;&lt;a href="http://baptiste-wicht.com/posts/2010/05/improve-performances-wordpress-w3-total-cache.html"&gt;Read more…&lt;/a&gt;&lt;/p&gt;&lt;/div&gt;</description><category>Performances</category><category>Web</category><category>WordPress</category><guid>http://baptiste-wicht.com/posts/2010/05/improve-performances-wordpress-w3-total-cache.html</guid><pubDate>Mon, 03 May 2010 04:25:41 GMT</pubDate></item><item><title>Links of the week (April 20)</title><link>http://baptiste-wicht.com/posts/2010/04/links-of-the-week-3.html</link><dc:creator>Baptiste Wicht</dc:creator><description>&lt;div&gt;&lt;p&gt;Some interesting links of the week:&lt;/p&gt;
+&lt;ul&gt;
+    &lt;li&gt;Poll Results: &lt;a href="http://java.dzone.com/articles/poll-results-there-future-web" target="_blank"&gt;We're Not Quite Ready For Web Based IDEs&lt;/a&gt; : Interesting poll results on how the developers are ready about web based IDEs&lt;/li&gt;
+    &lt;li&gt;&lt;a href="http://www.lunatech-research.com/archives/2010/04/12/how-localise-play-framework-web-application" target="_blank"&gt;How to localise a Play Framework application&lt;/a&gt; : Peter Hilton explain how internationalize a Play! Framework application&lt;/li&gt;
+    &lt;li&gt;&lt;a href="http://sixrevisions.com/tools/the-top-15-google-products-for-people-who-build-websites/" target="_blank"&gt;The Top 15 Google Products for People Who Build Websites &lt;/a&gt;&lt;/li&gt;
+    &lt;li&gt;&lt;a href="http://mcoj.wordpress.com/2010/04/18/swinging-task-dialog-part-5/" target="_blank"&gt;Swinging Task Dialog (part 5)&lt;/a&gt; : Eugene Ryzhikov continue its suite on developing a Swing Task Dialog, adding new functionaly. &lt;/li&gt;
+    &lt;li&gt;&lt;a href="http://www.mkyong.com/java/how-to-determine-a-prime-number-in-java/"&gt;How to determine a prime number in Java&lt;/a&gt; : An interesting development on how to determine a prime number in an efficent way&lt;/li&gt; 
+&lt;/ul&gt;&lt;/div&gt;</description><category>Google</category><category>Java</category><category>Links</category><category>Performances</category><category>Play!</category><category>Swing</category><category>Tools</category><category>Web</category><guid>http://baptiste-wicht.com/posts/2010/04/links-of-the-week-3.html</guid><pubDate>Tue, 20 Apr 2010 05:20:28 GMT</pubDate></item><item><title>10 most useful Google Tools</title><link>http://baptiste-wicht.com/posts/2010/04/10-most-useful-google-tools.html</link><dc:creator>Baptiste Wicht</dc:creator><description>&lt;div&gt;&lt;p&gt;More than provide an extremely powerful search engine used by almost everybody, &lt;strong&gt;Google&lt;/strong&gt; provides also a lot of very useful tools. In this post, i list the 10 most useful Google tools from my point of view.&lt;/p&gt;
+&lt;h4&gt;1. Gmail&lt;/h4&gt;
+
+&lt;p&gt;For me, this is the best email client ever. The interface is quick and reactive and there are many interesting features. The spam filter is really powerful, i have no more spams since i've switched to GMail a long time ago. The storage capacity (~7.4 Go) is also totally enough. Moreover, this client is totally integrated with the other tools of the Google network (Documents, Buzz, Agenda, ...). With the plugins, you can also add several others features to GMail including integrating with other tools like RememberTheMilk by example.&lt;/p&gt;
+&lt;p&gt;The included chat is also a great functionality. I use it everyday.&lt;/p&gt;
+&lt;p&gt;No more spam with : &lt;a href="http://www.google.com/mail/" target="_blank"&gt;Google Mail&lt;/a&gt;&lt;/p&gt;
+&lt;p class="more"&gt;&lt;a href="http://baptiste-wicht.com/posts/2010/04/10-most-useful-google-tools.html"&gt;Read more…&lt;/a&gt;&lt;/p&gt;&lt;/div&gt;</description><category>Google</category><category>Tools</category><category>Web</category><guid>http://baptiste-wicht.com/posts/2010/04/10-most-useful-google-tools.html</guid><pubDate>Fri, 16 Apr 2010 04:24:53 GMT</pubDate></item><item><title>Drag and drop files to Gmail</title><link>http://baptiste-wicht.com/posts/2010/04/drag-and-drop-files-to-gmail.html</link><dc:creator>Baptiste Wicht</dc:creator><description>&lt;div&gt;&lt;p&gt;The Gmail team has just added a great new functionality to Gmail.&lt;/p&gt;
+&lt;p&gt;Until now, to add attachment to your mails, you had to click "Attach a file", find the good file and click it.&lt;/p&gt;
+&lt;p&gt;Now, you can directly drag the file from your file system to Gmail :&lt;/p&gt;
+&lt;p&gt;&lt;a href="http://baptiste-wicht.com/wp-content/uploads/2010/04/Gmail-1-e1271621678914.png"&gt;&lt;img src="http://baptiste-wicht.com/wp-content/uploads/2010/04/Gmail-1-e1271621678914.png" alt="Gmail Drag files from file explorer" title="Gmail Drag files from file explorer" width="600" height="354" class="size-full wp-image-399"&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;br&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href="http://baptiste-wicht.com/wp-content/uploads/2010/04/Gmail-2-e1271621636934.png"&gt;&lt;img src="http://baptiste-wicht.com/wp-content/uploads/2010/04/Gmail-2-e1271621636934.png" alt="Gmail Drag files from file explorer result" title="Gmail Drag files from file explorer result" width="600" height="355" class="size-full wp-image-398"&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;It's a little functionality, but that save a lot of time and that's the kind of feature we (computer scientist) love.&lt;/p&gt;
+&lt;p&gt;Try it, that's awesome !&lt;/p&gt;&lt;/div&gt;</description><category>Google</category><category>Tools</category><category>Web</category><guid>http://baptiste-wicht.com/posts/2010/04/drag-and-drop-files-to-gmail.html</guid><pubDate>Thu, 15 Apr 2010 14:09:44 GMT</pubDate></item><item><title>Tip : The bookmarks bar disappears on Google Chrome !</title><link>http://baptiste-wicht.com/posts/2010/03/bookmarks-bar-disappears-google-chrome.html</link><dc:creator>Baptiste Wicht</dc:creator><description>&lt;div&gt;&lt;p&gt;I Found that my bookmarks bar on Google Chrome disappear sometimes. This behavior is very confusing, is searched a few and i find that it was me that make it disappears and appears.&lt;/p&gt;
+&lt;p&gt;On Google Chrome, you can hide/display the bookmarks bar using &lt;ctrl&gt; + &lt;b&gt;.&lt;/b&gt;&lt;/ctrl&gt;&lt;/p&gt;
+&lt;p&gt;Hope that will help someone.&lt;/p&gt;&lt;/div&gt;</description><category>Google</category><category>Tips</category><category>Tools</category><category>Web</category><guid>http://baptiste-wicht.com/posts/2010/03/bookmarks-bar-disappears-google-chrome.html</guid><pubDate>Sun, 07 Mar 2010 14:15:44 GMT</pubDate></item></channel></rss>

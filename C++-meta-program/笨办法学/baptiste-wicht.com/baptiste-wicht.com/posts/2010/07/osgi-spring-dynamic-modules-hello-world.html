@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<html prefix="og: http://ogp.me/ns# article: http://ogp.me/ns/article# " lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>OSGI and Spring Dynamic Modules - Simple Hello World | Blog blog("Baptiste Wicht");</title>
+<script src="/cdn-cgi/apps/head/98vpnawSZZMscPn4oDND-ZgswjM.js"></script><link href="../../../assets/css/all-nocdn.css" rel="stylesheet" type="text/css">
+<meta name="theme-color" content="#5670d4">
+<meta name="generator" content="Nikola (getnikola.com)">
+<link rel="alternate" type="application/rss+xml" title="RSS" href="../../../rss.xml">
+<link rel="canonical" href="http://baptiste-wicht.com/posts/2010/07/osgi-spring-dynamic-modules-hello-world.html">
+<!--[if lt IE 9]><script src="../../../assets/js/html5.js"></script><![endif]--><meta name="author" content="Baptiste Wicht">
+<link rel="prev" href="tip-profile-osgi-application-visualvm.html" title="Tip : Profile an OSGi application with VisualVM" type="text/html">
+<link rel="next" href="intellij-idea-9-0-3-is-here.html" title="IntelliJ Idea 9.0.3 is here !" type="text/html">
+<meta property="og:site_name" content='Blog blog("Baptiste Wicht");'>
+<meta property="og:title" content="OSGI and Spring Dynamic Modules - Simple Hello World">
+<meta property="og:url" content="http://baptiste-wicht.com/posts/2010/07/osgi-spring-dynamic-modules-hello-world.html">
+<meta property="og:description" content="In this post, we'll take the first implementation we made using OSGi and use Spring Dynamic Modules to improve the application. 
+Spring Dynamic Modules (Spring Dm) makes the development of OSGi-based ">
+<meta property="og:type" content="article">
+<meta property="article:published_time" content="2010-07-21T07:10:52+02:00">
+<meta property="article:tag" content="Java">
+<meta property="article:tag" content="OSGi">
+<meta property="article:tag" content="Spring">
+<link href="../../../favicon.ico" rel="icon" type="image/x-icon">
+<link rel="publisher" href="https://plus.google.com/+BaptisteWicht">
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-2175227-7', 'auto');
+  var metas = document.getElementsByTagName('meta'), tagsList = [];
+  for (var i=0; i<metas.length; i++) {
+    if (metas[i].getAttribute('property') == 'article:tag') {
+      tagsList.push( metas[i].getAttribute('content'));
+    }
+  }
+  ga('set', 'dimension1', tagsList.join('|'));
+  ga('send', 'pageview');
+</script>
+</head>
+<body>
+
+<a href="#content" class="sr-only sr-only-focusable">Skip to main content</a>
+<div class="container-fluid">
+
+<div class="row">
+<div class="col-sm-3 col-lg-2">
+<nav class="navbar navbar-inverse navbar-fixed-side"><div class="navbar-header">
+<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+<span class="sr-only">Toggle navigation</span>
+<span class="icon-bar"></span>
+<span class="icon-bar"></span>
+<span class="icon-bar"></span>
+</button>
+<a class="navbar-brand" href="http://baptiste-wicht.com/">
+<span id="blog-title">Blog blog("Baptiste Wicht");</span>
+</a>
+</div>
+
+<div class="collapse navbar-collapse navbar-ex1-collapse">
+<ul class="nav navbar-nav">
+<li>
+<a href="../../../stories/about.html">About</a>
+</li>
+<li>
+<a href="../../../stories/publications.html">Publications</a>
+</li>
+<li>
+<a href="../../../stories/projects.html">Projects</a>
+</li>
+<li>
+<a href="../../../categories/index.html">Tags</a>
+</li>
+<li>
+<a href="../../../archive.html">Archives</a>
+</li>
+<li>
+<a href="http://feeds.feedburner.com/BaptisteWicht">RSS</a>
+</li>
+<li class="navbar-content">
+<h3>Related posts</h3>
+</li>
+<li><a href="osgi-hello-world-services.html">OSGi - Simple Hello World with services</a></li>
+<li><a href="../03/jtheque-is-going-to-osgi.html">JTheque is going to OSGi</a></li>
+<li><a href="modular-java-book-review.html">Modular Java – Book Review</a></li>
+<li><a href="../03/osgi-enterprise-4-2-available.html">OSGi 4.2 Entreprise Release is available !</a></li>
+<li><a href="../10/jtheque-core-2-1-0-released.html">JTheque Core 2.1.0 released !</a></li>
+<li><a href="../03/bundle-non-osgi-dependencies-maven.html">Bundle non-OSGi dependencies with Maven</a></li>
+<li class="navbar-block">
+<li class="wicht-navbar-right">
+<a target="_blank" title="Follow @wichtounet on Twitter" href="https://twitter.com/wichtounet">
+<img src="../../../assets/img/twitter.png" alt="Follow @wichtounet on Twitter"></a>
+</li>
+<li class="wicht-navbar-right">
+<a target="_blank" title="Follow +BaptisteWicht on Google+" href="https://plus.google.com/+BaptisteWicht">
+<img src="../../../assets/img/google_plus.png" alt="Follow +BaptisteWicht on Google+"></a>
+</li>
+</ul>
+</div>
+
+</nav>
+</div> 
+<div class="col-sm-9 col-lg-10">
+<div id="content"></div>
+<article class="post-text h-entry hentry postpage" itemscope="itemscope" itemtype="http://schema.org/Article"><header><h1 class="p-name entry-title" itemprop="headline name"><a href="#" class="u-url">OSGI and Spring Dynamic Modules - Simple Hello World</a></h1>
+<div class="metadata">
+<p class="byline author vcard"><span class="byline-name fn" itemprop="author">
+Baptiste Wicht
+</span></p>
+<p class="dateline"><a href="#" rel="bookmark"><time class="published dt-published" datetime="2010-07-21T07:10:52+02:00" itemprop="datePublished" title="2010-07-21 07:10">2010-07-21 07:10</time></a></p>
+<p class="commentline">
+<a href="osgi-spring-dynamic-modules-hello-world.html#disqus_thread" data-disqus-identifier="cache/posts/2010/07/osgi-spring-dynamic-modules-hello-world.html">Comments</a>
+</p>
+<p class="sourceline"><a href="osgi-spring-dynamic-modules-hello-world.wp" class="sourcelink">Source</a></p>
+</div>
+</header><div class="e-content entry-content" itemprop="articleBody text">
+<div>
+<p>In this post, we'll take <a target="_blank" href="http://www.baptiste-wicht.com/2010/07/osgi-hello-world-services/">the first implementation we made using <strong>OSGi</strong></a> and use <strong>Spring Dynamic Modules</strong> to improve the application. </p>
+<p>Spring Dynamic Modules (Spring Dm) makes the development of <strong>OSGi-based applications</strong> a lot more easier. With that, the deployment of services is a lot easier. You can inject services like any other Spring beans. </p>
+<p>So let's start with Spring dm. </p>
+
+<p>First of all, you need to download <a target="_blank" href="http://www.springsource.com/download/community/?project=Spring%20Dynamic%20Modules&amp;version=1.2.1">the Spring Dm Distribution</a>. For this article, I used the distributions with dependencies and I will only use this libraries : </p>
+<pre>com.springsource.net.sf.cglib-2.1.3.jar
+com.springsource.org.aopalliance-1.0.0.jar
+log4j.osgi-1.2.15-SNAPSHOT.jar
+com.springsource.slf4j.api-1.5.0.jar
+com.springsource.slf4j.log4j-1.5.0.jar
+com.springsource.slf4j.org.apache.commons.logging-1.5.0.jar
+org.springframework.aop-2.5.6.SEC01.jar
+org.springframework.beans-2.5.6.SEC01.jar
+org.springframework.context-2.5.6.SEC01.jar
+org.springframework.core-2.5.6.SEC01.jar
+spring-osgi-core-1.2.1.jar
+spring-osgi-extender-1.2.1.jar
+spring-osgi-io-1.2.1.jar </pre>
+<p>Of course, you can replace the Spring 2.5.6 libraries with the Spring 3.0 libraries. But for this article, Spring 2.5.6 will be enough. </p>
+<p>So, start with the service bundle. If we recall, this bundle exported a single service : </p>
+<pre class="code literal-block"><span></span><span class="kn">package</span> <span class="nn">com.bw.osgi.provider.able</span><span class="o">;</span>
+
+<span class="kd">public</span> <span class="kd">interface</span> <span class="nc">HelloWorldService</span> <span class="o">{</span>
+    <span class="kt">void</span> <span class="nf">hello</span><span class="o">();</span>
+<span class="o">}</span>
+</pre>
+<pre class="code literal-block"><span></span><span class="kn">package</span> <span class="nn">com.bw.osgi.provider.impl</span><span class="o">;</span>
+
+<span class="kn">import</span> <span class="nn">com.bw.osgi.provider.able.HelloWorldService</span><span class="o">;</span>
+
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">HelloWorldServiceImpl</span> <span class="kd">implements</span> <span class="n">HelloWorldService</span> <span class="o">{</span>
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">hello</span><span class="o">(){</span>
+        <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"Hello World !"</span><span class="o">);</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</pre>
+<p>There is no changes to do here. Now, we can see the activator : </p>
+<pre class="code literal-block"><span></span><span class="kn">package</span> <span class="nn">com.bw.osgi.provider</span><span class="o">;</span>
+
+<span class="kn">import</span> <span class="nn">org.osgi.framework.BundleActivator</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.osgi.framework.BundleContext</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.osgi.framework.ServiceRegistration</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">com.bw.osgi.provider.able.HelloWorldService</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">com.bw.osgi.provider.impl.HelloWorldServiceImpl</span><span class="o">;</span>
+
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">ProviderActivator</span> <span class="kd">implements</span> <span class="n">BundleActivator</span> <span class="o">{</span>
+    <span class="kd">private</span> <span class="n">ServiceRegistration</span> <span class="n">registration</span><span class="o">;</span>
+
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">start</span><span class="o">(</span><span class="n">BundleContext</span> <span class="n">bundleContext</span><span class="o">)</span> <span class="kd">throws</span> <span class="n">Exception</span> <span class="o">{</span>
+        <span class="n">registration</span> <span class="o">=</span> <span class="n">bundleContext</span><span class="o">.</span><span class="na">registerService</span><span class="o">(</span>
+                <span class="n">HelloWorldService</span><span class="o">.</span><span class="na">class</span><span class="o">.</span><span class="na">getName</span><span class="o">(),</span>
+                <span class="k">new</span> <span class="n">HelloWorldServiceImpl</span><span class="o">(),</span>
+                <span class="kc">null</span><span class="o">);</span>
+    <span class="o">}</span>
+
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">stop</span><span class="o">(</span><span class="n">BundleContext</span> <span class="n">bundleContext</span><span class="o">)</span> <span class="kd">throws</span> <span class="n">Exception</span> <span class="o">{</span>
+        <span class="n">registration</span><span class="o">.</span><span class="na">unregister</span><span class="o">();</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</pre>
+<p>So, here, we'll make simple. Let's delete this class, this is not useful anymore with Spring Dm. </p>
+<p>We'll let Spring Dm export the bundle for us. We'll create a Spring context for this bundle. We just have to create a file provider-context.xml in the folder <em>META-INF/spring</em>. This is a simple context in XML file but we use a new namespace to register service, "<em>http://www.springframework.org/schema/osgi</em>". So let's start : </p>
+<pre class="code literal-block"><span></span><span class="cp">&lt;?xml version="1.0" encoding="UTF-8"?&gt;</span>
+
+<span class="nt">&lt;beans</span> <span class="na">xmlns=</span><span class="s">"http://www.springframework.org/schema/beans"</span>
+       <span class="na">xmlns:xsi=</span><span class="s">"http://www.w3.org/2001/XMLSchema-instance"</span>
+       <span class="na">xmlns:osgi=</span><span class="s">"http://www.springframework.org/schema/osgi"</span>
+       <span class="na">xmlns:context=</span><span class="s">"http://www.springframework.org/schema/context"</span>
+       <span class="na">xsi:schemaLocation=</span><span class="s">"</span>
+<span class="s">            http://www.springframework.org/schema/beans</span>
+<span class="s">            http://www.springframework.org/schema/beans/spring-beans-3.0.xsd</span>
+<span class="s">            http://www.springframework.org/schema/osgi</span>
+<span class="s">            http://www.springframework.org/schema/osgi/spring-osgi.xsd"</span><span class="nt">&gt;</span>
+
+    <span class="nt">&lt;bean</span> <span class="na">id=</span><span class="s">"helloWorldService"</span> <span class="na">class=</span><span class="s">"com.bw.osgi.provider.impl.HelloWorldServiceImpl"</span><span class="nt">/&gt;</span>
+
+    <span class="nt">&lt;osgi:service</span> <span class="na">ref=</span><span class="s">"helloWorldService"</span> <span class="na">interface=</span><span class="s">"com.bw.osgi.provider.able.HelloWorldService"</span><span class="nt">/&gt;</span>
+<span class="nt">&lt;/beans&gt;</span>
+</pre>
+<p>The only thing specific to OSGi is the <em>osgi:service</em> declaration. This line indicates that we register the <em>helloWorldService</em> as an OSGi service using the interface <em>HelloWorldService</em> as the name of the service. </p>
+<p>If you put the context file in the <em>META-INF/spring</em> folder, it will be automatically detected by the Spring Extender and an application context will be created. </p>
+<p>We can now go to the consumer bundle. In the first phase, we created that consumer : </p>
+<pre class="code literal-block"><span></span><span class="kn">package</span> <span class="nn">com.bw.osgi.consumer</span><span class="o">;</span>
+
+<span class="kn">import</span> <span class="nn">javax.swing.Timer</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">java.awt.event.ActionEvent</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">java.awt.event.ActionListener</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">com.bw.osgi.provider.able.HelloWorldService</span><span class="o">;</span>
+
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">HelloWorldConsumer</span> <span class="kd">implements</span> <span class="n">ActionListener</span> <span class="o">{</span>
+    <span class="kd">private</span> <span class="kd">final</span> <span class="n">HelloWorldService</span> <span class="n">service</span><span class="o">;</span>
+    <span class="kd">private</span> <span class="kd">final</span> <span class="n">Timer</span> <span class="n">timer</span><span class="o">;</span>
+
+    <span class="kd">public</span> <span class="nf">HelloWorldConsumer</span><span class="o">(</span><span class="n">HelloWorldService</span> <span class="n">service</span><span class="o">)</span> <span class="o">{</span>
+        <span class="kd">super</span><span class="o">();</span>
+
+        <span class="k">this</span><span class="o">.</span><span class="na">service</span> <span class="o">=</span> <span class="n">service</span><span class="o">;</span>
+
+        <span class="n">timer</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Timer</span><span class="o">(</span><span class="mi">1000</span><span class="o">,</span> <span class="k">this</span><span class="o">);</span>
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">startTimer</span><span class="o">(){</span>
+        <span class="n">timer</span><span class="o">.</span><span class="na">start</span><span class="o">();</span>
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">stopTimer</span><span class="o">()</span> <span class="o">{</span>
+        <span class="n">timer</span><span class="o">.</span><span class="na">stop</span><span class="o">();</span>
+    <span class="o">}</span>
+
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">actionPerformed</span><span class="o">(</span><span class="n">ActionEvent</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">service</span><span class="o">.</span><span class="na">hello</span><span class="o">();</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</pre>
+<p>At this time, there is no changes to do here. Instead of the injection with constructor we could have used an @Resource annotation, but this doesn't work in Spring 2.5.6 and Spring Dm (but works well with Spring 3.0). </p>
+<p>And now the activator : </p>
+<pre class="code literal-block"><span></span><span class="kn">package</span> <span class="nn">com.bw.osgi.consumer</span><span class="o">;</span>
+
+<span class="kn">import</span> <span class="nn">org.osgi.framework.BundleActivator</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.osgi.framework.BundleContext</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.osgi.framework.ServiceReference</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">com.bw.osgi.provider.able.HelloWorldService</span><span class="o">;</span>
+
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">HelloWorldActivator</span> <span class="kd">implements</span> <span class="n">BundleActivator</span> <span class="o">{</span>
+    <span class="kd">private</span> <span class="n">HelloWorldConsumer</span> <span class="n">consumer</span><span class="o">;</span>
+
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">start</span><span class="o">(</span><span class="n">BundleContext</span> <span class="n">bundleContext</span><span class="o">)</span> <span class="kd">throws</span> <span class="n">Exception</span> <span class="o">{</span>
+        <span class="n">ServiceReference</span> <span class="n">reference</span> <span class="o">=</span> <span class="n">bundleContext</span><span class="o">.</span><span class="na">getServiceReference</span><span class="o">(</span><span class="n">HelloWorldService</span><span class="o">.</span><span class="na">class</span><span class="o">.</span><span class="na">getName</span><span class="o">());</span>
+
+        <span class="n">consumer</span> <span class="o">=</span> <span class="k">new</span> <span class="n">HelloWorldConsumer</span><span class="o">((</span><span class="n">HelloWorldService</span><span class="o">)</span> <span class="n">bundleContext</span><span class="o">.</span><span class="na">getService</span><span class="o">(</span><span class="n">reference</span><span class="o">));</span>
+        <span class="n">consumer</span><span class="o">.</span><span class="na">startTimer</span><span class="o">();</span>
+    <span class="o">}</span>
+
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">stop</span><span class="o">(</span><span class="n">BundleContext</span> <span class="n">bundleContext</span><span class="o">)</span> <span class="kd">throws</span> <span class="n">Exception</span> <span class="o">{</span>
+        <span class="n">consumer</span><span class="o">.</span><span class="na">stopTimer</span><span class="o">();</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</pre>
+<p>The injection is not necessary anymore. We can keep the start of the timer here, but once again, we can use the features of the framework to start and stop the timer. So let's delete the activator and create an application context to create the consumer and start it automatically and put in the <em>META-INF/spring</em> folder : </p>
+<pre class="code literal-block"><span></span><span class="cp">&lt;?xml version="1.0" encoding="UTF-8"?&gt;</span>
+
+<span class="nt">&lt;beans</span> <span class="na">xmlns=</span><span class="s">"http://www.springframework.org/schema/beans"</span>
+       <span class="na">xmlns:xsi=</span><span class="s">"http://www.w3.org/2001/XMLSchema-instance"</span>
+       <span class="na">xmlns:osgi=</span><span class="s">"http://www.springframework.org/schema/osgi"</span>
+       <span class="na">xmlns:context=</span><span class="s">"http://www.springframework.org/schema/context"</span>
+       <span class="na">xsi:schemaLocation=</span><span class="s">"</span>
+<span class="s">            http://www.springframework.org/schema/beans</span>
+<span class="s">            http://www.springframework.org/schema/beans/spring-beans-3.0.xsd</span>
+<span class="s">            http://www.springframework.org/schema/osgi</span>
+<span class="s">            http://www.springframework.org/schema/osgi/spring-osgi.xsd"</span><span class="nt">&gt;</span>
+
+    <span class="nt">&lt;bean</span> <span class="na">id=</span><span class="s">"consumer"</span> <span class="na">class=</span><span class="s">"com.bw.osgi.consumer.HelloWorldConsumer"</span> <span class="na">init-method=</span><span class="s">"startTimer"</span> <span class="na">destroy-method=</span><span class="s">"stopTimer"</span>
+          <span class="na">lazy-init=</span><span class="s">"false"</span> <span class="nt">&gt;</span>
+        <span class="nt">&lt;constructor-arg</span> <span class="na">ref=</span><span class="s">"eventService"</span><span class="nt">/&gt;</span>
+    <span class="nt">&lt;/bean&gt;</span>
+
+    <span class="nt">&lt;osgi:reference</span> <span class="na">id=</span><span class="s">"eventService"</span> <span class="na">interface=</span><span class="s">"com.bw.osgi.provider.able.HelloWorldService"</span><span class="nt">/&gt;</span>
+<span class="nt">&lt;/beans&gt;</span>
+</pre>
+<p>We used the init-method and destroy-method attributes to start and stop the time with the framework and we use the constructor-arg to inject to reference to the service. The reference to the service is obtained using osgi:reference field and using the interface as a key to the service. </p>
+<p>That's all we have to do with this bundle. A lot more simple than the first version isn't it ? And more than the simplification, you can see that the sources aren't depending of either OSGi or Spring Framework, this is plain Java and this is a great advantage. </p>
+<p>The Maven POMs are the same than in the first phase except that we can cut the dependency to osgi. </p>
+<p>The provider : </p>
+<pre class="code literal-block"><span></span><span class="cp">&lt;?xml version="1.0" encoding="UTF-8"?&gt;</span>
+
+<span class="nt">&lt;project</span> <span class="na">xmlns=</span><span class="s">"http://maven.apache.org/POM/4.0.0"</span>
+         <span class="na">xmlns:xsi=</span><span class="s">"http://www.w3.org/2001/XMLSchema-instance"</span>
+         <span class="na">xsi:schemaLocation=</span><span class="s">"http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;modelVersion&gt;</span>4.0.0<span class="nt">&lt;/modelVersion&gt;</span>
+    <span class="nt">&lt;groupId&gt;</span>OSGiDmHelloWorldProvider<span class="nt">&lt;/groupId&gt;</span>
+    <span class="nt">&lt;artifactId&gt;</span>OSGiDmHelloWorldProvider<span class="nt">&lt;/artifactId&gt;</span>
+    <span class="nt">&lt;version&gt;</span>1.0<span class="nt">&lt;/version&gt;</span>
+    <span class="nt">&lt;packaging&gt;</span>bundle<span class="nt">&lt;/packaging&gt;</span>
+
+    <span class="nt">&lt;build&gt;</span>
+        <span class="nt">&lt;plugins&gt;</span>
+            <span class="nt">&lt;plugin&gt;</span>
+                <span class="nt">&lt;groupId&gt;</span>org.apache.maven.plugins<span class="nt">&lt;/groupId&gt;</span>
+                <span class="nt">&lt;artifactId&gt;</span>maven-compiler-plugin<span class="nt">&lt;/artifactId&gt;</span>
+                <span class="nt">&lt;version&gt;</span>2.0.2<span class="nt">&lt;/version&gt;</span>
+                <span class="nt">&lt;configuration&gt;</span>
+                    <span class="nt">&lt;source&gt;</span>1.6<span class="nt">&lt;/source&gt;</span>
+                    <span class="nt">&lt;target&gt;</span>1.6<span class="nt">&lt;/target&gt;</span>
+                <span class="nt">&lt;/configuration&gt;</span>
+            <span class="nt">&lt;/plugin&gt;</span>
+
+            <span class="nt">&lt;plugin&gt;</span>
+                <span class="nt">&lt;groupId&gt;</span>org.apache.felix<span class="nt">&lt;/groupId&gt;</span>
+                <span class="nt">&lt;artifactId&gt;</span>maven-bundle-plugin<span class="nt">&lt;/artifactId&gt;</span>
+                <span class="nt">&lt;extensions&gt;</span>true<span class="nt">&lt;/extensions&gt;</span>
+                <span class="nt">&lt;configuration&gt;</span>
+                    <span class="nt">&lt;instructions&gt;</span>
+                        <span class="nt">&lt;Bundle-SymbolicName&gt;</span>OSGiDmHelloWorldProvider<span class="nt">&lt;/Bundle-SymbolicName&gt;</span>
+                        <span class="nt">&lt;Export-Package&gt;</span>com.bw.osgi.provider.able<span class="nt">&lt;/Export-Package&gt;</span>
+                        <span class="nt">&lt;Bundle-Vendor&gt;</span>Baptiste Wicht<span class="nt">&lt;/Bundle-Vendor&gt;</span>
+                    <span class="nt">&lt;/instructions&gt;</span>
+                <span class="nt">&lt;/configuration&gt;</span>
+            <span class="nt">&lt;/plugin&gt;</span>
+        <span class="nt">&lt;/plugins&gt;</span>
+    <span class="nt">&lt;/build&gt;</span> 
+<span class="nt">&lt;/project&gt;</span>
+</pre>
+<p>The consumer : </p>
+<pre class="code literal-block"><span></span><span class="cp">&lt;?xml version="1.0" encoding="UTF-8"?&gt;</span>
+
+<span class="nt">&lt;project</span> <span class="na">xmlns=</span><span class="s">"http://maven.apache.org/POM/4.0.0"</span>
+         <span class="na">xmlns:xsi=</span><span class="s">"http://www.w3.org/2001/XMLSchema-instance"</span>
+         <span class="na">xsi:schemaLocation=</span><span class="s">"http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;modelVersion&gt;</span>4.0.0<span class="nt">&lt;/modelVersion&gt;</span>
+    <span class="nt">&lt;groupId&gt;</span>OSGiDmHelloWorldConsumer<span class="nt">&lt;/groupId&gt;</span>
+    <span class="nt">&lt;artifactId&gt;</span>OSGiDmHelloWorldConsumer<span class="nt">&lt;/artifactId&gt;</span>
+    <span class="nt">&lt;version&gt;</span>1.0<span class="nt">&lt;/version&gt;</span>
+    <span class="nt">&lt;packaging&gt;</span>bundle<span class="nt">&lt;/packaging&gt;</span>
+
+    <span class="nt">&lt;dependencies&gt;</span>
+        <span class="nt">&lt;dependency&gt;</span>
+            <span class="nt">&lt;groupId&gt;</span>OSGiDmHelloWorldProvider<span class="nt">&lt;/groupId&gt;</span>
+            <span class="nt">&lt;artifactId&gt;</span>OSGiDmHelloWorldProvider<span class="nt">&lt;/artifactId&gt;</span>
+            <span class="nt">&lt;version&gt;</span>1.0<span class="nt">&lt;/version&gt;</span>
+        <span class="nt">&lt;/dependency&gt;</span>
+    <span class="nt">&lt;/dependencies&gt;</span>
+
+    <span class="nt">&lt;build&gt;</span>
+        <span class="nt">&lt;plugins&gt;</span>
+            <span class="nt">&lt;plugin&gt;</span>
+                <span class="nt">&lt;groupId&gt;</span>org.apache.maven.plugins<span class="nt">&lt;/groupId&gt;</span>
+                <span class="nt">&lt;artifactId&gt;</span>maven-compiler-plugin<span class="nt">&lt;/artifactId&gt;</span>
+                <span class="nt">&lt;version&gt;</span>2.0.2<span class="nt">&lt;/version&gt;</span>
+                <span class="nt">&lt;configuration&gt;</span>
+                    <span class="nt">&lt;source&gt;</span>1.6<span class="nt">&lt;/source&gt;</span>
+                    <span class="nt">&lt;target&gt;</span>1.6<span class="nt">&lt;/target&gt;</span>
+                <span class="nt">&lt;/configuration&gt;</span>
+            <span class="nt">&lt;/plugin&gt;</span>
+
+            <span class="nt">&lt;plugin&gt;</span>
+                <span class="nt">&lt;groupId&gt;</span>org.apache.felix<span class="nt">&lt;/groupId&gt;</span>
+                <span class="nt">&lt;artifactId&gt;</span>maven-bundle-plugin<span class="nt">&lt;/artifactId&gt;</span>
+                <span class="nt">&lt;extensions&gt;</span>true<span class="nt">&lt;/extensions&gt;</span>
+                <span class="nt">&lt;configuration&gt;</span>
+                    <span class="nt">&lt;instructions&gt;</span>
+                        <span class="nt">&lt;Bundle-SymbolicName&gt;</span>OSGiDmHelloWorldConsumer<span class="nt">&lt;/Bundle-SymbolicName&gt;</span>
+                        <span class="nt">&lt;Bundle-Vendor&gt;</span>Baptiste Wicht<span class="nt">&lt;/Bundle-Vendor&gt;</span>
+                    <span class="nt">&lt;/instructions&gt;</span>
+                <span class="nt">&lt;/configuration&gt;</span>
+            <span class="nt">&lt;/plugin&gt;</span>
+        <span class="nt">&lt;/plugins&gt;</span>
+    <span class="nt">&lt;/build&gt;</span>
+<span class="nt">&lt;/project&gt;</span>
+</pre>
+<p>And we can build the two bundles using maven install. So let's test our stuff in Felix : </p>
+<pre><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="90e7f9f3f8e4ffe5fef5e4d0dcf9fee5e8bdd4f5e3fbe4ffe0">[email&#160;protected]</a>:~/Desktop/osgi/felix$ java -jar bin/felix.jar 
+_______________
+Welcome to Apache Felix Gogo
+g! install file:../com.springsource.slf4j.org.apache.commons.logging-1.5.0.jar
+Bundle ID: 5
+g! install file:../com.springsource.slf4j.log4j-1.5.0.jar
+Bundle ID: 6
+g! install file:../com.springsource.slf4j.api-1.5.0.jar
+Bundle ID: 7
+g! install file:../log4j.osgi-1.2.15-SNAPSHOT.jar
+Bundle ID: 8
+g! install file:../com.springsource.net.sf.cglib-2.1.3.jar
+Bundle ID: 9
+g! install file:../com.springsource.org.aopalliance-1.0.0.jar
+Bundle ID: 10
+g! install file:../org.springframework.core-2.5.6.SEC01.jar
+Bundle ID: 11
+g! install file:../org.springframework.context-2.5.6.SEC01.jar
+Bundle ID: 12
+g! install file:../org.springframework.beans-2.5.6.SEC01.jar
+Bundle ID: 13
+g! install file:../org.springframework.aop-2.5.6.SEC01.jar
+Bundle ID: 14
+g! install file:../spring-osgi-extender-1.2.1.jar
+Bundle ID: 15
+g! install file:../spring-osgi-core-1.2.1.jar
+Bundle ID: 16
+g! install file:../spring-osgi-io-1.2.1.jar
+Bundle ID: 17
+g! start 5 7 8 9 10 11 12 13 14 15 16 17
+log4j:WARN No appenders could be found for logger (org.springframework.osgi.extender.internal.activator.ContextLoaderListener).
+log4j:WARN Please initialize the log4j system properly.
+g! install file:../OSGiDmHelloWorldProvider-1.0.jar
+Bundle ID: 18
+g! install file:../OSGiDmHelloWorldConsumer-1.0.jar
+Bundle ID: 19
+g! start 18
+g! start 19
+g! Hello World !
+Hello World !
+Hello World !
+Hello World !
+Hello World !
+Hello World !
+Hello World !
+Hello World !
+stop 19
+g! </pre>
+<p>As you can see, it works perfectly !</p>
+<p>In conclusion, Spring Dm really makes easier the development with OSGi. With Spring Dm you can also start bundles. It also allows you to make web bundles and to use easily the services of the OSGi compendium. </p>
+<p>Here are the sources of the two projects : </p>
+<ul>
+<li><a href="../../../wp-content/uploads/2010/07/OSGiDmHelloWorldProvider.tar1.gz">OSGiDmHelloWorldProvider Sources</a></li>
+<li><a href="../../../wp-content/uploads/2010/07/OSGiDmHelloWorldConsumer.tar1.gz">OSGiDmHelloWorldConsumer Sources</a></li>
+</ul>
+<p>Here are directly the two buildeds Jars : </p>
+<ul>
+<li><a href="../../../wp-content/uploads/2010/07/OSGiDmHelloWorldProvider-1.0.jar">OSGiDmHelloWorldProvider-1.0.jar</a></li>
+<li><a href="../../../wp-content/uploads/2010/07/OSGiDmHelloWorldConsumer-1.0.jar">OSGiDmHelloWorldConsumer-1.0.jar</a></li>
+</ul>
+<p>And here are the complete folder including Felix and Spring Dm : <a href="../../../wp-content/uploads/2010/07/osgi-hello-world.tar.gz">osgi-hello-world.tar.gz</a></p>
+</div>
+</div>
+<aside class="postpromonav"><nav><ul itemprop="keywords" class="tags">
+<li><a class="tag p-category" href="../../../categories/java.html" rel="tag">Java</a></li>
+<li><a class="tag p-category" href="../../../categories/osgi.html" rel="tag">OSGi</a></li>
+<li><a class="tag p-category" href="../../../categories/spring.html" rel="tag">Spring</a></li>
+</ul>
+<ul class="pager hidden-print">
+<li class="previous">
+<a href="tip-profile-osgi-application-visualvm.html" rel="prev" title="Tip : Profile an OSGi application with VisualVM">Previous post</a>
+</li>
+<li class="next">
+<a href="intellij-idea-9-0-3-is-here.html" rel="next" title="IntelliJ Idea 9.0.3 is here !">Next post</a>
+</li>
+</ul></nav></aside><section class="comments hidden-print"><h2>Comments</h2>
+<div id="disqus_thread"></div>
+<script src="/cdn-cgi/scripts/78d64697/cloudflare-static/email-decode.min.js"></script><script>
+        var disqus_shortname ="blogwichtounet",
+            disqus_url="http://baptiste-wicht.com/posts/2010/07/osgi-spring-dynamic-modules-hello-world.html",
+        disqus_title="OSGI and Spring Dynamic Modules - Simple Hello World",
+        disqus_identifier="cache/posts/2010/07/osgi-spring-dynamic-modules-hello-world.html",
+        disqus_config = function () {
+            this.language = "en";
+        };
+        (function() {
+            var dsq = document.createElement('script'); dsq.async = true;
+            dsq.src = 'https://' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        })();
+    </script><noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a>
+</noscript>
+<a href="https://disqus.com" class="dsq-brlink" rel="nofollow">Comments powered by <span class="logo-disqus">Disqus</span></a>
+</section></article><script>var disqus_shortname="blogwichtounet";(function(){var a=document.createElement("script");a.async=true;a.src="https://"+disqus_shortname+".disqus.com/count.js";(document.getElementsByTagName("head")[0]||document.getElementsByTagName("body")[0]).appendChild(a)}());</script>
+</div> 
+</div>
+
+</div>
+
+
+
+<footer>
+Contents © 2017 <a href="/cdn-cgi/l/email-protection#fb999a8b8f92888f9e8c9298938fbb9c969a9297d5989496">Baptiste Wicht</a> - Powered by <a href="http://getnikola.com" rel="nofollow">Nikola</a> - License:
+<a rel="license" href="http://creativecommons.org/licenses/by/4.0/"><img alt="Creative Commons License" style="padding-left:5px;border-width:0" src="../../../assets/img/cc.png"></a>
+<ul class="footer_inline_ul">
+<li>
+<a href="osgi-spring-dynamic-modules-hello-world.wp" id="sourcelink">Source</a>
+</li>
+</ul></footer><script src="/cdn-cgi/scripts/78d64697/cloudflare-static/email-decode.min.js"></script><script src="../../../assets/js/all-nocdn.js"></script>
+</body>
+</html>

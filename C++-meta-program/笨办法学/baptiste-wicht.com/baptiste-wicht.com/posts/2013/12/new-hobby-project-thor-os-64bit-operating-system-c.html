@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html prefix="og: http://ogp.me/ns# article: http://ogp.me/ns/article# " lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>New hobby project: Thor-OS, 64bit Operating System in C++ | Blog blog("Baptiste Wicht");</title>
+<script src="/cdn-cgi/apps/head/98vpnawSZZMscPn4oDND-ZgswjM.js"></script><link href="../../../assets/css/all-nocdn.css" rel="stylesheet" type="text/css">
+<meta name="theme-color" content="#5670d4">
+<meta name="generator" content="Nikola (getnikola.com)">
+<link rel="alternate" type="application/rss+xml" title="RSS" href="../../../rss.xml">
+<link rel="canonical" href="http://baptiste-wicht.com/posts/2013/12/new-hobby-project-thor-os-64bit-operating-system-c.html">
+<!--[if lt IE 9]><script src="../../../assets/js/html5.js"></script><![endif]--><meta name="author" content="Baptiste Wicht">
+<link rel="prev" href="gentoo-tips-avoid-gnome-3-8-emerged-automatically.html" title="Gentoo Tips: Avoid Gnome 3.8 from being emerged automatically" type="text/html">
+<link rel="next" href="thor-os-boot-process.html" title="Thor OS: Boot Process" type="text/html">
+<meta property="og:site_name" content='Blog blog("Baptiste Wicht");'>
+<meta property="og:title" content="New hobby project: Thor-OS, 64bit Operating System in C++">
+<meta property="og:url" content="http://baptiste-wicht.com/posts/2013/12/new-hobby-project-thor-os-64bit-operating-system-c.html">
+<meta property="og:description" content="It's been a long time since I have posted on this blog about a project. A bit more than two months ago, I started a new project: thor-os
+This project is a simple 64bit operating system, written in C++">
+<meta property="og:type" content="article">
+<meta property="article:published_time" content="2013-12-17T03:20:16+01:00">
+<meta property="article:tag" content="Assembly">
+<meta property="article:tag" content="C++">
+<meta property="article:tag" content="Operating Systems">
+<meta property="article:tag" content="osdev">
+<meta property="article:tag" content="thor">
+<link href="../../../favicon.ico" rel="icon" type="image/x-icon">
+<link rel="publisher" href="https://plus.google.com/+BaptisteWicht">
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-2175227-7', 'auto');
+  var metas = document.getElementsByTagName('meta'), tagsList = [];
+  for (var i=0; i<metas.length; i++) {
+    if (metas[i].getAttribute('property') == 'article:tag') {
+      tagsList.push( metas[i].getAttribute('content'));
+    }
+  }
+  ga('set', 'dimension1', tagsList.join('|'));
+  ga('send', 'pageview');
+</script>
+</head>
+<body>
+
+<a href="#content" class="sr-only sr-only-focusable">Skip to main content</a>
+<div class="container-fluid">
+
+<div class="row">
+<div class="col-sm-3 col-lg-2">
+<nav class="navbar navbar-inverse navbar-fixed-side"><div class="navbar-header">
+<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+<span class="sr-only">Toggle navigation</span>
+<span class="icon-bar"></span>
+<span class="icon-bar"></span>
+<span class="icon-bar"></span>
+</button>
+<a class="navbar-brand" href="http://baptiste-wicht.com/">
+<span id="blog-title">Blog blog("Baptiste Wicht");</span>
+</a>
+</div>
+
+<div class="collapse navbar-collapse navbar-ex1-collapse">
+<ul class="nav navbar-nav">
+<li>
+<a href="../../../stories/about.html">About</a>
+</li>
+<li>
+<a href="../../../stories/publications.html">Publications</a>
+</li>
+<li>
+<a href="../../../stories/projects.html">Projects</a>
+</li>
+<li>
+<a href="../../../categories/index.html">Tags</a>
+</li>
+<li>
+<a href="../../../archive.html">Archives</a>
+</li>
+<li>
+<a href="http://feeds.feedburner.com/BaptisteWicht">RSS</a>
+</li>
+<li class="navbar-content">
+<h3>Related posts</h3>
+</li>
+<li><a href="thor-os-boot-process.html">Thor OS: Boot Process</a></li>
+<li><a href="../../2016/08/update-thor-thesis-and-publications.html">Update: Thor, Thesis and Publications</a></li>
+<li><a href="../../2012/02/eddic-0-8-64bit-generation.html">EDDIC 0.8 : 64bit generation</a></li>
+<li><a href="../../2012/04/switching-gentoo-linux.html">Switching to Gentoo Linux</a></li>
+<li><a href="../../2011/06/eddi-new-programming-language.html">EDDI : A new programming language project</a></li>
+<li><a href="../../2011/11/dynamic-memory-allocation-intel-assembly-linux.html">Dynamic memory allocation in Intel Assembly on Linux</a></li>
+<li class="navbar-block">
+<li class="wicht-navbar-right">
+<a target="_blank" title="Follow @wichtounet on Twitter" href="https://twitter.com/wichtounet">
+<img src="../../../assets/img/twitter.png" alt="Follow @wichtounet on Twitter"></a>
+</li>
+<li class="wicht-navbar-right">
+<a target="_blank" title="Follow +BaptisteWicht on Google+" href="https://plus.google.com/+BaptisteWicht">
+<img src="../../../assets/img/google_plus.png" alt="Follow +BaptisteWicht on Google+"></a>
+</li>
+</ul>
+</div>
+
+</nav>
+</div> 
+<div class="col-sm-9 col-lg-10">
+<div id="content"></div>
+<article class="post-text h-entry hentry postpage" itemscope="itemscope" itemtype="http://schema.org/Article"><header><h1 class="p-name entry-title" itemprop="headline name"><a href="#" class="u-url">New hobby project: Thor-OS, 64bit Operating System in C++</a></h1>
+<div class="metadata">
+<p class="byline author vcard"><span class="byline-name fn" itemprop="author">
+Baptiste Wicht
+</span></p>
+<p class="dateline"><a href="#" rel="bookmark"><time class="published dt-published" datetime="2013-12-17T03:20:16+01:00" itemprop="datePublished" title="2013-12-17 03:20">2013-12-17 03:20</time></a></p>
+<p class="commentline">
+<a href="new-hobby-project-thor-os-64bit-operating-system-c.html#disqus_thread" data-disqus-identifier="cache/posts/2013/12/new-hobby-project-thor-os-64bit-operating-system-c.html">Comments</a>
+</p>
+<p class="sourceline"><a href="new-hobby-project-thor-os-64bit-operating-system-c.wp" class="sourcelink">Source</a></p>
+</div>
+</header><div class="e-content entry-content" itemprop="articleBody text">
+<div>
+<p>It's been a long time since I have posted on this blog about a project. A bit more than two months ago, I started a new project: thor-os</p>
+<p>This project is a simple 64bit operating system, written in C++. After having written a compiler, I decided it could be fun to try with an operating system. And it is fun indeed :) It is a really exciting project and there are plenty of things to do in every directions.</p>
+<p>I've also written the bootloader myself, but it is a very simple one. It just reads the kernel from the floppy. loads it in memory and then jumps to it and nothing else.</p>
+<h4>Features</h4>
+<p>Right now, the project is fairly modest. Here are the features of the kernel:</p>
+<ul>
+<li>Serial Text Console</li>
+<li>Keyboard driver</li>
+<li>Timer driver (PIT)</li>
+<li>Dynamic Memory Allocation</li>
+<li>ATA driver</li>
+<li>FAT32 driver (Work In progress)</li>
+ <li>Draft of an ACPI support (only for shutdown)</li>
+</ul>
+<p>All the commands are accessible with a simple shell integrated directly in the kernel.</p>
+<h4>Testing</h4>
+<p>All the testing is made in Bochs and Qemu. I don't have any other computer available to test in real right now but that is something I really want to do. But for now, my bootloader only supports floppy, so it will need to be improved to load the kernel from a disk, since it is not likely that I will have a floppy disk to test :D</p>
+<p>Here is a screenshot of the OS in action:</p>
+<p><a href="../../../wp-content/uploads/2013/12/Screenshot-from-2013-12-17-085810-e1387267703665.png"><img class="size-medium wp-image-2628" alt="Thor OS Screenshot" src="../../../wp-content/uploads/2013/12/Screenshot-from-2013-12-17-085810-e1387267703665-300x204.png" width="300" height="204"></a></p>
+<h4>Future</h4>
+<p>The next thing that I will improve is the FAT32 driver to have a complete implementation including creating and writing to files.</p>
+<p>After that, I still don't know whether I will try to implement a simple Framebuffer or start implement user space.</p>
+<p>As for all my projects, you can find the complete source code on Github: https://github.com/wichtounet/thor-os</p>
+<p>Don't hesitate to comment if you have any question or suggestion for this project ;) I will try to write some posts about it on the future, again if you have idea of subject for these posts, don't hesitate. The first will probably be about the boot process.</p>
+</div>
+</div>
+<aside class="postpromonav"><nav><ul itemprop="keywords" class="tags">
+<li><a class="tag p-category" href="../../../categories/assembly.html" rel="tag">Assembly</a></li>
+<li><a class="tag p-category" href="../../../categories/c%2B%2B.html" rel="tag">C++</a></li>
+<li><a class="tag p-category" href="../../../categories/operating-systems.html" rel="tag">Operating Systems</a></li>
+<li><a class="tag p-category" href="../../../categories/osdev.html" rel="tag">osdev</a></li>
+<li><a class="tag p-category" href="../../../categories/thor.html" rel="tag">thor</a></li>
+</ul>
+<ul class="pager hidden-print">
+<li class="previous">
+<a href="gentoo-tips-avoid-gnome-3-8-emerged-automatically.html" rel="prev" title="Gentoo Tips: Avoid Gnome 3.8 from being emerged automatically">Previous post</a>
+</li>
+<li class="next">
+<a href="thor-os-boot-process.html" rel="next" title="Thor OS: Boot Process">Next post</a>
+</li>
+</ul></nav></aside><section class="comments hidden-print"><h2>Comments</h2>
+<div id="disqus_thread"></div>
+<script>
+        var disqus_shortname ="blogwichtounet",
+            disqus_url="http://baptiste-wicht.com/posts/2013/12/new-hobby-project-thor-os-64bit-operating-system-c.html",
+        disqus_title="New hobby project: Thor-OS, 64bit Operating System in C++",
+        disqus_identifier="cache/posts/2013/12/new-hobby-project-thor-os-64bit-operating-system-c.html",
+        disqus_config = function () {
+            this.language = "en";
+        };
+        (function() {
+            var dsq = document.createElement('script'); dsq.async = true;
+            dsq.src = 'https://' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        })();
+    </script><noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a>
+</noscript>
+<a href="https://disqus.com" class="dsq-brlink" rel="nofollow">Comments powered by <span class="logo-disqus">Disqus</span></a>
+</section></article><script>var disqus_shortname="blogwichtounet";(function(){var a=document.createElement("script");a.async=true;a.src="https://"+disqus_shortname+".disqus.com/count.js";(document.getElementsByTagName("head")[0]||document.getElementsByTagName("body")[0]).appendChild(a)}());</script>
+</div> 
+</div>
+
+</div>
+
+
+
+<footer>
+Contents © 2017 <a href="/cdn-cgi/l/email-protection#b4d6d5c4c0ddc7c0d1c3ddd7dcc0f4d3d9d5ddd89ad7dbd9">Baptiste Wicht</a> - Powered by <a href="http://getnikola.com" rel="nofollow">Nikola</a> - License:
+<a rel="license" href="http://creativecommons.org/licenses/by/4.0/"><img alt="Creative Commons License" style="padding-left:5px;border-width:0" src="../../../assets/img/cc.png"></a>
+<ul class="footer_inline_ul">
+<li>
+<a href="new-hobby-project-thor-os-64bit-operating-system-c.wp" id="sourcelink">Source</a>
+</li>
+</ul></footer><script src="/cdn-cgi/scripts/78d64697/cloudflare-static/email-decode.min.js"></script><script src="../../../assets/js/all-nocdn.js"></script>
+</body>
+</html>

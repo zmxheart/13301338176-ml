@@ -1,0 +1,26 @@
+<script type="text/javascript" src="https://www.google.com/jsapi"></script><script type="text/javascript">google.load('visualization','1',{packages:['corechart']});</script>
+
+<a href="http://www.baptiste-wicht.com/2012/11/eddic-compiles-with-clang-3-1/" title="eddic compiles with CLang 3.1">Now that eddic can be compiled with CLang</a>, I wanted to compare the differences in compilation time and in performance of the generated executable between those two compilers. The tests are done using GCC 4.7.2 and CLang 3.1 on Gentoo.
+<h2>Compilation Time</h2>
+
+The first thing that I tested has been the compilation time of the two compilers to compile eddic with different flags. I tested the compilation in debug mode and with -O2 and -O3.
+
+<div id="graph_0" style="width: 400px; height: 300px;"></div><input id="button_graph_0" type="button" value="Logarithmic scale"><script type="text/javascript">function draw_graph_0(){var graph=new google.visualization.ColumnChart(document.getElementById('graph_0'));var data=google.visualization.arrayToDataTable([['Options','GCC','CLang'],['-g',234.59,119.59],['-O2',273.02,178.22],['-O3',276.87,183.78],]);var options={title:"Compilation Time - Less is better",animation:{duration:1200,easing:"in"},width:'400px',height:'300px',hAxis:{title:"Options"},vAxis:{title:"Seconds",viewWindow:{min:0}}};graph.draw(data,options);var button=document.getElementById('button_graph_0');button.onclick=function(){if(options.vAxis.logScale){button.value="Logarithmic Scale";}else{button.value="Normal scale";}options.vAxis.logScale=!options.vAxis.logScale;graph.draw(data,options);};}</script>
+
+The most interesting fact in these results is that CLang is much faster than GCC. It takes twice less times to compile eddic with CLang in debug mode than with GCC. The impact on optimizations on CLang's compilation is also more important than on GCC. For both compilers, -O3 does not seems to add a lot of overhead.
+
+<h2>Runtime performance</h2>
+
+Then, I tested the performance of the generated executable. I tested it on three things, the whole test suite and two test cases that I know are the slowest for the EDDI Compiler. For each case, I took the slowest value of 5 consecutive executions.
+
+<div id="graph_1" style="width: 600px; height: 400px;"></div><input id="button_graph_1" type="button" value="Logarithmic scale"><script type="text/javascript">function draw_graph_1(){var graph=new google.visualization.ColumnChart(document.getElementById('graph_1'));var data=google.visualization.arrayToDataTable([['Compiler','GCC -O2','GCC -O3','CLang -O2','CLang -O3'],['testsuite',6.58,6.59,6.74,6.58],['assembly',1.2,1.2,1.2,1.2],['linked_list',0.51,0.5,0.49,0.49],]);var options={title:"Runtime Performance - Less is better",animation:{duration:1200,easing:"in"},width:'600px',height:'400px',hAxis:{title:"Options"},vAxis:{title:"Seconds",viewWindow:{min:0}}};graph.draw(data,options);var button=document.getElementById('button_graph_1');button.onclick=function(){if(options.vAxis.logScale){button.value="Logarithmic Scale";}else{button.value="Normal scale";}options.vAxis.logScale=!options.vAxis.logScale;graph.draw(data,options);};}</script>
+
+The difference are very small. In -02, GCC performs a bit better, but in -O3, the performance are equivalent. I was a bit disappointed by the results, because I thought that there would be higher differences. It seems that CLang is not as far from GCC that some people would like to say. It also certainly depends on the program being compiled.
+
+<h2>Conclusion</h2>
+
+It is clear that CLang is much faster than GCC to compile eddic. Moreover, the performance of the generated executable are almost similar.
+
+I will continue to use CLang as my development compiler and switches between the two when I'm doing performance benchmarking. I will try to update the benchmark once new versions of GCC / CLang are available.
+
+<script type="text/javascript">function draw_visualization(){draw_graph_0();draw_graph_1();}google.setOnLoadCallback(draw_visualization);</script>

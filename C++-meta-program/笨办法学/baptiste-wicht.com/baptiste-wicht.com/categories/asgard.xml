@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:dc="http://purl.org/dc/elements/1.1/"><channel><title>Blog blog("Baptiste Wicht"); (Posts about asgard)</title><link>http://baptiste-wicht.com/</link><description></description><atom:link rel="self" type="application/rss+xml" href="http://baptiste-wicht.com/categories/asgard.xml"></atom:link><language>en</language><lastBuildDate>Sun, 04 Jun 2017 20:17:46 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Asgard: Home Automation project</title><link>http://baptiste-wicht.com/posts/2016/08/asgard-home-automation-project.html</link><dc:creator>Baptiste Wicht</dc:creator><description>&lt;div&gt;&lt;p&gt;I have updated my asgard project to make it finally useful for me, so I figured
+I'd present the project now.&lt;/p&gt;
+&lt;p&gt;Asgard is my project of home automation based on a Raspberry Pi. I started this
+project after Ninja Blocks kickstarter company went down and I was left with
+useless sensors. So I figured why not have fun creating my own :P I know there
+are some other projects out there that are pretty good, but I wanted to do some
+more low level stuff for once, so what the hell.&lt;/p&gt;
+&lt;p&gt;Of course, everything is written in C++, no surprise here. The project is built
+upon a server / drivers architecture. The drivers and the server are talking via
+network sockets, so they can be on different machines.  The server is displaying
+the data it got on a web interface and also provide a way to trigger actions of
+drivers either from the web interface or through the integrated rules engine.
+The data are stored in a database, accessed with CPPSqlite3 (probably going to
+be replaced by sqlcpp11) and the web server is handled with mongoose (with a c++
+interface).&lt;/p&gt;
+&lt;p&gt;I must mention that most of the web part of the project was made by a student of
+mine, Stéphane Ly, who work on it as part of his study.&lt;/p&gt;
+&lt;p&gt;Here is a picture of the Raspberry Pi system (not very pretty ;) ):&lt;/p&gt;
+&lt;img alt="Asgard automation system hardware" class="align-center" src="http://baptiste-wicht.com/images/asgard_hardware.jpg"&gt;
+&lt;p&gt;I plan to try to fit at least some of it on a nicer box with nicer cables and
+such. Moreover, I also plan to add real antennas to the RF transmitter and
+receiver, but I haven't received them so far.&lt;/p&gt;
+&lt;div class="section" id="sensors"&gt;
+&lt;h2&gt;Sensors&lt;/h2&gt;
+&lt;p&gt;asgard support several sensors:&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;DHT11 Temperature/Humdity Sensor&lt;/li&gt;
+&lt;li&gt;WT450 Temperature/Humdity Sensor&lt;/li&gt;
+&lt;li&gt;RF Button&lt;/li&gt;
+&lt;li&gt;IR Remote&lt;/li&gt;
+&lt;li&gt;CPU Temperature Sensor&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;You can see the sensors data displayed on the web interface:&lt;/p&gt;
+&lt;img alt="Asgard automation system home page" class="align-center" src="http://baptiste-wicht.com/images/asgard_home.png"&gt;
+&lt;/div&gt;
+&lt;div class="section" id="actions"&gt;
+&lt;h2&gt;Actions&lt;/h2&gt;
+&lt;p&gt;There are currently a few actions provided by the drivers:&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;Wake-On-Lan a computer by its MAC Address&lt;/li&gt;
+&lt;li&gt;ITT-1500 smart plugs ON and OFF&lt;/li&gt;
+&lt;li&gt;Kodi actions: Pause / Play / Next / Previous on Kodi&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Here are the rules engine:&lt;/p&gt;
+&lt;img alt="Asgard automation system rules page" class="align-center" src="http://baptiste-wicht.com/images/asgard_rules.png"&gt;
+&lt;/div&gt;
+&lt;div class="section" id="my-home-automation"&gt;
+&lt;h2&gt;My home automation&lt;/h2&gt;
+&lt;p&gt;I'm currently using this system to monitor the temperature in my appartment.
+Nothing great so far because I don't have enough sensors yet. And now, I'm also
+using a wireless button to turn on my power socket, wait 2 seconds and then
+power on my Kodi Home Theater with wake on lan.&lt;/p&gt;
+&lt;p&gt;It's nothing fancy so far, but it's already better than what I had with Ninja
+Blocks, except for the ugly hardware ;).&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="section" id="future"&gt;
+&lt;h2&gt;Future&lt;/h2&gt;
+&lt;p&gt;There are still tons of work on the project and on integration in my home.&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;I'm really dissatisfied with the WT450 sensor, I've ordered new Oregon sensors to try to do better.&lt;/li&gt;
+&lt;li&gt;I've ordered a few new sensors: Door intrusion detector and motion detector&lt;/li&gt;
+&lt;li&gt;The rules system needs to be improve to support multiple conditions&lt;/li&gt;
+&lt;li&gt;I plan to add a simple state system to the asgard server&lt;/li&gt;
+&lt;li&gt;There are a lot of refactorings necessary in the code and&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;However, I don't know when I'll work on this again, my work on this project is
+pretty episodic to say the least.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="section" id="code"&gt;
+&lt;h2&gt;Code&lt;/h2&gt;
+&lt;p&gt;The code is, as always, available on Github. There are multiple repositories:
+&lt;a class="reference external" href="https://github.com/search?q=user%3Awichtounet+asgard"&gt;all asgard repositories&lt;/a&gt;.
+It's not that much code for now, about 2000 lines of code, but some of it may be
+useful. If you plan to use the system, keep in mind that it was never tested out
+of my environment and that there is no documentation so far, but don't hesitate
+to open Issues on Github if you have questions or post a comment here.&lt;/p&gt;
+&lt;/div&gt;&lt;/div&gt;</description><category>asgard</category><category>Home Automation</category><category>Personal</category><category>projects</category><guid>http://baptiste-wicht.com/posts/2016/08/asgard-home-automation-project.html</guid><pubDate>Sat, 27 Aug 2016 20:28:16 GMT</pubDate></item></channel></rss>

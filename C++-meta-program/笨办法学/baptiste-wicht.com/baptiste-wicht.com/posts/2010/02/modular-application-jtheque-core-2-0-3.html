@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html prefix="og: http://ogp.me/ns# article: http://ogp.me/ns/article# " lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Develop a modular application with JTheque Core 2.0.3 | Blog blog("Baptiste Wicht");</title>
+<script src="/cdn-cgi/apps/head/98vpnawSZZMscPn4oDND-ZgswjM.js"></script><link href="../../../assets/css/all-nocdn.css" rel="stylesheet" type="text/css">
+<meta name="theme-color" content="#5670d4">
+<meta name="generator" content="Nikola (getnikola.com)">
+<link rel="alternate" type="application/rss+xml" title="RSS" href="../../../rss.xml">
+<link rel="canonical" href="http://baptiste-wicht.com/posts/2010/02/modular-application-jtheque-core-2-0-3.html">
+<!--[if lt IE 9]><script src="../../../assets/js/html5.js"></script><![endif]--><meta name="author" content="Baptiste Wicht">
+<link rel="prev" href="hardware-guide-hard-disks.html" title="Hardware Guide : The Hard Disks" type="text/html">
+<link rel="next" href="../03/jtheque-is-going-to-osgi.html" title="JTheque is going to OSGi" type="text/html">
+<meta property="og:site_name" content='Blog blog("Baptiste Wicht");'>
+<meta property="og:title" content="Develop a modular application with JTheque Core 2.0.3">
+<meta property="og:url" content="http://baptiste-wicht.com/posts/2010/02/modular-application-jtheque-core-2-0-3.html">
+<meta property="og:description" content="1. Introduction
+
+This article will teach you how to develop a first application with JTheque Core.
+We will develop a basic modular application, like an hello world. This little program will be compose">
+<meta property="og:type" content="article">
+<meta property="article:published_time" content="2010-02-07T05:38:45+01:00">
+<meta property="article:tag" content="Conception">
+<meta property="article:tag" content="Java">
+<meta property="article:tag" content="JTheque">
+<meta property="article:tag" content="Modular">
+<link href="../../../favicon.ico" rel="icon" type="image/x-icon">
+<link rel="publisher" href="https://plus.google.com/+BaptisteWicht">
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-2175227-7', 'auto');
+  var metas = document.getElementsByTagName('meta'), tagsList = [];
+  for (var i=0; i<metas.length; i++) {
+    if (metas[i].getAttribute('property') == 'article:tag') {
+      tagsList.push( metas[i].getAttribute('content'));
+    }
+  }
+  ga('set', 'dimension1', tagsList.join('|'));
+  ga('send', 'pageview');
+</script>
+</head>
+<body>
+
+<a href="#content" class="sr-only sr-only-focusable">Skip to main content</a>
+<div class="container-fluid">
+
+<div class="row">
+<div class="col-sm-3 col-lg-2">
+<nav class="navbar navbar-inverse navbar-fixed-side"><div class="navbar-header">
+<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+<span class="sr-only">Toggle navigation</span>
+<span class="icon-bar"></span>
+<span class="icon-bar"></span>
+<span class="icon-bar"></span>
+</button>
+<a class="navbar-brand" href="http://baptiste-wicht.com/">
+<span id="blog-title">Blog blog("Baptiste Wicht");</span>
+</a>
+</div>
+
+<div class="collapse navbar-collapse navbar-ex1-collapse">
+<ul class="nav navbar-nav">
+<li>
+<a href="../../../stories/about.html">About</a>
+</li>
+<li>
+<a href="../../../stories/publications.html">Publications</a>
+</li>
+<li>
+<a href="../../../stories/projects.html">Projects</a>
+</li>
+<li>
+<a href="../../../categories/index.html">Tags</a>
+</li>
+<li>
+<a href="../../../archive.html">Archives</a>
+</li>
+<li>
+<a href="http://feeds.feedburner.com/BaptisteWicht">RSS</a>
+</li>
+<li class="navbar-content">
+<h3>Related posts</h3>
+</li>
+<li><a href="../05/develop-a-modular-application-implementation.html">Develop a modular application – Implementation</a></li>
+<li><a href="../10/jtheque-core-2-1-0-released.html">JTheque Core 2.1.0 released !</a></li>
+<li><a href="../05/modular-application-loading-modules.html">Develop a modular application - The loading</a></li>
+<li><a href="../05/modular-application-modules.html">Develop a modular application – The modules</a></li>
+<li><a href="../05/develop-a-modular-application-bases.html">Develop a modular application – Bases</a></li>
+<li><a href="../03/jtheque-is-going-to-osgi.html">JTheque is going to OSGi</a></li>
+<li class="navbar-block">
+<li class="wicht-navbar-right">
+<a target="_blank" title="Follow @wichtounet on Twitter" href="https://twitter.com/wichtounet">
+<img src="../../../assets/img/twitter.png" alt="Follow @wichtounet on Twitter"></a>
+</li>
+<li class="wicht-navbar-right">
+<a target="_blank" title="Follow +BaptisteWicht on Google+" href="https://plus.google.com/+BaptisteWicht">
+<img src="../../../assets/img/google_plus.png" alt="Follow +BaptisteWicht on Google+"></a>
+</li>
+</ul>
+</div>
+
+</nav>
+</div> 
+<div class="col-sm-9 col-lg-10">
+<div id="content"></div>
+<article class="post-text h-entry hentry postpage" itemscope="itemscope" itemtype="http://schema.org/Article"><header><h1 class="p-name entry-title" itemprop="headline name"><a href="#" class="u-url">Develop a modular application with JTheque Core 2.0.3</a></h1>
+<div class="metadata">
+<p class="byline author vcard"><span class="byline-name fn" itemprop="author">
+Baptiste Wicht
+</span></p>
+<p class="dateline"><a href="#" rel="bookmark"><time class="published dt-published" datetime="2010-02-07T05:38:45+01:00" itemprop="datePublished" title="2010-02-07 05:38">2010-02-07 05:38</time></a></p>
+<p class="commentline">
+<a href="modular-application-jtheque-core-2-0-3.html#disqus_thread" data-disqus-identifier="cache/posts/2010/02/modular-application-jtheque-core-2-0-3.html">Comments</a>
+</p>
+<p class="sourceline"><a href="modular-application-jtheque-core-2-0-3.wp" class="sourcelink">Source</a></p>
+</div>
+</header><div class="e-content entry-content" itemprop="articleBody text">
+<div>
+<h4>1. Introduction</h4>
+<p>This article will teach you how to develop a first application with JTheque Core.</p>
+<p>We will develop a basic modular application, like an hello world. This little program will be composed of :</p>
+<ul>
+<li>A JTheque application</li>
+<li>A JTheque module who display an Hello World on the main view</li>
+<li>A module who will add an option menu to display one more time "Hello World"</li>
+</ul>
+<h4>2. JTheque environment</h4>
+<p>The first thing to do before starting develop our application and our modules is to download the "development environment" of JTheque Core. A JTheque application needs some files and librairies to work.</p>
+<p>You can download an archive containing all necessary files on the website of the projects. Then you must choose the dev-base-XXX.zip file where XXX is the version number. In our case, we need the dev-base-2.0.3.zip file.</p>
+<p>When you've downloaded the file, unzip it. Here is the content of the folder :</p>
+<ul>
+<li>
+<strong>core </strong>: Contains JTheque Core, the configuration and the application</li>
+<li>
+<strong>lib </strong>: Contains all the librairies</li>
+<li>
+<strong>modules </strong>: Contains all the modules</li>
+<li>
+<strong>JTheque-Launcher.jar</strong> : The launcher of the application. You must execute this file to launch your application.</li>
+</ul>
+<p>We only have two things to change in this folder. First, we have to add our application (application.xml) and its resources in the core folder. Then, we have to add our modules in the "modules" folder and declare it in the JTheque configuration.</p>
+
+<h4>3. Application</h4>
+<p>Now that we seen what is a JTheque Application, we'll develop it, the first part of our program.</p>
+<p>An application is basically a container for modules. It has a name, a version but adds no functionaly to the application, this a function of the modules. An application without modules is not useful and vice-versa.</p>
+<p>An application is composed of several things :</p>
+<ul>
+<li>An XML file (application.xml) describing the application</li>
+<li>Some images (in the core/images folder)</li>
+<li>Eventually some .properties i18n files in the core/i18n folder</li>
+</ul>
+<p>To define the internationalization values of the application, there is 2 ways. We can define the values directly in the XML file or use some i18n .properties files. This is this solution we will use in our case. The resource bundle must be named application and be in the core/i18n folder. Here are the files to create :</p>
+<p><strong>application.properties</strong></p>
+<pre>name=JTheque Demos
+author=Baptiste Wicht
+<a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="4f2a222e2623722d2e3f3b263c3b2a38262c273b0f3d2a2b2e2c3b262021622b2a392a23203f3f2a35612c2022">[email&#160;protected]</a></pre>
+<p><strong>application_en.properties</strong></p>
+<pre>site=http://jtheque.developpez.com/en
+copyright=JTheque 2009 All rights reserved</pre>
+<p><strong>application_fr.properties</strong></p>
+<pre>site=http://jtheque.developpez.com/
+copyright=JTheque 2009 Tous droits reservés</pre>
+<p>Then, we can write the application.xml file :</p>
+<p>We declared than our application is available in french and in english. Moreover, we declare () to use the i18n files. i18n properties.</p>
+<p>The core is translated in english, french and german.</p>
+<p>For the images, we start to declare a logo.png file and a icon.png file for the application. We can use other extension specifying type="jpg" for exemple for a .jpg file.</p>
+<p>Here are the used images :</p>
+<p><a href="../../../wp-content/uploads/2010/03/icon.png"><img class="size-full wp-image-138" title="The window icon" src="../../../wp-content/uploads/2010/03/icon.png" alt="The window icon" width="16" height="16"></a></p>
+<p><a href="../../../wp-content/uploads/2010/03/logo.png"><img class="size-full wp-image-139" title="The application logo" src="../../../wp-content/uploads/2010/03/logo.png" alt="The application logo" width="171" height="100"></a></p>
+<p>We will now make a first try. For that, you just have to launch the JTheque-Launcher.jar at the root of the JTheque folder. It will launch the core with our application.</p>
+<p>Here is the result :</p>
+<p><a href="../../../wp-content/uploads/2010/03/Screen1.png"><img class="size-medium wp-image-140" title="Launch without any modules" src="../../../wp-content/uploads/2010/03/Screen1-300x233.png" alt="Launch without any modules" width="300" height="233"></a></p>
+<p>We can see that the application launches weel, but there is nothing really interesting to do in this application because there is no modules to add functionalities.</p>
+
+<h4>4. The first module</h4>
+<p>Now that our module has been developed and is functional, we can make our first module of the application.</p>
+<p>This module will be very simple. It just display "Hello World !" on the main componnent of the application in an internationalized way.</p>
+<p>To declare a module, we need to create class with the @Module annotation. Then, we have to declare it in the Spring context and declare this last in the manifest of the jar.</p>
+<p>It's not necessary to know Spring to use JTheque. If you don't want to use Spring in your application, you can just declare the module in the Spring context withtout using it and then develop your application without use Spring context. You just have to know that the module will be created by Spring.</p>
+<p>The life cycle of a module is composed of three states :</p>
+<ul>
+<li>pre-plug : To make pre-configuration</li>
+<li>plug : Here you must add the module in the application. It means edit view, add config elements, ...</li>
+<li>unplug : Remove the module from the application</li>
+</ul>
+<p>To make operations in this 3 phases, you just have to add annotations on methods, respectively @PrePlug, @Plug et @Unplug. Then the application will detect this methods and invoke them.</p>
+<p>In our case, we need to edit the main component of the view in the plug phase. So we doesn't need the other phases.</p>
+<p>Starting with declaring our module with necessary annotations :</p>
+<pre class="code literal-block"><span></span><span class="kn">package</span> <span class="nn">org.jtheque.demos.first</span><span class="o">;</span>
+
+<span class="kn">import</span> <span class="nn">org.jtheque.core.managers.module.annotations.Module</span><span class="o">;</span>
+
+<span class="kn">import</span> <span class="nn">org.jtheque.core.managers.module.annotations.Plug</span><span class="o">;</span>
+
+<span class="nd">@Module</span><span class="o">(</span><span class="n">id</span> <span class="o">=</span> <span class="s">"jtheque-demo-module-1"</span><span class="o">,</span> <span class="n">i18n</span> <span class="o">=</span> <span class="s">"classpath:org/jtheque/demos/first/i18n/first"</span><span class="o">,</span> <span class="n">version</span> <span class="o">=</span> <span class="s">"1.0"</span><span class="o">,</span> <span class="n">core</span> <span class="o">=</span> <span class="s">"2.0.3"</span><span class="o">,</span>
+        <span class="n">jarFile</span> <span class="o">=</span> <span class="s">"jtheque-demo-module-1.jar"</span><span class="o">)</span>
+<span class="kd">public</span> <span class="kd">final</span> <span class="kd">class</span> <span class="nc">DemoFirstModule</span> <span class="o">{</span>
+    <span class="nd">@Plug</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">plug</span><span class="o">(){</span>
+
+    <span class="o">}</span>
+<span class="o">}</span>
+</pre>
+<p>Here again, there is nothing hard. The annotation Module declare the informations about the module. The plug method is for this time empty. The i18n annotation contains the path (Spring resource convention) to the resource bundle of the module. bundle du module.</p>
+<p>Now we can declare informations about the module in the i18n files.</p>
+<p>A i18n file is a simple .properties file who contains a list of key/value couples. A i18n file represent a language. We use a set of this files to internationalize the application. They must have the same base name and finish with _language where "language" is the short form of the language$ (de, fr, en, it, ...).</p>
+<p>The key will be search depending on the id of the module. We directly add also the internationalization of the main view :</p>
+<p><strong>first_en.properties</strong></p>
+<pre>jtheque-demo-module-1.name=JTheque Demo Module 1
+jtheque-demo-module-1.author=Baptiste Wicht
+jtheque-demo-module-1.description=First demo module
+label.message=Hello World !</pre>
+<p><strong>first_fr.properties</strong></p>
+<pre>jtheque-demo-module-1.name=JTheque Demo Module 1
+jtheque-demo-module-1.author=Baptiste Wicht
+jtheque-demo-module-1.description=Premier module de démo
+label.message=Bonjour le monde !</pre>
+<p>The application will automatically search and resolve this messages to internationalize the module. We put this files in the org/jtheque/demos/module/first/resources/18n folder.</p>
+<p>To extend the application or access to the services of JTheque, we always have to use the Managers class who provide access to the managers (services) of JTheque Core. In our case, we need to access IViewManager who manage the view of the application.</p>
+<p>In the plug() method, we just have to add a JLabel with an internationalizable text. In JTheque, to make a component internationalizable, we have to implement the Internationalizable interface and add it to ILanguageManager to keep it in the good language. In the case of a label, this component exists in JTheque Core, its the JThequeI18nLabel who takes a i18n key as constructor parameter :</p>
+<pre class="code literal-block"><span></span><span class="nd">@Plug</span>
+<span class="kd">public</span> <span class="kt">void</span> <span class="nf">plug</span><span class="o">(){</span>
+    <span class="n">SwingUtils</span><span class="o">.</span><span class="na">inEdt</span><span class="o">(</span><span class="k">new</span> <span class="n">Runnable</span><span class="o">(){</span>
+        <span class="nd">@Override</span>
+        <span class="kd">public</span> <span class="kt">void</span> <span class="nf">run</span><span class="o">(){</span>
+            <span class="n">JThequeI18nLabel</span> <span class="n">label</span> <span class="o">=</span> <span class="k">new</span> <span class="n">JThequeI18nLabel</span><span class="o">(</span><span class="s">"label.message"</span><span class="o">);</span>
+            <span class="n">label</span><span class="o">.</span><span class="na">setFont</span><span class="o">(</span><span class="n">label</span><span class="o">.</span><span class="na">getFont</span><span class="o">().</span><span class="na">deriveFont</span><span class="o">(</span><span class="mi">36</span><span class="n">f</span><span class="o">));</span>
+
+            <span class="n">Managers</span><span class="o">.</span><span class="na">getManager</span><span class="o">(</span><span class="n">IViewManager</span><span class="o">.</span><span class="na">class</span><span class="o">).</span><span class="na">setMainComponent</span><span class="o">(</span><span class="n">label</span><span class="o">);</span>
+        <span class="o">}</span>
+    <span class="o">});</span>
+<span class="o">}</span>
+</pre>
+<p>It's easy. We get our manager with the Managers class, then, we set our label as the main component.</p>
+<p>Now we'll declare our module in Spring context. It's a simple XML file :</p>
+<p><strong>first.xml</strong></p>
+<p>We put this file at the same level of DemoFirstModule. For those who doesn't know spring, it's exactly if we create a new instance of our module and assign it to a variable named firstModule.</p>
+<p>We'll try this module. Then, we have to generate a jar of our project. The manifest of the jar must have the link to our XML file. Here is our manifest file :</p>
+<pre>Manifest-Version: 1.0
+Module-Context: org/jtheque/demos/first/first.xml</pre>
+<p>Then we generate our Jar file and put it on the modules files of the JTheque environment with the name of jtheque-demo-module-1.jar.</p>
+<p>Now we have to configure JTheque to put our module in the application. To do that, we have to edit the config.xml file in the core.file. We just add the discovery tag to say that all the modules in the modules folder to the application.</p>
+<p><strong>config.xml</strong></p>
+<p>We can now test the result launching JTheque-Launcher.jar and here is what we get :</p>
+<p><a href="../../../wp-content/uploads/2010/02/Screen2.png"><img class="size-medium wp-image-151" title="Hello World" src="../../../wp-content/uploads/2010/02/Screen2-300x233.png" alt="Hello World" width="300" height="233"></a></p>
+<p>Like we can see, our module is good integrated in our application.</p>
+
+<h4>5. The second module</h4>
+<p>We will now create a second module who will add an option menu to display another Hello World. We could of course do that in the first module, but it's to show how to create several modules.</p>
+<p>To add options menu, we just need the plug pahse. Here is the base of the new module (DemoSecondModule) :</p>
+<pre class="code literal-block"><span></span><span class="nd">@Module</span><span class="o">(</span><span class="n">id</span> <span class="o">=</span> <span class="s">"jtheque-demo-module-2"</span><span class="o">,</span> <span class="n">i18n</span> <span class="o">=</span> <span class="s">"classpath:org/jtheque/demos/second/i18n/second"</span><span class="o">,</span> <span class="n">version</span> <span class="o">=</span> <span class="s">"1.0"</span><span class="o">,</span>
+        <span class="n">core</span> <span class="o">=</span> <span class="s">"2.0.3"</span><span class="o">,</span> <span class="n">jarFile</span> <span class="o">=</span> <span class="s">"jtheque-demo-module-2.jar"</span><span class="o">)</span>
+<span class="kd">public</span> <span class="kd">final</span> <span class="kd">class</span> <span class="nc">DemoSecondModule</span> <span class="o">{</span>
+    <span class="nd">@Plug</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">plug</span><span class="o">()</span> <span class="o">{</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</pre>
+<p>With this i18n files :</p>
+<p><strong>second_fr.properties</strong></p>
+<pre>jtheque-demo-module-2.name=JTheque Demo Module 2
+jtheque-demo-module-2.author=Baptiste Wicht
+jtheque-demo-module-2.description=Deuxième module de démo
+dialog.message=Bonjour le monde !</pre>
+<p><strong>second_en.properties</strong></p>
+<pre>jtheque-demo-module-2.name=JTheque Demo Module 2
+jtheque-demo-module-2.author=Baptiste Wicht
+jtheque-demo-module-2.description=Second demo module
+dialog.message=Hello world !</pre>
+<p>It's basically the same things than for the first module. We'll now add an option to the "File" menu. For that, we have to add an internationalizable action, JThequeAction.</p>
+<p>So here is our simple action :</p>
+<pre class="code literal-block"><span></span><span class="kn">package</span> <span class="nn">org.jtheque.demos.second</span><span class="o">;</span>
+
+<span class="kn">import</span> <span class="nn">org.jtheque.core.managers.view.able.IViewManager</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.jtheque.core.managers.view.impl.actions.JThequeAction</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.jtheque.core.managers.Managers</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">java.awt.event.ActionEvent</span><span class="o">;</span>
+
+<span class="kd">final</span> <span class="kd">class</span> <span class="nc">HelloWorldAction</span> <span class="kd">extends</span> <span class="n">JThequeAction</span> <span class="o">{</span>
+    <span class="n">HelloWorldAction</span><span class="o">()</span> <span class="o">{</span>
+        <span class="kd">super</span><span class="o">(</span><span class="s">"dialog.message"</span><span class="o">);</span>
+    <span class="o">}</span>
+
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">actionPerformed</span><span class="o">(</span><span class="n">ActionEvent</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">Managers</span><span class="o">.</span><span class="na">getManager</span><span class="o">(</span><span class="n">IViewManager</span><span class="o">.</span><span class="na">class</span><span class="o">).</span><span class="na">displayI18nText</span><span class="o">(</span><span class="s">"dialog.message"</span><span class="o">);</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</pre>
+<p>Nothing hard, we use the IViewManager to display an internationalizable text in a dialog box. We can now add this action on the menu using the IFeatureManager. From JTheque Core 2.0.3, there is a declarative way to create menu actions with the Menu interface. For that, we can extends the AbstractMenu class and choose the methods to override to add menus (features).</p>
+<pre class="code literal-block"><span></span><span class="nd">@Plug</span>
+
+<span class="kd">public</span> <span class="kt">void</span> <span class="nf">plug</span><span class="o">()</span> <span class="o">{</span>
+    <span class="n">Managers</span><span class="o">.</span><span class="na">getManager</span><span class="o">(</span><span class="n">IFeatureManager</span><span class="o">.</span><span class="na">class</span><span class="o">).</span><span class="na">addMenu</span><span class="o">(</span><span class="k">new</span> <span class="n">DemoMenu</span><span class="o">());</span>
+<span class="o">}</span>
+
+<span class="kd">private</span> <span class="kd">static</span> <span class="kd">final</span> <span class="kd">class</span> <span class="nc">DemoMenu</span> <span class="kd">extends</span> <span class="n">AbstractMenu</span> <span class="o">{</span>
+    <span class="nd">@Override</span>
+    <span class="kd">protected</span> <span class="n">List</span> <span class="nf">getFileMenuSubFeatures</span><span class="o">(){</span>
+        <span class="k">return</span> <span class="n">features</span><span class="o">(</span>
+                <span class="n">createSubFeature</span><span class="o">(</span><span class="mi">150</span><span class="o">,</span> <span class="k">new</span> <span class="n">HelloWorldAction</span><span class="o">())</span>
+        <span class="o">);</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</pre>
+<p>We just add an action on the "File" menu, with our action and we give it the 150 position (0 is the first position and 1000 is the last (exit)).</p>
+<p>Then we create the Spring xml file of the second module :</p>
+<p><strong>second.xml</strong></p>
+<pre class="code literal-block"><span></span><span class="cp">&lt;?xml version="1.0" encoding="UTF-8"?&gt;</span>
+
+<span class="nt">&lt;beans</span> <span class="na">xmlns=</span><span class="s">"http://www.springframework.org/schema/beans"</span>
+       <span class="na">xmlns:xsi=</span><span class="s">"http://www.w3.org/2001/XMLSchema-instance"</span>
+       <span class="na">xsi:schemaLocation=</span><span class="s">"</span>
+<span class="s">            http://www.springframework.org/schema/beans</span>
+<span class="s">            http://www.springframework.org/schema/beans/spring-beans.xsd"</span><span class="nt">&gt;</span>
+
+    <span class="nt">&lt;bean</span> <span class="na">id=</span><span class="s">"secondaryModule"</span> <span class="na">class=</span><span class="s">"org.jtheque.demos.second.DemoSecondModule"</span> <span class="na">lazy-init=</span><span class="s">"false"</span> <span class="nt">/&gt;</span>
+<span class="nt">&lt;/beans&gt;</span>
+</pre>
+<p>We can now generate the Jar file of the second module with this manifest :</p>
+<pre>Manifest-Version: 1.0
+Module-Context: org/jtheque/demos/second/test.xml</pre>
+<p>Finally, we can test the complete application using JTheque-Launcher.jar :</p>
+<p><a href="../../../wp-content/uploads/2010/02/Screen3.png"><img class="size-medium wp-image-160" title="Nouveau menu" src="../../../wp-content/uploads/2010/02/Screen3-300x170.png" alt="Nouveau menu" width="300" height="170"></a></p>
+<p><a href="../../../wp-content/uploads/2010/02/Screen4.png"><img class="size-medium wp-image-161" title="Hello world" src="../../../wp-content/uploads/2010/02/Screen4-300x232.png" alt="Hello world" width="300" height="232"></a></p>
+<p>Our second module is well integrated.</p>
+
+<h4>6. Conclusion</h4>
+<p>With relatively few code, we have developed a modular applications with 2 modules and that can have a lot more of modules.</p>
+<p>The services given by JTheque are many more. If you want to know more, for the moment, i'll guide you to the Javadoc of the last version of the core. I will try to create a full guide to present all the functionalities of the core.</p>
+<p>If you want to comment this article, don't hesitate to add a comment on the comment form at the end of the page.</p>
+<p>If you want to make a comment, a suggestion or talk about the JTheque project, you can also come to the dedicated forum. It's a french forum, but you can post in english.</p>
+</div>
+</div>
+<aside class="postpromonav"><nav><ul itemprop="keywords" class="tags">
+<li><a class="tag p-category" href="../../../categories/conception.html" rel="tag">Conception</a></li>
+<li><a class="tag p-category" href="../../../categories/java.html" rel="tag">Java</a></li>
+<li><a class="tag p-category" href="../../../categories/jtheque.html" rel="tag">JTheque</a></li>
+<li><a class="tag p-category" href="../../../categories/modular.html" rel="tag">Modular</a></li>
+</ul>
+<ul class="pager hidden-print">
+<li class="previous">
+<a href="hardware-guide-hard-disks.html" rel="prev" title="Hardware Guide : The Hard Disks">Previous post</a>
+</li>
+<li class="next">
+<a href="../03/jtheque-is-going-to-osgi.html" rel="next" title="JTheque is going to OSGi">Next post</a>
+</li>
+</ul></nav></aside><section class="comments hidden-print"><h2>Comments</h2>
+<div id="disqus_thread"></div>
+<script src="/cdn-cgi/scripts/78d64697/cloudflare-static/email-decode.min.js"></script><script>
+        var disqus_shortname ="blogwichtounet",
+            disqus_url="http://baptiste-wicht.com/posts/2010/02/modular-application-jtheque-core-2-0-3.html",
+        disqus_title="Develop a modular application with JTheque Core 2.0.3",
+        disqus_identifier="cache/posts/2010/02/modular-application-jtheque-core-2-0-3.html",
+        disqus_config = function () {
+            this.language = "en";
+        };
+        (function() {
+            var dsq = document.createElement('script'); dsq.async = true;
+            dsq.src = 'https://' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        })();
+    </script><noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a>
+</noscript>
+<a href="https://disqus.com" class="dsq-brlink" rel="nofollow">Comments powered by <span class="logo-disqus">Disqus</span></a>
+</section></article><script>var disqus_shortname="blogwichtounet";(function(){var a=document.createElement("script");a.async=true;a.src="https://"+disqus_shortname+".disqus.com/count.js";(document.getElementsByTagName("head")[0]||document.getElementsByTagName("body")[0]).appendChild(a)}());</script>
+</div> 
+</div>
+
+</div>
+
+
+
+<footer>
+Contents © 2017 <a href="/cdn-cgi/l/email-protection#7b191a0b0f12080f1e0c1218130f3b1c161a121755181416">Baptiste Wicht</a> - Powered by <a href="http://getnikola.com" rel="nofollow">Nikola</a> - License:
+<a rel="license" href="http://creativecommons.org/licenses/by/4.0/"><img alt="Creative Commons License" style="padding-left:5px;border-width:0" src="../../../assets/img/cc.png"></a>
+<ul class="footer_inline_ul">
+<li>
+<a href="modular-application-jtheque-core-2-0-3.wp" id="sourcelink">Source</a>
+</li>
+</ul></footer><script src="/cdn-cgi/scripts/78d64697/cloudflare-static/email-decode.min.js"></script><script src="../../../assets/js/all-nocdn.js"></script>
+</body>
+</html>

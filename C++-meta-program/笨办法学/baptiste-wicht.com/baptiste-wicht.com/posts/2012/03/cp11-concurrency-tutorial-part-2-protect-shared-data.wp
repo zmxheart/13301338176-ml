@@ -1,0 +1,215 @@
+In the previous article, we saw how to start threads to execute some code in parallel. All the code executed in the threads were independant. In the general case, you often use shared objects between the threads. And when you do it, you will face another problem: synchronization. 
+
+We will see what is this problem in a simple code. 
+
+<h3>Synchronization issues</h3>
+
+As an example, we will take a simple Counter structure. This structure has a value and methods to increment or decrement the value. Here is the structure:
+
+```cpp
+struct Counter {
+    int value;
+
+    Counter() : value(0){}
+
+    void increment(){
+        ++value;
+    }
+};
+```
+
+There is nothing new here. Now, let's start some threads and make some increments: 
+
+```cpp
+int main(){
+    Counter counter;
+
+    std::vector<std::thread> threads;
+    for(int i = 0; i < 5; ++i){
+        threads.push_back(std::thread([&counter](){
+            for(int i = 0; i < 100; ++i){
+                counter.increment();
+            }
+        }));
+    }
+
+    for(auto& thread : threads){
+        thread.join();
+    }
+
+    std::cout << counter.value << std::endl;
+
+    return 0;
+}
+```
+
+Again, nothing new there. We launch 5 threads and each one increment the counter hundred times. After all thread have finished their work, we print the value of the counter. 
+
+If we launch this program, we should expect that it will print 500. But this is not the case. No one can say what this program will print. Here are some results I obtained on my computer: 
+
+```
+442
+500
+477
+400
+422
+487
+```
+
+The problem is that the incrementation is not an atomic operation. As a matter of fact, an incrementation is made of three operations: 
+
+<ul>
+	<li>Read the current value of <em>value</em></li>
+	<li>Add one to the current value</li>
+	<li>Write that new value to <em>value</em></li>
+</ul>
+
+When you run that code using a single thread, there are no problems. It will execute each part of the  operation one after another. But when you have several threads, you can start having troubles. Imagine this situation:
+
+<ol>
+	<li>Thread 1 : read the value, get 0, add 1, so value = 1</li>
+	<li>Thread 2 : read the value, get 0, add 1, so value = 1</li>
+	<li>Thread 1 : write 1 to the field value and return 1</li>
+	<li>Thread 2 : write 1 to the field value and return 1</li>
+</ol>
+
+These situations come from what we call interleaving. Interleaving describe the possible situations of several threads executing some statements. Even for three operations and two threads, there is a lot of possible interleavings. When you have more threads and more operations, it is almost impossible to enumerate the possibles interleavings. The problem can also occurs when a thread gets preempted between instructions of the operation. 
+
+There are several solutions to fix this problem: 
+
+<ul>
+	<li>Semaphores</li>
+	<li>Atomic references</li>
+	<li>Monitors</li>
+	<li>Condition codes</li>
+	<li>Compare and swap</li>
+	<li>etc.</li>
+</ul>
+
+In this blog post we will learn how to use semaphores to fix this problem. As a matter of fact, we will a special kind of semaphores called mutexes. A mutex is a very simple object. Only one thread can obtain the lock on a mutex at the same time. This simple (and powerful) property of a mutex allow us to use it to fix synchronization problems. 
+
+<h3>Use a mutex to make our Counter thread-safe</h3>
+
+In the C++11 threading library, the mutexes are in the mutex header and the class representing a mutex is the std::mutex class. There are two important methods on a mutex: lock() and unlock(). As their names indicate, the first one enable a thread to obtain the lock and the second releases the lock. The lock() method is blocking. The thread will only return from the lock() method when the lock has been obtained. 
+
+To make our Counter struct thread-safe, we have to add a std::mutex member to it and then to lock()/unlock() the mutex in every function of the object: 
+
+```cpp
+struct Counter {
+    std::mutex mutex;
+    int value;
+
+    Counter() : value(0) {}
+
+    void increment(){
+        mutex.lock();
+        ++value;
+        mutex.unlock();
+    }
+};
+```
+
+If we now test this implementation with the same code as before for starting the threads, the program will always display 500. 
+
+<h3>Exceptions and locks</h3>
+
+Now, let's see what happens in another case. Imagine that the Counter has a decrement operation that throws an exception if the value is 0: 
+
+```cpp
+struct Counter {
+    int value;
+    
+    Counter() : value(0) {}
+
+    void increment(){
+        ++value;
+    }
+
+    void decrement(){
+        if(value == 0){
+            throw "Value cannot be less than 0";
+        }
+
+        --value;
+    }
+};
+```
+
+You want to access this structure concurrently without modifying the class. So you create a wrapper with locks for this class: 
+
+```cpp
+struct ConcurrentCounter {
+    std::mutex mutex;
+    Counter counter;
+
+    void increment(){
+        mutex.lock();
+        counter.increment();
+        mutex.unlock();
+    }
+
+    void decrement(){
+        mutex.lock();
+        counter.decrement();        
+        mutex.unlock();
+    }
+};
+```
+
+This wrapper works well in most of the cases, but when an exception occurs in the decrement method, you have a big problem. Indeed, if an exception occurs, the unlock() function is not called and so the lock is left in a blocked state. Then, you program is completely blocked. To fix this problem, you have to use a try/catch structure to unlock the lock before throwing again the exception:
+
+```cpp
+void decrement(){
+    mutex.lock();
+    try {
+        counter.decrement();
+    } catch (std::string e){
+        mutex.unlock();
+        throw e;
+    } 
+    mutex.unlock();
+}
+```
+
+The code is not difficult but starts looking ugly. Now imagine you are in a function with 10 different exit points. You will have to call unlock() from each of these points and the probability that you will forget one is big. Even bigger is the risk that you won't add a call to unlock when you add a new exit point to a function. 
+
+The next section gives a very nice solution to this problem.
+
+<h3>Automatic management of locks</h3>
+
+When you want to protect a whole block of code (a function in our case, but can be inside a loop or another control structure), it exists a good solution to avoid forgetting to release the lock: std::lock_guard. 
+
+This class is a simple smart manager for a lock. When the std::lock_guard is created, it automatically calls lock() on the mutex. When the guard gets destructed, it also releases the lock. You can use it like this: 
+
+```cpp
+struct ConcurrentSafeCounter {
+    std::mutex mutex;
+    Counter counter;
+
+    void increment(){
+        std::lock_guard<std::mutex> guard(mutex);
+        counter.increment();
+    }
+
+    void decrement(){
+        std::lock_guard<std::mutex> guard(mutex);
+        counter.decrement();
+    }
+};
+```
+
+Much nicer, isn't it :)
+
+With that solution, you do not have to handle all the cases of exit of the function, they are all handled by the destructor of the std::lock_guard instance. 
+
+<h3>Conclusion</h3>
+
+We are now done with semaphores. In this article, you learned how to protect shared data using mutexes from the C++ Threads Library. 
+
+Keep in mind that locks are slow. Indeed, when you use locks you make sections of the code sequential. If you want an highly parallel application, there are other solutions than locks that are performing much better but this is out of the scope of this article. 
+
+<h3>Next</h3>
+
+In the next blog post of this serie, I will talk about advanced concepts for mutexes and how to use condition variables to fix little concurrent programming problem. 
+
+The source code for each sample is available <a title="Source code for this blog post" href="https://github.com/wichtounet/articles/tree/master/src/threads/part2/">on Github</a>.

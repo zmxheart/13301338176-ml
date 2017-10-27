@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:dc="http://purl.org/dc/elements/1.1/"><channel><title>Blog blog("Baptiste Wicht"); (Posts about systemd)</title><link>http://baptiste-wicht.com/</link><description></description><atom:link rel="self" type="application/rss+xml" href="http://baptiste-wicht.com/categories/systemd.xml"></atom:link><language>en</language><lastBuildDate>Sun, 04 Jun 2017 20:17:47 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Linux tip: Force systemd networkd to wait for DHCP</title><link>http://baptiste-wicht.com/posts/2014/10/linux-tip-force-systemd-networkd-to-wait-for-dhcp.html</link><dc:creator>Baptiste Wicht</dc:creator><description>&lt;div&gt;&lt;p&gt;Recently, I started using systemd-networkd to manage my network. It works really
+good for static address configuration, but I experienced some problem with DHCP.
+There is DHCP client support integrated into systemd, so I wanted to use this
+instead of using another DHCP client.&lt;/p&gt;
+&lt;p&gt;(If you are not familiar with systemd-networkd, you can have a look at the last
+section of this article)&lt;/p&gt;
+&lt;p&gt;The problem with that is that services are not waiting for DHCP leases to be
+obtained. Most services (sshd for instance), are waiting for network.target,
+however, network.target does not wait for the DHCP lease to be obtained from the
+server. If you configured ssh on a specific IP and this IP is obtained with
+DHCP, it will fail at startup. The same is true for NFS mounts for instance.&lt;/p&gt;
+&lt;div class="section" id="force-services-to-wait-for-the-network-to-be-configured"&gt;
+&lt;h2&gt;Force services to wait for the network to be configured&lt;/h2&gt;
+&lt;p&gt;The solution is to make services like sshd waits for network-online.target
+instead of network.target. There is a simple way in systemd to override default
+service files. For a X.service, systemd will also parse all the
+/etc/systemd/X.service.d/*.conf files.&lt;/p&gt;
+&lt;p&gt;For instance, to make sshd be started only after DHCP is finished&lt;/p&gt;
+&lt;p&gt;/etc/systemd/system/sshd.service.d/network.conf:&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+[Unit]
+Wants=network-online.target
+After=network-online.target
+&lt;/pre&gt;
+&lt;p&gt;However, by default, network-online.target does not wait for anything. You'll
+have to enable another service to make it work:&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+systemctl enable systemd-networkd-wait-online
+&lt;/pre&gt;
+&lt;p&gt;And another note, at least on Gentoo, I had to use systemd-216 for it to work:&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+emerge -a "=sys-apps/systemd-216"
+&lt;/pre&gt;
+&lt;p&gt;And after this, it worked like a charm at startup.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="section" id="force-nfs-mounts-to-wait-for-the-network"&gt;
+&lt;h2&gt;Force NFS mounts to wait for the network&lt;/h2&gt;
+&lt;p&gt;There is no service file for nfs mounts, but there is a target remote-fs.target
+that groups the remote file systems mounts. You can override its configuration
+in the same as a service:&lt;/p&gt;
+&lt;p&gt;/etc/systemd/system/remote-fs.target.d/network.conf:&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+[Unit]
+Wants=network-online.target
+After=network-online.target
+&lt;/pre&gt;
+&lt;/div&gt;
+&lt;div class="section" id="conclusion"&gt;
+&lt;h2&gt;Conclusion&lt;/h2&gt;
+&lt;p&gt;Here we are, I hope this tip will be useful to some of you ;)&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="section" id="appendix-configure-interface-with-dhcp-with-systemd"&gt;
+&lt;h2&gt;Appendix. Configure interface with DHCP with systemd&lt;/h2&gt;
+&lt;p&gt;To configure an interface with DHCP, you have to create a .network file in
+/etc/systemd/network/. For instance, here is my
+/etc/systemd/network/local.network file:&lt;/p&gt;
+&lt;pre class="code text"&gt;&lt;a name="rest_code_869adbaf81f34a408dce5dbccf7af908-1"&gt;&lt;/a&gt;[Match]
+&lt;a name="rest_code_869adbaf81f34a408dce5dbccf7af908-2"&gt;&lt;/a&gt;Name=enp3s0
+&lt;a name="rest_code_869adbaf81f34a408dce5dbccf7af908-3"&gt;&lt;/a&gt;
+&lt;a name="rest_code_869adbaf81f34a408dce5dbccf7af908-4"&gt;&lt;/a&gt;[Network]
+&lt;a name="rest_code_869adbaf81f34a408dce5dbccf7af908-5"&gt;&lt;/a&gt;DHCP=v4
+&lt;/pre&gt;&lt;p&gt;and you have to enable systemd-networkd:&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+systemctl enable systemd-networkd
+&lt;/pre&gt;
+&lt;/div&gt;&lt;/div&gt;</description><category>Gentoo</category><category>Linux</category><category>Network</category><category>systemd</category><category>Tips</category><guid>http://baptiste-wicht.com/posts/2014/10/linux-tip-force-systemd-networkd-to-wait-for-dhcp.html</guid><pubDate>Wed, 01 Oct 2014 18:18:55 GMT</pubDate></item></channel></rss>

@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="utf-8"?>
+<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:dc="http://purl.org/dc/elements/1.1/"><channel><title>Blog blog("Baptiste Wicht"); (Posts about Conception)</title><link>http://baptiste-wicht.com/</link><description></description><atom:link rel="self" type="application/rss+xml" href="http://baptiste-wicht.com/categories/conception.xml"></atom:link><language>en</language><lastBuildDate>Sun, 04 Jun 2017 20:17:48 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Algorithms books Reviews</title><link>http://baptiste-wicht.com/posts/2012/08/algorithms-books-reviews.html</link><dc:creator>Baptiste Wicht</dc:creator><description>&lt;div&gt;&lt;p&gt;To be sure to be well prepared for an interview, I decided to read several &lt;strong&gt;Algorithms book&lt;/strong&gt;. I also chosen books in order to have information about data structures. I chose these books to read:&lt;/p&gt;
+&lt;ol&gt;
+    &lt;li&gt;Data Structures &amp;amp; Algorithm Analysis in C++, Third Edition, by Clifford A. Shaffer&lt;/li&gt;
+    &lt;li&gt;Algorithms in a Nutshell, by George T. Heineman, Gary Pollice and Stanley Selkow&lt;/li&gt;
+    &lt;li&gt;Algorithms, Fourth Edition, by Robert Sedgewick and Kevin Wayne&lt;/li&gt;
+    &lt;li&gt;Introduction to Algorithms, by Thomas H. Cormen, Charles E. Leiserson, Ronald L. Rivest and Clifford Stein. I have to say that I have only read most of it, not completely, because some chapters were not interesting for me at the current time, but I will certainly read them later.&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;As some of my comments are about the presentation of the books, it has to be noted that I have read the three first books on my Kindle.&lt;/p&gt;
+&lt;p&gt;In this post, you will find my point of view about all these books.&lt;/p&gt;
+&lt;h4&gt;Data Structures &amp;amp; Algorithm Analysis in C++&lt;/h4&gt;
+
+&lt;p&gt;This book is really great. It contains a lot of data structures and algorithms. Each of them is very clearly presented. It is not hard to understand the data structures and the algorithms.&lt;/p&gt;
+&lt;p&gt;Each data structure is first presented as an ADT (Abstract Data Structure) and then several possible implementations are presented. Each implementation is precisely defined and analyzed to find its sweet pots and worst cases.  Other implementations are also presented with enough references to know where to start with them.&lt;/p&gt;
+&lt;p&gt;I have found that some other books about algorithms are writing too much stuff for a single thing. This is not the case with this book. Indeed, each interesting thing is clearly and succinctly explained.&lt;/p&gt;
+&lt;p&gt;About the presentation, the code is well presented and the content of the book is very well written. A good think would have been to add a summary of the most important facts about each algorithm and data structure. If you want to know these facts, you have to read several pages (but the facts are always here).&lt;/p&gt;
+&lt;p&gt;The book contains very good explanation about the complexity analysis of algorihtms. It also contains a very interesting chapter about limits to computation where it treats P, NP, NP-Complete and NP-Hard complexity classes.&lt;/p&gt;
+&lt;p&gt;This book contains a large number of exercises and projects that can be used to improve even more your algorithmic skills. Moreover, there are very good references at the end of each chapters if you want more documentation about a specific subject.&lt;/p&gt;
+&lt;p&gt;I had some difficulty reading it on my Kindle. Indeed, it's impossible to switch chapters directly with the Kindle button. If you want quick access to the next chapter, you have to use the table of contents.&lt;/p&gt;
+&lt;h4&gt;Algorithms in a Nutshell&lt;/h4&gt;
+
+&lt;p&gt;This book is much shorter than the previous one. Even if it could be a good book for beginners, I didn't liked this book a lot. The explanations are a bit messy sometimes and it could contain more data structures (even if I know that this is not the subject of the book). The analysis of the different algorithms are a bit short too. Even if it looks normal for a book that short, it has to be known that this book has no exercise.&lt;/p&gt;
+&lt;p&gt;However, this book has also several good points. Each algorithm is very well presented in a single panel. The complexity of each algorithm is directly given alongside its code. It helps finding quickly an algorithm and its main properties.&lt;/p&gt;
+&lt;p&gt;Another thing that I found good is that the author included empiric benchmarks as well as complexity analysis. The chapters about Path Finding in AI and computational geometry were very interesting, especially because it is not widely dealt with in other books.&lt;/p&gt;
+&lt;p&gt;It also has very good references for each chapter.&lt;/p&gt;
+&lt;p&gt;This book was perfect to read with Kindle, the navigation was very easy.&lt;/p&gt;
+&lt;h4&gt;Algorithms&lt;/h4&gt;
+
+&lt;p&gt;This book is a good book, but suffers from several drawbacks regarding to other books. First, the book covers a lot of data structures and algorithms. Then, it also has very good explanations about complexity classes. It also has a lot of exercises. I also liked a lot the chapter about string algorithms that was lacking in previous books.&lt;/p&gt;
+&lt;p&gt;Most of the time, the explanations are good, but sometimes, I found them quite hard to understand. Moreover, some parts of code are also hard to follow. The author included Java runs of some of programs. In my opinion, this is quite useless, empiric benchmarks could have been useful, but not single runs of the program. Some of the diagrams were also hard to read, but that's perhaps a consequence of the Kindle.&lt;/p&gt;
+&lt;p&gt;A think that disappointed me a bit is that the author doesn't use big Oh notation. Even, if we have enough information to easily get the Big Oh equivalent, I don't understand why a book about algorithms doesn't use this notation.&lt;/p&gt;
+&lt;p&gt;Just like the first book, there is no simple view of a given algorithm that contains all the information about an algorithm. Another think that disturbed me is that the author takes time to describe an API around the algorithms and data structures and about the Java API. Again, in my opinion only, it takes a too large portion of the book.&lt;/p&gt;
+&lt;p&gt;Again, this book was perfect to read with Kindle, the navigation was very easy.&lt;/p&gt;
+&lt;h4&gt;Introduction to Algorithms&lt;/h4&gt;
+
+&lt;p&gt;This book is the most complete I read about algorithms and data structures by a large factor. It has very complete explanations about complexity analysis: big Oh, Big Theta, Small O. For each data structure and algorithm, the complexity analysis is very detailed and very well explained. The pieces of code are written in a very good pseudo code manner.&lt;/p&gt;
+&lt;p&gt;As I said before, the complexity analysis are very complete and sometimes very complex. This can be either an advantage or a disadvantage, depending of what you awaits from the book. For example, the analysis is made using several notations Big Oh, Big Theta or even small Oh. Sometimes, it is a bit hard to follow, but it provides very good basis for complexity analysis in general.&lt;/p&gt;
+&lt;p&gt;The book  was also the one with the best explanations about linear time sorting algorithms. In the other books, I found difficult to understand sorts like counting sort or bucket sort, but in this book, the explanations are very clear. It also includes multithreaded algorithm analysis, number theoretic algorithms, polynomials and a very complete chapter about linear programming.&lt;/p&gt;
+&lt;p&gt;The book contains a huge number of exercises for each chapters and sub chapters.&lt;/p&gt;
+&lt;p&gt;This book will not only help you find the best suited algorithm for a given problem, it will also help you understand how to write your own algorithm for a problem or how to analyze deeply an existing solution.&lt;/p&gt;
+&lt;h4&gt;Algorithms Book Wrap-up&lt;/h4&gt;
+
+&lt;p&gt;As I read all these Algorithms books in order, it's possible that my review is a bit subjective regarding to comparisons to other books.&lt;/p&gt;
+&lt;p&gt;If you plan to work in C++ and need more knowledge in algorithms and C++, I advice you to read &lt;strong&gt;Data Structures &amp;amp; Algorithm Analysis in C++&lt;/strong&gt;, that is really awesome. If you want a very deep knowledge about algorithm analysis and algorithms in general and have good mathematical basis, you should really take a deep look at &lt;strong&gt;Introduction to Algorithms&lt;/strong&gt;. If you want short introduction about algorithms and don't care about the implementation language, you can read &lt;strong&gt;Algorithms in a Nutshell&lt;/strong&gt;. &lt;strong&gt;Algorithms&lt;/strong&gt; is like a master key, it will gives you good starting knowledge about algorithm analysis and a broad range of algorithms and data structures.&lt;/p&gt;&lt;/div&gt;</description><category>Algorithm</category><category>Books</category><category>C++</category><category>Conception</category><category>Java</category><category>Performances</category><category>Programming</category><guid>http://baptiste-wicht.com/posts/2012/08/algorithms-books-reviews.html</guid><pubDate>Fri, 24 Aug 2012 06:52:04 GMT</pubDate></item><item><title>Architexa is available for free - Understand your code base</title><link>http://baptiste-wicht.com/posts/2012/08/architexa-free-understand-code-base.html</link><dc:creator>Baptiste Wicht</dc:creator><description>&lt;div&gt;&lt;p&gt;&lt;strong&gt;Architexa&lt;/strong&gt; is a tool suite that helps a team to document collaboratively a large Java code base. The tool is made for a whole team to understand a code base. The tool is available as an Eclipse plugin.&lt;/p&gt;
+&lt;p&gt;When several developers are working on a large application, it is not always simple to have a whole view of the application. Even with some documentation of the application code. It is even harder for a new developer that joins the project to know what the code base is about. In all these cases, Architexa will help your team. It can also be useful when you inherit an application.&lt;/p&gt;
+&lt;p&gt;Starting from today, &lt;strong&gt;Architexa is available for free&lt;/strong&gt; &lt;strong&gt;for individuals and for teams of up to three developers&lt;/strong&gt;. You can read the official announce at the end of the article.&lt;/p&gt;
+&lt;h4&gt;My Review of Architexa&lt;/h4&gt;
+
+&lt;p&gt;I tried Architexa on several of my current Java Projects, but never in team. So perhaps my point of view is not very accurate regarding to general users of the tool. I made my tests using Eclipse Juno.&lt;/p&gt;
+&lt;p&gt;However, even when working alone on a project, I think that this tool is very useful.&lt;/p&gt;
+&lt;p&gt;The installation is very straightforward, you just have to use the update site directly in Eclipse. Then, you have several new options in the EDI to use Architexa features.&lt;/p&gt;
+&lt;p&gt;Three diagrams are available in the Architexa tool suite:&lt;/p&gt;
+&lt;ul&gt;
+    &lt;li&gt;&lt;strong&gt;Class Diagram&lt;/strong&gt; : This diagram can be automatically generated for a package, or several packages.&lt;/li&gt;
+    &lt;li&gt;&lt;strong&gt;Sequence Diagram&lt;/strong&gt; : You can create Sequence Diagrams for some of your program actions.&lt;/li&gt;
+    &lt;li&gt;&lt;strong&gt;Layered Diagram&lt;/strong&gt; : This diagram allows you to represent the architecture of your application. The system allows you to represent several levels of details.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;You can easily have several diagrams of each type in your project. You can store them as local files, in a server or in the community server to make them available for everyone.&lt;/p&gt;
+&lt;p&gt;You can add comment in each diagram. In each diagram you can also access the Javadoc of each class. Of course, you can also access any piece of code from your diagrams.&lt;/p&gt;
+&lt;h4&gt;Advantages&lt;/h4&gt;
+
+&lt;ul&gt;
+    &lt;li&gt;Architexa is very simple to use. The tool have access to very good guides directly inside the IDE.&lt;/li&gt;
+    &lt;li&gt;The Real-Time Code analysis is awesome. Once something is in a diagram, it is always kept up to date.&lt;/li&gt;
+    &lt;li&gt;The sharing features are also great.&lt;/li&gt;
+    &lt;li&gt;Even if there are fews diagrams, I think that there are largely enough to have a very good understanding of a code base.&lt;/li&gt;
+    &lt;li&gt;All the graphs looks very nice, there are very readable&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h4&gt;Drawbacks&lt;/h4&gt;
+
+&lt;ul&gt;
+    &lt;li&gt;No support for generics and enums.&lt;/li&gt;
+    &lt;li&gt;The tool is only available as an Eclipse plugin. I'm especially using IntelliJ Idea and NetBeans.&lt;/li&gt;
+    &lt;li&gt;The tool is only available for Java. There is a prototype for C/C++ that is available on demand, but I didn't tried it at the current time.&lt;/li&gt;
+    &lt;li&gt;Sometimes, the creation of a very simple diagram takes a bit long time for my feeling. Creating a diagram with three elements can take several seconds. Perhaps, it is better with larger diagrams. I haven't had the occasion to test it with large code .&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h4&gt;Conclusion&lt;/h4&gt;
+
+&lt;p&gt;To conclude, Architexa is a great tool suite. It is useful for any Java developers that works in a large application. It allows them to have better understanding of its code base.&lt;/p&gt;
+&lt;p&gt;The official announce: &lt;a title="Architexa Toolsuite is Now Available for Free" href="http://www.architexa.com/blog/architexa-toolsuite-is-now-available-for-free/"&gt;Architexa Tool suite is Now Available for Free&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;More information on the official site: &lt;a href="http://www.architexa.com/"&gt;http://www.architexa.com/&lt;/a&gt;&lt;/p&gt;&lt;/div&gt;</description><category>Conception</category><category>Java</category><category>Tools</category><guid>http://baptiste-wicht.com/posts/2012/08/architexa-free-understand-code-base.html</guid><pubDate>Wed, 22 Aug 2012 03:00:37 GMT</pubDate></item><item><title>Develop a modular application - The loading</title><link>http://baptiste-wicht.com/posts/2010/05/modular-application-loading-modules.html</link><dc:creator>Baptiste Wicht</dc:creator><description>&lt;div&gt;&lt;p&gt;Now that we've seen &lt;a href="http://www.baptiste-wicht.com/2010/05/develop-a-modular-application-implementation/"&gt;how to describe a module in Java&lt;/a&gt;, we'll see how to load it dynamically in our application.&lt;/p&gt;
+&lt;p&gt;In Java, all the classes are loaded using several ClassLoader.In this article, we'll develop a loader for our modules and watch the problems that arrive when working with custom ClassLoaders.&lt;/p&gt;
+&lt;p class="more"&gt;&lt;a href="http://baptiste-wicht.com/posts/2010/05/modular-application-loading-modules.html"&gt;Read more…&lt;/a&gt;&lt;/p&gt;&lt;/div&gt;</description><category>Conception</category><category>Java</category><category>Modular</category><guid>http://baptiste-wicht.com/posts/2010/05/modular-application-loading-modules.html</guid><pubDate>Fri, 14 May 2010 04:33:40 GMT</pubDate></item><item><title>Develop a modular application – Implementation</title><link>http://baptiste-wicht.com/posts/2010/05/develop-a-modular-application-implementation.html</link><dc:creator>Baptiste Wicht</dc:creator><description>&lt;div&gt;&lt;p&gt;Now that we saw in details &lt;a href="http://www.baptiste-wicht.com/2010/05/modular-application-modules/"&gt;the characteristics of the modules&lt;/a&gt;, we'll see how to implement a module.&lt;/p&gt;
+&lt;p&gt;We need a simple container for our module to load it after with a loader from the modular application.&lt;/p&gt;
+&lt;p&gt;In this post, we'll only see what will be a module in Java, we'll the loading of the modules in the next (and last) post.&lt;/p&gt;
+&lt;p class="more"&gt;&lt;a href="http://baptiste-wicht.com/posts/2010/05/develop-a-modular-application-implementation.html"&gt;Read more…&lt;/a&gt;&lt;/p&gt;&lt;/div&gt;</description><category>Conception</category><category>Java</category><category>Modular</category><guid>http://baptiste-wicht.com/posts/2010/05/develop-a-modular-application-implementation.html</guid><pubDate>Wed, 12 May 2010 04:29:23 GMT</pubDate></item><item><title>Develop a modular application – The modules</title><link>http://baptiste-wicht.com/posts/2010/05/modular-application-modules.html</link><dc:creator>Baptiste Wicht</dc:creator><description>&lt;div&gt;&lt;p&gt;After &lt;a href="http://www.baptiste-wicht.com/2010/05/develop-a-modular-application-bases/"&gt;explaining what's a modular application&lt;/a&gt;, I'll now explain with more details the concept of modules.&lt;/p&gt;
+&lt;p&gt;We said that a module add features to the application. But before writing any code, we've to define exactly what are the modules, what they can do if there is several types of modules, ...&lt;/p&gt;
+&lt;p&gt;This is what we'll see in this post.&lt;/p&gt;
+&lt;p class="more"&gt;&lt;a href="http://baptiste-wicht.com/posts/2010/05/modular-application-modules.html"&gt;Read more…&lt;/a&gt;&lt;/p&gt;&lt;/div&gt;</description><category>Conception</category><category>Java</category><category>Modular</category><guid>http://baptiste-wicht.com/posts/2010/05/modular-application-modules.html</guid><pubDate>Mon, 10 May 2010 04:24:29 GMT</pubDate></item><item><title>Develop a modular application – Bases</title><link>http://baptiste-wicht.com/posts/2010/05/develop-a-modular-application-bases.html</link><dc:creator>Baptiste Wicht</dc:creator><description>&lt;div&gt;&lt;p&gt;This is the first post of four posts about modular applications.&lt;/p&gt;
+&lt;p&gt;I'll try to explain all the things we must think of when we develop a modular application. I'm developing a generic core for modular applications, JTheque. So what I'm saying in this posts are taken from my experience developing this framework. &lt;/p&gt;
+&lt;p&gt;In this post, i'll start talking of the bases of the conception of modular application. So what's a modular application, a module and what give to the developer and the user to have a modular application ? In the next posts, I'll describe the problems we could found relating to modules and loading. The examples will be in Java, but all the concepts can be applied to every language. I'll not talk about OSGi, this is more an introduction to modular programming without specific framework, but of course, OSGi is a very good solution to modular programming.&lt;/p&gt;
+&lt;p&gt;Of course, I don't think i'm a professional in modular programming and what I'll say in this post, is nothing else than my point of view. If you think there is better solutions than what I present, don't hesitate to say that in comments.&lt;/p&gt;
+&lt;p class="more"&gt;&lt;a href="http://baptiste-wicht.com/posts/2010/05/develop-a-modular-application-bases.html"&gt;Read more…&lt;/a&gt;&lt;/p&gt;&lt;/div&gt;</description><category>Conception</category><category>Java</category><category>Modular</category><guid>http://baptiste-wicht.com/posts/2010/05/develop-a-modular-application-bases.html</guid><pubDate>Thu, 06 May 2010 04:28:38 GMT</pubDate></item><item><title>Find closest pair of point with Plane Sweep Algorithm in O(n ln n)</title><link>http://baptiste-wicht.com/posts/2010/04/closest-pair-of-point-plane-sweep-algorithm.html</link><dc:creator>Baptiste Wicht</dc:creator><description>&lt;div&gt;&lt;p&gt;Finding the closest pair of Point in a given collection of points is a standard problem in computational geometry. In this article I'll explain an efficient algorithm using plane sweep, compare it to the naive implementation and discuss its complexity.&lt;/p&gt;
+&lt;p class="more"&gt;&lt;a href="http://baptiste-wicht.com/posts/2010/04/closest-pair-of-point-plane-sweep-algorithm.html"&gt;Read more…&lt;/a&gt;&lt;/p&gt;&lt;/div&gt;</description><category>Algorithm</category><category>Benchmarks</category><category>Conception</category><category>Java</category><category>Performances</category><guid>http://baptiste-wicht.com/posts/2010/04/closest-pair-of-point-plane-sweep-algorithm.html</guid><pubDate>Tue, 27 Apr 2010 14:08:10 GMT</pubDate></item><item><title>JTheque : Problems when migrating to OSGi</title><link>http://baptiste-wicht.com/posts/2010/04/jtheque-problems-migrating-osgi.html</link><dc:creator>Baptiste Wicht</dc:creator><description>&lt;div&gt;&lt;p&gt;Like you perhaps know, i'm currently &lt;a title="JTheque is going to OSGi" href="http://www.baptiste-wicht.com/2010/03/jtheque-is-going-to-osgi/" target="_self"&gt;migrating JTheque to OSGi&lt;/a&gt;. During this migration i found several problems in the JTheque architecture that made the migration impossible without changing some concepts. In this post I'll detail all the problems I found.&lt;/p&gt;
+&lt;h5&gt;Resources&lt;/h5&gt;
+
+&lt;p&gt;First of all, i had to completely change the way to cache resources. Before, i used a ResourceManager to cache images/icons. To get an image/icon, i gave to it the path to the resource and the manager made the rest. I used Spring to load the resources (using the Resource class). That worked well because all the modules and the core were in the same application context.&lt;/p&gt;
+&lt;p&gt;But now, there is an application context for each OSGi bundle, so that doesn't work at all. So i had to find an other way. The manager cannot load the resources because they're accessible from the other bundles. So I changes the way the manager works :&lt;/p&gt;
+&lt;ol&gt;
+    &lt;li&gt;The modules must register all the resources they need in the resource manager. They can always use Spring to load the resource or direct use the Resource class to load it.&lt;/li&gt;
+    &lt;li&gt;When the module need an image/icon, it ask the resource manager. The manager watch on the cache (the cache associates the Resource to the loaded image/icon) if the image is already cached. If it's cached, it directly return the image else, it load the image from the resource and return the loaded image&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;In that way, the resource manager doesn't have to access directly to resources on other bundles and everything works well.&lt;/p&gt;
+&lt;h4&gt;States&lt;/h4&gt;
+
+&lt;p&gt;The states are a way to store configuration for the modules. Before, the states must implements an interface and when they we're saved, the class were saved in a file and at startup created by reflection. But that's was not possible anymore, because the class was not accessible from the state bundle.&lt;/p&gt;
+&lt;p&gt;So I changed the way the data were saved using directly methods of the interface to get the stored data and to restore them at startup. Moreover, I also replaced the interface by annotations.&lt;/p&gt;
+&lt;h4&gt;Miscellaneous&lt;/h4&gt;
+
+&lt;p&gt;More than these other major changes, i've also some others problems :&lt;/p&gt;
+&lt;ul&gt;
+    &lt;li&gt;The JDBC driver class was not accessible. I add the package import to the manifest headers and get the driver version from SpringSource Repository to works with OSGi&lt;/li&gt;
+    &lt;li&gt;Substance doesn't work anymore. At this time, i don't know i that comes from OSGi or from other changes i made in the application, but i've not solved this problem.&lt;/li&gt;
+&lt;/ul&gt;&lt;/div&gt;</description><category>Conception</category><category>JTheque</category><category>OSGi</category><guid>http://baptiste-wicht.com/posts/2010/04/jtheque-problems-migrating-osgi.html</guid><pubDate>Sun, 18 Apr 2010 08:57:50 GMT</pubDate></item><item><title>OSGi and cyclic dependencies</title><link>http://baptiste-wicht.com/posts/2010/03/osgi-and-cyclic-dependencies.html</link><dc:creator>Baptiste Wicht</dc:creator><description>&lt;div&gt;&lt;p&gt;I'm currently working on the "bundlisation" of the JTheque Core. I choose to cut core into several bundles each one representing a service provided by the core. &lt;/p&gt;
+&lt;p&gt;I quickly have experencied problems with &lt;/p&gt;
+&lt;p&gt;I quickly realized that the decoupling of my various services was almost nil. I had a huge number of dependencies for each bundle and worse, I had a lot of cyclic dependencies, either direct or indirect.&lt;/p&gt;
+&lt;p&gt;For information, a direct cyclic dependency is a situation in which a bundle X depends on a bundle that depends on Y who is also depending itself of X. An indirect dependency cycle is the situation where X depends on Y, Y depends on Z and Z depends on X. I speak here of bundles, but it may relate to projects, classes or packages.&lt;/p&gt;
+&lt;p&gt;Note that the different techniques that I will present also apply for dependencies between components non-OSGi, the principles are exactly the same.&lt;/p&gt;
+&lt;p class="more"&gt;&lt;a href="http://baptiste-wicht.com/posts/2010/03/osgi-and-cyclic-dependencies.html"&gt;Read more…&lt;/a&gt;&lt;/p&gt;&lt;/div&gt;</description><category>Conception</category><category>Java</category><category>JTheque</category><category>OSGi</category><guid>http://baptiste-wicht.com/posts/2010/03/osgi-and-cyclic-dependencies.html</guid><pubDate>Mon, 15 Mar 2010 15:19:54 GMT</pubDate></item><item><title>Develop a modular application with JTheque Core 2.0.3</title><link>http://baptiste-wicht.com/posts/2010/02/modular-application-jtheque-core-2-0-3.html</link><dc:creator>Baptiste Wicht</dc:creator><description>&lt;div&gt;&lt;h4&gt;1. Introduction&lt;/h4&gt;
+
+&lt;p&gt;This article will teach you how to develop a first application with JTheque Core.&lt;/p&gt;
+&lt;p&gt;We will develop a basic modular application, like an hello world. This little program will be composed of :&lt;/p&gt;
+&lt;ul&gt;
+    &lt;li&gt;A JTheque application&lt;/li&gt;
+    &lt;li&gt;A JTheque module who display an Hello World on the main view&lt;/li&gt;
+    &lt;li&gt;A module who will add an option menu to display one more time "Hello World"&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p class="more"&gt;&lt;a href="http://baptiste-wicht.com/posts/2010/02/modular-application-jtheque-core-2-0-3.html"&gt;Read more…&lt;/a&gt;&lt;/p&gt;&lt;/div&gt;</description><category>Conception</category><category>Java</category><category>JTheque</category><category>Modular</category><guid>http://baptiste-wicht.com/posts/2010/02/modular-application-jtheque-core-2-0-3.html</guid><pubDate>Sun, 07 Feb 2010 04:38:45 GMT</pubDate></item></channel></rss>

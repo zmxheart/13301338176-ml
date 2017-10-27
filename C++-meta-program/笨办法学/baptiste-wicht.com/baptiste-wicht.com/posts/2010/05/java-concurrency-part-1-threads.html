@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html prefix="og: http://ogp.me/ns# article: http://ogp.me/ns/article# " lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Java Concurrency - Part 1 : Threads | Blog blog("Baptiste Wicht");</title>
+<script src="/cdn-cgi/apps/head/98vpnawSZZMscPn4oDND-ZgswjM.js"></script><link href="../../../assets/css/all-nocdn.css" rel="stylesheet" type="text/css">
+<meta name="theme-color" content="#5670d4">
+<meta name="generator" content="Nikola (getnikola.com)">
+<link rel="alternate" type="application/rss+xml" title="RSS" href="../../../rss.xml">
+<link rel="canonical" href="http://baptiste-wicht.com/posts/2010/05/java-concurrency-part-1-threads.html">
+<!--[if lt IE 9]><script src="../../../assets/js/html5.js"></script><![endif]--><meta name="author" content="Baptiste Wicht">
+<link rel="prev" href="develop-a-modular-application-bases.html" title="Develop a modular application – Bases" type="text/html">
+<link rel="next" href="modular-application-modules.html" title="Develop a modular application – The modules" type="text/html">
+<meta property="og:site_name" content='Blog blog("Baptiste Wicht");'>
+<meta property="og:title" content="Java Concurrency - Part 1 : Threads">
+<meta property="og:url" content="http://baptiste-wicht.com/posts/2010/05/java-concurrency-part-1-threads.html">
+<meta property="og:description" content="This post is the first of set of posts about Java Concurrency.
+The concurrency is the fact to made several things at the same time using several threads.
+A thread, also called Lightweight Process, is ">
+<meta property="og:type" content="article">
+<meta property="article:published_time" content="2010-05-07T06:12:33+02:00">
+<meta property="article:tag" content="Concurrency">
+<meta property="article:tag" content="Java">
+<link href="../../../favicon.ico" rel="icon" type="image/x-icon">
+<link rel="publisher" href="https://plus.google.com/+BaptisteWicht">
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-2175227-7', 'auto');
+  var metas = document.getElementsByTagName('meta'), tagsList = [];
+  for (var i=0; i<metas.length; i++) {
+    if (metas[i].getAttribute('property') == 'article:tag') {
+      tagsList.push( metas[i].getAttribute('content'));
+    }
+  }
+  ga('set', 'dimension1', tagsList.join('|'));
+  ga('send', 'pageview');
+</script>
+</head>
+<body>
+
+<a href="#content" class="sr-only sr-only-focusable">Skip to main content</a>
+<div class="container-fluid">
+
+<div class="row">
+<div class="col-sm-3 col-lg-2">
+<nav class="navbar navbar-inverse navbar-fixed-side"><div class="navbar-header">
+<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+<span class="sr-only">Toggle navigation</span>
+<span class="icon-bar"></span>
+<span class="icon-bar"></span>
+<span class="icon-bar"></span>
+</button>
+<a class="navbar-brand" href="http://baptiste-wicht.com/">
+<span id="blog-title">Blog blog("Baptiste Wicht");</span>
+</a>
+</div>
+
+<div class="collapse navbar-collapse navbar-ex1-collapse">
+<ul class="nav navbar-nav">
+<li>
+<a href="../../../stories/about.html">About</a>
+</li>
+<li>
+<a href="../../../stories/publications.html">Publications</a>
+</li>
+<li>
+<a href="../../../stories/projects.html">Projects</a>
+</li>
+<li>
+<a href="../../../categories/index.html">Tags</a>
+</li>
+<li>
+<a href="../../../archive.html">Archives</a>
+</li>
+<li>
+<a href="http://feeds.feedburner.com/BaptisteWicht">RSS</a>
+</li>
+<li class="navbar-content">
+<h3>Related posts</h3>
+</li>
+<li><a href="../../2012/03/cpp11-concurrency-part1-start-threads.html">C++11 Concurrency - Part 1 : Start Threads</a></li>
+<li><a href="java-concurrency-part-2-manipulate-threads.html">Java Concurrency : Part 2 - Manipulate Threads</a></li>
+<li><a href="../09/java-concurrency-part-7-executors-and-thread-pools.html">Java Concurrency - Part 7 : Executors and thread pools</a></li>
+<li><a href="../08/java-concurrrency-synchronization-locks.html">Java Concurrency – Part 3 : Synchronization with intrinsic locks</a></li>
+<li><a href="../../2012/04/c11-concurrency-tutorial-advanced-locking-and-condition-variables.html">C++11 Concurrency Tutorial - Part 3: Advanced locking and condition variables</a></li>
+<li><a href="../../2012/03/cp11-concurrency-tutorial-part-2-protect-shared-data.html">C++11 Concurrency Tutorial - Part 2 : Protect shared data</a></li>
+<li class="navbar-block">
+<li class="wicht-navbar-right">
+<a target="_blank" title="Follow @wichtounet on Twitter" href="https://twitter.com/wichtounet">
+<img src="../../../assets/img/twitter.png" alt="Follow @wichtounet on Twitter"></a>
+</li>
+<li class="wicht-navbar-right">
+<a target="_blank" title="Follow +BaptisteWicht on Google+" href="https://plus.google.com/+BaptisteWicht">
+<img src="../../../assets/img/google_plus.png" alt="Follow +BaptisteWicht on Google+"></a>
+</li>
+</ul>
+</div>
+
+</nav>
+</div> 
+<div class="col-sm-9 col-lg-10">
+<div id="content"></div>
+<article class="post-text h-entry hentry postpage" itemscope="itemscope" itemtype="http://schema.org/Article"><header><h1 class="p-name entry-title" itemprop="headline name"><a href="#" class="u-url">Java Concurrency - Part 1 : Threads</a></h1>
+<div class="metadata">
+<p class="byline author vcard"><span class="byline-name fn" itemprop="author">
+Baptiste Wicht
+</span></p>
+<p class="dateline"><a href="#" rel="bookmark"><time class="published dt-published" datetime="2010-05-07T06:12:33+02:00" itemprop="datePublished" title="2010-05-07 06:12">2010-05-07 06:12</time></a></p>
+<p class="commentline">
+<a href="java-concurrency-part-1-threads.html#disqus_thread" data-disqus-identifier="cache/posts/2010/05/java-concurrency-part-1-threads.html">Comments</a>
+</p>
+<p class="sourceline"><a href="java-concurrency-part-1-threads.wp" class="sourcelink">Source</a></p>
+</div>
+</header><div class="e-content entry-content" itemprop="articleBody text">
+<div>
+<p>This post is the first of set of posts about <strong>Java Concurrency</strong>.</p>
+<p>The concurrency is the fact to made several things at the same time using several threads.</p>
+<p>A thread, also called <strong>Lightweight Process</strong>, is treatment unity. Threads executes code in <strong>parallel</strong> of each other threads currently running. When you've only one processor, there is a thread running at the same time of the others, you only have the impression of <strong>concurrency</strong> (I don't say it's not useful, I say it's different), but when you've <strong>multiple processors</strong>, you'll see the power of multithreading. In this case, you can have your threads distributed on the processors of the computer.</p>
+
+<p>In Java, a thread is an instance of the class java.lang.Thread. A Thread can be managed in one of these two ways :</p>
+<ol>
+<li>Directly mapped to a native thread of the operating system. This is used when the operating system provide a preemptive threading system.</li>
+<li>Managed by the virtual machine in a preemptive way.</li>
+</ol>
+<p>A preemptive system, is a system in which the threads are managed by a scheduler and can be interrupted at any time to give processor to an other thread. When you program, you doesn't have to pay attention of which type of threads you use, the result will normally be the same. But you've to know that there can differences between operating systems.</p>
+<p>There is three very important concepts when doing concurrent programming :</p>
+<ol>
+<li>Atomicity : An operation is said atomic when it cannot be interrupted. There is almost no atomic operations in Java, the only we've is the assignation a = 5, but a = b++ is not atomic. In some cases, you'll have to make atomic some actions with synchronization, we'll see later how to do that.</li>
+<li>Visibility : This occurs when a thread must watch the actions of an other threads by example the termination of the thread. This also implies some kind of synchronization.</li>
+<li>Order of execution : When you have normal program, all you lines of code run in the same order every time you launch the application. This is not the case when you make concurrent programming. You first instruction can followed by an instruction of the thread B or by the first instruction. And that can change every time you launch the application. <strong>The order of execution is not guaranteed !</strong> I will certainly repeat that sometimes, but that's important to know.</li>
+</ol>
+<p>We'll see these concepts more deeply in the others parts of the set.</p>
+<p>Lets start introducing the Thread class in Java. You can create threads in two ways :</p>
+<ol>
+<li>Extends <strong>Thread</strong>
+</li>
+<li>Implements <strong>Runnable</strong> and pass an instance of your news class to the Thread constructor</li>
+</ol>
+<p>The first solution isn't a good solution because what you're creating is not a new specialized thread, but several instructions to run in a new Thread, namely a Runnable. Implementing Runnable is also better because Runnable is an interface and so, you can also extends a class and implementing Runnable, that's useful in some cases.</p>
+<p>In my examples, I'll always use the second way. So let's declare our first Runnable :</p>
+<pre class="code literal-block"><span></span><span class="kd">public</span> <span class="kd">class</span> <span class="nc">MyFirstRunnable</span> <span class="kd">implements</span> <span class="n">Runnable</span><span class="o">{</span>
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">run</span><span class="o">()</span> <span class="o">{</span>
+        <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"In a thread"</span><span class="o">);</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</pre>
+<p>And use it to create a new Thread and start it :</p>
+<pre class="code literal-block"><span></span><span class="n">Thread</span> <span class="n">thread</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Thread</span><span class="o">(</span><span class="k">new</span> <span class="n">MyFirstRunnable</span><span class="o">());</span>
+<span class="n">thread</span><span class="o">.</span><span class="na">start</span><span class="o">();</span>
+</pre>
+<p>The Thread will stopped when the end of the run() will be reached. You cannot force a thread to stop (there is stop() method, but deprecated), we'll see later how to properly stop a thread.</p>
+<p>And now, what happens if we add a simple line of code to our program :</p>
+<pre class="code literal-block"><span></span><span class="n">Thread</span> <span class="n">thread</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Thread</span><span class="o">(</span><span class="k">new</span> <span class="n">MyFirstRunnable</span><span class="o">());</span>
+<span class="n">thread</span><span class="o">.</span><span class="na">start</span><span class="o">();</span>
+<span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"In the main Thread"</span><span class="o">);</span>
+</pre>
+<p>Can you predict the result of this code ? Nobody can't, it's not predictable, you can have :</p>
+<pre>In a thread
+In the main Thread</pre>
+<p>or</p>
+<pre>In the main Thread
+In a thread</pre>
+<p>And we cannot do better than that.</p>
+<p>You can use the Runnable several times :</p>
+<pre class="code literal-block"><span></span><span class="n">Runnable</span> <span class="n">runnable</span> <span class="o">=</span> <span class="k">new</span> <span class="n">MyFirstRunnable</span><span class="o">();</span>
+
+<span class="k">for</span><span class="o">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span> <span class="n">i</span> <span class="o">&amp;</span><span class="n">amp</span><span class="o">;</span><span class="n">lt</span><span class="o">;</span> <span class="mi">25</span><span class="o">;</span> <span class="n">i</span><span class="o">++){</span>
+    <span class="k">new</span> <span class="n">Thread</span><span class="o">(</span><span class="n">runnable</span><span class="o">).</span><span class="na">start</span><span class="o">();</span>
+<span class="o">}</span>
+</pre>
+<p>Now, 25 threads are launched.</p>
+<p>You can also give names to Thread using the setName() method. You can get the name of the current thread using Thread.currentThread().getName(). Let's do a little example :</p>
+<pre class="code literal-block"><span></span><span class="kd">public</span> <span class="kd">class</span> <span class="nc">MySecondRunnable</span> <span class="kd">implements</span> <span class="n">Runnable</span><span class="o">{</span>
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">run</span><span class="o">()</span> <span class="o">{</span>
+        <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">printf</span><span class="o">(</span><span class="s">"I'm running in thread %s \n"</span><span class="o">,</span> <span class="n">Thread</span><span class="o">.</span><span class="na">currentThread</span><span class="o">().</span><span class="na">getName</span><span class="o">());</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</pre>
+<pre class="code literal-block"><span></span><span class="n">Runnable</span> <span class="n">runnable</span> <span class="o">=</span> <span class="k">new</span> <span class="n">MySecondRunnable</span><span class="o">();</span>
+
+<span class="k">for</span><span class="o">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span> <span class="n">i</span> <span class="o">&amp;</span><span class="n">amp</span><span class="o">;</span><span class="n">lt</span><span class="o">;</span> <span class="mi">25</span><span class="o">;</span> <span class="n">i</span><span class="o">++){</span>
+    <span class="n">Thread</span> <span class="n">thread</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Thread</span><span class="o">(</span><span class="n">runnable</span><span class="o">);</span>
+    <span class="n">thread</span><span class="o">.</span><span class="na">setName</span><span class="o">(</span><span class="s">"Thread "</span> <span class="o">+</span> <span class="n">i</span><span class="o">);</span>
+    <span class="n">thread</span><span class="o">.</span><span class="na">start</span><span class="o">();</span>
+<span class="o">}</span>
+</pre>
+<p>This is the best example to see that the other is unpredictable. Here are two executions on my machine :</p>
+<p>1.</p>
+<pre>I'm running in thread Thread 0
+I'm running in thread Thread 1
+I'm running in thread Thread 2
+I'm running in thread Thread 3
+I'm running in thread Thread 4
+I'm running in thread Thread 5
+I'm running in thread Thread 7
+I'm running in thread Thread 14
+I'm running in thread Thread 13
+I'm running in thread Thread 12
+I'm running in thread Thread 11
+I'm running in thread Thread 10
+I'm running in thread Thread 9
+I'm running in thread Thread 8
+I'm running in thread Thread 6
+I'm running in thread Thread 15
+I'm running in thread Thread 16
+I'm running in thread Thread 17
+I'm running in thread Thread 18
+I'm running in thread Thread 19
+I'm running in thread Thread 20
+I'm running in thread Thread 21
+I'm running in thread Thread 22
+I'm running in thread Thread 23
+I'm running in thread Thread 24</pre>
+<p>2.</p>
+<pre>I'm running in thread Thread 0
+I'm running in thread Thread 1
+I'm running in thread Thread 2
+I'm running in thread Thread 3
+I'm running in thread Thread 4
+I'm running in thread Thread 5
+I'm running in thread Thread 6
+I'm running in thread Thread 7
+I'm running in thread Thread 8
+I'm running in thread Thread 9
+I'm running in thread Thread 10
+I'm running in thread Thread 11
+I'm running in thread Thread 12
+I'm running in thread Thread 13
+I'm running in thread Thread 14
+I'm running in thread Thread 15
+I'm running in thread Thread 16
+I'm running in thread Thread 17
+I'm running in thread Thread 18
+I'm running in thread Thread 19
+I'm running in thread Thread 20
+I'm running in thread Thread 21
+I'm running in thread Thread 22
+I'm running in thread Thread 23
+I'm running in thread Thread 24</pre>
+<p>Like you can see, the order the threads instructions are executed is not guaranteed at all.</p>
+<p>So here we are with the first part of this suite of articles about Java Concurrency. In the next post, we'll see the operations you can make directly on threads (stopping, joining, sleeping, ...).</p>
+<p>I hope you found that post interesting.</p>
+<p>The sources of this post are available here : <a href="../../../wp-content/uploads/2010/05/Part1.tar.gz">Java Concurrency Sources Part 1</a>.</p>
+</div>
+</div>
+<aside class="postpromonav"><nav><ul itemprop="keywords" class="tags">
+<li><a class="tag p-category" href="../../../categories/concurrency.html" rel="tag">Concurrency</a></li>
+<li><a class="tag p-category" href="../../../categories/java.html" rel="tag">Java</a></li>
+</ul>
+<ul class="pager hidden-print">
+<li class="previous">
+<a href="develop-a-modular-application-bases.html" rel="prev" title="Develop a modular application – Bases">Previous post</a>
+</li>
+<li class="next">
+<a href="modular-application-modules.html" rel="next" title="Develop a modular application – The modules">Next post</a>
+</li>
+</ul></nav></aside><section class="comments hidden-print"><h2>Comments</h2>
+<div id="disqus_thread"></div>
+<script>
+        var disqus_shortname ="blogwichtounet",
+            disqus_url="http://baptiste-wicht.com/posts/2010/05/java-concurrency-part-1-threads.html",
+        disqus_title="Java Concurrency - Part 1 : Threads",
+        disqus_identifier="cache/posts/2010/05/java-concurrency-part-1-threads.html",
+        disqus_config = function () {
+            this.language = "en";
+        };
+        (function() {
+            var dsq = document.createElement('script'); dsq.async = true;
+            dsq.src = 'https://' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        })();
+    </script><noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a>
+</noscript>
+<a href="https://disqus.com" class="dsq-brlink" rel="nofollow">Comments powered by <span class="logo-disqus">Disqus</span></a>
+</section></article><script>var disqus_shortname="blogwichtounet";(function(){var a=document.createElement("script");a.async=true;a.src="https://"+disqus_shortname+".disqus.com/count.js";(document.getElementsByTagName("head")[0]||document.getElementsByTagName("body")[0]).appendChild(a)}());</script>
+</div> 
+</div>
+
+</div>
+
+
+
+<footer>
+Contents © 2017 <a href="/cdn-cgi/l/email-protection#05676475716c767160726c666d71456268646c692b666a68">Baptiste Wicht</a> - Powered by <a href="http://getnikola.com" rel="nofollow">Nikola</a> - License:
+<a rel="license" href="http://creativecommons.org/licenses/by/4.0/"><img alt="Creative Commons License" style="padding-left:5px;border-width:0" src="../../../assets/img/cc.png"></a>
+<ul class="footer_inline_ul">
+<li>
+<a href="java-concurrency-part-1-threads.wp" id="sourcelink">Source</a>
+</li>
+</ul></footer><script src="/cdn-cgi/scripts/78d64697/cloudflare-static/email-decode.min.js"></script><script src="../../../assets/js/all-nocdn.js"></script>
+</body>
+</html>

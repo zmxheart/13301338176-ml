@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html prefix="og: http://ogp.me/ns# article: http://ogp.me/ns/article# " lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Home Server Adventure – Step 3 | Blog blog("Baptiste Wicht");</title>
+<script src="/cdn-cgi/apps/head/98vpnawSZZMscPn4oDND-ZgswjM.js"></script><link href="../../../assets/css/all-nocdn.css" rel="stylesheet" type="text/css">
+<meta name="theme-color" content="#5670d4">
+<meta name="generator" content="Nikola (getnikola.com)">
+<link rel="alternate" type="application/rss+xml" title="RSS" href="../../../rss.xml">
+<link rel="canonical" href="http://baptiste-wicht.com/posts/2014/01/home-server-adventure-step-3.html">
+<!--[if lt IE 9]><script src="../../../assets/js/html5.js"></script><![endif]--><meta name="author" content="Baptiste Wicht">
+<link rel="prev" href="../../2013/12/zabbix-low-level-discovery-cores-cpus-hard-disk.html" title="Zabbix - Low Level Discovery of cores, CPUs and Hard Disk" type="text/html">
+<link rel="next" href="budgetwarrior-0-2-1-minor-changes-gentoo-ebuild.html" title="budgetwarrior 0.2.1 - Minor changes and Gentoo ebuild" type="text/html">
+<meta property="og:site_name" content='Blog blog("Baptiste Wicht");'>
+<meta property="og:title" content="Home Server Adventure – Step 3">
+<meta property="og:url" content="http://baptiste-wicht.com/posts/2014/01/home-server-adventure-step-3.html">
+<meta property="og:description" content="Here are some news about my home server installation project.In the past, I already installed a server in a custom Norco case. I wanted to replace my QNAP NAS with a better server, the QNAP being too ">
+<meta property="og:type" content="article">
+<meta property="article:published_time" content="2014-01-10T13:05:32+01:00">
+<meta property="article:tag" content="Gentoo">
+<meta property="article:tag" content="Hardware">
+<meta property="article:tag" content="Home Server">
+<meta property="article:tag" content="Server">
+<link href="../../../favicon.ico" rel="icon" type="image/x-icon">
+<link rel="publisher" href="https://plus.google.com/+BaptisteWicht">
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-2175227-7', 'auto');
+  var metas = document.getElementsByTagName('meta'), tagsList = [];
+  for (var i=0; i<metas.length; i++) {
+    if (metas[i].getAttribute('property') == 'article:tag') {
+      tagsList.push( metas[i].getAttribute('content'));
+    }
+  }
+  ga('set', 'dimension1', tagsList.join('|'));
+  ga('send', 'pageview');
+</script>
+</head>
+<body>
+
+<a href="#content" class="sr-only sr-only-focusable">Skip to main content</a>
+<div class="container-fluid">
+
+<div class="row">
+<div class="col-sm-3 col-lg-2">
+<nav class="navbar navbar-inverse navbar-fixed-side"><div class="navbar-header">
+<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+<span class="sr-only">Toggle navigation</span>
+<span class="icon-bar"></span>
+<span class="icon-bar"></span>
+<span class="icon-bar"></span>
+</button>
+<a class="navbar-brand" href="http://baptiste-wicht.com/">
+<span id="blog-title">Blog blog("Baptiste Wicht");</span>
+</a>
+</div>
+
+<div class="collapse navbar-collapse navbar-ex1-collapse">
+<ul class="nav navbar-nav">
+<li>
+<a href="../../../stories/about.html">About</a>
+</li>
+<li>
+<a href="../../../stories/publications.html">Publications</a>
+</li>
+<li>
+<a href="../../../stories/projects.html">Projects</a>
+</li>
+<li>
+<a href="../../../categories/index.html">Tags</a>
+</li>
+<li>
+<a href="../../../archive.html">Archives</a>
+</li>
+<li>
+<a href="http://feeds.feedburner.com/BaptisteWicht">RSS</a>
+</li>
+<li class="navbar-content">
+<h3>Related posts</h3>
+</li>
+<li><a href="../../2013/08/home-server-adventure-step-2.html">Home Server Adventure - Step 2</a></li>
+<li><a href="../../2013/07/home-server-adventure-step-1.html">Home Server Adventure - Step 1</a></li>
+<li><a href="../../2013/08/norco-rpc-230-case-review.html">Norco RPC 230 Case Review</a></li>
+<li><a href="../05/ri-vier-rv-2004-rackmount-case-review.html">Ri-Vier RV 2004 Rackmount case Review</a></li>
+<li><a href="../../2013/07/zyxel-gs1910-managed-gigabit-switch-review.html">ZyXEL GS1910-24 Managed Gigabit Switch Review</a></li>
+<li><a href="../../2016/08/asgard-home-automation-project.html">Asgard: Home Automation project</a></li>
+<li class="navbar-block">
+<li class="wicht-navbar-right">
+<a target="_blank" title="Follow @wichtounet on Twitter" href="https://twitter.com/wichtounet">
+<img src="../../../assets/img/twitter.png" alt="Follow @wichtounet on Twitter"></a>
+</li>
+<li class="wicht-navbar-right">
+<a target="_blank" title="Follow +BaptisteWicht on Google+" href="https://plus.google.com/+BaptisteWicht">
+<img src="../../../assets/img/google_plus.png" alt="Follow +BaptisteWicht on Google+"></a>
+</li>
+</ul>
+</div>
+
+</nav>
+</div> 
+<div class="col-sm-9 col-lg-10">
+<div id="content"></div>
+<article class="post-text h-entry hentry postpage" itemscope="itemscope" itemtype="http://schema.org/Article"><header><h1 class="p-name entry-title" itemprop="headline name"><a href="#" class="u-url">Home Server Adventure – Step 3</a></h1>
+<div class="metadata">
+<p class="byline author vcard"><span class="byline-name fn" itemprop="author">
+Baptiste Wicht
+</span></p>
+<p class="dateline"><a href="#" rel="bookmark"><time class="published dt-published" datetime="2014-01-10T13:05:32+01:00" itemprop="datePublished" title="2014-01-10 13:05">2014-01-10 13:05</time></a></p>
+<p class="commentline">
+<a href="home-server-adventure-step-3.html#disqus_thread" data-disqus-identifier="cache/posts/2014/01/home-server-adventure-step-3.html">Comments</a>
+</p>
+<p class="sourceline"><a href="home-server-adventure-step-3.wp" class="sourcelink">Source</a></p>
+</div>
+</header><div class="e-content entry-content" itemprop="articleBody text">
+<div>
+<p>Here are some news about my <a title="Home Server Adventure – Step 2" href="http://www.baptiste-wicht.com/2013/08/home-server-adventure-step-2/">home server installation project</a>.In the past, I already installed a server in a custom Norco case. I wanted to replace my QNAP NAS with a better server, the QNAP being too slow and not extensible enough for my needs.</p>
+<p>Here is it how it looks right now (sorry about the photo qualitiy :( my phone does not seem to focus anymore...):</p>
+<p><a href="../../../wp-content/uploads/2014/01/asdf1.png"><img class="size-medium wp-image-2653" alt="My Home Rack of Server" src="../../../wp-content/uploads/2014/01/asdf1-168x300.png" width="168" height="300"></a></p>
+<p>So I replaced my QNAP NAS with a custom-built NAS. Again, I bought a NORCO case, the RPC-4220. This case has 20 SATA/SAS bays. I bought it with a replacement of the SAS backplane by a SATA one. I also ordered some fan replacement to make it less noisy. I installed my 6 hard disk in Raid 5, managed with mdadm, with LVM partitions on top of the array.</p>
+<p>I also added an APC UPS which allows me to go through all the minor power issues that there is in my old apartment and which also me about 10 minutes of backup when there is a power outage.</p>
+<p>I haven't added a lot of services on the server. I now run Owncloud on the server and that completely replaces my Dropbox account. I also improved by Sabnzbd installation with other newsgroup automation tools.</p>
+<p>Not directly related to my rack, but I also installed a custom XBMC server for my TV. It reads from the NAS server. And of course, it runs Gentoo too.</p>
+<p>In the future, I'll add a new simple server as a front firewall to manage security a bit more than here and avoid having to configure redirection in my shitty router (which I would like to replace, but there are not a lot of compatible rack router for my ISP unfortunately). It will probably use a Norco case too.</p>
+<p>If you have any question about my build, don't hesitate ;)</p>
+</div>
+</div>
+<aside class="postpromonav"><nav><ul itemprop="keywords" class="tags">
+<li><a class="tag p-category" href="../../../categories/gentoo.html" rel="tag">Gentoo</a></li>
+<li><a class="tag p-category" href="../../../categories/hardware.html" rel="tag">Hardware</a></li>
+<li><a class="tag p-category" href="../../../categories/home-server.html" rel="tag">Home Server</a></li>
+<li><a class="tag p-category" href="../../../categories/server.html" rel="tag">Server</a></li>
+</ul>
+<ul class="pager hidden-print">
+<li class="previous">
+<a href="../../2013/12/zabbix-low-level-discovery-cores-cpus-hard-disk.html" rel="prev" title="Zabbix - Low Level Discovery of cores, CPUs and Hard Disk">Previous post</a>
+</li>
+<li class="next">
+<a href="budgetwarrior-0-2-1-minor-changes-gentoo-ebuild.html" rel="next" title="budgetwarrior 0.2.1 - Minor changes and Gentoo ebuild">Next post</a>
+</li>
+</ul></nav></aside><section class="comments hidden-print"><h2>Comments</h2>
+<div id="disqus_thread"></div>
+<script>
+        var disqus_shortname ="blogwichtounet",
+            disqus_url="http://baptiste-wicht.com/posts/2014/01/home-server-adventure-step-3.html",
+        disqus_title="Home Server Adventure \u2013 Step 3",
+        disqus_identifier="cache/posts/2014/01/home-server-adventure-step-3.html",
+        disqus_config = function () {
+            this.language = "en";
+        };
+        (function() {
+            var dsq = document.createElement('script'); dsq.async = true;
+            dsq.src = 'https://' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        })();
+    </script><noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a>
+</noscript>
+<a href="https://disqus.com" class="dsq-brlink" rel="nofollow">Comments powered by <span class="logo-disqus">Disqus</span></a>
+</section></article><script>var disqus_shortname="blogwichtounet";(function(){var a=document.createElement("script");a.async=true;a.src="https://"+disqus_shortname+".disqus.com/count.js";(document.getElementsByTagName("head")[0]||document.getElementsByTagName("body")[0]).appendChild(a)}());</script>
+</div> 
+</div>
+
+</div>
+
+
+
+<footer>
+Contents © 2017 <a href="/cdn-cgi/l/email-protection#c0a2a1b0b4a9b3b4a5b7a9a3a8b480a7ada1a9aceea3afad">Baptiste Wicht</a> - Powered by <a href="http://getnikola.com" rel="nofollow">Nikola</a> - License:
+<a rel="license" href="http://creativecommons.org/licenses/by/4.0/"><img alt="Creative Commons License" style="padding-left:5px;border-width:0" src="../../../assets/img/cc.png"></a>
+<ul class="footer_inline_ul">
+<li>
+<a href="home-server-adventure-step-3.wp" id="sourcelink">Source</a>
+</li>
+</ul></footer><script src="/cdn-cgi/scripts/78d64697/cloudflare-static/email-decode.min.js"></script><script src="../../../assets/js/all-nocdn.js"></script>
+</body>
+</html>

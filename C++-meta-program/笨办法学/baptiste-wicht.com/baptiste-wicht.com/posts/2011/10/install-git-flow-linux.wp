@@ -1,0 +1,18 @@
+One week ago, I started using <strong>git-flow</strong> on eddic. This is a collection of Git extensions to easily follow a branching-model convention for a Git project. I will try to describe this project later on this blog.
+
+You can install git-flow using this simple command:
+
+<pre>wget --no-check-certificate -q -O - https://github.com/nvie/gitflow/raw/develop/contrib/gitflow-installer.sh | sudo sh</pre>
+
+I recommend you to install a script to autocomplete the git-flow commands and params:
+
+<pre>mkdir -p ~/src/external &amp;&amp; cd ~/src/external
+git clone https://github.com/bobthecow/git-flow-completion.git git-flow-completion
+mkdir -p ~/bin/ &amp;&amp; cd ~/bin
+ln -s ~/src/external/git-flow-completion/git-flow-completion.bash ./git-flow-completion.bash</pre>
+
+Then add a simple command in your .bashrc file:
+
+<pre>source ~/bin/git-flow-completion.bash</pre>
+
+If you want an introduction of git-flow, I recommend you this blog post : <a href="http://jeffkreeftmeijer.com/2010/why-arent-you-using-git-flow/" title="Why aren't you using git-flow ?">Why aren't you using git-flow ?</a>

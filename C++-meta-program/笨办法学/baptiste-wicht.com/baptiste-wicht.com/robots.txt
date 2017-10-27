@@ -1,0 +1,4 @@
+Sitemap: http://baptiste-wicht.com/sitemapindex.xml
+
+User-Agent: *
+Host: baptiste-wicht.com

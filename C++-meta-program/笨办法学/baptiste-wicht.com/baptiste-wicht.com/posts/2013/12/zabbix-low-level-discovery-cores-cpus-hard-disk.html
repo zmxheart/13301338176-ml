@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html prefix="og: http://ogp.me/ns# article: http://ogp.me/ns/article# " lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Zabbix - Low Level Discovery of cores, CPUs and Hard Disk | Blog blog("Baptiste Wicht");</title>
+<script src="/cdn-cgi/apps/head/98vpnawSZZMscPn4oDND-ZgswjM.js"></script><link href="../../../assets/css/all-nocdn.css" rel="stylesheet" type="text/css">
+<meta name="theme-color" content="#5670d4">
+<meta name="generator" content="Nikola (getnikola.com)">
+<link rel="alternate" type="application/rss+xml" title="RSS" href="../../../rss.xml">
+<link rel="canonical" href="http://baptiste-wicht.com/posts/2013/12/zabbix-low-level-discovery-cores-cpus-hard-disk.html">
+<!--[if lt IE 9]><script src="../../../assets/js/html5.js"></script><![endif]--><meta name="author" content="Baptiste Wicht">
+<link rel="prev" href="thor-os-boot-process.html" title="Thor OS: Boot Process" type="text/html">
+<link rel="next" href="../../2014/01/home-server-adventure-step-3.html" title="Home Server Adventure – Step 3" type="text/html">
+<meta property="og:site_name" content='Blog blog("Baptiste Wicht");'>
+<meta property="og:title" content="Zabbix - Low Level Discovery of cores, CPUs and Hard Disk">
+<meta property="og:url" content="http://baptiste-wicht.com/posts/2013/12/zabbix-low-level-discovery-cores-cpus-hard-disk.html">
+<meta property="og:description" content="At home, I'm using Zabbix to monitor my servers, it has plenty of interesting features and can be extended a lot by using User Parameter.
+In this post, I'm gonna talk about Low Level Discovery (LLD). ">
+<meta property="og:type" content="article">
+<meta property="article:published_time" content="2013-12-30T09:12:31+01:00">
+<meta property="article:tag" content="Linux">
+<meta property="article:tag" content="Others">
+<meta property="article:tag" content="Server">
+<meta property="article:tag" content="zabbix">
+<link href="../../../favicon.ico" rel="icon" type="image/x-icon">
+<link rel="publisher" href="https://plus.google.com/+BaptisteWicht">
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-2175227-7', 'auto');
+  var metas = document.getElementsByTagName('meta'), tagsList = [];
+  for (var i=0; i<metas.length; i++) {
+    if (metas[i].getAttribute('property') == 'article:tag') {
+      tagsList.push( metas[i].getAttribute('content'));
+    }
+  }
+  ga('set', 'dimension1', tagsList.join('|'));
+  ga('send', 'pageview');
+</script>
+</head>
+<body>
+
+<a href="#content" class="sr-only sr-only-focusable">Skip to main content</a>
+<div class="container-fluid">
+
+<div class="row">
+<div class="col-sm-3 col-lg-2">
+<nav class="navbar navbar-inverse navbar-fixed-side"><div class="navbar-header">
+<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+<span class="sr-only">Toggle navigation</span>
+<span class="icon-bar"></span>
+<span class="icon-bar"></span>
+<span class="icon-bar"></span>
+</button>
+<a class="navbar-brand" href="http://baptiste-wicht.com/">
+<span id="blog-title">Blog blog("Baptiste Wicht");</span>
+</a>
+</div>
+
+<div class="collapse navbar-collapse navbar-ex1-collapse">
+<ul class="nav navbar-nav">
+<li>
+<a href="../../../stories/about.html">About</a>
+</li>
+<li>
+<a href="../../../stories/publications.html">Publications</a>
+</li>
+<li>
+<a href="../../../stories/projects.html">Projects</a>
+</li>
+<li>
+<a href="../../../categories/index.html">Tags</a>
+ </li>
+<li>
+<a href="../../../archive.html">Archives</a>
+</li>
+<li>
+<a href="http://feeds.feedburner.com/BaptisteWicht">RSS</a>
+</li>
+<li class="navbar-content">
+<h3>Related posts</h3>
+</li>
+<li><a href="../../2010/02/hardware-guide-hard-disks.html">Hardware Guide : The Hard Disks</a></li>
+<li><a href="../../2014/05/changing-root-hard-disk-gentoo-lvm-grub2.html">Changing root hard disk on Gentoo with LVM and Grub2</a></li>
+<li><a href="../../2010/07/profile-applications-java-visualvm.html">Profile your applications with Java VisualVM</a></li>
+<li><a href="../../2017/01/new-home-automation-system-with-domoticz.html">New home automation system with Domoticz</a></li>
+<li><a href="../08/home-server-adventure-step-2.html">Home Server Adventure - Step 2</a></li>
+<li><a href="../../2014/05/ri-vier-rv-2004-rackmount-case-review.html">Ri-Vier RV 2004 Rackmount case Review</a></li>
+<li class="navbar-block">
+<li class="wicht-navbar-right">
+<a target="_blank" title="Follow @wichtounet on Twitter" href="https://twitter.com/wichtounet">
+<img src="../../../assets/img/twitter.png" alt="Follow @wichtounet on Twitter"></a>
+</li>
+<li class="wicht-navbar-right">
+<a target="_blank" title="Follow +BaptisteWicht on Google+" href="https://plus.google.com/+BaptisteWicht">
+<img src="../../../assets/img/google_plus.png" alt="Follow +BaptisteWicht on Google+"></a>
+</li>
+</ul>
+</div>
+
+</nav>
+</div> 
+<div class="col-sm-9 col-lg-10">
+<div id="content"></div>
+<article class="post-text h-entry hentry postpage" itemscope="itemscope" itemtype="http://schema.org/Article"><header><h1 class="p-name entry-title" itemprop="headline name"><a href="#" class="u-url">Zabbix - Low Level Discovery of cores, CPUs and Hard Disk</a></h1>
+<div class="metadata">
+<p class="byline author vcard"><span class="byline-name fn" itemprop="author">
+Baptiste Wicht
+</span></p>
+<p class="dateline"><a href="#" rel="bookmark"><time class="published dt-published" datetime="2013-12-30T09:12:31+01:00" itemprop="datePublished" title="2013-12-30 09:12">2013-12-30 09:12</time></a></p>
+<p class="commentline">
+<a href="zabbix-low-level-discovery-cores-cpus-hard-disk.html#disqus_thread" data-disqus-identifier="cache/posts/2013/12/zabbix-low-level-discovery-cores-cpus-hard-disk.html">Comments</a>
+</p>
+<p class="sourceline"><a href="zabbix-low-level-discovery-cores-cpus-hard-disk.wp" class="sourcelink">Source</a></p>
+</div>
+</header><div class="e-content entry-content" itemprop="articleBody text">
+<div>
+<p><a href="../../../wp-content/uploads/2013/12/Screenshot-from-2013-12-29-165743-e1388332859892.png"><img src="../../../wp-content/uploads/2013/12/Screenshot-from-2013-12-29-165743-e1388332859892-300x151.png" alt="Zabbix SSD Status, configured with Low Level Discovery" width="300" height="151" class="size-medium wp-image-2644"></a></p>
+<p>At home, I'm using Zabbix to monitor my servers, it has plenty of interesting features and can be extended a lot by using User Parameter.</p>
+<p>In this post, I'm gonna talk about Low Level Discovery (LLD). If you are only interested in the final result, go the Conclusion section, you can download my template containing all the rules ;)</p>
+<h4>Low Level Discovery (LLD)</h4>
+<p>LLD is a feature to automatically discover some properties of the monitored host and create items, triggers and graphs.</p>
+<p>By default, Zabbix support three types of item discovery:</p>
+<ul>
+<li>Mounted filesystems</li>
+<li>Network interface</li>
+<li>SNMP's OIDs</li>
+</ul>
+<p>The first two are very useful, since they will give you by default, for instance, the free space of each mounted file system or the bandwith going in and out of each network interface. As I only monitor Linux servers, I don't use the last one, but it will eventually interest other people.</p>
+<p>Another very interesting thing about this feature is that you can extend it by discovering more items. In this article, I will show how to discover CPUs, CPU Cores and Hard Disk.</p>
+<p>The most important part of custom discovery is to create a script on the monitored machines that can "discover" something. It can be any executable, the only thing important is that it outputs data in the correct format. I have to say that the format is quite ugly, but that is probably not very important ;) Here is the output of my hard disk discovery script:</p>
+<pre class="code literal-block"><span></span><span class="p">{</span>
+<span class="s2">"data"</span><span class="o">:</span><span class="p">[</span>
+    <span class="p">{</span><span class="s2">"{#DISKNAME}"</span><span class="o">:</span><span class="s2">"/dev/sda"</span><span class="p">,</span><span class="s2">"{#SHORTDISKNAME}"</span><span class="o">:</span><span class="s2">"sda"</span><span class="p">},</span>
+    <span class="p">{</span><span class="s2">"{#DISKNAME}"</span><span class="o">:</span><span class="s2">"/dev/sdb"</span><span class="p">,</span><span class="s2">"{#SHORTDISKNAME}"</span><span class="o">:</span><span class="s2">"sdb"</span><span class="p">},</span>
+    <span class="p">{</span><span class="s2">"{#DISKNAME}"</span><span class="o">:</span><span class="s2">"/dev/sdc"</span><span class="p">,</span><span class="s2">"{#SHORTDISKNAME}"</span><span class="o">:</span><span class="s2">"sdc"</span><span class="p">},</span>
+    <span class="p">{</span><span class="s2">"{#DISKNAME}"</span><span class="o">:</span><span class="s2">"/dev/sdd"</span><span class="p">,</span><span class="s2">"{#SHORTDISKNAME}"</span><span class="o">:</span><span class="s2">"sdd"</span><span class="p">},</span>
+    <span class="p">{</span><span class="s2">"{#DISKNAME}"</span><span class="o">:</span><span class="s2">"/dev/sde"</span><span class="p">,</span><span class="s2">"{#SHORTDISKNAME}"</span><span class="o">:</span><span class="s2">"sde"</span><span class="p">},</span>
+    <span class="p">{</span><span class="s2">"{#DISKNAME}"</span><span class="o">:</span><span class="s2">"/dev/sdf"</span><span class="p">,</span><span class="s2">"{#SHORTDISKNAME}"</span><span class="o">:</span><span class="s2">"sdf"</span><span class="p">},</span>
+    <span class="p">{</span><span class="s2">"{#DISKNAME}"</span><span class="o">:</span><span class="s2">"/dev/sdg"</span><span class="p">,</span><span class="s2">"{#SHORTDISKNAME}"</span><span class="o">:</span><span class="s2">"sdg"</span><span class="p">},</span>
+<span class="p">]</span>
+<span class="p">}</span>
+</pre>
+<p>You can have as many keys for each discovered items, but the format must remains the same. In the item, trigger and graph prototypes, you will then use {#DISKNAME} or {#SHORTDISKNAME} to use the discovered values. </p>
+<p>Once you have created your scripts, you have to register it in the zabbix configuration as a user parameter. For instance, if you use the zabbix daemon, you need these lines in /etc/zabbix/zabbix_agentd.conf: </p>
+<pre class="code literal-block"><span></span><span class="nv">EnableRemoteCommands</span><span class="o">=</span><span class="m">1</span>
+...
+<span class="nv">UnsafeUserParameters</span><span class="o">=</span><span class="m">1</span>
+...
+<span class="nv">UserParameter</span><span class="o">=</span>discovery.hard_disk,/scripts/discover_hdd.sh
+</pre>
+<p>Now, when you will create the discovery rule, you can use discovery.hard_disk as the key. </p>
+<p>A discovery rule in itself is useful without prototypes, you can create three types of prototypes: </p>
+<ul>
+<li>Item Prototype: This will create a new item for each discovered entity</li>
+<li>Trigger Prototype: This will create a new trigger for each discovered entity. </li>
+<li>Graph Prototype: This will create a graph for each discovered entity. </li>
+</ul>
+<p>The most useful are by far the item and trigger prototypes. The biggest problem with graphs is that you cannot create an aggregate graph of each discovered items. For instance, if you record the temperature of your CPU cores, you cannot automatically create a graph with the temperature of each discovered cores. For that, you have to create the graph in each host. Which makes, imho, graph prototypes pretty useless. Anyway...</p>
+<p>In the next section, I'll show how I have created discovery rules for Hard Disk, CPU and CPU cores. </p>
+<h4>Discover Hard Disk</h4>
+<p>The discovery script is really simple: </p>
+<pre class="code literal-block"><span></span><span class="ch">#!/bin/bash</span>
+<span class="nv">disks</span><span class="o">=</span><span class="sb">`</span>ls -l /dev/sd* <span class="p">|</span> awk <span class="s1">'{print $NF}'</span> <span class="p">|</span> sed <span class="s1">'s/[0-9]//g'</span> <span class="p">|</span> uniq<span class="sb">`</span>
+<span class="nb">echo</span> <span class="s2">"{"</span>
+<span class="nb">echo</span> <span class="s2">"\"data\":["</span>
+<span class="k">for</span> disk in <span class="nv">$disks</span>
+<span class="k">do</span>
+    <span class="nb">echo</span> <span class="s2">"    {\"{#DISKNAME}\":\"</span><span class="nv">$disk</span><span class="s2">\",\"{#SHORTDISKNAME}\":\"</span><span class="si">${</span><span class="nv">disk</span><span class="p">:</span><span class="nv">5</span><span class="si">}</span><span class="s2">\"},"</span>
+<span class="k">done</span>
+<span class="nb">echo</span> <span class="s2">"]"</span>
+<span class="nb">echo</span> <span class="s2">"}"</span>
+</pre>
+<p>It just lists all the /dev/sdX devices, remove the partition number and remove the duplicates, to have only the hard disk at the end. </p>
+<p>I've created several item prototypes for each hard disk. Here are some examples using S.M.A.R.T. (you can download the template with all the items in the Conclusion section): </p>
+<ul>
+<li>Raw Read Error Rate</li>
+<li>Spin Up Time</li>
+<li>SSD Life Left</li>
+<li>Temperature</li>
+<li>...</li>
+</ul>
+<p>You may notice that some of them only make sense for SSD (SSD Life Left) and some others do not make any sense for SSD (Spin Up Time). This is not a problem since they will just be marked as Not Supported by Zabbix. </p>
+<p>All these datas are collected using the smartctl utility. </p>
+<p>I've also created some trigger to indicate the coming failure of an hard disk: </p>
+<ul>
+<li>SSD Life Left too low</li>
+<li>Reallocated Sector Count too low</li>
+<li>...</li>
+</ul>
+<p>I've just used the threshold reported by smartctl, they may be different from one disk manufacturers to another. I don't put a lot of faith on these values, since disk generally fail before going to threshold, but it could be a good indicator anyway. </p>
+<h4>Discover CPUs</h4>
+<p>Here is the script to discover CPUs: </p>
+<pre class="code literal-block"><span></span><span class="ch">#!/bin/bash</span>
+<span class="nv">cpus</span><span class="o">=</span><span class="sb">`</span>lscpu <span class="p">|</span> grep <span class="s2">"CPU(s):"</span> <span class="p">|</span> head -1 <span class="p">|</span> awk <span class="s1">'{print $NF}'</span><span class="sb">`</span>
+<span class="nv">cpus</span><span class="o">=</span><span class="k">$((</span><span class="nv">$cpus</span><span class="o">-</span><span class="m">1</span><span class="k">))</span>
+<span class="nb">echo</span> <span class="s2">"{"</span>
+<span class="nb">echo</span> <span class="s2">"\"data\":["</span>
+<span class="k">for</span> cpu in <span class="k">$(</span>seq <span class="m">0</span> <span class="nv">$cpus</span><span class="k">)</span>
+<span class="k">do</span>
+    <span class="nb">echo</span> <span class="s2">"    {\"{#CPUID}\":\"</span><span class="nv">$cpu</span><span class="s2">\"},"</span>
+<span class="k">done</span>
+<span class="nb">echo</span> <span class="s2">"]"</span>
+<span class="nb">echo</span> <span class="s2">"}"</span>
+</pre>
+<p>It just uses lscpu and parses its output to find the number of CPU and then create an entry for each CPUs. </p>
+<p>I just have one item for each CPU: The CPU Utilization. </p>
+<p>I haven't created any trigger here. </p>
+<h4>Discover CPU Cores</h4>
+<p>Just before, we discovered the CPUs, but it is also interesting to discover the cores. If you don't have Hyperthreading, the result will be the same. It is especially interesting to get the temperature of each core. Here is the script: </p>
+<pre class="code literal-block"><span></span><span class="ch">#!/bin/bash</span>
+<span class="nv">cores</span><span class="o">=</span><span class="sb">`</span>lscpu <span class="p">|</span> grep <span class="s2">"Core(s) per socket:"</span> <span class="p">|</span> awk <span class="s1">'{print $NF}'</span><span class="sb">`</span>
+<span class="nv">cores</span><span class="o">=</span><span class="k">$((</span><span class="nv">$cores</span><span class="o">-</span><span class="m">1</span><span class="k">))</span>
+<span class="nb">echo</span> <span class="s2">"{"</span>
+<span class="nb">echo</span> <span class="s2">"\"data\":["</span>
+<span class="k">for</span> core in <span class="k">$(</span>seq <span class="m">0</span> <span class="nv">$cores</span><span class="k">)</span>
+<span class="k">do</span>
+    <span class="nb">echo</span> <span class="s2">"    {\"{#COREID}\":\"</span><span class="nv">$core</span><span class="s2">\"},"</span>
+<span class="k">done</span>
+<span class="nb">echo</span> <span class="s2">"]"</span>
+<span class="nb">echo</span> <span class="s2">"}"</span>
+</pre>
+<p>It works in the same way as the previous script. </p>
+<p>I've only created one item prototype, to get the temperature of each core with lm_sensors. </p>
+<h4>Wrap-Up</h4>
+<p>Here are all the UserParameter necessary to make the discovery and the items works: </p>
+<pre class="code literal-block"><span></span><span class="c1">### System Temperature ###</span>
+<span class="nv">UserParameter</span><span class="o">=</span>system.temperature.core<span class="o">[</span>*<span class="o">]</span>,sensors<span class="p">|</span>grep Core<span class="se">\ </span><span class="nv">$1</span> <span class="p">|</span>cut -d <span class="s2">"("</span> -f <span class="m">1</span><span class="p">|</span>cut -d <span class="s2">"+"</span> -f <span class="m">2</span><span class="p">|</span>cut -c <span class="m">1</span>-4
+<span class="c1">### DISK I/O###</span>
+<span class="nv">UserParameter</span><span class="o">=</span>custom.vfs.dev.read.ops<span class="o">[</span>*<span class="o">]</span>,cat /proc/diskstats <span class="p">|</span> egrep <span class="nv">$1</span> <span class="p">|</span> head -1 <span class="p">|</span> awk <span class="s1">'{print $$4}'</span>
+<span class="nv">UserParameter</span><span class="o">=</span>custom.vfs.dev.read.ms<span class="o">[</span>*<span class="o">]</span>,cat /proc/diskstats <span class="p">|</span> egrep <span class="nv">$1</span> <span class="p">|</span> head -1 <span class="p">|</span> awk <span class="s1">'{print $$7}'</span>
+<span class="nv">UserParameter</span><span class="o">=</span>custom.vfs.dev.write.ops<span class="o">[</span>*<span class="o">]</span>,cat /proc/diskstats <span class="p">|</span> egrep <span class="nv">$1</span> <span class="p">|</span> head -1 <span class="p">|</span> awk <span class="s1">'{print $$8}'</span>
+<span class="nv">UserParameter</span><span class="o">=</span>custom.vfs.dev.write.ms<span class="o">[</span>*<span class="o">]</span>,cat /proc/diskstats <span class="p">|</span> egrep <span class="nv">$1</span> <span class="p">|</span> head -1 <span class="p">|</span> awk <span class="s1">'{print $$11}'</span>
+<span class="nv">UserParameter</span><span class="o">=</span>custom.vfs.dev.io.active<span class="o">[</span>*<span class="o">]</span>,cat /proc/diskstats <span class="p">|</span> egrep <span class="nv">$1</span> <span class="p">|</span> head -1 <span class="p">|</span> awk <span class="s1">'{print $$12}'</span>
+<span class="nv">UserParameter</span><span class="o">=</span>custom.vfs.dev.io.ms<span class="o">[</span>*<span class="o">]</span>,cat /proc/diskstats <span class="p">|</span> egrep <span class="nv">$1</span> <span class="p">|</span> head -1 y<span class="p">|</span> awk <span class="s1">'{print $$13}'</span>
+<span class="nv">UserParameter</span><span class="o">=</span>custom.vfs.dev.read.sectors<span class="o">[</span>*<span class="o">]</span>,cat /proc/diskstats <span class="p">|</span> egrep <span class="nv">$1</span> <span class="p">|</span> head -1 <span class="p">|</span> awk <span class="s1">'{print $$6}'</span>
+<span class="nv">UserParameter</span><span class="o">=</span>custom.vfs.dev.write.sectors<span class="o">[</span>*<span class="o">]</span>,cat /proc/diskstats <span class="p">|</span> egrep <span class="nv">$1</span> <span class="p">|</span> head -1 <span class="p">|</span> awk <span class="s1">'{print $$10}'</span>
+<span class="nv">UserParameter</span><span class="o">=</span>system.smartd_raw<span class="o">[</span>*<span class="o">]</span>,sudo smartctl -A <span class="nv">$1</span><span class="p">|</span> egrep <span class="nv">$2</span><span class="p">|</span> tail -1<span class="p">|</span> xargs<span class="p">|</span> awk <span class="s1">'{print $$10}'</span>
+<span class="nv">UserParameter</span><span class="o">=</span>system.smartd_value<span class="o">[</span>*<span class="o">]</span>,sudo smartctl -A <span class="nv">$1</span><span class="p">|</span> egrep <span class="nv">$2</span><span class="p">|</span> tail -1<span class="p">|</span> xargs<span class="p">|</span> awk <span class="s1">'{print $$4}'</span>
+<span class="c1">### Discovery ###</span>
+<span class="nv">UserParameter</span><span class="o">=</span>discovery.hard_disk,/scripts/discover_hdd.sh
+<span class="nv">UserParameter</span><span class="o">=</span>discovery.cpus,/scripts/discover_cpus.sh
+<span class="nv">UserParameter</span><span class="o">=</span>discovery.cores,/scripts/discover_cores.sh
+</pre>
+<p>(it must be set in zabbix_agentd.conf)</p>
+<p>You also need to give zabbix the right to use sudo with smartctl. For that, you have to edit your /etc/sudoers file and add this line: </p>
+<pre>ALL ALL=(ALL)NOPASSWD: /usr/sbin/smartctl</pre>
+<h4>Conclusion and Download</h4>
+<p>I hope that this helps some people to use Low Level Discovery in their Zabbix Monitoring Installation. </p>
+<p>LLD eases a lot the creation of multiple items discovery for hosts with different hardware or configuration. However, it has some problems for which I have not yet found a proper solution. First, you have to duplicate the client scripts on each host (or at least have them on a share available from each of them). Then, the configuration of each agent is also duplicated in the configuration of each host. The biggest problem I think is the fact that you cannot automatically create graph with the generated items of each discovered entities. For instance, I had to create a CPU Temperature graph in each of my host. If you have few hosts, like many, it is acceptable, but if you have hundreds of hosts, you just don't do it. </p>
+<p>All the scripts and the template export file are available in the <a href="https://github.com/wichtounet/zabbix-lld" title="zabbix-lld repository">zabbix-lld</a> repository. For everything to work, you need the lscpu, lm_sensors and smartmontools utilities. </p>
+<p>If you have any question or if something doesn't work (I don't offer any guarantee, but it should work on most recent Linux machines), don't hesitate to comment on this post.</p>
+</div>
+</div>
+<aside class="postpromonav"><nav><ul itemprop="keywords" class="tags">
+<li><a class="tag p-category" href="../../../categories/linux.html" rel="tag">Linux</a></li>
+<li><a class="tag p-category" href="../../../categories/others.html" rel="tag">Others</a></li>
+<li><a class="tag p-category" href="../../../categories/server.html" rel="tag">Server</a></li>
+<li><a class="tag p-category" href="../../../categories/zabbix.html" rel="tag">zabbix</a></li>
+</ul>
+<ul class="pager hidden-print">
+<li class="previous">
+<a href="thor-os-boot-process.html" rel="prev" title="Thor OS: Boot Process">Previous post</a>
+</li>
+<li class="next">
+<a href="../../2014/01/home-server-adventure-step-3.html" rel="next" title="Home Server Adventure – Step 3">Next post</a>
+</li>
+</ul></nav></aside><section class="comments hidden-print"><h2>Comments</h2>
+<div id="disqus_thread"></div>
+<script>
+        var disqus_shortname ="blogwichtounet",
+            disqus_url="http://baptiste-wicht.com/posts/2013/12/zabbix-low-level-discovery-cores-cpus-hard-disk.html",
+        disqus_title="Zabbix - Low Level Discovery of cores, CPUs and Hard Disk",
+        disqus_identifier="cache/posts/2013/12/zabbix-low-level-discovery-cores-cpus-hard-disk.html",
+        disqus_config = function () {
+            this.language = "en";
+        };
+        (function() {
+            var dsq = document.createElement('script'); dsq.async = true;
+            dsq.src = 'https://' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        })();
+    </script><noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a>
+</noscript>
+<a href="https://disqus.com" class="dsq-brlink" rel="nofollow">Comments powered by <span class="logo-disqus">Disqus</span></a>
+</section></article><script>var disqus_shortname="blogwichtounet";(function(){var a=document.createElement("script");a.async=true;a.src="https://"+disqus_shortname+".disqus.com/count.js";(document.getElementsByTagName("head")[0]||document.getElementsByTagName("body")[0]).appendChild(a)}());</script>
+</div> 
+</div>
+
+</div>
+
+
+
+<footer>
+Contents © 2017 <a href="/cdn-cgi/l/email-protection#583a39282c312b2c3d2f313b302c183f35393134763b3735">Baptiste Wicht</a> - Powered by <a href="http://getnikola.com" rel="nofollow">Nikola</a> - License:
+<a rel="license" href="http://creativecommons.org/licenses/by/4.0/"><img alt="Creative Commons License" style="padding-left:5px;border-width:0" src="../../../assets/img/cc.png"></a>
+<ul class="footer_inline_ul">
+<li>
+<a href="zabbix-low-level-discovery-cores-cpus-hard-disk.wp" id="sourcelink">Source</a>
+</li>
+</ul></footer><script src="/cdn-cgi/scripts/78d64697/cloudflare-static/email-decode.min.js"></script><script src="../../../assets/js/all-nocdn.js"></script>
+</body>
+</html>

@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:dc="http://purl.org/dc/elements/1.1/"><channel><title>Blog blog("Baptiste Wicht"); (Posts about Operating Systems)</title><link>http://baptiste-wicht.com/</link><description></description><atom:link rel="self" type="application/rss+xml" href="http://baptiste-wicht.com/categories/operating-systems.xml"></atom:link><language>en</language><lastBuildDate>Sun, 04 Jun 2017 20:17:44 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Thor OS: Boot Process</title><link>http://baptiste-wicht.com/posts/2013/12/thor-os-boot-process.html</link><dc:creator>Baptiste Wicht</dc:creator><description>&lt;div&gt;&lt;p&gt;Some time ago, I started a hobby project: &lt;a title="New hobby project: Thor-OS, 64bit Operating System in C++" href="http://www.baptiste-wicht.com/2013/12/new-hobby-project-thor-os-64bit-operating-system-c/"&gt;writing a new operating system&lt;/a&gt;. I'm not trying to create a concurrent to Linux, I'm just trying to learn some more stuff about operating systems. I'm gonna try to write some posts about this kernel on this blog.&lt;/p&gt;
+&lt;p&gt;In this post, I'll describe the boot process I've written for this operating system.&lt;/p&gt;
+&lt;h3&gt;Bootloader Step&lt;/h3&gt;
+
+&lt;p&gt;The first step is of course the bootloader. The bootloader is in the MBR and is loaded by the system at 0x7C00.&lt;/p&gt;
+&lt;p&gt;I'm doing the bootloading in two stages. The first stage (one sector) print some messages and then load the second stage (one sector) from floppy at 0x900. The goal of doing it in two stages is just to be able to overwrite the bootloader memory by the stage. The second stage loads the kernel into memory from floppy. The kernel is loaded at 0x1000 and then run directly.&lt;/p&gt;
+&lt;p&gt;The bootloader stages are written in assembly.&lt;/p&gt;
+&lt;h3&gt;Real mode&lt;/h3&gt;
+
+&lt;p&gt;When the processor, it boots in real mode (16 bits) and you have to setup plenty of things before you can go into long mode (64 bits). So the first steps of the kernel are running in 16 bits. The kernel is mostly written in C++ with some inline assembly.&lt;/p&gt;
+&lt;p&gt;Here are all the things that are done in this mode:&lt;/p&gt;
+&lt;ol&gt;
+    &lt;li&gt;The memory is inspected using BIOS E820 function. It is necessary to do that at this point since BIOS function calls are not available after going to protected mode. This function gives a map of the available memory. The map is used later by the dynamic memory allocator.&lt;/li&gt;
+    &lt;li&gt;The interrupts are disabled and a fake Interrupt Descriptor Table is configured to make sure no interrupt are thrown in protected mode&lt;/li&gt;
+    &lt;li&gt;The Global Descriptor Table is setup. This table describes the different portion of the memory and what each process can do with each portion of the memory. I have three descriptors: a 32bit code segment, a data segment and a 64bit code segment.&lt;/li&gt;
+    &lt;li&gt;Protected mode is activated by setting PE bit of CR0 control register.&lt;/li&gt;
+    &lt;li&gt;Disable paging&lt;/li&gt;
+    &lt;li&gt;Jump to the next step. It is necessary to use a far jump so that the code segment is changed.&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h3&gt;Protected Mode&lt;/h3&gt;
+
+&lt;p&gt;At this point, the processor is running in protected mode (32 bits). BIOS interrupts are not available anymore.&lt;/p&gt;
+&lt;p&gt;Again, several steps are necessary:&lt;/p&gt;
+&lt;ol&gt;
+    &lt;li&gt;To be able to use all memory, Physical Address Extensions are activated.&lt;/li&gt;
+    &lt;li&gt;Long Mode is enabled by setting the EFER.LME bit.&lt;/li&gt;
+    &lt;li&gt;Paging is setup, the first MiB of memory is mapped to the exact same virtual addresses.&lt;/li&gt;
+    &lt;li&gt;The address of the Page-Map Level 4 Table is set in the CR0 register.&lt;/li&gt;
+    &lt;li&gt;Finally paging is activated.&lt;/li&gt;
+    &lt;li&gt;Jump to the real mode kernel, again by using a far jump to change code segment.&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h3&gt;Real Mode&lt;/h3&gt;
+
+&lt;p&gt;The kernel finally runs in 64 bits.&lt;/p&gt;
+&lt;p&gt;There are still some initialization steps that needs to be done:&lt;/p&gt;
+&lt;ol&gt;
+    &lt;li&gt;SSE extensions are enabled.&lt;/li&gt;
+    &lt;li&gt;The final Interrupt Descriptor Table is setup.&lt;/li&gt;
+    &lt;li&gt;ISRs are created for each possible processor exception&lt;/li&gt;
+    &lt;li&gt;The IRQs are installed in the IDT&lt;/li&gt;
+    &lt;li&gt;Interrupts are enabled&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;At this point, is kernel is fully loaded and starts initialization stuff like loading drivers, preparing memory, setting up timers...&lt;/p&gt;
+&lt;p&gt;If you want more information about this process, you can read the different source files involved (stage1.asm, stage2.asm, boot_16.cpp, boot_32.cpp and kernel.cpp) and if you have any question, you can comment on this post.&lt;/p&gt;&lt;/div&gt;</description><category>Assembly</category><category>C++</category><category>Operating Systems</category><category>osdev</category><category>thor</category><guid>http://baptiste-wicht.com/posts/2013/12/thor-os-boot-process.html</guid><pubDate>Mon, 23 Dec 2013 08:18:01 GMT</pubDate></item><item><title>New hobby project: Thor-OS, 64bit Operating System in C++</title><link>http://baptiste-wicht.com/posts/2013/12/new-hobby-project-thor-os-64bit-operating-system-c.html</link><dc:creator>Baptiste Wicht</dc:creator><description>&lt;div&gt;&lt;p&gt;It's been a long time since I have posted on this blog about a project. A bit more than two months ago, I started a new project: thor-os&lt;/p&gt;
+&lt;p&gt;This project is a simple 64bit operating system, written in C++. After having written a compiler, I decided it could be fun to try with an operating system. And it is fun indeed :) It is a really exciting project and there are plenty of things to do in every directions.&lt;/p&gt;
+&lt;p&gt;I've also written the bootloader myself, but it is a very simple one. It just reads the kernel from the floppy. loads it in memory and then jumps to it and nothing else.&lt;/p&gt;
+&lt;h4&gt;Features&lt;/h4&gt;
+
+&lt;p&gt;Right now, the project is fairly modest. Here are the features of the kernel:&lt;/p&gt;
+&lt;ul&gt;
+    &lt;li&gt;Serial Text Console&lt;/li&gt;
+    &lt;li&gt;Keyboard driver&lt;/li&gt;
+    &lt;li&gt;Timer driver (PIT)&lt;/li&gt;
+    &lt;li&gt;Dynamic Memory Allocation&lt;/li&gt;
+    &lt;li&gt;ATA driver&lt;/li&gt;
+    &lt;li&gt;FAT32 driver (Work In progress)&lt;/li&gt;
+    &lt;li&gt;Draft of an ACPI support (only for shutdown)&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;All the commands are accessible with a simple shell integrated directly in the kernel.&lt;/p&gt;
+&lt;h4&gt;Testing&lt;/h4&gt;
+
+&lt;p&gt;All the testing is made in Bochs and Qemu. I don't have any other computer available to test in real right now but that is something I really want to do. But for now, my bootloader only supports floppy, so it will need to be improved to load the kernel from a disk, since it is not likely that I will have a floppy disk to test :D&lt;/p&gt;
+&lt;p&gt;Here is a screenshot of the OS in action:&lt;/p&gt;
+&lt;p&gt;&lt;a href="http://baptiste-wicht.com/wp-content/uploads/2013/12/Screenshot-from-2013-12-17-085810-e1387267703665.png"&gt;&lt;img class="size-medium wp-image-2628" alt="Thor OS Screenshot" src="http://baptiste-wicht.com/wp-content/uploads/2013/12/Screenshot-from-2013-12-17-085810-e1387267703665-300x204.png" width="300" height="204"&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;h4&gt;Future&lt;/h4&gt;
+
+&lt;p&gt;The next thing that I will improve is the FAT32 driver to have a complete implementation including creating and writing to files.&lt;/p&gt;
+&lt;p&gt;After that, I still don't know whether I will try to implement a simple Framebuffer or start implement user space.&lt;/p&gt;
+&lt;p&gt;As for all my projects, you can find the complete source code on Github: https://github.com/wichtounet/thor-os&lt;/p&gt;
+&lt;p&gt;Don't hesitate to comment if you have any question or suggestion for this project ;) I will try to write some posts about it on the future, again if you have idea of subject for these posts, don't hesitate. The first will probably be about the boot process.&lt;/p&gt;&lt;/div&gt;</description><category>Assembly</category><category>C++</category><category>Operating Systems</category><category>osdev</category><category>thor</category><guid>http://baptiste-wicht.com/posts/2013/12/new-hobby-project-thor-os-64bit-operating-system-c.html</guid><pubDate>Tue, 17 Dec 2013 02:20:16 GMT</pubDate></item></channel></rss>

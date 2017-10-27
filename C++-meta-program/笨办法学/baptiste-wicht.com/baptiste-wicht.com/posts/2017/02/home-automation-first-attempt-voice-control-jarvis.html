@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html prefix="og: http://ogp.me/ns# article: http://ogp.me/ns/article# " lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="description" content="My first attempt at voice control with Jarvis on a Raspberry Pi and a standard microphone.">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Home Automation: First attempt at voice control with Jarvis | Blog blog("Baptiste Wicht");</title>
+<script src="/cdn-cgi/apps/head/98vpnawSZZMscPn4oDND-ZgswjM.js"></script><link href="../../../assets/css/all-nocdn.css" rel="stylesheet" type="text/css">
+<meta name="theme-color" content="#5670d4">
+<meta name="generator" content="Nikola (getnikola.com)">
+<link rel="alternate" type="application/rss+xml" title="RSS" href="../../../rss.xml">
+<link rel="canonical" href="http://baptiste-wicht.com/posts/2017/02/home-automation-first-attempt-voice-control-jarvis.html">
+<!--[if lt IE 9]><script src="../../../assets/js/html5.js"></script><![endif]--><meta name="author" content="Baptiste Wicht">
+<link rel="prev" href="publication-cpu-performance-optimizations-rbm-crbm.html" title="Publication: CPU Performance Optimizations for RBM and CRBM" type="text/html">
+<link rel="next" href="../03/release-zapcc-10-fast-cpp-compiler.html" title="Release of zapcc 1.0 - Fast C++ compiler" type="text/html">
+<meta property="og:site_name" content='Blog blog("Baptiste Wicht");'>
+<meta property="og:title" content="Home Automation: First attempt at voice control with Jarvis">
+<meta property="og:url" content="http://baptiste-wicht.com/posts/2017/02/home-automation-first-attempt-voice-control-jarvis.html">
+<meta property="og:description" content="My first attempt at voice control with Jarvis on a Raspberry Pi and a standard microphone.">
+<meta property="og:type" content="article">
+<meta property="article:published_time" content="2017-02-14T18:34:19+01:00">
+<meta property="article:tag" content="Home Automation">
+<meta property="article:tag" content="Personal">
+<meta property="article:tag" content="projects">
+<link href="../../../favicon.ico" rel="icon" type="image/x-icon">
+<link rel="publisher" href="https://plus.google.com/+BaptisteWicht">
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-2175227-7', 'auto');
+  var metas = document.getElementsByTagName('meta'), tagsList = [];
+  for (var i=0; i<metas.length; i++) {
+    if (metas[i].getAttribute('property') == 'article:tag') {
+      tagsList.push( metas[i].getAttribute('content'));
+    }
+  }
+  ga('set', 'dimension1', tagsList.join('|'));
+  ga('send', 'pageview');
+</script>
+</head>
+<body>
+
+<a href="#content" class="sr-only sr-only-focusable">Skip to main content</a>
+<div class="container-fluid">
+
+<div class="row">
+<div class="col-sm-3 col-lg-2">
+<nav class="navbar navbar-inverse navbar-fixed-side"><div class="navbar-header">
+<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+<span class="sr-only">Toggle navigation</span>
+<span class="icon-bar"></span>
+<span class="icon-bar"></span>
+<span class="icon-bar"></span>
+</button>
+<a class="navbar-brand" href="http://baptiste-wicht.com/">
+<span id="blog-title">Blog blog("Baptiste Wicht");</span>
+</a>
+</div>
+
+<div class="collapse navbar-collapse navbar-ex1-collapse">
+<ul class="nav navbar-nav">
+<li>
+<a href="../../../stories/about.html">About</a>
+</li>
+<li>
+<a href="../../../stories/publications.html">Publications</a>
+</li>
+<li>
+<a href="../../../stories/projects.html">Projects</a>
+</li>
+<li>
+<a href="../../../categories/index.html">Tags</a>
+</li>
+<li>
+<a href="../../../archive.html">Archives</a>
+</li>
+<li>
+<a href="http://feeds.feedburner.com/BaptisteWicht">RSS</a>
+</li>
+<li class="navbar-content">
+<h3>Related posts</h3>
+</li>
+<li><a href="../01/new-home-automation-system-with-domoticz.html">New home automation system with Domoticz</a></li>
+<li><a href="../01/add-milight-smart-lights-to-domoticz-home-automation-system.html">Add Milight smart lights to my Domoticz home automation system</a></li>
+<li><a href="../../2016/08/asgard-home-automation-project.html">Asgard: Home Automation project</a></li>
+<li><a href="../04/home-automation-power-meter-integration-zwave-domoticz.html">Home Automation: Power Meter and Integration of Zwave into Domoticz</a></li>
+<li><a href="../../2014/01/home-server-adventure-step-3.html">Home Server Adventure – Step 3</a></li>
+<li><a href="../../2013/07/home-server-adventure-step-1.html">Home Server Adventure - Step 1</a></li>
+<li class="navbar-block">
+<li class="wicht-navbar-right">
+<a target="_blank" title="Follow @wichtounet on Twitter" href="https://twitter.com/wichtounet">
+<img src="../../../assets/img/twitter.png" alt="Follow @wichtounet on Twitter"></a>
+</li>
+<li class="wicht-navbar-right">
+<a target="_blank" title="Follow +BaptisteWicht on Google+" href="https://plus.google.com/+BaptisteWicht">
+<img src="../../../assets/img/google_plus.png" alt="Follow +BaptisteWicht on Google+"></a>
+</li>
+</ul>
+</div>
+
+</nav>
+</div> 
+<div class="col-sm-9 col-lg-10">
+<div id="content"></div>
+<article class="post-text h-entry hentry postpage" itemscope="itemscope" itemtype="http://schema.org/Article"><header><h1 class="p-name entry-title" itemprop="headline name"><a href="#" class="u-url">Home Automation: First attempt at voice control with Jarvis</a></h1>
+<div class="metadata">
+<p class="byline author vcard"><span class="byline-name fn" itemprop="author">
+Baptiste Wicht
+</span></p>
+<p class="dateline"><a href="#" rel="bookmark"><time class="published dt-published" datetime="2017-02-14T18:34:19+01:00" itemprop="datePublished" title="2017-02-14 18:34">2017-02-14 18:34</time></a></p>
+<p class="commentline">
+<a href="home-automation-first-attempt-voice-control-jarvis.html#disqus_thread" data-disqus-identifier="cache/posts/2017/02/home-automation-first-attempt-at-voice-control-with-jarvis.html">Comments</a>
+</p>
+<p class="sourceline"><a href="home-automation-first-attempt-voice-control-jarvis.rst" class="sourcelink">Source</a></p>
+</div>
+</header><div class="e-content entry-content" itemprop="articleBody text">
+<div>
+<p>I have several devices in my home that can be controller via Domoticz, a few
+power outlets, a few lights (more are coming), my Kodi home theater. And I have
+a lot of sensors and information gathered by Domoticz. All of this is working
+quite well, but I have only a few actuators and intelligence (motion sensor,
+button and some automation via Lua script).</p>
+<p>My next objective was to add voice control to my system. If I was living in
+United States or United Kingdom I would directly an Amazon Dot or even an Amazon
+Echo, but they are not available in Switzerland. I could have arranged for
+delivery, but if I want my system to be useful to several people, I need to have
+in French. It's the same problem with the Google Home system. So, no other way
+than custom solutions.</p>
+<p>Since I had an extra Raspberry Pi 2, I based my system on this. I bought a Trust
+Mico microphone and a Trust Compact speakers and installed them on the Pi. Both
+peripherals are working quite well.</p>
+<p>You can have a closer look at my microphone:</p>
+<img alt="Trust Mico microphone for Jarvis Home Automation Voice Control" class="align-center" src="../../../images/jarvis_mic.jpg"><p>and the complete installation:</p>
+<img alt="Jarvis Home Automation Voice Control around my TV" class="align-center" src="../../../images/jarvis_full.jpg"><p>The Raspberry Pi is on the bottom, the speakers below the TV, left and right and
+the microphone on the top right.</p>
+<p>For the voice control software, I decided to go with Jarvis. It seems to me that
+this is the best suited software for this kind of project. Moreover, it supports
+French natively which seems good. I also tried Jasper, but this has been such
+a pain to install that I gave up.</p>
+<p>Jarvis is reasonably easy to install if you have a recent Raspbian image. It
+took some time to install the dependencies, but in the end it was not difficult.
+The installation process has a step-by-step wizard help so it's really easy to
+configure everything.</p>
+<p>However, even if it's easy to install, it's easy to configure correctly. The
+first thing is to configure the hotword to activate commands. There are several
+options, but I used snowboy which is offline and is made for hotword
+recognition. This worked quite well, you just have to train a model with the
+hotword to recognize the voice. After this, the problems started... You then
+have to configure audio for the commands themselves. There are 6 parameters for
+audio capture (noise levels to start and stop the capture, silence levels, ...)
+and no help to tune them. So basically, I tried a lot of combinations until
+I had something working reasonably well. When you are in debug mode, you can
+listen to what the system captured. These parameters are dependent on your
+environment and on your microphone and on your voice. I may be dumb but it took
+several hours and a lot of tries to get a configuration working. After this, you
+have to choose the engine for recognition of the commands. Unfortunately, all
+the good options are online so everything you'll say as commands after the
+hotword will be sent online. I first tried Bing, but I had very poor recognition
+rate. I then switched to wit.ai which gave me better results. In the end, I have
+about 60% recognition rate, which is not great at all, but at least some phrases
+are working almost all the time while others are always failing. Another problem
+I have with this is the large delay between commands and action. It takes almost
+five seconds between the end of my sentence and the time where the lights in my
+living room are tuned on or off by Jarvis via Domoticz.</p>
+<p>So far, I'm a bit disappointed by the quality of the system, but maybe I was
+hoping for too much. I have been able to control a few of my appliances but not
+really reliably. Another thing I have realized is that when counting the
+Raspberry Pi, its enclosure the Microphone and the speakers, this system is more
+costly than an Amazon Dot and seem highly inferior (and is much less good
+looking).</p>
+<p>I'll try to improve the current system with better configuration and commands in
+the coming days and I will maybe try another system for voice control. I still
+hope Amazon Alexa systems or Google Home are made available in
+France/Switzerland not too far in the future, since I believe these systems are
+a better solution than custom made systems, at least for now. Moreover, next
+month, I plan to integrate ZWave into my systems with a few sensors, complete
+the lighting installation and add new motion sensors. This should make it more
+useful. And hopefully, by this time, I should have a good voice control system,
+but I'm not too hopeful.</p>
+<p>Don't hesitate to comment or contact me if you have questions about this
+installation or want to share experience about voice control in home automation.
+If you want more details about this, dont' hesitate to ask as well ;)</p>
+</div>
+</div>
+<aside class="postpromonav"><nav><ul itemprop="keywords" class="tags">
+<li><a class="tag p-category" href="../../../categories/home-automation.html" rel="tag">Home Automation</a></li>
+<li><a class="tag p-category" href="../../../categories/personal.html" rel="tag">Personal</a></li>
+<li><a class="tag p-category" href="../../../categories/projects.html" rel="tag">projects</a></li>
+</ul>
+<ul class="pager hidden-print">
+<li class="previous">
+<a href="publication-cpu-performance-optimizations-rbm-crbm.html" rel="prev" title="Publication: CPU Performance Optimizations for RBM and CRBM">Previous post</a>
+</li>
+<li class="next">
+<a href="../03/release-zapcc-10-fast-cpp-compiler.html" rel="next" title="Release of zapcc 1.0 - Fast C++ compiler">Next post</a>
+</li>
+</ul></nav></aside><section class="comments hidden-print"><h2>Comments</h2>
+<div id="disqus_thread"></div>
+<script>
+        var disqus_shortname ="blogwichtounet",
+            disqus_url="http://baptiste-wicht.com/posts/2017/02/home-automation-first-attempt-voice-control-jarvis.html",
+        disqus_title="Home Automation: First attempt at voice control with Jarvis",
+        disqus_identifier="cache/posts/2017/02/home-automation-first-attempt-at-voice-control-with-jarvis.html",
+        disqus_config = function () {
+            this.language = "en";
+        };
+        (function() {
+            var dsq = document.createElement('script'); dsq.async = true;
+            dsq.src = 'https://' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        })();
+    </script><noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a>
+</noscript>
+<a href="https://disqus.com" class="dsq-brlink" rel="nofollow">Comments powered by <span class="logo-disqus">Disqus</span></a>
+</section></article><script>var disqus_shortname="blogwichtounet";(function(){var a=document.createElement("script");a.async=true;a.src="https://"+disqus_shortname+".disqus.com/count.js";(document.getElementsByTagName("head")[0]||document.getElementsByTagName("body")[0]).appendChild(a)}());</script>
+</div> 
+</div>
+
+</div>
+
+
+
+<footer>
+Contents © 2017 <a href="/cdn-cgi/l/email-protection#3b595a4b4f52484f5e4c5258534f7b5c565a525715585456">Baptiste Wicht</a> - Powered by <a href="http://getnikola.com" rel="nofollow">Nikola</a> - License:
+<a rel="license" href="http://creativecommons.org/licenses/by/4.0/"><img alt="Creative Commons License" style="padding-left:5px;border-width:0" src="../../../assets/img/cc.png"></a>
+<ul class="footer_inline_ul">
+<li>
+<a href="home-automation-first-attempt-voice-control-jarvis.rst" id="sourcelink">Source</a>
+</li>
+</ul></footer><script src="/cdn-cgi/scripts/78d64697/cloudflare-static/email-decode.min.js"></script><script src="../../../assets/js/all-nocdn.js"></script>
+</body>
+</html>

@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:dc="http://purl.org/dc/elements/1.1/"><channel><title>Blog blog("Baptiste Wicht"); (Posts about Latex)</title><link>http://baptiste-wicht.com/</link><description></description><atom:link rel="self" type="application/rss+xml" href="http://baptiste-wicht.com/categories/latex.xml"></atom:link><language>en</language><lastBuildDate>Sun, 04 Jun 2017 20:17:44 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>CMakeLatex 1.0.2 - Support for nomenclature and better filters</title><link>http://baptiste-wicht.com/posts/2012/11/cmakelatex-1-0-2-nomenclature-filters.html</link><dc:creator>Baptiste Wicht</dc:creator><description>&lt;div&gt;&lt;p&gt;I released a new version of CMakeLatex, the version 1.0.2. &lt;/p&gt;
+&lt;p&gt;First of all, this version restore the support for nomenclature. Then, it also adds filters for makeindex (including makeglossaries and makenomenclature). The filters will hides all the information of the output stream but the errors. The filters for pdflatex are also improved. &lt;/p&gt;
+&lt;p&gt;CMakeLatex is a CMake script to build Latex documents using CMake / Make. It supports glossary, indexes, bibliographies and nomenclature. It can automatically converts your images to the right format using imagemagick or cairosvg (for SVG to PDF conversion). &lt;/p&gt;
+&lt;p&gt;You can download it on Github: &lt;a href="https://github.com/wichtounet/CMakeLatex" title="CMakeLatex Github repository" target="_blank"&gt;CMakeLatex Github repository&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;If you have any idea for improvement, don't hesitate to contact me or to create a Feature Request on Github.&lt;/p&gt;&lt;/div&gt;</description><category>cmake</category><category>Latex</category><category>Linux</category><guid>http://baptiste-wicht.com/posts/2012/11/cmakelatex-1-0-2-nomenclature-filters.html</guid><pubDate>Mon, 05 Nov 2012 08:02:19 GMT</pubDate></item><item><title>Use CMake to easily compiles Latex documents into PDF</title><link>http://baptiste-wicht.com/posts/2012/09/cmake-compile-latex-documents.html</link><dc:creator>Baptiste Wicht</dc:creator><description>&lt;div&gt;&lt;p&gt;Everyone who compiles Latex documents by hand knows that it is not a panacea. You have to compile the file several times to handle the references. Moreover, if you have a glossary or an index, you have to run others commands between Latex commands so that everything is correctly resolved. The better way to handle Latex compilation is to write a MakeFile compiling each part. However, writing a Latex MakeFile by hand is not easy and especially not interesting. &lt;/p&gt;
+&lt;p&gt;Using CMake for most of my development projects, I tried to find a CMake script to generates a MakeFile easily. I did found a good script for that, but I wanted to add some features and change some things, so I forked it to Github: &lt;a href="https://github.com/wichtounet/CMakeLatex" title="CMakeLatex Github repository"&gt;The CMakeLatex repository&lt;/a&gt;. &lt;/p&gt;
+&lt;h3&gt;Usage&lt;/h3&gt;
+
+&lt;p&gt;Here is an example using all the features of the script for one of my Latex documents. &lt;/p&gt;
+&lt;pre class="code literal-block"&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="nb"&gt;PROJECT&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;master_project&lt;/span&gt; &lt;span class="s"&gt;NONE&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="nb"&gt;cmake_minimum_required&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;VERSION&lt;/span&gt; &lt;span class="s"&gt;2.8&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="nb"&gt;SET&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;LATEX_OUTPUT_PATH&lt;/span&gt; &lt;span class="s"&gt;build&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="nb"&gt;INCLUDE&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;UseLATEX.cmake&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+&lt;span class="nb"&gt;file&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;GLOB_RECURSE&lt;/span&gt; &lt;span class="s"&gt;contents_files&lt;/span&gt; &lt;span class="s"&gt;RELATIVE&lt;/span&gt; &lt;span class="o"&gt;${&lt;/span&gt;&lt;span class="nv"&gt;CMAKE_SOURCE_DIR&lt;/span&gt;&lt;span class="o"&gt;}&lt;/span&gt; &lt;span class="s"&gt;contents/*.tex&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+&lt;span class="nb"&gt;ADD_LATEX_DOCUMENT&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;
+    &lt;span class="s"&gt;master.tex&lt;/span&gt;
+    &lt;span class="s"&gt;INPUTS&lt;/span&gt; &lt;span class="o"&gt;${&lt;/span&gt;&lt;span class="nv"&gt;contents_files&lt;/span&gt;&lt;span class="o"&gt;}&lt;/span&gt;
+    &lt;span class="s"&gt;IMAGE_DIRS&lt;/span&gt; &lt;span class="s"&gt;images&lt;/span&gt;
+    &lt;span class="s"&gt;BIBFILES&lt;/span&gt; &lt;span class="s"&gt;bibliography.bib&lt;/span&gt;
+    &lt;span class="s"&gt;USE_INDEX&lt;/span&gt;
+    &lt;span class="s"&gt;USE_GLOSSARY&lt;/span&gt;
+    &lt;span class="s"&gt;FILTER_OUTPUT&lt;/span&gt;
+    &lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/pre&gt;
+
+
+&lt;p&gt;To use it, you have to download the files of the repository and put them aside your Latex files (or just make symlinks to the files in a clone of the repository for easy update). Then, the &lt;em&gt;UseLATEX.cmake&lt;/em&gt; file has to be included in your CMakeLists.txt file. &lt;/p&gt;
+&lt;p&gt;I think that it is a good practice to generates the Latex files in another directory. This directory can be set using the &lt;em&gt;LATEX_OUTPUT_PATH&lt;/em&gt; variable. &lt;/p&gt;
+&lt;p&gt;Then, to add a latex document, you can use the &lt;em&gt;ADD_LATEX_DOCUMENT&lt;/em&gt; function. The first parameter is the name of the main Latex file. After that, you have to give several parameters: &lt;/p&gt;
+&lt;ul&gt;
+    &lt;li&gt;INPUTS: It needs the list of Latex files that are included in master file. I use the GLOB_RECURSE function to find all of them in a contents subfolder. &lt;/li&gt;
+    &lt;li&gt;IMAGE_DIRS: The directory where the image are stored. They will be copied to the build folder and automatically converted if necessary. &lt;/li&gt;
+    &lt;li&gt;BIBFILES: If you have a bibliography, you just have to list all the .bib files of your project. &lt;/li&gt;
+    &lt;li&gt;USE_INDEX: Necessary only if your document use an index. &lt;/li&gt;
+    &lt;li&gt;USE_GLOSSARY: Necessary only if your document use a glossary. &lt;/li&gt;
+    &lt;li&gt;FILTER_OUTPUT: This option activates the filtering of pdflatex output to the console. For now, the option is quite limited, but it allows you to have a smoother output. It has to be taken into account that this option hides the overflow and underflow warnings. &lt;/li&gt;
+    &lt;li&gt;CONFIGURE: You can use the CMake configuration feature on some of your files if you want CMake variables to be replaced in the documents. &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Once your Latex document is configured, you can just run cmake on your project. After that, you can use targets to generate pdf: &lt;/p&gt;
+&lt;ul&gt;
+    &lt;li&gt;make pdf: This will generate the Latex file using several passes and running all the necessary commands. &lt;/li&gt;
+    &lt;li&gt;make fast: This will generate a pdf in only one pass. This can be useful if you want to see a rough draft of your document quickly.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;I already use this script for several of my documents. I hope that it will be useful for some of you. If you want any problem in the script or in the generate make file or if you have an idea for improvement, don't hesitate to let a command or to publish an Issue or a Pull Request in &lt;a href="https://github.com/wichtounet/CMakeLatex" title="CMakeLatex Github repository"&gt;the CMakeLatex repository&lt;/a&gt;. &lt;/p&gt;
+&lt;p&gt;This script only support pdflatex and can only generates pdf directly. If you want latex support with dvi/ps/pdf generation, you should take a look at the original project:  &lt;a href="http://public.kitware.com/Wiki/CMakeUserUseLATEX" title="CMakeUserUseLATEX"&gt;CMakeUserUseLATEX&lt;/a&gt;&lt;/p&gt;&lt;/div&gt;</description><category>cmake</category><category>Latex</category><category>Others</category><category>Tools</category><guid>http://baptiste-wicht.com/posts/2012/09/cmake-compile-latex-documents.html</guid><pubDate>Mon, 24 Sep 2012 07:07:33 GMT</pubDate></item><item><title>How to solve scrolling problems in Kile when using Gnome</title><link>http://baptiste-wicht.com/posts/2011/05/avoid-scrolling-problems-in-kile-when-using-gnome.html</link><dc:creator>Baptiste Wicht</dc:creator><description>&lt;div&gt;&lt;p&gt;From this morning, I was encoutering problems when scrolling in Kile editor using Gnome. When I scrolled, not all the lines were moving and the text was only correct when I clicked on them... &lt;/p&gt;
+&lt;p&gt;After some researches, I found that the solution was to use a different graphics system. You can do that in any Qt applicaitions using the graphics-system command line option. You can choose between raster and opengl. opengl is supposed to be the fastest one, but it is still experimental. In my case, I use raster that solve the scrolling problems and it doesn't change anything, which is fine. &lt;/p&gt;
+&lt;p&gt;So you can use this command-line to start Kile : &lt;/p&gt;
+&lt;pre&gt;kile --graphicssystem raster&lt;/pre&gt;
+
+&lt;p&gt;And that will solve your scrolling problems if you encounter some. You can also use this tip to improve performances of Kile if you need. If you do, test with opengl and if it's not stable on your system, choose raster, that will improve the performance compared to the default graphics system.&lt;/p&gt;&lt;/div&gt;</description><category>Latex</category><category>Linux</category><category>Tips</category><guid>http://baptiste-wicht.com/posts/2011/05/avoid-scrolling-problems-in-kile-when-using-gnome.html</guid><pubDate>Tue, 31 May 2011 06:40:05 GMT</pubDate></item></channel></rss>

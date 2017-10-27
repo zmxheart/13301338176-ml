@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html prefix="og: http://ogp.me/ns# article: http://ogp.me/ns/article# " lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Review of Jetbrains Intellij Idea 9 Ultimate Edition | Blog blog("Baptiste Wicht");</title>
+<script src="/cdn-cgi/apps/head/98vpnawSZZMscPn4oDND-ZgswjM.js"></script><link href="../../../assets/css/all-nocdn.css" rel="stylesheet" type="text/css">
+<meta name="theme-color" content="#5670d4">
+<meta name="generator" content="Nikola (getnikola.com)">
+<link rel="alternate" type="application/rss+xml" title="RSS" href="../../../rss.xml">
+<link rel="canonical" href="http://baptiste-wicht.com/posts/2009/12/intellij-idea-9-review.html">
+<!--[if lt IE 9]><script src="../../../assets/js/html5.js"></script><![endif]--><meta name="author" content="Baptiste Wicht">
+<link rel="prev" href="google-analytics-asynchronous.html" title="Google Analytics goes asynchronous !" type="text/html">
+<link rel="next" href="improve-performance-web-site.html" title="Improve performance of your web site with Page Speed" type="text/html">
+<meta property="og:site_name" content='Blog blog("Baptiste Wicht");'>
+<meta property="og:title" content="Review of Jetbrains Intellij Idea 9 Ultimate Edition">
+<meta property="og:url" content="http://baptiste-wicht.com/posts/2009/12/intellij-idea-9-review.html">
+<meta property="og:description" content="Here is my review of the IDE Jetbrains Intellij Idea 9 Ultimate Edition.
+1. Introduction
+
+JetBrains just released the 9 version of Intellij Idea. This version is available in two editions :
+
+    Commu">
+<meta property="og:type" content="article">
+<meta property="article:published_time" content="2009-12-14T06:01:11+01:00">
+<meta property="article:tag" content="IntelliJ Idea">
+<meta property="article:tag" content="Java">
+<meta property="article:tag" content="Tools">
+<link href="../../../favicon.ico" rel="icon" type="image/x-icon">
+<link rel="publisher" href="https://plus.google.com/+BaptisteWicht">
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-2175227-7', 'auto');
+  var metas = document.getElementsByTagName('meta'), tagsList = [];
+  for (var i=0; i<metas.length; i++) {
+    if (metas[i].getAttribute('property') == 'article:tag') {
+      tagsList.push( metas[i].getAttribute('content'));
+    }
+  }
+  ga('set', 'dimension1', tagsList.join('|'));
+  ga('send', 'pageview');
+</script>
+</head>
+<body>
+
+<a href="#content" class="sr-only sr-only-focusable">Skip to main content</a>
+<div class="container-fluid">
+
+<div class="row">
+<div class="col-sm-3 col-lg-2">
+<nav class="navbar navbar-inverse navbar-fixed-side"><div class="navbar-header">
+<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+<span class="sr-only">Toggle navigation</span>
+<span class="icon-bar"></span>
+<span class="icon-bar"></span>
+<span class="icon-bar"></span>
+</button>
+<a class="navbar-brand" href="http://baptiste-wicht.com/">
+<span id="blog-title">Blog blog("Baptiste Wicht");</span>
+</a>
+</div>
+
+<div class="collapse navbar-collapse navbar-ex1-collapse">
+<ul class="nav navbar-nav">
+<li>
+<a href="../../../stories/about.html">About</a>
+</li>
+<li>
+<a href="../../../stories/publications.html">Publications</a>
+</li>
+<li>
+<a href="../../../stories/projects.html">Projects</a>
+</li>
+<li>
+<a href="../../../categories/index.html">Tags</a>
+</li>
+<li>
+<a href="../../../archive.html">Archives</a>
+ </li>
+<li>
+<a href="http://feeds.feedburner.com/BaptisteWicht">RSS</a>
+</li>
+<li class="navbar-content">
+<h3>Related posts</h3>
+</li>
+<li><a href="../../2010/04/jetbrains-released-intellij-idea-9-0-2.html">JetBrains has released IntelliJ IDEA 9.0.2</a></li>
+<li><a href="../../2010/03/4-reasons-not-using-osmorc-anymore.html">4 reasons i'm not using Osmorc anymore</a></li>
+<li><a href="../../2010/07/intellij-idea-9-0-3-is-here.html">IntelliJ Idea 9.0.3 is here !</a></li>
+<li><a href="../../2010/07/modular-java-book-review.html">Modular Java – Book Review</a></li>
+<li><a href="../../2010/07/intellij-idea-10-eap-is-here.html">IntelliJ Idea 10 Early Acces Program is here</a></li>
+<li><a href="../../2010/03/osgi-enterprise-4-2-available.html">OSGi 4.2 Entreprise Release is available !</a></li>
+<li class="navbar-block">
+<li class="wicht-navbar-right">
+<a target="_blank" title="Follow @wichtounet on Twitter" href="https://twitter.com/wichtounet">
+<img src="../../../assets/img/twitter.png" alt="Follow @wichtounet on Twitter"></a>
+</li>
+<li class="wicht-navbar-right">
+<a target="_blank" title="Follow +BaptisteWicht on Google+" href="https://plus.google.com/+BaptisteWicht">
+<img src="../../../assets/img/google_plus.png" alt="Follow +BaptisteWicht on Google+"></a>
+</li>
+</ul>
+</div>
+
+</nav>
+</div> 
+<div class="col-sm-9 col-lg-10">
+<div id="content"></div>
+<article class="post-text h-entry hentry postpage" itemscope="itemscope" itemtype="http://schema.org/Article"><header><h1 class="p-name entry-title" itemprop="headline name"><a href="#" class="u-url">Review of Jetbrains Intellij Idea 9 Ultimate Edition</a></h1>
+<div class="metadata">
+<p class="byline author vcard"><span class="byline-name fn" itemprop="author">
+Baptiste Wicht
+</span></p>
+<p class="dateline"><a href="#" rel="bookmark"><time class="published dt-published" datetime="2009-12-14T06:01:11+01:00" itemprop="datePublished" title="2009-12-14 06:01">2009-12-14 06:01</time></a></p>
+<p class="commentline">
+<a href="intellij-idea-9-review.html#disqus_thread" data-disqus-identifier="cache/posts/2009/12/intellij-idea-9-review.html">Comments</a>
+</p>
+<p class="sourceline"><a href="intellij-idea-9-review.wp" class="sourcelink">Source</a></p>
+</div>
+</header><div class="e-content entry-content" itemprop="articleBody text">
+<div>
+<p>Here is my review of the IDE Jetbrains Intellij Idea 9 Ultimate Edition.</p>
+<h4>1. Introduction</h4>
+<p>JetBrains just released the 9 version of Intellij Idea. This version is available in two editions :</p>
+<ul>
+<li>
+<strong>Community Edition</strong> : Opensource version and free. Contains only the basic functionalities of the IDE.</li>
+<li>
+<strong>Ultimate Edition</strong> : Complete commercial version of the IDE. I am going to introduce here this version.</li>
+</ul>
+<p>This IDE is principally made for Java development, but now supports also a lot of others languages : JavaScript/Flex, HTML/XHTML/CSS, XML/XSL, Ruby/JRuby, Groovy, SQL, FreeMarker/Velocity and PHP.</p>
+<p>For Java Development, it supports numerous frameworks and technologies : JSP, JSF, EJB, AJAX, GWT, Struts, Struts 2, JBoss Seam, Spring, JPA/Hibernate, Web Services, Rails, Grails, Java ME MIDP/CLDC, Tapestry, Google App Engine, Android or OSGi.</p>
+<p>I am going to introduce some of this news functionalités and give you my opinion about the different themes.</p>
+<p><img alt="IntelliJ Idea 9 loading view" src="../../../wp-content/uploads/2009/12/splashscreen-300x224.png" title="IntelliJ Idea 9 loading view"></p>
+<h4>2. Installation</h4>
+<p>The installation is very easy. It's a common installer like all others instlallers you can found, with the basic operations : License, folder, shortcuts, start menu and finish. Nothing special about that.</p>
+<p>Once installation is complete, we must enter the license and choose the modules to activate like it was already the case in the previous versions. précédentes versions.</p>
+
+<h4>3. General improvements</h4>
+<p>The first thing we note is a real improvement of performance. More tasks are made in background. This is the case for indexing who launches at start but doesn't block the user interface. Thus, we can start work during indexation but some actions are not available, like refactorings.</p>
+<p><img alt="Background indexing" src="../../../wp-content/uploads/2009/12/background-300x48.png" title="Background indexing"></p>
+<p>We can also see that there is much less freeze of graphical interface who is also more reactive. The feedback of the different actions has been improved. It seems that we can see that an action has been launched or done and we're not to ask us if something happens or not, like that can happens with Idea 8.</p>
+
+<h4>4. User Interface</h4>
+<p>As previously stated, the reactivity of the user interface has been greatly improved.</p>
+<p>The views have not major changes, but we can still note that there is some interesting new functionalities.</p>
+<p>First of all, we can now debug and launch directly from keyboard shortcuts :</p>
+<ul>
+<li>Alt+Shift+F9 : Open debbuging view</li>
+<li>Alt+Shift+F10 : Open launch view</li>
+</ul>
+<p>Here are these new views :</p>
+<p><img alt="Quick Debug View" src="../../../wp-content/uploads/2009/12/debug.png" title="Quick Debug View"><img alt="Quick Run View" src="../../../wp-content/uploads/2009/12/run.png" title="Quick Run View"></p>
+<p>Then, we've also a new bookmarks management functionality. We can now put bookmarks in every portion of code, either class or lines of code. We've now there shortcuts :</p>
+<ul>
+<li>F11 : Create a new bookmark at the selected item (file in project view or line of code in editor)</li>
+<li>Shift + F11 : Show the bookmarks and enable the user to go to one bookmark.</li>
+</ul>
+<p>An example of bookmark on a line of code :</p>
+<p><img alt="Bookmark on a line of code" src="../../../wp-content/uploads/2009/12/bookmark-300x21.png" title="Bookmark on a line of code"></p>
+<p>And the view of bookmarks :</p>
+<p><img alt="Bookmarks" src="../../../wp-content/uploads/2009/12/bookmarks-300x185.png" title="Bookmarks"></p>
+<p>And last but not least, we can now copy files/directory from operating system and paste them in Idea and vice-versa. That is very practice but was not available in the previous versions.</p>
+
+<h4>5. Maven support</h4>
+<p>The "Maven Projects" view has had little modifications. In the "Lifecycle" folder, only the main goals are displayed (clean, validate, compile, test, package, install, site et deploy) . I think it's a good thing, because we use especially these goals. Of course, we can display all the goals with an option in the tool bar.</p>
+<p>Always in this view, we can now see the profiles (Maven 2 profiles) who are configured in settings.xml and go quickly to this settings.xml file. More than the profiles, we can now directly display the the dependencies of a project : Maven 2 :</p>
+<p><img alt="Maven 2 project dependencies" src="../../../wp-content/uploads/2009/12/maven-dependencies-286x300.png" title="Maven 2 project dependencies"></p>
+<p>We also have access to a dependency graph for a Maven module :</p>
+<p><img alt="Maven 2 dependency graph" src="../../../wp-content/uploads/2009/12/maven-dependencies-300x134.png" title="Maven 2 dependency graph"></p>
+<p>It is now possible to automatically reimport the Maven projects after a change in the pom.xml files.</p>
+<p>For the reimport, we can now reimport only projects who have changes in their pom.xml or concerned by the others changes. More than this improvement, the speed of this operation has been improved by a factor of 3 or 4.</p>
+
+<h4>6. OSGI support</h4>
+<p>From this version, Idea natively integrate an OSGi plugin, Osmorc. This plugin try to make easier the development of OSGi applications in Idea. I'll try to show you the main functionalities who are now integrated in Idea.</p>
+<p>The first thing to do is to configure the project for OSGi. To do that, we just need to activate the OSGi facet for the necessary modules. Then (or before, as you want), we must configure the installed OSGi instances.</p>
+<p><img alt="Configuration of installed OSGi instances" src="../../../wp-content/uploads/2009/12/osgi-settings-instance-300x174.png" title="Configuration of installed OSGi instances"></p>
+<p>Then, we must configure the instance to use for the project :</p>
+<p><img alt="Configure the OSGi instance for the project" src="../../../wp-content/uploads/2009/12/osgi-settings-instance-project-300x139.png" title="Configure the OSGi instance for the project"></p>
+<p>We can then go to the creation of a simple OSGi project.</p>
+<p>The first functionality to note is of course the code completion of the MANIFEST.MF entries :</p>
+<p><img alt="OSGi Headers code completion" src="../../../wp-content/uploads/2009/12/osgi-completion-300x209.png" title="OSGi Headers code completion"></p>
+<p>When you add the Import-Package header, we can use the classes of this package from the project without doing anything else.</p>
+<p>But we can also define a Manifest file from Idea :</p>
+<p><img alt="Manifest configuration" src="../../../wp-content/uploads/2009/12/osgi-manifest-300x122.png" title="Manifest configuration"></p>
+<p>Et we continue with an activator :</p>
+<pre class="code literal-block"><span></span><span class="kn">package</span> <span class="nn">com.pragprog.hello</span><span class="o">;</span>
+
+<span class="kn">import</span> <span class="nn">org.osgi.framework.BundleActivator</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.osgi.framework.BundleContext</span><span class="o">;</span>
+
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">HelloWorld</span> <span class="kd">implements</span> <span class="n">BundleActivator</span><span class="o">{</span>
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">start</span><span class="o">(</span><span class="n">BundleContext</span> <span class="n">bundleContext</span><span class="o">)</span> <span class="kd">throws</span> <span class="n">Exception</span> <span class="o">{</span>
+        <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"I'm in OSGi :)"</span><span class="o">);</span>
+    <span class="o">}</span>
+
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">stop</span><span class="o">(</span><span class="n">BundleContext</span> <span class="n">bundleContext</span><span class="o">)</span> <span class="kd">throws</span> <span class="n">Exception</span> <span class="o">{</span>
+        <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"I'm leaving OSGi :("</span><span class="o">);</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</pre>
+<p>To finish, we create a new run configuration "OSGi bundles". For That, we just need to add the bundle to the list and in the "Parameters" tab to choose the good OSGi instance to run :</p>
+<p><img alt="OSGi run configuration" src="../../../wp-content/uploads/2009/12/osgi-run-configuration-300x261.png" title="OSGi run configuration"></p>
+<p>And we launch the configuration, that give us :</p>
+<p><img alt="OSGi application" src="../../../wp-content/uploads/2009/12/osgi-run.png" title="OSGi run configuration"></p>
+<p>But we cannot interact with the OSGi instance from Idea, that's not very practical. We cannot stop modules or either manage them from the console. But the OSGi development is still facilitated by Idea. But it would have been better to have something a bit more advanced.</p>
+
+<h4>7. PHP support</h4>
+<p>Here is a functionality who's perhaps not interesting for everybody but that will be interesting for the Java developers who manages a PHP site or simply for the PHP developers. For me, who manages also a PHP website, it's a great news. Before that, i used other editors and IDE to edit my website, but now i can do everything from my favourite IDE.</p>
+<p>First and of course, we have syntax highlighting of PHP files :</p>
+<p><img alt="Syntax highlighting of PHP file" src="../../../wp-content/uploads/2009/12/php-color-300x238.png" title="Syntax highlighting of PHP file"></p>
+<p>We also have automatic code completion for PHP functions :</p>
+<p><img alt="Automatic Code Completion" src="../../../wp-content/uploads/2009/12/php-complete-300x161.png" title="Automatic Code Completion"></p>
+<p>But the IDE make more than simple code completion. In fact, it discovers automatically the fields and methods from a class and fields and methods from the standard library. You can see this functionalities in the next images :</p>
+<p><img alt="Contextual Code completion" src="../../../wp-content/uploads/2009/12/php-smart-300x213.png" title="Contextual Code Completion"></p>
+<p><img alt="Advanced Code completion" src="../../../wp-content/uploads/2009/12/php-smarter-300x292.png" title="Advanced Code Completion"></p>
+<p>Moreover, Idea also supports PHPDcod documentation and make code completion based on PHPDoc :</p>
+<p><img alt="Code Completion PHPDoc based" src="../../../wp-content/uploads/2009/12/php-phpdoc-300x226.png" title="Code Completion PHPDoc based"></p>
+<p>We can also note that it's possible to do PHP Debugging and unit tests with PHPUnit. But this is out of the scope of this article.</p>
+
+<h4>8. Task management</h4>
+<p>This functionnality isn't for me a major change, but it remains interesting. It enables the user to save state of view in a specified task.</p>
+<p>A task save the current changelist, the open editions, the state of the project view, the run configurations and the breakpoints. If you work in two parts of a project, you can create two tasks and you have also the same properties when you switch from one to the other. And you can quickly commit only the changes of a task because of the decoupled changelists.</p>
+<p><img alt="Task Creation" src="../../../wp-content/uploads/2009/12/task-create-300x192.png" title="Task Creation"></p>
+<p>Then, it is possible to go to a specific task, who has for effect to save the state of the current task and restore the state of the task to open.</p>
+<p><img alt="Open task" src="../../../wp-content/uploads/2009/12/task-open.png" title="Open task"></p>
+<p>It's also possible to synchronize the different tasks with YouTrack or JIRA.</p>
+
+<h4>9. Miscellaneous</h4>
+<p>More that these new big news, there is many other changes that i will not detail including :</p>
+<ul>
+<li>It is now possible to create a module from a Grails/Griffon project in the same way we can import project from Eclipse. We can also create Griffon/Grails modules or applications.</li>
+<li>There is now a Spell Checking inspection for the code and resources who is enabled by default in this new version.</li>
+<li>The public classes and methods who aren't used are not directly shaded like it was already the case for unused private fields and methods.</li>
+<li>Grails support improvement with Griffon and Gradle support</li>
+<li>Android support</li>
+<li>Flex support improvements</li>
+</ul>
+<h4>10. Conclusion</h4>
+<p>To conclude, JetBrains has one more times demonstrated its expertise in Java IDE presenting an excellent new version full of new functionalities and improvements that made the Java development even better.</p>
+<p>The only thing i had to complain in this version, is the lack of documentation of OSGi plugin and the limitations of the latter.</p>
+<p>You can download IntelliJ Idea 9 on the official site.</p>
+</div>
+</div>
+<aside class="postpromonav"><nav><ul itemprop="keywords" class="tags">
+<li><a class="tag p-category" href="../../../categories/intellij-idea.html" rel="tag">IntelliJ Idea</a></li>
+<li><a class="tag p-category" href="../../../categories/java.html" rel="tag">Java</a></li>
+<li><a class="tag p-category" href="../../../categories/tools.html" rel="tag">Tools</a></li>
+</ul>
+<ul class="pager hidden-print">
+<li class="previous">
+<a href="google-analytics-asynchronous.html" rel="prev" title="Google Analytics goes asynchronous !">Previous post</a>
+</li>
+<li class="next">
+<a href="improve-performance-web-site.html" rel="next" title="Improve performance of your web site with Page Speed">Next post</a>
+</li>
+</ul></nav></aside><section class="comments hidden-print"><h2>Comments</h2>
+<div id="disqus_thread"></div>
+<script>
+        var disqus_shortname ="blogwichtounet",
+            disqus_url="http://baptiste-wicht.com/posts/2009/12/intellij-idea-9-review.html",
+        disqus_title="Review of Jetbrains Intellij Idea 9 Ultimate Edition",
+        disqus_identifier="cache/posts/2009/12/intellij-idea-9-review.html",
+        disqus_config = function () {
+            this.language = "en";
+        };
+        (function() {
+            var dsq = document.createElement('script'); dsq.async = true;
+            dsq.src = 'https://' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        })();
+    </script><noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a>
+</noscript>
+<a href="https://disqus.com" class="dsq-brlink" rel="nofollow">Comments powered by <span class="logo-disqus">Disqus</span></a>
+</section></article><script>var disqus_shortname="blogwichtounet";(function(){var a=document.createElement("script");a.async=true;a.src="https://"+disqus_shortname+".disqus.com/count.js";(document.getElementsByTagName("head")[0]||document.getElementsByTagName("body")[0]).appendChild(a)}());</script>
+</div> 
+</div>
+
+</div>
+
+
+
+<footer>
+Contents © 2017 <a href="/cdn-cgi/l/email-protection#cdafacbdb9a4beb9a8baa4aea5b98daaa0aca4a1e3aea2a0">Baptiste Wicht</a> - Powered by <a href="http://getnikola.com" rel="nofollow">Nikola</a> - License:
+<a rel="license" href="http://creativecommons.org/licenses/by/4.0/"><img alt="Creative Commons License" style="padding-left:5px;border-width:0" src="../../../assets/img/cc.png"></a>
+<ul class="footer_inline_ul">
+<li>
+<a href="intellij-idea-9-review.wp" id="sourcelink">Source</a>
+</li>
+</ul></footer><script src="/cdn-cgi/scripts/78d64697/cloudflare-static/email-decode.min.js"></script><script src="../../../assets/js/all-nocdn.js"></script>
+</body>
+</html>

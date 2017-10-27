@@ -1,0 +1,528 @@
+<!DOCTYPE html>
+<html prefix="og: http://ogp.me/ns# article: http://ogp.me/ns/article# " lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Named Optional Template parameters to configure a class at compile-time | Blog blog("Baptiste Wicht");</title>
+<script src="/cdn-cgi/apps/head/98vpnawSZZMscPn4oDND-ZgswjM.js"></script><link href="../../../assets/css/all-nocdn.css" rel="stylesheet" type="text/css">
+<meta name="theme-color" content="#5670d4">
+<meta name="generator" content="Nikola (getnikola.com)">
+<link rel="alternate" type="application/rss+xml" title="RSS" href="../../../rss.xml">
+<link rel="canonical" href="http://baptiste-wicht.com/posts/2015/03/named-optional-template-parameters-compile-time.html">
+<!--[if lt IE 9]><script src="../../../assets/js/html5.js"></script><![endif]--><meta name="author" content="Baptiste Wicht">
+<link rel="prev" href="../../2014/10/sonarqube-inspections-for-cpp-projects.html" title="SonarQube inspections for C++ projects" type="text/html">
+<link rel="next" href="how-to-speed-up-raid-5-6-growing-with-mdadm.html" title="How to speed up RAID (5-6) growing with mdadm ?" type="text/html">
+<meta property="og:site_name" content='Blog blog("Baptiste Wicht");'>
+<meta property="og:title" content="Named Optional Template parameters to configure a class at compile-tim">
+<meta property="og:url" content="http://baptiste-wicht.com/posts/2015/03/named-optional-template-parameters-compile-time.html">
+<meta property="og:description" content="In this post, I'll describe a technique that can be used to configure a class at compile-time when there are multiple, optional parameters, with default values to this class. I used this technique in ">
+<meta property="og:type" content="article">
+<meta property="article:published_time" content="2015-03-01T15:52:41+01:00">
+<meta property="article:tag" content="C++">
+<meta property="article:tag" content="C++11">
+<meta property="article:tag" content="C++14">
+<meta property="article:tag" content="templates">
+<link href="../../../favicon.ico" rel="icon" type="image/x-icon">
+<link rel="publisher" href="https://plus.google.com/+BaptisteWicht">
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-2175227-7', 'auto');
+  var metas = document.getElementsByTagName('meta'), tagsList = [];
+  for (var i=0; i<metas.length; i++) {
+    if (metas[i].getAttribute('property') == 'article:tag') {
+      tagsList.push( metas[i].getAttribute('content'));
+    }
+  }
+  ga('set', 'dimension1', tagsList.join('|'));
+  ga('send', 'pageview');
+</script>
+</head>
+<body>
+
+<a href="#content" class="sr-only sr-only-focusable">Skip to main content</a>
+<div class="container-fluid">
+
+<div class="row">
+<div class="col-sm-3 col-lg-2">
+<nav class="navbar navbar-inverse navbar-fixed-side"><div class="navbar-header">
+<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+<span class="sr-only">Toggle navigation</span>
+<span class="icon-bar"></span>
+<span class="icon-bar"></span>
+<span class="icon-bar"></span>
+</button>
+<a class="navbar-brand" href="http://baptiste-wicht.com/">
+<span id="blog-title">Blog blog("Baptiste Wicht");</span>
+</a>
+</div>
+
+<div class="collapse navbar-collapse navbar-ex1-collapse">
+<ul class="nav navbar-nav">
+<li>
+<a href="../../../stories/about.html">About</a>
+</li>
+<li>
+<a href="../../../stories/publications.html">Publications</a>
+</li>
+<li>
+<a href="../../../stories/projects.html">Projects</a>
+</li>
+<li>
+<a href="../../../categories/index.html">Tags</a>
+</li>
+<li>
+<a href="../../../archive.html">Archives</a>
+</li>
+<li>
+<a href="http://feeds.feedburner.com/BaptisteWicht">RSS</a>
+</li>
+<li class="navbar-content">
+<h3>Related posts</h3>
+</li>
+<li><a href="../07/simulate-static_if-with-c11c14.html">Simulate static_if with C++11/C++14</a></li>
+<li><a href="../../2017/08/simplify-your-type-traits-with-c++14-variable-templates.html">Simplify your type traits with C++14 variable templates</a></li>
+<li><a href="../../2014/07/compile-integer-square-roots-at-compile-time-in-cpp.html">Compile integer Square Roots at compile-time in C++</a></li>
+<li><a href="../../2016/02/use-templight-and-templar-to-debug-cpp-templates.html">Use templight and Templar to debug C++ templates</a></li>
+<li><a href="../05/cpp17-fold-expressions.html">C++17 Fold Expressions</a></li>
+<li><a href="../../2010/07/play-framework-template-engine.html">Play Framework - The template engine</a></li>
+<li class="navbar-block">
+<li class="wicht-navbar-right">
+<a target="_blank" title="Follow @wichtounet on Twitter" href="https://twitter.com/wichtounet">
+<img src="../../../assets/img/twitter.png" alt="Follow @wichtounet on Twitter"></a>
+</li>
+<li class="wicht-navbar-right">
+<a target="_blank" title="Follow +BaptisteWicht on Google+" href="https://plus.google.com/+BaptisteWicht">
+<img src="../../../assets/img/google_plus.png" alt="Follow +BaptisteWicht on Google+"></a>
+</li>
+</ul>
+</div>
+
+</nav>
+</div> 
+<div class="col-sm-9 col-lg-10">
+<div id="content"></div>
+<article class="post-text h-entry hentry postpage" itemscope="itemscope" itemtype="http://schema.org/Article"><header><h1 class="p-name entry-title" itemprop="headline name"><a href="#" class="u-url">Named Optional Template parameters to configure a class at compile-time</a></h1>
+<div class="metadata">
+<p class="byline author vcard"><span class="byline-name fn" itemprop="author">
+Baptiste Wicht
+</span></p>
+<p class="dateline"><a href="#" rel="bookmark"><time class="published dt-published" datetime="2015-03-01T15:52:41+01:00" itemprop="datePublished" title="2015-03-01 15:52">2015-03-01 15:52</time></a></p>
+<p class="commentline">
+<a href="named-optional-template-parameters-compile-time.html#disqus_thread" data-disqus-identifier="cache/posts/2015/03/named-optional-template-parameters-to-configure-a-class-at-compile-time.html">Comments</a>
+</p>
+<p class="sourceline"><a href="named-optional-template-parameters-compile-time.rst" class="sourcelink">Source</a></p>
+</div>
+</header><div class="e-content entry-content" itemprop="articleBody text">
+<div>
+<p>In this post, I'll describe a technique that can be used to configure a class at compile-time when there are multiple, optional parameters, with default values to this class. I used this technique in my dll project to configure each instance of Restricted Boltzmann Machine.</p>
+<p>The technique presented here will only work with C++11 because of the need for variadic template. This could be emulated without them by fixing a maximum number of parameters, but I won't go into this in this post.</p>
+<div class="section" id="the-problem">
+<h2>The problem</h2>
+<p>For this post, we'll take the case of a single class, let's call it configurable. This class has several parameters:</p>
+<ul class="simple">
+<li>A of type int</li>
+<li>B of type char</li>
+<li>C of an enum type</li>
+<li>D of type bool</li>
+<li>E is a type</li>
+<li>F is a template type</li>
+</ul>
+<p>This class could simply be written as such:</p>
+<pre class="code c++"><a name="rest_code_424e69d5f8e64602ae81688f4ffe65a3-1"></a><span class="k">enum</span> <span class="k">class</span> <span class="nc">type</span> <span class="p">{</span>
+<a name="rest_code_424e69d5f8e64602ae81688f4ffe65a3-2"></a>    <span class="n">AAA</span><span class="p">,</span>
+<a name="rest_code_424e69d5f8e64602ae81688f4ffe65a3-3"></a>    <span class="n">BBB</span><span class="p">,</span>
+<a name="rest_code_424e69d5f8e64602ae81688f4ffe65a3-4"></a>    <span class="n">CCC</span>
+<a name="rest_code_424e69d5f8e64602ae81688f4ffe65a3-5"></a><span class="p">};</span>
+<a name="rest_code_424e69d5f8e64602ae81688f4ffe65a3-6"></a>
+<a name="rest_code_424e69d5f8e64602ae81688f4ffe65a3-7"></a><span class="k">template</span><span class="o">&lt;</span><span class="kt">int</span> <span class="n">T_A</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="kt">char</span> <span class="n">T_B</span> <span class="o">=</span> <span class="sc">'b'</span><span class="p">,</span> <span class="n">type</span> <span class="n">T_C</span> <span class="o">=</span> <span class="n">type</span><span class="o">::</span><span class="n">BBB</span><span class="p">,</span> <span class="kt">bool</span> <span class="n">T_D</span> <span class="o">=</span> <span class="nb">false</span><span class="p">,</span> <span class="k">typename</span> <span class="n">T_E</span> <span class="o">=</span> <span class="n">watcher_1</span><span class="p">,</span> <span class="k">template</span><span class="o">&lt;</span><span class="k">typename</span><span class="o">&gt;</span> <span class="k">class</span> <span class="nc">T_F</span> <span class="o">=</span> <span class="n">trainer_1</span><span class="o">&gt;</span>
+<a name="rest_code_424e69d5f8e64602ae81688f4ffe65a3-8"></a><span class="k">struct</span> <span class="n">configurable_v1</span> <span class="p">{</span>
+<a name="rest_code_424e69d5f8e64602ae81688f4ffe65a3-9"></a>    <span class="k">static</span> <span class="k">constexpr</span> <span class="k">const</span> <span class="kt">int</span> <span class="n">A</span> <span class="o">=</span> <span class="n">T_A</span><span class="p">;</span>
+<a name="rest_code_424e69d5f8e64602ae81688f4ffe65a3-10"></a>    <span class="k">static</span> <span class="k">constexpr</span> <span class="k">const</span> <span class="kt">char</span> <span class="n">B</span> <span class="o">=</span> <span class="n">T_B</span><span class="p">;</span>
+<a name="rest_code_424e69d5f8e64602ae81688f4ffe65a3-11"></a>    <span class="k">static</span> <span class="k">constexpr</span> <span class="k">const</span> <span class="n">type</span> <span class="n">C</span> <span class="o">=</span> <span class="n">T_C</span><span class="p">;</span>
+<a name="rest_code_424e69d5f8e64602ae81688f4ffe65a3-12"></a>    <span class="k">static</span> <span class="k">constexpr</span> <span class="k">const</span> <span class="kt">bool</span> <span class="n">D</span> <span class="o">=</span> <span class="n">T_D</span><span class="p">;</span>
+<a name="rest_code_424e69d5f8e64602ae81688f4ffe65a3-13"></a>
+<a name="rest_code_424e69d5f8e64602ae81688f4ffe65a3-14"></a>    <span class="k">using</span> <span class="n">E</span> <span class="o">=</span> <span class="n">T_E</span><span class="p">;</span>
+<a name="rest_code_424e69d5f8e64602ae81688f4ffe65a3-15"></a>
+<a name="rest_code_424e69d5f8e64602ae81688f4ffe65a3-16"></a>    <span class="k">template</span><span class="o">&lt;</span><span class="k">typename</span> <span class="n">C</span><span class="o">&gt;</span>
+<a name="rest_code_424e69d5f8e64602ae81688f4ffe65a3-17"></a>    <span class="k">using</span> <span class="n">F</span> <span class="o">=</span> <span class="n">T_F</span><span class="o">&lt;</span><span class="n">C</span><span class="o">&gt;</span><span class="p">;</span>
+<a name="rest_code_424e69d5f8e64602ae81688f4ffe65a3-18"></a>
+<a name="rest_code_424e69d5f8e64602ae81688f4ffe65a3-19"></a>    <span class="c1">//Something useful</span>
+<a name="rest_code_424e69d5f8e64602ae81688f4ffe65a3-20"></a><span class="p">};</span>
+</pre>
+<p>and used simply as well:</p>
+<pre class="code c++"><a name="rest_code_343564584d2e4f0eb59324ec92d007d7-1"></a><span class="k">using</span> <span class="n">configurable_v1_t</span> <span class="o">=</span> <span class="n">configurable_v1</span><span class="o">&lt;</span><span class="mi">100</span><span class="p">,</span> <span class="sc">'z'</span><span class="p">,</span> <span class="n">type</span><span class="o">::</span><span class="n">CCC</span><span class="p">,</span> <span class="nb">true</span><span class="p">,</span> <span class="n">watcher_2</span><span class="p">,</span> <span class="n">trainer_2</span><span class="o">&gt;</span><span class="p">;</span>
+</pre>
+<p>This works well and nothing is wrong with this code. However, if you want all default values but the last one, you have to specify each and every one of the previous template parameters as well. The first disadvantage is that it is verbose and tedious. Secondly, instead of using directly the default values implicitly, you have specified them. This means that if the default values are changed by the library authors or even by you in the configurable_v1 class, either all the usages will be out of sync or you'll have to update them. And again, this is not practical. Moreover, if the author of the configurable_v1 template adds new template parameters before the last, you'll have to update all the instantiation points as well.</p>
+<p>Moreover, here we only have 6 parameters, if you have more, the problem becomes even worse.</p>
+</div>
+<div class="section" id="the-solution">
+<h2>The solution</h2>
+<p>What can we do to improve over these problems ? We are going to use variadic template parameters in the configurable class and use simple classes for each possible parameters. This will be done in the configurable_v2 class. At the end you could use the class as such:</p>
+<pre class="code c++"><a name="rest_code_8844cab7b0f94c289353add46a76da9e-1"></a><span class="k">using</span> <span class="n">configurable_v2_t1</span> <span class="o">=</span> <span class="n">configurable_v2</span><span class="o">&lt;</span><span class="n">a</span><span class="o">&lt;</span><span class="mi">100</span><span class="o">&gt;</span><span class="p">,</span> <span class="n">b</span><span class="o">&lt;</span><span class="sc">'z'</span><span class="o">&gt;</span><span class="p">,</span> <span class="n">c</span><span class="o">&lt;</span><span class="n">type</span><span class="o">::</span><span class="n">CCC</span><span class="o">&gt;</span><span class="p">,</span> <span class="n">d</span><span class="p">,</span> <span class="n">e</span><span class="o">&lt;</span><span class="n">watcher_2</span><span class="o">&gt;</span><span class="p">,</span> <span class="n">f</span><span class="o">&lt;</span><span class="n">trainer_2</span><span class="o">&gt;&gt;</span><span class="p">;</span>
+<a name="rest_code_8844cab7b0f94c289353add46a76da9e-2"></a><span class="k">using</span> <span class="n">configurable_v2_t2</span> <span class="o">=</span> <span class="n">configurable_v2</span><span class="o">&lt;</span><span class="n">f</span><span class="o">&lt;</span><span class="n">trainer_2</span><span class="o">&gt;&gt;</span><span class="p">;</span>
+</pre>
+<p>You can note, that on the second line, we only specified the value for the last parameter without specifiyng any other value :) This is also much more flexible since the order of the parameters has absolutely no impact. Here, for the sake of the example, the parameters are badly named, so it is not very clear what this do, but in practice, you can give better names to the parameters and make the types more clear. Here is an example from my dll library:</p>
+<pre class="code c++"><a name="rest_code_7cbe5b424bed4cfcbc6dea71b08beccf-1"></a><span class="k">using</span> <span class="n">rbm_t</span> <span class="o">=</span> <span class="n">dll</span><span class="o">::</span><span class="n">rbm_desc</span><span class="o">&lt;</span>
+<a name="rest_code_7cbe5b424bed4cfcbc6dea71b08beccf-2"></a>    <span class="mi">28</span> <span class="o">*</span> <span class="mi">28</span><span class="p">,</span> <span class="mi">200</span><span class="p">,</span>
+<a name="rest_code_7cbe5b424bed4cfcbc6dea71b08beccf-3"></a>   <span class="n">dll</span><span class="o">::</span><span class="n">batch_size</span><span class="o">&lt;</span><span class="mi">25</span><span class="o">&gt;</span><span class="p">,</span>
+<a name="rest_code_7cbe5b424bed4cfcbc6dea71b08beccf-4"></a>   <span class="n">dll</span><span class="o">::</span><span class="n">momentum</span><span class="p">,</span>
+<a name="rest_code_7cbe5b424bed4cfcbc6dea71b08beccf-5"></a>   <span class="n">dll</span><span class="o">::</span><span class="n">weight_decay</span><span class="o">&lt;&gt;</span><span class="p">,</span>
+<a name="rest_code_7cbe5b424bed4cfcbc6dea71b08beccf-6"></a>   <span class="n">dll</span><span class="o">::</span><span class="n">visible</span><span class="o">&lt;</span><span class="n">dll</span><span class="o">::</span><span class="n">unit_type</span><span class="o">::</span><span class="n">GAUSSIAN</span><span class="o">&gt;</span><span class="p">,</span>
+<a name="rest_code_7cbe5b424bed4cfcbc6dea71b08beccf-7"></a>   <span class="n">dll</span><span class="o">::</span><span class="n">shuffle</span><span class="p">,</span>
+<a name="rest_code_7cbe5b424bed4cfcbc6dea71b08beccf-8"></a>   <span class="n">dll</span><span class="o">::</span><span class="n">weight_type</span><span class="o">&lt;</span><span class="kt">float</span><span class="o">&gt;</span>
+<a name="rest_code_7cbe5b424bed4cfcbc6dea71b08beccf-9"></a><span class="o">&gt;::</span><span class="n">rbm_t</span><span class="p">;</span>
+</pre>
+<p>rbm_desc is class that is configurable with this technique, expect that the first two parameters are mandatory and not named. I personally thinks that this is quite clear, but of course I may be biased ;)</p>
+<p>So let's code!</p>
+<p>The class declaration is quite simple:</p>
+<pre class="code c++"><a name="rest_code_6504c711ea454b1299fe9741741308a9-1"></a><span class="k">template</span><span class="o">&lt;</span><span class="k">typename</span><span class="p">...</span> <span class="n">Args</span><span class="o">&gt;</span>
+<a name="rest_code_6504c711ea454b1299fe9741741308a9-2"></a><span class="k">struct</span> <span class="n">configurable_v2</span> <span class="p">{</span>
+<a name="rest_code_6504c711ea454b1299fe9741741308a9-3"></a>    <span class="c1">//Coming</span>
+<a name="rest_code_6504c711ea454b1299fe9741741308a9-4"></a><span class="p">}</span>
+</pre>
+<p>We will now have to exact values and types from Args in order to get the 4 values, the type and the template type out of Args.</p>
+</div>
+<div class="section" id="extracting-integral-values">
+<h2>Extracting integral values</h2>
+<p>We will start with the parameter <em>a</em> that holds a value of type int with a default value of 1. Here is one way of writing it:</p>
+<pre class="code c++"><a name="rest_code_58720e5b92cd4472aa8adbff5bff0171-1"></a><span class="k">struct</span> <span class="n">a_id</span><span class="p">;</span>
+<a name="rest_code_58720e5b92cd4472aa8adbff5bff0171-2"></a>
+<a name="rest_code_58720e5b92cd4472aa8adbff5bff0171-3"></a><span class="k">template</span><span class="o">&lt;</span><span class="kt">int</span> <span class="n">value</span><span class="o">&gt;</span>
+<a name="rest_code_58720e5b92cd4472aa8adbff5bff0171-4"></a><span class="k">struct</span> <span class="nl">a</span> <span class="p">:</span> <span class="n">std</span><span class="o">::</span><span class="n">integral_constant</span><span class="o">&lt;</span><span class="kt">int</span><span class="p">,</span> <span class="n">value</span><span class="o">&gt;</span> <span class="p">{</span>
+<a name="rest_code_58720e5b92cd4472aa8adbff5bff0171-5"></a>    <span class="k">using</span> <span class="n">type_id</span> <span class="o">=</span> <span class="n">a_id</span><span class="p">;</span>
+<a name="rest_code_58720e5b92cd4472aa8adbff5bff0171-6"></a><span class="p">};</span>
+</pre>
+<p>So, <em>a</em> is simply an integral constant with another typedef <em>type_id</em>. Why do we need this id ? Because a is a type template, we cannot use std::is_same to compare it with other types, since its value is part of the type. If we had only int values, we could easily write a traits that indicates if the type is a specialization of a, but since will have several types, this would be a real pain to do and we would need such a traits for each possible type. Here the simple way to go is to add inner identifiers to each types.</p>
+<p>We can now write a struct to extract the int value for a from <em>Args</em>. <em>Args</em> is a list of types in the form parameter_name&lt;parameter_value&gt;... . We have to find a specialization of a inside this list. If such a specialization is present, we'll take its integral constant value as the value for a, otherwise, we'll take the default values. Here is what we want to do:</p>
+<pre class="code c++"><a name="rest_code_a273365c4f11453ab5ef28d9641c2ee5-1"></a><span class="k">template</span><span class="o">&lt;</span><span class="k">typename</span><span class="p">...</span> <span class="n">Args</span><span class="o">&gt;</span>
+<a name="rest_code_a273365c4f11453ab5ef28d9641c2ee5-2"></a><span class="k">struct</span> <span class="n">configurable_v2</span> <span class="p">{</span>
+<a name="rest_code_a273365c4f11453ab5ef28d9641c2ee5-3"></a>    <span class="k">static</span> <span class="k">constexpr</span> <span class="k">const</span> <span class="kt">int</span> <span class="n">A</span> <span class="o">=</span> <span class="n">get_value_int</span><span class="o">&lt;</span><span class="n">a</span><span class="o">&lt;</span><span class="mi">1</span><span class="o">&gt;</span><span class="p">,</span> <span class="n">Args</span><span class="p">...</span><span class="o">&gt;::</span><span class="n">value</span><span class="p">;</span>
+<a name="rest_code_a273365c4f11453ab5ef28d9641c2ee5-4"></a>
+<a name="rest_code_a273365c4f11453ab5ef28d9641c2ee5-5"></a>    <span class="c1">//Coming</span>
+<a name="rest_code_a273365c4f11453ab5ef28d9641c2ee5-6"></a><span class="p">}</span>
+</pre>
+<p>We specify directly into the class the default values (1) for a and we use the class <em>get_value_int</em> to get its value from the variadic type list. Here is the implementation:</p>
+<pre class="code c++"><a name="rest_code_6b85ebe5779f4fba95173bb6134edafa-1"></a><span class="k">template</span><span class="o">&lt;</span><span class="k">typename</span> <span class="n">D</span><span class="p">,</span> <span class="k">typename</span><span class="p">...</span> <span class="n">Args</span><span class="o">&gt;</span>
+<a name="rest_code_6b85ebe5779f4fba95173bb6134edafa-2"></a><span class="k">struct</span> <span class="n">get_value_int</span><span class="p">;</span>
+<a name="rest_code_6b85ebe5779f4fba95173bb6134edafa-3"></a>
+<a name="rest_code_6b85ebe5779f4fba95173bb6134edafa-4"></a><span class="k">template</span><span class="o">&lt;</span><span class="k">typename</span> <span class="n">D</span><span class="o">&gt;</span>
+<a name="rest_code_6b85ebe5779f4fba95173bb6134edafa-5"></a><span class="k">struct</span> <span class="n">get_value_int</span><span class="o">&lt;</span><span class="n">D</span><span class="o">&gt;</span> <span class="o">:</span> <span class="n">std</span><span class="o">::</span><span class="n">integral_constant</span><span class="o">&lt;</span><span class="kt">int</span><span class="p">,</span> <span class="n">D</span><span class="o">::</span><span class="n">value</span><span class="o">&gt;</span> <span class="p">{};</span>
+<a name="rest_code_6b85ebe5779f4fba95173bb6134edafa-6"></a>
+<a name="rest_code_6b85ebe5779f4fba95173bb6134edafa-7"></a><span class="k">template</span><span class="o">&lt;</span><span class="k">typename</span> <span class="n">D</span><span class="p">,</span> <span class="k">typename</span> <span class="n">T2</span><span class="p">,</span> <span class="k">typename</span><span class="p">...</span> <span class="n">Args</span><span class="o">&gt;</span>
+<a name="rest_code_6b85ebe5779f4fba95173bb6134edafa-8"></a><span class="k">struct</span> <span class="n">get_value_int</span><span class="o">&lt;</span><span class="n">D</span><span class="p">,</span> <span class="n">T2</span><span class="p">,</span> <span class="n">Args</span><span class="p">...</span><span class="o">&gt;</span> <span class="p">{</span>
+<a name="rest_code_6b85ebe5779f4fba95173bb6134edafa-9"></a>    <span class="k">template</span><span class="o">&lt;</span><span class="k">typename</span> <span class="n">D2</span><span class="p">,</span> <span class="k">typename</span> <span class="n">T22</span><span class="p">,</span> <span class="k">typename</span> <span class="n">Enable</span> <span class="o">=</span> <span class="kt">void</span><span class="o">&gt;</span>
+<a name="rest_code_6b85ebe5779f4fba95173bb6134edafa-10"></a>    <span class="k">struct</span> <span class="nl">impl</span>
+<a name="rest_code_6b85ebe5779f4fba95173bb6134edafa-11"></a>        <span class="p">:</span> <span class="n">std</span><span class="o">::</span><span class="n">integral_constant</span><span class="o">&lt;</span><span class="kt">int</span><span class="p">,</span> <span class="n">get_value_int</span><span class="o">&lt;</span><span class="n">D</span><span class="p">,</span> <span class="n">Args</span><span class="p">...</span><span class="o">&gt;::</span><span class="n">value</span><span class="o">&gt;</span> <span class="p">{};</span>
+<a name="rest_code_6b85ebe5779f4fba95173bb6134edafa-12"></a>
+<a name="rest_code_6b85ebe5779f4fba95173bb6134edafa-13"></a>    <span class="k">template</span><span class="o">&lt;</span><span class="k">typename</span> <span class="n">D2</span><span class="p">,</span> <span class="k">typename</span> <span class="n">T22</span><span class="o">&gt;</span>
+<a name="rest_code_6b85ebe5779f4fba95173bb6134edafa-14"></a>    <span class="k">struct</span> <span class="n">impl</span> <span class="o">&lt;</span><span class="n">D2</span><span class="p">,</span> <span class="n">T22</span><span class="p">,</span> <span class="n">std</span><span class="o">::</span><span class="n">enable_if_t</span><span class="o">&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">is_same</span><span class="o">&lt;</span><span class="k">typename</span> <span class="n">D2</span><span class="o">::</span><span class="n">type_id</span><span class="p">,</span> <span class="k">typename</span> <span class="n">T22</span><span class="o">::</span><span class="n">type_id</span><span class="o">&gt;::</span><span class="n">value</span><span class="o">&gt;&gt;</span>
+<a name="rest_code_6b85ebe5779f4fba95173bb6134edafa-15"></a>        <span class="o">:</span> <span class="n">std</span><span class="o">::</span><span class="n">integral_constant</span><span class="o">&lt;</span><span class="kt">int</span><span class="p">,</span> <span class="n">T22</span><span class="o">::</span><span class="n">value</span><span class="o">&gt;</span> <span class="p">{};</span>
+<a name="rest_code_6b85ebe5779f4fba95173bb6134edafa-16"></a>
+<a name="rest_code_6b85ebe5779f4fba95173bb6134edafa-17"></a>    <span class="k">static</span> <span class="k">constexpr</span> <span class="k">const</span> <span class="kt">int</span> <span class="n">value</span> <span class="o">=</span> <span class="n">impl</span><span class="o">&lt;</span><span class="n">D</span><span class="p">,</span> <span class="n">T2</span><span class="o">&gt;::</span><span class="n">value</span><span class="p">;</span>
+<a name="rest_code_6b85ebe5779f4fba95173bb6134edafa-18"></a><span class="p">};</span>
+</pre>
+<p>If you are not really familiar with Template Metaprogramming (TMP), this may seems very unfamiliar or even barbaric, but I'll try to explain into details what is going on here :)</p>
+<p><em>get_value_int</em> is a template that takes a type D, representing the parameter we want to extract and its default, and the list of args. It has a first partial specialization for the case when Args is empty. In which case, its value is simply the value inside D (the default value). The second partial specialization handles the case when there are at least one type (T2) inside the list of args. This separation in two partial specialization is the standard way to works with variadic template parameters. This specialization is more complicated than the first one since it uses an inner class to get the value out of the list. The inner class (impl) takes the parameter type (D2), the type that is present in the list (T22) and a special parameter (Enable) that is used for SFINAE. If you're not familiar with SFINAE (you're probably not reading this article...), it is, put simply, a mean to activate or deactivate a template class or function based on its template parameters. Here, the partial specialization of <em>impl</em> is enabled if <em>T22</em> and <em>D2</em> have the same <em>type_id</em>, in which case, the value of <em>T22</em> is taken as the return of <em>impl</em>. In the basic case, template recursion is used to continue iterating over the list of types. The fact that this has to be done into two template classes is because we cannot add a new template parameter to a partial template specialization even without a name. We cannot either add a simple <em>Enable</em> parameter to get_value_int, we cannot put before Args since then it would be necessary to give it a value in the code that uses it which is not practical neither a good practice.</p>
+<p>We can now do the same for b that is of type char. Here is the parameter definition for b:</p>
+<pre class="code c++"><a name="rest_code_aa777b532d954b4e87e6eb917a92be10-1"></a><span class="k">struct</span> <span class="n">a_id</span><span class="p">;</span>
+<a name="rest_code_aa777b532d954b4e87e6eb917a92be10-2"></a>
+<a name="rest_code_aa777b532d954b4e87e6eb917a92be10-3"></a><span class="k">template</span><span class="o">&lt;</span><span class="kt">int</span> <span class="n">value</span><span class="o">&gt;</span>
+<a name="rest_code_aa777b532d954b4e87e6eb917a92be10-4"></a><span class="k">struct</span> <span class="nl">a</span> <span class="p">:</span> <span class="n">std</span><span class="o">::</span><span class="n">integral_constant</span><span class="o">&lt;</span><span class="kt">int</span><span class="p">,</span> <span class="n">value</span><span class="o">&gt;</span> <span class="p">{</span>
+<a name="rest_code_aa777b532d954b4e87e6eb917a92be10-5"></a>    <span class="k">using</span> <span class="n">type_id</span> <span class="o">=</span> <span class="n">a_id</span><span class="p">;</span>
+<a name="rest_code_aa777b532d954b4e87e6eb917a92be10-6"></a><span class="p">};</span>
+</pre>
+<p>This code is highly similar to the code for a, so we can generalize a bit this with a base class:</p>
+<pre class="code c++"><a name="rest_code_3f51da93438141dfb2f43518bc2b7ab8-1"></a><span class="k">struct</span> <span class="n">a_id</span><span class="p">;</span>
+<a name="rest_code_3f51da93438141dfb2f43518bc2b7ab8-2"></a><span class="k">struct</span> <span class="n">b_id</span><span class="p">;</span>
+<a name="rest_code_3f51da93438141dfb2f43518bc2b7ab8-3"></a>
+<a name="rest_code_3f51da93438141dfb2f43518bc2b7ab8-4"></a><span class="k">template</span><span class="o">&lt;</span><span class="k">typename</span> <span class="n">ID</span><span class="p">,</span> <span class="k">typename</span> <span class="n">T</span><span class="p">,</span> <span class="n">T</span> <span class="n">value</span><span class="o">&gt;</span>
+<a name="rest_code_3f51da93438141dfb2f43518bc2b7ab8-5"></a><span class="k">struct</span> <span class="nl">value_conf_t</span> <span class="p">:</span> <span class="n">std</span><span class="o">::</span><span class="n">integral_constant</span><span class="o">&lt;</span><span class="n">T</span><span class="p">,</span> <span class="n">value</span><span class="o">&gt;</span> <span class="p">{</span>
+<a name="rest_code_3f51da93438141dfb2f43518bc2b7ab8-6"></a>    <span class="k">using</span> <span class="n">type_id</span> <span class="o">=</span> <span class="n">ID</span><span class="p">;</span>
+<a name="rest_code_3f51da93438141dfb2f43518bc2b7ab8-7"></a><span class="p">};</span>
+<a name="rest_code_3f51da93438141dfb2f43518bc2b7ab8-8"></a>
+<a name="rest_code_3f51da93438141dfb2f43518bc2b7ab8-9"></a><span class="k">template</span><span class="o">&lt;</span><span class="kt">int</span> <span class="n">value</span><span class="o">&gt;</span>
+<a name="rest_code_3f51da93438141dfb2f43518bc2b7ab8-10"></a><span class="k">struct</span> <span class="nl">a</span> <span class="p">:</span> <span class="n">value_conf_t</span><span class="o">&lt;</span><span class="n">a_id</span><span class="p">,</span> <span class="kt">int</span><span class="p">,</span> <span class="n">value</span><span class="o">&gt;</span> <span class="p">{};</span>
+<a name="rest_code_3f51da93438141dfb2f43518bc2b7ab8-11"></a>
+<a name="rest_code_3f51da93438141dfb2f43518bc2b7ab8-12"></a><span class="k">template</span><span class="o">&lt;</span><span class="kt">char</span> <span class="n">value</span><span class="o">&gt;</span>
+<a name="rest_code_3f51da93438141dfb2f43518bc2b7ab8-13"></a><span class="k">struct</span> <span class="nl">b</span> <span class="p">:</span> <span class="n">value_conf_t</span><span class="o">&lt;</span><span class="n">b_id</span><span class="p">,</span> <span class="kt">char</span><span class="p">,</span> <span class="n">value</span><span class="o">&gt;</span> <span class="p">{};</span>
+</pre>
+<p>This make the next parameters easier to describe and avoids small mistakes.</p>
+<p>Making <em>get_value_char</em> could be achieved by replacing each <em>int</em> by <em>char</em> but this would create a lot of duplicated code. So instead of writing <em>get_value_char</em>, we will replace <em>get_value_int</em> with a generic <em>get_value</em> that is able to extract any integral value type:</p>
+<pre class="code c++"><a name="rest_code_950a9b9d0a79469a8a77665c552ec52b-1"></a><span class="k">template</span><span class="o">&lt;</span><span class="k">typename</span> <span class="n">D</span><span class="p">,</span> <span class="k">typename</span><span class="p">...</span> <span class="n">Args</span><span class="o">&gt;</span>
+<a name="rest_code_950a9b9d0a79469a8a77665c552ec52b-2"></a><span class="k">struct</span> <span class="n">get_value</span><span class="p">;</span>
+<a name="rest_code_950a9b9d0a79469a8a77665c552ec52b-3"></a>
+<a name="rest_code_950a9b9d0a79469a8a77665c552ec52b-4"></a><span class="k">template</span><span class="o">&lt;</span><span class="k">typename</span> <span class="n">D</span><span class="p">,</span> <span class="k">typename</span> <span class="n">T2</span><span class="p">,</span> <span class="k">typename</span><span class="p">...</span> <span class="n">Args</span><span class="o">&gt;</span>
+<a name="rest_code_950a9b9d0a79469a8a77665c552ec52b-5"></a><span class="k">struct</span> <span class="n">get_value</span><span class="o">&lt;</span><span class="n">D</span><span class="p">,</span> <span class="n">T2</span><span class="p">,</span> <span class="n">Args</span><span class="p">...</span><span class="o">&gt;</span> <span class="p">{</span>
+<a name="rest_code_950a9b9d0a79469a8a77665c552ec52b-6"></a>    <span class="k">template</span><span class="o">&lt;</span><span class="k">typename</span> <span class="n">D2</span><span class="p">,</span> <span class="k">typename</span> <span class="n">T22</span><span class="p">,</span> <span class="k">typename</span> <span class="n">Enable</span> <span class="o">=</span> <span class="kt">void</span><span class="o">&gt;</span>
+<a name="rest_code_950a9b9d0a79469a8a77665c552ec52b-7"></a>    <span class="k">struct</span> <span class="nl">impl</span>
+<a name="rest_code_950a9b9d0a79469a8a77665c552ec52b-8"></a>        <span class="p">:</span> <span class="n">std</span><span class="o">::</span><span class="n">integral_constant</span><span class="o">&lt;</span><span class="k">decltype</span><span class="p">(</span><span class="n">D</span><span class="o">::</span><span class="n">value</span><span class="p">),</span> <span class="n">get_value</span><span class="o">&lt;</span><span class="n">D</span><span class="p">,</span> <span class="n">Args</span><span class="p">...</span><span class="o">&gt;::</span><span class="n">value</span><span class="o">&gt;</span> <span class="p">{};</span>
+<a name="rest_code_950a9b9d0a79469a8a77665c552ec52b-9"></a>
+<a name="rest_code_950a9b9d0a79469a8a77665c552ec52b-10"></a>    <span class="k">template</span><span class="o">&lt;</span><span class="k">typename</span> <span class="n">D2</span><span class="p">,</span> <span class="k">typename</span> <span class="n">T22</span><span class="o">&gt;</span>
+<a name="rest_code_950a9b9d0a79469a8a77665c552ec52b-11"></a>    <span class="k">struct</span> <span class="n">impl</span> <span class="o">&lt;</span><span class="n">D2</span><span class="p">,</span> <span class="n">T22</span><span class="p">,</span> <span class="n">std</span><span class="o">::</span><span class="n">enable_if_t</span><span class="o">&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">is_same</span><span class="o">&lt;</span><span class="k">typename</span> <span class="n">D2</span><span class="o">::</span><span class="n">type_id</span><span class="p">,</span> <span class="k">typename</span> <span class="n">T22</span><span class="o">::</span><span class="n">type_id</span><span class="o">&gt;::</span><span class="n">value</span><span class="o">&gt;&gt;</span>
+<a name="rest_code_950a9b9d0a79469a8a77665c552ec52b-12"></a>        <span class="o">:</span> <span class="n">std</span><span class="o">::</span><span class="n">integral_constant</span><span class="o">&lt;</span><span class="k">decltype</span><span class="p">(</span><span class="n">D</span><span class="o">::</span><span class="n">value</span><span class="p">),</span> <span class="n">T22</span><span class="o">::</span><span class="n">value</span><span class="o">&gt;</span> <span class="p">{};</span>
+<a name="rest_code_950a9b9d0a79469a8a77665c552ec52b-13"></a>
+<a name="rest_code_950a9b9d0a79469a8a77665c552ec52b-14"></a>    <span class="k">static</span> <span class="k">constexpr</span> <span class="k">const</span> <span class="k">auto</span> <span class="n">value</span> <span class="o">=</span> <span class="n">impl</span><span class="o">&lt;</span><span class="n">D</span><span class="p">,</span> <span class="n">T2</span><span class="o">&gt;::</span><span class="n">value</span><span class="p">;</span>
+<a name="rest_code_950a9b9d0a79469a8a77665c552ec52b-15"></a><span class="p">};</span>
+<a name="rest_code_950a9b9d0a79469a8a77665c552ec52b-16"></a>
+<a name="rest_code_950a9b9d0a79469a8a77665c552ec52b-17"></a><span class="k">template</span><span class="o">&lt;</span><span class="k">typename</span> <span class="n">D</span><span class="o">&gt;</span>
+<a name="rest_code_950a9b9d0a79469a8a77665c552ec52b-18"></a><span class="k">struct</span> <span class="n">get_value</span><span class="o">&lt;</span><span class="n">D</span><span class="o">&gt;</span> <span class="o">:</span> <span class="n">std</span><span class="o">::</span><span class="n">integral_constant</span><span class="o">&lt;</span><span class="k">decltype</span><span class="p">(</span><span class="n">D</span><span class="o">::</span><span class="n">value</span><span class="p">),</span> <span class="n">D</span><span class="o">::</span><span class="n">value</span><span class="o">&gt;</span> <span class="p">{};</span>
+</pre>
+<p>This code is almost the same as get_value_int except that the return type is deduced from the value of the parameters. I used <em>decltype</em> and <em>auto</em> to automatically gets the correct types for the values. This is the only thing that changed.</p>
+<p>With that we are ready the parameter c as well:</p>
+<pre class="code c++"><a name="rest_code_b992aa3901e443da8c516f5e77873262-1"></a><span class="k">template</span><span class="o">&lt;</span><span class="k">typename</span><span class="p">...</span> <span class="n">Args</span><span class="o">&gt;</span>
+<a name="rest_code_b992aa3901e443da8c516f5e77873262-2"></a><span class="k">struct</span> <span class="n">configurable_v2</span> <span class="p">{</span>
+<a name="rest_code_b992aa3901e443da8c516f5e77873262-3"></a>    <span class="k">static</span> <span class="k">constexpr</span> <span class="k">const</span> <span class="k">auto</span> <span class="n">A</span> <span class="o">=</span> <span class="n">get_value</span><span class="o">&lt;</span><span class="n">a</span><span class="o">&lt;</span><span class="mi">1</span><span class="o">&gt;</span><span class="p">,</span> <span class="n">Args</span><span class="p">...</span><span class="o">&gt;::</span><span class="n">value</span><span class="p">;</span>
+<a name="rest_code_b992aa3901e443da8c516f5e77873262-4"></a>    <span class="k">static</span> <span class="k">constexpr</span> <span class="k">const</span> <span class="k">auto</span> <span class="n">B</span> <span class="o">=</span> <span class="n">get_value</span><span class="o">&lt;</span><span class="n">b</span><span class="o">&lt;</span><span class="sc">'b'</span><span class="o">&gt;</span><span class="p">,</span> <span class="n">Args</span><span class="p">...</span><span class="o">&gt;::</span><span class="n">value</span><span class="p">;</span>
+<a name="rest_code_b992aa3901e443da8c516f5e77873262-5"></a>    <span class="k">static</span> <span class="k">constexpr</span> <span class="k">const</span> <span class="k">auto</span> <span class="n">C</span> <span class="o">=</span> <span class="n">get_value</span><span class="o">&lt;</span><span class="n">c</span><span class="o">&lt;</span><span class="n">type</span><span class="o">::</span><span class="n">BBB</span><span class="o">&gt;</span><span class="p">,</span> <span class="n">Args</span><span class="p">...</span><span class="o">&gt;::</span><span class="n">value</span><span class="p">;</span>
+<a name="rest_code_b992aa3901e443da8c516f5e77873262-6"></a>
+<a name="rest_code_b992aa3901e443da8c516f5e77873262-7"></a>    <span class="c1">//Coming</span>
+<a name="rest_code_b992aa3901e443da8c516f5e77873262-8"></a><span class="p">};</span>
+</pre>
+</div>
+<div class="section" id="extracting-boolean-flags">
+<h2>Extracting boolean flags</h2>
+<p>The parameter d is a bit different since it is a boolean flag that puts directly the value to true. We could simply make a integral boolean value (and this would work), but here I needed a boolean flag for activating a feature deactivated by default.</p>
+<p>Defining the parameter is easy:</p>
+<pre class="code c++"><a name="rest_code_a59b25b983214368a262465d66b29cb0-1"></a><span class="k">template</span><span class="o">&lt;</span><span class="k">typename</span> <span class="n">ID</span><span class="o">&gt;</span>
+<a name="rest_code_a59b25b983214368a262465d66b29cb0-2"></a><span class="k">struct</span> <span class="n">basic_conf_t</span> <span class="p">{</span>
+<a name="rest_code_a59b25b983214368a262465d66b29cb0-3"></a>    <span class="k">using</span> <span class="n">type_id</span> <span class="o">=</span> <span class="n">ID</span><span class="p">;</span>
+<a name="rest_code_a59b25b983214368a262465d66b29cb0-4"></a><span class="p">};</span>
+<a name="rest_code_a59b25b983214368a262465d66b29cb0-5"></a>
+<a name="rest_code_a59b25b983214368a262465d66b29cb0-6"></a><span class="k">struct</span> <span class="n">d_id</span><span class="p">;</span>
+<a name="rest_code_a59b25b983214368a262465d66b29cb0-7"></a><span class="k">struct</span> <span class="nl">d</span> <span class="p">:</span> <span class="n">basic_conf_t</span><span class="o">&lt;</span><span class="n">d_id</span><span class="o">&gt;</span> <span class="p">{};</span>
+</pre>
+<p>It is similar to the other parameters, except that it has no value. You'll see later in this article why type_id is necessary here.</p>
+<p>To check if the flag is present, we'll write the is_present template:</p>
+<pre class="code c++"><a name="rest_code_84db5a7813cb4caca57ca4379d6b50ec-1"></a><span class="k">template</span><span class="o">&lt;</span><span class="k">typename</span> <span class="n">T1</span><span class="p">,</span> <span class="k">typename</span><span class="p">...</span> <span class="n">Args</span><span class="o">&gt;</span>
+<a name="rest_code_84db5a7813cb4caca57ca4379d6b50ec-2"></a><span class="k">struct</span> <span class="n">is_present</span><span class="p">;</span>
+<a name="rest_code_84db5a7813cb4caca57ca4379d6b50ec-3"></a>
+<a name="rest_code_84db5a7813cb4caca57ca4379d6b50ec-4"></a><span class="k">template</span><span class="o">&lt;</span><span class="k">typename</span> <span class="n">T1</span><span class="p">,</span> <span class="k">typename</span> <span class="n">T2</span><span class="p">,</span> <span class="k">typename</span><span class="p">...</span> <span class="n">Args</span><span class="o">&gt;</span>
+<a name="rest_code_84db5a7813cb4caca57ca4379d6b50ec-5"></a><span class="k">struct</span> <span class="n">is_present</span><span class="o">&lt;</span><span class="n">T1</span><span class="p">,</span> <span class="n">T2</span><span class="p">,</span> <span class="n">Args</span><span class="p">...</span><span class="o">&gt;</span> <span class="o">:</span> <span class="n">std</span><span class="o">::</span><span class="n">integral_constant</span><span class="o">&lt;</span><span class="kt">bool</span><span class="p">,</span> <span class="n">std</span><span class="o">::</span><span class="n">is_same</span><span class="o">&lt;</span><span class="n">T1</span><span class="p">,</span> <span class="n">T2</span><span class="o">&gt;::</span><span class="n">value</span> <span class="o">||</span> <span class="n">is_present</span><span class="o">&lt;</span><span class="n">T1</span><span class="p">,</span> <span class="n">Args</span><span class="p">...</span><span class="o">&gt;::</span><span class="n">value</span><span class="o">&gt;</span> <span class="p">{};</span>
+<a name="rest_code_84db5a7813cb4caca57ca4379d6b50ec-6"></a>
+<a name="rest_code_84db5a7813cb4caca57ca4379d6b50ec-7"></a><span class="k">template</span><span class="o">&lt;</span><span class="k">typename</span> <span class="n">T1</span><span class="o">&gt;</span>
+<a name="rest_code_84db5a7813cb4caca57ca4379d6b50ec-8"></a><span class="k">struct</span> <span class="n">is_present</span><span class="o">&lt;</span><span class="n">T1</span><span class="o">&gt;</span> <span class="o">:</span> <span class="n">std</span><span class="o">::</span><span class="n">false_type</span> <span class="p">{};</span>
+</pre>
+<p>This time, the template is much easier. We simply need to iterate through all the types from the variadic template parameter and test if the type is present somewhere. Again, you can see that we used two partial template specialization to handle the different cases.</p>
+<p>With this we can now get the value for D:</p>
+<pre class="code c++"><a name="rest_code_8d4d84387b9c401d9dc993ca540fa30d-1"></a><span class="k">template</span><span class="o">&lt;</span><span class="k">typename</span><span class="p">...</span> <span class="n">Args</span><span class="o">&gt;</span>
+<a name="rest_code_8d4d84387b9c401d9dc993ca540fa30d-2"></a><span class="k">struct</span> <span class="n">configurable_v2</span> <span class="p">{</span>
+<a name="rest_code_8d4d84387b9c401d9dc993ca540fa30d-3"></a>    <span class="k">static</span> <span class="k">constexpr</span> <span class="k">const</span> <span class="k">auto</span> <span class="n">A</span> <span class="o">=</span> <span class="n">get_value</span><span class="o">&lt;</span><span class="n">a</span><span class="o">&lt;</span><span class="mi">1</span><span class="o">&gt;</span><span class="p">,</span> <span class="n">Args</span><span class="p">...</span><span class="o">&gt;::</span><span class="n">value</span><span class="p">;</span>
+<a name="rest_code_8d4d84387b9c401d9dc993ca540fa30d-4"></a>    <span class="k">static</span> <span class="k">constexpr</span> <span class="k">const</span> <span class="k">auto</span> <span class="n">B</span> <span class="o">=</span> <span class="n">get_value</span><span class="o">&lt;</span><span class="n">b</span><span class="o">&lt;</span><span class="sc">'b'</span><span class="o">&gt;</span><span class="p">,</span> <span class="n">Args</span><span class="p">...</span><span class="o">&gt;::</span><span class="n">value</span><span class="p">;</span>
+<a name="rest_code_8d4d84387b9c401d9dc993ca540fa30d-5"></a>    <span class="k">static</span> <span class="k">constexpr</span> <span class="k">const</span> <span class="k">auto</span> <span class="n">C</span> <span class="o">=</span> <span class="n">get_value</span><span class="o">&lt;</span><span class="n">c</span><span class="o">&lt;</span><span class="n">type</span><span class="o">::</span><span class="n">BBB</span><span class="o">&gt;</span><span class="p">,</span> <span class="n">Args</span><span class="p">...</span><span class="o">&gt;::</span><span class="n">value</span><span class="p">;</span>
+<a name="rest_code_8d4d84387b9c401d9dc993ca540fa30d-6"></a>    <span class="k">static</span> <span class="k">constexpr</span> <span class="k">const</span> <span class="k">auto</span> <span class="n">D</span> <span class="o">=</span> <span class="n">is_present</span><span class="o">&lt;</span><span class="n">d</span><span class="p">,</span> <span class="n">Args</span><span class="p">...</span><span class="o">&gt;::</span><span class="n">value</span><span class="p">;</span>
+<a name="rest_code_8d4d84387b9c401d9dc993ca540fa30d-7"></a>
+<a name="rest_code_8d4d84387b9c401d9dc993ca540fa30d-8"></a>    <span class="c1">//Coming</span>
+<a name="rest_code_8d4d84387b9c401d9dc993ca540fa30d-9"></a><span class="p">};</span>
+</pre>
+</div>
+<div class="section" id="extracting-types">
+<h2>Extracting types</h2>
+<p>The next parameter does not hold a value, but a type. It won't be an integral constant, but it will define a typedef value with the configured type:</p>
+<pre class="code c++"><a name="rest_code_5966c8c0298b4db59e6073e3704152b9-1"></a><span class="k">template</span><span class="o">&lt;</span><span class="k">typename</span> <span class="n">ID</span><span class="p">,</span> <span class="k">typename</span> <span class="n">T</span><span class="o">&gt;</span>
+<a name="rest_code_5966c8c0298b4db59e6073e3704152b9-2"></a><span class="k">struct</span> <span class="n">type_conf_t</span> <span class="p">{</span>
+<a name="rest_code_5966c8c0298b4db59e6073e3704152b9-3"></a>    <span class="k">using</span> <span class="n">type_id</span> <span class="o">=</span> <span class="n">ID</span><span class="p">;</span>
+<a name="rest_code_5966c8c0298b4db59e6073e3704152b9-4"></a>    <span class="k">using</span> <span class="n">value</span> <span class="o">=</span> <span class="n">T</span><span class="p">;</span>
+<a name="rest_code_5966c8c0298b4db59e6073e3704152b9-5"></a><span class="p">};</span>
+<a name="rest_code_5966c8c0298b4db59e6073e3704152b9-6"></a>
+<a name="rest_code_5966c8c0298b4db59e6073e3704152b9-7"></a><span class="k">template</span><span class="o">&lt;</span><span class="k">typename</span> <span class="n">T</span><span class="o">&gt;</span>
+<a name="rest_code_5966c8c0298b4db59e6073e3704152b9-8"></a><span class="k">struct</span> <span class="nl">e</span> <span class="p">:</span> <span class="n">type_conf_t</span><span class="o">&lt;</span><span class="n">e_id</span><span class="p">,</span> <span class="n">T</span><span class="o">&gt;</span> <span class="p">{};</span>
+</pre>
+<p>You may think that the extracting will be very different, but in fact it very similar. And here it is:</p>
+<pre class="code c++"><a name="rest_code_3aaadf8e152c4431b8ca49c83bfa5ece-1"></a><span class="k">template</span><span class="o">&lt;</span><span class="k">typename</span> <span class="n">D</span><span class="p">,</span> <span class="k">typename</span><span class="p">...</span> <span class="n">Args</span><span class="o">&gt;</span>
+<a name="rest_code_3aaadf8e152c4431b8ca49c83bfa5ece-2"></a><span class="k">struct</span> <span class="n">get_type</span><span class="p">;</span>
+<a name="rest_code_3aaadf8e152c4431b8ca49c83bfa5ece-3"></a>
+<a name="rest_code_3aaadf8e152c4431b8ca49c83bfa5ece-4"></a><span class="k">template</span><span class="o">&lt;</span><span class="k">typename</span> <span class="n">D</span><span class="p">,</span> <span class="k">typename</span> <span class="n">T2</span><span class="p">,</span> <span class="k">typename</span><span class="p">...</span> <span class="n">Args</span><span class="o">&gt;</span>
+<a name="rest_code_3aaadf8e152c4431b8ca49c83bfa5ece-5"></a><span class="k">struct</span> <span class="n">get_type</span><span class="o">&lt;</span><span class="n">D</span><span class="p">,</span> <span class="n">T2</span><span class="p">,</span> <span class="n">Args</span><span class="p">...</span><span class="o">&gt;</span> <span class="p">{</span>
+<a name="rest_code_3aaadf8e152c4431b8ca49c83bfa5ece-6"></a>    <span class="k">template</span><span class="o">&lt;</span><span class="k">typename</span> <span class="n">D2</span><span class="p">,</span> <span class="k">typename</span> <span class="n">T22</span><span class="p">,</span> <span class="k">typename</span> <span class="n">Enable</span> <span class="o">=</span> <span class="kt">void</span><span class="o">&gt;</span>
+<a name="rest_code_3aaadf8e152c4431b8ca49c83bfa5ece-7"></a>    <span class="k">struct</span> <span class="n">impl</span> <span class="p">{</span>
+<a name="rest_code_3aaadf8e152c4431b8ca49c83bfa5ece-8"></a>        <span class="k">using</span> <span class="n">value</span> <span class="o">=</span> <span class="k">typename</span> <span class="n">get_type</span><span class="o">&lt;</span><span class="n">D</span><span class="p">,</span> <span class="n">Args</span><span class="p">...</span><span class="o">&gt;::</span><span class="n">value</span><span class="p">;</span>
+<a name="rest_code_3aaadf8e152c4431b8ca49c83bfa5ece-9"></a>    <span class="p">};</span>
+<a name="rest_code_3aaadf8e152c4431b8ca49c83bfa5ece-10"></a>
+<a name="rest_code_3aaadf8e152c4431b8ca49c83bfa5ece-11"></a>    <span class="k">template</span><span class="o">&lt;</span><span class="k">typename</span> <span class="n">D2</span><span class="p">,</span> <span class="k">typename</span> <span class="n">T22</span><span class="o">&gt;</span>
+<a name="rest_code_3aaadf8e152c4431b8ca49c83bfa5ece-12"></a>    <span class="k">struct</span> <span class="n">impl</span> <span class="o">&lt;</span><span class="n">D2</span><span class="p">,</span> <span class="n">T22</span><span class="p">,</span> <span class="n">std</span><span class="o">::</span><span class="n">enable_if_t</span><span class="o">&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">is_same</span><span class="o">&lt;</span><span class="k">typename</span> <span class="n">D2</span><span class="o">::</span><span class="n">type_id</span><span class="p">,</span> <span class="k">typename</span> <span class="n">T22</span><span class="o">::</span><span class="n">type_id</span><span class="o">&gt;::</span><span class="n">value</span><span class="o">&gt;&gt;</span> <span class="p">{</span>
+<a name="rest_code_3aaadf8e152c4431b8ca49c83bfa5ece-13"></a>        <span class="k">using</span> <span class="n">value</span> <span class="o">=</span> <span class="k">typename</span> <span class="n">T22</span><span class="o">::</span><span class="n">value</span><span class="p">;</span>
+<a name="rest_code_3aaadf8e152c4431b8ca49c83bfa5ece-14"></a>    <span class="p">};</span>
+<a name="rest_code_3aaadf8e152c4431b8ca49c83bfa5ece-15"></a>
+<a name="rest_code_3aaadf8e152c4431b8ca49c83bfa5ece-16"></a>    <span class="k">using</span> <span class="n">value</span> <span class="o">=</span> <span class="k">typename</span> <span class="n">impl</span><span class="o">&lt;</span><span class="n">D</span><span class="p">,</span> <span class="n">T2</span><span class="o">&gt;::</span><span class="n">value</span><span class="p">;</span>
+<a name="rest_code_3aaadf8e152c4431b8ca49c83bfa5ece-17"></a><span class="p">};</span>
+<a name="rest_code_3aaadf8e152c4431b8ca49c83bfa5ece-18"></a>
+<a name="rest_code_3aaadf8e152c4431b8ca49c83bfa5ece-19"></a><span class="k">template</span><span class="o">&lt;</span><span class="k">typename</span> <span class="n">D</span><span class="o">&gt;</span>
+<a name="rest_code_3aaadf8e152c4431b8ca49c83bfa5ece-20"></a><span class="k">struct</span> <span class="n">get_type</span><span class="o">&lt;</span><span class="n">D</span><span class="o">&gt;</span> <span class="p">{</span>
+<a name="rest_code_3aaadf8e152c4431b8ca49c83bfa5ece-21"></a>    <span class="k">using</span> <span class="n">value</span> <span class="o">=</span> <span class="k">typename</span> <span class="n">D</span><span class="o">::</span><span class="n">value</span><span class="p">;</span>
+<a name="rest_code_3aaadf8e152c4431b8ca49c83bfa5ece-22"></a><span class="p">};</span>
+</pre>
+<p>Every integral constant has been replaced with alias declaration (with <em>using</em>) and we need to use the <em>typename</em> disambiguator in from of X::value, but that's it :) We could probably have created an integral_type struct to simplify it a bit further, but I don't think that would change a lot. The code of the class follows the same changes:</p>
+<pre class="code c++"><a name="rest_code_0be239de2ec7484f83b5a6039ea2f417-1"></a><span class="k">template</span><span class="o">&lt;</span><span class="k">typename</span><span class="p">...</span> <span class="n">Args</span><span class="o">&gt;</span>
+<a name="rest_code_0be239de2ec7484f83b5a6039ea2f417-2"></a><span class="k">struct</span> <span class="n">configurable_v2</span> <span class="p">{</span>
+<a name="rest_code_0be239de2ec7484f83b5a6039ea2f417-3"></a>    <span class="k">static</span> <span class="k">constexpr</span> <span class="k">const</span> <span class="k">auto</span> <span class="n">A</span> <span class="o">=</span> <span class="n">get_value</span><span class="o">&lt;</span><span class="n">a</span><span class="o">&lt;</span><span class="mi">1</span><span class="o">&gt;</span><span class="p">,</span> <span class="n">Args</span><span class="p">...</span><span class="o">&gt;::</span><span class="n">value</span><span class="p">;</span>
+<a name="rest_code_0be239de2ec7484f83b5a6039ea2f417-4"></a>    <span class="k">static</span> <span class="k">constexpr</span> <span class="k">const</span> <span class="k">auto</span> <span class="n">B</span> <span class="o">=</span> <span class="n">get_value</span><span class="o">&lt;</span><span class="n">b</span><span class="o">&lt;</span><span class="sc">'b'</span><span class="o">&gt;</span><span class="p">,</span> <span class="n">Args</span><span class="p">...</span><span class="o">&gt;::</span><span class="n">value</span><span class="p">;</span>
+<a name="rest_code_0be239de2ec7484f83b5a6039ea2f417-5"></a>    <span class="k">static</span> <span class="k">constexpr</span> <span class="k">const</span> <span class="k">auto</span> <span class="n">C</span> <span class="o">=</span> <span class="n">get_value</span><span class="o">&lt;</span><span class="n">c</span><span class="o">&lt;</span><span class="n">type</span><span class="o">::</span><span class="n">BBB</span><span class="o">&gt;</span><span class="p">,</span> <span class="n">Args</span><span class="p">...</span><span class="o">&gt;::</span><span class="n">value</span><span class="p">;</span>
+<a name="rest_code_0be239de2ec7484f83b5a6039ea2f417-6"></a>    <span class="k">static</span> <span class="k">constexpr</span> <span class="k">const</span> <span class="k">auto</span> <span class="n">D</span> <span class="o">=</span> <span class="n">is_present</span><span class="o">&lt;</span><span class="n">d</span><span class="p">,</span> <span class="n">Args</span><span class="p">...</span><span class="o">&gt;::</span><span class="n">value</span><span class="p">;</span>
+<a name="rest_code_0be239de2ec7484f83b5a6039ea2f417-7"></a>
+<a name="rest_code_0be239de2ec7484f83b5a6039ea2f417-8"></a>    <span class="k">using</span> <span class="n">E</span> <span class="o">=</span> <span class="k">typename</span> <span class="n">get_type</span><span class="o">&lt;</span><span class="n">e</span><span class="o">&lt;</span><span class="n">watcher_1</span><span class="o">&gt;</span><span class="p">,</span> <span class="n">Args</span><span class="p">...</span><span class="o">&gt;::</span><span class="n">value</span><span class="p">;</span>
+<a name="rest_code_0be239de2ec7484f83b5a6039ea2f417-9"></a>
+<a name="rest_code_0be239de2ec7484f83b5a6039ea2f417-10"></a>    <span class="c1">//Coming</span>
+<a name="rest_code_0be239de2ec7484f83b5a6039ea2f417-11"></a><span class="p">};</span>
+</pre>
+</div>
+<div class="section" id="extracting-template-types">
+<h2>Extracting template types</h2>
+<p>The last parameter is not a type but a template, so there are some slight changes necessary to extract them. First, let's take a look at the parameter definition:</p>
+<pre class="code c++"><a name="rest_code_185f003333dc4d6399e31ca0a02113f9-1"></a><span class="k">template</span><span class="o">&lt;</span><span class="k">typename</span> <span class="n">ID</span><span class="p">,</span> <span class="k">template</span><span class="o">&lt;</span><span class="k">typename</span><span class="o">&gt;</span> <span class="k">class</span> <span class="nc">T</span><span class="o">&gt;</span>
+<a name="rest_code_185f003333dc4d6399e31ca0a02113f9-2"></a><span class="k">struct</span> <span class="n">template_type_conf_t</span> <span class="p">{</span>
+<a name="rest_code_185f003333dc4d6399e31ca0a02113f9-3"></a>    <span class="k">using</span> <span class="n">type_id</span> <span class="o">=</span> <span class="n">ID</span><span class="p">;</span>
+<a name="rest_code_185f003333dc4d6399e31ca0a02113f9-4"></a>
+<a name="rest_code_185f003333dc4d6399e31ca0a02113f9-5"></a>    <span class="k">template</span><span class="o">&lt;</span><span class="k">typename</span> <span class="n">C</span><span class="o">&gt;</span>
+<a name="rest_code_185f003333dc4d6399e31ca0a02113f9-6"></a>    <span class="k">using</span> <span class="n">value</span> <span class="o">=</span> <span class="n">T</span><span class="o">&lt;</span><span class="n">C</span><span class="o">&gt;</span><span class="p">;</span>
+<a name="rest_code_185f003333dc4d6399e31ca0a02113f9-7"></a><span class="p">};</span>
+<a name="rest_code_185f003333dc4d6399e31ca0a02113f9-8"></a>
+<a name="rest_code_185f003333dc4d6399e31ca0a02113f9-9"></a><span class="k">template</span><span class="o">&lt;</span><span class="k">template</span><span class="o">&lt;</span><span class="k">typename</span><span class="o">&gt;</span> <span class="k">class</span> <span class="nc">T</span><span class="o">&gt;</span>
+<a name="rest_code_185f003333dc4d6399e31ca0a02113f9-10"></a><span class="k">struct</span> <span class="nl">f</span> <span class="p">:</span> <span class="n">template_type_conf_t</span><span class="o">&lt;</span><span class="n">f_id</span><span class="p">,</span> <span class="n">T</span><span class="o">&gt;</span> <span class="p">{};</span>
+</pre>
+<p>Here instead of taking a simple type, we take a type template with one template parameter. This design has a great limitations. It won't be possible to use it for template that takes more than one template parameter. You have to create an extract template for each possible combination that you want to handle. In my case, I only had the case of a template with one template parameter, but if you have several combination, you'll have to write more code. It is quite simple code, since the adaptations are minor, but it is still tedious. Here is the <em>get_template_type</em> template:</p>
+<pre class="code c++"><a name="rest_code_038f8435ee2144909a1f01d220bf078c-1"></a><span class="k">template</span><span class="o">&lt;</span><span class="k">typename</span> <span class="n">D</span><span class="p">,</span> <span class="k">typename</span><span class="p">...</span> <span class="n">Args</span><span class="o">&gt;</span>
+<a name="rest_code_038f8435ee2144909a1f01d220bf078c-2"></a><span class="k">struct</span> <span class="n">get_template_type</span><span class="p">;</span>
+<a name="rest_code_038f8435ee2144909a1f01d220bf078c-3"></a>
+<a name="rest_code_038f8435ee2144909a1f01d220bf078c-4"></a><span class="k">template</span><span class="o">&lt;</span><span class="k">typename</span> <span class="n">D</span><span class="p">,</span> <span class="k">typename</span> <span class="n">T2</span><span class="p">,</span> <span class="k">typename</span><span class="p">...</span> <span class="n">Args</span><span class="o">&gt;</span>
+<a name="rest_code_038f8435ee2144909a1f01d220bf078c-5"></a><span class="k">struct</span> <span class="n">get_template_type</span><span class="o">&lt;</span><span class="n">D</span><span class="p">,</span> <span class="n">T2</span><span class="p">,</span> <span class="n">Args</span><span class="p">...</span><span class="o">&gt;</span> <span class="p">{</span>
+<a name="rest_code_038f8435ee2144909a1f01d220bf078c-6"></a>    <span class="k">template</span><span class="o">&lt;</span><span class="k">typename</span> <span class="n">D2</span><span class="p">,</span> <span class="k">typename</span> <span class="n">T22</span><span class="p">,</span> <span class="k">typename</span> <span class="n">Enable</span> <span class="o">=</span> <span class="kt">void</span><span class="o">&gt;</span>
+<a name="rest_code_038f8435ee2144909a1f01d220bf078c-7"></a>    <span class="k">struct</span> <span class="n">impl</span> <span class="p">{</span>
+<a name="rest_code_038f8435ee2144909a1f01d220bf078c-8"></a>        <span class="k">template</span><span class="o">&lt;</span><span class="k">typename</span> <span class="n">C</span><span class="o">&gt;</span>
+<a name="rest_code_038f8435ee2144909a1f01d220bf078c-9"></a>        <span class="k">using</span> <span class="n">value</span> <span class="o">=</span> <span class="k">typename</span> <span class="n">get_template_type</span><span class="o">&lt;</span><span class="n">D</span><span class="p">,</span> <span class="n">Args</span><span class="p">...</span><span class="o">&gt;::</span><span class="k">template</span> <span class="n">value</span><span class="o">&lt;</span><span class="n">C</span><span class="o">&gt;</span><span class="p">;</span>
+<a name="rest_code_038f8435ee2144909a1f01d220bf078c-10"></a>    <span class="p">};</span>
+<a name="rest_code_038f8435ee2144909a1f01d220bf078c-11"></a>
+<a name="rest_code_038f8435ee2144909a1f01d220bf078c-12"></a>    <span class="k">template</span><span class="o">&lt;</span><span class="k">typename</span> <span class="n">D2</span><span class="p">,</span> <span class="k">typename</span> <span class="n">T22</span><span class="o">&gt;</span>
+<a name="rest_code_038f8435ee2144909a1f01d220bf078c-13"></a>    <span class="k">struct</span> <span class="n">impl</span> <span class="o">&lt;</span><span class="n">D2</span><span class="p">,</span> <span class="n">T22</span><span class="p">,</span> <span class="n">std</span><span class="o">::</span><span class="n">enable_if_t</span><span class="o">&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">is_same</span><span class="o">&lt;</span><span class="k">typename</span> <span class="n">D2</span><span class="o">::</span><span class="n">type_id</span><span class="p">,</span> <span class="k">typename</span> <span class="n">T22</span><span class="o">::</span><span class="n">type_id</span><span class="o">&gt;::</span><span class="n">value</span><span class="o">&gt;&gt;</span> <span class="p">{</span>
+<a name="rest_code_038f8435ee2144909a1f01d220bf078c-14"></a>        <span class="k">template</span><span class="o">&lt;</span><span class="k">typename</span> <span class="n">C</span><span class="o">&gt;</span>
+<a name="rest_code_038f8435ee2144909a1f01d220bf078c-15"></a>        <span class="k">using</span> <span class="n">value</span> <span class="o">=</span> <span class="k">typename</span> <span class="n">T22</span><span class="o">::</span><span class="k">template</span> <span class="n">value</span><span class="o">&lt;</span><span class="n">C</span><span class="o">&gt;</span><span class="p">;</span>
+<a name="rest_code_038f8435ee2144909a1f01d220bf078c-16"></a>    <span class="p">};</span>
+<a name="rest_code_038f8435ee2144909a1f01d220bf078c-17"></a>
+<a name="rest_code_038f8435ee2144909a1f01d220bf078c-18"></a>    <span class="k">template</span><span class="o">&lt;</span><span class="k">typename</span> <span class="n">C</span><span class="o">&gt;</span>
+<a name="rest_code_038f8435ee2144909a1f01d220bf078c-19"></a>    <span class="k">using</span> <span class="n">value</span> <span class="o">=</span> <span class="k">typename</span> <span class="n">impl</span><span class="o">&lt;</span><span class="n">D</span><span class="p">,</span> <span class="n">T2</span><span class="o">&gt;::</span><span class="k">template</span> <span class="n">value</span><span class="o">&lt;</span><span class="n">C</span><span class="o">&gt;</span><span class="p">;</span>
+<a name="rest_code_038f8435ee2144909a1f01d220bf078c-20"></a><span class="p">};</span>
+<a name="rest_code_038f8435ee2144909a1f01d220bf078c-21"></a>
+<a name="rest_code_038f8435ee2144909a1f01d220bf078c-22"></a><span class="k">template</span><span class="o">&lt;</span><span class="k">typename</span> <span class="n">D</span><span class="o">&gt;</span>
+<a name="rest_code_038f8435ee2144909a1f01d220bf078c-23"></a><span class="k">struct</span> <span class="n">get_template_type</span><span class="o">&lt;</span><span class="n">D</span><span class="o">&gt;</span> <span class="p">{</span>
+<a name="rest_code_038f8435ee2144909a1f01d220bf078c-24"></a>    <span class="k">template</span><span class="o">&lt;</span><span class="k">typename</span> <span class="n">C</span><span class="o">&gt;</span>
+<a name="rest_code_038f8435ee2144909a1f01d220bf078c-25"></a>    <span class="k">using</span> <span class="n">value</span> <span class="o">=</span> <span class="k">typename</span> <span class="n">D</span><span class="o">::</span><span class="k">template</span> <span class="n">value</span><span class="o">&lt;</span><span class="n">C</span><span class="o">&gt;</span><span class="p">;</span>
+<a name="rest_code_038f8435ee2144909a1f01d220bf078c-26"></a><span class="p">};</span>
+</pre>
+<p>Again, there are only few changes. Every previous alias declaration is now a template alias declaration and we have to use <em>template</em> disambiguator in front of value. We now have the final piece to write the configurable_v2 class:</p>
+<pre class="code c++"><a name="rest_code_8fa59607b643427daefdfe9cec1b33fc-1"></a><span class="k">template</span><span class="o">&lt;</span><span class="k">typename</span><span class="p">...</span> <span class="n">Args</span><span class="o">&gt;</span>
+<a name="rest_code_8fa59607b643427daefdfe9cec1b33fc-2"></a><span class="k">struct</span> <span class="n">configurable_v2</span> <span class="p">{</span>
+<a name="rest_code_8fa59607b643427daefdfe9cec1b33fc-3"></a>    <span class="k">static</span> <span class="k">constexpr</span> <span class="k">const</span> <span class="k">auto</span> <span class="n">A</span> <span class="o">=</span> <span class="n">get_value</span><span class="o">&lt;</span><span class="n">a</span><span class="o">&lt;</span><span class="mi">1</span><span class="o">&gt;</span><span class="p">,</span> <span class="n">Args</span><span class="p">...</span><span class="o">&gt;::</span><span class="n">value</span><span class="p">;</span>
+<a name="rest_code_8fa59607b643427daefdfe9cec1b33fc-4"></a>    <span class="k">static</span> <span class="k">constexpr</span> <span class="k">const</span> <span class="k">auto</span> <span class="n">B</span> <span class="o">=</span> <span class="n">get_value</span><span class="o">&lt;</span><span class="n">b</span><span class="o">&lt;</span><span class="sc">'b'</span><span class="o">&gt;</span><span class="p">,</span> <span class="n">Args</span><span class="p">...</span><span class="o">&gt;::</span><span class="n">value</span><span class="p">;</span>
+<a name="rest_code_8fa59607b643427daefdfe9cec1b33fc-5"></a>    <span class="k">static</span> <span class="k">constexpr</span> <span class="k">const</span> <span class="k">auto</span> <span class="n">C</span> <span class="o">=</span> <span class="n">get_value</span><span class="o">&lt;</span><span class="n">c</span><span class="o">&lt;</span><span class="n">type</span><span class="o">::</span><span class="n">BBB</span><span class="o">&gt;</span><span class="p">,</span> <span class="n">Args</span><span class="p">...</span><span class="o">&gt;::</span><span class="n">value</span><span class="p">;</span>
+<a name="rest_code_8fa59607b643427daefdfe9cec1b33fc-6"></a>    <span class="k">static</span> <span class="k">constexpr</span> <span class="k">const</span> <span class="k">auto</span> <span class="n">D</span> <span class="o">=</span> <span class="n">is_present</span><span class="o">&lt;</span><span class="n">d</span><span class="p">,</span> <span class="n">Args</span><span class="p">...</span><span class="o">&gt;::</span><span class="n">value</span><span class="p">;</span>
+<a name="rest_code_8fa59607b643427daefdfe9cec1b33fc-7"></a>
+<a name="rest_code_8fa59607b643427daefdfe9cec1b33fc-8"></a>    <span class="k">using</span> <span class="n">E</span> <span class="o">=</span> <span class="k">typename</span> <span class="n">get_type</span><span class="o">&lt;</span><span class="n">e</span><span class="o">&lt;</span><span class="n">watcher_1</span><span class="o">&gt;</span><span class="p">,</span> <span class="n">Args</span><span class="p">...</span><span class="o">&gt;::</span><span class="n">value</span><span class="p">;</span>
+<a name="rest_code_8fa59607b643427daefdfe9cec1b33fc-9"></a>
+<a name="rest_code_8fa59607b643427daefdfe9cec1b33fc-10"></a>    <span class="k">template</span><span class="o">&lt;</span><span class="k">typename</span> <span class="n">C</span><span class="o">&gt;</span>
+<a name="rest_code_8fa59607b643427daefdfe9cec1b33fc-11"></a>    <span class="k">using</span> <span class="n">F</span> <span class="o">=</span> <span class="k">typename</span> <span class="n">get_template_type</span><span class="o">&lt;</span><span class="n">f</span><span class="o">&lt;</span><span class="n">trainer_1</span><span class="o">&gt;</span><span class="p">,</span> <span class="n">Args</span><span class="p">...</span><span class="o">&gt;::</span><span class="k">template</span> <span class="n">value</span><span class="o">&lt;</span><span class="n">C</span><span class="o">&gt;</span><span class="p">;</span>
+<a name="rest_code_8fa59607b643427daefdfe9cec1b33fc-12"></a><span class="p">};</span>
+</pre>
+</div>
+<div class="section" id="validating-parameter-rules">
+<h2>Validating parameter rules</h2>
+<p>If you have more parameters and several classes that are configured in this manner, the user may use a wrong parameter in the list. In that case, nothing will happen, the parameter will simply be ignored. Sometimes, this behavior is acceptable, but sometimes it is better to make the code invalid. That's what we are going to do here by specifying a list of valid parameters and using static_assert to ensure this condition.</p>
+<p>Here is the assertion:</p>
+<pre class="code c++"><a name="rest_code_cde4a2cbfa4a40a28a75f8527390b4bc-1"></a><span class="k">template</span><span class="o">&lt;</span><span class="k">typename</span><span class="p">...</span> <span class="n">Args</span><span class="o">&gt;</span>
+<a name="rest_code_cde4a2cbfa4a40a28a75f8527390b4bc-2"></a><span class="k">struct</span> <span class="n">configurable_v2</span> <span class="p">{</span>
+<a name="rest_code_cde4a2cbfa4a40a28a75f8527390b4bc-3"></a>    <span class="k">static</span> <span class="k">constexpr</span> <span class="k">const</span> <span class="k">auto</span> <span class="n">A</span> <span class="o">=</span> <span class="n">get_value</span><span class="o">&lt;</span><span class="n">a</span><span class="o">&lt;</span><span class="mi">1</span><span class="o">&gt;</span><span class="p">,</span> <span class="n">Args</span><span class="p">...</span><span class="o">&gt;::</span><span class="n">value</span><span class="p">;</span>
+<a name="rest_code_cde4a2cbfa4a40a28a75f8527390b4bc-4"></a>    <span class="k">static</span> <span class="k">constexpr</span> <span class="k">const</span> <span class="k">auto</span> <span class="n">B</span> <span class="o">=</span> <span class="n">get_value</span><span class="o">&lt;</span><span class="n">b</span><span class="o">&lt;</span><span class="sc">'b'</span><span class="o">&gt;</span><span class="p">,</span> <span class="n">Args</span><span class="p">...</span><span class="o">&gt;::</span><span class="n">value</span><span class="p">;</span>
+<a name="rest_code_cde4a2cbfa4a40a28a75f8527390b4bc-5"></a>    <span class="k">static</span> <span class="k">constexpr</span> <span class="k">const</span> <span class="k">auto</span> <span class="n">C</span> <span class="o">=</span> <span class="n">get_value</span><span class="o">&lt;</span><span class="n">c</span><span class="o">&lt;</span><span class="n">type</span><span class="o">::</span><span class="n">BBB</span><span class="o">&gt;</span><span class="p">,</span> <span class="n">Args</span><span class="p">...</span><span class="o">&gt;::</span><span class="n">value</span><span class="p">;</span>
+<a name="rest_code_cde4a2cbfa4a40a28a75f8527390b4bc-6"></a>    <span class="k">static</span> <span class="k">constexpr</span> <span class="k">const</span> <span class="k">auto</span> <span class="n">D</span> <span class="o">=</span> <span class="n">is_present</span><span class="o">&lt;</span><span class="n">d</span><span class="p">,</span> <span class="n">Args</span><span class="p">...</span><span class="o">&gt;::</span><span class="n">value</span><span class="p">;</span>
+<a name="rest_code_cde4a2cbfa4a40a28a75f8527390b4bc-7"></a>
+<a name="rest_code_cde4a2cbfa4a40a28a75f8527390b4bc-8"></a>    <span class="k">using</span> <span class="n">E</span> <span class="o">=</span> <span class="k">typename</span> <span class="n">get_type</span><span class="o">&lt;</span><span class="n">e</span><span class="o">&lt;</span><span class="n">watcher_1</span><span class="o">&gt;</span><span class="p">,</span> <span class="n">Args</span><span class="p">...</span><span class="o">&gt;::</span><span class="n">value</span><span class="p">;</span>
+<a name="rest_code_cde4a2cbfa4a40a28a75f8527390b4bc-9"></a>
+<a name="rest_code_cde4a2cbfa4a40a28a75f8527390b4bc-10"></a>    <span class="k">template</span><span class="o">&lt;</span><span class="k">typename</span> <span class="n">C</span><span class="o">&gt;</span>
+<a name="rest_code_cde4a2cbfa4a40a28a75f8527390b4bc-11"></a>    <span class="k">using</span> <span class="n">F</span> <span class="o">=</span> <span class="k">typename</span> <span class="n">get_template_type</span><span class="o">&lt;</span><span class="n">f</span><span class="o">&lt;</span><span class="n">trainer_1</span><span class="o">&gt;</span><span class="p">,</span> <span class="n">Args</span><span class="p">...</span><span class="o">&gt;::</span><span class="k">template</span> <span class="n">value</span><span class="o">&lt;</span><span class="n">C</span><span class="o">&gt;</span><span class="p">;</span>
+<a name="rest_code_cde4a2cbfa4a40a28a75f8527390b4bc-12"></a>
+<a name="rest_code_cde4a2cbfa4a40a28a75f8527390b4bc-13"></a>    <span class="k">static_assert</span><span class="p">(</span>
+<a name="rest_code_cde4a2cbfa4a40a28a75f8527390b4bc-14"></a>        <span class="n">is_valid</span><span class="o">&lt;</span><span class="n">tmp_list</span><span class="o">&lt;</span><span class="n">a_id</span><span class="p">,</span> <span class="n">b_id</span><span class="p">,</span> <span class="n">c_id</span><span class="p">,</span> <span class="n">d_id</span><span class="p">,</span> <span class="n">e_id</span><span class="p">,</span> <span class="n">f_id</span><span class="o">&gt;</span><span class="p">,</span> <span class="n">Args</span><span class="p">...</span><span class="o">&gt;::</span><span class="n">value</span><span class="p">,</span>
+<a name="rest_code_cde4a2cbfa4a40a28a75f8527390b4bc-15"></a>        <span class="s">"Invalid parameters type"</span><span class="p">);</span>
+<a name="rest_code_cde4a2cbfa4a40a28a75f8527390b4bc-16"></a>
+<a name="rest_code_cde4a2cbfa4a40a28a75f8527390b4bc-17"></a>    <span class="c1">//Something useful</span>
+<a name="rest_code_cde4a2cbfa4a40a28a75f8527390b4bc-18"></a><span class="p">};</span>
+</pre>
+<p>Since the is_valid traits needs two variadic list of parameters, we have to encapsulate list of valid types in another structure (<em>tmp_list</em>) to separate the two sets. Here is the implementation of the validation:</p>
+<pre class="code c++"><a name="rest_code_5b54aa641e274b65ad060c958abb8d4b-1"></a><span class="k">template</span><span class="o">&lt;</span><span class="k">typename</span><span class="p">...</span> <span class="n">Valid</span><span class="o">&gt;</span>
+<a name="rest_code_5b54aa641e274b65ad060c958abb8d4b-2"></a><span class="k">struct</span> <span class="n">tmp_list</span> <span class="p">{</span>
+<a name="rest_code_5b54aa641e274b65ad060c958abb8d4b-3"></a>    <span class="k">template</span><span class="o">&lt;</span><span class="k">typename</span> <span class="n">T</span><span class="o">&gt;</span>
+<a name="rest_code_5b54aa641e274b65ad060c958abb8d4b-4"></a>    <span class="k">struct</span> <span class="nl">contains</span> <span class="p">:</span> <span class="n">std</span><span class="o">::</span><span class="n">integral_constant</span><span class="o">&lt;</span><span class="kt">bool</span><span class="p">,</span> <span class="n">is_present</span><span class="o">&lt;</span><span class="k">typename</span> <span class="n">T</span><span class="o">::</span><span class="n">type_id</span><span class="p">,</span> <span class="n">Valid</span><span class="p">...</span><span class="o">&gt;::</span><span class="n">value</span><span class="o">&gt;</span> <span class="p">{};</span>
+<a name="rest_code_5b54aa641e274b65ad060c958abb8d4b-5"></a><span class="p">};</span>
+<a name="rest_code_5b54aa641e274b65ad060c958abb8d4b-6"></a>
+<a name="rest_code_5b54aa641e274b65ad060c958abb8d4b-7"></a><span class="k">template</span><span class="o">&lt;</span><span class="k">typename</span> <span class="n">L</span><span class="p">,</span> <span class="k">typename</span><span class="p">...</span> <span class="n">Args</span><span class="o">&gt;</span>
+<a name="rest_code_5b54aa641e274b65ad060c958abb8d4b-8"></a><span class="k">struct</span> <span class="n">is_valid</span><span class="p">;</span>
+<a name="rest_code_5b54aa641e274b65ad060c958abb8d4b-9"></a>
+<a name="rest_code_5b54aa641e274b65ad060c958abb8d4b-10"></a><span class="k">template</span><span class="o">&lt;</span><span class="k">typename</span> <span class="n">L</span><span class="p">,</span> <span class="k">typename</span> <span class="n">T1</span><span class="p">,</span> <span class="k">typename</span><span class="p">...</span> <span class="n">Args</span><span class="o">&gt;</span>
+<a name="rest_code_5b54aa641e274b65ad060c958abb8d4b-11"></a><span class="k">struct</span> <span class="n">is_valid</span> <span class="o">&lt;</span><span class="n">L</span><span class="p">,</span> <span class="n">T1</span><span class="p">,</span> <span class="n">Args</span><span class="p">...</span><span class="o">&gt;</span> <span class="o">:</span> <span class="n">std</span><span class="o">::</span><span class="n">integral_constant</span><span class="o">&lt;</span><span class="kt">bool</span><span class="p">,</span> <span class="n">L</span><span class="o">::</span><span class="k">template</span> <span class="n">contains</span><span class="o">&lt;</span><span class="n">T1</span><span class="o">&gt;::</span><span class="n">value</span> <span class="o">&amp;&amp;</span> <span class="n">is_valid</span><span class="o">&lt;</span><span class="n">L</span><span class="p">,</span> <span class="n">Args</span><span class="p">...</span><span class="o">&gt;::</span><span class="n">value</span><span class="o">&gt;</span> <span class="p">{};</span>
+<a name="rest_code_5b54aa641e274b65ad060c958abb8d4b-12"></a>
+<a name="rest_code_5b54aa641e274b65ad060c958abb8d4b-13"></a><span class="k">template</span><span class="o">&lt;</span><span class="k">typename</span> <span class="n">L</span><span class="o">&gt;</span>
+<a name="rest_code_5b54aa641e274b65ad060c958abb8d4b-14"></a><span class="k">struct</span> <span class="n">is_valid</span> <span class="o">&lt;</span><span class="n">L</span><span class="o">&gt;</span> <span class="o">:</span> <span class="n">std</span><span class="o">::</span><span class="n">true_type</span> <span class="p">{};</span>
+</pre>
+<p>The struct tmp_list has a single inner class (<em>contains</em>) that test if a given type is present in the list. For this, we reuse the is_present template that we created when extracting boolean flag. The <em>is_valid</em> template simply test that each parameter is present in the <em>tmp_list</em>.</p>
+<p>Validation could also be made so that no parameters could be present twice, but I will put that aside for now.</p>
+</div>
+<div class="section" id="conclusion">
+<h2>Conclusion</h2>
+<p>Here it is :)</p>
+<p>We now have a set of template that allow us to configure a class at compile-time with named, optional, template parameters, with default and in any order. I personally thinks that this is a great way to configure a class at compile-time and it is also another proof of the power of C++. If you think that the code is complicated, don't forget that this is only the library code, the client code on contrary is at least as clear as the original version and even has several advantages.</p>
+<p>I hope that this article interested you and that you learned something.</p>
+<p>The code of this article is available on Github: <a class="reference external" href="https://github.com/wichtounet/articles/blob/master/src/named_template_par/configurable.cpp">https://github.com/wichtounet/articles/blob/master/src/named_template_par/configurable.cpp</a>
+It has been tested on Clang 3.5 and GCC 4.9.1.</p>
+</div>
+</div>
+</div>
+<aside class="postpromonav"><nav><ul itemprop="keywords" class="tags">
+<li><a class="tag p-category" href="../../../categories/c%2B%2B.html" rel="tag">C++</a></li>
+<li><a class="tag p-category" href="../../../categories/c%2B%2B11.html" rel="tag">C++11</a></li>
+<li><a class="tag p-category" href="../../../categories/c%2B%2B14.html" rel="tag">C++14</a></li>
+<li><a class="tag p-category" href="../../../categories/templates.html" rel="tag">templates</a></li>
+</ul>
+<ul class="pager hidden-print">
+<li class="previous">
+<a href="../../2014/10/sonarqube-inspections-for-cpp-projects.html" rel="prev" title="SonarQube inspections for C++ projects">Previous post</a>
+</li>
+<li class="next">
+<a href="how-to-speed-up-raid-5-6-growing-with-mdadm.html" rel="next" title="How to speed up RAID (5-6) growing with mdadm ?">Next post</a>
+</li>
+</ul></nav></aside><section class="comments hidden-print"><h2>Comments</h2>
+<div id="disqus_thread"></div>
+<script>
+        var disqus_shortname ="blogwichtounet",
+            disqus_url="http://baptiste-wicht.com/posts/2015/03/named-optional-template-parameters-compile-time.html",
+        disqus_title="Named Optional Template parameters to configure a class at compile-time",
+        disqus_identifier="cache/posts/2015/03/named-optional-template-parameters-to-configure-a-class-at-compile-time.html",
+        disqus_config = function () {
+            this.language = "en";
+        };
+        (function() {
+            var dsq = document.createElement('script'); dsq.async = true;
+            dsq.src = 'https://' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        })();
+    </script><noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a>
+</noscript>
+<a href="https://disqus.com" class="dsq-brlink" rel="nofollow">Comments powered by <span class="logo-disqus">Disqus</span></a>
+</section></article><script>var disqus_shortname="blogwichtounet";(function(){var a=document.createElement("script");a.async=true;a.src="https://"+disqus_shortname+".disqus.com/count.js";(document.getElementsByTagName("head")[0]||document.getElementsByTagName("body")[0]).appendChild(a)}());</script>
+</div> 
+</div>
+
+</div>
+
+
+
+<footer>
+Contents © 2017 <a href="/cdn-cgi/l/email-protection#23414253574a505746544a404b5763444e424a4f0d404c4e">Baptiste Wicht</a> - Powered by <a href="http://getnikola.com" rel="nofollow">Nikola</a> - License:
+<a rel="license" href="http://creativecommons.org/licenses/by/4.0/"><img alt="Creative Commons License" style="padding-left:5px;border-width:0" src="../../../assets/img/cc.png"></a>
+<ul class="footer_inline_ul">
+<li>
+<a href="named-optional-template-parameters-compile-time.rst" id="sourcelink">Source</a>
+</li>
+</ul></footer><script src="/cdn-cgi/scripts/78d64697/cloudflare-static/email-decode.min.js"></script><script src="../../../assets/js/all-nocdn.js"></script>
+</body>
+</html>

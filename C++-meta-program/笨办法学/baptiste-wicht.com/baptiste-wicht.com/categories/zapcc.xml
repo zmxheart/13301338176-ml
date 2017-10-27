@@ -1,0 +1,805 @@
+<?xml version="1.0" encoding="utf-8"?>
+<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/"><channel><title>Blog blog("Baptiste Wicht"); (Posts about zapcc)</title><link>http://baptiste-wicht.com/</link><description></description><atom:link rel="self" href="http://baptiste-wicht.com/categories/zapcc.xml" type="application/rss+xml"></atom:link><language>en</language><lastBuildDate>Sat, 15 Jul 2017 10:37:06 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Partial type erasing in Deep Learning Library (DLL) to improve compilation time</title><link>http://baptiste-wicht.com/posts/2017/03/partial-type-erasing-deep-learning-library-dll-improve-compilation-time.html</link><dc:creator>Baptiste Wicht</dc:creator><description>&lt;div&gt;&lt;p&gt;In a previous post, I compared the &lt;a class="reference external" href="https://baptiste-wicht.com/posts/2017/03/disappointing-zapcc-performance-on-deep-learning-library-dll.html"&gt;compilation time on my Deep Learning Library (DLL) project with different compilers&lt;/a&gt;. I realized that the compilation times were quickly going unreasonable for this library, especially for compiling the unit cases which clearly hurts the development of the library. Indeed, you want to be able to run the unit tests reasonably quickly after you integrated new changes.&lt;/p&gt;
+&lt;div class="section" id="reduce-the-compilation-time"&gt;
+&lt;h2&gt;Reduce the compilation time&lt;/h2&gt;
+&lt;p&gt;The first thing I did was to split the compilation in three executables: one for
+the unit tests, one for the various performance tests and one for the various other
+miscellaneous tests. With this, it is much faster to compile only the unit test
+cases.&lt;/p&gt;
+&lt;p&gt;But this can be improved significantly more. In DLL a network is a variadic
+template containing the list of layers, in order. In DLL, there are two main
+different ways of declaring a neural networks. In the first version, the fast
+version, the layers directly know their sizes:&lt;/p&gt;
+&lt;pre class="code cpp"&gt;&lt;a name="rest_code_f16feeb38686463faeb78f276a61043d-1"&gt;&lt;/a&gt;&lt;span class="k"&gt;using&lt;/span&gt; &lt;span class="n"&gt;network_t&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt;
+&lt;a name="rest_code_f16feeb38686463faeb78f276a61043d-2"&gt;&lt;/a&gt;    &lt;span class="n"&gt;dll&lt;/span&gt;&lt;span class="o"&gt;::&lt;/span&gt;&lt;span class="n"&gt;dbn_desc&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;
+&lt;a name="rest_code_f16feeb38686463faeb78f276a61043d-3"&gt;&lt;/a&gt;        &lt;span class="n"&gt;dll&lt;/span&gt;&lt;span class="o"&gt;::&lt;/span&gt;&lt;span class="n"&gt;dbn_layers&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;
+&lt;a name="rest_code_f16feeb38686463faeb78f276a61043d-4"&gt;&lt;/a&gt;            &lt;span class="n"&gt;dll&lt;/span&gt;&lt;span class="o"&gt;::&lt;/span&gt;&lt;span class="n"&gt;rbm_desc&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="mi"&gt;28&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt; &lt;span class="mi"&gt;28&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;500&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;dll&lt;/span&gt;&lt;span class="o"&gt;::&lt;/span&gt;&lt;span class="n"&gt;momentum&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;dll&lt;/span&gt;&lt;span class="o"&gt;::&lt;/span&gt;&lt;span class="n"&gt;batch_size&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="mi"&gt;64&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&amp;gt;::&lt;/span&gt;&lt;span class="n"&gt;layer_t&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+&lt;a name="rest_code_f16feeb38686463faeb78f276a61043d-5"&gt;&lt;/a&gt;            &lt;span class="n"&gt;dll&lt;/span&gt;&lt;span class="o"&gt;::&lt;/span&gt;&lt;span class="n"&gt;rbm_desc&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="mi"&gt;500&lt;/span&gt;    &lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;400&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;dll&lt;/span&gt;&lt;span class="o"&gt;::&lt;/span&gt;&lt;span class="n"&gt;momentum&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;dll&lt;/span&gt;&lt;span class="o"&gt;::&lt;/span&gt;&lt;span class="n"&gt;batch_size&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="mi"&gt;64&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&amp;gt;::&lt;/span&gt;&lt;span class="n"&gt;layer_t&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+&lt;a name="rest_code_f16feeb38686463faeb78f276a61043d-6"&gt;&lt;/a&gt;            &lt;span class="n"&gt;dll&lt;/span&gt;&lt;span class="o"&gt;::&lt;/span&gt;&lt;span class="n"&gt;rbm_desc&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="mi"&gt;400&lt;/span&gt;    &lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;10&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;  &lt;span class="n"&gt;dll&lt;/span&gt;&lt;span class="o"&gt;::&lt;/span&gt;&lt;span class="n"&gt;momentum&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;dll&lt;/span&gt;&lt;span class="o"&gt;::&lt;/span&gt;&lt;span class="n"&gt;batch_size&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="mi"&gt;64&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;dll&lt;/span&gt;&lt;span class="o"&gt;::&lt;/span&gt;&lt;span class="n"&gt;hidden&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="n"&gt;dll&lt;/span&gt;&lt;span class="o"&gt;::&lt;/span&gt;&lt;span class="n"&gt;unit_type&lt;/span&gt;&lt;span class="o"&gt;::&lt;/span&gt;&lt;span class="n"&gt;SOFTMAX&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&amp;gt;::&lt;/span&gt;&lt;span class="n"&gt;layer_t&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+&lt;a name="rest_code_f16feeb38686463faeb78f276a61043d-7"&gt;&lt;/a&gt;        &lt;span class="n"&gt;dll&lt;/span&gt;&lt;span class="o"&gt;::&lt;/span&gt;&lt;span class="n"&gt;trainer&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="n"&gt;dll&lt;/span&gt;&lt;span class="o"&gt;::&lt;/span&gt;&lt;span class="n"&gt;sgd_trainer&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;dll&lt;/span&gt;&lt;span class="o"&gt;::&lt;/span&gt;&lt;span class="n"&gt;batch_size&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="mi"&gt;64&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&amp;gt;::&lt;/span&gt;&lt;span class="n"&gt;dbn_t&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;a name="rest_code_f16feeb38686463faeb78f276a61043d-8"&gt;&lt;/a&gt;
+&lt;a name="rest_code_f16feeb38686463faeb78f276a61043d-9"&gt;&lt;/a&gt;&lt;span class="k"&gt;auto&lt;/span&gt; &lt;span class="n"&gt;network&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;std&lt;/span&gt;&lt;span class="o"&gt;::&lt;/span&gt;&lt;span class="n"&gt;make_unique&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="n"&gt;network_t&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt;&lt;span class="p"&gt;();&lt;/span&gt;
+&lt;a name="rest_code_f16feeb38686463faeb78f276a61043d-10"&gt;&lt;/a&gt;&lt;span class="n"&gt;network&lt;/span&gt;&lt;span class="o"&gt;-&amp;gt;&lt;/span&gt;&lt;span class="n"&gt;pretrain&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;dataset&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;training_images&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;10&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+&lt;a name="rest_code_f16feeb38686463faeb78f276a61043d-11"&gt;&lt;/a&gt;&lt;span class="n"&gt;network&lt;/span&gt;&lt;span class="o"&gt;-&amp;gt;&lt;/span&gt;&lt;span class="n"&gt;fine_tune&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;dataset&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;training_images&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;dataset&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;training_labels&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;10&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+&lt;/pre&gt;&lt;p&gt;In my opinion, this is the best way to use DLL. This is the fastest and the
+clearest. Moreover, the dimensions of the network can be validated at compile
+time, which is always better than at runtime. However, the dimensions of the
+network cannot be changed at runtime.  For this, there is a different version,
+the dynamic version:&lt;/p&gt;
+&lt;pre class="code cpp"&gt;&lt;a name="rest_code_7dba155d64d04952aa1bff84e2570a48-1"&gt;&lt;/a&gt;&lt;span class="k"&gt;using&lt;/span&gt; &lt;span class="n"&gt;network_t&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt;
+&lt;a name="rest_code_7dba155d64d04952aa1bff84e2570a48-2"&gt;&lt;/a&gt;    &lt;span class="n"&gt;dll&lt;/span&gt;&lt;span class="o"&gt;::&lt;/span&gt;&lt;span class="n"&gt;dbn_desc&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;
+&lt;a name="rest_code_7dba155d64d04952aa1bff84e2570a48-3"&gt;&lt;/a&gt;        &lt;span class="n"&gt;dll&lt;/span&gt;&lt;span class="o"&gt;::&lt;/span&gt;&lt;span class="n"&gt;dbn_layers&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;
+&lt;a name="rest_code_7dba155d64d04952aa1bff84e2570a48-4"&gt;&lt;/a&gt;            &lt;span class="n"&gt;dll&lt;/span&gt;&lt;span class="o"&gt;::&lt;/span&gt;&lt;span class="n"&gt;dyn_rbm_desc&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="n"&gt;dll&lt;/span&gt;&lt;span class="o"&gt;::&lt;/span&gt;&lt;span class="n"&gt;momentum&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;::&lt;/span&gt;&lt;span class="n"&gt;layer_t&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+&lt;a name="rest_code_7dba155d64d04952aa1bff84e2570a48-5"&gt;&lt;/a&gt;            &lt;span class="n"&gt;dll&lt;/span&gt;&lt;span class="o"&gt;::&lt;/span&gt;&lt;span class="n"&gt;dyn_rbm_desc&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="n"&gt;dll&lt;/span&gt;&lt;span class="o"&gt;::&lt;/span&gt;&lt;span class="n"&gt;momentum&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;::&lt;/span&gt;&lt;span class="n"&gt;layer_t&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+&lt;a name="rest_code_7dba155d64d04952aa1bff84e2570a48-6"&gt;&lt;/a&gt;            &lt;span class="n"&gt;dll&lt;/span&gt;&lt;span class="o"&gt;::&lt;/span&gt;&lt;span class="n"&gt;dyn_rbm_desc&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="n"&gt;dll&lt;/span&gt;&lt;span class="o"&gt;::&lt;/span&gt;&lt;span class="n"&gt;momentum&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;dll&lt;/span&gt;&lt;span class="o"&gt;::&lt;/span&gt;&lt;span class="n"&gt;hidden&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="n"&gt;dll&lt;/span&gt;&lt;span class="o"&gt;::&lt;/span&gt;&lt;span class="n"&gt;unit_type&lt;/span&gt;&lt;span class="o"&gt;::&lt;/span&gt;&lt;span class="n"&gt;SOFTMAX&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&amp;gt;::&lt;/span&gt;&lt;span class="n"&gt;layer_t&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+&lt;a name="rest_code_7dba155d64d04952aa1bff84e2570a48-7"&gt;&lt;/a&gt;        &lt;span class="n"&gt;dll&lt;/span&gt;&lt;span class="o"&gt;::&lt;/span&gt;&lt;span class="n"&gt;batch_size&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="mi"&gt;64&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;dll&lt;/span&gt;&lt;span class="o"&gt;::&lt;/span&gt;&lt;span class="n"&gt;trainer&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="n"&gt;dll&lt;/span&gt;&lt;span class="o"&gt;::&lt;/span&gt;&lt;span class="n"&gt;sgd_trainer&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&amp;gt;::&lt;/span&gt;&lt;span class="n"&gt;dbn_t&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;a name="rest_code_7dba155d64d04952aa1bff84e2570a48-8"&gt;&lt;/a&gt;
+&lt;a name="rest_code_7dba155d64d04952aa1bff84e2570a48-9"&gt;&lt;/a&gt;&lt;span class="k"&gt;auto&lt;/span&gt; &lt;span class="n"&gt;network&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;std&lt;/span&gt;&lt;span class="o"&gt;::&lt;/span&gt;&lt;span class="n"&gt;make_unique&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="n"&gt;network_t&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt;&lt;span class="p"&gt;();&lt;/span&gt;
+&lt;a name="rest_code_7dba155d64d04952aa1bff84e2570a48-10"&gt;&lt;/a&gt;
+&lt;a name="rest_code_7dba155d64d04952aa1bff84e2570a48-11"&gt;&lt;/a&gt;&lt;span class="n"&gt;network&lt;/span&gt;&lt;span class="o"&gt;-&amp;gt;&lt;/span&gt;&lt;span class="k"&gt;template&lt;/span&gt; &lt;span class="n"&gt;layer_get&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt;&lt;span class="p"&gt;().&lt;/span&gt;&lt;span class="n"&gt;init_layer&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;28&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt; &lt;span class="mi"&gt;28&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;500&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+&lt;a name="rest_code_7dba155d64d04952aa1bff84e2570a48-12"&gt;&lt;/a&gt;&lt;span class="n"&gt;network&lt;/span&gt;&lt;span class="o"&gt;-&amp;gt;&lt;/span&gt;&lt;span class="k"&gt;template&lt;/span&gt; &lt;span class="n"&gt;layer_get&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt;&lt;span class="p"&gt;().&lt;/span&gt;&lt;span class="n"&gt;init_layer&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;500&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;400&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+&lt;a name="rest_code_7dba155d64d04952aa1bff84e2570a48-13"&gt;&lt;/a&gt;&lt;span class="n"&gt;network&lt;/span&gt;&lt;span class="o"&gt;-&amp;gt;&lt;/span&gt;&lt;span class="k"&gt;template&lt;/span&gt; &lt;span class="n"&gt;layer_get&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="mi"&gt;2&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt;&lt;span class="p"&gt;().&lt;/span&gt;&lt;span class="n"&gt;init_layer&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;400&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;10&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+&lt;a name="rest_code_7dba155d64d04952aa1bff84e2570a48-14"&gt;&lt;/a&gt;&lt;span class="n"&gt;network&lt;/span&gt;&lt;span class="o"&gt;-&amp;gt;&lt;/span&gt;&lt;span class="k"&gt;template&lt;/span&gt; &lt;span class="n"&gt;layer_get&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt;&lt;span class="p"&gt;().&lt;/span&gt;&lt;span class="n"&gt;batch_size&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;64&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;a name="rest_code_7dba155d64d04952aa1bff84e2570a48-15"&gt;&lt;/a&gt;&lt;span class="n"&gt;network&lt;/span&gt;&lt;span class="o"&gt;-&amp;gt;&lt;/span&gt;&lt;span class="k"&gt;template&lt;/span&gt; &lt;span class="n"&gt;layer_get&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt;&lt;span class="p"&gt;().&lt;/span&gt;&lt;span class="n"&gt;batch_size&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;64&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;a name="rest_code_7dba155d64d04952aa1bff84e2570a48-16"&gt;&lt;/a&gt;&lt;span class="n"&gt;network&lt;/span&gt;&lt;span class="o"&gt;-&amp;gt;&lt;/span&gt;&lt;span class="k"&gt;template&lt;/span&gt; &lt;span class="n"&gt;layer_get&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="mi"&gt;2&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt;&lt;span class="p"&gt;().&lt;/span&gt;&lt;span class="n"&gt;batch_size&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;64&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;a name="rest_code_7dba155d64d04952aa1bff84e2570a48-17"&gt;&lt;/a&gt;
+&lt;a name="rest_code_7dba155d64d04952aa1bff84e2570a48-18"&gt;&lt;/a&gt;&lt;span class="n"&gt;network&lt;/span&gt;&lt;span class="o"&gt;-&amp;gt;&lt;/span&gt;&lt;span class="n"&gt;pretrain&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;dataset&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;training_images&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;10&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+&lt;a name="rest_code_7dba155d64d04952aa1bff84e2570a48-19"&gt;&lt;/a&gt;&lt;span class="n"&gt;network&lt;/span&gt;&lt;span class="o"&gt;-&amp;gt;&lt;/span&gt;&lt;span class="n"&gt;fine_tune&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;dataset&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;training_images&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;dataset&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;training_labels&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;10&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+&lt;/pre&gt;&lt;p&gt;This is a bit more verbose, but the configuration can be changed at runtime with
+this system. Moreover, this is also faster to compile. On the other hand, there
+is some performance slowdown.&lt;/p&gt;
+&lt;p&gt;There is also a third version that is a hybrid of the first version:&lt;/p&gt;
+&lt;pre class="code cpp"&gt;&lt;a name="rest_code_c95085d4c8b34af3ace718c536a89849-1"&gt;&lt;/a&gt;&lt;span class="k"&gt;using&lt;/span&gt; &lt;span class="n"&gt;network_t&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt;
+&lt;a name="rest_code_c95085d4c8b34af3ace718c536a89849-2"&gt;&lt;/a&gt;    &lt;span class="n"&gt;dll&lt;/span&gt;&lt;span class="o"&gt;::&lt;/span&gt;&lt;span class="n"&gt;dyn_dbn_desc&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;
+&lt;a name="rest_code_c95085d4c8b34af3ace718c536a89849-3"&gt;&lt;/a&gt;        &lt;span class="n"&gt;dll&lt;/span&gt;&lt;span class="o"&gt;::&lt;/span&gt;&lt;span class="n"&gt;dbn_layers&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;
+&lt;a name="rest_code_c95085d4c8b34af3ace718c536a89849-4"&gt;&lt;/a&gt;            &lt;span class="n"&gt;dll&lt;/span&gt;&lt;span class="o"&gt;::&lt;/span&gt;&lt;span class="n"&gt;rbm_desc&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="mi"&gt;28&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt; &lt;span class="mi"&gt;28&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;500&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;dll&lt;/span&gt;&lt;span class="o"&gt;::&lt;/span&gt;&lt;span class="n"&gt;momentum&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;dll&lt;/span&gt;&lt;span class="o"&gt;::&lt;/span&gt;&lt;span class="n"&gt;batch_size&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="mi"&gt;64&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&amp;gt;::&lt;/span&gt;&lt;span class="n"&gt;layer_t&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+&lt;a name="rest_code_c95085d4c8b34af3ace718c536a89849-5"&gt;&lt;/a&gt;            &lt;span class="n"&gt;dll&lt;/span&gt;&lt;span class="o"&gt;::&lt;/span&gt;&lt;span class="n"&gt;rbm_desc&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="mi"&gt;500&lt;/span&gt;    &lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;400&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;dll&lt;/span&gt;&lt;span class="o"&gt;::&lt;/span&gt;&lt;span class="n"&gt;momentum&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;dll&lt;/span&gt;&lt;span class="o"&gt;::&lt;/span&gt;&lt;span class="n"&gt;batch_size&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="mi"&gt;64&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&amp;gt;::&lt;/span&gt;&lt;span class="n"&gt;layer_t&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+&lt;a name="rest_code_c95085d4c8b34af3ace718c536a89849-6"&gt;&lt;/a&gt;            &lt;span class="n"&gt;dll&lt;/span&gt;&lt;span class="o"&gt;::&lt;/span&gt;&lt;span class="n"&gt;rbm_desc&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="mi"&gt;400&lt;/span&gt;    &lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;10&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;  &lt;span class="n"&gt;dll&lt;/span&gt;&lt;span class="o"&gt;::&lt;/span&gt;&lt;span class="n"&gt;momentum&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;dll&lt;/span&gt;&lt;span class="o"&gt;::&lt;/span&gt;&lt;span class="n"&gt;batch_size&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="mi"&gt;64&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;dll&lt;/span&gt;&lt;span class="o"&gt;::&lt;/span&gt;&lt;span class="n"&gt;hidden&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="n"&gt;dll&lt;/span&gt;&lt;span class="o"&gt;::&lt;/span&gt;&lt;span class="n"&gt;unit_type&lt;/span&gt;&lt;span class="o"&gt;::&lt;/span&gt;&lt;span class="n"&gt;SOFTMAX&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&amp;gt;::&lt;/span&gt;&lt;span class="n"&gt;layer_t&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+&lt;a name="rest_code_c95085d4c8b34af3ace718c536a89849-7"&gt;&lt;/a&gt;        &lt;span class="n"&gt;dll&lt;/span&gt;&lt;span class="o"&gt;::&lt;/span&gt;&lt;span class="n"&gt;trainer&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="n"&gt;dll&lt;/span&gt;&lt;span class="o"&gt;::&lt;/span&gt;&lt;span class="n"&gt;sgd_trainer&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;dll&lt;/span&gt;&lt;span class="o"&gt;::&lt;/span&gt;&lt;span class="n"&gt;batch_size&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="mi"&gt;64&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&amp;gt;::&lt;/span&gt;&lt;span class="n"&gt;dbn_t&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;a name="rest_code_c95085d4c8b34af3ace718c536a89849-8"&gt;&lt;/a&gt;
+&lt;a name="rest_code_c95085d4c8b34af3ace718c536a89849-9"&gt;&lt;/a&gt;&lt;span class="k"&gt;auto&lt;/span&gt; &lt;span class="n"&gt;network&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;std&lt;/span&gt;&lt;span class="o"&gt;::&lt;/span&gt;&lt;span class="n"&gt;make_unique&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="n"&gt;network_t&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt;&lt;span class="p"&gt;();&lt;/span&gt;
+&lt;a name="rest_code_c95085d4c8b34af3ace718c536a89849-10"&gt;&lt;/a&gt;&lt;span class="n"&gt;network&lt;/span&gt;&lt;span class="o"&gt;-&amp;gt;&lt;/span&gt;&lt;span class="n"&gt;pretrain&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;dataset&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;training_images&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;10&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+&lt;a name="rest_code_c95085d4c8b34af3ace718c536a89849-11"&gt;&lt;/a&gt;&lt;span class="n"&gt;network&lt;/span&gt;&lt;span class="o"&gt;-&amp;gt;&lt;/span&gt;&lt;span class="n"&gt;fine_tune&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;dataset&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;training_images&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;dataset&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;training_labels&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;10&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+&lt;/pre&gt;&lt;p&gt;Only one line was changed compared to the first version, &lt;code&gt;dbn_desc&lt;/code&gt;
+becomes &lt;code&gt;dyn_dbn_desc&lt;/code&gt;. What this changes is that all the layers are
+automatically transformed into their dynamic versions and all the parameters are
+propagated at runtime. This is a form a type erasing since the sizes will not be
+propagated at compilation time. But this is simple since the types are simply
+transformed from one type to another directly. Behind the scene, it's the
+dynamic version using the front-end of the fast version. This is almost as fast
+to compile as the dynamic version, but the code is much better. It executes the
+same as the dynamic version.&lt;/p&gt;
+&lt;p&gt;If we compare the compilation time of the three versions when compiling a single
+network and 5 different networks with different architectures, we get the
+following results (with clang):&lt;/p&gt;
+&lt;table border="1" class="docutils"&gt;
+&lt;colgroup&gt;
+&lt;col width="52%"&gt;
+&lt;col width="48%"&gt;
+&lt;/colgroup&gt;
+&lt;thead valign="bottom"&gt;
+&lt;tr&gt;&lt;th class="head"&gt;Model&lt;/th&gt;
+&lt;th class="head"&gt;Time [s]&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody valign="top"&gt;
+&lt;tr&gt;&lt;td&gt;1 Fast&lt;/td&gt;
+&lt;td&gt;30&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;1 Dynamic&lt;/td&gt;
+&lt;td&gt;16.6&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;1 Hybrid&lt;/td&gt;
+&lt;td&gt;16.6&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;5 Fast&lt;/td&gt;
+&lt;td&gt;114&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;5 Dynamic&lt;/td&gt;
+&lt;td&gt;16.6&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;5 Hybrid&lt;/td&gt;
+&lt;td&gt;21.9&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;Even with one single network, the compilation time is reduced by 44%. When five
+different networks are compilation, time is reduced by 85%. This can be
+explained easily. Indeed, for the hybrid and dynamic versions, the layers will
+have the same type and therefore a lot of template instantiations will only be
+done once instead of five times. This makes a lot of difference since almost
+everything is template inside the library.&lt;/p&gt;
+&lt;p&gt;Unfortunately, this also has an impact on the runtime of the network:&lt;/p&gt;
+&lt;table border="1" class="docutils"&gt;
+&lt;colgroup&gt;
+&lt;col width="26%"&gt;
+&lt;col width="41%"&gt;
+&lt;col width="32%"&gt;
+&lt;/colgroup&gt;
+&lt;thead valign="bottom"&gt;
+&lt;tr&gt;&lt;th class="head"&gt;Model&lt;/th&gt;
+&lt;th class="head"&gt;Pretrain [s]&lt;/th&gt;
+&lt;th class="head"&gt;Train [s]&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody valign="top"&gt;
+&lt;tr&gt;&lt;td&gt;Fast&lt;/td&gt;
+&lt;td&gt;195&lt;/td&gt;
+&lt;td&gt;114&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;Dynamic&lt;/td&gt;
+&lt;td&gt;203&lt;/td&gt;
+&lt;td&gt;123&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;Hybrid&lt;/td&gt;
+&lt;td&gt;204&lt;/td&gt;
+&lt;td&gt;122&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;On average, for dense models, the slowdown is between 4% and 8%. For
+convolutional models, it is between 10% and 25%. I will definitely work on
+trying to make the dynamic and especially the hybrid version faster in the
+future, most on the work should be on the matrix library (ETL) that is used.&lt;/p&gt;
+&lt;p&gt;Since for test cases, a 20% increase in runtime is not really a problem, tests
+being fast already, I decided to add an option to DLL so that everything can be
+compiled by default in hybrid model. By using a compilation flag, all the
+&lt;code&gt;dbn_desc&lt;/code&gt; are becoming &lt;code&gt;dyn_dbn_desc&lt;/code&gt; and therefore each used
+network is becoming a hybrid network. Without a single change in the code, the
+compilation time of the entire library can be significantly improved, as seen in
+the next section.  This can also be used in user code to improve compilation
+time during debugging and experiments and can be turned off for the final
+training.&lt;/p&gt;
+&lt;p&gt;On my Continuous Integration system, I will build the system in both
+configurations. This is not really an issue, since my personal machine at home
+is more powerful than what I have available here.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="section" id="results"&gt;
+&lt;h2&gt;Results&lt;/h2&gt;
+&lt;p&gt;On a first experiment, I measured the difference before and after this change on
+the three executables of the library, with gcc:&lt;/p&gt;
+&lt;table border="1" class="docutils"&gt;
+&lt;colgroup&gt;
+&lt;col width="23%"&gt;
+&lt;col width="26%"&gt;
+&lt;col width="26%"&gt;
+&lt;col width="26%"&gt;
+&lt;/colgroup&gt;
+&lt;thead valign="bottom"&gt;
+&lt;tr&gt;&lt;th class="head"&gt;Model&lt;/th&gt;
+&lt;th class="head"&gt;Unit [s]&lt;/th&gt;
+&lt;th class="head"&gt;Perf [s]&lt;/th&gt;
+&lt;th class="head"&gt;Misc [s]&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody valign="top"&gt;
+&lt;tr&gt;&lt;td&gt;Before&lt;/td&gt;
+&lt;td&gt;1029&lt;/td&gt;
+&lt;td&gt;192&lt;/td&gt;
+&lt;td&gt;937&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;After&lt;/td&gt;
+&lt;td&gt;617&lt;/td&gt;
+&lt;td&gt;143&lt;/td&gt;
+&lt;td&gt;619&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;Speedup&lt;/td&gt;
+&lt;td&gt;40.03%&lt;/td&gt;
+&lt;td&gt;25.52%&lt;/td&gt;
+&lt;td&gt;33.93%&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;It is clear that the speedups are very significant! The compilation is between
+25% and 40% faster with the new option. Overall, this is a speedup of 36%!
+I also noticed that the compilation takes significantly less memory than before.
+Therefore, I decided to rerun the compiler benchmark on the library. In the
+previous experiment, zapcc was taking so much memory that it was impossible to
+use more than one thread. Let's see how it is faring now. The time to compile
+the full unit tests is computed for each compiler. Let's start in debug mode:&lt;/p&gt;
+&lt;table border="1" class="docutils"&gt;
+&lt;colgroup&gt;
+&lt;col width="23%"&gt;
+&lt;col width="19%"&gt;
+&lt;col width="19%"&gt;
+&lt;col width="19%"&gt;
+&lt;col width="19%"&gt;
+&lt;/colgroup&gt;
+&lt;thead valign="bottom"&gt;
+&lt;tr&gt;&lt;th class="head"&gt;Debug&lt;/th&gt;
+&lt;th class="head"&gt;-j1&lt;/th&gt;
+&lt;th class="head"&gt;-j2&lt;/th&gt;
+&lt;th class="head"&gt;-j3&lt;/th&gt;
+&lt;th class="head"&gt;-j4&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody valign="top"&gt;
+&lt;tr&gt;&lt;td&gt;clang-3.9&lt;/td&gt;
+&lt;td&gt;527&lt;/td&gt;
+&lt;td&gt;268&lt;/td&gt;
+&lt;td&gt;182&lt;/td&gt;
+&lt;td&gt;150&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;gcc-4.9.3&lt;/td&gt;
+&lt;td&gt;591&lt;/td&gt;
+&lt;td&gt;303&lt;/td&gt;
+&lt;td&gt;211&lt;/td&gt;
+&lt;td&gt;176&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;gcc-5.3.0&lt;/td&gt;
+&lt;td&gt;588&lt;/td&gt;
+&lt;td&gt;302&lt;/td&gt;
+&lt;td&gt;209&lt;/td&gt;
+&lt;td&gt;175&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;zapcc-1.0&lt;/td&gt;
+&lt;td&gt;&lt;strong&gt;375&lt;/strong&gt;&lt;/td&gt;
+&lt;td&gt;&lt;strong&gt;187&lt;/strong&gt;&lt;/td&gt;
+&lt;td&gt;&lt;strong&gt;126&lt;/strong&gt;&lt;/td&gt;
+&lt;td&gt;&lt;strong&gt;121&lt;/strong&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;This time, zapcc is able to scale to four threads without problems. Moreover, it
+is always the fastest compiler, by a significant margin, in this configuration.
+It is followed by clang and then by gcc for which both versions are about the
+same speed.&lt;/p&gt;
+&lt;p&gt;If we compile again in release mode:&lt;/p&gt;
+&lt;table border="1" class="docutils"&gt;
+&lt;colgroup&gt;
+&lt;col width="24%"&gt;
+&lt;col width="20%"&gt;
+&lt;col width="20%"&gt;
+&lt;col width="20%"&gt;
+&lt;col width="16%"&gt;
+&lt;/colgroup&gt;
+&lt;thead valign="bottom"&gt;
+&lt;tr&gt;&lt;th class="head"&gt;Release&lt;/th&gt;
+&lt;th class="head"&gt;-j1&lt;/th&gt;
+&lt;th class="head"&gt;-j2&lt;/th&gt;
+&lt;th class="head"&gt;-j3&lt;/th&gt;
+&lt;th class="head"&gt;-j4&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody valign="top"&gt;
+&lt;tr&gt;&lt;td&gt;clang-3.9&lt;/td&gt;
+&lt;td&gt;1201&lt;/td&gt;
+&lt;td&gt;615&lt;/td&gt;
+&lt;td&gt;421&lt;/td&gt;
+&lt;td&gt;356&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;gcc-4.9.3&lt;/td&gt;
+&lt;td&gt;1041&lt;/td&gt;
+&lt;td&gt;541&lt;/td&gt;
+&lt;td&gt;385&lt;/td&gt;
+&lt;td&gt;321&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;gcc-5.3.0&lt;/td&gt;
+&lt;td&gt;1114&lt;/td&gt;
+&lt;td&gt;579&lt;/td&gt;
+&lt;td&gt;412&lt;/td&gt;
+&lt;td&gt;348&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;zapcc-1.0&lt;/td&gt;
+&lt;td&gt;&lt;strong&gt;897&lt;/strong&gt;&lt;/td&gt;
+&lt;td&gt;&lt;strong&gt;457&lt;/strong&gt;&lt;/td&gt;
+&lt;td&gt;&lt;strong&gt;306&lt;/strong&gt;&lt;/td&gt;
+&lt;td&gt;&lt;em&gt;306&lt;/em&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;The difference in compilation time is very large, it's twice slower to compile
+with all optimizations enabled. It also takes significantly more memory. Indeed,
+zapcc was not able to compile with 4 threads. Nevertheless, even the results
+with three threads are better than the other compilers using four threads. zapcc
+is clearly the winner again on this test, followed by gcc4-9 which is faster
+than gcc-5.3 which is itself faster than clang. It seems that while clang is
+better at frontend than gcc, it is slower for optimizations. Note that this may
+also be an indication that clang performs more optimizations than gcc and may
+not be slower.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="section" id="conclusion"&gt;
+&lt;h2&gt;Conclusion&lt;/h2&gt;
+&lt;p&gt;By using some form of type erasing to simplify the templates types at compile
+time, I was able to reduce the overall compilation time of my Deep Learning
+Library (DLL) by 36%. Moreover, this can be done by switching a simple
+compilation flag. This also very significantly reduce the memory used during the
+compilation, allowing zapcc to to compile with up to three threads, compared
+with only one before. This makes zapcc the fastest compiler again on this
+benchmark. Overall, this will make debugging much easier on this library and
+will save me a lot of time.&lt;/p&gt;
+&lt;p&gt;In the future, I plan to try to improve compilation time even more. I have a few
+ideas, especially in ETL that should significantly improve the compilation time
+but that will require a lot of time to implement, so that will likely have to
+wait a while. In the coming days, I plan to work on the performance of DLL,
+especially for stochastic gradient descent.&lt;/p&gt;
+&lt;p&gt;If you want more information on DLL, you can check out the
+&lt;a class="reference external" href="https://github.com/wichtounet/dll"&gt;dll Github repository&lt;/a&gt;.&lt;/p&gt;
+&lt;/div&gt;&lt;/div&gt;</description><category>C++</category><category>C++11</category><category>clang</category><category>Compilers</category><category>dll</category><category>etl</category><category>gcc</category><category>zapcc</category><guid>http://baptiste-wicht.com/posts/2017/03/partial-type-erasing-deep-learning-library-dll-improve-compilation-time.html</guid><pubDate>Wed, 15 Mar 2017 06:43:44 GMT</pubDate></item><item><title>Disappointing zapcc performance on Deep Learning Library (DLL)</title><link>http://baptiste-wicht.com/posts/2017/03/disappointing-zapcc-performance-on-deep-learning-library-dll.html</link><dc:creator>Baptiste Wicht</dc:creator><description>&lt;div&gt;&lt;p&gt;One week ago, zapcc 1.0 was released and I've observed it to be much faster than the other
+compilers in terms of compile time. This can be seen when
+&lt;a class="reference external" href="http://baptiste-wicht.com/posts/2017/03/release-zapcc-10-fast-cpp-compiler.html"&gt;I tested it on my Expression Templates Library (ETL)&lt;/a&gt;. It was almost four
+times faster than clang 3.9 and about 2.5 times faster than GCC.&lt;/p&gt;
+&lt;p&gt;The ETL library is quite heavy to compile, but still reasonable. This is not the
+case for my Deep Learning Library (DLL) where compiling all the test cases takes
+a very long time. I have to admit that I have been going overboard with
+templates and such and I have now to pay the price. In practice, for the users
+of the library, this is not a big problem since only one or two neural networks
+will be compiled (and it will take hours to train), but in the test cases, there
+are hundreds of them and this is a huge pain. Anyway, enough with the ramble,
+I figured it would be very good to test zapcc on it and see what I can gain from
+using it.&lt;/p&gt;
+&lt;p&gt;In this article, when I speak of a compiler thread, I mean an instance of the
+processor, so it's really a process in the Linux world.&lt;/p&gt;
+&lt;div class="section" id="results"&gt;
+&lt;h2&gt;Results&lt;/h2&gt;
+&lt;p&gt;However, I soon realized that I would have more issues than I thought. The first
+problem is the memory consumed by zapcc. Indeed, it is based on clang and
+I always had problem with huge memory consumption from clang on this library and
+zapcc has even bigger memory consumption because some information is cached
+between runs. The amount of memory that zapcc is able to cache can be configured
+in the configuration file. By default, it can use 1.5Go of memory. When zapcc
+goes over the memory limit, it simply wipes out its caches. This means that all
+the gain for the next compilation will be lost, since the cache will have to be
+rebuilt from scratch. This is not a hard limit for the compilation itself.
+Indeed, if the compilation itself takes 3Go, it will still be able to complete
+it, but it is likely that the cache will be wiped after the compilation.&lt;/p&gt;
+&lt;p&gt;When I tried compiling using several threads, it soon used all my memory and
+crashed. The same occurs with clang but I can still compile with 3 or 4 threads
+without too much issues on this computer. The same also occurs with GCC but it
+can still handle 4 or 5 threads (depending on the order of the compilation
+units).&lt;/p&gt;
+&lt;p&gt;The tests are performed on my desktop computer at work, which is not really
+good... I have 12Go of RAM (I had to ask for extra...) and an old Sandy Bridge
+processor, but at least I have an SSD (also had to ask for extra).&lt;/p&gt;
+&lt;p&gt;I started with testing with only one compiler thread. For zapcc, I set the
+maximum memory limit to 8Go. Even with such a limit, the zapcc server restarted
+more than 10 times during the compilation of the 84 test cases. After this first
+experiment, I increased the number of threads to 2 for each compiler, using 4Go
+limit for zapcc. The limit is for each server and each parallel thread will
+spawn a new server, so the effective limit is the number of threads times the
+limit. Even with two threads, I was unable to finish a compilation with zapcc.
+This is quite disappoint for me since clang is able to run with 4 threads in
+parallel. Moreover, a big problem with that is that the servers are not always
+killed when there is no no more memory, they just hang and use all the memory of
+the computer, which is evidently really inconvenient for service processes. When
+this happens with clang or gcc, the compiler simply crashes and the memory is
+released and make is interrupted. Since zapcc is not able to work with more than
+one thread on this computer, the results are the ones with one thread. I was
+also surprised to be able to compile the library with clang and four threads,
+this was not possible before clang-3.9.&lt;/p&gt;
+&lt;table border="1" class="docutils"&gt;
+&lt;colgroup&gt;
+&lt;col width="36%"&gt;
+&lt;col width="17%"&gt;
+&lt;col width="17%"&gt;
+&lt;col width="15%"&gt;
+&lt;col width="15%"&gt;
+&lt;/colgroup&gt;
+&lt;thead valign="bottom"&gt;
+&lt;tr&gt;&lt;th class="head"&gt;Compiler&lt;/th&gt;
+&lt;th class="head"&gt;-j1&lt;/th&gt;
+&lt;th class="head"&gt;-j2&lt;/th&gt;
+&lt;th class="head"&gt;-j3&lt;/th&gt;
+&lt;th class="head"&gt;-j4&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody valign="top"&gt;
+&lt;tr&gt;&lt;td&gt;gcc-4.9.3&lt;/td&gt;
+&lt;td&gt;2250.95&lt;/td&gt;
+&lt;td&gt;1256.36&lt;/td&gt;
+&lt;td&gt;912.67&lt;/td&gt;
+&lt;td&gt;760.84&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;gcc-5.3.0&lt;/td&gt;
+&lt;td&gt;2305.37&lt;/td&gt;
+&lt;td&gt;1279.49&lt;/td&gt;
+&lt;td&gt;918.08&lt;/td&gt;
+&lt;td&gt;741.38&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;clang-3.9&lt;/td&gt;
+&lt;td&gt;2047.61&lt;/td&gt;
+&lt;td&gt;&lt;strong&gt;1102.93&lt;/strong&gt;&lt;/td&gt;
+&lt;td&gt;&lt;strong&gt;899.13&lt;/strong&gt;&lt;/td&gt;
+&lt;td&gt;&lt;strong&gt;730.42&lt;/strong&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;zapcc-1.0&lt;/td&gt;
+&lt;td&gt;&lt;strong&gt;1483.73&lt;/strong&gt;&lt;/td&gt;
+&lt;td&gt;1483.73&lt;/td&gt;
+&lt;td&gt;1483.73&lt;/td&gt;
+&lt;td&gt;1483.73&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;Difference against Clang&lt;/td&gt;
+&lt;td&gt;-27.55%&lt;/td&gt;
+&lt;td&gt;+25.69%&lt;/td&gt;
+&lt;td&gt;+39.37%&lt;/td&gt;
+&lt;td&gt;+50.77%&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;Speedup VS GCC-5.3&lt;/td&gt;
+&lt;td&gt;-35.66%&lt;/td&gt;
+&lt;td&gt;+13.75%&lt;/td&gt;
+&lt;td&gt;+38.09%&lt;/td&gt;
+&lt;td&gt;+50.03%&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;Speedup VS GCC-4.9&lt;/td&gt;
+&lt;td&gt;-34.08%&lt;/td&gt;
+&lt;td&gt;+15.30%&lt;/td&gt;
+&lt;td&gt;+38.50%&lt;/td&gt;
+&lt;td&gt;+48.75%&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;If we look at the results with only one thread, we can see that there still are
+some significant improvements when using zapcc, but nowhere near as good as what
+was seen in the compilation of ETL. Here, the compilation time is reduced by 34%
+compared to gcc and by 27% compared to clang. This is not bad, since it is
+faster than the other compilers, but I would have expected better speedups. We
+can see that g++-4.9 is slightly faster than g++-5.3, but this is not really
+a significant difference. I'm actually very surprised to find that clang is
+faster than g++ on this experiment. On ETL, it is always very significantly
+slower and before, it was also significantly slower on DLL. I was so used to
+this, that I stopped using it on this project. I may have to reconsider my
+position when working on this project.&lt;/p&gt;
+&lt;p&gt;Let's look at the results with more than two threads. Even with two threads,
+every compiler is faster than zapcc. Indeed, zapcc is slower than Clang by 25%
+and slower than GCC by about 15%. If we use more threads, the other compilers
+are becoming even faster and the slowdowns of zapcc are more important. When
+using four threads, zapcc is about 48% slower than gcc and about 50% slower than
+clang. This is really showing one big downside of zapcc that has a very large
+memory consumption. When it is used to compile really heavy template code, it is
+failing very early to use more processes. And even when there is enough memory,
+the speedups are not as great as for relatively simpler code.&lt;/p&gt;
+&lt;p&gt;One may argue that this is not a fair comparison since zapcc does not have the
+same numbers of threads. However, considering that this is the best zapcc can do
+on this machine, I would argue that this is a fair comparison in this limited
+experimental setting. If we were to have a big machine for compilation, which
+I don't have at work, the zapcc results would likely be more interesting, but in
+this specific limited case, it shows that zapcc suffers from its high memory
+consumption. It should also be taken into account that this experiment was done
+with almost nothing else running on the machine (no browser for instance) to
+have as much memory as possible available for the compilers. This is not
+a common use case.  Most of the days, when I compile something, I have my
+browser open, which makes a large difference in memory available, and several
+other applications (but consoles and vim instances do not really consume memory
+:D).&lt;/p&gt;
+&lt;p&gt;This experiment made me realize that the compilation times for this library were
+quickly becoming crazy. Most of the time, the complete test suite is only
+compiled on my Continuous Integration machine at home which has a much faster
+processor and much more RAM. Therefore, it is relatively fast since it uses more
+threads to compile.  Nevertheless, this is not a good point that the unit tests
+takes so much time to compile. I plan to split the test cases in several sets.
+Because, currently the real unit tests are compiled with the performance tests
+and other various tests. I'll probably end up generating three executables. This
+will help greatly during development. Moreover, I also have a technique to
+decrease the compilation time by erasing some template parameters at compilation
+time. This is already ready, but has currently a runtime overhead that I will
+try to remove and then use this technique everywhere to get back to reasonable
+compilation times. I'll also try to see if I can find obvious compilation
+bottlenecks in the code.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="section" id="conclusion"&gt;
+&lt;h2&gt;Conclusion&lt;/h2&gt;
+&lt;p&gt;To conclude, while zapcc brings some very interesting compilation speedups in
+some cases like in my ETL library, it also has some downsides, namely
+&lt;strong&gt;huge memory consumption&lt;/strong&gt;. This memory consumption may prevent the use of several
+compiler threads and render zapcc much less interesting than other compilers.&lt;/p&gt;
+&lt;p&gt;When trying to compile my DLL library on a machine with 12Go of RAM with two
+zapcc threads, it was impossible for me to make it complete. While zapcc was
+faster with one thread than the other compilers, they were able to use up to
+four threads and in the end &lt;strong&gt;zapcc was about twice slower than clang&lt;/strong&gt;.&lt;/p&gt;
+&lt;p&gt;I knew that zapcc memory consumption was very large, but I would have not have
+expected something so critical. Another feature that would be interesting in
+zapcc would be to set a max memory hard limit for the server instead of simply
+a limit on the cache they are able to keep in memory. This would prevent hanging
+the complete computer when something goes wrong.&lt;/p&gt;
+&lt;p&gt;I had a good surprise with clang that was actually faster than GCC and also able
+to work with four threads in parallel. This was not the case with previous
+version of clang. On ETL, it is still significantly slower than GCC though.&lt;/p&gt;
+&lt;p&gt;For now, I'll continue using clang on this DLL project and use zapcc only on my
+ETL project. I'll also focus on improving the compilation time on this project
+and make it reasonable again.&lt;/p&gt;
+&lt;/div&gt;&lt;/div&gt;</description><category>C++</category><category>clang</category><category>Compilers</category><category>dll</category><category>gcc</category><category>projects</category><category>zapcc</category><guid>http://baptiste-wicht.com/posts/2017/03/disappointing-zapcc-performance-on-deep-learning-library-dll.html</guid><pubDate>Thu, 09 Mar 2017 12:41:06 GMT</pubDate></item><item><title>Release of zapcc 1.0 - Fast C++ compiler</title><link>http://baptiste-wicht.com/posts/2017/03/release-zapcc-10-fast-cpp-compiler.html</link><dc:creator>Baptiste Wicht</dc:creator><description>&lt;div&gt;&lt;p&gt;If you remember, I recently wrote about &lt;a class="reference external" href="http://baptiste-wicht.com/posts/2016/12/zapcc-cpp-compilation-speed-against-gcc-54-and-clang-39.html"&gt;zapcc C++ compilation speed against gcc 5.4 and clang 3.9&lt;/a&gt; in which I was comparing the beta version of zapcc against gcc and clang.&lt;/p&gt;
+&lt;p&gt;I just been informed that zapcc was just released in version 1.0. I though it
+was a good occasion to test it again. It will be compared against gcc-4.9,
+gcc-5.3 and clang-3.9. This version is based on the trunk of clang-5.0.&lt;/p&gt;
+&lt;p&gt;Again, I will use my Expression Template Library (&lt;a class="reference external" href="https://github.com/wichtounet/etl/"&gt;ETL&lt;/a&gt;) project. This is a purely header-only
+library with lots of templates. I'm going to compile the full test cases. This
+is a perfect example for long compilation times.&lt;/p&gt;
+&lt;p&gt;The current tests are made on the last version of the library and with slightly
+different parameters for compilation, therefore the absolute times are not
+comparable, but the speedups should be comparable.&lt;/p&gt;
+&lt;p&gt;Just like last time, I have configured zapcc to let is use 2Go RAM per caching
+server, which is the maximum allowed. Moreover, I killed the servers before each
+tests.&lt;/p&gt;
+&lt;div class="section" id="debug-results"&gt;
+&lt;h2&gt;Debug results&lt;/h2&gt;
+&lt;p&gt;Let's start with a debug build, with no optimizations enabled. Every build will
+use four threads. This is the equivalent of doing make -j4 debug/bin/etl_test
+without the link step.&lt;/p&gt;
+&lt;table border="1" class="docutils"&gt;
+&lt;colgroup&gt;
+&lt;col width="73%"&gt;
+&lt;col width="27%"&gt;
+&lt;/colgroup&gt;
+&lt;thead valign="bottom"&gt;
+&lt;tr&gt;&lt;th class="head"&gt;Compiler&lt;/th&gt;
+&lt;th class="head"&gt; &lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody valign="top"&gt;
+&lt;tr&gt;&lt;td&gt;g++-4.9.3&lt;/td&gt;
+&lt;td&gt;190.09s&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;g++-5.3.0&lt;/td&gt;
+&lt;td&gt;200.92s&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;clang++-3.9&lt;/td&gt;
+&lt;td&gt;313.85&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;zapcc++&lt;/td&gt;
+&lt;td&gt;81.25&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;Speedup VS Clang&lt;/td&gt;
+&lt;td&gt;3.86&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;Speedup VS GCC-5.3&lt;/td&gt;
+&lt;td&gt;2.47&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;Speedup VS GCC-4.9&lt;/td&gt;
+&lt;td&gt;2.33&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;The speedups are even more impressive than last time! zapcc is &lt;strong&gt;almost four
+times fast than clang-3.9&lt;/strong&gt; and around &lt;strong&gt;2.5 times faster than GCC-5.3&lt;/strong&gt;.
+Interestingly, we can see that gcc-5.3 is slighly slower than GCC-4.9.&lt;/p&gt;
+&lt;p&gt;It seems that they have the compiler even faster!&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="section" id="release-results"&gt;
+&lt;h2&gt;Release results&lt;/h2&gt;
+&lt;p&gt;Let's look now how the results are looking with optimizations enabled. Again,
+every build will use four threads. This is the equivalent of doing make -j4
+release_debug/bin/etl_test without the link step.&lt;/p&gt;
+&lt;table border="1" class="docutils"&gt;
+&lt;colgroup&gt;
+&lt;col width="75%"&gt;
+&lt;col width="25%"&gt;
+&lt;/colgroup&gt;
+&lt;thead valign="bottom"&gt;
+&lt;tr&gt;&lt;th class="head"&gt;Compiler&lt;/th&gt;
+&lt;th class="head"&gt; &lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody valign="top"&gt;
+&lt;tr&gt;&lt;td&gt;g++-4.9.3&lt;/td&gt;
+&lt;td&gt;252.99&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;g++-5.3.0&lt;/td&gt;
+&lt;td&gt;264.96&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;clang++-3.9&lt;/td&gt;
+&lt;td&gt;361.65&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;zapcc++&lt;/td&gt;
+&lt;td&gt;237.96&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;Speedup VS Clang&lt;/td&gt;
+&lt;td&gt;1.51&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;Speedup VS GCC-5.3&lt;/td&gt;
+&lt;td&gt;1.11&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;Speedup VS GCC-4.9&lt;/td&gt;
+&lt;td&gt;1.06&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;We can see that this time the speedups are not as interesting as they were.
+Very interestingly, it's the compiler that suffers the more from the
+optimization overhead. Indeed, zapcc is three times slower in release mode than
+it was in debug mode. Nevertheless, it still manages to beat the three other
+compilers, by about 10% for Gcc and 50% than clang, which is already
+interesting.&lt;/p&gt;
+&lt;div class="section" id="conclusion"&gt;
+&lt;h3&gt;Conclusion&lt;/h3&gt;
+&lt;p&gt;To conclude, we have observed that zapcc is always faster than the three
+compilers tested in this experiment. Moreover, in debug mode, the speedups are
+very significant, it was almost 4 times faster than clang and around 2.5 faster
+than gcc.&lt;/p&gt;
+&lt;p&gt;I haven't seen any problem with the tool, it's like clang and it should generate
+code of the same performance, but just compile it much faster. One problem
+I have with zapcc is that it is not based on an already released version of
+clang but on the trunk. That means it is hard to be compare with the exact same
+version of clang and it is also a risk of running into clang bugs.&lt;/p&gt;
+&lt;p&gt;Although the prices have not been published yet, it is indicated on the website
+that zapcc is free for non-commercial entities. Which is really great.&lt;/p&gt;
+&lt;p&gt;If you want more information, you can go to the
+&lt;a class="reference external" href="https://www.zapcc.com/"&gt;official website of zapcc&lt;/a&gt;&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;/div&gt;</description><category>C++</category><category>clang</category><category>Compilers</category><category>etl</category><category>gcc</category><category>projects</category><category>zapcc</category><guid>http://baptiste-wicht.com/posts/2017/03/release-zapcc-10-fast-cpp-compiler.html</guid><pubDate>Thu, 02 Mar 2017 13:50:04 GMT</pubDate></item><item><title>zapcc - a faster C++ compiler</title><link>http://baptiste-wicht.com/posts/2016/11/zapcc-a-faster-cpp-compiler.html</link><dc:creator>Baptiste Wicht</dc:creator><description>&lt;div&gt;&lt;p&gt;Update: For a comparison against more modern compiler versions, you can read: &lt;a class="reference external" href="http://baptiste-wicht.com/posts/2016/12/zapcc-cpp-compilation-speed-against-gcc-54-and-clang-39.html"&gt;zapcc C++ compilation speed against gcc 5.4 and clang 3.9&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;I just joined the private beta program of zapcc. Zapcc is a c++ compiler, based
+on Clang which aims at being much faster than other C++ compilers. How they are
+doing this is using a caching server that saves some of the compiler structures,
+which should speed up compilation a lot. The private beta is free, but once the
+compiler is ready, it will be a commercial compiler.&lt;/p&gt;
+&lt;p&gt;Every C++ developer knows that compilation time can quickly be an issue when
+programs are getting very big and especially when working with template-heavy
+code.&lt;/p&gt;
+&lt;p&gt;To benchmark this new compiler, I use my Expression Template Library
+(&lt;a class="reference external" href="https://github.com/wichtounet/etl/"&gt;ETL&lt;/a&gt;). This is a purely header-only
+library with lots of templates. There are lots of test cases which is what I'm
+going to compile. I'm going to compare against Clang-3.7 and gcc-4.9.3.&lt;/p&gt;
+&lt;p&gt;I have configured zapcc to let is use 2Go RAM per caching server, which is the
+maximum allowed. Moreover, I killed the servers before each tests.&lt;/p&gt;
+&lt;div class="section" id="debug-build"&gt;
+&lt;h2&gt;Debug build&lt;/h2&gt;
+&lt;p&gt;Let's start with a debug build. In that configuration, there is no optimization
+going on and several of the features of the library (GPU, BLAS, ...) are
+disabled. This is the fastest way to compile ETL. I gathered this result on
+a 4 core, 8 threads, Intel processor, with an SSD.&lt;/p&gt;
+&lt;p&gt;The following table presents the results with different number of threads and
+the difference of zapcc compared to the other compilers:&lt;/p&gt;
+&lt;table border="1" class="docutils"&gt;
+&lt;colgroup&gt;
+&lt;col width="42%"&gt;
+&lt;col width="11%"&gt;
+&lt;col width="13%"&gt;
+&lt;col width="11%"&gt;
+&lt;col width="11%"&gt;
+&lt;col width="11%"&gt;
+&lt;/colgroup&gt;
+&lt;thead valign="bottom"&gt;
+&lt;tr&gt;&lt;th class="head"&gt;Compiler&lt;/th&gt;
+&lt;th class="head"&gt;-j1&lt;/th&gt;
+&lt;th class="head"&gt;-j2&lt;/th&gt;
+&lt;th class="head"&gt;-j4&lt;/th&gt;
+&lt;th class="head"&gt;-j6&lt;/th&gt;
+&lt;th class="head"&gt;-j8&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody valign="top"&gt;
+&lt;tr&gt;&lt;td&gt;g++-4.9.3&lt;/td&gt;
+&lt;td&gt;350s&lt;/td&gt;
+&lt;td&gt;185s&lt;/td&gt;
+&lt;td&gt;104s&lt;/td&gt;
+&lt;td&gt;94s&lt;/td&gt;
+&lt;td&gt;91s&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;clang++-3.7&lt;/td&gt;
+&lt;td&gt;513s&lt;/td&gt;
+&lt;td&gt;271s&lt;/td&gt;
+&lt;td&gt;153s&lt;/td&gt;
+&lt;td&gt;145s&lt;/td&gt;
+&lt;td&gt;138s&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;zapcc++&lt;/td&gt;
+&lt;td&gt;158s&lt;/td&gt;
+&lt;td&gt;87s&lt;/td&gt;
+&lt;td&gt;47s&lt;/td&gt;
+&lt;td&gt;44s&lt;/td&gt;
+&lt;td&gt;42s&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;Speedup VS Clang&lt;/td&gt;
+&lt;td&gt;3.24&lt;/td&gt;
+&lt;td&gt;3.103&lt;/td&gt;
+&lt;td&gt;3.25&lt;/td&gt;
+&lt;td&gt;3.29&lt;/td&gt;
+&lt;td&gt;3.28&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;Speedup VS GCC&lt;/td&gt;
+&lt;td&gt;2.21&lt;/td&gt;
+&lt;td&gt;2.12&lt;/td&gt;
+&lt;td&gt;2.21&lt;/td&gt;
+&lt;td&gt;2.13&lt;/td&gt;
+&lt;td&gt;2.16&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;The result is pretty clear! zapcc is around &lt;strong&gt;three times faster than Clang&lt;/strong&gt; and around
+&lt;strong&gt;two times faster than GCC&lt;/strong&gt;. This is pretty impressive!&lt;/p&gt;
+&lt;p&gt;For those that think than Clang is always faster than GCC, keep in mind that
+this is not the case for template-heavy code such as this library. In all my
+tests, Clang has always been slower and much memory hungrier than GCC on
+template-heavy C++ code. And sometimes the difference is very significant.&lt;/p&gt;
+&lt;p&gt;Interestingly, we can also see that going past the physical cores is not really
+interesting on this computer. On some computer, the speedups are interesting,
+but not on this one. Always benchmark!&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="section" id="release-build"&gt;
+&lt;h2&gt;Release build&lt;/h2&gt;
+&lt;p&gt;We have seen the results on a debug build, let's now compare on something a bit
+more timely, a release build with all options of ETL enabled (GPU, BLAS, ...),
+which should make it significantly longer to compile.&lt;/p&gt;
+&lt;p&gt;Again, the table:&lt;/p&gt;
+&lt;table border="1" class="docutils"&gt;
+&lt;colgroup&gt;
+&lt;col width="40%"&gt;
+&lt;col width="12%"&gt;
+&lt;col width="12%"&gt;
+&lt;col width="12%"&gt;
+&lt;col width="12%"&gt;
+&lt;col width="12%"&gt;
+&lt;/colgroup&gt;
+&lt;thead valign="bottom"&gt;
+&lt;tr&gt;&lt;th class="head"&gt;Compiler&lt;/th&gt;
+&lt;th class="head"&gt;-j1&lt;/th&gt;
+&lt;th class="head"&gt;-j2&lt;/th&gt;
+&lt;th class="head"&gt;-j4&lt;/th&gt;
+&lt;th class="head"&gt;-j6&lt;/th&gt;
+&lt;th class="head"&gt;-j8&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody valign="top"&gt;
+&lt;tr&gt;&lt;td&gt;g++-4.9.3&lt;/td&gt;
+&lt;td&gt;628s&lt;/td&gt;
+&lt;td&gt;336s&lt;/td&gt;
+&lt;td&gt;197s&lt;/td&gt;
+&lt;td&gt;189s&lt;/td&gt;
+&lt;td&gt;184s&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;clang++-3.7&lt;/td&gt;
+&lt;td&gt;663s&lt;/td&gt;
+&lt;td&gt;388s&lt;/td&gt;
+&lt;td&gt;215s&lt;/td&gt;
+&lt;td&gt;212s&lt;/td&gt;
+&lt;td&gt;205s&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;zapcc++&lt;/td&gt;
+&lt;td&gt;515s&lt;/td&gt;
+&lt;td&gt;281s&lt;/td&gt;
+&lt;td&gt;173s&lt;/td&gt;
+&lt;td&gt;168s&lt;/td&gt;
+&lt;td&gt;158s&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;Speedup VS Clang&lt;/td&gt;
+&lt;td&gt;1.28&lt;/td&gt;
+&lt;td&gt;1.38&lt;/td&gt;
+&lt;td&gt;1.24&lt;/td&gt;
+&lt;td&gt;1.26&lt;/td&gt;
+&lt;td&gt;1.29&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;Speedup VS GCC&lt;/td&gt;
+&lt;td&gt;1.21&lt;/td&gt;
+&lt;td&gt;1.30&lt;/td&gt;
+&lt;td&gt;1.13&lt;/td&gt;
+&lt;td&gt;1.12&lt;/td&gt;
+&lt;td&gt;1.16&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;This time, we can see that the difference is much lower. Zapcc is &lt;strong&gt;between 1.2
+and 1.4 times faster than Clang&lt;/strong&gt; and &lt;strong&gt;between 1.1 and 1.3 times faster than
+GCC&lt;/strong&gt;. This shows that most of the speedups from zapcc are in the front end of
+the compiler. This is not a lot but still significant over long builds,
+especially if you have few threads where the absolute difference would be
+higher.&lt;/p&gt;
+&lt;p&gt;We can also observe that Clang is now almost on par with GCC which shows that
+optimization is faster in Clang while front and backend is faster in gcc.&lt;/p&gt;
+&lt;p&gt;You also have to keep in mind that zapcc memory usage is higher than Clang
+because of all the caching. Moreover, the server are still up in between
+compilations, so this memory usage stays between builds, which may not be what
+you want.&lt;/p&gt;
+&lt;p&gt;As for runtime, I have not seen any significant difference in performance
+between the clang version and the zapcc. According to the official benchmarks
+and documentation, there should not be any difference in that between zapcc and
+the version of clang on which zapcc is based.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="section" id="incremental-build"&gt;
+&lt;h2&gt;Incremental build&lt;/h2&gt;
+&lt;p&gt;Normally, zapcc should shine at incremental building, but I was unable to show
+any speedup when changing a single without killing the zapcc servers. Maybe
+I did something wrong in my usage of zapcc.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="section" id="conclusion"&gt;
+&lt;h2&gt;Conclusion&lt;/h2&gt;
+&lt;p&gt;In conclusion, we can see that zapcc is always faster than both GCC and Clang,
+on my template-heavy library. Moreover, on debug builds, it is much faster than
+any of the two compilers, being more than 2 times faster than GCC and more than
+3 times faster than clang. This is really great. Moreover, I have not seen any
+issue with the tool so far, it can seamlessly replace Clang without problem.&lt;/p&gt;
+&lt;p&gt;It's a bit weird that you cannot allocate more than 2Go to the zapcc servers.&lt;/p&gt;
+&lt;p&gt;For a program, that's really impressive. I hope that they are continuing the
+good work and especially that this motivates other compilers to improve the
+speed of compilation (especially of templates).&lt;/p&gt;
+&lt;p&gt;If you want more information, you can go to the
+&lt;a class="reference external" href="https://www.zapcc.com/"&gt;official website of zapcc&lt;/a&gt;&lt;/p&gt;
+&lt;/div&gt;&lt;/div&gt;</description><category>C++</category><category>clang</category><category>Compilers</category><category>etl</category><category>gcc</category><category>projects</category><category>zapcc</category><guid>http://baptiste-wicht.com/posts/2016/11/zapcc-a-faster-cpp-compiler.html</guid><pubDate>Sat, 26 Nov 2016 12:17:50 GMT</pubDate></item></channel></rss>

@@ -1,0 +1,584 @@
+<!DOCTYPE html>
+<html prefix="og: http://ogp.me/ns# article: http://ogp.me/ns/article# " lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="description" content="Presentation of Deep Learning Library (DLL) 1.0, a very fast neural network library">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Deep Learning Library 1.0 - Fast Neural Network Library | Blog blog("Baptiste Wicht");</title>
+<script src="/cdn-cgi/apps/head/98vpnawSZZMscPn4oDND-ZgswjM.js"></script><link href="../../../assets/css/all-nocdn.css" rel="stylesheet" type="text/css">
+<meta name="theme-color" content="#5670d4">
+<meta name="generator" content="Nikola (getnikola.com)">
+<link rel="alternate" type="application/rss+xml" title="RSS" href="../../../rss.xml">
+<link rel="canonical" href="http://baptiste-wicht.com/posts/2017/10/deep-learning-library-10-fast-neural-network-library.html">
+<!--[if lt IE 9]><script src="../../../assets/js/html5.js"></script><![endif]--><meta name="author" content="Baptiste Wicht">
+<link rel="prev" href="expression-templates-library-etl-1-2-complete-gpu-support.html" title="Expression Templates Library (ETL) 1.2 - Complete GPU support" type="text/html">
+<link rel="next" href="budgetwarrior-track-assets-portfolio-savings-rates-auto-completion.html" title="Budgetwarrior: Track assets and portfolio, savings rates and auto-completion" type="text/html">
+<meta property="og:site_name" content='Blog blog("Baptiste Wicht");'>
+<meta property="og:title" content="Deep Learning Library 1.0 - Fast Neural Network Library">
+<meta property="og:url" content="http://baptiste-wicht.com/posts/2017/10/deep-learning-library-10-fast-neural-network-library.html">
+<meta property="og:description" content="Presentation of Deep Learning Library (DLL) 1.0, a very fast neural network library">
+<meta property="og:type" content="article">
+<meta property="article:published_time" content="2017-10-07T15:42:16+02:00">
+<meta property="article:tag" content="C++">
+<meta property="article:tag" content="dll">
+<meta property="article:tag" content="etl">
+<meta property="article:tag" content="GPU">
+<meta property="article:tag" content="Machine Learning">
+<meta property="article:tag" content="Performances">
+<link href="../../../favicon.ico" rel="icon" type="image/x-icon">
+<link rel="publisher" href="https://plus.google.com/+BaptisteWicht">
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-2175227-7', 'auto');
+  var metas = document.getElementsByTagName('meta'), tagsList = [];
+  for (var i=0; i<metas.length; i++) {
+    if (metas[i].getAttribute('property') == 'article:tag') {
+      tagsList.push( metas[i].getAttribute('content'));
+    }
+  }
+  ga('set', 'dimension1', tagsList.join('|'));
+  ga('send', 'pageview');
+</script>
+</head>
+<body>
+
+<a href="#content" class="sr-only sr-only-focusable">Skip to main content</a>
+<div class="container-fluid">
+
+<div class="row">
+<div class="col-sm-3 col-lg-2">
+<nav class="navbar navbar-inverse navbar-fixed-side"><div class="navbar-header">
+<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+<span class="sr-only">Toggle navigation</span>
+<span class="icon-bar"></span>
+<span class="icon-bar"></span>
+<span class="icon-bar"></span>
+</button>
+<a class="navbar-brand" href="http://baptiste-wicht.com/">
+<span id="blog-title">Blog blog("Baptiste Wicht");</span>
+</a>
+</div>
+
+<div class="collapse navbar-collapse navbar-ex1-collapse">
+<ul class="nav navbar-nav">
+<li>
+<a href="../../../stories/about.html">About</a>
+ </li>
+<li>
+<a href="../../../stories/publications.html">Publications</a>
+</li>
+<li>
+<a href="../../../stories/projects.html">Projects</a>
+</li>
+<li>
+<a href="../../../categories/index.html">Tags</a>
+</li>
+<li>
+<a href="../../../archive.html">Archives</a>
+</li>
+<li>
+<a href="http://feeds.feedburner.com/BaptisteWicht">RSS</a>
+</li>
+<li class="navbar-content">
+<h3>Related posts</h3>
+</li>
+<li><a href="../07/update-on-deep-learning-library-dll-dropout-batch-normalization-adaptive-learning-rates.html">Update on Deep Learning Library (DLL): Dropout, Batch Normalization, Adaptive Learning Rates, ...</a></li>
+<li><a href="../08/dll-blazing-fast-neural-network-library.html">DLL: Blazing Fast Neural Network Library</a></li>
+<li><a href="expression-templates-library-etl-1-2-complete-gpu-support.html">Expression Templates Library (ETL) 1.2 - Complete GPU support</a></li>
+<li><a href="../02/publication-cpu-performance-optimizations-rbm-crbm.html">Publication: CPU Performance Optimizations for RBM and CRBM</a></li>
+<li><a href="../../2016/09/expression-templates-library-etl-10.html">Expression Templates Library (ETL) 1.0</a></li>
+<li><a href="../../2016/01/improve-dll-and-etl-compile-time-further.html">Improve DLL and ETL Compile Time further</a></li>
+<li class="navbar-block">
+<li class="wicht-navbar-right">
+<a target="_blank" title="Follow @wichtounet on Twitter" href="https://twitter.com/wichtounet">
+<img src="../../../assets/img/twitter.png" alt="Follow @wichtounet on Twitter"></a>
+</li>
+<li class="wicht-navbar-right">
+<a target="_blank" title="Follow +BaptisteWicht on Google+" href="https://plus.google.com/+BaptisteWicht">
+<img src="../../../assets/img/google_plus.png" alt="Follow +BaptisteWicht on Google+"></a>
+</li>
+</ul>
+</div>
+
+</nav>
+</div> 
+<div class="col-sm-9 col-lg-10">
+<div id="content"></div>
+<article class="post-text h-entry hentry postpage" itemscope="itemscope" itemtype="http://schema.org/Article"><header><h1 class="p-name entry-title" itemprop="headline name"><a href="#" class="u-url">Deep Learning Library 1.0 - Fast Neural Network Library</a></h1>
+<div class="metadata">
+<p class="byline author vcard"><span class="byline-name fn" itemprop="author">
+Baptiste Wicht
+</span></p>
+<p class="dateline"><a href="#" rel="bookmark"><time class="published dt-published" datetime="2017-10-07T15:42:16+02:00" itemprop="datePublished" title="2017-10-07 15:42">2017-10-07 15:42</time></a></p>
+<p class="commentline">
+<a href="deep-learning-library-10-fast-neural-network-library.html#disqus_thread" data-disqus-identifier="cache/posts/2017/10/deep-learning-library-10-fast-neural-network-library.html">Comments</a>
+</p>
+<p class="sourceline"><a href="deep-learning-library-10-fast-neural-network-library.rst" class="sourcelink">Source</a></p>
+</div>
+</header><div class="e-content entry-content" itemprop="articleBody text">
+<div>
+<img alt="DLL Logo" class="align-center" src="../../../images/dll_logo.png"><p>I'm very happy to announce the release of the first version of Deep Learning
+Library (DLL) 1.0. DLL is a neural network library with a focus on speed and
+ease of use.</p>
+<p>I started working on this library about 4 years ago for my Ph.D. thesis.
+I needed a good library to train and use Restricted Boltzmann Machines (RBMs)
+and at this time there was no good support for it. Therefore, I decided to write
+my own. It now has very complete support for the RBM and the Convolutional RBM
+(CRBM) models. Stacks of RBMs (or Deep Belief Networks (DBNs)) can be pretrained
+using Contrastive Divergence and then either fine-tuned with mini-batch gradient
+descent or Conjugate Gradient or used as a feature extractor. Over the years,
+the library has been extended to handle Artificial Neural Networks (ANNs) and
+Convolutional Neural Networks (CNNs). The network is also able to train regular
+auto-encoders. Several advanced layers such as Dropout or Batch Normalization
+are also available as well as adaptive learning rates techniques such as
+Adadelta and Adam. The library also has integrated support for a few datasets:
+MNIST, CIFAR-10 and ImageNet.</p>
+<p>This library can be used using a C++ interface. The library is fully
+header-only. It requires a C++14 compiler, which means a minimum of clang 3.9 or
+GCC 6.3.</p>
+<p>In this post, I'm going to present a few examples on using the library and give
+some information about the performance of the library and the roadmap for the
+project.</p>
+
+<div class="section" id="examples">
+<h2>Examples</h2>
+<p>Let's see an example of using the library:</p>
+<pre class="code cpp"><a name="rest_code_3e79a8a57ba446bdbc065e163e771381-1"></a><span class="cp">#include</span> <span class="cpf">"dll/neural/dense_layer.hpp"</span><span class="cp"></span>
+<a name="rest_code_3e79a8a57ba446bdbc065e163e771381-2"></a><span class="cp">#include</span> <span class="cpf">"dll/network.hpp"</span><span class="cp"></span>
+<a name="rest_code_3e79a8a57ba446bdbc065e163e771381-3"></a><span class="cp">#include</span> <span class="cpf">"dll/datasets.hpp"</span><span class="cp"></span>
+<a name="rest_code_3e79a8a57ba446bdbc065e163e771381-4"></a>
+<a name="rest_code_3e79a8a57ba446bdbc065e163e771381-5"></a><span class="kt">int</span> <span class="nf">main</span><span class="p">(</span><span class="kt">int</span> <span class="cm">/*argc*/</span><span class="p">,</span> <span class="kt">char</span><span class="o">*</span> <span class="cm">/*argv*/</span> <span class="p">[])</span> <span class="p">{</span>
+<a name="rest_code_3e79a8a57ba446bdbc065e163e771381-6"></a>    <span class="c1">// Load the dataset</span>
+<a name="rest_code_3e79a8a57ba446bdbc065e163e771381-7"></a>    <span class="k">auto</span> <span class="n">dataset</span> <span class="o">=</span> <span class="n">dll</span><span class="o">::</span><span class="n">make_mnist_dataset</span><span class="p">(</span><span class="n">dll</span><span class="o">::</span><span class="n">batch_size</span><span class="o">&lt;</span><span class="mi">100</span><span class="o">&gt;</span><span class="p">{},</span> <span class="n">dll</span><span class="o">::</span><span class="n">normalize_pre</span><span class="p">{});</span>
+<a name="rest_code_3e79a8a57ba446bdbc065e163e771381-8"></a>
+<a name="rest_code_3e79a8a57ba446bdbc065e163e771381-9"></a>    <span class="c1">// Build the network</span>
+<a name="rest_code_3e79a8a57ba446bdbc065e163e771381-10"></a>
+<a name="rest_code_3e79a8a57ba446bdbc065e163e771381-11"></a>    <span class="k">using</span> <span class="n">network_t</span> <span class="o">=</span> <span class="n">dll</span><span class="o">::</span><span class="n">dyn_network_desc</span><span class="o">&lt;</span>
+<a name="rest_code_3e79a8a57ba446bdbc065e163e771381-12"></a>        <span class="n">dll</span><span class="o">::</span><span class="n">network_layers</span><span class="o">&lt;</span>
+<a name="rest_code_3e79a8a57ba446bdbc065e163e771381-13"></a>            <span class="n">dll</span><span class="o">::</span><span class="n">dense_layer</span><span class="o">&lt;</span><span class="mi">28</span> <span class="o">*</span> <span class="mi">28</span><span class="p">,</span> <span class="mi">500</span><span class="o">&gt;</span><span class="p">,</span>
+<a name="rest_code_3e79a8a57ba446bdbc065e163e771381-14"></a>            <span class="n">dll</span><span class="o">::</span><span class="n">dense_layer</span><span class="o">&lt;</span><span class="mi">500</span><span class="p">,</span> <span class="mi">250</span><span class="o">&gt;</span><span class="p">,</span>
+<a name="rest_code_3e79a8a57ba446bdbc065e163e771381-15"></a>            <span class="n">dll</span><span class="o">::</span><span class="n">dense_layer</span><span class="o">&lt;</span><span class="mi">250</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="n">dll</span><span class="o">::</span><span class="n">softmax</span><span class="o">&gt;</span>
+<a name="rest_code_3e79a8a57ba446bdbc065e163e771381-16"></a>        <span class="o">&gt;</span>
+<a name="rest_code_3e79a8a57ba446bdbc065e163e771381-17"></a>        <span class="p">,</span> <span class="n">dll</span><span class="o">::</span><span class="n">updater</span><span class="o">&lt;</span><span class="n">dll</span><span class="o">::</span><span class="n">updater_type</span><span class="o">::</span><span class="n">NADAM</span><span class="o">&gt;</span>     <span class="c1">// Nesterov Adam (NADAM)</span>
+<a name="rest_code_3e79a8a57ba446bdbc065e163e771381-18"></a>        <span class="p">,</span> <span class="n">dll</span><span class="o">::</span><span class="n">batch_size</span><span class="o">&lt;</span><span class="mi">100</span><span class="o">&gt;</span>                       <span class="c1">// The mini-batch size</span>
+<a name="rest_code_3e79a8a57ba446bdbc065e163e771381-19"></a>        <span class="p">,</span> <span class="n">dll</span><span class="o">::</span><span class="n">shuffle</span>                               <span class="c1">// Shuffle before each epoch</span>
+<a name="rest_code_3e79a8a57ba446bdbc065e163e771381-20"></a>    <span class="o">&gt;::</span><span class="n">network_t</span><span class="p">;</span>
+<a name="rest_code_3e79a8a57ba446bdbc065e163e771381-21"></a>
+<a name="rest_code_3e79a8a57ba446bdbc065e163e771381-22"></a>    <span class="k">auto</span> <span class="n">net</span> <span class="o">=</span> <span class="n">std</span><span class="o">::</span><span class="n">make_unique</span><span class="o">&lt;</span><span class="n">network_t</span><span class="o">&gt;</span><span class="p">();</span>
+<a name="rest_code_3e79a8a57ba446bdbc065e163e771381-23"></a>
+<a name="rest_code_3e79a8a57ba446bdbc065e163e771381-24"></a>    <span class="c1">// Train the network for performance sake</span>
+<a name="rest_code_3e79a8a57ba446bdbc065e163e771381-25"></a>    <span class="n">net</span><span class="o">-&gt;</span><span class="n">fine_tune</span><span class="p">(</span><span class="n">dataset</span><span class="p">.</span><span class="n">train</span><span class="p">(),</span> <span class="mi">50</span><span class="p">);</span>
+<a name="rest_code_3e79a8a57ba446bdbc065e163e771381-26"></a>
+<a name="rest_code_3e79a8a57ba446bdbc065e163e771381-27"></a>    <span class="c1">// Test the network on test set</span>
+<a name="rest_code_3e79a8a57ba446bdbc065e163e771381-28"></a>    <span class="n">net</span><span class="o">-&gt;</span><span class="n">evaluate</span><span class="p">(</span><span class="n">dataset</span><span class="p">.</span><span class="n">test</span><span class="p">());</span>
+<a name="rest_code_3e79a8a57ba446bdbc065e163e771381-29"></a>
+<a name="rest_code_3e79a8a57ba446bdbc065e163e771381-30"></a>    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<a name="rest_code_3e79a8a57ba446bdbc065e163e771381-31"></a><span class="p">}</span>
+</pre>
+<p>This will train and test a simple three-layer fully-connected neural network on
+the MNIST dataset.</p>
+<p>First, for the includes, you need to include the layers you are using, here only
+the dense layer. Then, you need to include <code>network.hpp</code> which is the
+basic include for every network. And the last header is the one for the datasets
+support.</p>
+<p>In the main function, first we load the full MNIST dataset and pass it two
+options (the function takes a variadic list of options). Here, we set the batch
+size and indicates that each sample should be normalized to have a zero mean and
+a unit variance.</p>
+<p>After this, comes the important part, the declaration of the
+network. In DLL, a network is a type. There are two parts to this type, the
+layers (inside a <code>dll::network_layers</code>) and the options (a variadic list
+of options), just after the layers. In this case, we are declaring three layers,
+the first with 500 hidden units, the second with 250 hidden units and the last
+one with 10. Each layer can also take a variadic list of options. The third
+layer is using the softmax activation function rather than the default sigmoid
+function. The network itself has three options. We are using the Nesterov Adam
+(NAdam) updater, a batch size of 100 (must be the same as the dataset batch
+size) and the dataset is shuffled before each epoch.</p>
+<p>After this, we simply create the network using <code>std::make_unique</code>, then
+train it for 50 epochs on the training set and finally test it on the test set.</p>
+<p>If you compile and run this program, you should see something like this:</p>
+<pre class="literal-block">Network with 3 layers
+    Dense(dyn): 784 -&gt; SIGMOID -&gt; 500
+    Dense(dyn): 500 -&gt; SIGMOID -&gt; 250
+    Dense(dyn): 250 -&gt; SOFTMAX -&gt; 10
+Total parameters: 519500
+Dataset
+Training: In-Memory Data Generator
+              Size: 60000
+           Batches: 600
+    Augmented Size: 60000
+Testing: In-Memory Data Generator
+              Size: 10000
+           Batches: 100
+    Augmented Size: 10000
+Train the network with "Stochastic Gradient Descent"
+    Updater: NADAM
+       Loss: CATEGORICAL_CROSS_ENTROPY
+ Early Stop: Goal(error)
+
+With parameters:
+          epochs=50
+      batch_size=100
+   learning_rate=0.002
+           beta1=0.9
+           beta2=0.999
+Epoch   0/50 - Classification error: 0.03248 Loss: 0.11162 Time 3187ms
+Epoch   1/50 - Classification error: 0.02737 Loss: 0.08670 Time 3063ms
+Epoch   2/50 - Classification error: 0.01517 Loss: 0.04954 Time 3540ms
+Epoch   3/50 - Classification error: 0.01022 Loss: 0.03284 Time 2954ms
+Epoch   4/50 - Classification error: 0.00625 Loss: 0.02122 Time 2936ms
+Epoch   5/50 - Classification error: 0.00797 Loss: 0.02463 Time 2729ms
+Epoch   6/50 - Classification error: 0.00668 Loss: 0.02066 Time 2921ms
+Epoch   7/50 - Classification error: 0.00953 Loss: 0.02710 Time 2894ms
+Epoch   8/50 - Classification error: 0.00565 Loss: 0.01666 Time 2703ms
+Epoch   9/50 - Classification error: 0.00562 Loss: 0.01644 Time 2759ms
+Epoch  10/50 - Classification error: 0.00595 Loss: 0.01789 Time 2572ms
+Epoch  11/50 - Classification error: 0.00555 Loss: 0.01734 Time 2586ms
+Epoch  12/50 - Classification error: 0.00505 Loss: 0.01446 Time 2575ms
+Epoch  13/50 - Classification error: 0.00600 Loss: 0.01727 Time 2644ms
+Epoch  14/50 - Classification error: 0.00327 Loss: 0.00898 Time 2636ms
+Epoch  15/50 - Classification error: 0.00392 Loss: 0.01180 Time 2660ms
+Epoch  16/50 - Classification error: 0.00403 Loss: 0.01231 Time 2587ms
+Epoch  17/50 - Classification error: 0.00445 Loss: 0.01307 Time 2566ms
+Epoch  18/50 - Classification error: 0.00297 Loss: 0.00831 Time 2857ms
+Epoch  19/50 - Classification error: 0.00335 Loss: 0.01001 Time 2931ms
+Epoch  20/50 - Classification error: 0.00378 Loss: 0.01081 Time 2772ms
+Epoch  21/50 - Classification error: 0.00332 Loss: 0.00950 Time 2964ms
+Epoch  22/50 - Classification error: 0.00400 Loss: 0.01210 Time 2773ms
+Epoch  23/50 - Classification error: 0.00393 Loss: 0.01081 Time 2721ms
+Epoch  24/50 - Classification error: 0.00415 Loss: 0.01218 Time 2595ms
+Epoch  25/50 - Classification error: 0.00347 Loss: 0.00947 Time 2604ms
+Epoch  26/50 - Classification error: 0.00535 Loss: 0.01544 Time 3005ms
+Epoch  27/50 - Classification error: 0.00272 Loss: 0.00828 Time 2716ms
+Epoch  28/50 - Classification error: 0.00422 Loss: 0.01211 Time 2614ms
+Epoch  29/50 - Classification error: 0.00417 Loss: 0.01148 Time 2701ms
+Epoch  30/50 - Classification error: 0.00498 Loss: 0.01439 Time 2561ms
+Epoch  31/50 - Classification error: 0.00385 Loss: 0.01085 Time 2704ms
+Epoch  32/50 - Classification error: 0.00305 Loss: 0.00879 Time 2618ms
+Epoch  33/50 - Classification error: 0.00343 Loss: 0.00889 Time 2843ms
+Epoch  34/50 - Classification error: 0.00292 Loss: 0.00833 Time 2887ms
+Epoch  35/50 - Classification error: 0.00327 Loss: 0.00895 Time 2644ms
+Epoch  36/50 - Classification error: 0.00203 Loss: 0.00623 Time 2658ms
+Epoch  37/50 - Classification error: 0.00233 Loss: 0.00676 Time 2685ms
+Epoch  38/50 - Classification error: 0.00298 Loss: 0.00818 Time 2948ms
+Epoch  39/50 - Classification error: 0.00410 Loss: 0.01195 Time 2778ms
+Epoch  40/50 - Classification error: 0.00173 Loss: 0.00495 Time 2843ms
+Epoch  41/50 - Classification error: 0.00232 Loss: 0.00709 Time 2743ms
+Epoch  42/50 - Classification error: 0.00292 Loss: 0.00861 Time 2873ms
+Epoch  43/50 - Classification error: 0.00483 Loss: 0.01365 Time 2887ms
+Epoch  44/50 - Classification error: 0.00240 Loss: 0.00694 Time 2918ms
+Epoch  45/50 - Classification error: 0.00247 Loss: 0.00734 Time 2885ms
+Epoch  46/50 - Classification error: 0.00278 Loss: 0.00725 Time 2785ms
+Epoch  47/50 - Classification error: 0.00262 Loss: 0.00687 Time 2842ms
+Epoch  48/50 - Classification error: 0.00352 Loss: 0.01002 Time 2665ms
+Epoch  49/50 - Classification error: 0.00232 Loss: 0.00668 Time 2747ms
+Restore the best (error) weights from epoch 40
+Training took 142s
+error: 0.02040
+ loss: 0.08889
+</pre>
+<p>First the display of the network and the dataset, as set in the code, then the
+training of the network with the information, epoch by epoch. And finally, the
+results of the evaluation. In about 2 minutes and a half, we trained a neural
+network that is able to classify MNIST digits with an error rate of 2.04%, which
+is not bad, but can still be improved.</p>
+<p>A few information on how to compile. You can install directly the dll library on
+your computer with <code>sudo make install_headers</code> in a checked-out dll
+folder. Then, you can simply compile your file with:</p>
+<pre class="literal-block">clang++ -std=c++14 file.cpp
+</pre>
+<p>or, if you cloned dll in a local dll directory, you need to specify the include
+folders:</p>
+<blockquote>
+clang++ -std=c++14 -Idll/include -Idll/etl/lib/include -dll/Ietl/include/ -Idll/mnist/include/ -Idll/cifar-10/include/ file.cpp</blockquote>
+<p>There are a few compilation options that you can ease in order to improve the
+performances:</p>
+<ul class="simple">
+<li>
+<code>-DETL_PARALLEL</code> will allow parallel computation</li>
+<li>
+<code>-DETL_VECTORIZE_FULL</code> will enable full vectorization of the algorithms</li>
+<li>
+<code>-DETL_BLAS_MODE</code> will let the library know about a BLAS library (MKL for
+instance). You must then add include options and linking options for the BLAS
+ligrary of your choice</li>
+<li>
+<code>-DETL_CUBLAS_MODE</code> will let the library know that NVIDIA cublas is available on
+this machine. You must then add the appropriate options (include directory and
+link library)</li>
+<li>
+<code>-DETL_CUDNN_MODE</code> will let the library know that NVIDIA cudnn is available on
+this machine. You must then add the appropriate options (include directory and
+link library)</li>
+<li>
+<code>-DETL_EGBLAS_MODE</code> will let the library know that you installed
+etl-gpu-blas on this machine. You must then add the appropriate options
+(include directory and link library)</li>
+</ul>
+<p>If you want the best CPU performance, you should use the first three options. If
+you want the best GPU performance, you just enable the three last one. Ideally,
+you should enable all the options and therefore you'll have the best available
+performance since some algorithms are not yet totally computed on GPU.</p>
+<p>Let's do the same experiment again but with a Convolutional Neural Network with
+two convolutional layers and two pooling layers:</p>
+<pre class="code cpp"><a name="rest_code_661ad32b4fe445a3b99effdee29dea87-1"></a><span class="cp">#include</span> <span class="cpf">"dll/neural/conv_layer.hpp"</span><span class="cp"></span>
+<a name="rest_code_661ad32b4fe445a3b99effdee29dea87-2"></a><span class="cp">#include</span> <span class="cpf">"dll/neural/dense_layer.hpp"</span><span class="cp"></span>
+<a name="rest_code_661ad32b4fe445a3b99effdee29dea87-3"></a><span class="cp">#include</span> <span class="cpf">"dll/pooling/mp_layer.hpp"</span><span class="cp"></span>
+<a name="rest_code_661ad32b4fe445a3b99effdee29dea87-4"></a><span class="cp">#include</span> <span class="cpf">"dll/network.hpp"</span><span class="cp"></span>
+<a name="rest_code_661ad32b4fe445a3b99effdee29dea87-5"></a><span class="cp">#include</span> <span class="cpf">"dll/datasets.hpp"</span><span class="cp"></span>
+<a name="rest_code_661ad32b4fe445a3b99effdee29dea87-6"></a>
+<a name="rest_code_661ad32b4fe445a3b99effdee29dea87-7"></a><span class="cp">#include</span> <span class="cpf">"mnist/mnist_reader.hpp"</span><span class="cp"></span>
+<a name="rest_code_661ad32b4fe445a3b99effdee29dea87-8"></a><span class="cp">#include</span> <span class="cpf">"mnist/mnist_utils.hpp"</span><span class="cp"></span>
+<a name="rest_code_661ad32b4fe445a3b99effdee29dea87-9"></a>
+<a name="rest_code_661ad32b4fe445a3b99effdee29dea87-10"></a><span class="kt">int</span> <span class="nf">main</span><span class="p">(</span><span class="kt">int</span> <span class="cm">/*argc*/</span><span class="p">,</span> <span class="kt">char</span><span class="o">*</span> <span class="cm">/*argv*/</span> <span class="p">[])</span> <span class="p">{</span>
+<a name="rest_code_661ad32b4fe445a3b99effdee29dea87-11"></a>    <span class="c1">// Load the dataset</span>
+<a name="rest_code_661ad32b4fe445a3b99effdee29dea87-12"></a>    <span class="k">auto</span> <span class="n">dataset</span> <span class="o">=</span> <span class="n">dll</span><span class="o">::</span><span class="n">make_mnist_dataset</span><span class="p">(</span><span class="n">dll</span><span class="o">::</span><span class="n">batch_size</span><span class="o">&lt;</span><span class="mi">100</span><span class="o">&gt;</span><span class="p">{},</span> <span class="n">dll</span><span class="o">::</span><span class="n">scale_pre</span><span class="o">&lt;</span><span class="mi">255</span><span class="o">&gt;</span><span class="p">{});</span>
+<a name="rest_code_661ad32b4fe445a3b99effdee29dea87-13"></a>
+<a name="rest_code_661ad32b4fe445a3b99effdee29dea87-14"></a>    <span class="c1">// Build the network</span>
+<a name="rest_code_661ad32b4fe445a3b99effdee29dea87-15"></a>
+<a name="rest_code_661ad32b4fe445a3b99effdee29dea87-16"></a>    <span class="k">using</span> <span class="n">network_t</span> <span class="o">=</span> <span class="n">dll</span><span class="o">::</span><span class="n">dyn_network_desc</span><span class="o">&lt;</span>
+<a name="rest_code_661ad32b4fe445a3b99effdee29dea87-17"></a>        <span class="n">dll</span><span class="o">::</span><span class="n">network_layers</span><span class="o">&lt;</span>
+<a name="rest_code_661ad32b4fe445a3b99effdee29dea87-18"></a>            <span class="n">dll</span><span class="o">::</span><span class="n">conv_layer</span><span class="o">&lt;</span><span class="mi">1</span><span class="p">,</span> <span class="mi">28</span><span class="p">,</span> <span class="mi">28</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">5</span><span class="o">&gt;</span><span class="p">,</span>
+<a name="rest_code_661ad32b4fe445a3b99effdee29dea87-19"></a>            <span class="n">dll</span><span class="o">::</span><span class="n">mp_2d_layer</span><span class="o">&lt;</span><span class="mi">8</span><span class="p">,</span> <span class="mi">24</span><span class="p">,</span> <span class="mi">24</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="o">&gt;</span><span class="p">,</span>
+<a name="rest_code_661ad32b4fe445a3b99effdee29dea87-20"></a>            <span class="n">dll</span><span class="o">::</span><span class="n">conv_layer</span><span class="o">&lt;</span><span class="mi">8</span><span class="p">,</span> <span class="mi">12</span><span class="p">,</span> <span class="mi">12</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">5</span><span class="o">&gt;</span><span class="p">,</span>
+<a name="rest_code_661ad32b4fe445a3b99effdee29dea87-21"></a>            <span class="n">dll</span><span class="o">::</span><span class="n">mp_2d_layer</span><span class="o">&lt;</span><span class="mi">8</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="o">&gt;</span><span class="p">,</span>
+<a name="rest_code_661ad32b4fe445a3b99effdee29dea87-22"></a>            <span class="n">dll</span><span class="o">::</span><span class="n">dense_layer</span><span class="o">&lt;</span><span class="mi">8</span> <span class="o">*</span> <span class="mi">4</span> <span class="o">*</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">150</span><span class="o">&gt;</span><span class="p">,</span>
+<a name="rest_code_661ad32b4fe445a3b99effdee29dea87-23"></a>            <span class="n">dll</span><span class="o">::</span><span class="n">dense_layer</span><span class="o">&lt;</span><span class="mi">150</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="n">dll</span><span class="o">::</span><span class="n">softmax</span><span class="o">&gt;</span>
+<a name="rest_code_661ad32b4fe445a3b99effdee29dea87-24"></a>        <span class="o">&gt;</span>
+<a name="rest_code_661ad32b4fe445a3b99effdee29dea87-25"></a>        <span class="p">,</span> <span class="n">dll</span><span class="o">::</span><span class="n">updater</span><span class="o">&lt;</span><span class="n">dll</span><span class="o">::</span><span class="n">updater_type</span><span class="o">::</span><span class="n">NADAM</span><span class="o">&gt;</span>     <span class="c1">// Momentum</span>
+<a name="rest_code_661ad32b4fe445a3b99effdee29dea87-26"></a>        <span class="p">,</span> <span class="n">dll</span><span class="o">::</span><span class="n">batch_size</span><span class="o">&lt;</span><span class="mi">100</span><span class="o">&gt;</span>                       <span class="c1">// The mini-batch size</span>
+<a name="rest_code_661ad32b4fe445a3b99effdee29dea87-27"></a>        <span class="p">,</span> <span class="n">dll</span><span class="o">::</span><span class="n">shuffle</span>                               <span class="c1">// Shuffle the dataset before each epoch</span>
+<a name="rest_code_661ad32b4fe445a3b99effdee29dea87-28"></a>    <span class="o">&gt;::</span><span class="n">network_t</span><span class="p">;</span>
+<a name="rest_code_661ad32b4fe445a3b99effdee29dea87-29"></a>
+<a name="rest_code_661ad32b4fe445a3b99effdee29dea87-30"></a>    <span class="k">auto</span> <span class="n">net</span> <span class="o">=</span> <span class="n">std</span><span class="o">::</span><span class="n">make_unique</span><span class="o">&lt;</span><span class="n">network_t</span><span class="o">&gt;</span><span class="p">();</span>
+<a name="rest_code_661ad32b4fe445a3b99effdee29dea87-31"></a>
+<a name="rest_code_661ad32b4fe445a3b99effdee29dea87-32"></a>    <span class="c1">// Display the network and dataset</span>
+<a name="rest_code_661ad32b4fe445a3b99effdee29dea87-33"></a>    <span class="n">net</span><span class="o">-&gt;</span><span class="n">display</span><span class="p">();</span>
+<a name="rest_code_661ad32b4fe445a3b99effdee29dea87-34"></a>    <span class="n">dataset</span><span class="p">.</span><span class="n">display</span><span class="p">();</span>
+<a name="rest_code_661ad32b4fe445a3b99effdee29dea87-35"></a>
+<a name="rest_code_661ad32b4fe445a3b99effdee29dea87-36"></a>    <span class="c1">// Train the network</span>
+<a name="rest_code_661ad32b4fe445a3b99effdee29dea87-37"></a>    <span class="n">net</span><span class="o">-&gt;</span><span class="n">fine_tune</span><span class="p">(</span><span class="n">dataset</span><span class="p">.</span><span class="n">train</span><span class="p">(),</span> <span class="mi">25</span><span class="p">);</span>
+<a name="rest_code_661ad32b4fe445a3b99effdee29dea87-38"></a>
+<a name="rest_code_661ad32b4fe445a3b99effdee29dea87-39"></a>    <span class="c1">// Test the network on test set</span>
+<a name="rest_code_661ad32b4fe445a3b99effdee29dea87-40"></a>    <span class="n">net</span><span class="o">-&gt;</span><span class="n">evaluate</span><span class="p">(</span><span class="n">dataset</span><span class="p">.</span><span class="n">test</span><span class="p">());</span>
+<a name="rest_code_661ad32b4fe445a3b99effdee29dea87-41"></a>
+<a name="rest_code_661ad32b4fe445a3b99effdee29dea87-42"></a>    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<a name="rest_code_661ad32b4fe445a3b99effdee29dea87-43"></a><span class="p">}</span>
+</pre>
+<p>There is not a lot of things that change comparing to the previous example. The
+networks is now starting with a convolutional layer, followed by a pooling layer
+and then again a convolutional layer and a pooling layer and then finally two
+fully-connected layers. Another difference is that we are scaling the inputs by
+255 instead of normalizing them. Finally, we only train the network for 25
+epochs.</p>
+<p>Once compiled and run, the output should be something like this.</p>
+<pre class="code text"><a name="rest_code_2cf89cfad63941c580ec8630cdb9c22e-1"></a>Network with 6 layers
+<a name="rest_code_2cf89cfad63941c580ec8630cdb9c22e-2"></a>    Conv(dyn): 1x28x28 -&gt; (8x5x5) -&gt; SIGMOID -&gt; 8x24x24
+<a name="rest_code_2cf89cfad63941c580ec8630cdb9c22e-3"></a>    MP(2d): 8x24x24 -&gt; (2x2) -&gt; 8x12x12
+<a name="rest_code_2cf89cfad63941c580ec8630cdb9c22e-4"></a>    Conv(dyn): 8x12x12 -&gt; (8x5x5) -&gt; SIGMOID -&gt; 8x8x8
+<a name="rest_code_2cf89cfad63941c580ec8630cdb9c22e-5"></a>    MP(2d): 8x8x8 -&gt; (2x2) -&gt; 8x4x4
+<a name="rest_code_2cf89cfad63941c580ec8630cdb9c22e-6"></a>    Dense(dyn): 128 -&gt; SIGMOID -&gt; 150
+<a name="rest_code_2cf89cfad63941c580ec8630cdb9c22e-7"></a>    Dense(dyn): 150 -&gt; SOFTMAX -&gt; 10
+<a name="rest_code_2cf89cfad63941c580ec8630cdb9c22e-8"></a>Total parameters: 21100
+<a name="rest_code_2cf89cfad63941c580ec8630cdb9c22e-9"></a>Dataset
+<a name="rest_code_2cf89cfad63941c580ec8630cdb9c22e-10"></a>Training: In-Memory Data Generator
+<a name="rest_code_2cf89cfad63941c580ec8630cdb9c22e-11"></a>              Size: 60000
+<a name="rest_code_2cf89cfad63941c580ec8630cdb9c22e-12"></a>           Batches: 600
+<a name="rest_code_2cf89cfad63941c580ec8630cdb9c22e-13"></a>    Augmented Size: 60000
+<a name="rest_code_2cf89cfad63941c580ec8630cdb9c22e-14"></a>Testing: In-Memory Data Generator
+<a name="rest_code_2cf89cfad63941c580ec8630cdb9c22e-15"></a>              Size: 10000
+<a name="rest_code_2cf89cfad63941c580ec8630cdb9c22e-16"></a>           Batches: 100
+<a name="rest_code_2cf89cfad63941c580ec8630cdb9c22e-17"></a>    Augmented Size: 10000
+<a name="rest_code_2cf89cfad63941c580ec8630cdb9c22e-18"></a>Train the network with "Stochastic Gradient Descent"
+<a name="rest_code_2cf89cfad63941c580ec8630cdb9c22e-19"></a>    Updater: NADAM
+<a name="rest_code_2cf89cfad63941c580ec8630cdb9c22e-20"></a>       Loss: CATEGORICAL_CROSS_ENTROPY
+<a name="rest_code_2cf89cfad63941c580ec8630cdb9c22e-21"></a> Early Stop: Goal(error)
+<a name="rest_code_2cf89cfad63941c580ec8630cdb9c22e-22"></a>
+<a name="rest_code_2cf89cfad63941c580ec8630cdb9c22e-23"></a>With parameters:
+<a name="rest_code_2cf89cfad63941c580ec8630cdb9c22e-24"></a>          epochs=25
+<a name="rest_code_2cf89cfad63941c580ec8630cdb9c22e-25"></a>      batch_size=100
+<a name="rest_code_2cf89cfad63941c580ec8630cdb9c22e-26"></a>   learning_rate=0.002
+<a name="rest_code_2cf89cfad63941c580ec8630cdb9c22e-27"></a>           beta1=0.9
+<a name="rest_code_2cf89cfad63941c580ec8630cdb9c22e-28"></a>           beta2=0.999
+<a name="rest_code_2cf89cfad63941c580ec8630cdb9c22e-29"></a>Epoch   0/25 - Classification error: 0.09392 Loss: 0.31740 Time 7298ms
+<a name="rest_code_2cf89cfad63941c580ec8630cdb9c22e-30"></a>Epoch   1/25 - Classification error: 0.07005 Loss: 0.23473 Time 7298ms
+<a name="rest_code_2cf89cfad63941c580ec8630cdb9c22e-31"></a>Epoch   2/25 - Classification error: 0.06915 Loss: 0.22532 Time 7364ms
+<a name="rest_code_2cf89cfad63941c580ec8630cdb9c22e-32"></a>Epoch   3/25 - Classification error: 0.04750 Loss: 0.15286 Time 7787ms
+<a name="rest_code_2cf89cfad63941c580ec8630cdb9c22e-33"></a>Epoch   4/25 - Classification error: 0.04082 Loss: 0.13191 Time 7377ms
+<a name="rest_code_2cf89cfad63941c580ec8630cdb9c22e-34"></a>Epoch   5/25 - Classification error: 0.03258 Loss: 0.10283 Time 7334ms
+<a name="rest_code_2cf89cfad63941c580ec8630cdb9c22e-35"></a>Epoch   6/25 - Classification error: 0.03032 Loss: 0.09791 Time 7304ms
+<a name="rest_code_2cf89cfad63941c580ec8630cdb9c22e-36"></a>Epoch   7/25 - Classification error: 0.02727 Loss: 0.08453 Time 7345ms
+<a name="rest_code_2cf89cfad63941c580ec8630cdb9c22e-37"></a>Epoch   8/25 - Classification error: 0.02410 Loss: 0.07641 Time 7443ms
+<a name="rest_code_2cf89cfad63941c580ec8630cdb9c22e-38"></a>Epoch   9/25 - Classification error: 0.02448 Loss: 0.07612 Time 7747ms
+<a name="rest_code_2cf89cfad63941c580ec8630cdb9c22e-39"></a>Epoch  10/25 - Classification error: 0.02023 Loss: 0.06370 Time 7626ms
+<a name="rest_code_2cf89cfad63941c580ec8630cdb9c22e-40"></a>Epoch  11/25 - Classification error: 0.01920 Loss: 0.06194 Time 7364ms
+<a name="rest_code_2cf89cfad63941c580ec8630cdb9c22e-41"></a>Epoch  12/25 - Classification error: 0.01810 Loss: 0.05851 Time 7391ms
+<a name="rest_code_2cf89cfad63941c580ec8630cdb9c22e-42"></a>Epoch  13/25 - Classification error: 0.01575 Loss: 0.05074 Time 7316ms
+<a name="rest_code_2cf89cfad63941c580ec8630cdb9c22e-43"></a>Epoch  14/25 - Classification error: 0.01542 Loss: 0.04826 Time 7365ms
+<a name="rest_code_2cf89cfad63941c580ec8630cdb9c22e-44"></a>Epoch  15/25 - Classification error: 0.01392 Loss: 0.04574 Time 7634ms
+<a name="rest_code_2cf89cfad63941c580ec8630cdb9c22e-45"></a>Epoch  16/25 - Classification error: 0.01287 Loss: 0.04061 Time 7367ms
+<a name="rest_code_2cf89cfad63941c580ec8630cdb9c22e-46"></a>Epoch  17/25 - Classification error: 0.01167 Loss: 0.03779 Time 7381ms
+<a name="rest_code_2cf89cfad63941c580ec8630cdb9c22e-47"></a>Epoch  18/25 - Classification error: 0.01202 Loss: 0.03715 Time 7495ms
+<a name="rest_code_2cf89cfad63941c580ec8630cdb9c22e-48"></a>Epoch  19/25 - Classification error: 0.00967 Loss: 0.03268 Time 7359ms
+<a name="rest_code_2cf89cfad63941c580ec8630cdb9c22e-49"></a>Epoch  20/25 - Classification error: 0.00955 Loss: 0.03012 Time 7344ms
+<a name="rest_code_2cf89cfad63941c580ec8630cdb9c22e-50"></a>Epoch  21/25 - Classification error: 0.00853 Loss: 0.02809 Time 7314ms
+<a name="rest_code_2cf89cfad63941c580ec8630cdb9c22e-51"></a>Epoch  22/25 - Classification error: 0.00832 Loss: 0.02834 Time 7329ms
+<a name="rest_code_2cf89cfad63941c580ec8630cdb9c22e-52"></a>Epoch  23/25 - Classification error: 0.00807 Loss: 0.02603 Time 7336ms
+<a name="rest_code_2cf89cfad63941c580ec8630cdb9c22e-53"></a>Epoch  24/25 - Classification error: 0.00682 Loss: 0.02327 Time 7335ms
+<a name="rest_code_2cf89cfad63941c580ec8630cdb9c22e-54"></a>Training took 186s
+<a name="rest_code_2cf89cfad63941c580ec8630cdb9c22e-55"></a>error: 0.01520
+<a name="rest_code_2cf89cfad63941c580ec8630cdb9c22e-56"></a> loss: 0.05183
+</pre>
+<p>This network is doing a bit better than the previous one, achieving a 1.52%
+error rate in about 3 minutes.</p>
+<p>If you are interested, you can find a few more examples on the Github
+repository.</p>
+</div>
+<div class="section" id="performance">
+<h2>Performance</h2>
+<p>If you have been following my blog lately, you already may have seen part of
+this information, but I wanted to emphasize it here. I've been doing a lot of
+work on the performance of the library. To see how i was faring against other
+popular frameworks, I decided to compare the performances of DLL against
+TensorFlow, Keras, Torch and Caffe. I also tried DeepLearning4J, but I had so
+many issues with it and its performance were quite disastrous so I dropped it.
+If someone is interested in the dropped results, I can put them somewhere. All
+the frameworks were installed with default options and all the frameworks that
+can use the MKL have been set to use it.</p>
+<p>The first experiment I did was the training of a small three-layers on the MNIST
+data set:</p>
+<img alt="DLL performance for training a MLP on MNIST" class="align-center" src="../../../images/dll_10_mnist_mlp.png"><p>On CPU, DLL is the fastest framework to train this network. It's about 35%
+faster than TensorFlow and Keras, 4 times faster than Torch and 5 times faster
+than Caffe. On GPU, Caffe is the fastest framework, followed by Keras and
+TensorFlow and DLL. In that case, Torch is the slowest framework.</p>
+<p>Let's see how the frameworks are faring with a small CNN on the same task:</p>
+<img alt="DLL performance for training a CNN on MNIST" class="align-center" src="../../../images/dll_10_mnist_cnn.png"><p>Again, on CPU, DLL is the fastest framework, by a very significant margin, it's
+four times faster than TensorFlow and Keras and five times faster than Torch and
+Caffe. On GPU, it's on par with Keras and TensorFlow and 3 times faster than
+Caffe. It's even more than 5 times faster than Torch.</p>
+<p>The next test is done with a larger CNN on CIFAR-10:</p>
+<img alt="DLL performance for training a CNN on CIFAR-10" class="align-center" src="../../../images/dll_10_cifar_cnn.png"><p>On this larger CNN, the differences are less impressive than before,
+nevertheless, DLL is still the fastest framework on CPU. It's still around twice
+faster than TensorFlow, Keras and Torch and around 3 times faster than Caffe. On
+GPU, DLL is slightly faster than Keras and TensorFlow. It's 2.7 times faster
+than Caffe and 5 times faster than Torch.</p>
+<p>The last test is done on Imagenet with a twelve layers CNN. This time, the
+performance is shown in the necessary time to train a mini-batch of 128 images.</p>
+<img alt="DLL performance for training a CNN on Imagenet" class="align-center" src="../../../images/dll_10_imagenet_cnn.png"><p>Again, DLL is faster than all the other frameworks on both CPU and GPU. The
+large difference between DLL and TensorFlow and Keras is mainly due to the poor
+performance of reading the Imagenet images from the Python code whereas the code
+was optimized in DLL.</p>
+<p>Overall, in all tested experiments, DLL is always the fastest framework on CPU.
+On GPU, except for a very small fully-connected network, it's also always in the
+fastest frameworks with TensorFlow and Keras.</p>
+<p>You can find <a class="reference external" href="https://github.com/wichtounet/frameworks">the code of these experiments</a> online if you are interested.</p>
+</div>
+<div class="section" id="what-s-next">
+<h2>What's next ?</h2>
+<p>I do not know exactly what the next version of DLL will contain, but I know the
+direction in which I'm going to develop.</p>
+<p>I would really like to be able to use DLL to classify text. In first time,
+I plan to add support for learning embeddings from text and be able to use CNN
+on top of the embeddings. Doing that, I also plan to add support to be able to
+merge several CNN layers together, so that I can use various filter sizes.
+Hopefully, this should not take too long. In a second time, I really want to
+integrate support for Recurrent Neural Networks (RNNs) into the framework. In
+a first time, only simple CNN cell, but then I want to add support for LSTM and
+GRU cells. This will definitely take some time, but I really want to do it
+completely in order to fully understand what's going on inside such networks.</p>
+<p>Another thing on which I would like to focus is the documentation of the
+library. The code documentation is okay, but I would need to put online a list
+of the possible layers as well as the list of the possible options. I'll
+probably try to use Doxygen for this. I also want to make a few more examples of
+the usage of the library, especially when I have embeddings and RNN support.</p>
+<p>Although performance is already quite good in general, there are a few things to
+improve still. Some operations are really not efficient on GPU for now, for
+instance Batch Normalization and Dropout. I want to make sure that all
+operations can be efficiently computed on GPU. There are also a few things that
+are not efficient on CPU. For instance Batch Normalization is currently very
+poor. I'll have to do something on that matter. Some of the SGD optimizers such
+as Nadam are also quite slow. Ideally, the performance of DLL should also be
+better when performance libraries are not used.</p>
+<p>On a final note, I would also like to improve the compilation time again. Even
+though the <a class="reference external" href="https://baptiste-wicht.com/posts/2017/09/how-i-made-deep-learning-library-38-faster-to-compile-optimization-and-cpp17-if-constexpr.html">recent changes made it a lot faster to compile DLL programs</a>, it is
+still not as fast as I would like.</p>
+</div>
+<div class="section" id="download-dll">
+<h2>Download DLL</h2>
+<p>You can download DLL <a class="reference external" href="https://github.com/wichtounet/dll">on Github</a>. If you
+only interested in the 1.0 version, you can look at the
+<a class="reference external" href="https://github.com/wichtounet/dll/releases">Releases pages</a> or clone the tag
+1.0. There are several branches:</p>
+<ul class="simple">
+<li>
+<em>master</em> Is the eternal development branch, may not always be stable</li>
+<li>
+<em>stable</em> Is a branch always pointing to the last tag, no development here</li>
+</ul>
+<p>For the future release, there always will tags pointing to the corresponding
+commits. You can also have access to previous releases on Github or via the
+release tags.</p>
+<p>For documentation, the best documentation so far is the <a class="reference external" href="https://github.com/wichtounet/dll/tree/master/examples/src">examples that are are available</a>. You can also take a look at the source of the tests where every functions of the library is used. Once there is interest for the library, I will focus on the documentation.</p>
+<p>Don't hesitate to comment this post if you have any comment on this library or
+any question. You can also open an Issue on Github if you have a problem using
+this library or propose a Pull Request if you have any contribution you'd like
+to make to the library.</p>
+<p>Hope this may be useful to some of you :)</p>
+</div>
+</div>
+</div>
+<aside class="postpromonav"><nav><ul itemprop="keywords" class="tags">
+<li><a class="tag p-category" href="../../../categories/c%2B%2B.html" rel="tag">C++</a></li>
+<li><a class="tag p-category" href="../../../categories/dll.html" rel="tag">dll</a></li>
+<li><a class="tag p-category" href="../../../categories/etl.html" rel="tag">etl</a></li>
+<li><a class="tag p-category" href="../../../categories/gpu.html" rel="tag">GPU</a></li>
+<li><a class="tag p-category" href="../../../categories/machine-learning.html" rel="tag">Machine Learning</a></li>
+<li><a class="tag p-category" href="../../../categories/performances.html" rel="tag">Performances</a></li>
+</ul>
+<ul class="pager hidden-print">
+<li class="previous">
+<a href="expression-templates-library-etl-1-2-complete-gpu-support.html" rel="prev" title="Expression Templates Library (ETL) 1.2 - Complete GPU support">Previous post</a>
+</li>
+<li class="next">
+<a href="budgetwarrior-track-assets-portfolio-savings-rates-auto-completion.html" rel="next" title="Budgetwarrior: Track assets and portfolio, savings rates and auto-completion">Next post</a>
+</li>
+</ul></nav></aside><section class="comments hidden-print"><h2>Comments</h2>
+<div id="disqus_thread"></div>
+<script>
+        var disqus_shortname ="blogwichtounet",
+            disqus_url="http://baptiste-wicht.com/posts/2017/10/deep-learning-library-10-fast-neural-network-library.html",
+        disqus_title="Deep Learning Library 1.0 - Fast Neural Network Library",
+        disqus_identifier="cache/posts/2017/10/deep-learning-library-10-fast-neural-network-library.html",
+        disqus_config = function () {
+            this.language = "en";
+        };
+        (function() {
+            var dsq = document.createElement('script'); dsq.async = true;
+            dsq.src = 'https://' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        })();
+    </script><noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a>
+</noscript>
+<a href="https://disqus.com" class="dsq-brlink" rel="nofollow">Comments powered by <span class="logo-disqus">Disqus</span></a>
+</section></article><script>var disqus_shortname="blogwichtounet";(function(){var a=document.createElement("script");a.async=true;a.src="https://"+disqus_shortname+".disqus.com/count.js";(document.getElementsByTagName("head")[0]||document.getElementsByTagName("body")[0]).appendChild(a)}());</script>
+</div> 
+</div>
+
+</div>
+
+
+
+<footer>
+Contents © 2017 <a href="/cdn-cgi/l/email-protection#bfdddecfcbd6cccbdac8d6dcd7cbffd8d2ded6d391dcd0d2">Baptiste Wicht</a> - Powered by <a href="http://getnikola.com" rel="nofollow">Nikola</a> - License:
+<a rel="license" href="http://creativecommons.org/licenses/by/4.0/"><img alt="Creative Commons License" style="padding-left:5px;border-width:0" src="../../../assets/img/cc.png"></a>
+<ul class="footer_inline_ul">
+<li>
+<a href="deep-learning-library-10-fast-neural-network-library.rst" id="sourcelink">Source</a>
+</li>
+</ul></footer><script src="/cdn-cgi/scripts/78d64697/cloudflare-static/email-decode.min.js"></script><script src="../../../assets/js/all-nocdn.js"></script>
+</body>
+</html>

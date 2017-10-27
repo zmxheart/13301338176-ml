@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html prefix="og: http://ogp.me/ns# article: http://ogp.me/ns/article# " lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Book Review : Effective C++ | Blog blog("Baptiste Wicht");</title>
+<script src="/cdn-cgi/apps/head/98vpnawSZZMscPn4oDND-ZgswjM.js"></script><link href="../../../assets/css/all-nocdn.css" rel="stylesheet" type="text/css">
+<meta name="theme-color" content="#5670d4">
+<meta name="generator" content="Nikola (getnikola.com)">
+<link rel="alternate" type="application/rss+xml" title="RSS" href="../../../rss.xml">
+<link rel="canonical" href="http://baptiste-wicht.com/posts/2011/09/book-review-effective-c.html">
+<!--[if lt IE 9]><script src="../../../assets/js/html5.js"></script><![endif]--><meta name="author" content="Baptiste Wicht">
+<link rel="prev" href="profile-c-application-with-callgrind-kcachegrind.html" title="How to profile C++ application with Callgrind / KCacheGrind" type="text/html">
+<link rel="next" href="google-is-open-to-all.html" title="Google+ is now open to all" type="text/html">
+<meta property="og:site_name" content='Blog blog("Baptiste Wicht");'>
+<meta property="og:title" content="Book Review : Effective C++">
+<meta property="og:url" content="http://baptiste-wicht.com/posts/2011/09/book-review-effective-c.html">
+<meta property="og:description" content="Some time ago, I have read Accelerated C++. After this introductory book, I have chosen to read a book focused on the good practices of C++ development. On that purpose, I bought Effective C++ Third E">
+<meta property="og:type" content="article">
+<meta property="article:published_time" content="2011-09-21T08:24:07+02:00">
+<meta property="article:tag" content="Books">
+<meta property="article:tag" content="C++">
+<link href="../../../favicon.ico" rel="icon" type="image/x-icon">
+<link rel="publisher" href="https://plus.google.com/+BaptisteWicht">
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-2175227-7', 'auto');
+  var metas = document.getElementsByTagName('meta'), tagsList = [];
+  for (var i=0; i<metas.length; i++) {
+    if (metas[i].getAttribute('property') == 'article:tag') {
+      tagsList.push( metas[i].getAttribute('content'));
+    }
+  }
+  ga('set', 'dimension1', tagsList.join('|'));
+  ga('send', 'pageview');
+</script>
+</head>
+<body>
+
+<a href="#content" class="sr-only sr-only-focusable">Skip to main content</a>
+<div class="container-fluid">
+
+<div class="row">
+<div class="col-sm-3 col-lg-2">
+<nav class="navbar navbar-inverse navbar-fixed-side"><div class="navbar-header">
+<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+<span class="sr-only">Toggle navigation</span>
+<span class="icon-bar"></span>
+<span class="icon-bar"></span>
+<span class="icon-bar"></span>
+</button>
+<a class="navbar-brand" href="http://baptiste-wicht.com/">
+<span id="blog-title">Blog blog("Baptiste Wicht");</span>
+</a>
+</div>
+
+<div class="collapse navbar-collapse navbar-ex1-collapse">
+<ul class="nav navbar-nav">
+<li>
+<a href="../../../stories/about.html">About</a>
+</li>
+<li>
+<a href="../../../stories/publications.html">Publications</a>
+</li>
+<li>
+<a href="../../../stories/projects.html">Projects</a>
+</li>
+<li>
+<a href="../../../categories/index.html">Tags</a>
+</li>
+<li>
+<a href="../../../archive.html">Archives</a>
+</li>
+<li>
+<a href="http://feeds.feedburner.com/BaptisteWicht">RSS</a>
+ </li>
+<li class="navbar-content">
+<h3>Related posts</h3>
+</li>
+<li><a href="book-review-more-effective-c.html">Book Review : More Effective C++</a></li>
+<li><a href="../06/book-review-accelerated-cpp.html">Book Review : Accelerated C++</a></li>
+<li><a href="../../2010/07/effective-java-second-edition-book-review.html">Effective Java, second edition – Book Review</a></li>
+<li><a href="../../2012/01/compilers-principles-techniques-tools.html">Compilers : Principles, Techniques &amp; Tools - Book Review</a></li>
+<li><a href="../../2010/08/java-concurrency-in-practice-book-review.html">Java Concurrency in Practice - Book Review</a></li>
+<li><a href="../../2012/05/advanced-compiler-design-and-implementation-book-review.html">Advanced Compiler Design and Implementation - Book Review</a></li>
+<li class="navbar-block">
+<li class="wicht-navbar-right">
+<a target="_blank" title="Follow @wichtounet on Twitter" href="https://twitter.com/wichtounet">
+<img src="../../../assets/img/twitter.png" alt="Follow @wichtounet on Twitter"></a>
+</li>
+<li class="wicht-navbar-right">
+<a target="_blank" title="Follow +BaptisteWicht on Google+" href="https://plus.google.com/+BaptisteWicht">
+<img src="../../../assets/img/google_plus.png" alt="Follow +BaptisteWicht on Google+"></a>
+</li>
+</ul>
+</div>
+
+</nav>
+</div> 
+<div class="col-sm-9 col-lg-10">
+<div id="content"></div>
+<article class="post-text h-entry hentry postpage" itemscope="itemscope" itemtype="http://schema.org/Article"><header><h1 class="p-name entry-title" itemprop="headline name"><a href="#" class="u-url">Book Review : Effective C++</a></h1>
+<div class="metadata">
+<p class="byline author vcard"><span class="byline-name fn" itemprop="author">
+Baptiste Wicht
+</span></p>
+<p class="dateline"><a href="#" rel="bookmark"><time class="published dt-published" datetime="2011-09-21T08:24:07+02:00" itemprop="datePublished" title="2011-09-21 08:24">2011-09-21 08:24</time></a></p>
+<p class="commentline">
+<a href="book-review-effective-c.html#disqus_thread" data-disqus-identifier="cache/posts/2011/09/book-review-effective-c.html">Comments</a>
+</p>
+<p class="sourceline"><a href="book-review-effective-c.wp" class="sourcelink">Source</a></p>
+</div>
+</header><div class="e-content entry-content" itemprop="articleBody text">
+<div>
+<p>Some time ago, <a href="http://www.baptiste-wicht.com/2011/06/book-review-accelerated-cpp/" title="Book Review : Accelerated C++">I have read Accelerated C++</a>. After this introductory book, I have chosen to read a book focused on the good practices of C++ development. On that purpose, I bought <strong>Effective C++ Third Edition</strong> from Scott Meyers. I already finished this book months ago, but I didn't found the time and the movitation to review it until now. </p>
+<p>First of all, this book is aimed for people who already know C++ development and want to improve their skills in this language and especially to produce better programs and designs. This book can also be used by C developer that just switched to C++. The book is organized around 55 specific guidelines. Each guideline describe a way to write better C++. </p>
+
+<p>The guidelines are grouped into nine chapters, each of which focus a specific part of program development and design. The guidelines and the chapters are not specially made to be read in a specific order, but some of the guidelines are referring to other ones. However, I recommend that you read the guidelines in the given order, but you can also choose the guidelines or chapters that interest you the most. </p>
+<p>The first chapter is an introduction of the C++ language. You will learn that C++ is not only a single language, but a multiparadigm programming language. The book will also show some errors that should be avoided when we are used to the C programming language. </p>
+<p>The second chapter focuses on the constructors, the destructors and the assignment operators. Indeed, there are several rules that should be followed when declaring those things for a class, especially when talking about inheritance. For example, this chapter will teach you how and why to prevent exceptions from leaving destructors. This chapter will also talk about the copy constructors. </p>
+<p>In the next chapter, you'll learn how to manage resources in the right way. You'll be introduced to the use of objects to manage a resource, to the RAII (Resource Acquisition Is Initialization) principle and the different forms of the new and delete operators. The point of storing newed (dynamically allocated) objects is also addressed. </p>
+<p>The fourth chapter is about designs and declarations. Basically, you'll learn how to declare interfaces that are easy to use in the right way (and hard to use incorrectly, as the author says). More than just interfaces, you'll see how to treat class design as type design, so that your classes can be used like any other type in your C++ code (overlading operators is a way to achieve this goal). You'll also learn how to declare a good function signature that can be used without any problem. </p>
+<p>Now that you know how to declare a good interface or a type, it's time to implement it. In the Implementation chapter, you'll see how to declare variables in the right way and how to avoid excessive casting. An important part of this chapter is the management of exceptions in your functions. Namely, you'll learn what are the different exception-safety levels for the functions and how to provide the best levels for your functions. </p>
+<p>The next chapter is focused on inheritance and object-oriented design. You'll learn when and how to use inhenritance in your classes and how to avoid virtual functions when it is possible by several ways and patterns that are proposed by the author. The chapter shows also that some things are not meant to be inherited and that multiple inheritance should be used judiciously. </p>
+<p>The seventh chapter talks about templates and generic programming. Compile-time polymorphisme will be addressed. After the reading of this chapter, you'll knwo how to declare and define a good function template. You'll also know how to use traits classes to get information about types at runtime. Last but not least, this chapter contains also an introduction about Template Metaprogramming (TMP). </p>
+<p>The eighth chapter will teach you how customize the new and delete operators to reach your needs in memory management. This is the most specific chapters of the book and it won't be useful to everyone, but that's interesting to read it once to know what happens in the background. </p>
+<p>Finally, the last chapter contains miscelleanous items, especially what libraries you should try to familiarize you with to improve your code even more or to avoid reinventing the wheel. </p>
+<p>In my opinion, this book is a must-have for every beginner and medium C++ developers. All the guidelines will help you produce a better code and to avoid the most common traps that this language contains. I'm sure that after the reading of this book, your code will improve greatly.</p>
+</div>
+</div>
+<aside class="postpromonav"><nav><ul itemprop="keywords" class="tags">
+<li><a class="tag p-category" href="../../../categories/books.html" rel="tag">Books</a></li>
+<li><a class="tag p-category" href="../../../categories/c%2B%2B.html" rel="tag">C++</a></li>
+</ul>
+<ul class="pager hidden-print">
+<li class="previous">
+<a href="profile-c-application-with-callgrind-kcachegrind.html" rel="prev" title="How to profile C++ application with Callgrind / KCacheGrind">Previous post</a>
+</li>
+<li class="next">
+<a href="google-is-open-to-all.html" rel="next" title="Google+ is now open to all">Next post</a>
+</li>
+</ul></nav></aside><section class="comments hidden-print"><h2>Comments</h2>
+<div id="disqus_thread"></div>
+<script>
+        var disqus_shortname ="blogwichtounet",
+            disqus_url="http://baptiste-wicht.com/posts/2011/09/book-review-effective-c.html",
+        disqus_title="Book Review : Effective C++",
+        disqus_identifier="cache/posts/2011/09/book-review-effective-c.html",
+        disqus_config = function () {
+            this.language = "en";
+        };
+        (function() {
+            var dsq = document.createElement('script'); dsq.async = true;
+            dsq.src = 'https://' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        })();
+    </script><noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a>
+</noscript>
+<a href="https://disqus.com" class="dsq-brlink" rel="nofollow">Comments powered by <span class="logo-disqus">Disqus</span></a>
+</section></article><script>var disqus_shortname="blogwichtounet";(function(){var a=document.createElement("script");a.async=true;a.src="https://"+disqus_shortname+".disqus.com/count.js";(document.getElementsByTagName("head")[0]||document.getElementsByTagName("body")[0]).appendChild(a)}());</script>
+</div> 
+</div>
+
+</div>
+
+
+
+<footer>
+Contents © 2017 <a href="/cdn-cgi/l/email-protection#87e5e6f7f3eef4f3e2f0eee4eff3c7e0eae6eeeba9e4e8ea">Baptiste Wicht</a> - Powered by <a href="http://getnikola.com" rel="nofollow">Nikola</a> - License:
+<a rel="license" href="http://creativecommons.org/licenses/by/4.0/"><img alt="Creative Commons License" style="padding-left:5px;border-width:0" src="../../../assets/img/cc.png"></a>
+<ul class="footer_inline_ul">
+<li>
+<a href="book-review-effective-c.wp" id="sourcelink">Source</a>
+</li>
+</ul></footer><script src="/cdn-cgi/scripts/78d64697/cloudflare-static/email-decode.min.js"></script><script src="../../../assets/js/all-nocdn.js"></script>
+</body>
+</html>

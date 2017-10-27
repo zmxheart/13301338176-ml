@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html prefix="og: http://ogp.me/ns# article: http://ogp.me/ns/article# " lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="description" content="Presentation of my new Home Automation system, using Domoticz.">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>New home automation system with Domoticz | Blog blog("Baptiste Wicht");</title>
+<script src="/cdn-cgi/apps/head/98vpnawSZZMscPn4oDND-ZgswjM.js"></script><link href="../../../assets/css/all-nocdn.css" rel="stylesheet" type="text/css">
+<meta name="theme-color" content="#5670d4">
+<meta name="generator" content="Nikola (getnikola.com)">
+<link rel="alternate" type="application/rss+xml" title="RSS" href="../../../rss.xml">
+<link rel="canonical" href="http://baptiste-wicht.com/posts/2017/01/new-home-automation-system-with-domoticz.html">
+<!--[if lt IE 9]><script src="../../../assets/js/html5.js"></script><![endif]--><meta name="author" content="Baptiste Wicht">
+<link rel="prev" href="../../2016/12/pvs-studio-on-cpp-library-review.html" title="PVS-Studio on C++ Library Review" type="text/html">
+<link rel="next" href="vivaldi-vimium-finally-no-more-firefox.html" title="Vivaldi + Vimium = Finally no more Firefox!" type="text/html">
+<meta property="og:site_name" content='Blog blog("Baptiste Wicht");'>
+<meta property="og:title" content="New home automation system with Domoticz">
+<meta property="og:url" content="http://baptiste-wicht.com/posts/2017/01/new-home-automation-system-with-domoticz.html">
+<meta property="og:description" content="Presentation of my new Home Automation system, using Domoticz.">
+<meta property="og:type" content="article">
+<meta property="article:published_time" content="2017-01-08T16:08:42+01:00">
+<meta property="article:tag" content="Home Automation">
+<meta property="article:tag" content="Personal">
+<meta property="article:tag" content="projects">
+<link href="../../../favicon.ico" rel="icon" type="image/x-icon">
+<link rel="publisher" href="https://plus.google.com/+BaptisteWicht">
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-2175227-7', 'auto');
+  var metas = document.getElementsByTagName('meta'), tagsList = [];
+  for (var i=0; i<metas.length; i++) {
+    if (metas[i].getAttribute('property') == 'article:tag') {
+      tagsList.push( metas[i].getAttribute('content'));
+    }
+  }
+  ga('set', 'dimension1', tagsList.join('|'));
+  ga('send', 'pageview');
+</script>
+</head>
+<body>
+
+<a href="#content" class="sr-only sr-only-focusable">Skip to main content</a>
+<div class="container-fluid">
+
+<div class="row">
+<div class="col-sm-3 col-lg-2">
+<nav class="navbar navbar-inverse navbar-fixed-side"><div class="navbar-header">
+<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+<span class="sr-only">Toggle navigation</span>
+<span class="icon-bar"></span>
+<span class="icon-bar"></span>
+<span class="icon-bar"></span>
+</button>
+<a class="navbar-brand" href="http://baptiste-wicht.com/">
+<span id="blog-title">Blog blog("Baptiste Wicht");</span>
+</a>
+</div>
+
+<div class="collapse navbar-collapse navbar-ex1-collapse">
+<ul class="nav navbar-nav">
+<li>
+<a href="../../../stories/about.html">About</a>
+</li>
+<li>
+<a href="../../../stories/publications.html">Publications</a>
+</li>
+<li>
+<a href="../../../stories/projects.html">Projects</a>
+</li>
+<li>
+<a href="../../../categories/index.html">Tags</a>
+</li>
+<li>
+<a href="../../../archive.html">Archives</a>
+ </li>
+<li>
+<a href="http://feeds.feedburner.com/BaptisteWicht">RSS</a>
+</li>
+<li class="navbar-content">
+<h3>Related posts</h3>
+</li>
+<li><a href="add-milight-smart-lights-to-domoticz-home-automation-system.html">Add Milight smart lights to my Domoticz home automation system</a></li>
+<li><a href="../04/home-automation-power-meter-integration-zwave-domoticz.html">Home Automation: Power Meter and Integration of Zwave into Domoticz</a></li>
+<li><a href="../../2016/08/asgard-home-automation-project.html">Asgard: Home Automation project</a></li>
+<li><a href="../02/home-automation-first-attempt-voice-control-jarvis.html">Home Automation: First attempt at voice control with Jarvis</a></li>
+<li><a href="../../2013/07/home-server-adventure-step-1.html">Home Server Adventure - Step 1</a></li>
+<li><a href="../../2014/01/home-server-adventure-step-3.html">Home Server Adventure – Step 3</a></li>
+<li class="navbar-block">
+<li class="wicht-navbar-right">
+<a target="_blank" title="Follow @wichtounet on Twitter" href="https://twitter.com/wichtounet">
+<img src="../../../assets/img/twitter.png" alt="Follow @wichtounet on Twitter"></a>
+</li>
+<li class="wicht-navbar-right">
+<a target="_blank" title="Follow +BaptisteWicht on Google+" href="https://plus.google.com/+BaptisteWicht">
+<img src="../../../assets/img/google_plus.png" alt="Follow +BaptisteWicht on Google+"></a>
+</li>
+</ul>
+</div>
+
+</nav>
+</div> 
+<div class="col-sm-9 col-lg-10">
+<div id="content"></div>
+<article class="post-text h-entry hentry postpage" itemscope="itemscope" itemtype="http://schema.org/Article"><header><h1 class="p-name entry-title" itemprop="headline name"><a href="#" class="u-url">New home automation system with Domoticz</a></h1>
+<div class="metadata">
+<p class="byline author vcard"><span class="byline-name fn" itemprop="author">
+Baptiste Wicht
+</span></p>
+<p class="dateline"><a href="#" rel="bookmark"><time class="published dt-published" datetime="2017-01-08T16:08:42+01:00" itemprop="datePublished" title="2017-01-08 16:08">2017-01-08 16:08</time></a></p>
+<p class="commentline">
+<a href="new-home-automation-system-with-domoticz.html#disqus_thread" data-disqus-identifier="cache/posts/2017/01/new-home-automation-system-with-domoticz.html">Comments</a>
+</p>
+<p class="sourceline"><a href="new-home-automation-system-with-domoticz.rst" class="sourcelink">Source</a></p>
+</div>
+</header><div class="e-content entry-content" itemprop="articleBody text">
+<div>
+<p>As you may remember, I started going into Home Automation last year with a <a class="reference external" href="http://baptiste-wicht.com/posts/2016/08/asgard-home-automation-project.html">C++ project, Asgard</a>.</p>
+<p>Unfortunately, I haven't add the time to improve this project further and make
+it really useful and I have so many C++ projects already, so I decided to switch
+to using an existing project.</p>
+<div class="section" id="choice">
+<h2>Choice</h2>
+<p>I needed a system that was at least able to handle everything my existing system
+does:</p>
+<ol class="arabic simple">
+<li>Control my RF-433 Temperature Sensors (Oregon Temperature Sensors)</li>
+<li>Control my RF-433 Remote Button</li>
+<li>Control my smart power outlets</li>
+<li>Ping and wake-on-lan my different computers</li>
+<li>Be installable on a Raspberry Pi</li>
+<li>Control Skadi/Kodi Home Cinema</li>
+</ol>
+<p>Of course, it also had to be open source and in a language that I can write
+without agonizing pain (no Ruby, no JavaScript, ideally no Python (I hate a lot
+of languages...)).</p>
+<p>It's impressive the number of home automation projects that exist today. It's
+really a hot topic, more than I though. After a few hours of research, I've
+finally settled on Domoticz. It seemed that it could handle all my home
+automation devices that I already had. Domoticz is an open source home
+automation system. It's written mainly in C++, which is an advantage for me
+since I'll be able to work inside it if necessary. It has a quite modern HTML5
+interface. It has a lot of support for hardware and a lot of bridges for other
+controllers as well. One of the reason I chose it is also the floor-planner
+feature that looks really cool.</p>
+</div>
+<div class="section" id="installation">
+<h2>Installation</h2>
+<p>First of all, I cleaned the hardware of my Raspberry Pi. I got rid of my
+breadboard and the components on it. Then, I put the Raspberry Pi on a nicer box
+that I had laying around. One problem with Domoticz is that it does not support
+directly RF433 devices, but need a controller in the middle. At first,
+I believed I could simply connect them through GPIO and lets Domoticz do the
+rest, but it's not possible. I ordered the different pieces for a RFLink
+controller at nodo-shops. It is running on a Arduino Mega and is connected to
+the Pi. The very big advantage is that they handle a lot of protocols directly,
+so you only have to read the serial port to get information on RF-433 events.</p>
+<p>Here is how the current system look:</p>
+<img alt="Asgard automation system hardware" class="align-center" src="../../../images/home_automation_hardware.jpg"><p>The black box is the Arduino Mega with RFLink software while the Transparent is
+simply the Raspberry on which Domoticz is installed.</p>
+<p>As for the installation of Domoticz, it's really simple. They also have images of
+Raspberry Pi directly, but since my Raspberry was already installed with
+Raspbian, I installed Domoticz on it directly. A simple matter of curl and bash:</p>
+<pre class="code bash"><a name="rest_code_2f18ad65bc734bb0940e74ca0a51ffb5-1"></a>sudo curl -L install.domoticz.com <span class="p">|</span> sudo bash
+</pre>
+<p>After a few questions, your installation should be complete. You can browse your
+Domoticz installation at the IP of your Pi and at the given port.</p>
+</div>
+<div class="section" id="home-automation-with-domoticz">
+<h2>Home Automation with Domoticz</h2>
+<p>There are several concepts in Domoticz that are important. At first, it seemed
+a bit weird to me, but in the end it works really well and you get used to it
+pretty fast.</p>
+<p>The first concept is the hardware. It is not necessary hardware directly, but
+rather a driver to some piece of information of switches than a real hardware in
+my opinion. For instance, the RFLink Gateway is considered hardware as well as
+the Forecast weather API. Here is all the hardware I've configured:</p>
+<img alt="Domoticz Hardware Configuration" class="align-center" src="../../../images/domoticz_hardware.png"><p>I've got some sensors from the motherboard, the Kodi interaction, the driver to
+ping the different computers, the Forecast weather with Dark Sky and Weather
+Underground, the RFLink communication, the wake-on-lan and some dummies virtual
+switches.</p>
+<p>On its own, an hardware is useless, but it can create devices that will be used
+for home automation. A device is sub device of a particular driver. In some
+cases, the devices will be created automatically. For instance, RF Link can
+create devices as soon as they are detected. For wake-on-lan, you have to
+configure MAC Addresses and they will be added as devices. And so on...</p>
+<p>There are a lot of types of devices, also called switches. Some devices can do
+some actions, for instance the wake-on-lan devices, while others are information
+based such as ping or temperature sensors detected from the RFLink. For
+instance, here are my temperature sensors:</p>
+<img alt="Domoticz Temperature Sensors" class="align-center" src="../../../images/domoticz_temperature.png"><p>As for my hardware I already had, I haven't add too many issues with them. The
+Oregon Temperature Sensors worked out of the box without any issues as well my
+old RF433 Ninja Block temperature sensor. The smart power outlets have been
+pretty easy to use as well. The most problem I've add was with the remote
+buttons. It seems to many that it should be the easiest, but RFLink has a lot of
+problem with them, they are detected several times and are highly unreliable.
+Interestingly you can also change the icon of most device to a large variety of
+existing devices so that they would look more realistic.</p>
+<p>Another feature I find pretty cool is the floor plan. You can create plans for
+each floor of your house and then create rooms inside and finally attach devices
+to each room and place inside the plan. Unfortunately, to draw the plan, you'll
+have to use an external tool. I've used floorplanner for this, but you may use
+any plan you have as long as you have an image.</p>
+<p>Here is my floor plan with the devices (the scale is terribly off :P) :</p>
+<img alt="Domoticz Floor Plan" class="align-center" src="../../../images/domoticz_floorplan.png"><p>With that you can directly see the status of each of your sensors in each room.
+Moreover, you can also activate some devices directly from the floor plan as
+well :)</p>
+<p>Normally, my Somfy blinds are supposed to work with the RFLink controller.
+I have managed to control my blinds but only when the RFLink was within 50
+centimeters of the Blinds, which is clearly not acceptable. I don't know from
+where the problem comes. It may come from my Blinds controller inside the wall
+or may come from bad antenna of the RFLink or from a bug in RFLink, so from now
+I cannot control my blinds.</p>
+<p>I have several D-Link cameras at home. You can also add cameras to Domoticz, but
+don't expect a lot of support on this side. It's pretty poor indeed. The only
+useful you can do in Domoticz with Cameras is to take a screenshot from them.
+You cannot control the Camera or even have a decent video stream and cannot do
+motion detection directly. I hope that the Camera support will improve in the
+future. One thing that would be good is to add a view of the cameras in the
+floor plan, but it is not possible currently.</p>
+<p>What I did is to use Zoneminder to manage the cameras and send alert to Domoticz
+when motion is detect with the REST API of Domoticz. Unfortunately that means
+two systems to manage the Cameras. Zoneminder is a very good piece of software,
+but one of the ugliest I've ever seen (even I can do a better web interface...)
+and quite obscure to configure. But the numbers of cameras it can handle and the
+capabilities to control the camera is very very powerful.</p>
+</div>
+<div class="section" id="events-and-actions">
+<h2>Events and actions</h2>
+<p>No home automation system would be complete without an events and rules system.
+In Domoticz, you have several ways to create rules.</p>
+<p>The first solution is to create group. A group is simply a set of switches that
+are all activated together. This is pretty limited, but can be useful. The
+second solution is a scene. A scene is activated by a device and can set several
+switches to on or off after the activation. The problem with this is that you
+have to listen for an action as activation, you cannot use an existing device or
+a rule with a value. For me, these two possibilities are way too limited and
+I don't really a reason to use them.</p>
+<p>The best solution is to script an handler. For that, there are two ways, either
+you define visually your script with blocky, for instance:</p>
+<img alt="Domoticz Blockly Rule" class="align-center" src="../../../images/domoticz_blockly.png"><p>This seemed so cool that I wanted to do all my rules with that. Unfortunately,
+it is really limited. The main limitation is that you cannot nest if blocks. In
+fact the interface lets you do, but it doesn't work afterwards. The other
+limitation is that it has no notion of time. For instance, it's very hard to
+create an action if a computer is shutdown for more than 60 seconds. You can do
+it, but you end up creating virtual devices which are turned off after some
+delay and it gets really complicated really soon...</p>
+<p>In the end, I used Lua script directly. These scripts have the information about
+the last values of each device and the last updated time as well. It's much
+easier with that to create powerful rules especially when you want a notion of
+time. There are plenty of examples on the Domoticz forum about very powerful
+rules that you can create. Unfortunately, there are some limitations. For
+instance, you cannot send several actions to the same device in the same script
+Moreover, you also have to decode the values of the sensors yourself. For
+instance, for a temperature and humidity sensor, you'll have to parse the values
+and extract the one you need by hand.</p>
+<p>So far, I haven't created many rules, only four. The first rule is that with the
+push of one remote button I can power on my smart socket and turn on one of my
+computers in my office. Then, if both the computers on this smart sockets have
+been off for more than 60 seconds, the power is shut off on the smart socket.
+And I have done almost the same for my media center and TV in my living room.</p>
+<p>In the future, I'll probably only use the Lua scripting capability. In my
+opinion, it's better to have all the scripts in the same language for
+maintainability reasons. Once my futures devices arrive, I'll have a few more
+rules to code.</p>
+</div>
+<div class="section" id="conclusion">
+<h2>Conclusion</h2>
+<p>To wrap up, I'd say that I'm pretty satisfied with my new home automation system
+with Domoticz. It's not a perfect tool, but it has a lot of features and is
+working quite well in general. I would recommend you to try it if you want
+a good home automation system, fully featured and relatively easy to use.</p>
+<p>I've several more things planned for this system. I plan to test a real motion
+sensor rather than rely only on the cameras which are focused on the doors and
+windows. I also plan to add an outdoor temperature sensor. And more
+interestingly, I'm going to try to integrate smart bulbs from Milight to be able
+to control my lights from the system. These are the shot term projects that
+I want to do, but I have many more ideas!</p>
+<p>I'm also sure that there are some features from Domoticz that I have overlooked
+or not discovered.</p>
+<p>I'll probably write more posts on Home Automation on the coming months.</p>
+<p>For more information on Domoticz, you can consult
+<a class="reference external" href="http://domoticz.com/">the official Domoticz website</a>.</p>
+</div>
+</div>
+</div>
+<aside class="postpromonav"><nav><ul itemprop="keywords" class="tags">
+<li><a class="tag p-category" href="../../../categories/home-automation.html" rel="tag">Home Automation</a></li>
+<li><a class="tag p-category" href="../../../categories/personal.html" rel="tag">Personal</a></li>
+<li><a class="tag p-category" href="../../../categories/projects.html" rel="tag">projects</a></li>
+</ul>
+<ul class="pager hidden-print">
+<li class="previous">
+<a href="../../2016/12/pvs-studio-on-cpp-library-review.html" rel="prev" title="PVS-Studio on C++ Library Review">Previous post</a>
+</li>
+<li class="next">
+<a href="vivaldi-vimium-finally-no-more-firefox.html" rel="next" title="Vivaldi + Vimium = Finally no more Firefox!">Next post</a>
+</li>
+</ul></nav></aside><section class="comments hidden-print"><h2>Comments</h2>
+<div id="disqus_thread"></div>
+<script>
+        var disqus_shortname ="blogwichtounet",
+            disqus_url="http://baptiste-wicht.com/posts/2017/01/new-home-automation-system-with-domoticz.html",
+        disqus_title="New home automation system with Domoticz",
+        disqus_identifier="cache/posts/2017/01/new-home-automation-system-with-domoticz.html",
+        disqus_config = function () {
+            this.language = "en";
+        };
+        (function() {
+            var dsq = document.createElement('script'); dsq.async = true;
+            dsq.src = 'https://' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        })();
+    </script><noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a>
+</noscript>
+<a href="https://disqus.com" class="dsq-brlink" rel="nofollow">Comments powered by <span class="logo-disqus">Disqus</span></a>
+</section></article><script>var disqus_shortname="blogwichtounet";(function(){var a=document.createElement("script");a.async=true;a.src="https://"+disqus_shortname+".disqus.com/count.js";(document.getElementsByTagName("head")[0]||document.getElementsByTagName("body")[0]).appendChild(a)}());</script>
+</div> 
+</div>
+
+</div>
+
+
+
+<footer>
+Contents © 2017 <a href="/cdn-cgi/l/email-protection#1a787b6a6e73696e7f6d7379726e5a7d777b737634797577">Baptiste Wicht</a> - Powered by <a href="http://getnikola.com" rel="nofollow">Nikola</a> - License:
+<a rel="license" href="http://creativecommons.org/licenses/by/4.0/"><img alt="Creative Commons License" style="padding-left:5px;border-width:0" src="../../../assets/img/cc.png"></a>
+<ul class="footer_inline_ul">
+<li>
+<a href="new-home-automation-system-with-domoticz.rst" id="sourcelink">Source</a>
+</li>
+</ul></footer><script src="/cdn-cgi/scripts/78d64697/cloudflare-static/email-decode.min.js"></script><script src="../../../assets/js/all-nocdn.js"></script>
+</body>
+</html>

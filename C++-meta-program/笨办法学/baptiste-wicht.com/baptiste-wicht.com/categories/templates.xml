@@ -1,0 +1,1014 @@
+<?xml version="1.0" encoding="utf-8"?>
+<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Blog blog("Baptiste Wicht"); (Posts about templates)</title><link>http://baptiste-wicht.com/</link><description></description><atom:link type="application/rss+xml" rel="self" href="http://baptiste-wicht.com/categories/templates.xml"></atom:link><language>en</language><lastBuildDate>Tue, 22 Aug 2017 20:52:03 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>C++ Compiler benchmark on Expression Templates Library (ETL)</title><link>http://baptiste-wicht.com/posts/2016/12/cpp-compiler-benchmark-on-expression-templates-library-etl.html</link><dc:creator>Baptiste Wicht</dc:creator><description>&lt;div&gt;&lt;script src="https://code.jquery.com/jquery-3.1.1.min.js" integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"&gt;&lt;/script&gt;
+&lt;script src="https://code.highcharts.com/highcharts.js"&gt;&lt;/script&gt;
+&lt;script src="https://code.highcharts.com/modules/exporting.js"&gt;&lt;/script&gt;&lt;p&gt;In my Expression Templates Library (ETL) project, I have a lot of template heavy
+code that needs to run as fast as possible and that is quite intensive to
+compile. In this post, I'm going to compare the performance of a few of the
+kernels produced by different compilers. I've got GCC 5.4, GCC 6.20 and clang
+3.9. I also included zapcc which is based on clang 4.0.&lt;/p&gt;
+&lt;p&gt;These tests have been run on an Haswell processor. The automatic parallelization
+of ETL has been turned off for these tests.&lt;/p&gt;
+&lt;p&gt;Keep in mind that some of the diagrams are presented in logarithmic form.&lt;/p&gt;
+&lt;div class="section" id="vector-multiplication"&gt;
+&lt;h2&gt;Vector multiplication&lt;/h2&gt;
+&lt;p&gt;The first kernel is a very simple one, simple element-wise multiplication of two
+vectors. Nothing fancy here.&lt;/p&gt;
+&lt;div id="mul_container" style="min-width: 310px; height:400px; margin: 0 auto; "&gt;&lt;/div&gt;
+&lt;script&gt;
+$(function () {
+    Highcharts.chart('mul_container', {
+        chart: { type: 'column' },
+        title: { text: 'Element-wise Vector Multiplication' },
+        xAxis: {
+            categories: ['10', '100', '1000', '10000', '100000', '1000000']
+        },
+        yAxis: {
+            type: 'logarithmic',
+            title: { text: 'Time (us)' },
+            plotLines: [{
+                value: 0,
+                width: 1,
+                color: '#808080'
+            }]
+        },
+        tooltip: {valueSuffix: 'us'},
+        series: [
+        {
+            name: 'g++-5.4', data: [0.021, 0.040, 0.215, 2.07, 32.1, 403]
+        },
+        {
+            name: 'g++-6.2', data: [0.021, 0.037, 0.208, 2.17, 32.1, 376]
+        },
+        {
+            name: 'clang-3.9', data: [0.027, 0.045, 0.243, 2.43, 32.7, 389]
+        },
+        {
+            name: 'zapcc-4.0', data: [0.026, 0.047, 0.321, 2.5, 32.8, 411]
+        }
+        ]
+    });
+});
+&lt;/script&gt;&lt;p&gt;For small vectors, clang is significantly slower than gcc-5.4 and gcc6.2. On
+vectors from 100'000 elements, the speed is comparable for each compiler,
+depending on the memory bandwidth. Overall, gcc-6.2 produces the fastest code
+here. clang-4.0 is slightly slower than clang-3.9, but nothing dramatic.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="section" id="vector-exponentiation"&gt;
+&lt;h2&gt;Vector exponentiation&lt;/h2&gt;
+&lt;p&gt;The second kernel is computing the exponentials of each elements of a vector and
+storing them in another vector.&lt;/p&gt;
+&lt;div id="exp_container" style="min-width: 310px; height:400px; margin: 0 auto; "&gt;&lt;/div&gt;
+&lt;script&gt;
+$(function () {
+    Highcharts.chart('exp_container', {
+        chart: { type: 'column' },
+        title: { text: 'Element-wise Vector Exponentiation' },
+        xAxis: {
+            categories: ['10', '100', '1000', '10000', '100000', '1000000']
+        },
+        yAxis: {
+            type: 'logarithmic',
+            title: { text: 'Time (us)' },
+            plotLines: [{
+                value: 0,
+                width: 1,
+                color: '#808080'
+            }]
+        },
+        tooltip: {valueSuffix: 'us'},
+        series: [
+        {
+            name: 'g++-5.4', data: [0.0478, 0.137, 1.12, 9.79, 97.5, 959]
+        },
+        {
+            name: 'g++-6.2', data: [0.0474, 0.132, 1.11, 9.71, 97, 1000]
+        },
+        {
+            name: 'clang-3.9', data: [0.0492, 0.136, 0.959, 9.24, 92.9, 914]
+        },
+        {
+            name: 'zapcc-4.0', data: [0.0488, 0.142, 0.952, 9.25, 91.9, 915]
+        }
+        ]
+    });
+});
+&lt;/script&gt;&lt;p&gt;Interestingly, this time, clang versions are significantly faster for medium to
+large vectors, from 1000 elements and higher, by about 5%. There is no
+significant differences between the different versions of each compiler.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="section" id="matrix-matrix-multiplication"&gt;
+&lt;h2&gt;Matrix-Matrix Multiplication&lt;/h2&gt;
+&lt;p&gt;The next kernel I did benchmark with the matrix-matrix multiplication operation.
+In that case, the kernel is hand-unrolled and vectorized.&lt;/p&gt;
+&lt;div id="gemm_container_small" style="min-width: 310px; height:400px; margin: 0 auto; "&gt;&lt;/div&gt;
+&lt;div id="gemm_container_large" style="min-width: 310px; height:400px; margin: 0 auto; "&gt;&lt;/div&gt;
+&lt;script&gt;
+$(function () {
+    Highcharts.chart('gemm_container_small', {
+        chart: { type: 'column' },
+        title: { text: 'Matrix Matrix Multiplication (small)', },
+        xAxis: {
+            categories: ['10x10', '20x20', '40x40', '60x60', '80x80', '100x100']
+        },
+        yAxis: {
+            type: 'logarithmic',
+            title: { text: 'Time (us)' },
+            plotLines: [{
+                value: 0,
+                width: 1,
+                color: '#808080'
+            }]
+        },
+        tooltip: {valueSuffix: 'us'},
+        series: [
+        {
+            name: 'g++-5.4', data: [0.159, 0.815, 2.637, 13.849, 17.281, 78.903]
+        },
+        {
+            name: 'g++-6.2', data: [0.162, 0.802, 2.431, 13.531, 17.274, 74.02]
+        },
+        {
+            name: 'clang-3.9', data: [0.179, 1.218, 2.391, 14.981, 15.142, 61.548]
+        },
+        {
+            name: 'zapcc-4.0', data: [0.159, 0.836, 2.712, 13.426, 15.114, 62.241]
+        }
+        ]
+    });
+    Highcharts.chart('gemm_container_large', {
+        chart: { type: 'column' },
+        title: { text: 'Matrix Matrix Multiplication (large)', },
+        xAxis: {
+            categories: ['200x200', '300x300', '400x400', '500x500', '600x600', '700x700', '800x800', '900x900', '1000x1000']
+        },
+        yAxis: {
+            type: 'logarithmic',
+            title: { text: 'Time (us)' },
+            plotLines: [{
+                value: 0,
+                width: 1,
+                color: '#808080'
+            }]
+        },
+        tooltip: {valueSuffix: 'us'},
+        series: [
+        {
+            name: 'g++-5.4', data: [275.219, 1371, 1837, 5177, 6667, 14981, 17037, 31492, 32813]
+        },
+        {
+            name: 'g++-6.2', data: [267.776, 1362, 1808, 5297, 6859, 15166, 15664, 30666, 33067]
+        },
+        {
+            name: 'clang-3.9', data: [266.033, 1230, 1789, 4825, 6969, 14488, 15916, 30872, 33186]
+        },
+        {
+            name: 'zapcc-4.0', data: [267.806, 1237, 1820, 4909, 7035, 15191, 18193, 33127, 37346]
+        }
+        ]
+    });
+});
+&lt;/script&gt;&lt;p&gt;There are few differences between the compilers. The first thing is that for
+some sizes such as 80x80 and 100x100, clang is significantly faster than GCC, by
+more than 10%. The other interesting fact is that for large matrices
+zapcc-clang-4.0 is always slower than clang-3.9 which is itself on par with the
+two GCC versions. In my opinion, it comes from a regression in clang trunk but
+it could also come from zapcc itself.&lt;/p&gt;
+&lt;div id="std_gemm_container_large" style="min-width: 310px; height:400px; margin: 0 auto; "&gt;&lt;/div&gt;
+&lt;script&gt;
+$(function () {
+    Highcharts.chart('std_gemm_container_large', {
+        chart: { type: 'column' },
+        title: { text: 'Matrix Matrix Multiplication (naive)', },
+        xAxis: {
+            categories: ['200x200', '300x300', '400x400', '500x500', '600x600', '700x700', '800x800', '900x900', '1000x1000']
+        },
+        yAxis: {
+            type: 'logarithmic',
+            title: { text: 'Time (ms)' },
+            plotLines: [{
+                value: 0,
+                width: 1,
+                color: '#808080'
+            }]
+        },
+        tooltip: {valueSuffix: 'ms'},
+        series: [
+        {
+            name: 'g++-5.4', data: [1.195, 4.891, 10.467, 22.400, 33.399,
+            58.401, 77.150, 121.392, 148.469]
+        },
+        {
+            name: 'g++-6.2', data: [1.109, 4.540, 9.964, 21.359, 31.904,
+            55.282, 72.690, 113.52, 143.27]
+        },
+        {
+            name: 'clang-3.9', data: [0.893, 3.710, 7.287, 16.244, 23.920,
+            43.342, 56.771, 91.870, 112.309]
+        },
+        {
+            name: 'zapcc-4.0', data: [5.088, 16.909, 39.632, 77.194, 133.15,
+            214.539, 316.01, 447.715, 612.255]
+        }
+        ]
+    });
+});
+&lt;/script&gt;&lt;p&gt;The results are much more interesting here! First, there is a huge regression in
+clang-4.0 (or in zapcc for that matter). Indeed, it is up to 6 times slower than
+clang-3.9. Moreover, the clang-3.9 is always significantly faster than gcc-6.2.
+Finally, there is a small improvement in gcc-6.2 compared to gcc 5.4.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="section" id="fast-fourrier-transform"&gt;
+&lt;h2&gt;Fast-Fourrier Transform&lt;/h2&gt;
+&lt;p&gt;The following kernel is the performance of a hand-crafted Fast-Fourrier
+transform implementation.&lt;/p&gt;
+&lt;div id="fft_container" style="min-width: 310px; height:400px; margin: 0 auto; "&gt;&lt;/div&gt;
+&lt;script&gt;
+$(function () {
+    Highcharts.chart('fft_container', {
+        chart: { type: 'column' },
+        title: { text: 'Fast Fourrier Transform', },
+        xAxis: {
+            categories: ['100', '1000', '10000', '100000', '1000000']
+        },
+        yAxis: {
+            type: 'logarithmic',
+            title: { text: 'Time (us)' },
+            plotLines: [{
+                value: 0,
+                width: 1,
+                color: '#808080'
+            }]
+        },
+        tooltip: {valueSuffix: 'us'},
+        series: [
+        {
+            name: 'g++-5.4', data: [2.640, 27.515, 308.239, 3427.4, 41695.9]
+        },
+        {
+            name: 'g++-6.2', data: [2.578, 26.194, 298.97, 3348.82, 40783.8]
+        },
+        {
+            name: 'clang-3.9', data: [3.047, 30.514, 333.403, 3569.36,43860.6]
+        },
+        {
+            name: 'zapcc-4.0', data: [3.199,33.304,317.135,4025.18,48445.3]
+        }
+        ]
+    });
+});
+&lt;/script&gt;&lt;p&gt;On this benchmark, gcc-6.2 is the clear winner. It is significantly faster
+than clang-3.9 and clang-4.0. Moreover, gcc-6.2 is also faster than gcc-5.4.
+On the contrary, clang-4.0 is significantly slower than clang-3.9 except on one
+configuration (10000 elements).&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="section" id="d-convolution"&gt;
+&lt;h2&gt;1D Convolution&lt;/h2&gt;
+&lt;p&gt;This kernel is about computing the 1D valid convolution of two vectors.&lt;/p&gt;
+&lt;div id="conv1_container" style="min-width: 310px; height:400px; margin: 0 auto; "&gt;&lt;/div&gt;
+&lt;script&gt;
+$(function () {
+    Highcharts.chart('conv1_container', {
+        chart: { type: 'column' },
+        title: { text: '1D convolution (optimized)', },
+        xAxis: {
+            categories: ['1000x500', '2000x1000', '3000x1500', '4000x2000',
+            '5000x2500', '6000x3000', '7000x3500', '8000x4000', '9000x4500',
+            '10000x5000']
+        },
+        yAxis: {
+            type: 'logarithmic',
+            title: { text: 'Time (us)' },
+            plotLines: [{
+                value: 0,
+                width: 1,
+                color: '#808080'
+            }]
+        },
+        tooltip: {valueSuffix: 'us'},
+        series: [
+        {
+            name: 'g++-5.4', data: [11.710, 41.002, 91.201, 158.178,
+            248.985, 353.695, 486.676, 634.53, 867.101, 1082.62]
+        },
+        {
+            name: 'g++-6.2', data: [9.307, 40.921, 90.327, 158.734, 248.892,
+            354.582, 488.38, 636.899, 869.637, 1084.86]
+        },
+        {
+            name: 'clang-3.9', data: [13.404, 41.409, 95.094, 162.339,
+            256.143, 362.34, 498.66, 651.352, 886.465, 1092.24]
+        },
+        {
+            name: 'zapcc-4.0', data: [13.528, 40.886, 94.473, 159.917,
+            252.992, 356.63, 493.653, 640.348, 872.282, 1091.36]
+        }
+        ]
+    });
+});
+&lt;/script&gt;&lt;p&gt;While clang-4.0 is faster than clang-3.9, it is still slightly slower than both
+gcc versions. On the GCC side, there is not a lot of difference except on the
+1000x500 on which gcc-6.2 is 25% faster.&lt;/p&gt;
+&lt;p&gt;And here are the results with the naive implementation:&lt;/p&gt;
+&lt;div id="std_conv1_container" style="min-width: 310px; height:400px; margin: 0 auto; "&gt;&lt;/div&gt;
+&lt;script&gt;
+$(function () {
+    Highcharts.chart('std_conv1_container', {
+        chart: { type: 'column' },
+        title: { text: '1D convolution (naive)', },
+        xAxis: {
+            categories: ['1000x500', '2000x1000', '3000x1500', '4000x2000',
+            '5000x2500', '6000x3000', '7000x3500', '8000x4000', '9000x4500',
+            '10000x5000']
+        },
+        yAxis: {
+            type: 'logarithmic',
+            title: { text: 'Time (ms)' },
+            plotLines: [{
+                value: 0,
+                width: 1,
+                color: '#808080'
+            }]
+        },
+        tooltip: {valueSuffix: 'ms'},
+        series: [
+        {
+            name: 'g++-5.4', data: [0.350, 1.452, 3.260, 5.823, 9.116,
+            13.155, 17.922, 23.438, 29.705, 36.683]
+        },
+        {
+            name: 'g++-6.2', data: [0.350, 1.457, 3.262, 5.823, 9.120,
+            13.152, 17.922, 23.436, 29.687, 36.665]
+        },
+        {
+            name: 'clang-3.9', data: [0.216, 0.873, 1.974, 3.517, 5.501,
+            7.921, 10.793, 14.11, 17.867, 22.068]
+        },
+        {
+            name: 'zapcc-4.0', data: [0.215, 0.873, 1.972, 3.514, 5.501,
+            7.928, 10.799, 14.11, 17.879, 22.065]
+        }
+        ]
+    });
+});
+&lt;/script&gt;&lt;p&gt;Again, on the naive version, clang is much faster than GCC on the naive, by
+about 65%. This is a really large speedup.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="section" id="id1"&gt;
+&lt;h2&gt;2D Convolution&lt;/h2&gt;
+&lt;p&gt;This next kernel is computing the 2D valid convolution of two matrices&lt;/p&gt;
+&lt;div id="conv2_container" style="min-width: 310px; height:400px; margin: 0 auto; "&gt;&lt;/div&gt;
+&lt;script&gt;
+$(function () {
+    Highcharts.chart('conv2_container', {
+        chart: { type: 'column' },
+        title: { text: '2D Convolution (optimized)', },
+        xAxis: {
+            categories: ['100x50', '105x50', '110x55', '115x55', '120x60',
+            '125x60', '130x65', '135x65', '140x70']
+        },
+        yAxis: {
+            title: { text: 'Time (us)' },
+            plotLines: [{
+                value: 0,
+                width: 1,
+                color: '#808080'
+            }]
+        },
+        tooltip: {valueSuffix: 'us'},
+        series: [
+        {
+            name: 'g++-5.4', data: [327.399, 367.389, 441.457, 576.021,
+            762.268, 794, 994.06, 1261.71, 1360.57]
+        },
+        {
+            name: 'g++-6.2', data: [327.764, 367.379, 441.993, 572.241,
+            761.741, 784.605, 991.717, 1266.55, 1361.59]
+        },
+        {
+            name: 'clang-3.9', data: [330.199, 364.253, 443.483, 580.676,
+            763.772, 777.39, 1000.53, 1267.75, 1375.51]
+        },
+        {
+            name: 'zapcc-4.0', data: [339.358, 364.756, 443.807, 575.917,
+            761.248, 784.695, 992.29, 1265.04, 1367.33]
+        }
+        ]
+    });
+});
+&lt;/script&gt;&lt;p&gt;There is no clear difference between the compilers in this code. Every compiler
+here has up and down.&lt;/p&gt;
+&lt;p&gt;Let's look at the naive implementation of the 2D convolution (units are
+milliseconds here not microseconds):&lt;/p&gt;
+&lt;div id="std_conv2_container" style="min-width: 310px; height:400px; margin: 0 auto; "&gt;&lt;/div&gt;
+&lt;script&gt;
+$(function () {
+    Highcharts.chart('std_conv2_container', {
+        chart: { type: 'column' },
+        title: { text: '2D Convolution (naive)', },
+        xAxis: {
+            categories: ['100x50', '105x50', '110x55', '115x55', '120x60',
+            '125x60', '130x65', '135x65', '140x70']
+        },
+        yAxis: {
+            title: { text: 'Time (ms)' },
+            plotLines: [{
+                value: 0,
+                width: 1,
+                color: '#808080'
+            }]
+        },
+        tooltip: {valueSuffix: 'ms'},
+        series: [
+        {
+            name: 'g++-5.4', data: [9.501,11.458,13.888, 16.489, 19.634,
+            22.898, 27.012, 31.246, 36.269]
+        },
+        {
+            name: 'g++-6.2', data: [9.502, 11.464, 13.903, 16.484, 19.642,
+            22.994, 27.004, 31.248, 36.26]
+        },
+        {
+            name: 'clang-3.9', data: [5.880, 7.136, 8.610, 10.226, 12.164,
+            14.247, 17.024, 19.577, 22.510]
+        },
+        {
+            name: 'zapcc-4.0', data: [5.875, 7.091, 8.661, 10.241, 12.218,
+            14.302, 16.777, 19.424, 22.472]
+        }
+        ]
+    });
+});
+&lt;/script&gt;&lt;p&gt;This time the difference is very large! Indeed, clang versions are about 60%
+faster than the GCC versions! This is really impressive. Even though this does
+not comes close to the optimized. It seems the vectorizer of clang is much more
+efficient than the one from GCC.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="section" id="id2"&gt;
+&lt;h2&gt;4D Convolution&lt;/h2&gt;
+&lt;p&gt;The final kernel that I'm testing is the batched 4D convolutions that is used a
+lot in Deep Learning. This is not really a 4D convolution, but a large number
+of 2D convolutions applied on 4D tensors.&lt;/p&gt;
+&lt;div id="conv4_container" style="min-width: 310px; height:400px; margin: 0 auto; "&gt;&lt;/div&gt;
+&lt;script&gt;
+$(function () {
+    Highcharts.chart('conv4_container', {
+        chart: { type: 'column' },
+        title: { text: '4D Convolution', },
+        xAxis: {
+            categories: ['2x6x3x28x16', '2x6x3x28x16', '2x6x3x28x16',
+            '2x6x3x28x16', '2x6x3x28x16', '2x6x3x28x16', '2x6x3x28x16',
+            '2x6x3x28x16', '2x6x3x28x16']
+        },
+        yAxis: {
+            type: 'logarithmic',
+            title: { text: 'Time (ms)' },
+            plotLines: [{
+                value: 0,
+                width: 1,
+                color: '#808080'
+            }]
+        },
+        tooltip: {valueSuffix: 'ms'},
+        series: [
+        {
+            name: 'g++-5.4', data: [0.095, 0.402, 1.083, 2.237, 3.988,
+            6.474, 9.985, 14.132, 19.539]
+        },
+        {
+            name: 'g++-6.2', data: [0.089, 0.413, 1.081, 2.224, 3.990,
+            6.462, 9.815, 14.118, 19.612]
+        },
+        {
+            name: 'clang-3.9', data: [0.090, 0.416, 1.108, 2.277, 4.077,
+            6.587, 10.024, 14.359, 20.006]
+        },
+        {
+            name: 'zapcc-4.0', data: [0.088, 0.406, 1.080, 2.237, 3.987,
+            6.484, 9.827, 14.130, 19.569]
+        }
+        ]
+    });
+});
+&lt;/script&gt;&lt;p&gt;Again, there are very small differences between each version. The best versions
+are the most recent versions of the compiler gcc-6.2 and clang-4.0 on a tie.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="section" id="conclusion"&gt;
+&lt;h2&gt;Conclusion&lt;/h2&gt;
+&lt;p&gt;Overall, we can see two trends in these results. First, when working with
+highly-optimized code, the choice of compiler will not make a huge difference.
+On these kind of kernels, gcc-6.2 tend to perform faster than the other
+compilers, but only by a very slight margin, except in some cases. On the other
+hand, when working with naive implementations, clang versions really did perform
+much better than GCC. The clang compiled versions of the 1D and 2D convolutions
+are more than 60% faster than their GCC counter parts. This is really
+impressive. Overall, clang-4.0 seems to have several performance regressions,
+but since it's not still a work in progress, I would not be suprised if these
+regressions are not present in the final version. Since the clang-4.0 version is
+in fact the clang version used by zapcc, it's also possible that zapcc is
+introducing new performance regressions.&lt;/p&gt;
+&lt;p&gt;Overall, my advice would be to use GCC-6.2 (or 5.4) on hand-optimized kernels
+and clang when you have mostly naive implementations. However, keep in mind that
+at least for the example shown here, the naive version optimized by the compiler
+never comes close to the highly-optimized version.&lt;/p&gt;
+&lt;p&gt;As ever, takes this with a grain of salt, it's only been tested on one project
+and one machine, you may obtain very different results on other projects and on
+other processors.&lt;/p&gt;
+&lt;/div&gt;&lt;/div&gt;</description><category>C++</category><category>clang</category><category>Compilers</category><category>gcc</category><category>Performance</category><category>templates</category><guid>http://baptiste-wicht.com/posts/2016/12/cpp-compiler-benchmark-on-expression-templates-library-etl.html</guid><pubDate>Sun, 11 Dec 2016 13:17:30 GMT</pubDate></item><item><title>Use templight and Templar to debug C++ templates</title><link>http://baptiste-wicht.com/posts/2016/02/use-templight-and-templar-to-debug-cpp-templates.html</link><dc:creator>Baptiste Wicht</dc:creator><description>&lt;div&gt;&lt;p&gt;C++ has some very good tools to debug, profile and analyze source files and executables. This all works well for standard runtime program. But, when you are using templates, you sometimes want these tools to act at compile-time. And at this point the support is much more scarce.&lt;/p&gt;
+&lt;p&gt;&lt;a class="reference external" href="https://github.com/mikael-s-persson/templight"&gt;templight&lt;/a&gt; and &lt;a class="reference external" href="https://github.com/schulmar/Templar"&gt;Templar&lt;/a&gt; and two tools that are trying to fix this issue.&lt;/p&gt;
+&lt;p&gt;From the templight site:&lt;/p&gt;
+&lt;blockquote&gt;
+Templight is a Clang-based tool to profile the time and memory consumption of template instantiations and to perform interactive debugging sessions to gain introspection into the template instantiation process.&lt;/blockquote&gt;
+&lt;p&gt;and Templar is a visualization tool for the traces generated by templight.&lt;/p&gt;
+&lt;div class="section" id="installation"&gt;
+&lt;h2&gt;Installation&lt;/h2&gt;
+&lt;p&gt;Unfortunately, the templight installation is not user-friendly at all. You need to clone the complete LLVM/Clang tree and add templight inside it before compiling the complete clang toolchain. But that is the case for all clang-based tools... You also need to patch clang but that may not be necessary in the future. The complete instructions are available &lt;a class="reference external" href="https://github.com/mikael-s-persson/templight#getting-and-compiling-templight"&gt;here&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;The installation of Templar is much more convenient:&lt;/p&gt;
+&lt;pre class="code bash"&gt;&lt;a name="rest_code_2b04652bddda496f8ecf2d45c2e72bae-1"&gt;&lt;/a&gt;git clone https://github.com/schulmar/Templar.git
+&lt;a name="rest_code_2b04652bddda496f8ecf2d45c2e72bae-2"&gt;&lt;/a&gt;&lt;span class="nb"&gt;cd&lt;/span&gt; Templar
+&lt;a name="rest_code_2b04652bddda496f8ecf2d45c2e72bae-3"&gt;&lt;/a&gt;git checkout feature/templight2
+&lt;a name="rest_code_2b04652bddda496f8ecf2d45c2e72bae-4"&gt;&lt;/a&gt;qmake .
+&lt;a name="rest_code_2b04652bddda496f8ecf2d45c2e72bae-5"&gt;&lt;/a&gt;make
+&lt;a name="rest_code_2b04652bddda496f8ecf2d45c2e72bae-6"&gt;&lt;/a&gt;sudo make install
+&lt;/pre&gt;&lt;p&gt;The branch feature/templight2 has much more features than the master and should support both Qt4 and Qt5, but I have only tested it on Qt4.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="section" id="example"&gt;
+&lt;h2&gt;Example&lt;/h2&gt;
+&lt;p&gt;Let's use the class Fibonacci function as an example:&lt;/p&gt;
+&lt;pre class="code cpp"&gt;&lt;a name="rest_code_136e1304f91d4c0eac716fab33ae432a-1"&gt;&lt;/a&gt;&lt;span class="cp"&gt;#include&lt;/span&gt; &lt;span class="cpf"&gt;&amp;lt;iostream&amp;gt;&lt;/span&gt;&lt;span class="cp"&gt;&lt;/span&gt;
+&lt;a name="rest_code_136e1304f91d4c0eac716fab33ae432a-2"&gt;&lt;/a&gt;
+&lt;a name="rest_code_136e1304f91d4c0eac716fab33ae432a-3"&gt;&lt;/a&gt;&lt;span class="k"&gt;template&lt;/span&gt; &lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="n"&gt;std&lt;/span&gt;&lt;span class="o"&gt;::&lt;/span&gt;&lt;span class="kt"&gt;size_t&lt;/span&gt; &lt;span class="n"&gt;N&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt;
+&lt;a name="rest_code_136e1304f91d4c0eac716fab33ae432a-4"&gt;&lt;/a&gt;&lt;span class="k"&gt;struct&lt;/span&gt; &lt;span class="n"&gt;Fibonacci&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+&lt;a name="rest_code_136e1304f91d4c0eac716fab33ae432a-5"&gt;&lt;/a&gt;    &lt;span class="k"&gt;static&lt;/span&gt; &lt;span class="k"&gt;constexpr&lt;/span&gt; &lt;span class="k"&gt;const&lt;/span&gt; &lt;span class="n"&gt;std&lt;/span&gt;&lt;span class="o"&gt;::&lt;/span&gt;&lt;span class="kt"&gt;size_t&lt;/span&gt; &lt;span class="n"&gt;value&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;Fibonacci&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="n"&gt;N&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;::&lt;/span&gt;&lt;span class="n"&gt;value&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="n"&gt;Fibonacci&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="n"&gt;N&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="mi"&gt;2&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;::&lt;/span&gt;&lt;span class="n"&gt;value&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;a name="rest_code_136e1304f91d4c0eac716fab33ae432a-6"&gt;&lt;/a&gt;&lt;span class="p"&gt;};&lt;/span&gt;
+&lt;a name="rest_code_136e1304f91d4c0eac716fab33ae432a-7"&gt;&lt;/a&gt;
+&lt;a name="rest_code_136e1304f91d4c0eac716fab33ae432a-8"&gt;&lt;/a&gt;&lt;span class="k"&gt;template&lt;/span&gt; &lt;span class="o"&gt;&amp;lt;&amp;gt;&lt;/span&gt;
+&lt;a name="rest_code_136e1304f91d4c0eac716fab33ae432a-9"&gt;&lt;/a&gt;&lt;span class="k"&gt;struct&lt;/span&gt; &lt;span class="n"&gt;Fibonacci&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+&lt;a name="rest_code_136e1304f91d4c0eac716fab33ae432a-10"&gt;&lt;/a&gt;    &lt;span class="k"&gt;static&lt;/span&gt; &lt;span class="k"&gt;constexpr&lt;/span&gt; &lt;span class="k"&gt;const&lt;/span&gt; &lt;span class="n"&gt;std&lt;/span&gt;&lt;span class="o"&gt;::&lt;/span&gt;&lt;span class="kt"&gt;size_t&lt;/span&gt; &lt;span class="n"&gt;value&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;a name="rest_code_136e1304f91d4c0eac716fab33ae432a-11"&gt;&lt;/a&gt;&lt;span class="p"&gt;};&lt;/span&gt;
+&lt;a name="rest_code_136e1304f91d4c0eac716fab33ae432a-12"&gt;&lt;/a&gt;
+&lt;a name="rest_code_136e1304f91d4c0eac716fab33ae432a-13"&gt;&lt;/a&gt;&lt;span class="k"&gt;template&lt;/span&gt; &lt;span class="o"&gt;&amp;lt;&amp;gt;&lt;/span&gt;
+&lt;a name="rest_code_136e1304f91d4c0eac716fab33ae432a-14"&gt;&lt;/a&gt;&lt;span class="k"&gt;struct&lt;/span&gt; &lt;span class="n"&gt;Fibonacci&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+&lt;a name="rest_code_136e1304f91d4c0eac716fab33ae432a-15"&gt;&lt;/a&gt;    &lt;span class="k"&gt;static&lt;/span&gt; &lt;span class="k"&gt;constexpr&lt;/span&gt; &lt;span class="k"&gt;const&lt;/span&gt; &lt;span class="n"&gt;std&lt;/span&gt;&lt;span class="o"&gt;::&lt;/span&gt;&lt;span class="kt"&gt;size_t&lt;/span&gt; &lt;span class="n"&gt;value&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;a name="rest_code_136e1304f91d4c0eac716fab33ae432a-16"&gt;&lt;/a&gt;&lt;span class="p"&gt;};&lt;/span&gt;
+&lt;a name="rest_code_136e1304f91d4c0eac716fab33ae432a-17"&gt;&lt;/a&gt;
+&lt;a name="rest_code_136e1304f91d4c0eac716fab33ae432a-18"&gt;&lt;/a&gt;&lt;span class="kt"&gt;int&lt;/span&gt; &lt;span class="nf"&gt;main&lt;/span&gt;&lt;span class="p"&gt;(){&lt;/span&gt;
+&lt;a name="rest_code_136e1304f91d4c0eac716fab33ae432a-19"&gt;&lt;/a&gt;    &lt;span class="n"&gt;std&lt;/span&gt;&lt;span class="o"&gt;::&lt;/span&gt;&lt;span class="n"&gt;cout&lt;/span&gt; &lt;span class="o"&gt;&amp;lt;&amp;lt;&lt;/span&gt; &lt;span class="s"&gt;"Fibonacci&amp;lt;5&amp;gt;:"&lt;/span&gt; &lt;span class="o"&gt;&amp;lt;&amp;lt;&lt;/span&gt; &lt;span class="n"&gt;Fibonacci&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="mi"&gt;5&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;::&lt;/span&gt;&lt;span class="n"&gt;value&lt;/span&gt; &lt;span class="o"&gt;&amp;lt;&amp;lt;&lt;/span&gt; &lt;span class="n"&gt;std&lt;/span&gt;&lt;span class="o"&gt;::&lt;/span&gt;&lt;span class="n"&gt;endl&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;a name="rest_code_136e1304f91d4c0eac716fab33ae432a-20"&gt;&lt;/a&gt;&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;/pre&gt;&lt;p&gt;Nothing fancy here, we're simply printing the fifth Fibonacci number on the console.&lt;/p&gt;
+&lt;p&gt;You can compile it with templight++:&lt;/p&gt;
+&lt;pre class="code bash"&gt;&lt;a name="rest_code_8c569f116a0d427889ff678709d39046-1"&gt;&lt;/a&gt;templight++ -Xtemplight -profiler -Xtemplight -memory -Xtemplight -ignore-system -std&lt;span class="o"&gt;=&lt;/span&gt;c++14 main.cpp
+&lt;/pre&gt;&lt;p&gt;All the templight options starts with -Xtemplight and then you can use any clang++ options. This will generate a &lt;em&gt;a.memory.trace.pbf&lt;/em&gt; file in the current directory. You can then run Templar. use File &amp;gt; Open Trace to open the trace file. This should open a window of this sort:&lt;/p&gt;
+&lt;img alt="/images/templar.png" class="align-center" src="http://baptiste-wicht.com/images/templar.png"&gt;
+&lt;p&gt;The top-left panel contains the source code of the application, automatically
+refreshed whenever you move in the template tree. In the top right, there is
+the template instantiation graph. In the bottom left, you'll see a list of list
+of files to be able to filter them and in the bottom right, you'll see the list
+of templates events. You can sort the list of template events by duration which
+is really convenient. You can then select Fibonacci&amp;lt;5&amp;gt; by double clicking it in
+the list (once sorted, it should be near the top). This should give you a tree
+looking something like that:&lt;/p&gt;
+&lt;img alt="/images/templar_tree.png" class="align-center" src="http://baptiste-wicht.com/images/templar_tree.png"&gt;
+&lt;p&gt;The edgy nodes are template instantiations and the round nodes are template
+memoization. We can directly see that each instantiation was only done once. I
+think this graph view is really helpful if you need to debug computation done
+at compile time. You can see that that not all nodes are displayed, this is
+because there is a limit on the displayed depth. Simply click on Fibonacci&amp;lt;3&amp;gt;
+and the remaining nodes will be shown.&lt;/p&gt;
+&lt;p&gt;I have already used this tool to find the most time-consuming templates in ETL
+an DLL. This is a great tool to indicate where you should focus on improving
+the template compile-time. I have also been able to find some unnecessary
+instantiations that could be avoided (either with SFINAE or with refactorings).&lt;/p&gt;
+&lt;p&gt;templight also contains a fully-fledged debugger for template programs, but I haven't tested it.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="section" id="conclusion"&gt;
+&lt;h2&gt;Conclusion&lt;/h2&gt;
+&lt;p&gt;In conclusion, I would say that templight and Templar are really helping with
+template debugging and profiling. There is a real lack of tools in this domain
+and I hope to see more tools of this kind in the future. I hope this will help
+you develop template-heavy programs or template metaprograms.&lt;/p&gt;
+&lt;/div&gt;&lt;/div&gt;</description><category>C++</category><category>templates</category><category>Tools</category><guid>http://baptiste-wicht.com/posts/2016/02/use-templight-and-templar-to-debug-cpp-templates.html</guid><pubDate>Mon, 08 Feb 2016 07:11:18 GMT</pubDate></item><item><title>Named Optional Template parameters to configure a class at compile-time</title><link>http://baptiste-wicht.com/posts/2015/03/named-optional-template-parameters-compile-time.html</link><dc:creator>Baptiste Wicht</dc:creator><description>&lt;div&gt;&lt;p&gt;In this post, I'll describe a technique that can be used to configure a class at compile-time when there are multiple, optional parameters, with default values to this class. I used this technique in my dll project to configure each instance of Restricted Boltzmann Machine.&lt;/p&gt;
+&lt;p&gt;The technique presented here will only work with C++11 because of the need for variadic template. This could be emulated without them by fixing a maximum number of parameters, but I won't go into this in this post.&lt;/p&gt;
+&lt;div class="section" id="the-problem"&gt;
+&lt;h2&gt;The problem&lt;/h2&gt;
+&lt;p&gt;For this post, we'll take the case of a single class, let's call it configurable. This class has several parameters:&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;A of type int&lt;/li&gt;
+&lt;li&gt;B of type char&lt;/li&gt;
+&lt;li&gt;C of an enum type&lt;/li&gt;
+&lt;li&gt;D of type bool&lt;/li&gt;
+&lt;li&gt;E is a type&lt;/li&gt;
+&lt;li&gt;F is a template type&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;This class could simply be written as such:&lt;/p&gt;
+&lt;pre class="code c++"&gt;&lt;a name="rest_code_424e69d5f8e64602ae81688f4ffe65a3-1"&gt;&lt;/a&gt;&lt;span class="k"&gt;enum&lt;/span&gt; &lt;span class="k"&gt;class&lt;/span&gt; &lt;span class="nc"&gt;type&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+&lt;a name="rest_code_424e69d5f8e64602ae81688f4ffe65a3-2"&gt;&lt;/a&gt;    &lt;span class="n"&gt;AAA&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+&lt;a name="rest_code_424e69d5f8e64602ae81688f4ffe65a3-3"&gt;&lt;/a&gt;    &lt;span class="n"&gt;BBB&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+&lt;a name="rest_code_424e69d5f8e64602ae81688f4ffe65a3-4"&gt;&lt;/a&gt;    &lt;span class="n"&gt;CCC&lt;/span&gt;
+&lt;a name="rest_code_424e69d5f8e64602ae81688f4ffe65a3-5"&gt;&lt;/a&gt;&lt;span class="p"&gt;};&lt;/span&gt;
+&lt;a name="rest_code_424e69d5f8e64602ae81688f4ffe65a3-6"&gt;&lt;/a&gt;
+&lt;a name="rest_code_424e69d5f8e64602ae81688f4ffe65a3-7"&gt;&lt;/a&gt;&lt;span class="k"&gt;template&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="kt"&gt;int&lt;/span&gt; &lt;span class="n"&gt;T_A&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="kt"&gt;char&lt;/span&gt; &lt;span class="n"&gt;T_B&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="sc"&gt;'b'&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;type&lt;/span&gt; &lt;span class="n"&gt;T_C&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;type&lt;/span&gt;&lt;span class="o"&gt;::&lt;/span&gt;&lt;span class="n"&gt;BBB&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="kt"&gt;bool&lt;/span&gt; &lt;span class="n"&gt;T_D&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nb"&gt;false&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="k"&gt;typename&lt;/span&gt; &lt;span class="n"&gt;T_E&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;watcher_1&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="k"&gt;template&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="k"&gt;typename&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt; &lt;span class="k"&gt;class&lt;/span&gt; &lt;span class="nc"&gt;T_F&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;trainer_1&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt;
+&lt;a name="rest_code_424e69d5f8e64602ae81688f4ffe65a3-8"&gt;&lt;/a&gt;&lt;span class="k"&gt;struct&lt;/span&gt; &lt;span class="n"&gt;configurable_v1&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+&lt;a name="rest_code_424e69d5f8e64602ae81688f4ffe65a3-9"&gt;&lt;/a&gt;    &lt;span class="k"&gt;static&lt;/span&gt; &lt;span class="k"&gt;constexpr&lt;/span&gt; &lt;span class="k"&gt;const&lt;/span&gt; &lt;span class="kt"&gt;int&lt;/span&gt; &lt;span class="n"&gt;A&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;T_A&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;a name="rest_code_424e69d5f8e64602ae81688f4ffe65a3-10"&gt;&lt;/a&gt;    &lt;span class="k"&gt;static&lt;/span&gt; &lt;span class="k"&gt;constexpr&lt;/span&gt; &lt;span class="k"&gt;const&lt;/span&gt; &lt;span class="kt"&gt;char&lt;/span&gt; &lt;span class="n"&gt;B&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;T_B&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;a name="rest_code_424e69d5f8e64602ae81688f4ffe65a3-11"&gt;&lt;/a&gt;    &lt;span class="k"&gt;static&lt;/span&gt; &lt;span class="k"&gt;constexpr&lt;/span&gt; &lt;span class="k"&gt;const&lt;/span&gt; &lt;span class="n"&gt;type&lt;/span&gt; &lt;span class="n"&gt;C&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;T_C&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;a name="rest_code_424e69d5f8e64602ae81688f4ffe65a3-12"&gt;&lt;/a&gt;    &lt;span class="k"&gt;static&lt;/span&gt; &lt;span class="k"&gt;constexpr&lt;/span&gt; &lt;span class="k"&gt;const&lt;/span&gt; &lt;span class="kt"&gt;bool&lt;/span&gt; &lt;span class="n"&gt;D&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;T_D&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;a name="rest_code_424e69d5f8e64602ae81688f4ffe65a3-13"&gt;&lt;/a&gt;
+&lt;a name="rest_code_424e69d5f8e64602ae81688f4ffe65a3-14"&gt;&lt;/a&gt;    &lt;span class="k"&gt;using&lt;/span&gt; &lt;span class="n"&gt;E&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;T_E&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;a name="rest_code_424e69d5f8e64602ae81688f4ffe65a3-15"&gt;&lt;/a&gt;
+&lt;a name="rest_code_424e69d5f8e64602ae81688f4ffe65a3-16"&gt;&lt;/a&gt;    &lt;span class="k"&gt;template&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="k"&gt;typename&lt;/span&gt; &lt;span class="n"&gt;C&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt;
+&lt;a name="rest_code_424e69d5f8e64602ae81688f4ffe65a3-17"&gt;&lt;/a&gt;    &lt;span class="k"&gt;using&lt;/span&gt; &lt;span class="n"&gt;F&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;T_F&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="n"&gt;C&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;a name="rest_code_424e69d5f8e64602ae81688f4ffe65a3-18"&gt;&lt;/a&gt;
+&lt;a name="rest_code_424e69d5f8e64602ae81688f4ffe65a3-19"&gt;&lt;/a&gt;    &lt;span class="c1"&gt;//Something useful&lt;/span&gt;
+&lt;a name="rest_code_424e69d5f8e64602ae81688f4ffe65a3-20"&gt;&lt;/a&gt;&lt;span class="p"&gt;};&lt;/span&gt;
+&lt;/pre&gt;&lt;p&gt;and used simply as well:&lt;/p&gt;
+&lt;pre class="code c++"&gt;&lt;a name="rest_code_343564584d2e4f0eb59324ec92d007d7-1"&gt;&lt;/a&gt;&lt;span class="k"&gt;using&lt;/span&gt; &lt;span class="n"&gt;configurable_v1_t&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;configurable_v1&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="mi"&gt;100&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="sc"&gt;'z'&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;type&lt;/span&gt;&lt;span class="o"&gt;::&lt;/span&gt;&lt;span class="n"&gt;CCC&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="nb"&gt;true&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;watcher_2&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;trainer_2&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;/pre&gt;&lt;p&gt;This works well and nothing is wrong with this code. However, if you want all default values but the last one, you have to specify each and every one of the previous template parameters as well. The first disadvantage is that it is verbose and tedious. Secondly, instead of using directly the default values implicitly, you have specified them. This means that if the default values are changed by the library authors or even by you in the configurable_v1 class, either all the usages will be out of sync or you'll have to update them. And again, this is not practical. Moreover, if the author of the configurable_v1 template adds new template parameters before the last, you'll have to update all the instantiation points as well.&lt;/p&gt;
+&lt;p&gt;Moreover, here we only have 6 parameters, if you have more, the problem becomes even worse.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="section" id="the-solution"&gt;
+&lt;h2&gt;The solution&lt;/h2&gt;
+&lt;p&gt;What can we do to improve over these problems ? We are going to use variadic template parameters in the configurable class and use simple classes for each possible parameters. This will be done in the configurable_v2 class. At the end you could use the class as such:&lt;/p&gt;
+&lt;pre class="code c++"&gt;&lt;a name="rest_code_8844cab7b0f94c289353add46a76da9e-1"&gt;&lt;/a&gt;&lt;span class="k"&gt;using&lt;/span&gt; &lt;span class="n"&gt;configurable_v2_t1&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;configurable_v2&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="n"&gt;a&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="mi"&gt;100&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;b&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="sc"&gt;'z'&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;c&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="n"&gt;type&lt;/span&gt;&lt;span class="o"&gt;::&lt;/span&gt;&lt;span class="n"&gt;CCC&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;d&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;e&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="n"&gt;watcher_2&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;f&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="n"&gt;trainer_2&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&amp;gt;&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;a name="rest_code_8844cab7b0f94c289353add46a76da9e-2"&gt;&lt;/a&gt;&lt;span class="k"&gt;using&lt;/span&gt; &lt;span class="n"&gt;configurable_v2_t2&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;configurable_v2&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="n"&gt;f&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="n"&gt;trainer_2&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&amp;gt;&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;/pre&gt;&lt;p&gt;You can note, that on the second line, we only specified the value for the last parameter without specifiyng any other value :) This is also much more flexible since the order of the parameters has absolutely no impact. Here, for the sake of the example, the parameters are badly named, so it is not very clear what this do, but in practice, you can give better names to the parameters and make the types more clear. Here is an example from my dll library:&lt;/p&gt;
+&lt;pre class="code c++"&gt;&lt;a name="rest_code_7cbe5b424bed4cfcbc6dea71b08beccf-1"&gt;&lt;/a&gt;&lt;span class="k"&gt;using&lt;/span&gt; &lt;span class="n"&gt;rbm_t&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;dll&lt;/span&gt;&lt;span class="o"&gt;::&lt;/span&gt;&lt;span class="n"&gt;rbm_desc&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;
+&lt;a name="rest_code_7cbe5b424bed4cfcbc6dea71b08beccf-2"&gt;&lt;/a&gt;    &lt;span class="mi"&gt;28&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt; &lt;span class="mi"&gt;28&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;200&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+&lt;a name="rest_code_7cbe5b424bed4cfcbc6dea71b08beccf-3"&gt;&lt;/a&gt;   &lt;span class="n"&gt;dll&lt;/span&gt;&lt;span class="o"&gt;::&lt;/span&gt;&lt;span class="n"&gt;batch_size&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="mi"&gt;25&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+&lt;a name="rest_code_7cbe5b424bed4cfcbc6dea71b08beccf-4"&gt;&lt;/a&gt;   &lt;span class="n"&gt;dll&lt;/span&gt;&lt;span class="o"&gt;::&lt;/span&gt;&lt;span class="n"&gt;momentum&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+&lt;a name="rest_code_7cbe5b424bed4cfcbc6dea71b08beccf-5"&gt;&lt;/a&gt;   &lt;span class="n"&gt;dll&lt;/span&gt;&lt;span class="o"&gt;::&lt;/span&gt;&lt;span class="n"&gt;weight_decay&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&amp;gt;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+&lt;a name="rest_code_7cbe5b424bed4cfcbc6dea71b08beccf-6"&gt;&lt;/a&gt;   &lt;span class="n"&gt;dll&lt;/span&gt;&lt;span class="o"&gt;::&lt;/span&gt;&lt;span class="n"&gt;visible&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="n"&gt;dll&lt;/span&gt;&lt;span class="o"&gt;::&lt;/span&gt;&lt;span class="n"&gt;unit_type&lt;/span&gt;&lt;span class="o"&gt;::&lt;/span&gt;&lt;span class="n"&gt;GAUSSIAN&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+&lt;a name="rest_code_7cbe5b424bed4cfcbc6dea71b08beccf-7"&gt;&lt;/a&gt;   &lt;span class="n"&gt;dll&lt;/span&gt;&lt;span class="o"&gt;::&lt;/span&gt;&lt;span class="n"&gt;shuffle&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+&lt;a name="rest_code_7cbe5b424bed4cfcbc6dea71b08beccf-8"&gt;&lt;/a&gt;   &lt;span class="n"&gt;dll&lt;/span&gt;&lt;span class="o"&gt;::&lt;/span&gt;&lt;span class="n"&gt;weight_type&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="kt"&gt;float&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt;
+&lt;a name="rest_code_7cbe5b424bed4cfcbc6dea71b08beccf-9"&gt;&lt;/a&gt;&lt;span class="o"&gt;&amp;gt;::&lt;/span&gt;&lt;span class="n"&gt;rbm_t&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;/pre&gt;&lt;p&gt;rbm_desc is class that is configurable with this technique, expect that the first two parameters are mandatory and not named. I personally thinks that this is quite clear, but of course I may be biased ;)&lt;/p&gt;
+&lt;p&gt;So let's code!&lt;/p&gt;
+&lt;p&gt;The class declaration is quite simple:&lt;/p&gt;
+&lt;pre class="code c++"&gt;&lt;a name="rest_code_6504c711ea454b1299fe9741741308a9-1"&gt;&lt;/a&gt;&lt;span class="k"&gt;template&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="k"&gt;typename&lt;/span&gt;&lt;span class="p"&gt;...&lt;/span&gt; &lt;span class="n"&gt;Args&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt;
+&lt;a name="rest_code_6504c711ea454b1299fe9741741308a9-2"&gt;&lt;/a&gt;&lt;span class="k"&gt;struct&lt;/span&gt; &lt;span class="n"&gt;configurable_v2&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+&lt;a name="rest_code_6504c711ea454b1299fe9741741308a9-3"&gt;&lt;/a&gt;    &lt;span class="c1"&gt;//Coming&lt;/span&gt;
+&lt;a name="rest_code_6504c711ea454b1299fe9741741308a9-4"&gt;&lt;/a&gt;&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;/pre&gt;&lt;p&gt;We will now have to exact values and types from Args in order to get the 4 values, the type and the template type out of Args.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="section" id="extracting-integral-values"&gt;
+&lt;h2&gt;Extracting integral values&lt;/h2&gt;
+&lt;p&gt;We will start with the parameter &lt;em&gt;a&lt;/em&gt; that holds a value of type int with a default value of 1. Here is one way of writing it:&lt;/p&gt;
+&lt;pre class="code c++"&gt;&lt;a name="rest_code_58720e5b92cd4472aa8adbff5bff0171-1"&gt;&lt;/a&gt;&lt;span class="k"&gt;struct&lt;/span&gt; &lt;span class="n"&gt;a_id&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;a name="rest_code_58720e5b92cd4472aa8adbff5bff0171-2"&gt;&lt;/a&gt;
+&lt;a name="rest_code_58720e5b92cd4472aa8adbff5bff0171-3"&gt;&lt;/a&gt;&lt;span class="k"&gt;template&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="kt"&gt;int&lt;/span&gt; &lt;span class="n"&gt;value&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt;
+&lt;a name="rest_code_58720e5b92cd4472aa8adbff5bff0171-4"&gt;&lt;/a&gt;&lt;span class="k"&gt;struct&lt;/span&gt; &lt;span class="nl"&gt;a&lt;/span&gt; &lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="n"&gt;std&lt;/span&gt;&lt;span class="o"&gt;::&lt;/span&gt;&lt;span class="n"&gt;integral_constant&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="kt"&gt;int&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;value&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+&lt;a name="rest_code_58720e5b92cd4472aa8adbff5bff0171-5"&gt;&lt;/a&gt;    &lt;span class="k"&gt;using&lt;/span&gt; &lt;span class="n"&gt;type_id&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;a_id&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;a name="rest_code_58720e5b92cd4472aa8adbff5bff0171-6"&gt;&lt;/a&gt;&lt;span class="p"&gt;};&lt;/span&gt;
+&lt;/pre&gt;&lt;p&gt;So, &lt;em&gt;a&lt;/em&gt; is simply an integral constant with another typedef &lt;em&gt;type_id&lt;/em&gt;. Why do we need this id ? Because a is a type template, we cannot use std::is_same to compare it with other types, since its value is part of the type. If we had only int values, we could easily write a traits that indicates if the type is a specialization of a, but since will have several types, this would be a real pain to do and we would need such a traits for each possible type. Here the simple way to go is to add inner identifiers to each types.&lt;/p&gt;
+&lt;p&gt;We can now write a struct to extract the int value for a from &lt;em&gt;Args&lt;/em&gt;. &lt;em&gt;Args&lt;/em&gt; is a list of types in the form parameter_name&amp;lt;parameter_value&amp;gt;... . We have to find a specialization of a inside this list. If such a specialization is present, we'll take its integral constant value as the value for a, otherwise, we'll take the default values. Here is what we want to do:&lt;/p&gt;
+&lt;pre class="code c++"&gt;&lt;a name="rest_code_a273365c4f11453ab5ef28d9641c2ee5-1"&gt;&lt;/a&gt;&lt;span class="k"&gt;template&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="k"&gt;typename&lt;/span&gt;&lt;span class="p"&gt;...&lt;/span&gt; &lt;span class="n"&gt;Args&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt;
+&lt;a name="rest_code_a273365c4f11453ab5ef28d9641c2ee5-2"&gt;&lt;/a&gt;&lt;span class="k"&gt;struct&lt;/span&gt; &lt;span class="n"&gt;configurable_v2&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+&lt;a name="rest_code_a273365c4f11453ab5ef28d9641c2ee5-3"&gt;&lt;/a&gt;    &lt;span class="k"&gt;static&lt;/span&gt; &lt;span class="k"&gt;constexpr&lt;/span&gt; &lt;span class="k"&gt;const&lt;/span&gt; &lt;span class="kt"&gt;int&lt;/span&gt; &lt;span class="n"&gt;A&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;get_value_int&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="n"&gt;a&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;Args&lt;/span&gt;&lt;span class="p"&gt;...&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;::&lt;/span&gt;&lt;span class="n"&gt;value&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;a name="rest_code_a273365c4f11453ab5ef28d9641c2ee5-4"&gt;&lt;/a&gt;
+&lt;a name="rest_code_a273365c4f11453ab5ef28d9641c2ee5-5"&gt;&lt;/a&gt;    &lt;span class="c1"&gt;//Coming&lt;/span&gt;
+&lt;a name="rest_code_a273365c4f11453ab5ef28d9641c2ee5-6"&gt;&lt;/a&gt;&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;/pre&gt;&lt;p&gt;We specify directly into the class the default values (1) for a and we use the class &lt;em&gt;get_value_int&lt;/em&gt; to get its value from the variadic type list. Here is the implementation:&lt;/p&gt;
+&lt;pre class="code c++"&gt;&lt;a name="rest_code_6b85ebe5779f4fba95173bb6134edafa-1"&gt;&lt;/a&gt;&lt;span class="k"&gt;template&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="k"&gt;typename&lt;/span&gt; &lt;span class="n"&gt;D&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="k"&gt;typename&lt;/span&gt;&lt;span class="p"&gt;...&lt;/span&gt; &lt;span class="n"&gt;Args&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt;
+&lt;a name="rest_code_6b85ebe5779f4fba95173bb6134edafa-2"&gt;&lt;/a&gt;&lt;span class="k"&gt;struct&lt;/span&gt; &lt;span class="n"&gt;get_value_int&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;a name="rest_code_6b85ebe5779f4fba95173bb6134edafa-3"&gt;&lt;/a&gt;
+&lt;a name="rest_code_6b85ebe5779f4fba95173bb6134edafa-4"&gt;&lt;/a&gt;&lt;span class="k"&gt;template&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="k"&gt;typename&lt;/span&gt; &lt;span class="n"&gt;D&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt;
+&lt;a name="rest_code_6b85ebe5779f4fba95173bb6134edafa-5"&gt;&lt;/a&gt;&lt;span class="k"&gt;struct&lt;/span&gt; &lt;span class="n"&gt;get_value_int&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="n"&gt;D&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt; &lt;span class="o"&gt;:&lt;/span&gt; &lt;span class="n"&gt;std&lt;/span&gt;&lt;span class="o"&gt;::&lt;/span&gt;&lt;span class="n"&gt;integral_constant&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="kt"&gt;int&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;D&lt;/span&gt;&lt;span class="o"&gt;::&lt;/span&gt;&lt;span class="n"&gt;value&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt; &lt;span class="p"&gt;{};&lt;/span&gt;
+&lt;a name="rest_code_6b85ebe5779f4fba95173bb6134edafa-6"&gt;&lt;/a&gt;
+&lt;a name="rest_code_6b85ebe5779f4fba95173bb6134edafa-7"&gt;&lt;/a&gt;&lt;span class="k"&gt;template&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="k"&gt;typename&lt;/span&gt; &lt;span class="n"&gt;D&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="k"&gt;typename&lt;/span&gt; &lt;span class="n"&gt;T2&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="k"&gt;typename&lt;/span&gt;&lt;span class="p"&gt;...&lt;/span&gt; &lt;span class="n"&gt;Args&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt;
+&lt;a name="rest_code_6b85ebe5779f4fba95173bb6134edafa-8"&gt;&lt;/a&gt;&lt;span class="k"&gt;struct&lt;/span&gt; &lt;span class="n"&gt;get_value_int&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="n"&gt;D&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;T2&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;Args&lt;/span&gt;&lt;span class="p"&gt;...&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+&lt;a name="rest_code_6b85ebe5779f4fba95173bb6134edafa-9"&gt;&lt;/a&gt;    &lt;span class="k"&gt;template&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="k"&gt;typename&lt;/span&gt; &lt;span class="n"&gt;D2&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="k"&gt;typename&lt;/span&gt; &lt;span class="n"&gt;T22&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="k"&gt;typename&lt;/span&gt; &lt;span class="n"&gt;Enable&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="kt"&gt;void&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt;
+&lt;a name="rest_code_6b85ebe5779f4fba95173bb6134edafa-10"&gt;&lt;/a&gt;    &lt;span class="k"&gt;struct&lt;/span&gt; &lt;span class="nl"&gt;impl&lt;/span&gt;
+&lt;a name="rest_code_6b85ebe5779f4fba95173bb6134edafa-11"&gt;&lt;/a&gt;        &lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="n"&gt;std&lt;/span&gt;&lt;span class="o"&gt;::&lt;/span&gt;&lt;span class="n"&gt;integral_constant&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="kt"&gt;int&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;get_value_int&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="n"&gt;D&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;Args&lt;/span&gt;&lt;span class="p"&gt;...&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;::&lt;/span&gt;&lt;span class="n"&gt;value&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt; &lt;span class="p"&gt;{};&lt;/span&gt;
+&lt;a name="rest_code_6b85ebe5779f4fba95173bb6134edafa-12"&gt;&lt;/a&gt;
+&lt;a name="rest_code_6b85ebe5779f4fba95173bb6134edafa-13"&gt;&lt;/a&gt;    &lt;span class="k"&gt;template&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="k"&gt;typename&lt;/span&gt; &lt;span class="n"&gt;D2&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="k"&gt;typename&lt;/span&gt; &lt;span class="n"&gt;T22&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt;
+&lt;a name="rest_code_6b85ebe5779f4fba95173bb6134edafa-14"&gt;&lt;/a&gt;    &lt;span class="k"&gt;struct&lt;/span&gt; &lt;span class="n"&gt;impl&lt;/span&gt; &lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="n"&gt;D2&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;T22&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;std&lt;/span&gt;&lt;span class="o"&gt;::&lt;/span&gt;&lt;span class="n"&gt;enable_if_t&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="n"&gt;std&lt;/span&gt;&lt;span class="o"&gt;::&lt;/span&gt;&lt;span class="n"&gt;is_same&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="k"&gt;typename&lt;/span&gt; &lt;span class="n"&gt;D2&lt;/span&gt;&lt;span class="o"&gt;::&lt;/span&gt;&lt;span class="n"&gt;type_id&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="k"&gt;typename&lt;/span&gt; &lt;span class="n"&gt;T22&lt;/span&gt;&lt;span class="o"&gt;::&lt;/span&gt;&lt;span class="n"&gt;type_id&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;::&lt;/span&gt;&lt;span class="n"&gt;value&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&amp;gt;&lt;/span&gt;
+&lt;a name="rest_code_6b85ebe5779f4fba95173bb6134edafa-15"&gt;&lt;/a&gt;        &lt;span class="o"&gt;:&lt;/span&gt; &lt;span class="n"&gt;std&lt;/span&gt;&lt;span class="o"&gt;::&lt;/span&gt;&lt;span class="n"&gt;integral_constant&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="kt"&gt;int&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;T22&lt;/span&gt;&lt;span class="o"&gt;::&lt;/span&gt;&lt;span class="n"&gt;value&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt; &lt;span class="p"&gt;{};&lt;/span&gt;
+&lt;a name="rest_code_6b85ebe5779f4fba95173bb6134edafa-16"&gt;&lt;/a&gt;
+&lt;a name="rest_code_6b85ebe5779f4fba95173bb6134edafa-17"&gt;&lt;/a&gt;    &lt;span class="k"&gt;static&lt;/span&gt; &lt;span class="k"&gt;constexpr&lt;/span&gt; &lt;span class="k"&gt;const&lt;/span&gt; &lt;span class="kt"&gt;int&lt;/span&gt; &lt;span class="n"&gt;value&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;impl&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="n"&gt;D&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;T2&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;::&lt;/span&gt;&lt;span class="n"&gt;value&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;a name="rest_code_6b85ebe5779f4fba95173bb6134edafa-18"&gt;&lt;/a&gt;&lt;span class="p"&gt;};&lt;/span&gt;
+&lt;/pre&gt;&lt;p&gt;If you are not really familiar with Template Metaprogramming (TMP), this may seems very unfamiliar or even barbaric, but I'll try to explain into details what is going on here :)&lt;/p&gt;
+&lt;p&gt;&lt;em&gt;get_value_int&lt;/em&gt; is a template that takes a type D, representing the parameter we want to extract and its default, and the list of args. It has a first partial specialization for the case when Args is empty. In which case, its value is simply the value inside D (the default value). The second partial specialization handles the case when there are at least one type (T2) inside the list of args. This separation in two partial specialization is the standard way to works with variadic template parameters. This specialization is more complicated than the first one since it uses an inner class to get the value out of the list. The inner class (impl) takes the parameter type (D2), the type that is present in the list (T22) and a special parameter (Enable) that is used for SFINAE. If you're not familiar with SFINAE (you're probably not reading this article...), it is, put simply, a mean to activate or deactivate a template class or function based on its template parameters. Here, the partial specialization of &lt;em&gt;impl&lt;/em&gt; is enabled if &lt;em&gt;T22&lt;/em&gt; and &lt;em&gt;D2&lt;/em&gt; have the same &lt;em&gt;type_id&lt;/em&gt;, in which case, the value of &lt;em&gt;T22&lt;/em&gt; is taken as the return of &lt;em&gt;impl&lt;/em&gt;. In the basic case, template recursion is used to continue iterating over the list of types. The fact that this has to be done into two template classes is because we cannot add a new template parameter to a partial template specialization even without a name. We cannot either add a simple &lt;em&gt;Enable&lt;/em&gt; parameter to get_value_int, we cannot put before Args since then it would be necessary to give it a value in the code that uses it which is not practical neither a good practice.&lt;/p&gt;
+&lt;p&gt;We can now do the same for b that is of type char. Here is the parameter definition for b:&lt;/p&gt;
+&lt;pre class="code c++"&gt;&lt;a name="rest_code_aa777b532d954b4e87e6eb917a92be10-1"&gt;&lt;/a&gt;&lt;span class="k"&gt;struct&lt;/span&gt; &lt;span class="n"&gt;a_id&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;a name="rest_code_aa777b532d954b4e87e6eb917a92be10-2"&gt;&lt;/a&gt;
+&lt;a name="rest_code_aa777b532d954b4e87e6eb917a92be10-3"&gt;&lt;/a&gt;&lt;span class="k"&gt;template&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="kt"&gt;int&lt;/span&gt; &lt;span class="n"&gt;value&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt;
+&lt;a name="rest_code_aa777b532d954b4e87e6eb917a92be10-4"&gt;&lt;/a&gt;&lt;span class="k"&gt;struct&lt;/span&gt; &lt;span class="nl"&gt;a&lt;/span&gt; &lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="n"&gt;std&lt;/span&gt;&lt;span class="o"&gt;::&lt;/span&gt;&lt;span class="n"&gt;integral_constant&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="kt"&gt;int&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;value&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+&lt;a name="rest_code_aa777b532d954b4e87e6eb917a92be10-5"&gt;&lt;/a&gt;    &lt;span class="k"&gt;using&lt;/span&gt; &lt;span class="n"&gt;type_id&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;a_id&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;a name="rest_code_aa777b532d954b4e87e6eb917a92be10-6"&gt;&lt;/a&gt;&lt;span class="p"&gt;};&lt;/span&gt;
+&lt;/pre&gt;&lt;p&gt;This code is highly similar to the code for a, so we can generalize a bit this with a base class:&lt;/p&gt;
+&lt;pre class="code c++"&gt;&lt;a name="rest_code_3f51da93438141dfb2f43518bc2b7ab8-1"&gt;&lt;/a&gt;&lt;span class="k"&gt;struct&lt;/span&gt; &lt;span class="n"&gt;a_id&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;a name="rest_code_3f51da93438141dfb2f43518bc2b7ab8-2"&gt;&lt;/a&gt;&lt;span class="k"&gt;struct&lt;/span&gt; &lt;span class="n"&gt;b_id&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;a name="rest_code_3f51da93438141dfb2f43518bc2b7ab8-3"&gt;&lt;/a&gt;
+&lt;a name="rest_code_3f51da93438141dfb2f43518bc2b7ab8-4"&gt;&lt;/a&gt;&lt;span class="k"&gt;template&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="k"&gt;typename&lt;/span&gt; &lt;span class="n"&gt;ID&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="k"&gt;typename&lt;/span&gt; &lt;span class="n"&gt;T&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;T&lt;/span&gt; &lt;span class="n"&gt;value&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt;
+&lt;a name="rest_code_3f51da93438141dfb2f43518bc2b7ab8-5"&gt;&lt;/a&gt;&lt;span class="k"&gt;struct&lt;/span&gt; &lt;span class="nl"&gt;value_conf_t&lt;/span&gt; &lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="n"&gt;std&lt;/span&gt;&lt;span class="o"&gt;::&lt;/span&gt;&lt;span class="n"&gt;integral_constant&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="n"&gt;T&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;value&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+&lt;a name="rest_code_3f51da93438141dfb2f43518bc2b7ab8-6"&gt;&lt;/a&gt;    &lt;span class="k"&gt;using&lt;/span&gt; &lt;span class="n"&gt;type_id&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;ID&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;a name="rest_code_3f51da93438141dfb2f43518bc2b7ab8-7"&gt;&lt;/a&gt;&lt;span class="p"&gt;};&lt;/span&gt;
+&lt;a name="rest_code_3f51da93438141dfb2f43518bc2b7ab8-8"&gt;&lt;/a&gt;
+&lt;a name="rest_code_3f51da93438141dfb2f43518bc2b7ab8-9"&gt;&lt;/a&gt;&lt;span class="k"&gt;template&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="kt"&gt;int&lt;/span&gt; &lt;span class="n"&gt;value&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt;
+&lt;a name="rest_code_3f51da93438141dfb2f43518bc2b7ab8-10"&gt;&lt;/a&gt;&lt;span class="k"&gt;struct&lt;/span&gt; &lt;span class="nl"&gt;a&lt;/span&gt; &lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="n"&gt;value_conf_t&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="n"&gt;a_id&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="kt"&gt;int&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;value&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt; &lt;span class="p"&gt;{};&lt;/span&gt;
+&lt;a name="rest_code_3f51da93438141dfb2f43518bc2b7ab8-11"&gt;&lt;/a&gt;
+&lt;a name="rest_code_3f51da93438141dfb2f43518bc2b7ab8-12"&gt;&lt;/a&gt;&lt;span class="k"&gt;template&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="kt"&gt;char&lt;/span&gt; &lt;span class="n"&gt;value&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt;
+&lt;a name="rest_code_3f51da93438141dfb2f43518bc2b7ab8-13"&gt;&lt;/a&gt;&lt;span class="k"&gt;struct&lt;/span&gt; &lt;span class="nl"&gt;b&lt;/span&gt; &lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="n"&gt;value_conf_t&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="n"&gt;b_id&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="kt"&gt;char&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;value&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt; &lt;span class="p"&gt;{};&lt;/span&gt;
+&lt;/pre&gt;&lt;p&gt;This make the next  parameters easier to describe and avoids small mistakes.&lt;/p&gt;
+&lt;p&gt;Making &lt;em&gt;get_value_char&lt;/em&gt; could be achieved by replacing each &lt;em&gt;int&lt;/em&gt; by &lt;em&gt;char&lt;/em&gt; but this would create a lot of duplicated code. So instead of writing &lt;em&gt;get_value_char&lt;/em&gt;, we will replace &lt;em&gt;get_value_int&lt;/em&gt; with a generic &lt;em&gt;get_value&lt;/em&gt; that is able to extract any integral value type:&lt;/p&gt;
+&lt;pre class="code c++"&gt;&lt;a name="rest_code_950a9b9d0a79469a8a77665c552ec52b-1"&gt;&lt;/a&gt;&lt;span class="k"&gt;template&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="k"&gt;typename&lt;/span&gt; &lt;span class="n"&gt;D&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="k"&gt;typename&lt;/span&gt;&lt;span class="p"&gt;...&lt;/span&gt; &lt;span class="n"&gt;Args&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt;
+&lt;a name="rest_code_950a9b9d0a79469a8a77665c552ec52b-2"&gt;&lt;/a&gt;&lt;span class="k"&gt;struct&lt;/span&gt; &lt;span class="n"&gt;get_value&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;a name="rest_code_950a9b9d0a79469a8a77665c552ec52b-3"&gt;&lt;/a&gt;
+&lt;a name="rest_code_950a9b9d0a79469a8a77665c552ec52b-4"&gt;&lt;/a&gt;&lt;span class="k"&gt;template&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="k"&gt;typename&lt;/span&gt; &lt;span class="n"&gt;D&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="k"&gt;typename&lt;/span&gt; &lt;span class="n"&gt;T2&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="k"&gt;typename&lt;/span&gt;&lt;span class="p"&gt;...&lt;/span&gt; &lt;span class="n"&gt;Args&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt;
+&lt;a name="rest_code_950a9b9d0a79469a8a77665c552ec52b-5"&gt;&lt;/a&gt;&lt;span class="k"&gt;struct&lt;/span&gt; &lt;span class="n"&gt;get_value&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="n"&gt;D&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;T2&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;Args&lt;/span&gt;&lt;span class="p"&gt;...&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+&lt;a name="rest_code_950a9b9d0a79469a8a77665c552ec52b-6"&gt;&lt;/a&gt;    &lt;span class="k"&gt;template&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="k"&gt;typename&lt;/span&gt; &lt;span class="n"&gt;D2&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="k"&gt;typename&lt;/span&gt; &lt;span class="n"&gt;T22&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="k"&gt;typename&lt;/span&gt; &lt;span class="n"&gt;Enable&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="kt"&gt;void&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt;
+&lt;a name="rest_code_950a9b9d0a79469a8a77665c552ec52b-7"&gt;&lt;/a&gt;    &lt;span class="k"&gt;struct&lt;/span&gt; &lt;span class="nl"&gt;impl&lt;/span&gt;
+&lt;a name="rest_code_950a9b9d0a79469a8a77665c552ec52b-8"&gt;&lt;/a&gt;        &lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="n"&gt;std&lt;/span&gt;&lt;span class="o"&gt;::&lt;/span&gt;&lt;span class="n"&gt;integral_constant&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="k"&gt;decltype&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;D&lt;/span&gt;&lt;span class="o"&gt;::&lt;/span&gt;&lt;span class="n"&gt;value&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt; &lt;span class="n"&gt;get_value&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="n"&gt;D&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;Args&lt;/span&gt;&lt;span class="p"&gt;...&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;::&lt;/span&gt;&lt;span class="n"&gt;value&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt; &lt;span class="p"&gt;{};&lt;/span&gt;
+&lt;a name="rest_code_950a9b9d0a79469a8a77665c552ec52b-9"&gt;&lt;/a&gt;
+&lt;a name="rest_code_950a9b9d0a79469a8a77665c552ec52b-10"&gt;&lt;/a&gt;    &lt;span class="k"&gt;template&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="k"&gt;typename&lt;/span&gt; &lt;span class="n"&gt;D2&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="k"&gt;typename&lt;/span&gt; &lt;span class="n"&gt;T22&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt;
+&lt;a name="rest_code_950a9b9d0a79469a8a77665c552ec52b-11"&gt;&lt;/a&gt;    &lt;span class="k"&gt;struct&lt;/span&gt; &lt;span class="n"&gt;impl&lt;/span&gt; &lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="n"&gt;D2&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;T22&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;std&lt;/span&gt;&lt;span class="o"&gt;::&lt;/span&gt;&lt;span class="n"&gt;enable_if_t&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="n"&gt;std&lt;/span&gt;&lt;span class="o"&gt;::&lt;/span&gt;&lt;span class="n"&gt;is_same&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="k"&gt;typename&lt;/span&gt; &lt;span class="n"&gt;D2&lt;/span&gt;&lt;span class="o"&gt;::&lt;/span&gt;&lt;span class="n"&gt;type_id&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="k"&gt;typename&lt;/span&gt; &lt;span class="n"&gt;T22&lt;/span&gt;&lt;span class="o"&gt;::&lt;/span&gt;&lt;span class="n"&gt;type_id&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;::&lt;/span&gt;&lt;span class="n"&gt;value&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&amp;gt;&lt;/span&gt;
+&lt;a name="rest_code_950a9b9d0a79469a8a77665c552ec52b-12"&gt;&lt;/a&gt;        &lt;span class="o"&gt;:&lt;/span&gt; &lt;span class="n"&gt;std&lt;/span&gt;&lt;span class="o"&gt;::&lt;/span&gt;&lt;span class="n"&gt;integral_constant&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="k"&gt;decltype&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;D&lt;/span&gt;&lt;span class="o"&gt;::&lt;/span&gt;&lt;span class="n"&gt;value&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt; &lt;span class="n"&gt;T22&lt;/span&gt;&lt;span class="o"&gt;::&lt;/span&gt;&lt;span class="n"&gt;value&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt; &lt;span class="p"&gt;{};&lt;/span&gt;
+&lt;a name="rest_code_950a9b9d0a79469a8a77665c552ec52b-13"&gt;&lt;/a&gt;
+&lt;a name="rest_code_950a9b9d0a79469a8a77665c552ec52b-14"&gt;&lt;/a&gt;    &lt;span class="k"&gt;static&lt;/span&gt; &lt;span class="k"&gt;constexpr&lt;/span&gt; &lt;span class="k"&gt;const&lt;/span&gt; &lt;span class="k"&gt;auto&lt;/span&gt; &lt;span class="n"&gt;value&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;impl&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="n"&gt;D&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;T2&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;::&lt;/span&gt;&lt;span class="n"&gt;value&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;a name="rest_code_950a9b9d0a79469a8a77665c552ec52b-15"&gt;&lt;/a&gt;&lt;span class="p"&gt;};&lt;/span&gt;
+&lt;a name="rest_code_950a9b9d0a79469a8a77665c552ec52b-16"&gt;&lt;/a&gt;
+&lt;a name="rest_code_950a9b9d0a79469a8a77665c552ec52b-17"&gt;&lt;/a&gt;&lt;span class="k"&gt;template&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="k"&gt;typename&lt;/span&gt; &lt;span class="n"&gt;D&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt;
+&lt;a name="rest_code_950a9b9d0a79469a8a77665c552ec52b-18"&gt;&lt;/a&gt;&lt;span class="k"&gt;struct&lt;/span&gt; &lt;span class="n"&gt;get_value&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="n"&gt;D&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt; &lt;span class="o"&gt;:&lt;/span&gt; &lt;span class="n"&gt;std&lt;/span&gt;&lt;span class="o"&gt;::&lt;/span&gt;&lt;span class="n"&gt;integral_constant&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="k"&gt;decltype&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;D&lt;/span&gt;&lt;span class="o"&gt;::&lt;/span&gt;&lt;span class="n"&gt;value&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt; &lt;span class="n"&gt;D&lt;/span&gt;&lt;span class="o"&gt;::&lt;/span&gt;&lt;span class="n"&gt;value&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt; &lt;span class="p"&gt;{};&lt;/span&gt;
+&lt;/pre&gt;&lt;p&gt;This code is almost the same as get_value_int except that the return type is deduced from the value of the parameters. I used &lt;em&gt;decltype&lt;/em&gt; and &lt;em&gt;auto&lt;/em&gt; to automatically gets the correct types for the values. This is the only thing that changed.&lt;/p&gt;
+&lt;p&gt;With that we are ready the parameter c as well:&lt;/p&gt;
+&lt;pre class="code c++"&gt;&lt;a name="rest_code_b992aa3901e443da8c516f5e77873262-1"&gt;&lt;/a&gt;&lt;span class="k"&gt;template&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="k"&gt;typename&lt;/span&gt;&lt;span class="p"&gt;...&lt;/span&gt; &lt;span class="n"&gt;Args&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt;
+&lt;a name="rest_code_b992aa3901e443da8c516f5e77873262-2"&gt;&lt;/a&gt;&lt;span class="k"&gt;struct&lt;/span&gt; &lt;span class="n"&gt;configurable_v2&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+&lt;a name="rest_code_b992aa3901e443da8c516f5e77873262-3"&gt;&lt;/a&gt;    &lt;span class="k"&gt;static&lt;/span&gt; &lt;span class="k"&gt;constexpr&lt;/span&gt; &lt;span class="k"&gt;const&lt;/span&gt; &lt;span class="k"&gt;auto&lt;/span&gt; &lt;span class="n"&gt;A&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;get_value&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="n"&gt;a&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;Args&lt;/span&gt;&lt;span class="p"&gt;...&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;::&lt;/span&gt;&lt;span class="n"&gt;value&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;a name="rest_code_b992aa3901e443da8c516f5e77873262-4"&gt;&lt;/a&gt;    &lt;span class="k"&gt;static&lt;/span&gt; &lt;span class="k"&gt;constexpr&lt;/span&gt; &lt;span class="k"&gt;const&lt;/span&gt; &lt;span class="k"&gt;auto&lt;/span&gt; &lt;span class="n"&gt;B&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;get_value&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="n"&gt;b&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="sc"&gt;'b'&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;Args&lt;/span&gt;&lt;span class="p"&gt;...&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;::&lt;/span&gt;&lt;span class="n"&gt;value&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;a name="rest_code_b992aa3901e443da8c516f5e77873262-5"&gt;&lt;/a&gt;    &lt;span class="k"&gt;static&lt;/span&gt; &lt;span class="k"&gt;constexpr&lt;/span&gt; &lt;span class="k"&gt;const&lt;/span&gt; &lt;span class="k"&gt;auto&lt;/span&gt; &lt;span class="n"&gt;C&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;get_value&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="n"&gt;c&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="n"&gt;type&lt;/span&gt;&lt;span class="o"&gt;::&lt;/span&gt;&lt;span class="n"&gt;BBB&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;Args&lt;/span&gt;&lt;span class="p"&gt;...&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;::&lt;/span&gt;&lt;span class="n"&gt;value&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;a name="rest_code_b992aa3901e443da8c516f5e77873262-6"&gt;&lt;/a&gt;
+&lt;a name="rest_code_b992aa3901e443da8c516f5e77873262-7"&gt;&lt;/a&gt;    &lt;span class="c1"&gt;//Coming&lt;/span&gt;
+&lt;a name="rest_code_b992aa3901e443da8c516f5e77873262-8"&gt;&lt;/a&gt;&lt;span class="p"&gt;};&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;div class="section" id="extracting-boolean-flags"&gt;
+&lt;h2&gt;Extracting boolean flags&lt;/h2&gt;
+&lt;p&gt;The parameter d is a bit different since it is a boolean flag that puts directly the value to true. We could simply make a integral boolean value (and this would work), but here I needed a boolean flag for activating a feature deactivated by default.&lt;/p&gt;
+&lt;p&gt;Defining the parameter is easy:&lt;/p&gt;
+&lt;pre class="code c++"&gt;&lt;a name="rest_code_a59b25b983214368a262465d66b29cb0-1"&gt;&lt;/a&gt;&lt;span class="k"&gt;template&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="k"&gt;typename&lt;/span&gt; &lt;span class="n"&gt;ID&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt;
+&lt;a name="rest_code_a59b25b983214368a262465d66b29cb0-2"&gt;&lt;/a&gt;&lt;span class="k"&gt;struct&lt;/span&gt; &lt;span class="n"&gt;basic_conf_t&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+&lt;a name="rest_code_a59b25b983214368a262465d66b29cb0-3"&gt;&lt;/a&gt;    &lt;span class="k"&gt;using&lt;/span&gt; &lt;span class="n"&gt;type_id&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;ID&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;a name="rest_code_a59b25b983214368a262465d66b29cb0-4"&gt;&lt;/a&gt;&lt;span class="p"&gt;};&lt;/span&gt;
+&lt;a name="rest_code_a59b25b983214368a262465d66b29cb0-5"&gt;&lt;/a&gt;
+&lt;a name="rest_code_a59b25b983214368a262465d66b29cb0-6"&gt;&lt;/a&gt;&lt;span class="k"&gt;struct&lt;/span&gt; &lt;span class="n"&gt;d_id&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;a name="rest_code_a59b25b983214368a262465d66b29cb0-7"&gt;&lt;/a&gt;&lt;span class="k"&gt;struct&lt;/span&gt; &lt;span class="nl"&gt;d&lt;/span&gt; &lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="n"&gt;basic_conf_t&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="n"&gt;d_id&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt; &lt;span class="p"&gt;{};&lt;/span&gt;
+&lt;/pre&gt;&lt;p&gt;It is similar to the other parameters, except that it has no value. You'll see later in this article why type_id is necessary here.&lt;/p&gt;
+&lt;p&gt;To check if the flag is present, we'll write the is_present template:&lt;/p&gt;
+&lt;pre class="code c++"&gt;&lt;a name="rest_code_84db5a7813cb4caca57ca4379d6b50ec-1"&gt;&lt;/a&gt;&lt;span class="k"&gt;template&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="k"&gt;typename&lt;/span&gt; &lt;span class="n"&gt;T1&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="k"&gt;typename&lt;/span&gt;&lt;span class="p"&gt;...&lt;/span&gt; &lt;span class="n"&gt;Args&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt;
+&lt;a name="rest_code_84db5a7813cb4caca57ca4379d6b50ec-2"&gt;&lt;/a&gt;&lt;span class="k"&gt;struct&lt;/span&gt; &lt;span class="n"&gt;is_present&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;a name="rest_code_84db5a7813cb4caca57ca4379d6b50ec-3"&gt;&lt;/a&gt;
+&lt;a name="rest_code_84db5a7813cb4caca57ca4379d6b50ec-4"&gt;&lt;/a&gt;&lt;span class="k"&gt;template&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="k"&gt;typename&lt;/span&gt; &lt;span class="n"&gt;T1&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="k"&gt;typename&lt;/span&gt; &lt;span class="n"&gt;T2&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="k"&gt;typename&lt;/span&gt;&lt;span class="p"&gt;...&lt;/span&gt; &lt;span class="n"&gt;Args&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt;
+&lt;a name="rest_code_84db5a7813cb4caca57ca4379d6b50ec-5"&gt;&lt;/a&gt;&lt;span class="k"&gt;struct&lt;/span&gt; &lt;span class="n"&gt;is_present&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="n"&gt;T1&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;T2&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;Args&lt;/span&gt;&lt;span class="p"&gt;...&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt; &lt;span class="o"&gt;:&lt;/span&gt; &lt;span class="n"&gt;std&lt;/span&gt;&lt;span class="o"&gt;::&lt;/span&gt;&lt;span class="n"&gt;integral_constant&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="kt"&gt;bool&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;std&lt;/span&gt;&lt;span class="o"&gt;::&lt;/span&gt;&lt;span class="n"&gt;is_same&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="n"&gt;T1&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;T2&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;::&lt;/span&gt;&lt;span class="n"&gt;value&lt;/span&gt; &lt;span class="o"&gt;||&lt;/span&gt; &lt;span class="n"&gt;is_present&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="n"&gt;T1&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;Args&lt;/span&gt;&lt;span class="p"&gt;...&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;::&lt;/span&gt;&lt;span class="n"&gt;value&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt; &lt;span class="p"&gt;{};&lt;/span&gt;
+&lt;a name="rest_code_84db5a7813cb4caca57ca4379d6b50ec-6"&gt;&lt;/a&gt;
+&lt;a name="rest_code_84db5a7813cb4caca57ca4379d6b50ec-7"&gt;&lt;/a&gt;&lt;span class="k"&gt;template&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="k"&gt;typename&lt;/span&gt; &lt;span class="n"&gt;T1&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt;
+&lt;a name="rest_code_84db5a7813cb4caca57ca4379d6b50ec-8"&gt;&lt;/a&gt;&lt;span class="k"&gt;struct&lt;/span&gt; &lt;span class="n"&gt;is_present&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="n"&gt;T1&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt; &lt;span class="o"&gt;:&lt;/span&gt; &lt;span class="n"&gt;std&lt;/span&gt;&lt;span class="o"&gt;::&lt;/span&gt;&lt;span class="n"&gt;false_type&lt;/span&gt; &lt;span class="p"&gt;{};&lt;/span&gt;
+&lt;/pre&gt;&lt;p&gt;This time, the template is much easier. We simply need to iterate through all the types from the variadic template parameter and test if the type is present somewhere. Again, you can see that we used two partial template specialization to handle the different cases.&lt;/p&gt;
+&lt;p&gt;With this we can now get the value for D:&lt;/p&gt;
+&lt;pre class="code c++"&gt;&lt;a name="rest_code_8d4d84387b9c401d9dc993ca540fa30d-1"&gt;&lt;/a&gt;&lt;span class="k"&gt;template&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="k"&gt;typename&lt;/span&gt;&lt;span class="p"&gt;...&lt;/span&gt; &lt;span class="n"&gt;Args&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt;
+&lt;a name="rest_code_8d4d84387b9c401d9dc993ca540fa30d-2"&gt;&lt;/a&gt;&lt;span class="k"&gt;struct&lt;/span&gt; &lt;span class="n"&gt;configurable_v2&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+&lt;a name="rest_code_8d4d84387b9c401d9dc993ca540fa30d-3"&gt;&lt;/a&gt;    &lt;span class="k"&gt;static&lt;/span&gt; &lt;span class="k"&gt;constexpr&lt;/span&gt; &lt;span class="k"&gt;const&lt;/span&gt; &lt;span class="k"&gt;auto&lt;/span&gt; &lt;span class="n"&gt;A&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;get_value&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="n"&gt;a&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;Args&lt;/span&gt;&lt;span class="p"&gt;...&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;::&lt;/span&gt;&lt;span class="n"&gt;value&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;a name="rest_code_8d4d84387b9c401d9dc993ca540fa30d-4"&gt;&lt;/a&gt;    &lt;span class="k"&gt;static&lt;/span&gt; &lt;span class="k"&gt;constexpr&lt;/span&gt; &lt;span class="k"&gt;const&lt;/span&gt; &lt;span class="k"&gt;auto&lt;/span&gt; &lt;span class="n"&gt;B&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;get_value&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="n"&gt;b&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="sc"&gt;'b'&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;Args&lt;/span&gt;&lt;span class="p"&gt;...&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;::&lt;/span&gt;&lt;span class="n"&gt;value&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;a name="rest_code_8d4d84387b9c401d9dc993ca540fa30d-5"&gt;&lt;/a&gt;    &lt;span class="k"&gt;static&lt;/span&gt; &lt;span class="k"&gt;constexpr&lt;/span&gt; &lt;span class="k"&gt;const&lt;/span&gt; &lt;span class="k"&gt;auto&lt;/span&gt; &lt;span class="n"&gt;C&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;get_value&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="n"&gt;c&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="n"&gt;type&lt;/span&gt;&lt;span class="o"&gt;::&lt;/span&gt;&lt;span class="n"&gt;BBB&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;Args&lt;/span&gt;&lt;span class="p"&gt;...&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;::&lt;/span&gt;&lt;span class="n"&gt;value&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;a name="rest_code_8d4d84387b9c401d9dc993ca540fa30d-6"&gt;&lt;/a&gt;    &lt;span class="k"&gt;static&lt;/span&gt; &lt;span class="k"&gt;constexpr&lt;/span&gt; &lt;span class="k"&gt;const&lt;/span&gt; &lt;span class="k"&gt;auto&lt;/span&gt; &lt;span class="n"&gt;D&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;is_present&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="n"&gt;d&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;Args&lt;/span&gt;&lt;span class="p"&gt;...&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;::&lt;/span&gt;&lt;span class="n"&gt;value&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;a name="rest_code_8d4d84387b9c401d9dc993ca540fa30d-7"&gt;&lt;/a&gt;
+&lt;a name="rest_code_8d4d84387b9c401d9dc993ca540fa30d-8"&gt;&lt;/a&gt;    &lt;span class="c1"&gt;//Coming&lt;/span&gt;
+&lt;a name="rest_code_8d4d84387b9c401d9dc993ca540fa30d-9"&gt;&lt;/a&gt;&lt;span class="p"&gt;};&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;div class="section" id="extracting-types"&gt;
+&lt;h2&gt;Extracting types&lt;/h2&gt;
+&lt;p&gt;The next parameter does not hold a value, but a type. It won't be an integral constant, but it will define a typedef value with the configured type:&lt;/p&gt;
+&lt;pre class="code c++"&gt;&lt;a name="rest_code_5966c8c0298b4db59e6073e3704152b9-1"&gt;&lt;/a&gt;&lt;span class="k"&gt;template&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="k"&gt;typename&lt;/span&gt; &lt;span class="n"&gt;ID&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="k"&gt;typename&lt;/span&gt; &lt;span class="n"&gt;T&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt;
+&lt;a name="rest_code_5966c8c0298b4db59e6073e3704152b9-2"&gt;&lt;/a&gt;&lt;span class="k"&gt;struct&lt;/span&gt; &lt;span class="n"&gt;type_conf_t&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+&lt;a name="rest_code_5966c8c0298b4db59e6073e3704152b9-3"&gt;&lt;/a&gt;    &lt;span class="k"&gt;using&lt;/span&gt; &lt;span class="n"&gt;type_id&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;ID&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;a name="rest_code_5966c8c0298b4db59e6073e3704152b9-4"&gt;&lt;/a&gt;    &lt;span class="k"&gt;using&lt;/span&gt; &lt;span class="n"&gt;value&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;T&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;a name="rest_code_5966c8c0298b4db59e6073e3704152b9-5"&gt;&lt;/a&gt;&lt;span class="p"&gt;};&lt;/span&gt;
+&lt;a name="rest_code_5966c8c0298b4db59e6073e3704152b9-6"&gt;&lt;/a&gt;
+&lt;a name="rest_code_5966c8c0298b4db59e6073e3704152b9-7"&gt;&lt;/a&gt;&lt;span class="k"&gt;template&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="k"&gt;typename&lt;/span&gt; &lt;span class="n"&gt;T&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt;
+&lt;a name="rest_code_5966c8c0298b4db59e6073e3704152b9-8"&gt;&lt;/a&gt;&lt;span class="k"&gt;struct&lt;/span&gt; &lt;span class="nl"&gt;e&lt;/span&gt; &lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="n"&gt;type_conf_t&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="n"&gt;e_id&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;T&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt; &lt;span class="p"&gt;{};&lt;/span&gt;
+&lt;/pre&gt;&lt;p&gt;You may think that the extracting will be very different, but in fact it very similar. And here it is:&lt;/p&gt;
+&lt;pre class="code c++"&gt;&lt;a name="rest_code_3aaadf8e152c4431b8ca49c83bfa5ece-1"&gt;&lt;/a&gt;&lt;span class="k"&gt;template&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="k"&gt;typename&lt;/span&gt; &lt;span class="n"&gt;D&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="k"&gt;typename&lt;/span&gt;&lt;span class="p"&gt;...&lt;/span&gt; &lt;span class="n"&gt;Args&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt;
+&lt;a name="rest_code_3aaadf8e152c4431b8ca49c83bfa5ece-2"&gt;&lt;/a&gt;&lt;span class="k"&gt;struct&lt;/span&gt; &lt;span class="n"&gt;get_type&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;a name="rest_code_3aaadf8e152c4431b8ca49c83bfa5ece-3"&gt;&lt;/a&gt;
+&lt;a name="rest_code_3aaadf8e152c4431b8ca49c83bfa5ece-4"&gt;&lt;/a&gt;&lt;span class="k"&gt;template&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="k"&gt;typename&lt;/span&gt; &lt;span class="n"&gt;D&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="k"&gt;typename&lt;/span&gt; &lt;span class="n"&gt;T2&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="k"&gt;typename&lt;/span&gt;&lt;span class="p"&gt;...&lt;/span&gt; &lt;span class="n"&gt;Args&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt;
+&lt;a name="rest_code_3aaadf8e152c4431b8ca49c83bfa5ece-5"&gt;&lt;/a&gt;&lt;span class="k"&gt;struct&lt;/span&gt; &lt;span class="n"&gt;get_type&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="n"&gt;D&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;T2&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;Args&lt;/span&gt;&lt;span class="p"&gt;...&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+&lt;a name="rest_code_3aaadf8e152c4431b8ca49c83bfa5ece-6"&gt;&lt;/a&gt;    &lt;span class="k"&gt;template&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="k"&gt;typename&lt;/span&gt; &lt;span class="n"&gt;D2&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="k"&gt;typename&lt;/span&gt; &lt;span class="n"&gt;T22&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="k"&gt;typename&lt;/span&gt; &lt;span class="n"&gt;Enable&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="kt"&gt;void&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt;
+&lt;a name="rest_code_3aaadf8e152c4431b8ca49c83bfa5ece-7"&gt;&lt;/a&gt;    &lt;span class="k"&gt;struct&lt;/span&gt; &lt;span class="n"&gt;impl&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+&lt;a name="rest_code_3aaadf8e152c4431b8ca49c83bfa5ece-8"&gt;&lt;/a&gt;        &lt;span class="k"&gt;using&lt;/span&gt; &lt;span class="n"&gt;value&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="k"&gt;typename&lt;/span&gt; &lt;span class="n"&gt;get_type&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="n"&gt;D&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;Args&lt;/span&gt;&lt;span class="p"&gt;...&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;::&lt;/span&gt;&lt;span class="n"&gt;value&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;a name="rest_code_3aaadf8e152c4431b8ca49c83bfa5ece-9"&gt;&lt;/a&gt;    &lt;span class="p"&gt;};&lt;/span&gt;
+&lt;a name="rest_code_3aaadf8e152c4431b8ca49c83bfa5ece-10"&gt;&lt;/a&gt;
+&lt;a name="rest_code_3aaadf8e152c4431b8ca49c83bfa5ece-11"&gt;&lt;/a&gt;    &lt;span class="k"&gt;template&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="k"&gt;typename&lt;/span&gt; &lt;span class="n"&gt;D2&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="k"&gt;typename&lt;/span&gt; &lt;span class="n"&gt;T22&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt;
+&lt;a name="rest_code_3aaadf8e152c4431b8ca49c83bfa5ece-12"&gt;&lt;/a&gt;    &lt;span class="k"&gt;struct&lt;/span&gt; &lt;span class="n"&gt;impl&lt;/span&gt; &lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="n"&gt;D2&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;T22&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;std&lt;/span&gt;&lt;span class="o"&gt;::&lt;/span&gt;&lt;span class="n"&gt;enable_if_t&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="n"&gt;std&lt;/span&gt;&lt;span class="o"&gt;::&lt;/span&gt;&lt;span class="n"&gt;is_same&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="k"&gt;typename&lt;/span&gt; &lt;span class="n"&gt;D2&lt;/span&gt;&lt;span class="o"&gt;::&lt;/span&gt;&lt;span class="n"&gt;type_id&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="k"&gt;typename&lt;/span&gt; &lt;span class="n"&gt;T22&lt;/span&gt;&lt;span class="o"&gt;::&lt;/span&gt;&lt;span class="n"&gt;type_id&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;::&lt;/span&gt;&lt;span class="n"&gt;value&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&amp;gt;&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+&lt;a name="rest_code_3aaadf8e152c4431b8ca49c83bfa5ece-13"&gt;&lt;/a&gt;        &lt;span class="k"&gt;using&lt;/span&gt; &lt;span class="n"&gt;value&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="k"&gt;typename&lt;/span&gt; &lt;span class="n"&gt;T22&lt;/span&gt;&lt;span class="o"&gt;::&lt;/span&gt;&lt;span class="n"&gt;value&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;a name="rest_code_3aaadf8e152c4431b8ca49c83bfa5ece-14"&gt;&lt;/a&gt;    &lt;span class="p"&gt;};&lt;/span&gt;
+&lt;a name="rest_code_3aaadf8e152c4431b8ca49c83bfa5ece-15"&gt;&lt;/a&gt;
+&lt;a name="rest_code_3aaadf8e152c4431b8ca49c83bfa5ece-16"&gt;&lt;/a&gt;    &lt;span class="k"&gt;using&lt;/span&gt; &lt;span class="n"&gt;value&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="k"&gt;typename&lt;/span&gt; &lt;span class="n"&gt;impl&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="n"&gt;D&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;T2&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;::&lt;/span&gt;&lt;span class="n"&gt;value&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;a name="rest_code_3aaadf8e152c4431b8ca49c83bfa5ece-17"&gt;&lt;/a&gt;&lt;span class="p"&gt;};&lt;/span&gt;
+&lt;a name="rest_code_3aaadf8e152c4431b8ca49c83bfa5ece-18"&gt;&lt;/a&gt;
+&lt;a name="rest_code_3aaadf8e152c4431b8ca49c83bfa5ece-19"&gt;&lt;/a&gt;&lt;span class="k"&gt;template&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="k"&gt;typename&lt;/span&gt; &lt;span class="n"&gt;D&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt;
+&lt;a name="rest_code_3aaadf8e152c4431b8ca49c83bfa5ece-20"&gt;&lt;/a&gt;&lt;span class="k"&gt;struct&lt;/span&gt; &lt;span class="n"&gt;get_type&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="n"&gt;D&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+&lt;a name="rest_code_3aaadf8e152c4431b8ca49c83bfa5ece-21"&gt;&lt;/a&gt;    &lt;span class="k"&gt;using&lt;/span&gt; &lt;span class="n"&gt;value&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="k"&gt;typename&lt;/span&gt; &lt;span class="n"&gt;D&lt;/span&gt;&lt;span class="o"&gt;::&lt;/span&gt;&lt;span class="n"&gt;value&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;a name="rest_code_3aaadf8e152c4431b8ca49c83bfa5ece-22"&gt;&lt;/a&gt;&lt;span class="p"&gt;};&lt;/span&gt;
+&lt;/pre&gt;&lt;p&gt;Every integral constant has been replaced with alias declaration (with &lt;em&gt;using&lt;/em&gt;) and we need to use the &lt;em&gt;typename&lt;/em&gt; disambiguator in from of X::value, but that's it :) We could probably have created an integral_type struct to simplify it a bit further, but I don't think that would change a lot. The code of the class follows the same changes:&lt;/p&gt;
+&lt;pre class="code c++"&gt;&lt;a name="rest_code_0be239de2ec7484f83b5a6039ea2f417-1"&gt;&lt;/a&gt;&lt;span class="k"&gt;template&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="k"&gt;typename&lt;/span&gt;&lt;span class="p"&gt;...&lt;/span&gt; &lt;span class="n"&gt;Args&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt;
+&lt;a name="rest_code_0be239de2ec7484f83b5a6039ea2f417-2"&gt;&lt;/a&gt;&lt;span class="k"&gt;struct&lt;/span&gt; &lt;span class="n"&gt;configurable_v2&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+&lt;a name="rest_code_0be239de2ec7484f83b5a6039ea2f417-3"&gt;&lt;/a&gt;    &lt;span class="k"&gt;static&lt;/span&gt; &lt;span class="k"&gt;constexpr&lt;/span&gt; &lt;span class="k"&gt;const&lt;/span&gt; &lt;span class="k"&gt;auto&lt;/span&gt; &lt;span class="n"&gt;A&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;get_value&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="n"&gt;a&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;Args&lt;/span&gt;&lt;span class="p"&gt;...&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;::&lt;/span&gt;&lt;span class="n"&gt;value&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;a name="rest_code_0be239de2ec7484f83b5a6039ea2f417-4"&gt;&lt;/a&gt;    &lt;span class="k"&gt;static&lt;/span&gt; &lt;span class="k"&gt;constexpr&lt;/span&gt; &lt;span class="k"&gt;const&lt;/span&gt; &lt;span class="k"&gt;auto&lt;/span&gt; &lt;span class="n"&gt;B&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;get_value&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="n"&gt;b&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="sc"&gt;'b'&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;Args&lt;/span&gt;&lt;span class="p"&gt;...&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;::&lt;/span&gt;&lt;span class="n"&gt;value&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;a name="rest_code_0be239de2ec7484f83b5a6039ea2f417-5"&gt;&lt;/a&gt;    &lt;span class="k"&gt;static&lt;/span&gt; &lt;span class="k"&gt;constexpr&lt;/span&gt; &lt;span class="k"&gt;const&lt;/span&gt; &lt;span class="k"&gt;auto&lt;/span&gt; &lt;span class="n"&gt;C&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;get_value&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="n"&gt;c&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="n"&gt;type&lt;/span&gt;&lt;span class="o"&gt;::&lt;/span&gt;&lt;span class="n"&gt;BBB&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;Args&lt;/span&gt;&lt;span class="p"&gt;...&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;::&lt;/span&gt;&lt;span class="n"&gt;value&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;a name="rest_code_0be239de2ec7484f83b5a6039ea2f417-6"&gt;&lt;/a&gt;    &lt;span class="k"&gt;static&lt;/span&gt; &lt;span class="k"&gt;constexpr&lt;/span&gt; &lt;span class="k"&gt;const&lt;/span&gt; &lt;span class="k"&gt;auto&lt;/span&gt; &lt;span class="n"&gt;D&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;is_present&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="n"&gt;d&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;Args&lt;/span&gt;&lt;span class="p"&gt;...&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;::&lt;/span&gt;&lt;span class="n"&gt;value&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;a name="rest_code_0be239de2ec7484f83b5a6039ea2f417-7"&gt;&lt;/a&gt;
+&lt;a name="rest_code_0be239de2ec7484f83b5a6039ea2f417-8"&gt;&lt;/a&gt;    &lt;span class="k"&gt;using&lt;/span&gt; &lt;span class="n"&gt;E&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="k"&gt;typename&lt;/span&gt; &lt;span class="n"&gt;get_type&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="n"&gt;e&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="n"&gt;watcher_1&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;Args&lt;/span&gt;&lt;span class="p"&gt;...&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;::&lt;/span&gt;&lt;span class="n"&gt;value&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;a name="rest_code_0be239de2ec7484f83b5a6039ea2f417-9"&gt;&lt;/a&gt;
+&lt;a name="rest_code_0be239de2ec7484f83b5a6039ea2f417-10"&gt;&lt;/a&gt;    &lt;span class="c1"&gt;//Coming&lt;/span&gt;
+&lt;a name="rest_code_0be239de2ec7484f83b5a6039ea2f417-11"&gt;&lt;/a&gt;&lt;span class="p"&gt;};&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;div class="section" id="extracting-template-types"&gt;
+&lt;h2&gt;Extracting template types&lt;/h2&gt;
+&lt;p&gt;The last parameter is not a type but a template, so there are some slight changes necessary to extract them. First, let's take a look at the parameter definition:&lt;/p&gt;
+&lt;pre class="code c++"&gt;&lt;a name="rest_code_185f003333dc4d6399e31ca0a02113f9-1"&gt;&lt;/a&gt;&lt;span class="k"&gt;template&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="k"&gt;typename&lt;/span&gt; &lt;span class="n"&gt;ID&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="k"&gt;template&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="k"&gt;typename&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt; &lt;span class="k"&gt;class&lt;/span&gt; &lt;span class="nc"&gt;T&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt;
+&lt;a name="rest_code_185f003333dc4d6399e31ca0a02113f9-2"&gt;&lt;/a&gt;&lt;span class="k"&gt;struct&lt;/span&gt; &lt;span class="n"&gt;template_type_conf_t&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+&lt;a name="rest_code_185f003333dc4d6399e31ca0a02113f9-3"&gt;&lt;/a&gt;    &lt;span class="k"&gt;using&lt;/span&gt; &lt;span class="n"&gt;type_id&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;ID&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;a name="rest_code_185f003333dc4d6399e31ca0a02113f9-4"&gt;&lt;/a&gt;
+&lt;a name="rest_code_185f003333dc4d6399e31ca0a02113f9-5"&gt;&lt;/a&gt;    &lt;span class="k"&gt;template&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="k"&gt;typename&lt;/span&gt; &lt;span class="n"&gt;C&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt;
+&lt;a name="rest_code_185f003333dc4d6399e31ca0a02113f9-6"&gt;&lt;/a&gt;    &lt;span class="k"&gt;using&lt;/span&gt; &lt;span class="n"&gt;value&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;T&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="n"&gt;C&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;a name="rest_code_185f003333dc4d6399e31ca0a02113f9-7"&gt;&lt;/a&gt;&lt;span class="p"&gt;};&lt;/span&gt;
+&lt;a name="rest_code_185f003333dc4d6399e31ca0a02113f9-8"&gt;&lt;/a&gt;
+&lt;a name="rest_code_185f003333dc4d6399e31ca0a02113f9-9"&gt;&lt;/a&gt;&lt;span class="k"&gt;template&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="k"&gt;template&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="k"&gt;typename&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt; &lt;span class="k"&gt;class&lt;/span&gt; &lt;span class="nc"&gt;T&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt;
+&lt;a name="rest_code_185f003333dc4d6399e31ca0a02113f9-10"&gt;&lt;/a&gt;&lt;span class="k"&gt;struct&lt;/span&gt; &lt;span class="nl"&gt;f&lt;/span&gt; &lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="n"&gt;template_type_conf_t&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="n"&gt;f_id&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;T&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt; &lt;span class="p"&gt;{};&lt;/span&gt;
+&lt;/pre&gt;&lt;p&gt;Here instead of taking a simple type, we take a type template with one template parameter. This design has a great limitations. It won't be possible to use it for template that takes more than one template parameter. You have to create an extract template for each possible combination that you want to handle. In my case, I only had the case of a template with one template parameter, but if you have several combination, you'll have to write more code. It is quite simple code, since the adaptations are minor, but it is still tedious. Here is the &lt;em&gt;get_template_type&lt;/em&gt; template:&lt;/p&gt;
+&lt;pre class="code c++"&gt;&lt;a name="rest_code_038f8435ee2144909a1f01d220bf078c-1"&gt;&lt;/a&gt;&lt;span class="k"&gt;template&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="k"&gt;typename&lt;/span&gt; &lt;span class="n"&gt;D&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="k"&gt;typename&lt;/span&gt;&lt;span class="p"&gt;...&lt;/span&gt; &lt;span class="n"&gt;Args&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt;
+&lt;a name="rest_code_038f8435ee2144909a1f01d220bf078c-2"&gt;&lt;/a&gt;&lt;span class="k"&gt;struct&lt;/span&gt; &lt;span class="n"&gt;get_template_type&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;a name="rest_code_038f8435ee2144909a1f01d220bf078c-3"&gt;&lt;/a&gt;
+&lt;a name="rest_code_038f8435ee2144909a1f01d220bf078c-4"&gt;&lt;/a&gt;&lt;span class="k"&gt;template&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="k"&gt;typename&lt;/span&gt; &lt;span class="n"&gt;D&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="k"&gt;typename&lt;/span&gt; &lt;span class="n"&gt;T2&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="k"&gt;typename&lt;/span&gt;&lt;span class="p"&gt;...&lt;/span&gt; &lt;span class="n"&gt;Args&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt;
+&lt;a name="rest_code_038f8435ee2144909a1f01d220bf078c-5"&gt;&lt;/a&gt;&lt;span class="k"&gt;struct&lt;/span&gt; &lt;span class="n"&gt;get_template_type&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="n"&gt;D&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;T2&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;Args&lt;/span&gt;&lt;span class="p"&gt;...&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+&lt;a name="rest_code_038f8435ee2144909a1f01d220bf078c-6"&gt;&lt;/a&gt;    &lt;span class="k"&gt;template&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="k"&gt;typename&lt;/span&gt; &lt;span class="n"&gt;D2&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="k"&gt;typename&lt;/span&gt; &lt;span class="n"&gt;T22&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="k"&gt;typename&lt;/span&gt; &lt;span class="n"&gt;Enable&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="kt"&gt;void&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt;
+&lt;a name="rest_code_038f8435ee2144909a1f01d220bf078c-7"&gt;&lt;/a&gt;    &lt;span class="k"&gt;struct&lt;/span&gt; &lt;span class="n"&gt;impl&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+&lt;a name="rest_code_038f8435ee2144909a1f01d220bf078c-8"&gt;&lt;/a&gt;        &lt;span class="k"&gt;template&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="k"&gt;typename&lt;/span&gt; &lt;span class="n"&gt;C&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt;
+&lt;a name="rest_code_038f8435ee2144909a1f01d220bf078c-9"&gt;&lt;/a&gt;        &lt;span class="k"&gt;using&lt;/span&gt; &lt;span class="n"&gt;value&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="k"&gt;typename&lt;/span&gt; &lt;span class="n"&gt;get_template_type&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="n"&gt;D&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;Args&lt;/span&gt;&lt;span class="p"&gt;...&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;::&lt;/span&gt;&lt;span class="k"&gt;template&lt;/span&gt; &lt;span class="n"&gt;value&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="n"&gt;C&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;a name="rest_code_038f8435ee2144909a1f01d220bf078c-10"&gt;&lt;/a&gt;    &lt;span class="p"&gt;};&lt;/span&gt;
+&lt;a name="rest_code_038f8435ee2144909a1f01d220bf078c-11"&gt;&lt;/a&gt;
+&lt;a name="rest_code_038f8435ee2144909a1f01d220bf078c-12"&gt;&lt;/a&gt;    &lt;span class="k"&gt;template&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="k"&gt;typename&lt;/span&gt; &lt;span class="n"&gt;D2&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="k"&gt;typename&lt;/span&gt; &lt;span class="n"&gt;T22&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt;
+&lt;a name="rest_code_038f8435ee2144909a1f01d220bf078c-13"&gt;&lt;/a&gt;    &lt;span class="k"&gt;struct&lt;/span&gt; &lt;span class="n"&gt;impl&lt;/span&gt; &lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="n"&gt;D2&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;T22&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;std&lt;/span&gt;&lt;span class="o"&gt;::&lt;/span&gt;&lt;span class="n"&gt;enable_if_t&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="n"&gt;std&lt;/span&gt;&lt;span class="o"&gt;::&lt;/span&gt;&lt;span class="n"&gt;is_same&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="k"&gt;typename&lt;/span&gt; &lt;span class="n"&gt;D2&lt;/span&gt;&lt;span class="o"&gt;::&lt;/span&gt;&lt;span class="n"&gt;type_id&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="k"&gt;typename&lt;/span&gt; &lt;span class="n"&gt;T22&lt;/span&gt;&lt;span class="o"&gt;::&lt;/span&gt;&lt;span class="n"&gt;type_id&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;::&lt;/span&gt;&lt;span class="n"&gt;value&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&amp;gt;&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+&lt;a name="rest_code_038f8435ee2144909a1f01d220bf078c-14"&gt;&lt;/a&gt;        &lt;span class="k"&gt;template&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="k"&gt;typename&lt;/span&gt; &lt;span class="n"&gt;C&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt;
+&lt;a name="rest_code_038f8435ee2144909a1f01d220bf078c-15"&gt;&lt;/a&gt;        &lt;span class="k"&gt;using&lt;/span&gt; &lt;span class="n"&gt;value&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="k"&gt;typename&lt;/span&gt; &lt;span class="n"&gt;T22&lt;/span&gt;&lt;span class="o"&gt;::&lt;/span&gt;&lt;span class="k"&gt;template&lt;/span&gt; &lt;span class="n"&gt;value&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="n"&gt;C&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;a name="rest_code_038f8435ee2144909a1f01d220bf078c-16"&gt;&lt;/a&gt;    &lt;span class="p"&gt;};&lt;/span&gt;
+&lt;a name="rest_code_038f8435ee2144909a1f01d220bf078c-17"&gt;&lt;/a&gt;
+&lt;a name="rest_code_038f8435ee2144909a1f01d220bf078c-18"&gt;&lt;/a&gt;    &lt;span class="k"&gt;template&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="k"&gt;typename&lt;/span&gt; &lt;span class="n"&gt;C&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt;
+&lt;a name="rest_code_038f8435ee2144909a1f01d220bf078c-19"&gt;&lt;/a&gt;    &lt;span class="k"&gt;using&lt;/span&gt; &lt;span class="n"&gt;value&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="k"&gt;typename&lt;/span&gt; &lt;span class="n"&gt;impl&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="n"&gt;D&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;T2&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;::&lt;/span&gt;&lt;span class="k"&gt;template&lt;/span&gt; &lt;span class="n"&gt;value&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="n"&gt;C&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;a name="rest_code_038f8435ee2144909a1f01d220bf078c-20"&gt;&lt;/a&gt;&lt;span class="p"&gt;};&lt;/span&gt;
+&lt;a name="rest_code_038f8435ee2144909a1f01d220bf078c-21"&gt;&lt;/a&gt;
+&lt;a name="rest_code_038f8435ee2144909a1f01d220bf078c-22"&gt;&lt;/a&gt;&lt;span class="k"&gt;template&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="k"&gt;typename&lt;/span&gt; &lt;span class="n"&gt;D&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt;
+&lt;a name="rest_code_038f8435ee2144909a1f01d220bf078c-23"&gt;&lt;/a&gt;&lt;span class="k"&gt;struct&lt;/span&gt; &lt;span class="n"&gt;get_template_type&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="n"&gt;D&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+&lt;a name="rest_code_038f8435ee2144909a1f01d220bf078c-24"&gt;&lt;/a&gt;    &lt;span class="k"&gt;template&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="k"&gt;typename&lt;/span&gt; &lt;span class="n"&gt;C&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt;
+&lt;a name="rest_code_038f8435ee2144909a1f01d220bf078c-25"&gt;&lt;/a&gt;    &lt;span class="k"&gt;using&lt;/span&gt; &lt;span class="n"&gt;value&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="k"&gt;typename&lt;/span&gt; &lt;span class="n"&gt;D&lt;/span&gt;&lt;span class="o"&gt;::&lt;/span&gt;&lt;span class="k"&gt;template&lt;/span&gt; &lt;span class="n"&gt;value&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="n"&gt;C&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;a name="rest_code_038f8435ee2144909a1f01d220bf078c-26"&gt;&lt;/a&gt;&lt;span class="p"&gt;};&lt;/span&gt;
+&lt;/pre&gt;&lt;p&gt;Again, there are only few changes. Every previous alias declaration is now a template alias declaration and we have to use &lt;em&gt;template&lt;/em&gt; disambiguator in front of value. We now have the final piece to write the configurable_v2 class:&lt;/p&gt;
+&lt;pre class="code c++"&gt;&lt;a name="rest_code_8fa59607b643427daefdfe9cec1b33fc-1"&gt;&lt;/a&gt;&lt;span class="k"&gt;template&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="k"&gt;typename&lt;/span&gt;&lt;span class="p"&gt;...&lt;/span&gt; &lt;span class="n"&gt;Args&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt;
+&lt;a name="rest_code_8fa59607b643427daefdfe9cec1b33fc-2"&gt;&lt;/a&gt;&lt;span class="k"&gt;struct&lt;/span&gt; &lt;span class="n"&gt;configurable_v2&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+&lt;a name="rest_code_8fa59607b643427daefdfe9cec1b33fc-3"&gt;&lt;/a&gt;    &lt;span class="k"&gt;static&lt;/span&gt; &lt;span class="k"&gt;constexpr&lt;/span&gt; &lt;span class="k"&gt;const&lt;/span&gt; &lt;span class="k"&gt;auto&lt;/span&gt; &lt;span class="n"&gt;A&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;get_value&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="n"&gt;a&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;Args&lt;/span&gt;&lt;span class="p"&gt;...&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;::&lt;/span&gt;&lt;span class="n"&gt;value&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;a name="rest_code_8fa59607b643427daefdfe9cec1b33fc-4"&gt;&lt;/a&gt;    &lt;span class="k"&gt;static&lt;/span&gt; &lt;span class="k"&gt;constexpr&lt;/span&gt; &lt;span class="k"&gt;const&lt;/span&gt; &lt;span class="k"&gt;auto&lt;/span&gt; &lt;span class="n"&gt;B&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;get_value&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="n"&gt;b&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="sc"&gt;'b'&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;Args&lt;/span&gt;&lt;span class="p"&gt;...&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;::&lt;/span&gt;&lt;span class="n"&gt;value&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;a name="rest_code_8fa59607b643427daefdfe9cec1b33fc-5"&gt;&lt;/a&gt;    &lt;span class="k"&gt;static&lt;/span&gt; &lt;span class="k"&gt;constexpr&lt;/span&gt; &lt;span class="k"&gt;const&lt;/span&gt; &lt;span class="k"&gt;auto&lt;/span&gt; &lt;span class="n"&gt;C&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;get_value&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="n"&gt;c&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="n"&gt;type&lt;/span&gt;&lt;span class="o"&gt;::&lt;/span&gt;&lt;span class="n"&gt;BBB&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;Args&lt;/span&gt;&lt;span class="p"&gt;...&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;::&lt;/span&gt;&lt;span class="n"&gt;value&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;a name="rest_code_8fa59607b643427daefdfe9cec1b33fc-6"&gt;&lt;/a&gt;    &lt;span class="k"&gt;static&lt;/span&gt; &lt;span class="k"&gt;constexpr&lt;/span&gt; &lt;span class="k"&gt;const&lt;/span&gt; &lt;span class="k"&gt;auto&lt;/span&gt; &lt;span class="n"&gt;D&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;is_present&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="n"&gt;d&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;Args&lt;/span&gt;&lt;span class="p"&gt;...&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;::&lt;/span&gt;&lt;span class="n"&gt;value&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;a name="rest_code_8fa59607b643427daefdfe9cec1b33fc-7"&gt;&lt;/a&gt;
+&lt;a name="rest_code_8fa59607b643427daefdfe9cec1b33fc-8"&gt;&lt;/a&gt;    &lt;span class="k"&gt;using&lt;/span&gt; &lt;span class="n"&gt;E&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="k"&gt;typename&lt;/span&gt; &lt;span class="n"&gt;get_type&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="n"&gt;e&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="n"&gt;watcher_1&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;Args&lt;/span&gt;&lt;span class="p"&gt;...&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;::&lt;/span&gt;&lt;span class="n"&gt;value&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;a name="rest_code_8fa59607b643427daefdfe9cec1b33fc-9"&gt;&lt;/a&gt;
+&lt;a name="rest_code_8fa59607b643427daefdfe9cec1b33fc-10"&gt;&lt;/a&gt;    &lt;span class="k"&gt;template&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="k"&gt;typename&lt;/span&gt; &lt;span class="n"&gt;C&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt;
+&lt;a name="rest_code_8fa59607b643427daefdfe9cec1b33fc-11"&gt;&lt;/a&gt;    &lt;span class="k"&gt;using&lt;/span&gt; &lt;span class="n"&gt;F&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="k"&gt;typename&lt;/span&gt; &lt;span class="n"&gt;get_template_type&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="n"&gt;f&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="n"&gt;trainer_1&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;Args&lt;/span&gt;&lt;span class="p"&gt;...&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;::&lt;/span&gt;&lt;span class="k"&gt;template&lt;/span&gt; &lt;span class="n"&gt;value&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="n"&gt;C&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;a name="rest_code_8fa59607b643427daefdfe9cec1b33fc-12"&gt;&lt;/a&gt;&lt;span class="p"&gt;};&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;div class="section" id="validating-parameter-rules"&gt;
+&lt;h2&gt;Validating parameter rules&lt;/h2&gt;
+&lt;p&gt;If you have more parameters and several classes that are configured in this manner, the user may use a wrong parameter in the list. In that case, nothing will happen, the parameter will simply be ignored. Sometimes, this behavior is acceptable, but sometimes it is better to make the code invalid. That's what we are going to do here by specifying a list of valid parameters and using static_assert to ensure this condition.&lt;/p&gt;
+&lt;p&gt;Here is the assertion:&lt;/p&gt;
+&lt;pre class="code c++"&gt;&lt;a name="rest_code_cde4a2cbfa4a40a28a75f8527390b4bc-1"&gt;&lt;/a&gt;&lt;span class="k"&gt;template&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="k"&gt;typename&lt;/span&gt;&lt;span class="p"&gt;...&lt;/span&gt; &lt;span class="n"&gt;Args&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt;
+&lt;a name="rest_code_cde4a2cbfa4a40a28a75f8527390b4bc-2"&gt;&lt;/a&gt;&lt;span class="k"&gt;struct&lt;/span&gt; &lt;span class="n"&gt;configurable_v2&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+&lt;a name="rest_code_cde4a2cbfa4a40a28a75f8527390b4bc-3"&gt;&lt;/a&gt;    &lt;span class="k"&gt;static&lt;/span&gt; &lt;span class="k"&gt;constexpr&lt;/span&gt; &lt;span class="k"&gt;const&lt;/span&gt; &lt;span class="k"&gt;auto&lt;/span&gt; &lt;span class="n"&gt;A&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;get_value&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="n"&gt;a&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;Args&lt;/span&gt;&lt;span class="p"&gt;...&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;::&lt;/span&gt;&lt;span class="n"&gt;value&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;a name="rest_code_cde4a2cbfa4a40a28a75f8527390b4bc-4"&gt;&lt;/a&gt;    &lt;span class="k"&gt;static&lt;/span&gt; &lt;span class="k"&gt;constexpr&lt;/span&gt; &lt;span class="k"&gt;const&lt;/span&gt; &lt;span class="k"&gt;auto&lt;/span&gt; &lt;span class="n"&gt;B&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;get_value&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="n"&gt;b&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="sc"&gt;'b'&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;Args&lt;/span&gt;&lt;span class="p"&gt;...&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;::&lt;/span&gt;&lt;span class="n"&gt;value&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;a name="rest_code_cde4a2cbfa4a40a28a75f8527390b4bc-5"&gt;&lt;/a&gt;    &lt;span class="k"&gt;static&lt;/span&gt; &lt;span class="k"&gt;constexpr&lt;/span&gt; &lt;span class="k"&gt;const&lt;/span&gt; &lt;span class="k"&gt;auto&lt;/span&gt; &lt;span class="n"&gt;C&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;get_value&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="n"&gt;c&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="n"&gt;type&lt;/span&gt;&lt;span class="o"&gt;::&lt;/span&gt;&lt;span class="n"&gt;BBB&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;Args&lt;/span&gt;&lt;span class="p"&gt;...&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;::&lt;/span&gt;&lt;span class="n"&gt;value&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;a name="rest_code_cde4a2cbfa4a40a28a75f8527390b4bc-6"&gt;&lt;/a&gt;    &lt;span class="k"&gt;static&lt;/span&gt; &lt;span class="k"&gt;constexpr&lt;/span&gt; &lt;span class="k"&gt;const&lt;/span&gt; &lt;span class="k"&gt;auto&lt;/span&gt; &lt;span class="n"&gt;D&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;is_present&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="n"&gt;d&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;Args&lt;/span&gt;&lt;span class="p"&gt;...&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;::&lt;/span&gt;&lt;span class="n"&gt;value&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;a name="rest_code_cde4a2cbfa4a40a28a75f8527390b4bc-7"&gt;&lt;/a&gt;
+&lt;a name="rest_code_cde4a2cbfa4a40a28a75f8527390b4bc-8"&gt;&lt;/a&gt;    &lt;span class="k"&gt;using&lt;/span&gt; &lt;span class="n"&gt;E&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="k"&gt;typename&lt;/span&gt; &lt;span class="n"&gt;get_type&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="n"&gt;e&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="n"&gt;watcher_1&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;Args&lt;/span&gt;&lt;span class="p"&gt;...&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;::&lt;/span&gt;&lt;span class="n"&gt;value&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;a name="rest_code_cde4a2cbfa4a40a28a75f8527390b4bc-9"&gt;&lt;/a&gt;
+&lt;a name="rest_code_cde4a2cbfa4a40a28a75f8527390b4bc-10"&gt;&lt;/a&gt;    &lt;span class="k"&gt;template&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="k"&gt;typename&lt;/span&gt; &lt;span class="n"&gt;C&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt;
+&lt;a name="rest_code_cde4a2cbfa4a40a28a75f8527390b4bc-11"&gt;&lt;/a&gt;    &lt;span class="k"&gt;using&lt;/span&gt; &lt;span class="n"&gt;F&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="k"&gt;typename&lt;/span&gt; &lt;span class="n"&gt;get_template_type&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="n"&gt;f&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="n"&gt;trainer_1&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;Args&lt;/span&gt;&lt;span class="p"&gt;...&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;::&lt;/span&gt;&lt;span class="k"&gt;template&lt;/span&gt; &lt;span class="n"&gt;value&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="n"&gt;C&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;a name="rest_code_cde4a2cbfa4a40a28a75f8527390b4bc-12"&gt;&lt;/a&gt;
+&lt;a name="rest_code_cde4a2cbfa4a40a28a75f8527390b4bc-13"&gt;&lt;/a&gt;    &lt;span class="k"&gt;static_assert&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;
+&lt;a name="rest_code_cde4a2cbfa4a40a28a75f8527390b4bc-14"&gt;&lt;/a&gt;        &lt;span class="n"&gt;is_valid&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="n"&gt;tmp_list&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="n"&gt;a_id&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;b_id&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;c_id&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;d_id&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;e_id&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;f_id&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;Args&lt;/span&gt;&lt;span class="p"&gt;...&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;::&lt;/span&gt;&lt;span class="n"&gt;value&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+&lt;a name="rest_code_cde4a2cbfa4a40a28a75f8527390b4bc-15"&gt;&lt;/a&gt;        &lt;span class="s"&gt;"Invalid parameters type"&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+&lt;a name="rest_code_cde4a2cbfa4a40a28a75f8527390b4bc-16"&gt;&lt;/a&gt;
+&lt;a name="rest_code_cde4a2cbfa4a40a28a75f8527390b4bc-17"&gt;&lt;/a&gt;    &lt;span class="c1"&gt;//Something useful&lt;/span&gt;
+&lt;a name="rest_code_cde4a2cbfa4a40a28a75f8527390b4bc-18"&gt;&lt;/a&gt;&lt;span class="p"&gt;};&lt;/span&gt;
+&lt;/pre&gt;&lt;p&gt;Since the is_valid traits needs two variadic list of parameters, we have to encapsulate list of valid types in another structure (&lt;em&gt;tmp_list&lt;/em&gt;) to separate the two sets. Here is the implementation of the validation:&lt;/p&gt;
+&lt;pre class="code c++"&gt;&lt;a name="rest_code_5b54aa641e274b65ad060c958abb8d4b-1"&gt;&lt;/a&gt;&lt;span class="k"&gt;template&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="k"&gt;typename&lt;/span&gt;&lt;span class="p"&gt;...&lt;/span&gt; &lt;span class="n"&gt;Valid&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt;
+&lt;a name="rest_code_5b54aa641e274b65ad060c958abb8d4b-2"&gt;&lt;/a&gt;&lt;span class="k"&gt;struct&lt;/span&gt; &lt;span class="n"&gt;tmp_list&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+&lt;a name="rest_code_5b54aa641e274b65ad060c958abb8d4b-3"&gt;&lt;/a&gt;    &lt;span class="k"&gt;template&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="k"&gt;typename&lt;/span&gt; &lt;span class="n"&gt;T&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt;
+&lt;a name="rest_code_5b54aa641e274b65ad060c958abb8d4b-4"&gt;&lt;/a&gt;    &lt;span class="k"&gt;struct&lt;/span&gt; &lt;span class="nl"&gt;contains&lt;/span&gt; &lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="n"&gt;std&lt;/span&gt;&lt;span class="o"&gt;::&lt;/span&gt;&lt;span class="n"&gt;integral_constant&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="kt"&gt;bool&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;is_present&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="k"&gt;typename&lt;/span&gt; &lt;span class="n"&gt;T&lt;/span&gt;&lt;span class="o"&gt;::&lt;/span&gt;&lt;span class="n"&gt;type_id&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;Valid&lt;/span&gt;&lt;span class="p"&gt;...&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;::&lt;/span&gt;&lt;span class="n"&gt;value&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt; &lt;span class="p"&gt;{};&lt;/span&gt;
+&lt;a name="rest_code_5b54aa641e274b65ad060c958abb8d4b-5"&gt;&lt;/a&gt;&lt;span class="p"&gt;};&lt;/span&gt;
+&lt;a name="rest_code_5b54aa641e274b65ad060c958abb8d4b-6"&gt;&lt;/a&gt;
+&lt;a name="rest_code_5b54aa641e274b65ad060c958abb8d4b-7"&gt;&lt;/a&gt;&lt;span class="k"&gt;template&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="k"&gt;typename&lt;/span&gt; &lt;span class="n"&gt;L&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="k"&gt;typename&lt;/span&gt;&lt;span class="p"&gt;...&lt;/span&gt; &lt;span class="n"&gt;Args&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt;
+&lt;a name="rest_code_5b54aa641e274b65ad060c958abb8d4b-8"&gt;&lt;/a&gt;&lt;span class="k"&gt;struct&lt;/span&gt; &lt;span class="n"&gt;is_valid&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;a name="rest_code_5b54aa641e274b65ad060c958abb8d4b-9"&gt;&lt;/a&gt;
+&lt;a name="rest_code_5b54aa641e274b65ad060c958abb8d4b-10"&gt;&lt;/a&gt;&lt;span class="k"&gt;template&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="k"&gt;typename&lt;/span&gt; &lt;span class="n"&gt;L&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="k"&gt;typename&lt;/span&gt; &lt;span class="n"&gt;T1&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="k"&gt;typename&lt;/span&gt;&lt;span class="p"&gt;...&lt;/span&gt; &lt;span class="n"&gt;Args&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt;
+&lt;a name="rest_code_5b54aa641e274b65ad060c958abb8d4b-11"&gt;&lt;/a&gt;&lt;span class="k"&gt;struct&lt;/span&gt; &lt;span class="n"&gt;is_valid&lt;/span&gt; &lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="n"&gt;L&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;T1&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;Args&lt;/span&gt;&lt;span class="p"&gt;...&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt; &lt;span class="o"&gt;:&lt;/span&gt; &lt;span class="n"&gt;std&lt;/span&gt;&lt;span class="o"&gt;::&lt;/span&gt;&lt;span class="n"&gt;integral_constant&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="kt"&gt;bool&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;L&lt;/span&gt;&lt;span class="o"&gt;::&lt;/span&gt;&lt;span class="k"&gt;template&lt;/span&gt; &lt;span class="n"&gt;contains&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="n"&gt;T1&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;::&lt;/span&gt;&lt;span class="n"&gt;value&lt;/span&gt; &lt;span class="o"&gt;&amp;amp;&amp;amp;&lt;/span&gt; &lt;span class="n"&gt;is_valid&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="n"&gt;L&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;Args&lt;/span&gt;&lt;span class="p"&gt;...&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;::&lt;/span&gt;&lt;span class="n"&gt;value&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt; &lt;span class="p"&gt;{};&lt;/span&gt;
+&lt;a name="rest_code_5b54aa641e274b65ad060c958abb8d4b-12"&gt;&lt;/a&gt;
+&lt;a name="rest_code_5b54aa641e274b65ad060c958abb8d4b-13"&gt;&lt;/a&gt;&lt;span class="k"&gt;template&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="k"&gt;typename&lt;/span&gt; &lt;span class="n"&gt;L&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt;
+&lt;a name="rest_code_5b54aa641e274b65ad060c958abb8d4b-14"&gt;&lt;/a&gt;&lt;span class="k"&gt;struct&lt;/span&gt; &lt;span class="n"&gt;is_valid&lt;/span&gt; &lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="n"&gt;L&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt; &lt;span class="o"&gt;:&lt;/span&gt; &lt;span class="n"&gt;std&lt;/span&gt;&lt;span class="o"&gt;::&lt;/span&gt;&lt;span class="n"&gt;true_type&lt;/span&gt; &lt;span class="p"&gt;{};&lt;/span&gt;
+&lt;/pre&gt;&lt;p&gt;The struct tmp_list has a single inner class (&lt;em&gt;contains&lt;/em&gt;) that test if a given type is present in the list. For this, we reuse the is_present template that we created when extracting boolean flag. The &lt;em&gt;is_valid&lt;/em&gt; template simply test that each parameter is present in the &lt;em&gt;tmp_list&lt;/em&gt;.&lt;/p&gt;
+&lt;p&gt;Validation could also be made so that no parameters could be present twice, but I will put that aside for now.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="section" id="conclusion"&gt;
+&lt;h2&gt;Conclusion&lt;/h2&gt;
+&lt;p&gt;Here it is :)&lt;/p&gt;
+&lt;p&gt;We now have a set of template that allow us to configure a class at compile-time with named, optional, template parameters, with default and in any order. I personally thinks that this is a great way to configure a class at compile-time and it is also another proof of the power of C++. If you think that the code is complicated, don't forget that this is only the library code, the client code on contrary is at least as clear as the original version and even has several advantages.&lt;/p&gt;
+&lt;p&gt;I hope that this article interested you and that you learned something.&lt;/p&gt;
+&lt;p&gt;The code of this article is available on Github: &lt;a class="reference external" href="https://github.com/wichtounet/articles/blob/master/src/named_template_par/configurable.cpp"&gt;https://github.com/wichtounet/articles/blob/master/src/named_template_par/configurable.cpp&lt;/a&gt;
+It has been tested on Clang 3.5 and GCC 4.9.1.&lt;/p&gt;
+&lt;/div&gt;&lt;/div&gt;</description><category>C++</category><category>C++11</category><category>C++14</category><category>templates</category><guid>http://baptiste-wicht.com/posts/2015/03/named-optional-template-parameters-compile-time.html</guid><pubDate>Sun, 01 Mar 2015 14:52:41 GMT</pubDate></item><item><title>Use Boost enable_if to handle ambiguous function overload return types</title><link>http://baptiste-wicht.com/posts/2012/01/boost-enable_if-handle-ambiguous-function-overload-void.html</link><dc:creator>Baptiste Wicht</dc:creator><description>&lt;div&gt;&lt;p&gt;The title is not really clear but I didn't found a better one. The example will be clearer (I hope). In EDDI, I had this little function : &lt;/p&gt;
+&lt;pre class="code literal-block"&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="k"&gt;template&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="k"&gt;typename&lt;/span&gt; &lt;span class="n"&gt;Visitor&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="k"&gt;typename&lt;/span&gt; &lt;span class="n"&gt;Visitable&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt;
+&lt;span class="kt"&gt;void&lt;/span&gt; &lt;span class="n"&gt;visit&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;Visitor&lt;/span&gt;&lt;span class="o"&gt;&amp;amp;&lt;/span&gt;&lt;span class="n"&gt;amp&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt; &lt;span class="n"&gt;visitor&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;Visitable&lt;/span&gt;&lt;span class="o"&gt;&amp;amp;&lt;/span&gt;&lt;span class="n"&gt;amp&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt; &lt;span class="n"&gt;visitable&lt;/span&gt;&lt;span class="p"&gt;){&lt;/span&gt;
+    &lt;span class="n"&gt;visitor&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;visitable&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;/pre&gt;
+
+
+&lt;p&gt;For the record, this function is only invoking a specific operator of a visitor. The problem was that I wanted this function to handle also non-void visitors. The visitor in question has a &lt;strong&gt;result_type&lt;/strong&gt; typedef indicating the return type of the visit. The naive version cannot work : &lt;/p&gt;
+&lt;pre class="code literal-block"&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="k"&gt;template&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="k"&gt;typename&lt;/span&gt; &lt;span class="n"&gt;Visitor&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="k"&gt;typename&lt;/span&gt; &lt;span class="n"&gt;Visitable&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt;
+&lt;span class="k"&gt;typename&lt;/span&gt; &lt;span class="n"&gt;Visitor&lt;/span&gt;&lt;span class="o"&gt;::&lt;/span&gt;&lt;span class="n"&gt;result_type&lt;/span&gt; &lt;span class="n"&gt;visit&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;Visitor&lt;/span&gt;&lt;span class="o"&gt;&amp;amp;&lt;/span&gt;&lt;span class="n"&gt;amp&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt; &lt;span class="n"&gt;visitor&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;Visitable&lt;/span&gt;&lt;span class="o"&gt;&amp;amp;&lt;/span&gt;&lt;span class="n"&gt;amp&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt; &lt;span class="n"&gt;visitable&lt;/span&gt;&lt;span class="p"&gt;){&lt;/span&gt;
+    &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="n"&gt;visitor&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;visitable&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+&lt;span class="p"&gt;}&lt;/span&gt;
+
+&lt;span class="k"&gt;template&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="k"&gt;typename&lt;/span&gt; &lt;span class="n"&gt;Visitor&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="k"&gt;typename&lt;/span&gt; &lt;span class="n"&gt;Visitable&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt;
+&lt;span class="kt"&gt;void&lt;/span&gt; &lt;span class="n"&gt;visit&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;Visitor&lt;/span&gt;&lt;span class="o"&gt;&amp;amp;&lt;/span&gt;&lt;span class="n"&gt;amp&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt; &lt;span class="n"&gt;visitor&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;Visitable&lt;/span&gt;&lt;span class="o"&gt;&amp;amp;&lt;/span&gt;&lt;span class="n"&gt;amp&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt; &lt;span class="n"&gt;visitable&lt;/span&gt;&lt;span class="p"&gt;){&lt;/span&gt;
+    &lt;span class="n"&gt;visitor&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;visitable&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;/pre&gt;
+
+
+&lt;p&gt;The problem here is that there are ambiguities for overload resolution because the return type is not considered in this resolution. What we want is that the overload resolution does not consider the function returning something (the first one). And that's here that Boost can help, specifically the &lt;strong&gt;Boost enable_if&lt;/strong&gt; library. This function allows to enable of disable some function template of function class based on a boolean condition. In our case, we want to disable the function is the return type is void. So, we will use the &lt;strong&gt;boost::disable_if&lt;/strong&gt; template to disable it. This template has to parameter B and T. When B is true, the template is evaluated to T, otherwise there is an error used for SFINAE (Substitution failure is not an error) To test if the return type is void, we will use Boost type_traits, specifically the &lt;strong&gt;boost::is_void&lt;/strong&gt; template. &lt;/p&gt;
+&lt;p&gt;Here is the version using disable_if : &lt;/p&gt;
+&lt;pre class="code literal-block"&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="k"&gt;template&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="k"&gt;typename&lt;/span&gt; &lt;span class="n"&gt;Visitor&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="k"&gt;typename&lt;/span&gt; &lt;span class="n"&gt;Visitable&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt;
+&lt;span class="k"&gt;typename&lt;/span&gt; &lt;span class="n"&gt;boost&lt;/span&gt;&lt;span class="o"&gt;::&lt;/span&gt;&lt;span class="n"&gt;disable_if&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="n"&gt;boost&lt;/span&gt;&lt;span class="o"&gt;::&lt;/span&gt;&lt;span class="n"&gt;is_void&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="k"&gt;typename&lt;/span&gt; &lt;span class="n"&gt;Visitor&lt;/span&gt;&lt;span class="o"&gt;::&lt;/span&gt;&lt;span class="n"&gt;result_type&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="k"&gt;typename&lt;/span&gt; &lt;span class="n"&gt;Visitor&lt;/span&gt;&lt;span class="o"&gt;::&lt;/span&gt;&lt;span class="n"&gt;result_type&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;::&lt;/span&gt;&lt;span class="n"&gt;type&lt;/span&gt;
+&lt;span class="n"&gt;visit&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;Visitor&lt;/span&gt;&lt;span class="o"&gt;&amp;amp;&lt;/span&gt;&lt;span class="n"&gt;amp&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt; &lt;span class="n"&gt;visitor&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;Visitable&lt;/span&gt;&lt;span class="o"&gt;&amp;amp;&lt;/span&gt;&lt;span class="n"&gt;amp&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt; &lt;span class="n"&gt;visitable&lt;/span&gt;&lt;span class="p"&gt;){&lt;/span&gt;
+    &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="n"&gt;visitor&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;visitable&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+&lt;span class="p"&gt;}&lt;/span&gt;
+
+&lt;span class="k"&gt;template&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="k"&gt;typename&lt;/span&gt; &lt;span class="n"&gt;Visitor&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="k"&gt;typename&lt;/span&gt; &lt;span class="n"&gt;Visitable&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt;
+&lt;span class="kt"&gt;void&lt;/span&gt; &lt;span class="n"&gt;visit&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;Visitor&lt;/span&gt;&lt;span class="o"&gt;&amp;amp;&lt;/span&gt;&lt;span class="n"&gt;amp&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt; &lt;span class="n"&gt;visitor&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;Visitable&lt;/span&gt;&lt;span class="o"&gt;&amp;amp;&lt;/span&gt;&lt;span class="n"&gt;amp&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt; &lt;span class="n"&gt;visitable&lt;/span&gt;&lt;span class="p"&gt;){&lt;/span&gt;
+    &lt;span class="n"&gt;visitor&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;visitable&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;/pre&gt;
+
+
+&lt;p&gt;With that, you can call the visitor with a void return type. However, it's not enough. Indeed, the call is still ambiguous when the return type is not void. So we have to enable the second function only if the return type is void : &lt;/p&gt;
+&lt;pre class="code literal-block"&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="k"&gt;template&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="k"&gt;typename&lt;/span&gt; &lt;span class="n"&gt;Visitor&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="k"&gt;typename&lt;/span&gt; &lt;span class="n"&gt;Visitable&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt;
+&lt;span class="k"&gt;typename&lt;/span&gt; &lt;span class="n"&gt;boost&lt;/span&gt;&lt;span class="o"&gt;::&lt;/span&gt;&lt;span class="n"&gt;disable_if&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="n"&gt;boost&lt;/span&gt;&lt;span class="o"&gt;::&lt;/span&gt;&lt;span class="n"&gt;is_void&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="k"&gt;typename&lt;/span&gt; &lt;span class="n"&gt;Visitor&lt;/span&gt;&lt;span class="o"&gt;::&lt;/span&gt;&lt;span class="n"&gt;result_type&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="k"&gt;typename&lt;/span&gt; &lt;span class="n"&gt;Visitor&lt;/span&gt;&lt;span class="o"&gt;::&lt;/span&gt;&lt;span class="n"&gt;result_type&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;::&lt;/span&gt;&lt;span class="n"&gt;type&lt;/span&gt;
+&lt;span class="n"&gt;visit&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;Visitor&lt;/span&gt;&lt;span class="o"&gt;&amp;amp;&lt;/span&gt;&lt;span class="n"&gt;amp&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt; &lt;span class="n"&gt;visitor&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;Visitable&lt;/span&gt;&lt;span class="o"&gt;&amp;amp;&lt;/span&gt;&lt;span class="n"&gt;amp&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt; &lt;span class="n"&gt;visitable&lt;/span&gt;&lt;span class="p"&gt;){&lt;/span&gt;
+    &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="n"&gt;visitor&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;visitable&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+&lt;span class="p"&gt;}&lt;/span&gt;
+
+&lt;span class="k"&gt;template&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="k"&gt;typename&lt;/span&gt; &lt;span class="n"&gt;Visitor&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="k"&gt;typename&lt;/span&gt; &lt;span class="n"&gt;Visitable&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt;
+&lt;span class="k"&gt;typename&lt;/span&gt; &lt;span class="n"&gt;boost&lt;/span&gt;&lt;span class="o"&gt;::&lt;/span&gt;&lt;span class="n"&gt;enable_if&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="n"&gt;boost&lt;/span&gt;&lt;span class="o"&gt;::&lt;/span&gt;&lt;span class="n"&gt;is_void&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="k"&gt;typename&lt;/span&gt; &lt;span class="n"&gt;Visitor&lt;/span&gt;&lt;span class="o"&gt;::&lt;/span&gt;&lt;span class="n"&gt;result_type&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="k"&gt;typename&lt;/span&gt; &lt;span class="n"&gt;Visitor&lt;/span&gt;&lt;span class="o"&gt;::&lt;/span&gt;&lt;span class="n"&gt;result_type&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;::&lt;/span&gt;&lt;span class="n"&gt;type&lt;/span&gt;
+&lt;span class="n"&gt;visit&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;Visitor&lt;/span&gt;&lt;span class="o"&gt;&amp;amp;&lt;/span&gt;&lt;span class="n"&gt;amp&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt; &lt;span class="n"&gt;visitor&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;Visitable&lt;/span&gt;&lt;span class="o"&gt;&amp;amp;&lt;/span&gt;&lt;span class="n"&gt;amp&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt; &lt;span class="n"&gt;visitable&lt;/span&gt;&lt;span class="p"&gt;){&lt;/span&gt;
+    &lt;span class="n"&gt;visitor&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;visitable&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;/pre&gt;
+
+
+&lt;p&gt;With that, you can call the function with both visitors and the good function will be chosen depending on the result type of the visitor. &lt;/p&gt;
+&lt;p&gt;I hope this example of using Boost enable_if will help you when you face similar problems.&lt;/p&gt;&lt;/div&gt;</description><category>Boost</category><category>C++</category><category>templates</category><guid>http://baptiste-wicht.com/posts/2012/01/boost-enable_if-handle-ambiguous-function-overload-void.html</guid><pubDate>Fri, 13 Jan 2012 07:51:25 GMT</pubDate></item><item><title>C++ Templates : The Complete Guide - Book Review</title><link>http://baptiste-wicht.com/posts/2011/11/cpp-templates-complete-guide-book.html</link><dc:creator>Baptiste Wicht</dc:creator><description>&lt;div&gt;&lt;p&gt;After the Effective C++ Serie, I read &lt;strong&gt;C++ Templates: The Complete Guide&lt;/strong&gt;, from David Vandevoorde and Nicolai M. Josuttis&lt;/p&gt;
+&lt;p&gt;The templates are one of the most powerful feature of C++. However, this is a complex technique that is often misused or misunderstood. This book will help you learning what exactly are templates and how they can be used to improve your software development in C++.&lt;/p&gt;
+&lt;p&gt;This book is sometimes very technical and is not the easiest to read. Nevertheless, the quality of the information it contains is great. This book covers all the aspects of template programming, from generic programming to template meta programming passing by traits and policy classes.&lt;/p&gt;
+&lt;p&gt;The first two chapters are introducing function templates and class templates. Then, the third chapter is about the nontype template parameters. Indeed, template parameters can be values and not types. For example, you can pass int constants as template parameters. Then, the two following chapters are more about templates in practice. You will learn the different way to include template code in your common C++ base code. You will also see some tricks useful when developing templates. The last chapter of this first part is fixing a terminology for templates.&lt;/p&gt;
+&lt;p&gt;The second part of the book (&lt;strong&gt;Templates in-Depth&lt;/strong&gt;) starts with the fundamentals  of templates in-depth. Then, the names in templates are covered in details. After that, we have three very technical and complex chapters. The first covers the instantiations of templates in-depth, the second covers the template argument detection and the next one is about specializations and overloading. The last chapter of this part is about the future directions of the C++ templates. This chapter covers some extensions that have been added to library and compilers,  but were not in C++ standard at the time the book was written. Some of these futures directions are now part of the new C++11 standard.&lt;/p&gt;
+&lt;p&gt;The next part (&lt;strong&gt;Templates and Design&lt;/strong&gt;) is about the techniques that can be used to improve your software design using templates. The first chapter covers the most common use of templates: compile-time polymorphism. Then, the traits and policy classes are covered. The traits classes are a way to add more information to a template parameter and policy classes represent a configurable behavior for templates. The 16th is talking about some optimization that can be made about templates and inheritance. The next chapter focuses on template metaprogramming. A metaprogram is a program that is not computed at runtime, but at compile-time resulting in performance sometimes very important. Then, the last chapter introduces the expression templates. This technique is a way to encapsulate expressions into templates in order to optimize some computations. The example is about matrix computations.&lt;/p&gt;
+&lt;p&gt;The final part (&lt;strong&gt;Advanced Applications&lt;/strong&gt;) present four examples in which the templates brings a lot of power. The first example is about type classification. How to know at compile-time of what kind is a given type and makes something depending on the characteristics of the type. The second example is about developing Smart Pointers. The next one presents an implementation of tuples with templates and the last one implements function objects and callbacks. These four examples are not made to be used instead of the standard library, but there are good examples to prove the power of templates.&lt;/p&gt;
+&lt;p&gt;To conclude, I'll say that this book is a very good guide about templates. It covers most of the details that you can face when developing with templates or when working with very templatized libraries like Boost.&lt;/p&gt;&lt;/div&gt;</description><category>Books</category><category>C++</category><category>templates</category><guid>http://baptiste-wicht.com/posts/2011/11/cpp-templates-complete-guide-book.html</guid><pubDate>Wed, 30 Nov 2011 07:32:11 GMT</pubDate></item><item><title>Boost 1.48.0 has been released</title><link>http://baptiste-wicht.com/posts/2011/11/boost-1-48-0-has-been-released.html</link><dc:creator>Baptiste Wicht</dc:creator><description>&lt;div&gt;&lt;p&gt;A new version of Boost is available : &lt;a href="http://www.boost.org/users/history/version_1_48_0.html" title="Boost 1.48.0 Details"&gt;Boost 1.48.0&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;This release includes three new libraries : Locale, Container and Move. &lt;/p&gt;
+&lt;p&gt;A lot of bug have been fixed and there are also some changes in the existing libraries.&lt;/p&gt;&lt;/div&gt;</description><category>Boost</category><category>C++</category><category>Libraries</category><category>templates</category><guid>http://baptiste-wicht.com/posts/2011/11/boost-1-48-0-has-been-released.html</guid><pubDate>Tue, 15 Nov 2011 09:48:59 GMT</pubDate></item><item><title>eddic 0.5.1 : Better assembly generation and faster parsing</title><link>http://baptiste-wicht.com/posts/2011/11/eddic-0-5-1-better-assembly-generation-and-faster-parsing.html</link><dc:creator>Baptiste Wicht</dc:creator><description>&lt;div&gt;&lt;p&gt;I'm very pleased to release the version 0.5.1 of the EDDI Compiler.&lt;/p&gt;
+&lt;p&gt;It makes now a long time since the last version of eddic, but I started again working frequently on it. This version doesn't add any new feature to the language, but there are a lot of improvements in the compiler itself. &lt;/p&gt;
+&lt;p&gt;First of all, the generated assembly has been improved a lot. I use now a intermediate representation of assembly and then the compiler is able to make more optimizations in its choice. This optimization is especially visible for integer computations. Before this, all the computations used stack operations and then we use almost only registers when it's possible. It's still not perfect, but it uses way less instructions. Moreover, this can enable me to write a 64 assembly code instead of 32 and provide both versions in the compiler. &lt;/p&gt;
+&lt;p&gt;Another improvement is the speed of the parser. I now use Boost Spirit to parse the source file and construct an Abstract Syntax Tree. This parsing is very fast now (with some optimizations). Moreover, it will be easier to add new constructs later. &lt;/p&gt;
+&lt;p&gt;I also improved the general performances at some places. I also use Boost Program Options to parse the command line options. &lt;/p&gt;
+&lt;p&gt;In the next version (0.6.0), I will introduce arrays of int and strings and the foreach construct for array. I will also remove the dependency to malloc writing a memory allocation manager in assembly. I will also introduce warnings in the compiler. &lt;/p&gt;
+&lt;p&gt;You can find the compiler sources on the Github repository : &lt;a title="EDDI COmpiler Repository" href="http://github.com/wichtounet/eddic"&gt;https://github.com/wichtounet/eddic&lt;/a&gt;. &lt;/p&gt;
+&lt;p&gt;The compiler now needs Boost 1.47.0 to build. &lt;/p&gt;
+&lt;p&gt;The exact version I refer to is the v0.5.1 available in the github tags or directly as the release branch.&lt;/p&gt;&lt;/div&gt;</description><category>Assembly</category><category>Boost</category><category>C++</category><category>EDDI</category><category>Performances</category><category>Releases</category><category>templates</category><guid>http://baptiste-wicht.com/posts/2011/11/eddic-0-5-1-better-assembly-generation-and-faster-parsing.html</guid><pubDate>Thu, 10 Nov 2011 03:33:32 GMT</pubDate></item><item><title>Effective STL Book Review</title><link>http://baptiste-wicht.com/posts/2011/10/effective-stl-book-review.html</link><dc:creator>Baptiste Wicht</dc:creator><description>&lt;div&gt;&lt;p&gt;I finished reading the last Effective C++ volume : Effective STL, Scott Meyers.&lt;/p&gt;
+&lt;p&gt;Again, this book follows the same model as the two others, providing several rules aiming at making you a better (more effective) STL programmer. All the items of this book are centered on the usage of the Standard Template Library (STL).&lt;/p&gt;
+&lt;p&gt;The first chapters (Containers) gives you several advices for using STL Containers. The main point of this chapter is about how to choose carefully a container for a specific use case. It also contains several advices on how to use them well regarding to performances and thread safety.&lt;/p&gt;
+&lt;p&gt;In the next chapter (&lt;em&gt;vector&lt;/em&gt; and &lt;em&gt;string&lt;/em&gt;), the author focuses on two specific containers : vector and string. There are some specificities on these two containers that can improve the efficiency of the program.&lt;/p&gt;
+&lt;p&gt;The third chapter (Associative Containers) is about the associative containers of the STL : set, map, multimap and multiset. It also contains some important informations about which methods to use for each usage in order to preserve the efficiency of each container. It will also explain you the very important difference between equality and equivalence.&lt;/p&gt;
+&lt;p&gt;The next one (Iterators) explains which iterators to use and how to convert iterators of one type to another.&lt;/p&gt;
+&lt;p&gt;The chapter five (Algorithms) describes the most important algorithms of the STL. There are tons of algorithms in the STL and using them can save you from writing a lot of boilerplate code. For example, you will learn the different sorting algorithms and for_each. I found that this chapter was especially interesting.&lt;/p&gt;
+&lt;p&gt;The sixth chapter (Functors) explains you how to create functors and predicates for using with STL classes. It also treats of the special functions to convert functions to functors.&lt;/p&gt;
+&lt;p&gt;The last chapter (Programming with the STL) gives you advices on how to use the STL to make easier the programming of concrete programs. It will teach you what functions to use, what headers to include and how to decipher STL-related errors.&lt;/p&gt;
+&lt;p&gt;I found that this book was really good, as good as the first one. The advices are very useful and easy to understand. Using this advices enabled me to improve my code and the efficiency of it. I will recommend this book to every C++ developers using the STL.&lt;/p&gt;&lt;/div&gt;</description><category>Books</category><category>C++</category><category>templates</category><guid>http://baptiste-wicht.com/posts/2011/10/effective-stl-book-review.html</guid><pubDate>Mon, 31 Oct 2011 07:39:16 GMT</pubDate></item><item><title>Write and read binary files in C++</title><link>http://baptiste-wicht.com/posts/2011/06/write-and-read-binary-files-in-c.html</link><dc:creator>Baptiste Wicht</dc:creator><description>&lt;div&gt;&lt;p&gt;To write the EDDI compiler, I had to write and read binary files. Writing text files is really easy in C++, directly using the &amp;lt;&amp;lt; operator on the stream, but writing binary is a little harder and, I must say, a lot less elegant.&lt;/p&gt;
+&lt;p&gt;First, to write to a binary file, we have to use the binary flag when we create the file :&lt;/p&gt;
+&lt;pre class="code literal-block"&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="n"&gt;std&lt;/span&gt;&lt;span class="o"&gt;::&lt;/span&gt;&lt;span class="n"&gt;ofstream&lt;/span&gt; &lt;span class="n"&gt;stream&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;"yourFile"&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;std&lt;/span&gt;&lt;span class="o"&gt;::&lt;/span&gt;&lt;span class="n"&gt;ios&lt;/span&gt;&lt;span class="o"&gt;::&lt;/span&gt;&lt;span class="n"&gt;binary&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+&lt;/pre&gt;
+
+
+&lt;p&gt;and then, we have to use the write method to write to the file. But this function is really basic and takes only a char&lt;em&gt; and the size of the data we wan't to write, so we have to convert our data to char&lt;/em&gt;. A good way to do that is using the reinterpret_cast function and the sizeof operator. For example, to write an int, you can make that :&lt;/p&gt;
+&lt;pre class="code literal-block"&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="kt"&gt;int&lt;/span&gt; &lt;span class="n"&gt;test&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;22&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;span class="n"&gt;outStream&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;write&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;reinterpret_cast&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="k"&gt;const&lt;/span&gt; &lt;span class="kt"&gt;char&lt;/span&gt;&lt;span class="o"&gt;*&amp;gt;&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="o"&gt;&amp;amp;&lt;/span&gt;&lt;span class="n"&gt;test&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt; &lt;span class="k"&gt;sizeof&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="kt"&gt;int&lt;/span&gt;&lt;span class="p"&gt;));&lt;/span&gt;
+&lt;/pre&gt;
+
+
+&lt;p&gt;But your code is quickly polluted if you have of write operations to do.&lt;/p&gt;
+&lt;p class="more"&gt;&lt;a href="http://baptiste-wicht.com/posts/2011/06/write-and-read-binary-files-in-c.html"&gt;Read more…&lt;/a&gt;&lt;/p&gt;&lt;/div&gt;</description><category>C++</category><category>I/O</category><category>templates</category><guid>http://baptiste-wicht.com/posts/2011/06/write-and-read-binary-files-in-c.html</guid><pubDate>Wed, 15 Jun 2011 06:35:15 GMT</pubDate></item></channel></rss>

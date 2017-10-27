@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:dc="http://purl.org/dc/elements/1.1/"><channel><title>Blog blog("Baptiste Wicht"); (Posts about Maven)</title><link>http://baptiste-wicht.com/</link><description></description><atom:link rel="self" type="application/rss+xml" href="http://baptiste-wicht.com/categories/maven.xml"></atom:link><language>en</language><lastBuildDate>Sun, 04 Jun 2017 20:17:48 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Improve the performance of your Maven builds with maven-cli-plugin</title><link>http://baptiste-wicht.com/posts/2010/05/improve-performance-builds-maven-cli-plugin.html</link><dc:creator>Baptiste Wicht</dc:creator><description>&lt;div&gt;&lt;p&gt;When you makes a lot of build using &lt;strong&gt;Maven&lt;/strong&gt;, this is quickly a pain to wait for the end of the build. So this is always good to have solutions to improve the &lt;strong&gt;performances&lt;/strong&gt; of the builds.&lt;/p&gt;
+&lt;p&gt;The better improvement i found until now is the &lt;strong&gt;maven-cli-plugin&lt;/strong&gt;. This plugin provides an &lt;strong&gt;interactive command line&lt;/strong&gt; interface to launch builds. The improvement is that the first phases of the build are made only once. So multiple builds are really &lt;strong&gt;faster&lt;/strong&gt;. We loose a little time at the first build to make some &lt;strong&gt;caching&lt;/strong&gt; improvements.&lt;/p&gt;
+&lt;p&gt;With these features, I save a lot of time when I made a lot of builds. For example a simple clean takes sometimes 20 seconds on a big multimodule project. When using the cli, it takes 20 seconds including the time to load the shell for the first time and then it takes only 1 second the make the following cleans. The effect is the same on other phases like install, package, compile, ...&lt;/p&gt;
+&lt;p&gt;The installation is quite simple. First you must add a plugin group to the settings.xml file :&lt;/p&gt;
+&lt;pre class="code literal-block"&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="nt"&gt;&amp;lt;settings&amp;gt;&lt;/span&gt;
+  &lt;span class="nt"&gt;&amp;lt;pluginGroups&amp;gt;&lt;/span&gt;
+    &lt;span class="nt"&gt;&amp;lt;pluginGroup&amp;gt;&lt;/span&gt;org.twdata.maven&lt;span class="nt"&gt;&amp;lt;/pluginGroup&amp;gt;&lt;/span&gt;
+    ...
+  &lt;span class="nt"&gt;&amp;lt;/pluginGroups&amp;gt;&lt;/span&gt;
+  ...
+&lt;span class="nt"&gt;&amp;lt;/settings&amp;gt;&lt;/span&gt;
+&lt;/pre&gt;
+
+
+&lt;p&gt;And then add a new repository for the manve-cli-plugin : &lt;/p&gt;
+&lt;pre class="code literal-block"&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="nt"&gt;&amp;lt;pluginRepositories&amp;gt;&lt;/span&gt;
+     &lt;span class="nt"&gt;&amp;lt;pluginRepository&amp;gt;&lt;/span&gt;
+          &lt;span class="nt"&gt;&amp;lt;id&amp;gt;&lt;/span&gt;twdata-m2-repository&lt;span class="nt"&gt;&amp;lt;/id&amp;gt;&lt;/span&gt;
+          &lt;span class="nt"&gt;&amp;lt;name&amp;gt;&lt;/span&gt;twdata.org Maven 2 Repository&lt;span class="nt"&gt;&amp;lt;/name&amp;gt;&lt;/span&gt;
+          &lt;span class="nt"&gt;&amp;lt;url&amp;gt;&lt;/span&gt;http://twdata-m2-repository.googlecode.com/svn/&lt;span class="nt"&gt;&amp;lt;/url&amp;gt;&lt;/span&gt;
+     &lt;span class="nt"&gt;&amp;lt;/pluginRepository&amp;gt;&lt;/span&gt;
+&lt;span class="nt"&gt;&amp;lt;/pluginRepositories&amp;gt;&lt;/span&gt;
+&lt;/pre&gt;
+
+
+&lt;p&gt;And you just have to use the following command on a Maven project : &lt;/p&gt;
+&lt;p&gt;&lt;/p&gt;&lt;pre&gt;mvn cli:execute-phase&lt;/pre&gt;
+&lt;p&gt;With that the plugin will be downloaded automatically and the next commands will be executed directly. &lt;/p&gt;
+&lt;p&gt;The usage is very easy. This plugin has 2 useful goals : &lt;/p&gt;
+&lt;ul&gt;
+    &lt;li&gt;execute : Open a shell and allows you to execute goals of plugins. &lt;/li&gt;
+    &lt;li&gt;execute-phase : Open a shell and allows you to execute phases of the maven build. &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;The main difference is that if you launch install from the execute-phase, all the preceding phases will be executed, but that's not the case with execute, only install will be executed. &lt;/p&gt;
+&lt;p&gt;Personally, I only execute phases, so I always use the execute-phase of the cli plugin. &lt;/p&gt;
+&lt;p&gt;When you're in the shell, you can launch several phases or goals : &lt;/p&gt;
+&lt;pre&gt;maven&amp;gt; clean install&lt;/pre&gt;
+
+&lt;p&gt;And you can directly add arguments in the command : &lt;/p&gt;
+&lt;pre&gt;maven&amp;gt; clean install -Dmaven.test.skip=true&lt;/pre&gt;
+
+&lt;p&gt;And when you are building a multimodule projects, you can also execute phases only on several modules : &lt;/p&gt;
+&lt;pre&gt;maven&amp;gt; module1 module2 module3 clean install&lt;/pre&gt;
+
+&lt;p&gt;You can use the ls command in a multi module project to list all the modules of the project. You can use the "Tab" key to auto complete the goals, phases and modules name. &lt;/p&gt;
+&lt;p&gt;When you've finished your builds, you can simply use the "exit" command to exit from the command line. &lt;/p&gt;
+&lt;p&gt;I think it's really a great essential plugin for each person who make Maven builds.  &lt;/p&gt;
+&lt;p&gt;More information &lt;a href="http://wiki.github.com/mrdon/maven-cli-plugin/" target="_blank"&gt;on the official site&lt;/a&gt;.&lt;/p&gt;&lt;/div&gt;</description><category>Java</category><category>Maven</category><category>Tools</category><guid>http://baptiste-wicht.com/posts/2010/05/improve-performance-builds-maven-cli-plugin.html</guid><pubDate>Wed, 26 May 2010 01:09:22 GMT</pubDate></item><item><title>Maven 3.0 Beta 1 is here !</title><link>http://baptiste-wicht.com/posts/2010/04/maven-3-0-beta-1-is-here.html</link><dc:creator>Baptiste Wicht</dc:creator><description>&lt;div&gt;&lt;p&gt;The Maven team has just announced the release of &lt;strong&gt;Maven 3.0-beta-1&lt;/strong&gt;.&lt;/p&gt;
+&lt;p&gt;There is still several things to do for the final releases, but Maven 3 is now ready to go from Alpha to Beta.&lt;/p&gt;
+&lt;p&gt;If you're interested on migrating to this new version, you should have a look at this page from the Maven site : &lt;a href="http://cwiki.apache.org/MAVEN/maven-3x-compatibility-notes.html" target="_blank"&gt;Maven 3 Compatibility Notes&lt;/a&gt;. This page lists all the known differences between Maven 2 and Maven 3 for compatibility purpose.&lt;/p&gt;
+&lt;p&gt;Some news of Maven 3 :&lt;/p&gt;
+&lt;ul&gt;
+    &lt;li&gt;Complete Kernel Rewriting&lt;/li&gt;
+    &lt;li&gt;New languages for POM : YAML and Groovy&lt;/li&gt;
+    &lt;li&gt;POM Composition&lt;/li&gt;
+    &lt;li&gt;Extensibility : Easier to create plugins extending an other plugin&lt;/li&gt;
+    &lt;li&gt;Create the build at start and not step by step&lt;/li&gt;
+    &lt;li&gt;Mercury for repositories and dependencies access&lt;/li&gt;
+    &lt;li&gt;Maven Shell : Shell environment to execute Maven commands&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;You can download it &lt;a href="http://maven.apache.org/download.html" target="_blank"&gt;here&lt;/a&gt;.&lt;/p&gt;&lt;/div&gt;</description><category>Apache</category><category>Java</category><category>Maven</category><category>Releases</category><category>Tools</category><guid>http://baptiste-wicht.com/posts/2010/04/maven-3-0-beta-1-is-here.html</guid><pubDate>Sat, 24 Apr 2010 02:16:08 GMT</pubDate></item><item><title>Bundle non-OSGi dependencies with Maven</title><link>http://baptiste-wicht.com/posts/2010/03/bundle-non-osgi-dependencies-maven.html</link><dc:creator>Baptiste Wicht</dc:creator><description>&lt;div&gt;&lt;p&gt;When we work with OSGi, a problem we always have is how to work with dependencies non OSGi Ready.&lt;/p&gt;
+&lt;p&gt;This is not a really great problem because there we can work with. There is essentially two solutions :&lt;/p&gt;
+&lt;ul&gt;
+    &lt;li&gt;Embed the JAR files within the bundle. That is to say putting the JAR file into the bundle JAR and reference it in the Manifest&lt;/li&gt;
+    &lt;li&gt;Wrap the JAR files with an OSGi Manifest. Namely, transform the JAR into an OSGi bundle.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Personnaly, i doesn't like the first solution, because for me, having a jar into a jar sounds really weird and bad and i prefer to have real OSGi Bundle. With wrapping, if i need this library in an other bundle, i doesn't have to do anything.&lt;/p&gt;
+&lt;p class="more"&gt;&lt;a href="http://baptiste-wicht.com/posts/2010/03/bundle-non-osgi-dependencies-maven.html"&gt;Read more…&lt;/a&gt;&lt;/p&gt;&lt;/div&gt;</description><category>Apache</category><category>Java</category><category>Maven</category><category>OSGi</category><guid>http://baptiste-wicht.com/posts/2010/03/bundle-non-osgi-dependencies-maven.html</guid><pubDate>Fri, 19 Mar 2010 14:41:29 GMT</pubDate></item><item><title>New design for JTheque Web site</title><link>http://baptiste-wicht.com/posts/2010/01/new-design-jtheque-website.html</link><dc:creator>Baptiste Wicht</dc:creator><description>&lt;div&gt;&lt;p&gt;I've made a new design for the JTheque web site : &lt;a title="New design for JTheque Web site" href="http://baptiste-wicht.com/posts/2010/01/New%20design%20for%20JTheque%20Web%20site" target="_self"&gt;http://jtheque.developpez.com/en&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;I took the same design than for my personal web site. The web site is still generated with Maven 2, but i use a custom maven skin to generate the site.&lt;/p&gt;&lt;/div&gt;</description><category>JTheque</category><category>Maven</category><guid>http://baptiste-wicht.com/posts/2010/01/new-design-jtheque-website.html</guid><pubDate>Fri, 01 Jan 2010 12:33:53 GMT</pubDate></item></channel></rss>

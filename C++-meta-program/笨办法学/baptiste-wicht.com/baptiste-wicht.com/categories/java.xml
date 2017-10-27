@@ -1,0 +1,794 @@
+<?xml version="1.0" encoding="utf-8"?>
+<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:dc="http://purl.org/dc/elements/1.1/"><channel><title>Blog blog("Baptiste Wicht"); (Posts about Java)</title><link>http://baptiste-wicht.com/</link><description></description><atom:link rel="self" type="application/rss+xml" href="http://baptiste-wicht.com/categories/java.xml"></atom:link><language>en</language><lastBuildDate>Sun, 04 Jun 2017 20:17:43 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Detect overflows and more in Java with COJAC</title><link>http://baptiste-wicht.com/posts/2015/11/detect-overflows-and-more-in-java-with-cojac.html</link><dc:creator>Baptiste Wicht</dc:creator><description>&lt;div&gt;&lt;p&gt;Back at school, I worked on the COJAC project to detect numeric overflow in
+Java programs automatically. Since then, this project has evolved a lot and has
+now more features:&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;It can detect integer overflows&lt;/li&gt;
+&lt;li&gt;Detect smearing and cancellation with float and double types&lt;/li&gt;
+&lt;li&gt;Detect NaN and Infinite results from computations&lt;/li&gt;
+&lt;li&gt;Detect offending type casting&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;Moreover, all these features are available without any recompilation of your
+program. You simply add an argument to the invocation of the Java virtual
+machine and all these errors will be detected for you automatically!&lt;/p&gt;
+&lt;p&gt;Frédéric Bapst, the person in charge of the project has recently published two
+videos about the project, don't hesitate to check them out:&lt;/p&gt;
+&lt;p&gt;The first video presents the automatic analysis features of the tool:&lt;/p&gt;
+&lt;div class="youtube-video"&gt;
+&lt;iframe width="425" height="344" src="https://www.youtube.com/embed/DqAFQfbWZOU?rel=0&amp;amp;hd=1&amp;amp;wmode=transparent"&gt;&lt;/iframe&gt;
+&lt;/div&gt;&lt;p&gt;And the second presents the numeric wrapper features of the tool for even more
+features:&lt;/p&gt;
+&lt;div class="youtube-video"&gt;
+&lt;iframe width="425" height="344" src="https://www.youtube.com/embed/4x9mJEFjcGc?rel=0&amp;amp;hd=1&amp;amp;wmode=transparent"&gt;&lt;/iframe&gt;
+&lt;/div&gt;&lt;p&gt;If you have any question related to the project, you can add a comment to this
+page or contact me directly be email.&lt;/p&gt;
+&lt;p&gt;If you want more information on the project you can also check out its
+repository on Github: &lt;a class="reference external" href="https://github.com/Cojac/Cojac"&gt;https://github.com/Cojac/Cojac&lt;/a&gt;&lt;/p&gt;&lt;/div&gt;</description><category>COJAC</category><category>Java</category><category>projects</category><guid>http://baptiste-wicht.com/posts/2015/11/detect-overflows-and-more-in-java-with-cojac.html</guid><pubDate>Fri, 27 Nov 2015 13:18:52 GMT</pubDate></item><item><title>Some news</title><link>http://baptiste-wicht.com/posts/2013/06/some-news.html</link><dc:creator>Baptiste Wicht</dc:creator><description>&lt;div&gt;&lt;p&gt;No, I'm not dead ;)&lt;/p&gt;
+&lt;p&gt;After having finished my Master thesis in March, I took a break from my personal projects including this project. I then started a job in my school, waiting for a Ph.D thesis. I'm now working on a very interesting Machine Learning project about Speech, unfortunately in Java ;)&lt;/p&gt;
+&lt;p&gt;I just started again working on eddic this week. I'm gonna try to improve as much as possible the performances of the parser. I will also try to post again some articles on this blog, although I don't know about what.&lt;/p&gt;&lt;/div&gt;</description><category>C++</category><category>EDDI</category><category>Java</category><category>Machine Learning</category><category>Others</category><guid>http://baptiste-wicht.com/posts/2013/06/some-news.html</guid><pubDate>Tue, 04 Jun 2013 21:52:24 GMT</pubDate></item><item><title>Jelastic Java Host - Recommended by James Gosling !</title><link>http://baptiste-wicht.com/posts/2012/08/jelastic-java-host-recommended-james-gosling.html</link><dc:creator>Baptiste Wicht</dc:creator><description>&lt;div&gt;&lt;p&gt;I recently came across an interesting tool. Jelastic is a Platform as a Service (PaaS) provider for Java. Basically, it's a cloud for Java applications.&lt;/p&gt;
+&lt;p&gt;The most interesting point about Jelastic (in my opinion) is the fact that it can run any Java application. There are no API to use or special change that have to be made: you can take any Java app that you have and run it on Jelastic. Jelastic runs Glassfish, Tomcat and Jetty application servers. It's up to the developer to choose the application server. Because it's only made for Java, you have directly access to the application server where you can deploy to, you don't have access to the machine itself.&lt;/p&gt;
+&lt;p&gt;Another great advantage of Jelastic is that it automatically scales vertically. At the beginning, you application is only allowed a very small amount of CPU and memory and when the system detects that it needs more, it automatically gives more resources to the application. And when the application has too much resources, there are released. That has the advantage that you don't need to worry about the resources of your application and that the costs are to the minimum when the application doesn't need a lot of resources. Of course, you can also put limits on the scalability. An application can also be run in several different application servers (horizontal scaling). It supports automatic load balancing for the different instances.&lt;/p&gt;
+&lt;p&gt;A Jelastic environment provides also access to a database server of your choice (MySQL, MariaDB, PostgreSQL, MongoDB, CouchDB). It also has several other good features. You can look at the official list if you want a complete list of features.&lt;/p&gt;
+&lt;p&gt;The official Jelastic site provides several very good guides about how to deploy a specific type of application to Jelastic. For example, there are guides for Play! Framework, Clojure or Alfresco.&lt;/p&gt;
+&lt;p&gt;The interesting point about Jelastic is that it has been recommended by James Gosling itself (the father of Java):&lt;/p&gt;
+&lt;p&gt;&lt;/p&gt;&lt;blockquote&gt;I really like Jelastic. It’s actually software package that a number of ISPs are using. It’s a Java hosting system and so you don’t get a bare Linux machine. What you get is a JavaEE container, and you can drop WAR files on them and they have this really nice control panel where you get a slider that says how many clones of Glassfish do you want and check boxes for [databases]. You don’t have to go into Linux – Oh my God, what it takes to install anything: it’s like which version of Linux is compatible with which app server and what time… they actually take care of that and it works lovely. I actually built these clusters and they can span multiple ISPs, multiple countries, multiple datacenters, and that’s how I deal with my personal extreme paranoia of the survivability of these things.&lt;/blockquote&gt;
+&lt;p&gt;James is working in a small startup, Liquid Robotics that handles a set of automatic robots in the ocean.&lt;/p&gt;
+&lt;p&gt;I think that all these information are making of Jelastic a very good choice for a Java host !&lt;/p&gt;
+&lt;p&gt;More information&lt;/p&gt;
+&lt;ul&gt;
+    &lt;li&gt;Source : &lt;a title="James Gosling (Father of Java) Loves Jelastic" href="http://blog.jelastic.com/2012/08/23/james-gosling-father-of-java-loves-jelastic/" target="_blank"&gt;James Gosling (Father of Java) Loves Jelastic&lt;/a&gt;&lt;/li&gt;
+    &lt;li&gt;Official Site : &lt;a title="Official Jelastic site" href="http://jelastic.com/" target="_blank"&gt;http://www.jelastic.com&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;&lt;/div&gt;</description><category>Java</category><category>Web</category><guid>http://baptiste-wicht.com/posts/2012/08/jelastic-java-host-recommended-james-gosling.html</guid><pubDate>Tue, 28 Aug 2012 08:35:19 GMT</pubDate></item><item><title>Algorithms books Reviews</title><link>http://baptiste-wicht.com/posts/2012/08/algorithms-books-reviews.html</link><dc:creator>Baptiste Wicht</dc:creator><description>&lt;div&gt;&lt;p&gt;To be sure to be well prepared for an interview, I decided to read several &lt;strong&gt;Algorithms book&lt;/strong&gt;. I also chosen books in order to have information about data structures. I chose these books to read:&lt;/p&gt;
+&lt;ol&gt;
+    &lt;li&gt;Data Structures &amp;amp; Algorithm Analysis in C++, Third Edition, by Clifford A. Shaffer&lt;/li&gt;
+    &lt;li&gt;Algorithms in a Nutshell, by George T. Heineman, Gary Pollice and Stanley Selkow&lt;/li&gt;
+    &lt;li&gt;Algorithms, Fourth Edition, by Robert Sedgewick and Kevin Wayne&lt;/li&gt;
+    &lt;li&gt;Introduction to Algorithms, by Thomas H. Cormen, Charles E. Leiserson, Ronald L. Rivest and Clifford Stein. I have to say that I have only read most of it, not completely, because some chapters were not interesting for me at the current time, but I will certainly read them later.&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;As some of my comments are about the presentation of the books, it has to be noted that I have read the three first books on my Kindle.&lt;/p&gt;
+&lt;p&gt;In this post, you will find my point of view about all these books.&lt;/p&gt;
+&lt;h4&gt;Data Structures &amp;amp; Algorithm Analysis in C++&lt;/h4&gt;
+
+&lt;p&gt;This book is really great. It contains a lot of data structures and algorithms. Each of them is very clearly presented. It is not hard to understand the data structures and the algorithms.&lt;/p&gt;
+&lt;p&gt;Each data structure is first presented as an ADT (Abstract Data Structure) and then several possible implementations are presented. Each implementation is precisely defined and analyzed to find its sweet pots and worst cases.  Other implementations are also presented with enough references to know where to start with them.&lt;/p&gt;
+&lt;p&gt;I have found that some other books about algorithms are writing too much stuff for a single thing. This is not the case with this book. Indeed, each interesting thing is clearly and succinctly explained.&lt;/p&gt;
+&lt;p&gt;About the presentation, the code is well presented and the content of the book is very well written. A good think would have been to add a summary of the most important facts about each algorithm and data structure. If you want to know these facts, you have to read several pages (but the facts are always here).&lt;/p&gt;
+&lt;p&gt;The book contains very good explanation about the complexity analysis of algorihtms. It also contains a very interesting chapter about limits to computation where it treats P, NP, NP-Complete and NP-Hard complexity classes.&lt;/p&gt;
+&lt;p&gt;This book contains a large number of exercises and projects that can be used to improve even more your algorithmic skills. Moreover, there are very good references at the end of each chapters if you want more documentation about a specific subject.&lt;/p&gt;
+&lt;p&gt;I had some difficulty reading it on my Kindle. Indeed, it's impossible to switch chapters directly with the Kindle button. If you want quick access to the next chapter, you have to use the table of contents.&lt;/p&gt;
+&lt;h4&gt;Algorithms in a Nutshell&lt;/h4&gt;
+
+&lt;p&gt;This book is much shorter than the previous one. Even if it could be a good book for beginners, I didn't liked this book a lot. The explanations are a bit messy sometimes and it could contain more data structures (even if I know that this is not the subject of the book). The analysis of the different algorithms are a bit short too. Even if it looks normal for a book that short, it has to be known that this book has no exercise.&lt;/p&gt;
+&lt;p&gt;However, this book has also several good points. Each algorithm is very well presented in a single panel. The complexity of each algorithm is directly given alongside its code. It helps finding quickly an algorithm and its main properties.&lt;/p&gt;
+&lt;p&gt;Another thing that I found good is that the author included empiric benchmarks as well as complexity analysis. The chapters about Path Finding in AI and computational geometry were very interesting, especially because it is not widely dealt with in other books.&lt;/p&gt;
+&lt;p&gt;It also has very good references for each chapter.&lt;/p&gt;
+&lt;p&gt;This book was perfect to read with Kindle, the navigation was very easy.&lt;/p&gt;
+&lt;h4&gt;Algorithms&lt;/h4&gt;
+
+&lt;p&gt;This book is a good book, but suffers from several drawbacks regarding to other books. First, the book covers a lot of data structures and algorithms. Then, it also has very good explanations about complexity classes. It also has a lot of exercises. I also liked a lot the chapter about string algorithms that was lacking in previous books.&lt;/p&gt;
+&lt;p&gt;Most of the time, the explanations are good, but sometimes, I found them quite hard to understand. Moreover, some parts of code are also hard to follow. The author included Java runs of some of programs. In my opinion, this is quite useless, empiric benchmarks could have been useful, but not single runs of the program. Some of the diagrams were also hard to read, but that's perhaps a consequence of the Kindle.&lt;/p&gt;
+&lt;p&gt;A think that disappointed me a bit is that the author doesn't use big Oh notation. Even, if we have enough information to easily get the Big Oh equivalent, I don't understand why a book about algorithms doesn't use this notation.&lt;/p&gt;
+&lt;p&gt;Just like the first book, there is no simple view of a given algorithm that contains all the information about an algorithm. Another think that disturbed me is that the author takes time to describe an API around the algorithms and data structures and about the Java API. Again, in my opinion only, it takes a too large portion of the book.&lt;/p&gt;
+&lt;p&gt;Again, this book was perfect to read with Kindle, the navigation was very easy.&lt;/p&gt;
+&lt;h4&gt;Introduction to Algorithms&lt;/h4&gt;
+
+&lt;p&gt;This book is the most complete I read about algorithms and data structures by a large factor. It has very complete explanations about complexity analysis: big Oh, Big Theta, Small O. For each data structure and algorithm, the complexity analysis is very detailed and very well explained. The pieces of code are written in a very good pseudo code manner.&lt;/p&gt;
+&lt;p&gt;As I said before, the complexity analysis are very complete and sometimes very complex. This can be either an advantage or a disadvantage, depending of what you awaits from the book. For example, the analysis is made using several notations Big Oh, Big Theta or even small Oh. Sometimes, it is a bit hard to follow, but it provides very good basis for complexity analysis in general.&lt;/p&gt;
+&lt;p&gt;The book  was also the one with the best explanations about linear time sorting algorithms. In the other books, I found difficult to understand sorts like counting sort or bucket sort, but in this book, the explanations are very clear. It also includes multithreaded algorithm analysis, number theoretic algorithms, polynomials and a very complete chapter about linear programming.&lt;/p&gt;
+&lt;p&gt;The book contains a huge number of exercises for each chapters and sub chapters.&lt;/p&gt;
+&lt;p&gt;This book will not only help you find the best suited algorithm for a given problem, it will also help you understand how to write your own algorithm for a problem or how to analyze deeply an existing solution.&lt;/p&gt;
+&lt;h4&gt;Algorithms Book Wrap-up&lt;/h4&gt;
+
+&lt;p&gt;As I read all these Algorithms books in order, it's possible that my review is a bit subjective regarding to comparisons to other books.&lt;/p&gt;
+&lt;p&gt;If you plan to work in C++ and need more knowledge in algorithms and C++, I advice you to read &lt;strong&gt;Data Structures &amp;amp; Algorithm Analysis in C++&lt;/strong&gt;, that is really awesome. If you want a very deep knowledge about algorithm analysis and algorithms in general and have good mathematical basis, you should really take a deep look at &lt;strong&gt;Introduction to Algorithms&lt;/strong&gt;. If you want short introduction about algorithms and don't care about the implementation language, you can read &lt;strong&gt;Algorithms in a Nutshell&lt;/strong&gt;. &lt;strong&gt;Algorithms&lt;/strong&gt; is like a master key, it will gives you good starting knowledge about algorithm analysis and a broad range of algorithms and data structures.&lt;/p&gt;&lt;/div&gt;</description><category>Algorithm</category><category>Books</category><category>C++</category><category>Conception</category><category>Java</category><category>Performances</category><category>Programming</category><guid>http://baptiste-wicht.com/posts/2012/08/algorithms-books-reviews.html</guid><pubDate>Fri, 24 Aug 2012 06:52:04 GMT</pubDate></item><item><title>Architexa is available for free - Understand your code base</title><link>http://baptiste-wicht.com/posts/2012/08/architexa-free-understand-code-base.html</link><dc:creator>Baptiste Wicht</dc:creator><description>&lt;div&gt;&lt;p&gt;&lt;strong&gt;Architexa&lt;/strong&gt; is a tool suite that helps a team to document collaboratively a large Java code base. The tool is made for a whole team to understand a code base. The tool is available as an Eclipse plugin.&lt;/p&gt;
+&lt;p&gt;When several developers are working on a large application, it is not always simple to have a whole view of the application. Even with some documentation of the application code. It is even harder for a new developer that joins the project to know what the code base is about. In all these cases, Architexa will help your team. It can also be useful when you inherit an application.&lt;/p&gt;
+&lt;p&gt;Starting from today, &lt;strong&gt;Architexa is available for free&lt;/strong&gt; &lt;strong&gt;for individuals and for teams of up to three developers&lt;/strong&gt;. You can read the official announce at the end of the article.&lt;/p&gt;
+&lt;h4&gt;My Review of Architexa&lt;/h4&gt;
+
+&lt;p&gt;I tried Architexa on several of my current Java Projects, but never in team. So perhaps my point of view is not very accurate regarding to general users of the tool. I made my tests using Eclipse Juno.&lt;/p&gt;
+&lt;p&gt;However, even when working alone on a project, I think that this tool is very useful.&lt;/p&gt;
+&lt;p&gt;The installation is very straightforward, you just have to use the update site directly in Eclipse. Then, you have several new options in the EDI to use Architexa features.&lt;/p&gt;
+&lt;p&gt;Three diagrams are available in the Architexa tool suite:&lt;/p&gt;
+&lt;ul&gt;
+    &lt;li&gt;&lt;strong&gt;Class Diagram&lt;/strong&gt; : This diagram can be automatically generated for a package, or several packages.&lt;/li&gt;
+    &lt;li&gt;&lt;strong&gt;Sequence Diagram&lt;/strong&gt; : You can create Sequence Diagrams for some of your program actions.&lt;/li&gt;
+    &lt;li&gt;&lt;strong&gt;Layered Diagram&lt;/strong&gt; : This diagram allows you to represent the architecture of your application. The system allows you to represent several levels of details.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;You can easily have several diagrams of each type in your project. You can store them as local files, in a server or in the community server to make them available for everyone.&lt;/p&gt;
+&lt;p&gt;You can add comment in each diagram. In each diagram you can also access the Javadoc of each class. Of course, you can also access any piece of code from your diagrams.&lt;/p&gt;
+&lt;h4&gt;Advantages&lt;/h4&gt;
+
+&lt;ul&gt;
+    &lt;li&gt;Architexa is very simple to use. The tool have access to very good guides directly inside the IDE.&lt;/li&gt;
+    &lt;li&gt;The Real-Time Code analysis is awesome. Once something is in a diagram, it is always kept up to date.&lt;/li&gt;
+    &lt;li&gt;The sharing features are also great.&lt;/li&gt;
+    &lt;li&gt;Even if there are fews diagrams, I think that there are largely enough to have a very good understanding of a code base.&lt;/li&gt;
+    &lt;li&gt;All the graphs looks very nice, there are very readable&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h4&gt;Drawbacks&lt;/h4&gt;
+
+&lt;ul&gt;
+    &lt;li&gt;No support for generics and enums.&lt;/li&gt;
+    &lt;li&gt;The tool is only available as an Eclipse plugin. I'm especially using IntelliJ Idea and NetBeans.&lt;/li&gt;
+    &lt;li&gt;The tool is only available for Java. There is a prototype for C/C++ that is available on demand, but I didn't tried it at the current time.&lt;/li&gt;
+    &lt;li&gt;Sometimes, the creation of a very simple diagram takes a bit long time for my feeling. Creating a diagram with three elements can take several seconds. Perhaps, it is better with larger diagrams. I haven't had the occasion to test it with large code .&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h4&gt;Conclusion&lt;/h4&gt;
+
+&lt;p&gt;To conclude, Architexa is a great tool suite. It is useful for any Java developers that works in a large application. It allows them to have better understanding of its code base.&lt;/p&gt;
+&lt;p&gt;The official announce: &lt;a title="Architexa Toolsuite is Now Available for Free" href="http://www.architexa.com/blog/architexa-toolsuite-is-now-available-for-free/"&gt;Architexa Tool suite is Now Available for Free&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;More information on the official site: &lt;a href="http://www.architexa.com/"&gt;http://www.architexa.com/&lt;/a&gt;&lt;/p&gt;&lt;/div&gt;</description><category>Conception</category><category>Java</category><category>Tools</category><guid>http://baptiste-wicht.com/posts/2012/08/architexa-free-understand-code-base.html</guid><pubDate>Wed, 22 Aug 2012 03:00:37 GMT</pubDate></item><item><title>COJAC, A Numerical Problem Sniffer</title><link>http://baptiste-wicht.com/posts/2012/02/cojac-a-numerical-problem-sniffer.html</link><dc:creator>Baptiste Wicht</dc:creator><description>&lt;div&gt;&lt;p&gt;During my bachelor at the HES-SO University of applied sciences in Fribourg, I worked on a Java project, &lt;strong&gt;COJAC&lt;/strong&gt;.&lt;/p&gt;
+&lt;p&gt;COJAC is a tool performing &lt;strong&gt;On-the-fly code instrumentation&lt;/strong&gt; to help uncover numerical problems with integer (overflows) and floating point (smearing, cancellation, infinity, NaN) arithmetic.&lt;/p&gt;
+&lt;p&gt;Yesterday, Dr Dobbs published an article by one of my professor Frédéric Bapst and myself.&lt;/p&gt;
+&lt;p&gt;This article discusses the question of numerical problems in programming, and focuses on the approach of using on-the-fly code instrumentation to uncover them at runtime. Two realizations are presented: a complete and stable solution for Java applications, and a proof-of-concept Valgrind add-on for Linux executables. Both tools require no intervention on the source code and no recompilation, and should be helpful as a diagnostic tool for developers, as well as for education purposes for undergraduate programmers.&lt;/p&gt;
+&lt;p&gt;If you are interested by this project, I invite you to read the article on Dr Dobbs : &lt;a title="Project of the Month: Cojac, A Numerical Problem Sniffer" href="http://drdobbs.com/testing/232601564" target="_blank"&gt;Project of the Month: Cojac, A Numerical Problem Sniffer&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;You can also test the tool or browse the source code by downloading it on the &lt;a title="COJAC - The numerical problem sniffer for Java" href="https://code.google.com/p/cojac/" target="_blank"&gt;COJAC website&lt;/a&gt;.&lt;/p&gt;&lt;/div&gt;</description><category>Compilers</category><category>Java</category><category>Performances</category><guid>http://baptiste-wicht.com/posts/2012/02/cojac-a-numerical-problem-sniffer.html</guid><pubDate>Tue, 28 Feb 2012 12:24:28 GMT</pubDate></item><item><title>Compilers : Principles, Techniques &amp; Tools - Book Review</title><link>http://baptiste-wicht.com/posts/2012/01/compilers-principles-techniques-tools.html</link><dc:creator>Baptiste Wicht</dc:creator><description>&lt;div&gt;&lt;p&gt;Some weeks ago, I finished reading &lt;strong&gt;Compilers : Principles, Techniques &amp;amp; Tools&lt;/strong&gt;, by Afred V. Aho, Monica S. Lam, Ravi Sethi and Jeffrey D. Ullman. This book is also called the &lt;strong&gt;Dragon Book&lt;/strong&gt; due to the cover.&lt;/p&gt;
+&lt;p&gt;This book is a reference about compiler construction and design. If you are interested in this subject, this book is for you, it's a must-have. However, I have to warn you that this book is very technical and hard. Honestly, some of the chapters are beyond my comprehension. Before this book, I had no real comprehension of the subject. I will certainly read again some of the chapters when I will have more practice into the subject.&lt;/p&gt;
+&lt;p&gt;If you want, the book is full of exercises about each subject covered in the book. If you plan to do all the exercises, you'll need a lot of time as there are a lot of them and some of them are quite hard. I've done some of them but only a little part.&lt;/p&gt;
+&lt;p&gt;The first chapter introduces the construction of compilers. You will see the common structure of compilers, the evolution of programming languages and the science behind building a compiler and its applications. The second chapter is still quite general. It will teach you how to develop a simple syntax-directed translator. This chapter is very important as it will give you the basics for understanding the following chapters. You will learn how to define a grammar, what are the main parsing techniques and what is lexical analysis. It will also covers symbol tables and intermediate language generation.&lt;/p&gt;
+&lt;p&gt;With the third chapter (&lt;strong&gt;Lexical Analysis&lt;/strong&gt;), we are entering the hearth of the matter. You will learn the vocabulary behind lexical analysis (tokens, lexemes, attributes, ...). Then, after you've learned how to define and recognize tokens, you will see the different techniques to build an efficient lexical analyzer. The first technique that will be covered is the use of a lexer generator (Lex). Then you will see in details how to construct a lexer using regular expressions or finite automata especially Nondeterministic Finite Automata and Deterministic Finite Automata.&lt;/p&gt;
+&lt;p&gt;The next one (&lt;strong&gt;Syntax Analysis&lt;/strong&gt;) is about parsing. After learning how to define and write a grammar you will see how to parse it. You will see in details the most commons types of parsing (Top-Down, Bottom-Up) and the most common parsers (LL(K) and LR(K) parsers). The construction of these kinds of parsers is covered in details and the way to optimize them is also teached. Finally, you will see how to automatically generate a parser using Lex and Yacc. This chapter is sometimes very hard to understand (in my own opinion) but very interesting especially if you plan to build parser without generating it with some advanced tools (for example Yacc or Boost Spirit for C++).&lt;/p&gt;
+&lt;p&gt;The fourth chapter (&lt;strong&gt;Syntax Directed Translation&lt;/strong&gt;) explains you how to translate some source code (parse it) into a coherent structure (an abstract tree) using a Syntax Directed Scheme. The translation is made based on a syntax using semantic actions and rules to translate the source into something else. You'll see different ways of doing that translations.&lt;/p&gt;
+&lt;p&gt;Then, the next one (&lt;strong&gt;Intermediate Code Generation&lt;/strong&gt;) teaches you how to generate Intermediate Code from the source. Two different representations are covered : syntax trees and three-address-code. Another subject covered in this chapter is type checking. You'll see in details how to translate expressions, control flow instructions and switch statements into three-address-code statements.&lt;/p&gt;
+&lt;p&gt;The seventh chapter (&lt;strong&gt;Run-Time Environment&lt;/strong&gt;) gives a lot of information about the different run-time targets that you can compile for. A lot of subjects are covered here: stack and heap allocation, locality exploitation, garbage collectors... This chapter is in my opinion a very good instruction to computer architecture. You cannot imagine develop a compiler without having a deep understanding of the target machine.&lt;/p&gt;
+&lt;p&gt;The next chapter (&lt;strong&gt;Code Generation&lt;/strong&gt;) is also a very important one. In this chapter, you will see how to generate assembly code from the three-address-code. You will learn how to select the good instructions. A very important subject covered in this chapter is register allocation. You'll learn how to choose wisely the registers to produce efficient code. The basic blocks are also covered there with flow graphs. More than just generating code from Three-Address-Code statements, you'll also see how to optimize them. Only local (to a basic block) optimization techniques  will be covered in this chapter. Several techniques that aims at testing if code is optimal are also taught there.&lt;/p&gt;
+&lt;p&gt;The global optimizations are covered in the next chapter (&lt;strong&gt;Machine-Independent Optimizations&lt;/strong&gt;). You will discover several optimizations that you can do globally (inside a function but among different basic blocks). A data-flow analysis framework is explained here in details. After that, for each of the optimization, the parameters of the data flow analysis are explained. The optimization of loops is treated too.&lt;/p&gt;
+&lt;p&gt;The three next chapters (&lt;strong&gt;Instruction-Level Parallelism&lt;/strong&gt;, &lt;strong&gt;Optimizing for Parallelism&lt;/strong&gt; &lt;strong&gt;and Localit&lt;/strong&gt;y and &lt;strong&gt;Interprocedural Analysis&lt;/strong&gt;) are the most complex of the book. They are covering in details the optimizations that can be made when a compiler supports instruction-level parallelism (executes several instructions in one clock cycle). It also covers interprocedural analysis of a program to allow even better optimization than global optimization inside a function. Honestly, I didn't understand some of the concepts described here. I will read them again one by one, chapter by chapter and try to implement some of the techniques in EDDI in the future.&lt;/p&gt;
+&lt;p&gt;To conclude, I will say that Compilers : Principles, Techniques &amp;amp; Tools is a very good book that every compiler designer and developer should read before starting constructing a  compiler. Although very technical, it's quite clear and contains a huge amount of information. If  you plan to develop a compiler, it is a very good idea to read this book first.&lt;/p&gt;
+&lt;p&gt;I've implement some of the techniques explained in this book in my own compiler. I implemented most of the local optimizations presented and Intermediate Code generation. You can find some information &lt;a title="EDDIC 0.7 : New compilation model and optimizations" href="http://www.baptiste-wicht.com/2012/01/eddic-0-7-compiler-model-optimizations/"&gt;here&lt;/a&gt;.&lt;/p&gt;&lt;/div&gt;</description><category>Books</category><category>C++</category><category>Compilers</category><category>EDDI</category><category>Java</category><category>Optimization</category><category>Programming</category><guid>http://baptiste-wicht.com/posts/2012/01/compilers-principles-techniques-tools.html</guid><pubDate>Thu, 12 Jan 2012 08:27:19 GMT</pubDate></item><item><title>Java 7 has been released!</title><link>http://baptiste-wicht.com/posts/2011/07/java-7-has-been-released.html</link><dc:creator>Baptiste Wicht</dc:creator><description>&lt;div&gt;&lt;p&gt;Five years after Java 6, Oracle has just released Java 7!&lt;/p&gt;
+&lt;p&gt;This is the first release of Java since Oracle bought Sun Microsystems.&lt;/p&gt;
+&lt;p&gt;This new version of Java introduces a lot of new features, but some of the languages new features will be introduced in Java 8 &lt;a title="Java 7 delays and Plan B" href="http://www.baptiste-wicht.com/2010/09/java-7-delays-and-plan-b/"&gt;as stated by the "Plan B"&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;In this version, there some great new language features, as stated by the JSR 334 :&lt;/p&gt;
+&lt;ul&gt;
+    &lt;li&gt;Strings in switch&lt;/li&gt;
+    &lt;li&gt;Binary integral literals and underscores in numeric literals&lt;/li&gt;
+    &lt;li&gt;&lt;a title="Better exception handling in Java 7 : Multicatch and precise rethrow" href="http://www.baptiste-wicht.com/2010/05/better-exception-handling-in-java-7-multicatch-and-final-rethrow/"&gt;Multi-catch and more precise rethrow&lt;/a&gt;&lt;/li&gt;
+    &lt;li&gt;Improved Type Inference for Generic Instance Creation (diamond)&lt;/li&gt;
+    &lt;li&gt;&lt;a title="Java 7 : try with resources statement" href="http://www.baptiste-wicht.com/2010/08/java-7-try-with-resources-statement/"&gt;try-with-resources statement&lt;/a&gt;&lt;/li&gt;
+    &lt;li&gt;Simplified Varargs Method Invocation&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;We will also see &lt;a title="Java 7 : New I/O Features with NIO.2" href="http://www.baptiste-wicht.com/2010/04/java-7-new-io-features-asynchronous-operations-multicasting-random-access-with-jsr-203-nio-2/"&gt;the new NIO.2 API &lt;/a&gt;(specified by the JSR 203).&lt;/p&gt;
+&lt;p&gt;A new bytecode instruction has been added to the virtual machine, &lt;a title="Java 7 : More dynamics" href="http://www.baptiste-wicht.com/2010/04/java-7-more-dynamics/"&gt;InvokeDynamic&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;You can &lt;a title="Download Java 7 on Oracle website" href="http://www.oracle.com/technetwork/java/javase/downloads/index.html"&gt;download Java SE 7&lt;/a&gt; on the Oracle website.&lt;/p&gt;
+&lt;p&gt;I think it was time now for Java to have a new version with some refreshing, and it's IMO a good new version that we have now. I just hope that the next version,  Java 8, will be here in less than five years to &lt;a title="Oracle pushes a first version of the closures" href="http://www.baptiste-wicht.com/2010/05/oracle-pushes-a-first-version-of-closures/"&gt;give us the closures&lt;/a&gt;.&lt;/p&gt;&lt;/div&gt;</description><category>Java</category><category>Java 7</category><guid>http://baptiste-wicht.com/posts/2011/07/java-7-has-been-released.html</guid><pubDate>Thu, 28 Jul 2011 11:46:53 GMT</pubDate></item><item><title>JTheque Core 2.1.0 released !</title><link>http://baptiste-wicht.com/posts/2010/10/jtheque-core-2-1-0-released.html</link><dc:creator>Baptiste Wicht</dc:creator><description>&lt;div&gt;&lt;p&gt;It's my pleasure to announce that I've finally released &lt;strong&gt;JTheque Core 2.1.0&lt;/strong&gt; !&lt;/p&gt;
+&lt;p&gt;The different services of the core are now separated using &lt;strong&gt;OSGi&lt;/strong&gt;. With this separation, I've improved a lot the design of the core and the orthogonality of the different services. Each service is now an OSGi bundle. I've also refactored the implementation of all services. Several services have been completely rewritten. The majority of the bundles are now thread-safe.&lt;/p&gt;
+&lt;p&gt;Now, to create modules for a JTheque application, you have to write an OSGi bundle representing the module. Then, you only have to use Spring to launch the module. This is done using &lt;strong&gt;Spring Dynamic Modules&lt;/strong&gt;. The used OSGi container is &lt;strong&gt;Felix&lt;/strong&gt;.&lt;/p&gt;
+&lt;p&gt;Now that this version of the core is finalized, I'll updates the applications. First of all, JTheque Movies with the new version of the core.&lt;/p&gt;
+&lt;p&gt;Fore more informations and to download JTheque Core, you can go on &lt;a href="http://www.jtheque.com/jtheque-core"&gt;the description page&lt;/a&gt;. If you want to try developing a module (or see how it is done), you can consult &lt;a href="http://www.jtheque.com/jtheque-core/guides/develop-modular-application-jtheque-core-2-1-0"&gt;this starter guide&lt;/a&gt;.&lt;/p&gt;&lt;/div&gt;</description><category>Java</category><category>JTheque</category><category>Modular</category><category>OSGi</category><category>Releases</category><category>Spring</category><guid>http://baptiste-wicht.com/posts/2010/10/jtheque-core-2-1-0-released.html</guid><pubDate>Wed, 20 Oct 2010 05:12:33 GMT</pubDate></item><item><title>Compute command-line arguments with Apache Commons CLI</title><link>http://baptiste-wicht.com/posts/2010/10/compute-command-line-arguments-with-apache-commons-cli.html</link><dc:creator>Baptiste Wicht</dc:creator><description>&lt;div&gt;&lt;p&gt;For a project at school, I needed to refactor an old code parsing almost 30 command line arguments. I needed to add some more arguments and change some old args, but the old code was not maintainable at all. So I decided to use a library to make the parsing. of the args. &lt;/p&gt;
+&lt;p&gt;I chose Apache Commons CLI. This is a really simple library to make that parsing. It's not perfect, but it makes the work I needed and is powerful to do that job. &lt;/p&gt;
+&lt;p&gt;With this API, you have to declare an Options instance. This class is used to describe the command line arguments of the program. Options constructor don't take any arguments. &lt;/p&gt;
+&lt;pre class="code literal-block"&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="n"&gt;Options&lt;/span&gt; &lt;span class="n"&gt;options&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="k"&gt;new&lt;/span&gt; &lt;span class="n"&gt;Options&lt;/span&gt;&lt;span class="o"&gt;();&lt;/span&gt;
+&lt;/pre&gt;
+
+
+&lt;p class="more"&gt;&lt;a href="http://baptiste-wicht.com/posts/2010/10/compute-command-line-arguments-with-apache-commons-cli.html"&gt;Read more…&lt;/a&gt;&lt;/p&gt;&lt;/div&gt;</description><category>Apache</category><category>Java</category><category>Libraries</category><guid>http://baptiste-wicht.com/posts/2010/10/compute-command-line-arguments-with-apache-commons-cli.html</guid><pubDate>Thu, 14 Oct 2010 05:22:45 GMT</pubDate></item><item><title>Swing tip : A better SwingWorker without exception swallowing</title><link>http://baptiste-wicht.com/posts/2010/09/a-better-swingworker.html</link><dc:creator>Baptiste Wicht</dc:creator><description>&lt;div&gt;&lt;p&gt;When we develop Swing applications, SwingWorker are very helpful. But there is a big disadvantage using this class. if you don't call get() in the done method, you will lose all the exceptions that the computation in the doInBackground() has thrown. And you action can stop and you will never see why. In 95% of my actions using SwingWorker, the doInBackground() return nothing.&lt;/p&gt;
+&lt;p&gt;Jonathan Giles has presented on his blog a good solution to solve this exception swallowing. In my side, I've often something to do in the EDT before the doInBackground() run, so I've made the changes on the code presented by Jonathan and it gave me that simple class that I found better than the SwingWorker :&lt;/p&gt;
+&lt;pre class="code literal-block"&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="kd"&gt;public&lt;/span&gt; &lt;span class="kd"&gt;abstract&lt;/span&gt; &lt;span class="kd"&gt;class&lt;/span&gt; &lt;span class="nc"&gt;BetterSwingWorker&lt;/span&gt; &lt;span class="o"&gt;{&lt;/span&gt;
+    &lt;span class="kd"&gt;private&lt;/span&gt; &lt;span class="kd"&gt;final&lt;/span&gt; &lt;span class="n"&gt;SwingWorker&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="n"&gt;Void&lt;/span&gt;&lt;span class="o"&gt;,&lt;/span&gt; &lt;span class="n"&gt;Void&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt; &lt;span class="n"&gt;worker&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="k"&gt;new&lt;/span&gt; &lt;span class="n"&gt;SimpleSwingWorker&lt;/span&gt;&lt;span class="o"&gt;();&lt;/span&gt;
+
+    &lt;span class="kd"&gt;public&lt;/span&gt; &lt;span class="kt"&gt;void&lt;/span&gt; &lt;span class="nf"&gt;execute&lt;/span&gt;&lt;span class="o"&gt;()&lt;/span&gt; &lt;span class="o"&gt;{&lt;/span&gt;
+        &lt;span class="n"&gt;SwingUtilities&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="na"&gt;invokeLater&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="k"&gt;new&lt;/span&gt; &lt;span class="n"&gt;Runnable&lt;/span&gt;&lt;span class="o"&gt;()&lt;/span&gt; &lt;span class="o"&gt;{&lt;/span&gt;
+            &lt;span class="nd"&gt;@Override&lt;/span&gt;
+            &lt;span class="kd"&gt;public&lt;/span&gt; &lt;span class="kt"&gt;void&lt;/span&gt; &lt;span class="nf"&gt;run&lt;/span&gt;&lt;span class="o"&gt;()&lt;/span&gt; &lt;span class="o"&gt;{&lt;/span&gt;
+                &lt;span class="n"&gt;before&lt;/span&gt;&lt;span class="o"&gt;();&lt;/span&gt;
+            &lt;span class="o"&gt;}&lt;/span&gt;
+        &lt;span class="o"&gt;});&lt;/span&gt;
+
+        &lt;span class="n"&gt;worker&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="na"&gt;execute&lt;/span&gt;&lt;span class="o"&gt;();&lt;/span&gt;
+    &lt;span class="o"&gt;}&lt;/span&gt;
+
+    &lt;span class="kd"&gt;protected&lt;/span&gt; &lt;span class="kt"&gt;void&lt;/span&gt; &lt;span class="nf"&gt;before&lt;/span&gt;&lt;span class="o"&gt;()&lt;/span&gt; &lt;span class="o"&gt;{&lt;/span&gt;
+        &lt;span class="c1"&gt;//Nothing by default&lt;/span&gt;
+    &lt;span class="o"&gt;}&lt;/span&gt;
+
+    &lt;span class="kd"&gt;protected&lt;/span&gt; &lt;span class="kd"&gt;abstract&lt;/span&gt; &lt;span class="kt"&gt;void&lt;/span&gt; &lt;span class="nf"&gt;doInBackground&lt;/span&gt;&lt;span class="o"&gt;()&lt;/span&gt; &lt;span class="kd"&gt;throws&lt;/span&gt; &lt;span class="n"&gt;Exception&lt;/span&gt;&lt;span class="o"&gt;;&lt;/span&gt;
+
+    &lt;span class="kd"&gt;protected&lt;/span&gt; &lt;span class="kd"&gt;abstract&lt;/span&gt; &lt;span class="kt"&gt;void&lt;/span&gt; &lt;span class="nf"&gt;done&lt;/span&gt;&lt;span class="o"&gt;();&lt;/span&gt;
+
+    &lt;span class="kd"&gt;private&lt;/span&gt; &lt;span class="kd"&gt;class&lt;/span&gt; &lt;span class="nc"&gt;SimpleSwingWorker&lt;/span&gt; &lt;span class="kd"&gt;extends&lt;/span&gt; &lt;span class="n"&gt;SwingWorker&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="n"&gt;Void&lt;/span&gt;&lt;span class="o"&gt;,&lt;/span&gt; &lt;span class="n"&gt;Void&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt; &lt;span class="o"&gt;{&lt;/span&gt;
+        &lt;span class="nd"&gt;@Override&lt;/span&gt;
+        &lt;span class="kd"&gt;protected&lt;/span&gt; &lt;span class="n"&gt;Void&lt;/span&gt; &lt;span class="nf"&gt;doInBackground&lt;/span&gt;&lt;span class="o"&gt;()&lt;/span&gt; &lt;span class="kd"&gt;throws&lt;/span&gt; &lt;span class="n"&gt;Exception&lt;/span&gt; &lt;span class="o"&gt;{&lt;/span&gt;
+            &lt;span class="n"&gt;BetterSwingWorker&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="na"&gt;this&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="na"&gt;doInBackground&lt;/span&gt;&lt;span class="o"&gt;();&lt;/span&gt;
+
+            &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="kc"&gt;null&lt;/span&gt;&lt;span class="o"&gt;;&lt;/span&gt;
+        &lt;span class="o"&gt;}&lt;/span&gt;
+
+        &lt;span class="nd"&gt;@Override&lt;/span&gt;
+        &lt;span class="kd"&gt;protected&lt;/span&gt; &lt;span class="kt"&gt;void&lt;/span&gt; &lt;span class="nf"&gt;done&lt;/span&gt;&lt;span class="o"&gt;()&lt;/span&gt; &lt;span class="o"&gt;{&lt;/span&gt;
+            &lt;span class="k"&gt;try&lt;/span&gt; &lt;span class="o"&gt;{&lt;/span&gt;
+                &lt;span class="n"&gt;get&lt;/span&gt;&lt;span class="o"&gt;();&lt;/span&gt;
+            &lt;span class="o"&gt;}&lt;/span&gt; &lt;span class="k"&gt;catch&lt;/span&gt; &lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="kd"&gt;final&lt;/span&gt; &lt;span class="n"&gt;InterruptedException&lt;/span&gt; &lt;span class="n"&gt;ex&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt; &lt;span class="o"&gt;{&lt;/span&gt;
+                &lt;span class="k"&gt;throw&lt;/span&gt; &lt;span class="k"&gt;new&lt;/span&gt; &lt;span class="n"&gt;RuntimeException&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="n"&gt;ex&lt;/span&gt;&lt;span class="o"&gt;);&lt;/span&gt;
+            &lt;span class="o"&gt;}&lt;/span&gt; &lt;span class="k"&gt;catch&lt;/span&gt; &lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="kd"&gt;final&lt;/span&gt; &lt;span class="n"&gt;ExecutionException&lt;/span&gt; &lt;span class="n"&gt;ex&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt; &lt;span class="o"&gt;{&lt;/span&gt;
+                &lt;span class="k"&gt;throw&lt;/span&gt; &lt;span class="k"&gt;new&lt;/span&gt; &lt;span class="n"&gt;RuntimeException&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="n"&gt;ex&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="na"&gt;getCause&lt;/span&gt;&lt;span class="o"&gt;());&lt;/span&gt;
+            &lt;span class="o"&gt;}&lt;/span&gt;
+
+            &lt;span class="n"&gt;BetterSwingWorker&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="na"&gt;this&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="na"&gt;done&lt;/span&gt;&lt;span class="o"&gt;();&lt;/span&gt;
+        &lt;span class="o"&gt;}&lt;/span&gt;
+    &lt;span class="o"&gt;}&lt;/span&gt;
+&lt;span class="o"&gt;}&lt;/span&gt;
+&lt;/pre&gt;
+
+
+&lt;p&gt;You can use it as the default SwingWorker. You must implement the doInBackground() and done() methods and you can, only if you want, override the before() method that is invoked in the EDT at the start of the process. And then, you can execute your SwingWorker using execute(). &lt;/p&gt;
+&lt;p&gt;I hope this little class can be useful to somebody. &lt;/p&gt;
+&lt;p&gt;&lt;a title="A SwingWorker that doesn’t swallow exceptions" href="http://jonathangiles.net/blog/?p=341" target="_blank"&gt;Source for the non-swallowing swingworker.&lt;/a&gt;&lt;/p&gt;&lt;/div&gt;</description><category>Java</category><category>Swing</category><category>Tips</category><guid>http://baptiste-wicht.com/posts/2010/09/a-better-swingworker.html</guid><pubDate>Fri, 24 Sep 2010 05:36:55 GMT</pubDate></item><item><title>JDK 7 Features updated ! Plan B has apparently been approved</title><link>http://baptiste-wicht.com/posts/2010/09/jdk-7-features-updated-plan-b-is-apparently-here.html</link><dc:creator>Baptiste Wicht</dc:creator><description>&lt;div&gt;&lt;p&gt;I was presenting the &lt;strong&gt;Plan B&lt;/strong&gt; of &lt;strong&gt;JDK 7&lt;/strong&gt; the last week and apparently, this plan has been approved.&lt;/p&gt;
+&lt;p&gt;The &lt;a href="http://openjdk.java.net/projects/jdk7/features/" target="_blank"&gt;JDK 7 Features page&lt;/a&gt; has been updated on the site of &lt;strong&gt;Oracle&lt;/strong&gt;.&lt;/p&gt;
+&lt;p&gt;So here are the (definitive ?) list of features for JDK 7 :&lt;/p&gt;
+&lt;ul&gt;
+    &lt;li&gt;JSR 292: Support for dynamically-typed languages (InvokeDynamic)&lt;/li&gt;
+    &lt;li&gt;Languages update of the project Coin&lt;/li&gt;
+    &lt;li&gt;Concurrency and collections updates (jsr166y)&lt;/li&gt;
+    &lt;li&gt;ionet   JSR 203: More new I/O APIs for the Java platform (NIO.2)&lt;/li&gt;
+    &lt;li&gt;SCTP (Stream Control Transmission Protocol)&lt;/li&gt;
+    &lt;li&gt;SDP (Sockets Direct Protocol)&lt;/li&gt;
+    &lt;li&gt;Elliptic-curve cryptography (ECC)&lt;/li&gt;
+    &lt;li&gt;client  XRender pipeline for Java 2D&lt;/li&gt;
+    &lt;li&gt;Create new platform APIs for 6u10 graphics features&lt;/li&gt;
+    &lt;li&gt;Nimbus look-and-feel for Swing&lt;/li&gt;
+    &lt;li&gt;Swing JLayer component&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;And we can also see that there is some new features that we doesn't have seen before:&lt;/p&gt;
+&lt;ul&gt;
+    &lt;li&gt;TLS 1.2&lt;/li&gt;
+    &lt;li&gt;JDBC 4.1&lt;/li&gt;
+    &lt;li&gt;Unicode 6.0&lt;/li&gt;
+    &lt;li&gt;Locale enhancement&lt;/li&gt;
+    &lt;li&gt;Separate user locale and user-interface locale&lt;/li&gt;
+    &lt;li&gt;NIO.2 filesystem provider for zip/jar archives&lt;/li&gt;
+    &lt;li&gt;Use the Windows Vista IPv6 stack when available&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;And after all that informations, we can see the features delayed to JDK 8 :&lt;/p&gt;
+&lt;ul&gt;
+    &lt;li&gt;JSR 294: Language and VM support for modular programming&lt;/li&gt;
+    &lt;li&gt;JSR 308: Annotations on Java types&lt;/li&gt;
+    &lt;li&gt;JSR TBD: Language support for collections [NEW]&lt;/li&gt;
+    &lt;li&gt;JSR TBD: Project Lambda&lt;/li&gt;
+    &lt;li&gt;Modularization (Project Jigsaw)&lt;/li&gt;
+    &lt;li&gt;JSR 296: Swing application framework&lt;/li&gt;
+    &lt;li&gt;Swing JDatePicker component&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;For more informations and the complete list of features for the two versions of JDK, you can consult the &lt;a title="JDK 7 Features" href="http://openjdk.java.net/projects/jdk7/features/" target="_blank"&gt;JDK 7 Features&lt;/a&gt; page. There will certainly be some additional informations at JavaOne this week.&lt;/p&gt;&lt;/div&gt;</description><category>Java</category><category>Java 7</category><category>Releases</category><guid>http://baptiste-wicht.com/posts/2010/09/jdk-7-features-updated-plan-b-is-apparently-here.html</guid><pubDate>Mon, 20 Sep 2010 04:15:28 GMT</pubDate></item><item><title>JTheque Utils 1.1.5</title><link>http://baptiste-wicht.com/posts/2010/09/jtheque-utils-1-1-5.html</link><dc:creator>Baptiste Wicht</dc:creator><description>&lt;div&gt;&lt;p&gt;It's my pleasure to announce the release of a new version of &lt;strong&gt;JTheque Utils&lt;/strong&gt;, the &lt;strong&gt;1.1.5&lt;/strong&gt;.&lt;/p&gt;
+&lt;p&gt;There is a lot of changes in this version. First of all, the library is now OSGi Ready, you can use it with no problem in an OSGi application. Here are the main changes of this version :&lt;/p&gt;
+&lt;p&gt;&lt;/p&gt;&lt;ul&gt;
+    &lt;li&gt;The main classes have been made thread safe and all the classes are now documented to indicate if they are thread safe, not thread safe or immutable.&lt;/li&gt;
+    &lt;li&gt;The library has now some annotations to document thread safety, thanks to Brian Goetz for the idea&lt;/li&gt;
+    &lt;li&gt;SwingUtils support now headless environment&lt;/li&gt;
+    &lt;li&gt;Version has a better version comparison&lt;/li&gt;
+    &lt;li&gt;A new simple way to manage system properties with the SystemProperty class&lt;/li&gt;
+    &lt;li&gt;CollectionUtils has a new set of methods to create collections and concurrent collections&lt;/li&gt;
+    &lt;li&gt;A simple thread safe weak event listener list, WeakEventListenerList&lt;/li&gt;
+    &lt;li&gt;HashCodeUtils has been improved to manage arrays&lt;/li&gt;
+    &lt;li&gt;Some classes have been made Immutable&lt;/li&gt;
+    &lt;li&gt;The utility class have new methods&lt;/li&gt;
+    &lt;li&gt;And a lot of other little changes and bug fixes&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;More informations on &lt;a title="JTheque Utils" href="http://www.jtheque.com/jtheque-utils" target="_self"&gt;the JTheque website&lt;/a&gt;.  You can download it &lt;a title="Downloads of JTheque Utils" href="http://www.jtheque.com/jtheque-utils/downloads" target="_blank"&gt;from here&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;I hope that this library will be useful to someone.&lt;/p&gt;&lt;/div&gt;</description><category>Java</category><category>JTheque</category><category>Libraries</category><category>OSGi</category><category>Releases</category><guid>http://baptiste-wicht.com/posts/2010/09/jtheque-utils-1-1-5.html</guid><pubDate>Thu, 16 Sep 2010 06:01:19 GMT</pubDate></item><item><title>Java Concurrency - Part 7 : Executors and thread pools</title><link>http://baptiste-wicht.com/posts/2010/09/java-concurrency-part-7-executors-and-thread-pools.html</link><dc:creator>Baptiste Wicht</dc:creator><description>&lt;div&gt;&lt;p&gt;Let's start with a new post in the Java concurrency series.&lt;/p&gt;
+&lt;p&gt;This time we'll learn how to start cleanly new threads and to manage thread pools. In Java, if you have a Runnable like this :&lt;/p&gt;
+&lt;pre class="code literal-block"&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="n"&gt;Runnable&lt;/span&gt; &lt;span class="n"&gt;runnable&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="k"&gt;new&lt;/span&gt; &lt;span class="n"&gt;Runnable&lt;/span&gt;&lt;span class="o"&gt;(){&lt;/span&gt;
+   &lt;span class="kd"&gt;public&lt;/span&gt; &lt;span class="kt"&gt;void&lt;/span&gt; &lt;span class="nf"&gt;run&lt;/span&gt;&lt;span class="o"&gt;(){&lt;/span&gt;
+      &lt;span class="n"&gt;System&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="na"&gt;out&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="na"&gt;println&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="s"&gt;"Run"&lt;/span&gt;&lt;span class="o"&gt;);&lt;/span&gt;
+   &lt;span class="o"&gt;}&lt;/span&gt;
+&lt;span class="o"&gt;}&lt;/span&gt;
+&lt;/pre&gt;
+
+
+&lt;p&gt;You can easily run it in a new thread :&lt;/p&gt;
+&lt;pre class="code literal-block"&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="k"&gt;new&lt;/span&gt; &lt;span class="n"&gt;Thread&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="n"&gt;runnable&lt;/span&gt;&lt;span class="o"&gt;).&lt;/span&gt;&lt;span class="na"&gt;start&lt;/span&gt;&lt;span class="o"&gt;();&lt;/span&gt;
+&lt;/pre&gt;
+
+
+&lt;p&gt;This is very simple and clean, but what if you've several long running tasks that you want to load in parralel and then wait for the completion of all the tasks, it's a little bit harder to code and if you want to get the return value of all the tasks it becomes really difficult to keep a good code. But like for almost any problems, Java has a solution for you, the Executors. This simple class allows you to create thread pools and thread factories.&lt;/p&gt;
+&lt;p class="more"&gt;&lt;a href="http://baptiste-wicht.com/posts/2010/09/java-concurrency-part-7-executors-and-thread-pools.html"&gt;Read more…&lt;/a&gt;&lt;/p&gt;&lt;/div&gt;</description><category>Concurrency</category><category>Java</category><guid>http://baptiste-wicht.com/posts/2010/09/java-concurrency-part-7-executors-and-thread-pools.html</guid><pubDate>Wed, 15 Sep 2010 05:17:27 GMT</pubDate></item><item><title>Java 7 Delays and Plan B</title><link>http://baptiste-wicht.com/posts/2010/09/java-7-delays-and-plan-b.html</link><dc:creator>Baptiste Wicht</dc:creator><description>&lt;div&gt;&lt;p&gt;Mark Reinhold has posted a message about the planning of &lt;strong&gt;Java &lt;/strong&gt;7. In this message, he explains that the current schedule of the JDK 7 is completely unrealistic. This delay is due to the add of new projects (lambda, Coin, Jigsaw) and the acquisition of Sun by Oracle. &lt;/p&gt;
+&lt;p&gt;The current estimate by the team is that the JDK7 can be complete for a release around the middle of 2012. &lt;/p&gt;
+&lt;p&gt;But, Mark indicates a new option, the "Plan B". With this plan, the JDK7 will be available at mid 2011 without Jigsaw and Lambda and with only a portion of the Coin Project. And JDK8 will be released in late 2012 with the complete set of features scheduled actually for JDK7. &lt;/p&gt;
+&lt;p&gt;Personnally, I think it's a good idea to separate the two releases and have a first release soon. Like Mark says, it makes a very long time that we don't have had a new Java release, so it will be interesting to have a light JDK7 before 2012. &lt;/p&gt;
+&lt;p&gt;And you, what do you think ? &lt;/p&gt;
+&lt;p&gt;Source : &lt;a target="_blank" href="http://blogs.sun.com/mr/entry/rethinking_jdk7"&gt;Re-thinking JDK7&lt;/a&gt;, by Mark Reinhold&lt;/p&gt;&lt;/div&gt;</description><category>Java</category><category>Java 7</category><category>Releases</category><guid>http://baptiste-wicht.com/posts/2010/09/java-7-delays-and-plan-b.html</guid><pubDate>Thu, 09 Sep 2010 05:17:29 GMT</pubDate></item><item><title>Java Concurrency - Part 6 : Atomic Variables</title><link>http://baptiste-wicht.com/posts/2010/09/java-concurrency-atomic-variables.html</link><dc:creator>Baptiste Wicht</dc:creator><description>&lt;div&gt;&lt;p&gt;When a data (typically a variable) can be accessed by several threads, you must synchronize the access to the data to ensure visibility and correctness. &lt;/p&gt;
+&lt;p&gt;By example, if you have a simple counter (yes, once again) : &lt;/p&gt;
+&lt;pre class="code literal-block"&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="kd"&gt;public&lt;/span&gt; &lt;span class="kd"&gt;class&lt;/span&gt; &lt;span class="nc"&gt;Counter&lt;/span&gt; &lt;span class="o"&gt;{&lt;/span&gt;
+    &lt;span class="kd"&gt;private&lt;/span&gt; &lt;span class="kt"&gt;int&lt;/span&gt; &lt;span class="n"&gt;value&lt;/span&gt;&lt;span class="o"&gt;;&lt;/span&gt;
+
+    &lt;span class="kd"&gt;public&lt;/span&gt; &lt;span class="kt"&gt;int&lt;/span&gt; &lt;span class="nf"&gt;getValue&lt;/span&gt;&lt;span class="o"&gt;(){&lt;/span&gt;
+        &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="n"&gt;value&lt;/span&gt;&lt;span class="o"&gt;;&lt;/span&gt;
+    &lt;span class="o"&gt;}&lt;/span&gt;
+
+    &lt;span class="kd"&gt;public&lt;/span&gt; &lt;span class="kt"&gt;int&lt;/span&gt; &lt;span class="nf"&gt;getNextValue&lt;/span&gt;&lt;span class="o"&gt;(){&lt;/span&gt;
+        &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="n"&gt;value&lt;/span&gt;&lt;span class="o"&gt;++;&lt;/span&gt;
+    &lt;span class="o"&gt;}&lt;/span&gt;
+
+    &lt;span class="kd"&gt;public&lt;/span&gt; &lt;span class="kt"&gt;int&lt;/span&gt; &lt;span class="nf"&gt;getPreviousValue&lt;/span&gt;&lt;span class="o"&gt;(){&lt;/span&gt;
+        &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="n"&gt;value&lt;/span&gt;&lt;span class="o"&gt;--;&lt;/span&gt;
+    &lt;span class="o"&gt;}&lt;/span&gt;
+&lt;span class="o"&gt;}&lt;/span&gt;
+&lt;/pre&gt;
+
+
+&lt;p&gt;This class works really well in single-threaded environment, but don't work at all when several threads access the same Counter instance. If you don't know why, read &lt;a target="_blank" href="http://www.baptiste-wicht.com/2010/08/java-concurrrency-synchronization-locks/"&gt;this post about synchronization&lt;/a&gt;. You can solve the problem using synchronized at method level : &lt;/p&gt;
+&lt;pre class="code literal-block"&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="kd"&gt;public&lt;/span&gt; &lt;span class="kd"&gt;class&lt;/span&gt; &lt;span class="nc"&gt;SynchronizedCounter&lt;/span&gt; &lt;span class="o"&gt;{&lt;/span&gt;
+    &lt;span class="kd"&gt;private&lt;/span&gt; &lt;span class="kt"&gt;int&lt;/span&gt; &lt;span class="n"&gt;value&lt;/span&gt;&lt;span class="o"&gt;;&lt;/span&gt;
+
+    &lt;span class="kd"&gt;public&lt;/span&gt; &lt;span class="kd"&gt;synchronized&lt;/span&gt; &lt;span class="kt"&gt;int&lt;/span&gt; &lt;span class="nf"&gt;getValue&lt;/span&gt;&lt;span class="o"&gt;(){&lt;/span&gt;
+        &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="n"&gt;value&lt;/span&gt;&lt;span class="o"&gt;;&lt;/span&gt;
+    &lt;span class="o"&gt;}&lt;/span&gt;
+
+    &lt;span class="kd"&gt;public&lt;/span&gt; &lt;span class="kd"&gt;synchronized&lt;/span&gt; &lt;span class="kt"&gt;int&lt;/span&gt; &lt;span class="nf"&gt;getNextValue&lt;/span&gt;&lt;span class="o"&gt;(){&lt;/span&gt;
+        &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="n"&gt;value&lt;/span&gt;&lt;span class="o"&gt;++;&lt;/span&gt;
+    &lt;span class="o"&gt;}&lt;/span&gt;
+
+    &lt;span class="kd"&gt;public&lt;/span&gt; &lt;span class="kd"&gt;synchronized&lt;/span&gt; &lt;span class="kt"&gt;int&lt;/span&gt; &lt;span class="nf"&gt;getPreviousValue&lt;/span&gt;&lt;span class="o"&gt;(){&lt;/span&gt;
+        &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="n"&gt;value&lt;/span&gt;&lt;span class="o"&gt;--;&lt;/span&gt;
+    &lt;span class="o"&gt;}&lt;/span&gt;
+&lt;span class="o"&gt;}&lt;/span&gt;
+&lt;/pre&gt;
+
+
+&lt;p&gt;This class now works well. But locking is not a lightweight mechanism and have several disadvantages. When several threads try to acquire the same lock, one or more threads will be suspended and they will be resumed later. When the critical section is little, the overhead is really heavy especially when the lock is often acquired and there is a lot of contention. Another disadvantage is that the other threads waiting of the lock cannot do something else during waiting and if the thread who has the lock is delayed (due to a page fault or the end of the time quanta by example), the others threads cannot take their turn. &lt;/p&gt;
+&lt;p&gt;So how to do to avoid this disadvantages ? We must use non-blocking algorithms. This algorithms don't use blocking mechanisms and by that fact are more scalable and performing. These algorithms use low-level machine instructions which are atomic to ensure the atomicity of higher-level operations. While locking is a pessimistic approach, we can also use optimistic technique to develop algorithms. This time, we'll detect collisions between threads in which case, the operation fails and we do something else (often retrying the same operation).&lt;/p&gt;
+&lt;p&gt;The actual processors provide several instructions that simplify greatly the implementation of these non-blocking algorithms, the most-used operation today is the compare-and-swap operation (CAS). This operation takes three parameters, the memory address, the expected current value and the new value. It atomically update the value at the given memory address if the current value is the expected, otherwise it do nothing. In both cases, the operation return the value at the address after the operation execution. So when several threads try to execute the CAS operation, one thread wins and the others do nothing. So the caller can choose to retry or to do something else. We often use this operation to implement another operation, the compare-and-set. This method makes exactly the same things as CAS but return a boolean indicating if the operation succeeded or not. &lt;/p&gt;
+&lt;p&gt;Before Java 5.0, this operation was not available directly to developer, but in Java 5.0 several atomic variables (for int, long, boolean and reference values) were added. The int and long versions also supports numeric operations. The JVM compiles these classes with the better operations provided by the hardware machine, CAS or a Java implementation of the operation using a lock. Here are the classes : &lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;AtomicInteger&lt;/li&gt;
+&lt;li&gt;AtomicLong&lt;/li&gt;
+&lt;li&gt;AtomicBoolean&lt;/li&gt;
+&lt;li&gt;AtomicReference&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;All these classes supports compare-and-set (via the compareAndSet() method) and other operations (get(), set() and getAndSet()). The setters operations are implemented using compareAndSet. These classes supports multi-threaded access and have a better scalability than synchronizing all the operations. &lt;/p&gt;
+&lt;p&gt;Here is how we can rewrite our counter using an AtomicInteger : &lt;/p&gt;
+&lt;pre class="code literal-block"&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="kd"&gt;public&lt;/span&gt; &lt;span class="kd"&gt;class&lt;/span&gt; &lt;span class="nc"&gt;AtomicCounter&lt;/span&gt; &lt;span class="o"&gt;{&lt;/span&gt;
+    &lt;span class="kd"&gt;private&lt;/span&gt; &lt;span class="kd"&gt;final&lt;/span&gt; &lt;span class="n"&gt;AtomicInteger&lt;/span&gt; &lt;span class="n"&gt;value&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="k"&gt;new&lt;/span&gt; &lt;span class="n"&gt;AtomicInteger&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="o"&gt;);&lt;/span&gt;
+
+    &lt;span class="kd"&gt;public&lt;/span&gt; &lt;span class="kt"&gt;int&lt;/span&gt; &lt;span class="nf"&gt;getValue&lt;/span&gt;&lt;span class="o"&gt;(){&lt;/span&gt;
+        &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="n"&gt;value&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="na"&gt;get&lt;/span&gt;&lt;span class="o"&gt;();&lt;/span&gt;
+    &lt;span class="o"&gt;}&lt;/span&gt;
+
+    &lt;span class="kd"&gt;public&lt;/span&gt; &lt;span class="kt"&gt;int&lt;/span&gt; &lt;span class="nf"&gt;getNextValue&lt;/span&gt;&lt;span class="o"&gt;(){&lt;/span&gt;
+        &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="n"&gt;value&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="na"&gt;incrementAndGet&lt;/span&gt;&lt;span class="o"&gt;();&lt;/span&gt;
+    &lt;span class="o"&gt;}&lt;/span&gt;
+
+    &lt;span class="kd"&gt;public&lt;/span&gt; &lt;span class="kt"&gt;int&lt;/span&gt; &lt;span class="nf"&gt;getPreviousValue&lt;/span&gt;&lt;span class="o"&gt;(){&lt;/span&gt;
+        &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="n"&gt;value&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="na"&gt;decrementAndGet&lt;/span&gt;&lt;span class="o"&gt;();&lt;/span&gt;
+    &lt;span class="o"&gt;}&lt;/span&gt;
+&lt;span class="o"&gt;}&lt;/span&gt;
+&lt;/pre&gt;
+
+
+&lt;p&gt;The incrementAndGet() and decrementAndGet() methods are two of the numeric operations provided by the AtomicLong and AtomicInteger classes. You also have getAndDecrement(), getAndIncrement(), getAndAdd(int i) and addAndGet(). &lt;/p&gt;
+&lt;p&gt;This version is faster than the synchronized one and is also thread safe. &lt;/p&gt;
+&lt;p&gt;If you only have the compareAndSet(), here is how we can implement increment() method using it : &lt;/p&gt;
+&lt;pre class="code literal-block"&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="kd"&gt;public&lt;/span&gt; &lt;span class="kt"&gt;void&lt;/span&gt; &lt;span class="nf"&gt;increment&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="n"&gt;AtomicInteger&lt;/span&gt; &lt;span class="n"&gt;integer&lt;/span&gt;&lt;span class="o"&gt;){&lt;/span&gt;
+    &lt;span class="k"&gt;while&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="kc"&gt;true&lt;/span&gt;&lt;span class="o"&gt;){&lt;/span&gt;
+        &lt;span class="kt"&gt;int&lt;/span&gt; &lt;span class="n"&gt;current&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;integer&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="na"&gt;get&lt;/span&gt;&lt;span class="o"&gt;();&lt;/span&gt;
+        &lt;span class="kt"&gt;int&lt;/span&gt; &lt;span class="n"&gt;next&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;current&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="o"&gt;;&lt;/span&gt;
+
+        &lt;span class="k"&gt;if&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="n"&gt;integer&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="na"&gt;compareAndSet&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="n"&gt;current&lt;/span&gt;&lt;span class="o"&gt;,&lt;/span&gt; &lt;span class="n"&gt;next&lt;/span&gt;&lt;span class="o"&gt;)){&lt;/span&gt;
+            &lt;span class="k"&gt;return&lt;/span&gt;&lt;span class="o"&gt;;&lt;/span&gt;
+        &lt;span class="o"&gt;}&lt;/span&gt;
+    &lt;span class="o"&gt;}&lt;/span&gt;
+&lt;span class="o"&gt;}&lt;/span&gt;
+&lt;/pre&gt;
+
+
+&lt;p&gt;This seems to be complicated, but this is the cost of non-blocking algorithms. When we detect collision, we retry until the operation succeeded. This is the common schema for non-blocking algorithms. &lt;/p&gt;
+&lt;p&gt;Here is a thread-safe Stack implemented using AtomicReference : &lt;/p&gt;
+&lt;pre class="code literal-block"&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="kd"&gt;public&lt;/span&gt; &lt;span class="kd"&gt;class&lt;/span&gt; &lt;span class="nc"&gt;Stack&lt;/span&gt; &lt;span class="o"&gt;{&lt;/span&gt;
+    &lt;span class="kd"&gt;private&lt;/span&gt; &lt;span class="kd"&gt;final&lt;/span&gt; &lt;span class="n"&gt;AtomicReference&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="n"&gt;Element&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt; &lt;span class="n"&gt;head&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="k"&gt;new&lt;/span&gt; &lt;span class="n"&gt;AtomicReference&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="n"&gt;Element&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;(&lt;/span&gt;&lt;span class="kc"&gt;null&lt;/span&gt;&lt;span class="o"&gt;);&lt;/span&gt;
+
+    &lt;span class="kd"&gt;public&lt;/span&gt; &lt;span class="kt"&gt;void&lt;/span&gt; &lt;span class="nf"&gt;push&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="n"&gt;String&lt;/span&gt; &lt;span class="n"&gt;value&lt;/span&gt;&lt;span class="o"&gt;){&lt;/span&gt;
+        &lt;span class="n"&gt;Element&lt;/span&gt; &lt;span class="n"&gt;newElement&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="k"&gt;new&lt;/span&gt; &lt;span class="n"&gt;Element&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="n"&gt;value&lt;/span&gt;&lt;span class="o"&gt;);&lt;/span&gt;
+
+        &lt;span class="k"&gt;while&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="kc"&gt;true&lt;/span&gt;&lt;span class="o"&gt;){&lt;/span&gt;
+            &lt;span class="n"&gt;Element&lt;/span&gt; &lt;span class="n"&gt;oldHead&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;head&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="na"&gt;get&lt;/span&gt;&lt;span class="o"&gt;();&lt;/span&gt;
+            &lt;span class="n"&gt;newElement&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="na"&gt;next&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;oldHead&lt;/span&gt;&lt;span class="o"&gt;;&lt;/span&gt;
+
+            &lt;span class="c1"&gt;//Trying to set the new element as the head&lt;/span&gt;
+            &lt;span class="k"&gt;if&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="n"&gt;head&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="na"&gt;compareAndSet&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="n"&gt;oldHead&lt;/span&gt;&lt;span class="o"&gt;,&lt;/span&gt; &lt;span class="n"&gt;newElement&lt;/span&gt;&lt;span class="o"&gt;)){&lt;/span&gt;
+                &lt;span class="k"&gt;return&lt;/span&gt;&lt;span class="o"&gt;;&lt;/span&gt;
+            &lt;span class="o"&gt;}&lt;/span&gt;
+        &lt;span class="o"&gt;}&lt;/span&gt;
+    &lt;span class="o"&gt;}&lt;/span&gt;
+
+    &lt;span class="kd"&gt;public&lt;/span&gt; &lt;span class="n"&gt;String&lt;/span&gt; &lt;span class="nf"&gt;pop&lt;/span&gt;&lt;span class="o"&gt;(){&lt;/span&gt;
+        &lt;span class="k"&gt;while&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="kc"&gt;true&lt;/span&gt;&lt;span class="o"&gt;){&lt;/span&gt;
+            &lt;span class="n"&gt;Element&lt;/span&gt; &lt;span class="n"&gt;oldHead&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;head&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="na"&gt;get&lt;/span&gt;&lt;span class="o"&gt;();&lt;/span&gt;
+
+            &lt;span class="c1"&gt;//The stack is empty&lt;/span&gt;
+            &lt;span class="k"&gt;if&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="n"&gt;oldHead&lt;/span&gt; &lt;span class="o"&gt;==&lt;/span&gt; &lt;span class="kc"&gt;null&lt;/span&gt;&lt;span class="o"&gt;){&lt;/span&gt;
+                &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="kc"&gt;null&lt;/span&gt;&lt;span class="o"&gt;;&lt;/span&gt;
+            &lt;span class="o"&gt;}&lt;/span&gt;
+
+            &lt;span class="n"&gt;Element&lt;/span&gt; &lt;span class="n"&gt;newHead&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;oldHead&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="na"&gt;next&lt;/span&gt;&lt;span class="o"&gt;;&lt;/span&gt;
+
+            &lt;span class="c1"&gt;//Trying to set the new element as the head&lt;/span&gt;
+            &lt;span class="k"&gt;if&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="n"&gt;head&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="na"&gt;compareAndSet&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="n"&gt;oldHead&lt;/span&gt;&lt;span class="o"&gt;,&lt;/span&gt; &lt;span class="n"&gt;newHead&lt;/span&gt;&lt;span class="o"&gt;)){&lt;/span&gt;
+                &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="n"&gt;oldHead&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="na"&gt;value&lt;/span&gt;&lt;span class="o"&gt;;&lt;/span&gt;
+            &lt;span class="o"&gt;}&lt;/span&gt;
+        &lt;span class="o"&gt;}&lt;/span&gt;
+    &lt;span class="o"&gt;}&lt;/span&gt;
+
+    &lt;span class="kd"&gt;private&lt;/span&gt; &lt;span class="kd"&gt;static&lt;/span&gt; &lt;span class="kd"&gt;final&lt;/span&gt; &lt;span class="kd"&gt;class&lt;/span&gt; &lt;span class="nc"&gt;Element&lt;/span&gt; &lt;span class="o"&gt;{&lt;/span&gt;
+        &lt;span class="kd"&gt;private&lt;/span&gt; &lt;span class="kd"&gt;final&lt;/span&gt; &lt;span class="n"&gt;String&lt;/span&gt; &lt;span class="n"&gt;value&lt;/span&gt;&lt;span class="o"&gt;;&lt;/span&gt;
+        &lt;span class="kd"&gt;private&lt;/span&gt; &lt;span class="n"&gt;Element&lt;/span&gt; &lt;span class="n"&gt;next&lt;/span&gt;&lt;span class="o"&gt;;&lt;/span&gt;
+
+        &lt;span class="kd"&gt;private&lt;/span&gt; &lt;span class="nf"&gt;Element&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="n"&gt;String&lt;/span&gt; &lt;span class="n"&gt;value&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt; &lt;span class="o"&gt;{&lt;/span&gt;
+            &lt;span class="k"&gt;this&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="na"&gt;value&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;value&lt;/span&gt;&lt;span class="o"&gt;;&lt;/span&gt;
+        &lt;span class="o"&gt;}&lt;/span&gt;
+    &lt;span class="o"&gt;}&lt;/span&gt;
+&lt;span class="o"&gt;}&lt;/span&gt;
+&lt;/pre&gt;
+
+
+&lt;p&gt;It's really more complicated than using synchronized on the two methods but also more performing if there is contention (and often even if there is no contention). &lt;/p&gt;
+&lt;p&gt;So this ends this post. To conclude, atomic variables classes are a really good way to implement non-blocking algorithms and moreover are also a very good alternative to volatile variables, because they can provide atomicity and visibility.&lt;/p&gt;&lt;/div&gt;</description><category>Concurrency</category><category>Java</category><guid>http://baptiste-wicht.com/posts/2010/09/java-concurrency-atomic-variables.html</guid><pubDate>Wed, 08 Sep 2010 05:14:18 GMT</pubDate></item><item><title>Java Concurrency - Part 5 : Monitors (Locks and Conditions)</title><link>http://baptiste-wicht.com/posts/2010/09/java-concurrency-part-5-monitors-locks-and-conditions.html</link><dc:creator>Baptiste Wicht</dc:creator><description>&lt;div&gt;&lt;p&gt;After seeing &lt;a title="Java Concurrency – Part 4 : Semaphores" href="http://www.baptiste-wicht.com/2010/08/java-concurrency-part-4-semaphores/" target="_blank"&gt;how to synchronize code using semaphores&lt;/a&gt;, we'll see how to do that using &lt;strong&gt;monitors&lt;/strong&gt;.&lt;/p&gt;
+&lt;p&gt;Monitors are an other mechanism of concurrent programming. It's a higher level mechanism than semaphores and also more powerful. A monitor is an instance of a class that can be used safely by several threads. All the methods of a monitor are executed with mutual exclusion. So at most one thread can execute a method of the monitor at the same time. This mutual exclusion policy makes easier to work with monitor and to develop the method content of the monitor.&lt;/p&gt;
+&lt;p&gt;Monitors have an other feature, the possibility to make a thread waiting for a condition. During the wait time, the thread temporarily gives up its exclusive access and must reacquire it after the condition has been met. You can also signal one or more threads that a condition has been met.&lt;/p&gt;
+&lt;p&gt;There is several advantages on using monitors instead of a lower-level mechanisms :&lt;/p&gt;
+&lt;ul&gt;
+    &lt;li&gt;All the synchronization code is centralized in one location and the users of this code don’t need to know how it’s implemented.&lt;/li&gt;
+    &lt;li&gt;The code doesn't depend on the number of processes, it works for as many processes as you want&lt;/li&gt;
+    &lt;li&gt;You don’t need to release something like a mutex, so you cannot forget to do it&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;When we must describe a monitor, we simple use the &lt;strong&gt;monitor&lt;/strong&gt; keyword and describe the methods as common methods :&lt;/p&gt;
+&lt;pre class="code literal-block"&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="n"&gt;monitor&lt;/span&gt; &lt;span class="n"&gt;SimpleMonitor&lt;/span&gt; &lt;span class="o"&gt;{&lt;/span&gt;
+    &lt;span class="kd"&gt;public&lt;/span&gt; &lt;span class="n"&gt;method&lt;/span&gt; &lt;span class="kt"&gt;void&lt;/span&gt; &lt;span class="nf"&gt;testA&lt;/span&gt;&lt;span class="o"&gt;(){&lt;/span&gt;
+        &lt;span class="c1"&gt;//Some code&lt;/span&gt;
+    &lt;span class="o"&gt;}&lt;/span&gt;
+
+    &lt;span class="kd"&gt;public&lt;/span&gt; &lt;span class="n"&gt;method&lt;/span&gt; &lt;span class="kt"&gt;int&lt;/span&gt; &lt;span class="nf"&gt;testB&lt;/span&gt;&lt;span class="o"&gt;(){&lt;/span&gt;
+        &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="o"&gt;;&lt;/span&gt;
+    &lt;span class="o"&gt;}&lt;/span&gt;
+&lt;span class="o"&gt;}&lt;/span&gt;
+&lt;/pre&gt;
+
+
+&lt;p&gt;To describe a condition variable, we use the &lt;strong&gt;cond&lt;/strong&gt; keyword. A condition variable is a kind of queue of process who are waiting on the same condition. You have several operations available on a condition, the most important is to signal a process waiting to be awaken and to wait on a condition. There are some similarities between signal/wait operations and P and V of semaphores, but this is a little different. The signal operation does nothing if the queue is empty and the wait operation put always the thread in the waiting queue. The process queue is served in a first come, first served mode.   When a thread wakes up after waiting on a condition, it must reacquire the lock before continuing in the code.&lt;/p&gt;
+&lt;p&gt;Before going further, we must have more information about the signal operations. When writing monitors, you normally have the choice between several philosophies for the signaling operation :&lt;/p&gt;
+&lt;ol&gt;
+    &lt;li&gt;Signal &amp;amp; Continue (SC) : The process who signal keep the mutual exclusion and the signaled will be awaken but need to acquire the mutual exclusion before going.&lt;/li&gt;
+    &lt;li&gt;Signal &amp;amp; Wait (SW) : The signaler is blocked and must wait for mutual exclusion to continue and the signaled thread is directly awaken and can start continue its operations.&lt;/li&gt;
+    &lt;li&gt;Signal &amp;amp; Urgent Wait (SU) : Like SW but the signaler thread has the guarantee than it would go just after the signaled thread&lt;/li&gt;
+    &lt;li&gt;Signal &amp;amp; Exit (SX) : The signaler exits from the method directly after the signal and the signaled thread can start directly. This philosophy is not often used.&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;The available policies depends on the programming language, in Java, there is only one policy available, the SC one.&lt;/p&gt;
+&lt;p&gt;In Java there is no keyword to directly create a monitor. To implement a monitor, you must create a new class and use &lt;strong&gt;Lock&lt;/strong&gt; and &lt;strong&gt;Condition&lt;/strong&gt; classes. Lock is the interface is &lt;strong&gt;ReentrantLock&lt;/strong&gt; is the main used implementation, this is the one that we'll learn to use in the current post. To create a ReentrantLock, you have two constructors, a default constructor and a constructor with a boolean argument indicating if the lock is fair or not. A fair lock indicates that the threads will acquire the locks in the order they ask for. Fairness is a little heavier than default locking strategies, so use it only if you need it. To acquire the lock, you just have to use the method &lt;em&gt;lock&lt;/em&gt; and &lt;em&gt;unlock&lt;/em&gt; to release it.&lt;/p&gt;
+&lt;p&gt;The explicit locks have the same memory semantics than the synchronized blocks. So the visibility of the changes is guarantee when you use lock()/unlock() blocks.&lt;/p&gt;
+&lt;p&gt;So to implement, the monitor example we've seen before, we just need to create a class and use the lock to make the mutual exclusion :&lt;/p&gt;
+&lt;pre class="code literal-block"&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="kd"&gt;public&lt;/span&gt; &lt;span class="kd"&gt;class&lt;/span&gt; &lt;span class="nc"&gt;SimpleMonitor&lt;/span&gt; &lt;span class="o"&gt;{&lt;/span&gt;
+    &lt;span class="kd"&gt;private&lt;/span&gt; &lt;span class="kd"&gt;final&lt;/span&gt; &lt;span class="n"&gt;Lock&lt;/span&gt; &lt;span class="n"&gt;lock&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="k"&gt;new&lt;/span&gt; &lt;span class="n"&gt;ReentrantLock&lt;/span&gt;&lt;span class="o"&gt;();&lt;/span&gt;
+
+    &lt;span class="kd"&gt;public&lt;/span&gt; &lt;span class="kt"&gt;void&lt;/span&gt; &lt;span class="nf"&gt;testA&lt;/span&gt;&lt;span class="o"&gt;()&lt;/span&gt; &lt;span class="o"&gt;{&lt;/span&gt;
+        &lt;span class="n"&gt;lock&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="na"&gt;lock&lt;/span&gt;&lt;span class="o"&gt;();&lt;/span&gt;
+
+        &lt;span class="k"&gt;try&lt;/span&gt; &lt;span class="o"&gt;{&lt;/span&gt;
+            &lt;span class="c1"&gt;//Some code&lt;/span&gt;
+        &lt;span class="o"&gt;}&lt;/span&gt; &lt;span class="k"&gt;finally&lt;/span&gt; &lt;span class="o"&gt;{&lt;/span&gt;
+            &lt;span class="n"&gt;lock&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="na"&gt;unlock&lt;/span&gt;&lt;span class="o"&gt;();&lt;/span&gt;
+        &lt;span class="o"&gt;}&lt;/span&gt;
+    &lt;span class="o"&gt;}&lt;/span&gt;
+
+    &lt;span class="kd"&gt;public&lt;/span&gt; &lt;span class="kt"&gt;int&lt;/span&gt; &lt;span class="nf"&gt;testB&lt;/span&gt;&lt;span class="o"&gt;()&lt;/span&gt; &lt;span class="o"&gt;{&lt;/span&gt;
+        &lt;span class="n"&gt;lock&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="na"&gt;lock&lt;/span&gt;&lt;span class="o"&gt;();&lt;/span&gt;
+
+        &lt;span class="k"&gt;try&lt;/span&gt; &lt;span class="o"&gt;{&lt;/span&gt;
+            &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="o"&gt;;&lt;/span&gt;
+        &lt;span class="o"&gt;}&lt;/span&gt; &lt;span class="k"&gt;finally&lt;/span&gt; &lt;span class="o"&gt;{&lt;/span&gt;
+            &lt;span class="n"&gt;lock&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="na"&gt;unlock&lt;/span&gt;&lt;span class="o"&gt;();&lt;/span&gt;
+        &lt;span class="o"&gt;}&lt;/span&gt;
+    &lt;span class="o"&gt;}&lt;/span&gt;
+&lt;span class="o"&gt;}&lt;/span&gt;
+&lt;/pre&gt;
+
+
+&lt;p&gt;The person who've already read the other parts of this post set will say that it will be easier to use the synchronized keyword on the two methods. But with synchronized, we will not have the condition variables. If you don't need condition variables but only locking, it will be easier to use the synchronized blocks instead of Locks.&lt;/p&gt;
+&lt;p&gt;You can create conditions using the &lt;em&gt;newCondition&lt;/em&gt; method on the lock. A condition is a variable of type &lt;strong&gt;Condition&lt;/strong&gt;. You can make the current thread wait on the condition using the &lt;em&gt;await&lt;/em&gt; method (and its variant with timeout) and you can signal threads using &lt;em&gt;signal&lt;/em&gt; and &lt;em&gt;signalAll&lt;/em&gt; methods. The signalAll methods wakes up all the threads waiting on the condition variable.&lt;/p&gt;
+&lt;p&gt;Let's try with a simple common example : A bounded buffer. It's a cyclic buffer with a certain capacity with a start and an end.&lt;/p&gt;
+&lt;pre class="code literal-block"&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;java.util.concurrent.locks.Condition&lt;/span&gt;&lt;span class="o"&gt;;&lt;/span&gt;
+&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;java.util.concurrent.locks.Lock&lt;/span&gt;&lt;span class="o"&gt;;&lt;/span&gt;
+&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;java.util.concurrent.locks.ReentrantLock&lt;/span&gt;&lt;span class="o"&gt;;&lt;/span&gt;
+
+&lt;span class="kd"&gt;public&lt;/span&gt; &lt;span class="kd"&gt;class&lt;/span&gt; &lt;span class="nc"&gt;BoundedBuffer&lt;/span&gt; &lt;span class="o"&gt;{&lt;/span&gt;
+    &lt;span class="kd"&gt;private&lt;/span&gt; &lt;span class="kd"&gt;final&lt;/span&gt; &lt;span class="n"&gt;String&lt;/span&gt;&lt;span class="o"&gt;[]&lt;/span&gt; &lt;span class="n"&gt;buffer&lt;/span&gt;&lt;span class="o"&gt;;&lt;/span&gt;
+    &lt;span class="kd"&gt;private&lt;/span&gt; &lt;span class="kd"&gt;final&lt;/span&gt; &lt;span class="kt"&gt;int&lt;/span&gt; &lt;span class="n"&gt;capacity&lt;/span&gt;&lt;span class="o"&gt;;&lt;/span&gt;
+
+    &lt;span class="kd"&gt;private&lt;/span&gt; &lt;span class="kt"&gt;int&lt;/span&gt; &lt;span class="n"&gt;front&lt;/span&gt;&lt;span class="o"&gt;;&lt;/span&gt;
+    &lt;span class="kd"&gt;private&lt;/span&gt; &lt;span class="kt"&gt;int&lt;/span&gt; &lt;span class="n"&gt;rear&lt;/span&gt;&lt;span class="o"&gt;;&lt;/span&gt;
+    &lt;span class="kd"&gt;private&lt;/span&gt; &lt;span class="kt"&gt;int&lt;/span&gt; &lt;span class="n"&gt;count&lt;/span&gt;&lt;span class="o"&gt;;&lt;/span&gt;
+
+    &lt;span class="kd"&gt;private&lt;/span&gt; &lt;span class="kd"&gt;final&lt;/span&gt; &lt;span class="n"&gt;Lock&lt;/span&gt; &lt;span class="n"&gt;lock&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="k"&gt;new&lt;/span&gt; &lt;span class="n"&gt;ReentrantLock&lt;/span&gt;&lt;span class="o"&gt;();&lt;/span&gt;
+
+    &lt;span class="kd"&gt;private&lt;/span&gt; &lt;span class="kd"&gt;final&lt;/span&gt; &lt;span class="n"&gt;Condition&lt;/span&gt; &lt;span class="n"&gt;notFull&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;lock&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="na"&gt;newCondition&lt;/span&gt;&lt;span class="o"&gt;();&lt;/span&gt;
+    &lt;span class="kd"&gt;private&lt;/span&gt; &lt;span class="kd"&gt;final&lt;/span&gt; &lt;span class="n"&gt;Condition&lt;/span&gt; &lt;span class="n"&gt;notEmpty&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;lock&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="na"&gt;newCondition&lt;/span&gt;&lt;span class="o"&gt;();&lt;/span&gt;
+
+    &lt;span class="kd"&gt;public&lt;/span&gt; &lt;span class="nf"&gt;BoundedBuffer&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="kt"&gt;int&lt;/span&gt; &lt;span class="n"&gt;capacity&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt; &lt;span class="o"&gt;{&lt;/span&gt;
+        &lt;span class="kd"&gt;super&lt;/span&gt;&lt;span class="o"&gt;();&lt;/span&gt;
+
+        &lt;span class="k"&gt;this&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="na"&gt;capacity&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;capacity&lt;/span&gt;&lt;span class="o"&gt;;&lt;/span&gt;
+
+        &lt;span class="n"&gt;buffer&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="k"&gt;new&lt;/span&gt; &lt;span class="n"&gt;String&lt;/span&gt;&lt;span class="o"&gt;[&lt;/span&gt;&lt;span class="n"&gt;capacity&lt;/span&gt;&lt;span class="o"&gt;];&lt;/span&gt;
+    &lt;span class="o"&gt;}&lt;/span&gt;
+
+    &lt;span class="kd"&gt;public&lt;/span&gt; &lt;span class="kt"&gt;void&lt;/span&gt; &lt;span class="nf"&gt;deposit&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="n"&gt;String&lt;/span&gt; &lt;span class="n"&gt;data&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt; &lt;span class="kd"&gt;throws&lt;/span&gt; &lt;span class="n"&gt;InterruptedException&lt;/span&gt; &lt;span class="o"&gt;{&lt;/span&gt;
+        &lt;span class="n"&gt;lock&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="na"&gt;lock&lt;/span&gt;&lt;span class="o"&gt;();&lt;/span&gt;
+
+        &lt;span class="k"&gt;try&lt;/span&gt; &lt;span class="o"&gt;{&lt;/span&gt;
+            &lt;span class="k"&gt;while&lt;/span&gt; &lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="n"&gt;count&lt;/span&gt; &lt;span class="o"&gt;==&lt;/span&gt; &lt;span class="n"&gt;capacity&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt; &lt;span class="o"&gt;{&lt;/span&gt;
+                &lt;span class="n"&gt;notFull&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="na"&gt;await&lt;/span&gt;&lt;span class="o"&gt;();&lt;/span&gt;
+            &lt;span class="o"&gt;}&lt;/span&gt;
+
+            &lt;span class="n"&gt;buffer&lt;/span&gt;&lt;span class="o"&gt;[&lt;/span&gt;&lt;span class="n"&gt;rear&lt;/span&gt;&lt;span class="o"&gt;]&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;data&lt;/span&gt;&lt;span class="o"&gt;;&lt;/span&gt;
+            &lt;span class="n"&gt;rear&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="n"&gt;rear&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt; &lt;span class="o"&gt;%&lt;/span&gt; &lt;span class="n"&gt;capacity&lt;/span&gt;&lt;span class="o"&gt;;&lt;/span&gt;
+            &lt;span class="n"&gt;count&lt;/span&gt;&lt;span class="o"&gt;++;&lt;/span&gt;
+
+            &lt;span class="n"&gt;notEmpty&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="na"&gt;signal&lt;/span&gt;&lt;span class="o"&gt;();&lt;/span&gt;
+        &lt;span class="o"&gt;}&lt;/span&gt; &lt;span class="k"&gt;finally&lt;/span&gt; &lt;span class="o"&gt;{&lt;/span&gt;
+            &lt;span class="n"&gt;lock&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="na"&gt;unlock&lt;/span&gt;&lt;span class="o"&gt;();&lt;/span&gt;
+        &lt;span class="o"&gt;}&lt;/span&gt;
+    &lt;span class="o"&gt;}&lt;/span&gt;
+
+    &lt;span class="kd"&gt;public&lt;/span&gt; &lt;span class="n"&gt;String&lt;/span&gt; &lt;span class="nf"&gt;fetch&lt;/span&gt;&lt;span class="o"&gt;()&lt;/span&gt; &lt;span class="kd"&gt;throws&lt;/span&gt; &lt;span class="n"&gt;InterruptedException&lt;/span&gt; &lt;span class="o"&gt;{&lt;/span&gt;
+        &lt;span class="n"&gt;lock&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="na"&gt;lock&lt;/span&gt;&lt;span class="o"&gt;();&lt;/span&gt;
+
+        &lt;span class="k"&gt;try&lt;/span&gt; &lt;span class="o"&gt;{&lt;/span&gt;
+            &lt;span class="k"&gt;while&lt;/span&gt; &lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="n"&gt;count&lt;/span&gt; &lt;span class="o"&gt;==&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt; &lt;span class="o"&gt;{&lt;/span&gt;
+                &lt;span class="n"&gt;notEmpty&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="na"&gt;await&lt;/span&gt;&lt;span class="o"&gt;();&lt;/span&gt;
+            &lt;span class="o"&gt;}&lt;/span&gt;
+
+            &lt;span class="n"&gt;String&lt;/span&gt; &lt;span class="n"&gt;result&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;buffer&lt;/span&gt;&lt;span class="o"&gt;[&lt;/span&gt;&lt;span class="n"&gt;front&lt;/span&gt;&lt;span class="o"&gt;];&lt;/span&gt;
+            &lt;span class="n"&gt;front&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="n"&gt;front&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt; &lt;span class="o"&gt;%&lt;/span&gt; &lt;span class="n"&gt;capacity&lt;/span&gt;&lt;span class="o"&gt;;&lt;/span&gt;
+            &lt;span class="n"&gt;count&lt;/span&gt;&lt;span class="o"&gt;--;&lt;/span&gt;
+
+            &lt;span class="n"&gt;notFull&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="na"&gt;signal&lt;/span&gt;&lt;span class="o"&gt;();&lt;/span&gt;
+
+            &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="n"&gt;result&lt;/span&gt;&lt;span class="o"&gt;;&lt;/span&gt;
+        &lt;span class="o"&gt;}&lt;/span&gt; &lt;span class="k"&gt;finally&lt;/span&gt; &lt;span class="o"&gt;{&lt;/span&gt;
+            &lt;span class="n"&gt;lock&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="na"&gt;unlock&lt;/span&gt;&lt;span class="o"&gt;();&lt;/span&gt;
+        &lt;span class="o"&gt;}&lt;/span&gt;
+    &lt;span class="o"&gt;}&lt;/span&gt;
+&lt;span class="o"&gt;}&lt;/span&gt;
+&lt;/pre&gt;
+
+
+&lt;p&gt;So some explications :&lt;/p&gt;
+&lt;ol&gt;
+    &lt;li&gt;The two methods are protected with the lock to ensure mutual exclusion&lt;/li&gt;
+    &lt;li&gt;Then we use two conditions variables. One to wait for the buffer to be not empty and an other one to wait for the buffer to be not full.&lt;/li&gt;
+    &lt;li&gt;You can see that I have wrapped the await operation on a while loop. This is to avoid signal stealers problem that can occurs when using Signal &amp;amp; Continue&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;And that BoundedBuffer can be easily used with several threads with no problems.&lt;/p&gt;
+&lt;p&gt;As you can see, you can use monitors to solve a lot of concurrent programming problems and this mechanism is really powerful and performing.&lt;/p&gt;
+&lt;p&gt;I hope you found that article interesting and that this set of posts about Java concurrency brings you some stuff about Java.&lt;/p&gt;&lt;/div&gt;</description><category>Concurrency</category><category>Java</category><guid>http://baptiste-wicht.com/posts/2010/09/java-concurrency-part-5-monitors-locks-and-conditions.html</guid><pubDate>Mon, 06 Sep 2010 05:13:27 GMT</pubDate></item><item><title>My Java Benchmarks on GitHub</title><link>http://baptiste-wicht.com/posts/2010/09/my-java-benchmarks-on-github.html</link><dc:creator>Baptiste Wicht</dc:creator><description>&lt;div&gt;&lt;p&gt;I've created a new github repository for my &lt;strong&gt;Java Benchmarks&lt;/strong&gt; : &lt;a title="java-benchmarks github repository" href="http://github.com/wichtounet/java-benchmarks" target="_blank"&gt;java-benchmarks&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;From now all my benchmarks will be pushed to this repository. This is more simple for me to manage and more secure also.&lt;/p&gt;
+&lt;p&gt;At this time, there is seven benchmarks on the repository :&lt;/p&gt;
+&lt;ol&gt;
+    &lt;li&gt;Closest Pair Search Benchmark : A benchmark to test two closest pair point search algorithms : the naive one and the &lt;strong&gt;sweeping plane&lt;/strong&gt; one. &lt;a title="Closest Pair Search Benchmark Results" href="http://www.baptiste-wicht.com/2010/04/closest-pair-of-point-plane-sweep-algorithm/" target="_blank"&gt;Results&lt;/a&gt;.&lt;/li&gt;
+    &lt;li&gt;File Copy Benchmark : A benchmark on the different ways to make &lt;strong&gt;file copy&lt;/strong&gt; in Java. &lt;a title="Java File Copy Benchmark Results" href="http://www.baptiste-wicht.com/2010/08/file-copy-in-java-benchmark/" target="_blank"&gt;Results&lt;/a&gt;.&lt;/li&gt;
+    &lt;li&gt;Iteration Remove Benchmark : A simple benchmark to test if it's interesting to remove the read elements from a list when we make several iterations over the list.&lt;/li&gt;
+    &lt;li&gt;Reflection Benchmark : A little benchmark to test the performances of &lt;strong&gt;reflection&lt;/strong&gt; versus switch cases and direct invocations.&lt;/li&gt;
+    &lt;li&gt;Short Indexes Loop Benchmark : A benchmark to test which &lt;strong&gt;primitive type&lt;/strong&gt; is the most performing using as iteration index. &lt;a title="Short Indexes Loop Benchmark Results" href="http://www.baptiste-wicht.com/2010/01/dont-use-shorts-in-loop/" target="_blank"&gt;Results&lt;/a&gt;.&lt;/li&gt;
+    &lt;li&gt;Synchronization Benchmark : A benchmark to test the performances of the different &lt;strong&gt;synchronization mechanisms&lt;/strong&gt; available in Java to provide mutual exclusion. &lt;a title="Synchronization Benchmark Results" href="http://www.baptiste-wicht.com/2010/09/java-synchronization-mutual-exclusion-benchmark/" target="_blank"&gt;Results&lt;/a&gt;.&lt;/li&gt;
+    &lt;li&gt;Unmodifiable Benchmark : A benchmark to test the performances of &lt;strong&gt;unmodifiable collection&lt;/strong&gt; versus creating a copy of the list.&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;I hope you'll find these sources interesting. If you found errors or improvements, don't hesitate to comment to tell me what.&lt;/p&gt;&lt;/div&gt;</description><category>Benchmarks</category><category>Git</category><category>Java</category><category>Performances</category><guid>http://baptiste-wicht.com/posts/2010/09/my-java-benchmarks-on-github.html</guid><pubDate>Fri, 03 Sep 2010 05:16:20 GMT</pubDate></item><item><title>Java Synchronization (Mutual Exclusion) Benchmark</title><link>http://baptiste-wicht.com/posts/2010/09/java-synchronization-mutual-exclusion-benchmark.html</link><dc:creator>Baptiste Wicht</dc:creator><description>&lt;div&gt;&lt;p&gt;I've created another benchmark. This time, I've benchmarked the different ways of synchronizing a little code using &lt;strong&gt;mutual exclusion&lt;/strong&gt; on this code.&lt;/p&gt;
+&lt;p&gt;The code to protect will be very simple. It's a simple counter :&lt;/p&gt;
+&lt;pre class="code literal-block"&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="c1"&gt;//Init&lt;/span&gt;
+&lt;span class="kt"&gt;int&lt;/span&gt; &lt;span class="n"&gt;counter&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="o"&gt;;&lt;/span&gt; 
+&lt;span class="c1"&gt;//Critical section&lt;/span&gt;
+&lt;span class="n"&gt;counter&lt;/span&gt;&lt;span class="o"&gt;++;&lt;/span&gt;
+&lt;/pre&gt;
+
+
+&lt;p&gt;The critical section, if not protected with synchronization system, will not function properly due to possible &lt;strong&gt;interleavings&lt;/strong&gt; (read &lt;a href="http://www.baptiste-wicht.com/2010/08/java-concurrrency-synchronization-locks/" target="_blank"&gt;the article on synchronization&lt;/a&gt; if you don't know what is &lt;strong&gt;interleaving&lt;/strong&gt;).&lt;/p&gt;
+&lt;p class="more"&gt;&lt;a href="http://baptiste-wicht.com/posts/2010/09/java-synchronization-mutual-exclusion-benchmark.html"&gt;Read more…&lt;/a&gt;&lt;/p&gt;&lt;/div&gt;</description><category>Benchmarks</category><category>Concurrency</category><category>Java</category><category>Performances</category><guid>http://baptiste-wicht.com/posts/2010/09/java-synchronization-mutual-exclusion-benchmark.html</guid><pubDate>Wed, 01 Sep 2010 05:13:18 GMT</pubDate></item><item><title>Java Concurrency - Part 4 : Semaphores</title><link>http://baptiste-wicht.com/posts/2010/08/java-concurrency-part-4-semaphores.html</link><dc:creator>Baptiste Wicht</dc:creator><description>&lt;div&gt;&lt;p&gt;We continue in Java Concurrency with the semaphores. Semaphores is also a way to synchronize threads.&lt;/p&gt;
+&lt;p&gt;Semaphores are a really simple concept, invented by the famous Dutch computer scientist Edsger Dijkstra. Basically a semaphore is a counter (integer) that allows a thread to get into a critical region if the value of the counter is greater than 0. If it's the case, the counter is decremented by one otherwise, the thread is waiting until it can go. And when the thread go away from the critical region, the counter is incremented by one to allow one more thread to pass the critical region. A semaphore is created with a certain value for its counter. So, you can execute two actions on a semaphore P and V.&lt;/p&gt;
+&lt;p&gt;By example, if you have a critical that cannot be executed concurrently, you can use a semaphore :&lt;/p&gt;
+&lt;pre class="code literal-block"&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="n"&gt;sem&lt;/span&gt; &lt;span class="n"&gt;mutex&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="k"&gt;new&lt;/span&gt; &lt;span class="n"&gt;sem&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt;
+&lt;span class="n"&gt;P&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="n"&gt;mutex&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt;
+&lt;span class="c1"&gt;//Critical region&lt;/span&gt;
+&lt;span class="n"&gt;V&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="n"&gt;mutex&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt;
+&lt;/pre&gt;
+
+
+&lt;p&gt;So you must always call by yourself the P operation before the critical region and V after it. We call a mutex (mutual exclusion) a semaphore with a value of one. So only one thread can enter the region guarded by the semaphore. This is the most used semaphore. The other use of semaphore is to guard a set of resources like database connections or a data pool.&lt;/p&gt;
+&lt;p&gt;In Java, a semaphore is created using the java.util.concurrent.Semaphore class. You can create easily :&lt;/p&gt;
+&lt;pre class="code literal-block"&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="n"&gt;Semaphore&lt;/span&gt; &lt;span class="n"&gt;mutex&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="k"&gt;new&lt;/span&gt; &lt;span class="n"&gt;Semaphore&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="o"&gt;);&lt;/span&gt;
+&lt;span class="n"&gt;Semaphore&lt;/span&gt; &lt;span class="n"&gt;available&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="k"&gt;new&lt;/span&gt; &lt;span class="n"&gt;Semaphore&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;100&lt;/span&gt;&lt;span class="o"&gt;);&lt;/span&gt;
+&lt;/pre&gt;
+
+
+&lt;p&gt;The P and V operations are represented using the acquire and release methods. The method acquire can be interrupted if the thread is interrupted. There is an uninterruptible version with the method acquireUninterruptibly(). There is also a third version with the tryAcquire method. This method acquire a permit only if there is one permit available, otherwise, this method return false directly. All the waiting methods have also an overloaded version with a timeout. You can also acquire several permits at once using the permits argument to the different versions of acquire methods.&lt;/p&gt;
+&lt;p&gt;A little example with a mutex using the same example as the previous post on Java concurrency :&lt;/p&gt;
+&lt;pre class="code literal-block"&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="kd"&gt;public&lt;/span&gt; &lt;span class="kd"&gt;class&lt;/span&gt; &lt;span class="nc"&gt;Example&lt;/span&gt; &lt;span class="o"&gt;{&lt;/span&gt;
+    &lt;span class="kd"&gt;private&lt;/span&gt; &lt;span class="kt"&gt;int&lt;/span&gt; &lt;span class="n"&gt;value&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="o"&gt;;&lt;/span&gt;
+
+    &lt;span class="kd"&gt;private&lt;/span&gt; &lt;span class="kd"&gt;final&lt;/span&gt; &lt;span class="n"&gt;Semaphore&lt;/span&gt; &lt;span class="n"&gt;mutex&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="k"&gt;new&lt;/span&gt; &lt;span class="n"&gt;Semaphore&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt;
+
+    &lt;span class="kd"&gt;public&lt;/span&gt; &lt;span class="kt"&gt;int&lt;/span&gt; &lt;span class="nf"&gt;getNextValue&lt;/span&gt;&lt;span class="o"&gt;()&lt;/span&gt; &lt;span class="kd"&gt;throws&lt;/span&gt; &lt;span class="n"&gt;InterruptedException&lt;/span&gt; &lt;span class="o"&gt;{&lt;/span&gt;
+        &lt;span class="k"&gt;try&lt;/span&gt; &lt;span class="o"&gt;{&lt;/span&gt;
+            &lt;span class="n"&gt;mutex&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="na"&gt;acquire&lt;/span&gt;&lt;span class="o"&gt;();&lt;/span&gt;
+            &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="n"&gt;value&lt;/span&gt;&lt;span class="o"&gt;++;&lt;/span&gt;
+        &lt;span class="o"&gt;}&lt;/span&gt; &lt;span class="k"&gt;finally&lt;/span&gt; &lt;span class="o"&gt;{&lt;/span&gt;
+            &lt;span class="n"&gt;mutex&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="na"&gt;release&lt;/span&gt;&lt;span class="o"&gt;();&lt;/span&gt;
+        &lt;span class="o"&gt;}&lt;/span&gt;
+    &lt;span class="o"&gt;}&lt;/span&gt;
+&lt;span class="o"&gt;}&lt;/span&gt;
+&lt;/pre&gt;
+
+
+&lt;p&gt;For more informations about Semaphore in Java, the best is to consult &lt;a href="http://download.oracle.com/javase/6/docs/api/java/util/concurrent/Semaphore.html"&gt;the Javadoc of the Semaphore class&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;To conclude, semaphores are a powerful ways to solve concurrency problems, but this is not adapted to all problems. If you need only mutual exclusion, &lt;a title="Java Concurrency – Part 3 : Synchronization with intrinsic locks" href="http://www.baptiste-wicht.com/2010/08/java-concurrrency-synchronization-locks/" target="_blank"&gt;synchronized blocks&lt;/a&gt; are a better solutions. The problems with semaphores is that you can forget to call the release method and that can cause deadlock sometimes difficult to find.&lt;/p&gt;&lt;/div&gt;</description><category>Concurrency</category><category>Java</category><guid>http://baptiste-wicht.com/posts/2010/08/java-concurrency-part-4-semaphores.html</guid><pubDate>Mon, 30 Aug 2010 05:11:55 GMT</pubDate></item><item><title>Java Concurrency – Part 3 : Synchronization with intrinsic locks</title><link>http://baptiste-wicht.com/posts/2010/08/java-concurrrency-synchronization-locks.html</link><dc:creator>Baptiste Wicht</dc:creator><description>&lt;div&gt;&lt;p&gt;&lt;after learning how to title="Java Concurrency - Part 1 : Threads" href="http://www.baptiste-wicht.com/2010/05/java-concurrency-part-1-threads/" target="_blank"&gt;create threads and &lt;a title="Java Concurrency - Part 2 : Manipulate threads" href="http://www.baptiste-wicht.com/2010/05/java-concurrency-part-2-manipulate-threads/" target="_blank"&gt;manipulate them&lt;/a&gt;, it's time to go to most important things : synchronization.&lt;/after&gt;&lt;/p&gt;
+&lt;p&gt;Synchronization is a way to make some code thread safe. A code that can be accessed by multiple threads must be made thread safe. Thread Safe describe some code that can be called from multiple threads without corrupting the state of the object or simply doing the thing the code must do in right order.&lt;/p&gt;
+&lt;p&gt;For example, we can take this little class :&lt;/p&gt;
+&lt;pre class="code literal-block"&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="kd"&gt;public&lt;/span&gt; &lt;span class="kd"&gt;class&lt;/span&gt; &lt;span class="nc"&gt;Example&lt;/span&gt; &lt;span class="o"&gt;{&lt;/span&gt;
+    &lt;span class="kd"&gt;private&lt;/span&gt; &lt;span class="kt"&gt;int&lt;/span&gt; &lt;span class="n"&gt;value&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="o"&gt;;&lt;/span&gt;    
+
+    &lt;span class="kd"&gt;public&lt;/span&gt; &lt;span class="kt"&gt;int&lt;/span&gt; &lt;span class="nf"&gt;getNextValue&lt;/span&gt;&lt;span class="o"&gt;(){&lt;/span&gt;
+        &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="n"&gt;value&lt;/span&gt;&lt;span class="o"&gt;++;&lt;/span&gt;
+    &lt;span class="o"&gt;}&lt;/span&gt;
+&lt;span class="o"&gt;}&lt;/span&gt;
+&lt;/pre&gt;
+
+
+&lt;p&gt;It's really simple and works well with one thread, but absolutely not with multiple threads. An increment like this is not a simple action, but three actions :&lt;/p&gt;
+&lt;p&gt;&lt;/p&gt;&lt;ul&gt;
+    &lt;li&gt;Read the current value of "value"&lt;/li&gt;
+    &lt;li&gt;Add one to the current value&lt;/li&gt;
+    &lt;li&gt;Write that new value to "value"&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Normally, if you have two threads invoking the getNextValue(), you can think that the first will get 1 and the next will get 2, but it is possible that the two threads get the value 1. Imagine this situation :&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Thread 1 : read the value, get 0, add 1, so value = 1&lt;/li&gt;
+&lt;li&gt;Thread 2 : read the value, get 0, add 1, so value = 1&lt;/li&gt;
+&lt;li&gt;Thread 1 : write 1 to the field value and return 1&lt;/li&gt;
+&lt;li&gt;Thread 2 : write 1 to the field value and return 1&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;These situations come from what we call interleaving. Interleaving describe the possible situations of several threads executing some statements. Only for three operations and two threads, there is a lot of possible interleavings.&lt;/p&gt;
+&lt;p&gt;So we must made the operations atomic to works with multiple threads. In Java, the first way to make that is to use a lock. All Java objects contains an intrinsic locks, we'll use that lock to make methods or statement atomic. When a thread has a lock, no other thread can acquire it and must wait for the first thread to release the lock. To acquire the lock, you have to use the synchronized keyword to automatically acquire and release a lock for a code. You can add the synchronized keyword to a method to acquire the lock before invoking the method and release it after the method execution. You can refactor the getNextValue() method using the synchronized keyword :&lt;/p&gt;
+&lt;pre class="code literal-block"&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="kd"&gt;public&lt;/span&gt; &lt;span class="kd"&gt;class&lt;/span&gt; &lt;span class="nc"&gt;Example&lt;/span&gt; &lt;span class="o"&gt;{&lt;/span&gt;
+    &lt;span class="kd"&gt;private&lt;/span&gt; &lt;span class="kt"&gt;int&lt;/span&gt; &lt;span class="n"&gt;value&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="o"&gt;;&lt;/span&gt;    
+
+    &lt;span class="kd"&gt;public&lt;/span&gt; &lt;span class="kd"&gt;synchronized&lt;/span&gt; &lt;span class="kt"&gt;int&lt;/span&gt; &lt;span class="nf"&gt;getNextValue&lt;/span&gt;&lt;span class="o"&gt;(){&lt;/span&gt;
+        &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="n"&gt;value&lt;/span&gt;&lt;span class="o"&gt;++;&lt;/span&gt;
+    &lt;span class="o"&gt;}&lt;/span&gt;
+&lt;span class="o"&gt;}&lt;/span&gt;
+&lt;/pre&gt;
+
+
+&lt;p&gt;With that, you have the guarantee that only thread can execute the method at the same time. The used lock is the intrinsic lock of the instance. If the method is static, the used lock is the Class object of Example. If you have two methods with the synchronized keyword, only one method of the two will be executed at the same time because the same lock is used for the two methods. You can also write it using a synchronized block :&lt;/p&gt;
+&lt;pre class="code literal-block"&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="kd"&gt;public&lt;/span&gt; &lt;span class="kd"&gt;class&lt;/span&gt; &lt;span class="nc"&gt;Example&lt;/span&gt; &lt;span class="o"&gt;{&lt;/span&gt;
+    &lt;span class="kd"&gt;private&lt;/span&gt; &lt;span class="kt"&gt;int&lt;/span&gt; &lt;span class="n"&gt;value&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="o"&gt;;&lt;/span&gt;
+
+    &lt;span class="kd"&gt;public&lt;/span&gt; &lt;span class="kt"&gt;int&lt;/span&gt; &lt;span class="nf"&gt;getNextValue&lt;/span&gt;&lt;span class="o"&gt;()&lt;/span&gt; &lt;span class="o"&gt;{&lt;/span&gt;
+        &lt;span class="kd"&gt;synchronized&lt;/span&gt; &lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="k"&gt;this&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt; &lt;span class="o"&gt;{&lt;/span&gt;
+            &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="n"&gt;value&lt;/span&gt;&lt;span class="o"&gt;++;&lt;/span&gt;
+        &lt;span class="o"&gt;}&lt;/span&gt;
+    &lt;span class="o"&gt;}&lt;/span&gt;
+&lt;span class="o"&gt;}&lt;/span&gt;
+&lt;/pre&gt;
+
+
+&lt;p&gt;This is exactly the same as using the synchronized keyword on the method signature. Using synchronized blocks, you can choose the lock to block on. By example, if you don't want to use the intrinsic lock of the current object but an other object, you can use an other object just as a lock :&lt;/p&gt;
+&lt;pre class="code literal-block"&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="kd"&gt;public&lt;/span&gt; &lt;span class="kd"&gt;class&lt;/span&gt; &lt;span class="nc"&gt;Example&lt;/span&gt; &lt;span class="o"&gt;{&lt;/span&gt;
+    &lt;span class="kd"&gt;private&lt;/span&gt; &lt;span class="kt"&gt;int&lt;/span&gt; &lt;span class="n"&gt;value&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="o"&gt;;&lt;/span&gt;
+
+    &lt;span class="kd"&gt;private&lt;/span&gt; &lt;span class="kd"&gt;final&lt;/span&gt; &lt;span class="n"&gt;Object&lt;/span&gt; &lt;span class="n"&gt;lock&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="k"&gt;new&lt;/span&gt; &lt;span class="n"&gt;Object&lt;/span&gt;&lt;span class="o"&gt;();&lt;/span&gt;
+
+    &lt;span class="kd"&gt;public&lt;/span&gt; &lt;span class="kt"&gt;int&lt;/span&gt; &lt;span class="nf"&gt;getNextValue&lt;/span&gt;&lt;span class="o"&gt;()&lt;/span&gt; &lt;span class="o"&gt;{&lt;/span&gt;
+        &lt;span class="kd"&gt;synchronized&lt;/span&gt; &lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="n"&gt;lock&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt; &lt;span class="o"&gt;{&lt;/span&gt;
+            &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="n"&gt;value&lt;/span&gt;&lt;span class="o"&gt;++;&lt;/span&gt;
+        &lt;span class="o"&gt;}&lt;/span&gt;
+    &lt;span class="o"&gt;}&lt;/span&gt;
+&lt;span class="o"&gt;}&lt;/span&gt;
+&lt;/pre&gt;
+
+
+&lt;p&gt;The result is the same but has one difference, the lock is internal to the object so no other code can use the lock. With complex classes, it not rare to use several locks to provide thread safety on the class.&lt;/p&gt;
+&lt;p&gt;There is an other issue with multiple threads : the visibility of the variables. This seems when a change made by a thread is visible by an other thread. For performance improvements, the Java compiler and virtual machines can made some improvements using registers and cache. By default, you have no guarantee that a change made by a thread is visible to an other thread. To make a change visible to an other thread, you must use synchronized blocks to ensure visibility of the change. You must use synchronized blocks for the read and for the write of the shared values. You must make that for every read/write of a value shared between multiple threads.&lt;/p&gt;
+&lt;p&gt;You can also use the volatile keyword on the field to ensure the visibility of read/write between multiple threads. The volatile keyword ensure only visibility, not atomicity. The synchronized blocks ensure visibility and atomicity. So you can use the volatile keyword on fields that doesn't need atomicity (if you make only read and write to the field without depending on the current value of the field by example).&lt;/p&gt;
+&lt;p&gt;You can also note that this simple example can be solved using AtomicInteger, but that will be covered later in an other part of the posts.&lt;/p&gt;
+&lt;p&gt;Pay attention that trying to solve thread safety on a problem can add new issues of deadlock. By example, if thread A owns the lock 1 and are waiting for the lock 2 and if lock 2 is acquired by thread B who waits on lock 1, there is a deadlock. Your program is dead. So you have to pay great attention to the locks.&lt;/p&gt;
+&lt;p&gt;There is several rules that we must keep in mind when using locks :&lt;/p&gt;
+&lt;ol&gt;
+    &lt;li&gt;Every mutable fields shared between multiple threads must be guarded with a lock or made volatile, if you only need visibility&lt;/li&gt;
+    &lt;li&gt;Synchronize only the operations that must synchronized, this improve the performances. But don't synchronize too few operations. Try to keep the lock only for short operations.&lt;/li&gt;
+    &lt;li&gt;Always know which locks are acquired and when there are acquired and by which thread&lt;/li&gt;
+    &lt;li&gt;An immutable object is always thread safe&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;Here we are, I hope that this post helps you to understand thread safety and how to achieve it using intrinsic locks. In the next posts, we'll see another synchronization methods.&lt;/p&gt;&lt;/div&gt;</description><category>Concurrency</category><category>Java</category><guid>http://baptiste-wicht.com/posts/2010/08/java-concurrrency-synchronization-locks.html</guid><pubDate>Fri, 27 Aug 2010 05:15:59 GMT</pubDate></item><item><title>Java File Copy Benchmark Updates (once again)</title><link>http://baptiste-wicht.com/posts/2010/08/file-copy-benchmark-updates-once-again.html</link><dc:creator>Baptiste Wicht</dc:creator><description>&lt;div&gt;&lt;p&gt;I've made another updates to my file copy benchmark.&lt;/p&gt;
+&lt;p&gt;First of all, I used my &lt;a title="Utility class to create graphs of benchmark results" href="http://www.baptiste-wicht.com/2010/08/generate-graphs-benchmarks-easily/" target="_blank"&gt;little utility class to automatically create the graphs&lt;/a&gt;. The graph are a little less clean, but I spare a lot of time not creating them myself.&lt;/p&gt;
+&lt;p&gt;Then, I've also made some corrections on the code :&lt;/p&gt;
+&lt;ul&gt;
+    &lt;li&gt;I''ve used a buffer size of 8192 instead of 4096&lt;/li&gt;
+    &lt;li&gt;I've made some corrections using the channels because the old code can forgot to write some portions of the file&lt;/li&gt;
+    &lt;li&gt;I used allocateDirect() instead of allocate() for the ByteBuffer.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;And I've added a new method using Java 7 : Path.copyTo(Path path).&lt;/p&gt;
+&lt;p&gt;So the new results are all based on a Java 7 Virtual Machine.&lt;/p&gt;
+&lt;p&gt;You'll find all the new informations and result, on the original post : &lt;a title="Java File Copy Benchmark" href="http://www.baptiste-wicht.com/2010/08/file-copy-in-java-benchmark/" target="_self"&gt;File Copy in Java - Benchmark&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;I hope this new informations will interest you.&lt;/p&gt;&lt;/div&gt;</description><category>Benchmarks</category><category>I/O</category><category>Java</category><category>Java 7</category><category>Performances</category><guid>http://baptiste-wicht.com/posts/2010/08/file-copy-benchmark-updates-once-again.html</guid><pubDate>Wed, 25 Aug 2010 05:26:11 GMT</pubDate></item><item><title>Java 7 : The new try-with-resources statement</title><link>http://baptiste-wicht.com/posts/2010/08/java-7-try-with-resources-statement.html</link><dc:creator>Baptiste Wicht</dc:creator><description>&lt;div&gt;&lt;p&gt;From the build 105, the compiler and runtime of Java 7 Releases have support for the new form of try : try-with-resources, also called ARM (Automatic Resource Management) blocks. &lt;/p&gt;
+&lt;p&gt;This new statement make working with streams and all kind of closeable resources easier. By example, in Java, you can have this kind of code : &lt;/p&gt;
+&lt;pre class="code literal-block"&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="kd"&gt;private&lt;/span&gt; &lt;span class="kd"&gt;static&lt;/span&gt; &lt;span class="kt"&gt;void&lt;/span&gt; &lt;span class="nf"&gt;customBufferStreamCopy&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="n"&gt;File&lt;/span&gt; &lt;span class="n"&gt;source&lt;/span&gt;&lt;span class="o"&gt;,&lt;/span&gt; &lt;span class="n"&gt;File&lt;/span&gt; &lt;span class="n"&gt;target&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt; &lt;span class="o"&gt;{&lt;/span&gt;
+    &lt;span class="n"&gt;InputStream&lt;/span&gt; &lt;span class="n"&gt;fis&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="kc"&gt;null&lt;/span&gt;&lt;span class="o"&gt;;&lt;/span&gt;
+    &lt;span class="n"&gt;OutputStream&lt;/span&gt; &lt;span class="n"&gt;fos&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="kc"&gt;null&lt;/span&gt;&lt;span class="o"&gt;;&lt;/span&gt;
+    &lt;span class="k"&gt;try&lt;/span&gt; &lt;span class="o"&gt;{&lt;/span&gt;
+        &lt;span class="n"&gt;fis&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="k"&gt;new&lt;/span&gt; &lt;span class="n"&gt;FileInputStream&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="n"&gt;source&lt;/span&gt;&lt;span class="o"&gt;);&lt;/span&gt;
+        &lt;span class="n"&gt;fos&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="k"&gt;new&lt;/span&gt; &lt;span class="n"&gt;FileOutputStream&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="n"&gt;target&lt;/span&gt;&lt;span class="o"&gt;);&lt;/span&gt;
+
+        &lt;span class="kt"&gt;byte&lt;/span&gt;&lt;span class="o"&gt;[]&lt;/span&gt; &lt;span class="n"&gt;buf&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="k"&gt;new&lt;/span&gt; &lt;span class="kt"&gt;byte&lt;/span&gt;&lt;span class="o"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;8192&lt;/span&gt;&lt;span class="o"&gt;];&lt;/span&gt;
+
+        &lt;span class="kt"&gt;int&lt;/span&gt; &lt;span class="n"&gt;i&lt;/span&gt;&lt;span class="o"&gt;;&lt;/span&gt;
+        &lt;span class="k"&gt;while&lt;/span&gt; &lt;span class="o"&gt;((&lt;/span&gt;&lt;span class="n"&gt;i&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;fis&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="na"&gt;read&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="n"&gt;buf&lt;/span&gt;&lt;span class="o"&gt;))&lt;/span&gt; &lt;span class="o"&gt;!=&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt; &lt;span class="o"&gt;{&lt;/span&gt;
+            &lt;span class="n"&gt;fos&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="na"&gt;write&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="n"&gt;buf&lt;/span&gt;&lt;span class="o"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="o"&gt;,&lt;/span&gt; &lt;span class="n"&gt;i&lt;/span&gt;&lt;span class="o"&gt;);&lt;/span&gt;
+        &lt;span class="o"&gt;}&lt;/span&gt;
+    &lt;span class="o"&gt;}&lt;/span&gt;
+    &lt;span class="k"&gt;catch&lt;/span&gt; &lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="n"&gt;Exception&lt;/span&gt; &lt;span class="n"&gt;e&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt; &lt;span class="o"&gt;{&lt;/span&gt;
+        &lt;span class="n"&gt;e&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="na"&gt;printStackTrace&lt;/span&gt;&lt;span class="o"&gt;();&lt;/span&gt;
+    &lt;span class="o"&gt;}&lt;/span&gt; &lt;span class="k"&gt;finally&lt;/span&gt; &lt;span class="o"&gt;{&lt;/span&gt;
+        &lt;span class="n"&gt;close&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="n"&gt;fis&lt;/span&gt;&lt;span class="o"&gt;);&lt;/span&gt;
+        &lt;span class="n"&gt;close&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="n"&gt;fos&lt;/span&gt;&lt;span class="o"&gt;);&lt;/span&gt;
+    &lt;span class="o"&gt;}&lt;/span&gt;
+&lt;span class="o"&gt;}&lt;/span&gt;
+
+&lt;span class="kd"&gt;private&lt;/span&gt; &lt;span class="kd"&gt;static&lt;/span&gt; &lt;span class="kt"&gt;void&lt;/span&gt; &lt;span class="nf"&gt;close&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="n"&gt;Closeable&lt;/span&gt; &lt;span class="n"&gt;closable&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt; &lt;span class="o"&gt;{&lt;/span&gt;
+    &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="n"&gt;closable&lt;/span&gt; &lt;span class="o"&gt;!=&lt;/span&gt; &lt;span class="kc"&gt;null&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt; &lt;span class="o"&gt;{&lt;/span&gt;
+        &lt;span class="k"&gt;try&lt;/span&gt; &lt;span class="o"&gt;{&lt;/span&gt;
+            &lt;span class="n"&gt;closable&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="na"&gt;close&lt;/span&gt;&lt;span class="o"&gt;();&lt;/span&gt;
+        &lt;span class="o"&gt;}&lt;/span&gt; &lt;span class="k"&gt;catch&lt;/span&gt; &lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="n"&gt;IOException&lt;/span&gt; &lt;span class="n"&gt;e&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt; &lt;span class="o"&gt;{&lt;/span&gt;
+            &lt;span class="n"&gt;e&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="na"&gt;printStackTrace&lt;/span&gt;&lt;span class="o"&gt;();&lt;/span&gt;
+        &lt;span class="o"&gt;}&lt;/span&gt;
+    &lt;span class="o"&gt;}&lt;/span&gt;
+&lt;span class="o"&gt;}&lt;/span&gt;
+&lt;/pre&gt;
+
+
+&lt;p&gt;A little bit heavy, isn't it ? This is only an example, here the management of exceptions is not good. &lt;/p&gt;
+&lt;p&gt;So let's use try-with-resources statement to simplify this code, who becomes : &lt;/p&gt;
+&lt;pre class="code literal-block"&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="kd"&gt;private&lt;/span&gt; &lt;span class="kd"&gt;static&lt;/span&gt; &lt;span class="kt"&gt;void&lt;/span&gt; &lt;span class="nf"&gt;customBufferStreamCopy&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="n"&gt;File&lt;/span&gt; &lt;span class="n"&gt;source&lt;/span&gt;&lt;span class="o"&gt;,&lt;/span&gt; &lt;span class="n"&gt;File&lt;/span&gt; &lt;span class="n"&gt;target&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt; &lt;span class="o"&gt;{&lt;/span&gt;
+    &lt;span class="k"&gt;try&lt;/span&gt; &lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="n"&gt;InputStream&lt;/span&gt; &lt;span class="n"&gt;fis&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="k"&gt;new&lt;/span&gt; &lt;span class="n"&gt;FileInputStream&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="n"&gt;source&lt;/span&gt;&lt;span class="o"&gt;);&lt;/span&gt;
+        &lt;span class="n"&gt;OutputStream&lt;/span&gt; &lt;span class="n"&gt;fos&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="k"&gt;new&lt;/span&gt; &lt;span class="n"&gt;FileOutputStream&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="n"&gt;target&lt;/span&gt;&lt;span class="o"&gt;)){&lt;/span&gt;
+
+        &lt;span class="kt"&gt;byte&lt;/span&gt;&lt;span class="o"&gt;[]&lt;/span&gt; &lt;span class="n"&gt;buf&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="k"&gt;new&lt;/span&gt; &lt;span class="kt"&gt;byte&lt;/span&gt;&lt;span class="o"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;8192&lt;/span&gt;&lt;span class="o"&gt;];&lt;/span&gt;
+
+        &lt;span class="kt"&gt;int&lt;/span&gt; &lt;span class="n"&gt;i&lt;/span&gt;&lt;span class="o"&gt;;&lt;/span&gt;
+        &lt;span class="k"&gt;while&lt;/span&gt; &lt;span class="o"&gt;((&lt;/span&gt;&lt;span class="n"&gt;i&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;fis&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="na"&gt;read&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="n"&gt;buf&lt;/span&gt;&lt;span class="o"&gt;))&lt;/span&gt; &lt;span class="o"&gt;!=&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt; &lt;span class="o"&gt;{&lt;/span&gt;
+            &lt;span class="n"&gt;fos&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="na"&gt;write&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="n"&gt;buf&lt;/span&gt;&lt;span class="o"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="o"&gt;,&lt;/span&gt; &lt;span class="n"&gt;i&lt;/span&gt;&lt;span class="o"&gt;);&lt;/span&gt;
+        &lt;span class="o"&gt;}&lt;/span&gt;
+    &lt;span class="o"&gt;}&lt;/span&gt;
+    &lt;span class="k"&gt;catch&lt;/span&gt; &lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="n"&gt;Exception&lt;/span&gt; &lt;span class="n"&gt;e&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt; &lt;span class="o"&gt;{&lt;/span&gt;
+        &lt;span class="n"&gt;e&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="na"&gt;printStackTrace&lt;/span&gt;&lt;span class="o"&gt;();&lt;/span&gt;
+    &lt;span class="o"&gt;}&lt;/span&gt;
+&lt;span class="o"&gt;}&lt;/span&gt;
+&lt;/pre&gt;
+
+
+&lt;p&gt;A lot cleaner, no ? With that code, the resources are automatically closed after the try. In the try resources list, you can declare several resources, but all these resources must implement the java.lang.AutoCloseable interface. &lt;/p&gt;
+&lt;p&gt;If you want more informations, about this new statement read &lt;a target="_blank" href="http://blogs.sun.com/darcy/entry/project_coin_updated_arm_spec"&gt;try-with-resources specifications&lt;/a&gt;.&lt;/p&gt;&lt;/div&gt;</description><category>Java</category><category>Java 7</category><category>Others</category><category>Releases</category><guid>http://baptiste-wicht.com/posts/2010/08/java-7-try-with-resources-statement.html</guid><pubDate>Tue, 24 Aug 2010 05:30:53 GMT</pubDate></item><item><title>Java Concurrency in Practice - Book Review</title><link>http://baptiste-wicht.com/posts/2010/08/java-concurrency-in-practice-book-review.html</link><dc:creator>Baptiste Wicht</dc:creator><description>&lt;div&gt;&lt;p&gt;I used my holidays to concentrate myself on the reading of my last book : Java Concurrency in Practice of Brian Goetz (with Tim Peierls, Joshua Bloch, Joseph Bowbeer, David Holmes and Doug Lea).&lt;/p&gt;
+&lt;p&gt;This book is, in my point of view, the reference for the development of concurrency programs in Java.&lt;/p&gt;
+&lt;p&gt;Reading this book, you will learn that concurrency is everywhere when programming in Java (all the examples are in Java, but the theory  is valid for almost all programming languages). You will also learn why the GUI Frameworks are single-threaded. You will also understand that a lot of Java programs aren't correct because of the lack of thread safety.&lt;/p&gt;
+&lt;p&gt;The first chapter, the introduction, explains what's are the threads and why we use parallel processing. It contains also the first interleaving example (really simple) and how to solve it. In the third chapter, the author explains what is Thread Safety and how to achieve it using locks (intrinsic locks with synchronized). In the next chapter, you learn how to share objects between several threads. This include the notions of visibility, immutability, thread confinement and safe publication. With the fourth chapter, you learn how to design a thread safe class, delegate the thread safety to an other class and learn why it's really important to document the synchronization policies. In the last chapter of this first part, we see how to build blocks of statements. We use concurrent collections, blocking queues, synchronizers, blocking and interruptible methods.&lt;/p&gt;
+&lt;p&gt;The second part is about structuring concurrent applications. It contains information about the executor framework, finding parallelism, the cancellation and the shutdown of tasks, the thread pools and the GUI applications.&lt;/p&gt;
+&lt;p&gt;The third part is about liveness hazards, performance and scalability and also about testing concurrent programs.&lt;/p&gt;
+&lt;p&gt;The last part describe advanced topics. It contains explicit locks using ReentrantLock. It explains also how to build custom synchronizers. A chapter is about building concurrent programs using non-blocking algorithms. This algorithms are better performing but a lot more difficult to build. And the last chapter is about the Java Memory Model. This chapter is very technical but really interesting if you are interested to understand deeply the Java language.&lt;/p&gt;
+&lt;p&gt;To conclude, this book is a reference for every person who want to write concurrent applications.&lt;/p&gt;
+&lt;p&gt;Post Scriptum : This is the hundredth post of this blog. I'm proud to see that there is a lot of regular readers and I hope that this blog will live long.&lt;/p&gt;&lt;/div&gt;</description><category>Books</category><category>Concurrency</category><category>Java</category><guid>http://baptiste-wicht.com/posts/2010/08/java-concurrency-in-practice-book-review.html</guid><pubDate>Mon, 23 Aug 2010 05:05:00 GMT</pubDate></item><item><title>A website for JTheque</title><link>http://baptiste-wicht.com/posts/2010/08/a-website-for-jtheque.html</link><dc:creator>Baptiste Wicht</dc:creator><description>&lt;div&gt;&lt;p&gt;I've the pleasure to inform you that I've created a &lt;strong&gt;new website in English for JTheque&lt;/strong&gt; : &lt;a title="JTheque Project Website" href="http://www.jtheque.com" target="_blank"&gt;http://www.jtheque.com&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;The old websites of JTheque (a French website and a French forge) were completely out of date and were too complicated too manage. This time I created an english, really simple, website to add the more useful informations about my JTheque projects. I always wanted to have a real website for JTheque. Before that, I had the Maven auto generated websites, but this is not a real website and it's not really good-looking. I used Google Sites to create this website.&lt;/p&gt;
+&lt;p&gt;At this time, I've included three projects in the website : JTheque Core, JTheque Utils and JTheque XML Utils. There is not a lot of informations for the moment,  but from this time I'll include all the future informations in this new website and I will of course inform you via this blog of all the informations about my projects.&lt;/p&gt;
+&lt;p&gt;I hope that this website will interest you and that it will help to promote a little my JTheque Project.&lt;/p&gt;
+&lt;p&gt;If you found any error on the website, don't hesitate to contact me, via comment or email or whatever you want. If you need more informations on one or more project, don't hesitate to request them and I will include them in the website as soon as possible.&lt;/p&gt;&lt;/div&gt;</description><category>Java</category><category>JTheque</category><guid>http://baptiste-wicht.com/posts/2010/08/a-website-for-jtheque.html</guid><pubDate>Sat, 14 Aug 2010 09:51:40 GMT</pubDate></item></channel></rss>

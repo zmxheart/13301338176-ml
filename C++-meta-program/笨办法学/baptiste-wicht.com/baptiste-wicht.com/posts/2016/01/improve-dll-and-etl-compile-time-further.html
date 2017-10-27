@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html prefix="og: http://ogp.me/ns# article: http://ogp.me/ns/article# " lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Improve DLL and ETL Compile Time further | Blog blog("Baptiste Wicht");</title>
+<script src="/cdn-cgi/apps/head/98vpnawSZZMscPn4oDND-ZgswjM.js"></script><link href="../../../assets/css/all-nocdn.css" rel="stylesheet" type="text/css">
+<meta name="theme-color" content="#5670d4">
+<meta name="generator" content="Nikola (getnikola.com)">
+<link rel="alternate" type="application/rss+xml" title="RSS" href="../../../rss.xml">
+<link rel="canonical" href="http://baptiste-wicht.com/posts/2016/01/improve-dll-and-etl-compile-time-further.html">
+<!--[if lt IE 9]><script src="../../../assets/js/html5.js"></script><![endif]--><meta name="author" content="Baptiste Wicht">
+<link rel="prev" href="../../2015/11/detect-overflows-and-more-in-java-with-cojac.html" title="Detect overflows and more in Java with COJAC" type="text/html">
+<link rel="next" href="../02/use-templight-and-templar-to-debug-cpp-templates.html" title="Use templight and Templar to debug C++ templates" type="text/html">
+<meta property="og:site_name" content='Blog blog("Baptiste Wicht");'>
+<meta property="og:title" content="Improve DLL and ETL Compile Time further">
+<meta property="og:url" content="http://baptiste-wicht.com/posts/2016/01/improve-dll-and-etl-compile-time-further.html">
+<meta property="og:description" content="For a while, the compilation time of my matrix/vector computation library (ETL), based on Expression Templates has become more and more problematic. I've already worked on this problem here and there,">
+<meta property="og:type" content="article">
+<meta property="article:published_time" content="2016-01-29T17:02:34+01:00">
+<meta property="article:tag" content="C++">
+<meta property="article:tag" content="Compilers">
+<meta property="article:tag" content="dll">
+<meta property="article:tag" content="etl">
+<meta property="article:tag" content="gcc">
+<meta property="article:tag" content="Performances">
+<link href="../../../favicon.ico" rel="icon" type="image/x-icon">
+<link rel="publisher" href="https://plus.google.com/+BaptisteWicht">
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-2175227-7', 'auto');
+  var metas = document.getElementsByTagName('meta'), tagsList = [];
+  for (var i=0; i<metas.length; i++) {
+    if (metas[i].getAttribute('property') == 'article:tag') {
+      tagsList.push( metas[i].getAttribute('content'));
+    }
+  }
+  ga('set', 'dimension1', tagsList.join('|'));
+  ga('send', 'pageview');
+</script>
+</head>
+<body>
+
+<a href="#content" class="sr-only sr-only-focusable">Skip to main content</a>
+<div class="container-fluid">
+
+<div class="row">
+<div class="col-sm-3 col-lg-2">
+<nav class="navbar navbar-inverse navbar-fixed-side"><div class="navbar-header">
+<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+<span class="sr-only">Toggle navigation</span>
+<span class="icon-bar"></span>
+<span class="icon-bar"></span>
+<span class="icon-bar"></span>
+</button>
+<a class="navbar-brand" href="http://baptiste-wicht.com/">
+<span id="blog-title">Blog blog("Baptiste Wicht");</span>
+</a>
+</div>
+
+<div class="collapse navbar-collapse navbar-ex1-collapse">
+<ul class="nav navbar-nav">
+<li>
+<a href="../../../stories/about.html">About</a>
+</li>
+<li>
+<a href="../../../stories/publications.html">Publications</a>
+</li>
+<li>
+<a href="../../../stories/projects.html">Projects</a>
+</li>
+<li>
+<a href="../../../categories/index.html">Tags</a>
+</li>
+<li>
+<a href="../../../archive.html">Archives</a>
+</li>
+<li>
+<a href="http://feeds.feedburner.com/BaptisteWicht">RSS</a>
+</li>
+<li class="navbar-content">
+<h3>Related posts</h3>
+</li>
+<li><a href="../../2015/06/continuous-performance-management-with-cpm-for-cpp.html">Continuous Performance Management with CPM for C++</a></li>
+<li><a href="../../2015/06/how-i-improved-a-bit-compile-time-of-etl.html">How I improved (a bit) compile time of ETL ?</a></li>
+<li><a href="../12/pvs-studio-on-cpp-library-review.html">PVS-Studio on C++ Library Review</a></li>
+<li><a href="../../2017/09/cpp11-concurrency-tutorial-futures.html">C++11 Concurrency Tutorial - Part 5: Futures</a></li>
+<li><a href="../../2017/08/simplify-your-type-traits-with-c++14-variable-templates.html">Simplify your type traits with C++14 variable templates</a></li>
+<li><a href="../../2017/07/update-on-deep-learning-library-dll-dropout-batch-normalization-adaptive-learning-rates.html">Update on Deep Learning Library (DLL): Dropout, Batch Normalization, Adaptive Learning Rates, ...</a></li>
+<li class="navbar-block">
+<li class="wicht-navbar-right">
+<a target="_blank" title="Follow @wichtounet on Twitter" href="https://twitter.com/wichtounet">
+<img src="../../../assets/img/twitter.png" alt="Follow @wichtounet on Twitter"></a>
+</li>
+<li class="wicht-navbar-right">
+<a target="_blank" title="Follow +BaptisteWicht on Google+" href="https://plus.google.com/+BaptisteWicht">
+<img src="../../../assets/img/google_plus.png" alt="Follow +BaptisteWicht on Google+"></a>
+</li>
+</ul>
+</div>
+
+</nav>
+</div> 
+<div class="col-sm-9 col-lg-10">
+<div id="content"></div>
+<article class="post-text h-entry hentry postpage" itemscope="itemscope" itemtype="http://schema.org/Article"><header><h1 class="p-name entry-title" itemprop="headline name"><a href="#" class="u-url">Improve DLL and ETL Compile Time further</a></h1>
+<div class="metadata">
+<p class="byline author vcard"><span class="byline-name fn" itemprop="author">
+Baptiste Wicht
+</span></p>
+<p class="dateline"><a href="#" rel="bookmark"><time class="published dt-published" datetime="2016-01-29T17:02:34+01:00" itemprop="datePublished" title="2016-01-29 17:02">2016-01-29 17:02</time></a></p>
+<p class="commentline">
+<a href="improve-dll-and-etl-compile-time-further.html#disqus_thread" data-disqus-identifier="cache/posts/2016/01/improve-dll-and-etl-compile-time-further.html">Comments</a>
+</p>
+<p class="sourceline"><a href="improve-dll-and-etl-compile-time-further.rst" class="sourcelink">Source</a></p>
+</div>
+</header><div class="e-content entry-content" itemprop="articleBody text">
+<div>
+<p>For a while, the compilation time of my matrix/vector computation library (ETL), based on Expression Templates has become more and more problematic. I've already worked on this problem <a class="reference external" href="http://baptiste-wicht.com/posts/2015/06/how-i-improved-a-bit-compile-time-of-etl.html">here</a> and <a class="reference external" href="http://baptiste-wicht.com/posts/2015/06/improve-etl-compile-time-with-precompiled-headers.html">there</a>, using some general techniques (pragmas, precompiled headers, header removals and so on). On this post, I'll talk about two major improvements I have been able to do directly in the code.</p>
+<div class="section" id="use-of-static-if">
+<h2>Use of static_if</h2>
+<p>Remember <a class="reference external" href="http://baptiste-wicht.com/posts/2015/07/simulate-static_if-with-c11c14.html">static_if</a> ? I was able to use it to really reduce the compile time of DLL.</p>
+<p>I wrote a script to time each test case of the DLL project to find the test cases that took the longest to compile. Once I found the best candidate, I isolated the functions that took the longest to compile. It was quite tedious and I did it by hand, primarily by commenting parts of the code and going deeper and deeper in the code. I was quite suprised to find that a single function call (template function of course ;) ) was responsible for 60% of the compilation time of my candidate test case. The function was instantiating a whole bunch of expression templates (to compute the free energy of several models). The function itself was not really optimizable, but what was really interesting is that this function was only used in some very rare cases and that these cases were known at compile-time :) This was a perfect case to use a static_if. And once the call was inside the static_if, the test case was indeed about 60% faster. <strong>This reduced the overall compilation time of DLL by about 30%</strong>!</p>
+<p>This could also of course also have been achieved by using two functions, one with the call, one empty and selected by SFINAE (Substitution Failure Is Not An Error). I prefer the statif_if version since this really shows the intent and hides SFINAE behind nicer syntax.</p>
+<p>I was also able to use static_if at other places in the DLL code to avoid instantiating some templates, but the improvements were much less dramatic (about 1% of the total compilation time). I was very lucky to find a single function that accounted for so much compile time. After some more tests, I concluded that much of the compilation time of DLL was spent compiling the Expression Templates from my ETL library so I decided to delve into ETL code directly.</p>
+</div>
+<div class="section" id="removal-of-std-async">
+<h2>Removal of std::async</h2>
+<p>The second improvement was very surprising. I was working on improving the compilation of ETL and found out that the sum and average reductions of matrices were dramatically slow, about an order of magnitude slower than standard operations on matrices. In parallel (but the two facts are linked), I also found out another weird fact when splitting a file into 10 parts (the file was comprised of 10 test cases). Compiling the 10 parts separarely (and sequentially, not multiple threads) was about 40% faster than compiling the complete file. There was no swapping so it was not a memory issue. This is not expected. Generally, it is faster to compile a big file than to compile its parts separately. The advantage of smaller files is that you can compile them in parallel and that incremental builds are faster (only compile a small part).</p>
+<p>By elimination, I found out that most of the time was spent inside the function that was dispatching in parallel the work for accumulating the sum of a matrix. Here is the function:</p>
+<pre class="code cpp"><a name="rest_code_9b95eb8faa8448c383b51d655393a960-1"></a><span class="k">template</span> <span class="o">&lt;</span><span class="k">typename</span> <span class="n">T</span><span class="p">,</span> <span class="k">typename</span> <span class="n">Functor</span><span class="p">,</span> <span class="k">typename</span> <span class="n">AccFunctor</span><span class="o">&gt;</span>
+<a name="rest_code_9b95eb8faa8448c383b51d655393a960-2"></a><span class="kr">inline</span> <span class="kt">void</span> <span class="n">dispatch_1d_acc</span><span class="p">(</span><span class="kt">bool</span> <span class="n">p</span><span class="p">,</span> <span class="n">Functor</span><span class="o">&amp;&amp;</span> <span class="n">functor</span><span class="p">,</span> <span class="n">AccFunctor</span><span class="o">&amp;&amp;</span> <span class="n">acc_functor</span><span class="p">,</span> <span class="n">std</span><span class="o">::</span><span class="kt">size_t</span> <span class="n">first</span><span class="p">,</span> <span class="n">std</span><span class="o">::</span><span class="kt">size_t</span> <span class="n">last</span><span class="p">){</span>
+<a name="rest_code_9b95eb8faa8448c383b51d655393a960-3"></a>    <span class="k">if</span><span class="p">(</span><span class="n">p</span><span class="p">){</span>
+<a name="rest_code_9b95eb8faa8448c383b51d655393a960-4"></a>        <span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">future</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;&gt;</span> <span class="n">futures</span><span class="p">(</span><span class="n">threads</span> <span class="o">-</span> <span class="mi">1</span><span class="p">);</span>
+<a name="rest_code_9b95eb8faa8448c383b51d655393a960-5"></a>
+<a name="rest_code_9b95eb8faa8448c383b51d655393a960-6"></a>        <span class="k">auto</span> <span class="n">n</span> <span class="o">=</span> <span class="n">last</span> <span class="o">-</span> <span class="n">first</span><span class="p">;</span>
+<a name="rest_code_9b95eb8faa8448c383b51d655393a960-7"></a>        <span class="k">auto</span> <span class="n">batch</span> <span class="o">=</span> <span class="n">n</span> <span class="o">/</span> <span class="n">threads</span><span class="p">;</span>
+<a name="rest_code_9b95eb8faa8448c383b51d655393a960-8"></a>
+<a name="rest_code_9b95eb8faa8448c383b51d655393a960-9"></a>        <span class="k">for</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="kt">size_t</span> <span class="n">t</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">t</span> <span class="o">&lt;</span> <span class="n">threads</span> <span class="o">-</span> <span class="mi">1</span><span class="p">;</span> <span class="o">++</span><span class="n">t</span><span class="p">){</span>
+<a name="rest_code_9b95eb8faa8448c383b51d655393a960-10"></a>            <span class="n">futures</span><span class="p">[</span><span class="n">t</span><span class="p">]</span> <span class="o">=</span> <span class="n">std</span><span class="o">::</span><span class="n">async</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">launch</span><span class="o">::</span><span class="n">async</span><span class="p">,</span> <span class="n">functor</span><span class="p">,</span> <span class="n">first</span> <span class="o">+</span> <span class="n">t</span> <span class="o">*</span> <span class="n">batch</span><span class="p">,</span> <span class="n">first</span> <span class="o">+</span> <span class="p">(</span><span class="n">t</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="n">batch</span><span class="p">);</span>
+<a name="rest_code_9b95eb8faa8448c383b51d655393a960-11"></a>        <span class="p">}</span>
+<a name="rest_code_9b95eb8faa8448c383b51d655393a960-12"></a>
+<a name="rest_code_9b95eb8faa8448c383b51d655393a960-13"></a>        <span class="n">acc_functor</span><span class="p">(</span><span class="n">functor</span><span class="p">(</span><span class="n">first</span> <span class="o">+</span> <span class="p">(</span><span class="n">threads</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="n">batch</span><span class="p">,</span> <span class="n">last</span><span class="p">));</span>
+<a name="rest_code_9b95eb8faa8448c383b51d655393a960-14"></a>
+<a name="rest_code_9b95eb8faa8448c383b51d655393a960-15"></a>        <span class="k">for</span><span class="p">(</span><span class="k">auto</span><span class="o">&amp;</span> <span class="nl">fut</span> <span class="p">:</span> <span class="n">futures</span><span class="p">){</span>
+<a name="rest_code_9b95eb8faa8448c383b51d655393a960-16"></a>            <span class="n">acc_functor</span><span class="p">(</span><span class="n">fut</span><span class="p">.</span><span class="n">get</span><span class="p">());</span>
+<a name="rest_code_9b95eb8faa8448c383b51d655393a960-17"></a>        <span class="p">}</span>
+<a name="rest_code_9b95eb8faa8448c383b51d655393a960-18"></a>    <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+<a name="rest_code_9b95eb8faa8448c383b51d655393a960-19"></a>        <span class="n">acc_functor</span><span class="p">(</span><span class="n">functor</span><span class="p">(</span><span class="n">first</span><span class="p">,</span> <span class="n">last</span><span class="p">));</span>
+<a name="rest_code_9b95eb8faa8448c383b51d655393a960-20"></a>    <span class="p">}</span>
+<a name="rest_code_9b95eb8faa8448c383b51d655393a960-21"></a><span class="p">}</span>
+</pre>
+<p>There isn't anything really fancy about this function. This takes one functor that will be done in parallel and one function for accumulation. It dispatches all the work in batch and then accumulates the results. I tried several things to optimize the compilation time of this function, but nothing worked. The line that was consuming all the time was the std::async line. This function was using std::async because the thread pool that I'm generally using does not support returning values from parallel functors. I decided to use a workaround and use my thread pool and I came out with this version:</p>
+<pre class="code cpp"><a name="rest_code_b8fd9b403c2d421fadc1999b35945c58-1"></a><span class="k">template</span> <span class="o">&lt;</span><span class="k">typename</span> <span class="n">T</span><span class="p">,</span> <span class="k">typename</span> <span class="n">Functor</span><span class="p">,</span> <span class="k">typename</span> <span class="n">AccFunctor</span><span class="o">&gt;</span>
+<a name="rest_code_b8fd9b403c2d421fadc1999b35945c58-2"></a><span class="kr">inline</span> <span class="kt">void</span> <span class="n">dispatch_1d_acc</span><span class="p">(</span><span class="kt">bool</span> <span class="n">p</span><span class="p">,</span> <span class="n">Functor</span><span class="o">&amp;&amp;</span> <span class="n">functor</span><span class="p">,</span> <span class="n">AccFunctor</span><span class="o">&amp;&amp;</span> <span class="n">acc_functor</span><span class="p">,</span> <span class="n">std</span><span class="o">::</span><span class="kt">size_t</span> <span class="n">first</span><span class="p">,</span> <span class="n">std</span><span class="o">::</span><span class="kt">size_t</span> <span class="n">last</span><span class="p">){</span>
+<a name="rest_code_b8fd9b403c2d421fadc1999b35945c58-3"></a>    <span class="k">if</span><span class="p">(</span><span class="n">p</span><span class="p">){</span>
+<a name="rest_code_b8fd9b403c2d421fadc1999b35945c58-4"></a>        <span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span> <span class="n">futures</span><span class="p">(</span><span class="n">threads</span> <span class="o">-</span> <span class="mi">1</span><span class="p">);</span>
+<a name="rest_code_b8fd9b403c2d421fadc1999b35945c58-5"></a>        <span class="n">cpp</span><span class="o">::</span><span class="n">default_thread_pool</span><span class="o">&lt;&gt;</span> <span class="n">pool</span><span class="p">(</span><span class="n">threads</span> <span class="o">-</span> <span class="mi">1</span><span class="p">);</span>
+<a name="rest_code_b8fd9b403c2d421fadc1999b35945c58-6"></a>
+<a name="rest_code_b8fd9b403c2d421fadc1999b35945c58-7"></a>        <span class="k">auto</span> <span class="n">n</span> <span class="o">=</span> <span class="n">last</span> <span class="o">-</span> <span class="n">first</span><span class="p">;</span>
+<a name="rest_code_b8fd9b403c2d421fadc1999b35945c58-8"></a>        <span class="k">auto</span> <span class="n">batch</span> <span class="o">=</span> <span class="n">n</span> <span class="o">/</span> <span class="n">threads</span><span class="p">;</span>
+<a name="rest_code_b8fd9b403c2d421fadc1999b35945c58-9"></a>
+<a name="rest_code_b8fd9b403c2d421fadc1999b35945c58-10"></a>        <span class="k">auto</span> <span class="n">sub_functor</span> <span class="o">=</span> <span class="p">[</span><span class="o">&amp;</span><span class="n">futures</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">functor</span><span class="p">](</span><span class="n">std</span><span class="o">::</span><span class="kt">size_t</span> <span class="n">t</span><span class="p">,</span> <span class="n">std</span><span class="o">::</span><span class="kt">size_t</span> <span class="n">first</span><span class="p">,</span> <span class="n">std</span><span class="o">::</span><span class="kt">size_t</span> <span class="n">last</span><span class="p">){</span>
+<a name="rest_code_b8fd9b403c2d421fadc1999b35945c58-11"></a>            <span class="n">futures</span><span class="p">[</span><span class="n">t</span><span class="p">]</span> <span class="o">=</span> <span class="n">functor</span><span class="p">(</span><span class="n">first</span><span class="p">,</span> <span class="n">last</span><span class="p">);</span>
+<a name="rest_code_b8fd9b403c2d421fadc1999b35945c58-12"></a>        <span class="p">};</span>
+<a name="rest_code_b8fd9b403c2d421fadc1999b35945c58-13"></a>
+<a name="rest_code_b8fd9b403c2d421fadc1999b35945c58-14"></a>        <span class="k">for</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="kt">size_t</span> <span class="n">t</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">t</span> <span class="o">&lt;</span> <span class="n">threads</span> <span class="o">-</span> <span class="mi">1</span><span class="p">;</span> <span class="o">++</span><span class="n">t</span><span class="p">){</span>
+<a name="rest_code_b8fd9b403c2d421fadc1999b35945c58-15"></a>            <span class="n">pool</span><span class="p">.</span><span class="n">do_task</span><span class="p">(</span><span class="n">sub_functor</span><span class="p">,</span> <span class="n">t</span><span class="p">,</span> <span class="n">first</span> <span class="o">+</span> <span class="n">t</span> <span class="o">*</span> <span class="n">batch</span><span class="p">,</span> <span class="n">first</span> <span class="o">+</span> <span class="p">(</span><span class="n">t</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="n">batch</span><span class="p">);</span>
+<a name="rest_code_b8fd9b403c2d421fadc1999b35945c58-16"></a>        <span class="p">}</span>
+<a name="rest_code_b8fd9b403c2d421fadc1999b35945c58-17"></a>
+<a name="rest_code_b8fd9b403c2d421fadc1999b35945c58-18"></a>        <span class="n">acc_functor</span><span class="p">(</span><span class="n">functor</span><span class="p">(</span><span class="n">first</span> <span class="o">+</span> <span class="p">(</span><span class="n">threads</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="n">batch</span><span class="p">,</span> <span class="n">last</span><span class="p">));</span>
+<a name="rest_code_b8fd9b403c2d421fadc1999b35945c58-19"></a>
+<a name="rest_code_b8fd9b403c2d421fadc1999b35945c58-20"></a>        <span class="n">pool</span><span class="p">.</span><span class="n">wait</span><span class="p">();</span>
+<a name="rest_code_b8fd9b403c2d421fadc1999b35945c58-21"></a>
+<a name="rest_code_b8fd9b403c2d421fadc1999b35945c58-22"></a>        <span class="k">for</span><span class="p">(</span><span class="k">auto</span> <span class="nl">fut</span> <span class="p">:</span> <span class="n">futures</span><span class="p">){</span>
+<a name="rest_code_b8fd9b403c2d421fadc1999b35945c58-23"></a>            <span class="n">acc_functor</span><span class="p">(</span><span class="n">fut</span><span class="p">);</span>
+<a name="rest_code_b8fd9b403c2d421fadc1999b35945c58-24"></a>        <span class="p">}</span>
+<a name="rest_code_b8fd9b403c2d421fadc1999b35945c58-25"></a>    <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+<a name="rest_code_b8fd9b403c2d421fadc1999b35945c58-26"></a>        <span class="n">acc_functor</span><span class="p">(</span><span class="n">functor</span><span class="p">(</span><span class="n">first</span><span class="p">,</span> <span class="n">last</span><span class="p">));</span>
+<a name="rest_code_b8fd9b403c2d421fadc1999b35945c58-27"></a>    <span class="p">}</span>
+<a name="rest_code_b8fd9b403c2d421fadc1999b35945c58-28"></a><span class="p">}</span>
+</pre>
+<p>I simply preallocate space for all the threads and create a new functor calling the input functor and saving its result inside the vector. It is less nice, but it works well. And it compiles MUCH faster. This <strong>reduced the compilation time</strong> of my biggest test case <strong>by a factor of 8</strong> (from 344 seconds to 44 seconds). This is really crazy. It also fixed the problem where splitting the test case was faster than big file (it is now twice faster to compile the big files than compiling all the small files separately). <strong>This reduced the total compilation time of dll by about 400%</strong>.</p>
+<p>As of now, I still have no idea why this makes such a big difference. I have looked at the std::async code, but I haven't found a valid reason for this slowdown. If someone has any idea, I'd be very glad to discuss in the comments below.</p>
+</div>
+<div class="section" id="improving-the-template-instantiation-tree">
+<h2>Improving the template instantiation tree</h2>
+<p>I recently discovered the templight tool that is a profiler for templates (pretty cool). After some time, I was able to build it and use it on ETL. For now, I haven't been able to reduce compile time a lot, but I have been able to reduce the template instantiation tree a lot seeing that some instantiations were completely useless and I optimized the code to remove them.</p>
+<p>I won't be go into much details here because I plan to write a post on this subject in the coming days.</p>
+</div>
+<div class="section" id="conclusion">
+<h2>Conclusion</h2>
+<p>In conclusion, I would say that it is pretty hard to improve the compile time of complex C++ programs once you have gone through all the standard methods. However, I was very happy to found that <strong>two optimizations in the source code reduced the overall compilation of DLL by almost 500%</strong>. I will continue working on this, but for now, the compilation time is much more reasonable.</p>
+<p>I hope the two main facts in this article were interesting. If you have similar experience, comments or ideas for further improvements, I'd be glad to discuss them with you in the comments :)</p>
+</div>
+</div>
+</div>
+<aside class="postpromonav"><nav><ul itemprop="keywords" class="tags">
+<li><a class="tag p-category" href="../../../categories/c%2B%2B.html" rel="tag">C++</a></li>
+<li><a class="tag p-category" href="../../../categories/compilers.html" rel="tag">Compilers</a></li>
+<li><a class="tag p-category" href="../../../categories/dll.html" rel="tag">dll</a></li>
+<li><a class="tag p-category" href="../../../categories/etl.html" rel="tag">etl</a></li>
+<li><a class="tag p-category" href="../../../categories/gcc.html" rel="tag">gcc</a></li>
+<li><a class="tag p-category" href="../../../categories/performances.html" rel="tag">Performances</a></li>
+</ul>
+<ul class="pager hidden-print">
+<li class="previous">
+<a href="../../2015/11/detect-overflows-and-more-in-java-with-cojac.html" rel="prev" title="Detect overflows and more in Java with COJAC">Previous post</a>
+</li>
+<li class="next">
+<a href="../02/use-templight-and-templar-to-debug-cpp-templates.html" rel="next" title="Use templight and Templar to debug C++ templates">Next post</a>
+</li>
+</ul></nav></aside><section class="comments hidden-print"><h2>Comments</h2>
+<div id="disqus_thread"></div>
+<script>
+        var disqus_shortname ="blogwichtounet",
+            disqus_url="http://baptiste-wicht.com/posts/2016/01/improve-dll-and-etl-compile-time-further.html",
+        disqus_title="Improve DLL and ETL Compile Time further",
+        disqus_identifier="cache/posts/2016/01/improve-dll-and-etl-compile-time-further.html",
+        disqus_config = function () {
+            this.language = "en";
+        };
+        (function() {
+            var dsq = document.createElement('script'); dsq.async = true;
+            dsq.src = 'https://' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        })();
+    </script><noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a>
+</noscript>
+<a href="https://disqus.com" class="dsq-brlink" rel="nofollow">Comments powered by <span class="logo-disqus">Disqus</span></a>
+</section></article><script>var disqus_shortname="blogwichtounet";(function(){var a=document.createElement("script");a.async=true;a.src="https://"+disqus_shortname+".disqus.com/count.js";(document.getElementsByTagName("head")[0]||document.getElementsByTagName("body")[0]).appendChild(a)}());</script>
+</div> 
+</div>
+
+</div>
+
+
+
+<footer>
+Contents © 2017 <a href="/cdn-cgi/l/email-protection#66040716120f151203110f050e1226010b070f0a4805090b">Baptiste Wicht</a> - Powered by <a href="http://getnikola.com" rel="nofollow">Nikola</a> - License:
+<a rel="license" href="http://creativecommons.org/licenses/by/4.0/"><img alt="Creative Commons License" style="padding-left:5px;border-width:0" src="../../../assets/img/cc.png"></a>
+<ul class="footer_inline_ul">
+<li>
+<a href="improve-dll-and-etl-compile-time-further.rst" id="sourcelink">Source</a>
+</li>
+</ul></footer><script src="/cdn-cgi/scripts/78d64697/cloudflare-static/email-decode.min.js"></script><script src="../../../assets/js/all-nocdn.js"></script>
+</body>
+</html>

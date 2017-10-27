@@ -1,0 +1,1491 @@
+<!DOCTYPE html>
+<html prefix="og: http://ogp.me/ns# article: http://ogp.me/ns/article# " lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="description" content="Comparison of compilation time and runtime using different compilers">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Compiler benchmark GCC and Clang on C++ library (ETL) | Blog blog("Baptiste Wicht");</title>
+<script src="/cdn-cgi/apps/head/98vpnawSZZMscPn4oDND-ZgswjM.js"></script><link href="../../../assets/css/all-nocdn.css" rel="stylesheet" type="text/css">
+<meta name="theme-color" content="#5670d4">
+<meta name="generator" content="Nikola (getnikola.com)">
+<link rel="alternate" type="application/rss+xml" title="RSS" href="../../../rss.xml">
+<link rel="canonical" href="http://baptiste-wicht.com/posts/2017/08/compiler-benchmark-gcc-clang-cpp-library-etl.html">
+<!--[if lt IE 9]><script src="../../../assets/js/html5.js"></script><![endif]--><meta name="author" content="Baptiste Wicht">
+<link rel="prev" href="expression-templates-library-etl-11.html" title="Expression Templates Library (ETL) 1.1" type="text/html">
+<link rel="next" href="dll-blazing-fast-neural-network-library.html" title="DLL: Blazing Fast Neural Network Library" type="text/html">
+<meta property="og:site_name" content='Blog blog("Baptiste Wicht");'>
+<meta property="og:title" content="Compiler benchmark GCC and Clang on C++ library (ETL)">
+<meta property="og:url" content="http://baptiste-wicht.com/posts/2017/08/compiler-benchmark-gcc-clang-cpp-library-etl.html">
+<meta property="og:description" content="Comparison of compilation time and runtime using different compilers">
+<meta property="og:type" content="article">
+<meta property="article:published_time" content="2017-08-07T09:16:21+02:00">
+<meta property="article:tag" content="C++">
+<meta property="article:tag" content="C++11">
+<meta property="article:tag" content="C++14">
+<meta property="article:tag" content="clang">
+<meta property="article:tag" content="Compilers">
+<meta property="article:tag" content="etl">
+<meta property="article:tag" content="gcc">
+<meta property="article:tag" content="Performance">
+<meta property="article:tag" content="projects">
+<link href="../../../favicon.ico" rel="icon" type="image/x-icon">
+<link rel="publisher" href="https://plus.google.com/+BaptisteWicht">
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-2175227-7', 'auto');
+  var metas = document.getElementsByTagName('meta'), tagsList = [];
+  for (var i=0; i<metas.length; i++) {
+    if (metas[i].getAttribute('property') == 'article:tag') {
+      tagsList.push( metas[i].getAttribute('content'));
+    }
+  }
+  ga('set', 'dimension1', tagsList.join('|'));
+  ga('send', 'pageview');
+</script>
+</head>
+<body>
+
+<a href="#content" class="sr-only sr-only-focusable">Skip to main content</a>
+<div class="container-fluid">
+
+<div class="row">
+<div class="col-sm-3 col-lg-2">
+<nav class="navbar navbar-inverse navbar-fixed-side"><div class="navbar-header">
+<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+<span class="sr-only">Toggle navigation</span>
+<span class="icon-bar"></span>
+<span class="icon-bar"></span>
+<span class="icon-bar"></span>
+</button>
+<a class="navbar-brand" href="http://baptiste-wicht.com/">
+<span id="blog-title">Blog blog("Baptiste Wicht");</span>
+</a>
+</div>
+
+<div class="collapse navbar-collapse navbar-ex1-collapse">
+<ul class="nav navbar-nav">
+<li>
+<a href="../../../stories/about.html">About</a>
+</li>
+<li>
+<a href="../../../stories/publications.html">Publications</a>
+</li>
+<li>
+<a href="../../../stories/projects.html">Projects</a>
+</li>
+<li>
+<a href="../../../categories/index.html">Tags</a>
+</li>
+<li>
+<a href="../../../archive.html">Archives</a>
+</li>
+<li>
+<a href="http://feeds.feedburner.com/BaptisteWicht">RSS</a>
+</li>
+<li class="navbar-content">
+<h3>Related posts</h3>
+</li>
+<li><a href="../../2016/11/zapcc-a-faster-cpp-compiler.html">zapcc - a faster C++ compiler</a></li>
+<li><a href="../03/partial-type-erasing-deep-learning-library-dll-improve-compilation-time.html">Partial type erasing in Deep Learning Library (DLL) to improve compilation time</a></li>
+<li><a href="../03/release-zapcc-10-fast-cpp-compiler.html">Release of zapcc 1.0 - Fast C++ compiler</a></li>
+<li><a href="../../2016/12/zapcc-cpp-compilation-speed-against-gcc-54-and-clang-39.html">zapcc C++ compilation speed against gcc 5.4 and clang 3.9</a></li>
+<li><a href="../../2016/09/blazing-fast-unit-test-compilation-with-doctest-11.html">Blazing fast unit test compilation with doctest 1.1</a></li>
+<li><a href="../03/disappointing-zapcc-performance-on-deep-learning-library-dll.html">Disappointing zapcc performance on Deep Learning Library (DLL)</a></li>
+<li class="navbar-block">
+<li class="wicht-navbar-right">
+<a target="_blank" title="Follow @wichtounet on Twitter" href="https://twitter.com/wichtounet">
+<img src="../../../assets/img/twitter.png" alt="Follow @wichtounet on Twitter"></a>
+</li>
+<li class="wicht-navbar-right">
+<a target="_blank" title="Follow +BaptisteWicht on Google+" href="https://plus.google.com/+BaptisteWicht">
+<img src="../../../assets/img/google_plus.png" alt="Follow +BaptisteWicht on Google+"></a>
+</li>
+</ul>
+</div>
+
+</nav>
+</div> 
+<div class="col-sm-9 col-lg-10">
+<div id="content"></div>
+<article class="post-text h-entry hentry postpage" itemscope="itemscope" itemtype="http://schema.org/Article"><header><h1 class="p-name entry-title" itemprop="headline name"><a href="#" class="u-url">Compiler benchmark GCC and Clang on C++ library (ETL)</a></h1>
+<div class="metadata">
+<p class="byline author vcard"><span class="byline-name fn" itemprop="author">
+Baptiste Wicht
+</span></p>
+<p class="dateline"><a href="#" rel="bookmark"><time class="published dt-published" datetime="2017-08-07T09:16:21+02:00" itemprop="datePublished" title="2017-08-07 09:16">2017-08-07 09:16</time></a></p>
+<p class="commentline">
+<a href="compiler-benchmark-gcc-clang-cpp-library-etl.html#disqus_thread" data-disqus-identifier="cache/posts/2017/08/compiler-benchmark-gcc-clang-cpp-library-etl.html">Comments</a>
+</p>
+<p class="sourceline"><a href="compiler-benchmark-gcc-clang-cpp-library-etl.rst" class="sourcelink">Source</a></p>
+</div>
+</header><div class="e-content entry-content" itemprop="articleBody text">
+<div>
+<p>It's been a while since I've done a benchmark of different compilers on C++
+code. Since I've recently
+<a class="reference external" href="https://baptiste-wicht.com/posts/2017/08/expression-templates-library-etl-11.html">released the version 1.1 of my ETL project</a>
+(an optimized matrix/vector computation library with expression templates), I've
+decided to use it as the base of my benchmark. It's a C++14 library with a lot
+of templates. I'm going to compile the full test suite (124 test cases). This is
+done directly on the last release (1.1) code. I'm going to compile once in debug
+mode and once in release_debug (release plus debug symbols and assertions) and
+record the times for each compiler. The tests were compiled with support for
+every option in ETL to account to maximal compilation time. Each compilation was
+made using four threads (make -j4). I'm also going to test a few of the
+benchmarks to see the difference in runtime performance between the code
+generated by each compiler. The benchmark will be compiled in release mode and
+its compilation time recorded as well.</p>
+<p>I'm going to test the following compilers:</p>
+<ul class="simple">
+<li>GCC-4.9.4</li>
+<li>GCC-5.4.0</li>
+<li>GCC-6.3.0</li>
+<li>GCC-7.1.0</li>
+<li>clang-3.9.1</li>
+<li>clang-4.0.1</li>
+<li>zapcc-1.0 (commercial, based on clang-5.0 trunk)</li>
+</ul>
+<p>All have been installed directly using Portage (Gentoo package manager) except
+for clang-4.0.1 that has been installed from sources and zapcc since it does not
+have a Gentoo package. Since clang package on Gentoo does not support
+multislotting, I had to install one version from source and the other from the
+package manager. This is also the reason I'm testing less versions of clang,
+simply less practical.</p>
+<p>For the purpose of these tests, the exact same options have been used throughout
+all the compilers. Normally, I use different options for clang than for GCC
+(mainly more aggressive vectorization options on clang). This may not lead to
+the best performance for each compiler, but allows for comparison between the
+results with defaults optimization level. Here are the main options used:</p>
+<ul class="simple">
+<li>In debug mode: -g</li>
+<li>In release_debug mode: -g -O2</li>
+<li>In release mode: -g -O3 -DNDEBUG -fomit-frame-pointer</li>
+</ul>
+<p>In each case, a lot of warnings are enabled and the ETL options are the same.</p>
+<p>All the results have been gathered on a Gentoo machine running on Intel Core
+i7-2600 (Sandy Bridge...) @3.4GHz with 4 cores and 8 threads, 12Go of RAM and
+a SSD. I do my best to isolate as much as possible the benchmark from
+perturbations and that my benchmark code is quite sound, it may well be that
+some results are not totally accurate. Moreover, some of the benchmarks are
+using multithreading, which may add some noise and unpredictability. When I was
+not sure about the results, I ran the benchmarks several time to confirm them
+and overall I'm confident of the results.</p>
+<div class="section" id="compilation-time">
+<h2>Compilation Time</h2>
+<p>Let's start with the results of the performance of the compilers themselves:</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="31%">
+<col width="15%">
+<col width="31%">
+<col width="23%">
+</colgroup>
+<thead valign="bottom"><tr>
+<th class="head">Compiler</th>
+<th class="head">Debug</th>
+<th class="head">Release_Debug</th>
+<th class="head">Benchmark</th>
+</tr></thead>
+<tbody valign="top">
+<tr>
+<td>g++-4.9.4</td>
+<td>402s</td>
+<td>616s</td>
+<td>100s</td>
+</tr>
+<tr>
+<td>g++-5.4.0</td>
+<td>403s</td>
+<td>642s</td>
+<td>95s</td>
+</tr>
+<tr>
+<td>g++-6.3.0</td>
+<td>399s</td>
+<td>683s</td>
+<td>102s</td>
+</tr>
+<tr>
+<td>g++-7.1.0</td>
+<td>371s</td>
+<td>650s</td>
+<td>105s</td>
+</tr>
+<tr>
+<td>clang++-3.9.1</td>
+<td>380s</td>
+<td>807s</td>
+<td>106s</td>
+</tr>
+<tr>
+<td>clang++-4.0.1</td>
+<td>260s</td>
+<td>718s</td>
+<td>92s</td>
+</tr>
+<tr>
+<td>zapcc++-1.0</td>
+<td>221s</td>
+<td>649s</td>
+<td>108s</td>
+</tr>
+</tbody>
+</table>
+<p>Note: For Release_Debug and Benchmark, I only use three threads with zapcc,
+because 12Go of RAM is not enough memory for four threads.</p>
+<p>There are some very significant differences between the different compilers.
+Overall, clang-4.0.1 is by far the fastest free compiler for Debug mode. When
+the tests are compiled with optimizations however, clang is falling behind.
+It's quite impressive how clang-4.0.1 manages to be so much faster than
+clang-3.9.1 both in debug mode and release mode. Really great work by the clang
+team here! With these optimizations, clang-4.0.1 is almost on par with gcc-7.1
+in release mode. For GCC, it seems that the cost of optimization has been going
+up quite significantly. However, GCC 7.1 seems to have made optimization faster
+and standard compilation much faster as well. If we take into account zapcc,
+it's the fastest compiler on debug mode, but it's slower than several gcc
+versions on release mode.</p>
+<p>Overall, I'm quite impressed by the performance of clang-4.0.1 which seems
+really fast! I'll definitely make more tests with this new version of the
+compiler in the near future. It's also good to see that g++-7.1 also did make
+the build faster than gcc-6.3. However, the fastest gcc version for optimization
+is still gcc-4.9.4 which is already an old branch with low C++ standard support.</p>
+</div>
+<div class="section" id="runtime-performance">
+<h2>Runtime Performance</h2>
+<p>Let's now take a look at the quality of the generated code. For some of the
+benchmarks, I've included two versions of the algorithm. <em>std</em> is the most
+simple algorithm (the naive one) and <em>vec</em> is the hand-crafted vectorized and
+optimized implementation. All the tests were done on single-precision floating
+points.</p>
+<div class="section" id="dot-product">
+<h3>Dot product</h3>
+<p>The first benchmark that is run is to compute the dot product between two
+vectors. Let's look first at the naive version:</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="13%">
+<col width="8%">
+<col width="8%">
+<col width="8%">
+<col width="7%">
+<col width="8%">
+<col width="8%">
+<col width="8%">
+<col width="8%">
+<col width="8%">
+<col width="8%">
+<col width="8%">
+</colgroup>
+<thead valign="bottom"><tr>
+<th class="head">dot (std)</th>
+<th class="head">100</th>
+<th class="head">500</th>
+<th class="head">1000</th>
+<th class="head">10000</th>
+<th class="head">100000</th>
+<th class="head">1000000</th>
+<th class="head">2000000</th>
+<th class="head">3000000</th>
+<th class="head">4000000</th>
+<th class="head">5000000</th>
+<th class="head">10000000</th>
+</tr></thead>
+<tbody valign="top">
+<tr>
+<td>g++-4.9.4</td>
+<td>64.96ns</td>
+<td>97.12ns</td>
+<td>126.07ns</td>
+<td>1.89us</td>
+<td>25.91us</td>
+<td>326.49us</td>
+<td>1.24ms</td>
+<td>1.92ms</td>
+<td>2.55ms</td>
+<td>3.22ms</td>
+<td>6.36ms</td>
+</tr>
+<tr>
+<td>g++-5.4.0</td>
+<td>72.96ns</td>
+<td>101.62ns</td>
+<td>127.89ns</td>
+<td>1.90us</td>
+<td>23.39us</td>
+<td>357.63us</td>
+<td>1.23ms</td>
+<td>1.91ms</td>
+<td>2.57ms</td>
+<td>3.20ms</td>
+<td>6.32ms</td>
+</tr>
+<tr>
+<td>g++-6.3.0</td>
+<td>73.31ns</td>
+<td>102.88ns</td>
+<td>130.16ns</td>
+<td>1.89us</td>
+<td>24.314us</td>
+<td>339.13us</td>
+<td>1.47ms</td>
+<td>2.16ms</td>
+<td>2.95ms</td>
+<td>3.70ms</td>
+<td>6.69ms</td>
+</tr>
+<tr>
+<td>g++-7.1.0</td>
+<td>70.20ns</td>
+<td>104.09ns</td>
+<td>130.98ns</td>
+<td>1.90us</td>
+<td>23.96us</td>
+<td>281.47us</td>
+<td>1.24ms</td>
+<td>1.93ms</td>
+<td>2.58ms</td>
+<td>3.19ms</td>
+<td>6.33ms</td>
+</tr>
+<tr>
+<td>clang++-3.9.1</td>
+<td>64.69ns</td>
+<td>98.69ns</td>
+<td>128.60ns</td>
+<td>1.89us</td>
+<td>23.33us</td>
+<td>272.71us</td>
+<td>1.24ms</td>
+<td>1.91ms</td>
+<td>2.56ms</td>
+<td>3.19ms</td>
+<td>6.37ms</td>
+</tr>
+<tr>
+<td>clang++-4.0.1</td>
+<td>60.31ns</td>
+<td>96.34ns</td>
+<td>128.90ns</td>
+<td>1.89us</td>
+<td>22.87us</td>
+<td>270.21us</td>
+<td>1.23ms</td>
+<td>1.91ms</td>
+<td>2.55ms</td>
+<td>3.18ms</td>
+<td>6.35ms</td>
+</tr>
+<tr>
+<td>zapcc++-1.0</td>
+<td>61.14ns</td>
+<td>96.92ns</td>
+<td>125.95ns</td>
+<td>1.89us</td>
+<td>23.84us</td>
+<td>285.80us</td>
+<td>1.24ms</td>
+<td>1.92ms</td>
+<td>2.55ms</td>
+<td>3.16ms</td>
+<td>6.34ms</td>
+</tr>
+</tbody>
+</table>
+<p>The differences are not very significant between the different compilers. The
+clang-based compilers seem to be the compilers producing the fastest code.
+Interestingly, there seem to have been a big regression in gcc-6.3 for large
+containers, but that has been fixed in gcc-7.1.</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="13%">
+<col width="8%">
+<col width="8%">
+<col width="9%">
+<col width="7%">
+<col width="8%">
+<col width="9%">
+<col width="8%">
+<col width="8%">
+<col width="8%">
+<col width="8%">
+<col width="9%">
+</colgroup>
+<thead valign="bottom"><tr>
+<th class="head">dot (vec)</th>
+<th class="head">100</th>
+<th class="head">500</th>
+<th class="head">1000</th>
+<th class="head">10000</th>
+<th class="head">100000</th>
+<th class="head">1000000</th>
+<th class="head">2000000</th>
+<th class="head">3000000</th>
+<th class="head">4000000</th>
+<th class="head">5000000</th>
+<th class="head">10000000</th>
+</tr></thead>
+<tbody valign="top">
+<tr>
+<td>g++-4.9.4</td>
+<td>48.34ns</td>
+<td>80.53ns</td>
+<td>114.97ns</td>
+<td>1.72us</td>
+<td>22.79us</td>
+<td>354.20us</td>
+<td>1.24ms</td>
+<td>1.89ms</td>
+<td>2.52ms</td>
+<td>3.19ms</td>
+<td>6.55ms</td>
+</tr>
+<tr>
+<td>g++-5.4.0</td>
+<td>47.16ns</td>
+<td>77.70ns</td>
+<td>113.66ns</td>
+<td>1.72us</td>
+<td>22.71us</td>
+<td>363.86us</td>
+<td>1.24ms</td>
+<td>1.89ms</td>
+<td>2.52ms</td>
+<td>3.19ms</td>
+<td>6.56ms</td>
+</tr>
+<tr>
+<td>g++-6.3.0</td>
+<td>46.39ns</td>
+<td>77.67ns</td>
+<td>116.28ns</td>
+<td>1.74us</td>
+<td>23.39us</td>
+<td>452.44us</td>
+<td>1.45ms</td>
+<td>2.26ms</td>
+<td>2.87ms</td>
+<td>3.49ms</td>
+<td>7.52ms</td>
+</tr>
+<tr>
+<td>g++-7.1.0</td>
+<td>49.70ns</td>
+<td>80.40ns</td>
+<td>115.77ns</td>
+<td>1.71us</td>
+<td>22.46us</td>
+<td>355.16us</td>
+<td>1.21ms</td>
+<td>1.85ms</td>
+<td>2.49ms</td>
+<td>3.14ms</td>
+<td>6.47ms</td>
+</tr>
+<tr>
+<td>clang++-3.9.1</td>
+<td>46.13ns</td>
+<td>78.01ns</td>
+<td>114.70ns</td>
+<td>1.66us</td>
+<td>22.82us</td>
+<td>359.42us</td>
+<td>1.24ms</td>
+<td>1.88ms</td>
+<td>2.53ms</td>
+<td>3.16ms</td>
+<td>6.50ms</td>
+</tr>
+<tr>
+<td>clang++-4.0.1</td>
+<td>45.59ns</td>
+<td>74.90ns</td>
+<td>111.29ns</td>
+<td>1.57us</td>
+<td>22.47us</td>
+<td>351.31us</td>
+<td>1.23ms</td>
+<td>1.85ms</td>
+<td>2.49ms</td>
+<td>3.12ms</td>
+<td>6.45ms</td>
+</tr>
+<tr>
+<td>zapcc++-1.0</td>
+<td>45.11ns</td>
+<td>75.04ns</td>
+<td>111.28ns</td>
+<td>1.59us</td>
+<td>22.46us</td>
+<td>357.32us</td>
+<td>1.25ms</td>
+<td>1.89ms</td>
+<td>2.53ms</td>
+<td>3.15ms</td>
+<td>6.47ms</td>
+</tr>
+</tbody>
+</table>
+<p>If we look at the optimized version, the differences are even slower. Again, the
+clang-based compilers are producing the fastest executables, but are closely
+followed by gcc, except for gcc-6.3 in which we can still see the same
+regression as before.</p>
+</div>
+<div class="section" id="logistic-sigmoid">
+<h3>Logistic Sigmoid</h3>
+<p>The next test is to check the performance of the sigmoid operation. In that
+case, the evaluator of the library will try to use parallelization and
+vectorization to compute it. Let's see how the different compilers fare:</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="22%">
+<col width="12%">
+<col width="12%">
+<col width="12%">
+<col width="13%">
+<col width="15%">
+<col width="13%">
+</colgroup>
+<thead valign="bottom"><tr>
+<th class="head">sigmoid</th>
+<th class="head">10</th>
+<th class="head">100</th>
+<th class="head">1000</th>
+<th class="head">10000</th>
+<th class="head">100000</th>
+<th class="head">1000000</th>
+</tr></thead>
+<tbody valign="top">
+<tr>
+<td>g++-4.9.4</td>
+<td>8.16us</td>
+<td>5.23us</td>
+<td>6.33us</td>
+<td>29.56us</td>
+<td>259.72us</td>
+<td>2.78ms</td>
+</tr>
+<tr>
+<td>g++-5.4.0</td>
+<td>7.07us</td>
+<td>5.08us</td>
+<td>6.39us</td>
+<td>29.44us</td>
+<td>266.27us</td>
+<td>2.96ms</td>
+</tr>
+<tr>
+<td>g++-6.3.0</td>
+<td>7.13us</td>
+<td>5.32us</td>
+<td>6.45us</td>
+<td>28.99us</td>
+<td>261.81us</td>
+<td>2.86ms</td>
+</tr>
+<tr>
+<td>g++-7.1.0</td>
+<td>7.03us</td>
+<td>5.09us</td>
+<td>6.24us</td>
+<td>28.61us</td>
+<td>252.78us</td>
+<td>2.71ms</td>
+</tr>
+<tr>
+<td>clang++-3.9.1</td>
+<td>7.30us</td>
+<td>5.25us</td>
+<td>6.57us</td>
+<td>30.24us</td>
+<td>256.75us</td>
+<td>1.99ms</td>
+</tr>
+<tr>
+<td>clang++-4.0.1</td>
+<td>7.47us</td>
+<td>5.14us</td>
+<td>5.77us</td>
+<td>26.03us</td>
+<td>235.87us</td>
+<td>1.81ms</td>
+</tr>
+<tr>
+<td>zapcc++-1.0</td>
+<td>7.51us</td>
+<td>5.26us</td>
+<td>6.48us</td>
+<td>28.86us</td>
+<td>258.31us</td>
+<td>1.95ms</td>
+</tr>
+</tbody>
+</table>
+<p>Interestingly, we can see that gcc-7.1 is the fastest for small vectors while
+clang-4.0 is the best for producing code for larger vectors. However, except for
+the biggest vector size, the difference is not really significantly. Apparently,
+there is a regression in zapcc (or clang-5.0) since it's slower than clang-4.0
+at the same level as clang-3.9.</p>
+</div>
+<div class="section" id="y-alpha-x-y-axpy">
+<h3>y = alpha * x + y (axpy)</h3>
+<p>The third benchmark is the well-known axpy (y = alpha * x + y). This is entirely
+resolved by expressions templates in the library, no specific algorithm is used.
+Let's see the results:</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="24%">
+<col width="13%">
+<col width="13%">
+<col width="11%">
+<col width="13%">
+<col width="13%">
+<col width="14%">
+</colgroup>
+<thead valign="bottom"><tr>
+<th class="head">saxpy</th>
+<th class="head">10</th>
+<th class="head">100</th>
+<th class="head">1000</th>
+<th class="head">10000</th>
+<th class="head">100000</th>
+<th class="head">1000000</th>
+</tr></thead>
+<tbody valign="top">
+<tr>
+<td>g++-4.9.4</td>
+<td>38.1ns</td>
+<td>61.6ns</td>
+<td>374ns</td>
+<td>3.65us</td>
+<td>40.8us</td>
+<td>518us</td>
+</tr>
+<tr>
+<td>g++-5.4.0</td>
+<td>35.0ns</td>
+<td>58.1ns</td>
+<td>383ns</td>
+<td>3.87us</td>
+<td>43.2us</td>
+<td>479us</td>
+</tr>
+<tr>
+<td>g++-6.3.0</td>
+<td>34.3ns</td>
+<td>59.4ns</td>
+<td>371ns</td>
+<td>3.57us</td>
+<td>40.4us</td>
+<td>452us</td>
+</tr>
+<tr>
+<td>g++-7.1.0</td>
+<td>34.8ns</td>
+<td>59.7ns</td>
+<td>399ns</td>
+<td>3.78us</td>
+<td>43.1us</td>
+<td>547us</td>
+</tr>
+<tr>
+<td>clang++-3.9.1</td>
+<td>32.3ns</td>
+<td>53.8ns</td>
+<td>297ns</td>
+<td>3.21us</td>
+<td>38.3us</td>
+<td>466us</td>
+</tr>
+<tr>
+<td>clang++-4.0.1</td>
+<td>32.4ns</td>
+<td>59.8ns</td>
+<td>296ns</td>
+<td>3.31us</td>
+<td>38.2us</td>
+<td>475us</td>
+</tr>
+<tr>
+<td>zapcc++-1.0</td>
+<td>32.0ns</td>
+<td>54.0ns</td>
+<td>333ns</td>
+<td>3.32us</td>
+<td>38.7us</td>
+<td>447us</td>
+</tr>
+</tbody>
+</table>
+<p>Even on the biggest vector, this is a very fast operation, once vectorized and
+parallelized. At this speed, some of the differences observed may not be highly
+significant. Again clang-based versions are the fastest versions on this code,
+but by a small margin. There also seems to be a slight regression in gcc-7.1,
+but again quite small.</p>
+</div>
+<div class="section" id="matrix-matrix-multiplication-gemm">
+<h3>Matrix Matrix multiplication (GEMM)</h3>
+<p>The next benchmark is testing the performance of a Matrix-Matrix Multiplication,
+an operation known as GEMM in the BLAS nomenclature. In that case, we test both
+the naive and the optimized vectorized implementation. To save some horizontal
+space, I've split the tables in two.</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="23%">
+<col width="12%">
+<col width="14%">
+<col width="15%">
+<col width="12%">
+<col width="12%">
+<col width="12%">
+</colgroup>
+<thead valign="bottom"><tr>
+<th class="head">sgemm (std)</th>
+<th class="head">10</th>
+<th class="head">20</th>
+<th class="head">40</th>
+<th class="head">60</th>
+<th class="head">80</th>
+<th class="head">100</th>
+</tr></thead>
+<tbody valign="top">
+<tr>
+<td>g++-4.9.4</td>
+<td>7.04us</td>
+<td>50.15us</td>
+<td>356.42us</td>
+<td>1.18ms</td>
+<td>3.41ms</td>
+<td>5.56ms</td>
+</tr>
+<tr>
+<td>g++-5.4.0</td>
+<td>8.14us</td>
+<td>74.77us</td>
+<td>513.64us</td>
+<td>1.72ms</td>
+<td>4.05ms</td>
+<td>7.92ms</td>
+</tr>
+<tr>
+<td>g++-6.3.0</td>
+<td>8.03us</td>
+<td>64.78us</td>
+<td>504.41us</td>
+<td>1.69ms</td>
+<td>4.02ms</td>
+<td>7.87ms</td>
+</tr>
+<tr>
+<td>g++-7.1.0</td>
+<td>7.95us</td>
+<td>65.00us</td>
+<td>508.84us</td>
+<td>1.69ms</td>
+<td>4.02ms</td>
+<td>7.84ms</td>
+</tr>
+<tr>
+<td>clang++-3.9.1</td>
+<td>3.58us</td>
+<td>28.59us</td>
+<td>222.36us</td>
+<td>0.73ms</td>
+<td>1.77us</td>
+<td>3.41ms</td>
+</tr>
+<tr>
+<td>clang++-4.0.1</td>
+<td>4.00us</td>
+<td>25.47us</td>
+<td>190.56us</td>
+<td>0.61ms</td>
+<td>1.45us</td>
+<td>2.80ms</td>
+</tr>
+<tr>
+<td>zapcc++-1.0</td>
+<td>4.00us</td>
+<td>25.38us</td>
+<td>189.98us</td>
+<td>0.60ms</td>
+<td>1.43us</td>
+<td>2.81ms</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="15%">
+<col width="9%">
+<col width="10%">
+<col width="10%">
+<col width="10%">
+<col width="7%">
+<col width="7%">
+<col width="7%">
+<col width="7%">
+<col width="7%">
+<col width="8%">
+</colgroup>
+<thead valign="bottom"><tr>
+<th class="head">sgemm (std)</th>
+<th class="head">200</th>
+<th class="head">300</th>
+<th class="head">400</th>
+<th class="head">500</th>
+<th class="head">600</th>
+<th class="head">700</th>
+<th class="head">800</th>
+<th class="head">900</th>
+<th class="head">1000</th>
+<th class="head">1200</th>
+</tr></thead>
+<tbody valign="top">
+<tr>
+<td>g++-4.9.4</td>
+<td>44.16ms</td>
+<td>148.88ms</td>
+<td>455.81ms</td>
+<td>687.96ms</td>
+<td>1.47s</td>
+<td>1.98s</td>
+<td>2.81s</td>
+<td>4.00s</td>
+<td>5.91s</td>
+<td>9.52s</td>
+</tr>
+<tr>
+<td>g++-5.4.0</td>
+<td>63.17ms</td>
+<td>213.01ms</td>
+<td>504.83ms</td>
+<td>984.90ms</td>
+<td>1.70s</td>
+<td>2.70s</td>
+<td>4.03s</td>
+<td>5.74s</td>
+<td>7.87s</td>
+<td>14.905</td>
+</tr>
+<tr>
+<td>g++-6.3.0</td>
+<td>64.04ms</td>
+<td>212.12ms</td>
+<td>502.95ms</td>
+<td>981.74ms</td>
+<td>1.69s</td>
+<td>2.69s</td>
+<td>4.13s</td>
+<td>5.85s</td>
+<td>8.10s</td>
+<td>14.08s</td>
+</tr>
+<tr>
+<td>g++-7.1.0</td>
+<td>62.57ms</td>
+<td>210.72ms</td>
+<td>499.68ms</td>
+<td>974.94ms</td>
+<td>1.68s</td>
+<td>2.67s</td>
+<td>3.99s</td>
+<td>5.68s</td>
+<td>7.85s</td>
+<td>13.49s</td>
+</tr>
+<tr>
+<td>clang++-3.9.1</td>
+<td>27.48ms</td>
+<td>90.85ms</td>
+<td>219.34ms</td>
+<td>419.53ms</td>
+<td>0.72s</td>
+<td>1.18s</td>
+<td>1.90s</td>
+<td>2.44s</td>
+<td>3.36s</td>
+<td>5.84s</td>
+</tr>
+<tr>
+<td>clang++-4.0.1</td>
+<td>22.01ms</td>
+<td>73.90ms</td>
+<td>175.02ms</td>
+<td>340.70ms</td>
+<td>0.58s</td>
+<td>0.93s</td>
+<td>1.40s</td>
+<td>1.98s</td>
+<td>2.79s</td>
+<td>4.69s</td>
+</tr>
+<tr>
+<td>zapcc++-1.0</td>
+<td>22.33ms</td>
+<td>75.80ms</td>
+<td>181.27ms</td>
+<td>359.13ms</td>
+<td>0.63s</td>
+<td>1.02s</td>
+<td>1.52s</td>
+<td>2.24s</td>
+<td>3.21s</td>
+<td>5.62s</td>
+</tr>
+</tbody>
+</table>
+<p>This time, the differences between the different compilers are very significant.
+The clang compilers are leading the way by a large margin here, with clang-4.0
+being the fastest of them (by another nice margin). Indeed, clang-4.0.1 is
+producing code that is, on average, about twice faster than the code generated
+by the best GCC compiler. Very interestingly as well, we can see a huge
+regression starting from GCC-5.4 and that is still here in GCC-7.1. Indeed, the
+best GCC version, in the tested versions, is again GCC-4.9.4. Clang is really
+doing an excellent job of compiling the GEMM code.</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="21%">
+<col width="14%">
+<col width="11%">
+<col width="11%">
+<col width="14%">
+<col width="14%">
+<col width="13%">
+</colgroup>
+<thead valign="bottom"><tr>
+<th class="head">sgemm (vec)</th>
+<th class="head">10</th>
+<th class="head">20</th>
+<th class="head">40</th>
+<th class="head">60</th>
+<th class="head">80</th>
+<th class="head">100</th>
+</tr></thead>
+<tbody valign="top">
+<tr>
+<td>g++-4.9.4</td>
+<td>264.27ns</td>
+<td>0.95us</td>
+<td>3.28us</td>
+<td>14.77us</td>
+<td>23.50us</td>
+<td>60.37us</td>
+</tr>
+<tr>
+<td>g++-5.4.0</td>
+<td>271.41ns</td>
+<td>0.99us</td>
+<td>3.31us</td>
+<td>14.811us</td>
+<td>24.116us</td>
+<td>61.00us</td>
+</tr>
+<tr>
+<td>g++-6.3.0</td>
+<td>279.72ns</td>
+<td>1.02us</td>
+<td>3.27us</td>
+<td>15.39us</td>
+<td>24.29us</td>
+<td>61.99us</td>
+</tr>
+<tr>
+<td>g++-7.1.0</td>
+<td>273.74ns</td>
+<td>0.96us</td>
+<td>3.81us</td>
+<td>15.55us</td>
+<td>31.35us</td>
+<td>71.11us</td>
+</tr>
+<tr>
+<td>clang++-3.9.1</td>
+<td>296.67ns</td>
+<td>1.34us</td>
+<td>4.18us</td>
+<td>19.93us</td>
+<td>33.15us</td>
+<td>82.60us</td>
+</tr>
+<tr>
+<td>clang++-4.0.1</td>
+<td>322.68ns</td>
+<td>1.38us</td>
+<td>4.17us</td>
+<td>20.19us</td>
+<td>34.17us</td>
+<td>83.64us</td>
+</tr>
+<tr>
+<td>zapcc++-1.0</td>
+<td>307.49ns</td>
+<td>1.41us</td>
+<td>4.10us</td>
+<td>19.72us</td>
+<td>33.72us</td>
+<td>84.80us</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="14%">
+<col width="10%">
+<col width="8%">
+<col width="8%">
+<col width="8%">
+<col width="9%">
+<col width="9%">
+<col width="9%">
+<col width="9%">
+<col width="10%">
+<col width="10%">
+</colgroup>
+<thead valign="bottom"><tr>
+<th class="head">sgemm (vec)</th>
+<th class="head">200</th>
+<th class="head">300</th>
+<th class="head">400</th>
+<th class="head">500</th>
+<th class="head">600</th>
+<th class="head">700</th>
+<th class="head">800</th>
+<th class="head">900</th>
+<th class="head">1000</th>
+<th class="head">1200</th>
+</tr></thead>
+<tbody valign="top">
+<tr>
+<td>g++-4.9.4</td>
+<td>369.52us</td>
+<td>1.62ms</td>
+<td>2.91ms</td>
+<td>7.17ms</td>
+<td>11.74ms</td>
+<td>22.91ms</td>
+<td>34.82ms</td>
+<td>51.67ms</td>
+<td>64.36ms</td>
+<td>111.15ms</td>
+</tr>
+<tr>
+<td>g++-5.4.0</td>
+<td>387.54us</td>
+<td>1.60ms</td>
+<td>2.97ms</td>
+<td>7.36ms</td>
+<td>12.11ms</td>
+<td>24.37ms</td>
+<td>35.37ms</td>
+<td>52.27ms</td>
+<td>65.72ms</td>
+<td>112.74ms</td>
+</tr>
+<tr>
+<td>g++-6.3.0</td>
+<td>384.43us</td>
+<td>1.74ms</td>
+<td>3.12ms</td>
+<td>7.16ms</td>
+<td>12.44ms</td>
+<td>24.15ms</td>
+<td>34.87ms</td>
+<td>52.59ms</td>
+<td>70.074ms</td>
+<td>119.22ms</td>
+</tr>
+<tr>
+<td>g++-7.1.0</td>
+<td>458.05us</td>
+<td>1.81ms</td>
+<td>3.44ms</td>
+<td>7.86ms</td>
+<td>13.43ms</td>
+<td>24.70ms</td>
+<td>36.54ms</td>
+<td>53.47ms</td>
+<td>66.87ms</td>
+<td>117.25ms</td>
+</tr>
+<tr>
+<td>clang++-3.9.1</td>
+<td>494.52us</td>
+<td>1.96ms</td>
+<td>4.80ms</td>
+<td>8.88ms</td>
+<td>18.20ms</td>
+<td>29.37ms</td>
+<td>41.24ms</td>
+<td>60.72ms</td>
+<td>72.28ms</td>
+<td>123.75ms</td>
+</tr>
+<tr>
+<td>clang++-4.0.1</td>
+<td>511.24us</td>
+<td>2.04ms</td>
+<td>4.11ms</td>
+<td>9.46ms</td>
+<td>15.34ms</td>
+<td>27.23ms</td>
+<td>38.27ms</td>
+<td>58.14ms</td>
+<td>72.78ms</td>
+<td>128.60ms</td>
+</tr>
+<tr>
+<td>zapcc++-1.0</td>
+<td>492.28us</td>
+<td>2.03ms</td>
+<td>3.90ms</td>
+<td>9.00ms</td>
+<td>14.31ms</td>
+<td>25.72ms</td>
+<td>37.09ms</td>
+<td>55.79ms</td>
+<td>67.88ms</td>
+<td>119.92ms</td>
+</tr>
+</tbody>
+</table>
+<p>As for the optimized version, it seems that the two families are reversed.
+Indeed, GCC is doing a better job than clang here, and although the margin is
+not as big as before, it's still significant. We can still observe a small
+regression in GCC versions because the 4.9 version is again the fastest. As for
+clang versions, it seems that clang-5.0 (used in zapcc) has had some performance
+improvements for this case.</p>
+<p>For this case of matrix-matrix multiplication, it's very impressive that the
+differences in the non-optimized code are so significant. And it's also
+impressive that each family of compilers has its own strength, clang being
+seemingly much better at handling unoptimized code while GCC is better at
+handling vectorized code.</p>
+</div>
+<div class="section" id="convolution-2d">
+<h3>Convolution (2D)</h3>
+<p>The last benchmark that I considered is the case of the valid convolution on 2D
+images. The code is quite similar to the GEMM code but more complicated to
+optimized due to cache locality.</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="19%">
+<col width="9%">
+<col width="9%">
+<col width="9%">
+<col width="9%">
+<col width="9%">
+<col width="9%">
+<col width="10%">
+<col width="10%">
+<col width="10%">
+</colgroup>
+<thead valign="bottom"><tr>
+<th class="head">sconv2_valid (std)</th>
+<th class="head">100x50</th>
+<th class="head">105x50</th>
+<th class="head">110x55</th>
+<th class="head">115x55</th>
+<th class="head">120x60</th>
+<th class="head">125x60</th>
+<th class="head">130x65</th>
+<th class="head">135x65</th>
+<th class="head">140x70</th>
+</tr></thead>
+<tbody valign="top">
+<tr>
+<td>g++-4.9.4</td>
+<td>27.93ms</td>
+<td>33.68ms</td>
+<td>40.62ms</td>
+<td>48.23ms</td>
+<td>57.27ms</td>
+<td>67.02ms</td>
+<td>78.45ms</td>
+<td>92.53ms</td>
+<td>105.08ms</td>
+</tr>
+<tr>
+<td>g++-5.4.0</td>
+<td>37.60ms</td>
+<td>44.94ms</td>
+<td>54.24ms</td>
+<td>64.45ms</td>
+<td>76.63ms</td>
+<td>89.75ms</td>
+<td>105.08ms</td>
+<td>121.66ms</td>
+<td>140.95ms</td>
+</tr>
+<tr>
+<td>g++-6.3.0</td>
+<td>37.10ms</td>
+<td>44.99ms</td>
+<td>54.34ms</td>
+<td>64.54ms</td>
+<td>76.54ms</td>
+<td>89.87ms</td>
+<td>105.35ms</td>
+<td>121.94ms</td>
+<td>141.20ms</td>
+</tr>
+<tr>
+<td>g++-7.1.0</td>
+<td>37.55ms</td>
+<td>45.08ms</td>
+<td>54.39ms</td>
+<td>64.48ms</td>
+<td>76.51ms</td>
+<td>92.02ms</td>
+<td>106.16ms</td>
+<td>125.67ms</td>
+<td>143.57ms</td>
+</tr>
+<tr>
+<td>clang++-3.9.1</td>
+<td>15.42ms</td>
+<td>18.59ms</td>
+<td>22.21ms</td>
+<td>26.40ms</td>
+<td>31.03ms</td>
+<td>36.26ms</td>
+<td>42.35ms</td>
+<td>48.87ms</td>
+<td>56.29ms</td>
+</tr>
+<tr>
+<td>clang++-4.0.1</td>
+<td>15.48ms</td>
+<td>18.67ms</td>
+<td>22.34ms</td>
+<td>26.50ms</td>
+<td>31.27ms</td>
+<td>36.58ms</td>
+<td>42.61ms</td>
+<td>49.33ms</td>
+<td>56.80ms</td>
+</tr>
+<tr>
+<td>zapcc++-1.0</td>
+<td>15.29ms</td>
+<td>18.37ms</td>
+<td>22.00ms</td>
+<td>26.10ms</td>
+<td>30.75ms</td>
+<td>35.95ms</td>
+<td>41.85ms</td>
+<td>48.42ms</td>
+<td>55.74ms</td>
+</tr>
+</tbody>
+</table>
+<p>In that case, we can observe the same as for the GEMM. The clang-based versions
+are much producing significantly faster code than the GCC versions. Moreover, we
+can also observe the same large regression starting from GCC-5.4.</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="21%">
+<col width="11%">
+<col width="9%">
+<col width="9%">
+<col width="9%">
+<col width="9%">
+<col width="9%">
+<col width="9%">
+<col width="9%">
+<col width="9%">
+</colgroup>
+<thead valign="bottom"><tr>
+<th class="head">sconv2_valid (vec)</th>
+<th class="head">100x50</th>
+<th class="head">105x50</th>
+<th class="head">110x55</th>
+<th class="head">115x55</th>
+<th class="head">120x60</th>
+<th class="head">125x60</th>
+<th class="head">130x65</th>
+<th class="head">135x65</th>
+<th class="head">140x70</th>
+</tr></thead>
+<tbody valign="top">
+<tr>
+<td>g++-4.9.4</td>
+<td>878.32us</td>
+<td>1.07ms</td>
+<td>1.20ms</td>
+<td>1.68ms</td>
+<td>2.04ms</td>
+<td>2.06ms</td>
+<td>2.54ms</td>
+<td>3.20ms</td>
+<td>4.14ms</td>
+</tr>
+<tr>
+<td>g++-5.4.0</td>
+<td>853.73us</td>
+<td>1.03ms</td>
+<td>1.15ms</td>
+<td>1.36ms</td>
+<td>1.76ms</td>
+<td>2.05ms</td>
+<td>2.44ms</td>
+<td>2.91ms</td>
+<td>3.13ms</td>
+</tr>
+<tr>
+<td>g++-6.3.0</td>
+<td>847.95us</td>
+<td>1.02ms</td>
+<td>1.14ms</td>
+<td>1.35ms</td>
+<td>1.74ms</td>
+<td>1.98ms</td>
+<td>2.43ms</td>
+<td>2.90ms</td>
+<td>3.12ms</td>
+</tr>
+<tr>
+<td>g++-7.1.0</td>
+<td>795.82us</td>
+<td>0.93ms</td>
+<td>1.05ms</td>
+<td>1.24ms</td>
+<td>1.60ms</td>
+<td>1.77ms</td>
+<td>2.20ms</td>
+<td>2.69ms</td>
+<td>2.81ms</td>
+</tr>
+<tr>
+<td>clang++-3.9.1</td>
+<td>782.46us</td>
+<td>0.93ms</td>
+<td>1.05ms</td>
+<td>1.26ms</td>
+<td>1.60ms</td>
+<td>1.84ms</td>
+<td>2.21ms</td>
+<td>2.65ms</td>
+<td>2.84ms</td>
+</tr>
+<tr>
+<td>clang++-4.0.1</td>
+<td>767.58us</td>
+<td>0.92ms</td>
+<td>1.04ms</td>
+<td>1.25ms</td>
+<td>1.59ms</td>
+<td>1.83ms</td>
+<td>2.20ms</td>
+<td>2.62ms</td>
+<td>2.83ms</td>
+</tr>
+<tr>
+<td>zapcc++-1.0</td>
+<td>782.49us</td>
+<td>0.94ms</td>
+<td>1.06ms</td>
+<td>1.27ms</td>
+<td>1.62ms</td>
+<td>1.83ms</td>
+<td>2.24ms</td>
+<td>2.65ms</td>
+<td>2.85ms</td>
+</tr>
+</tbody>
+</table>
+<p>This time, clang manages to produce excellent results. Indeed, all the produced
+executables are significantly faster than the versions produced by GCC, except
+for GCC-7.1 which is producing similar results. The other versions of GCC are
+falling behind it seems. It seems that it was only for the GEMM that clang was
+having a lot of troubles handling the optimized code.</p>
+</div>
+</div>
+<div class="section" id="conclusion">
+<h2>Conclusion</h2>
+<p>Clang seems to have recently done a lot of optimizations regarding compilation
+time. Indeed, clang-4.0.1 is much faster for compilation than clang-3.9.
+Although GCC-7.1 is faster than GCC-6.3, all the GCC versions are slower than
+GCC-4.9.4 which is the fastest at compiling code with optimizations. GCC-7.1 is
+the fastest GCC version for compiling code in debug mode.</p>
+<p>In some cases, there is almost no difference between different compilers in the
+generated code. However, in more complex algorithms such as the matrix-matrix
+multiplication or the two-dimensional convolution, the differences can be quite
+significant. In my tests, Clang have shown to be much better at compiling
+unoptimized code. However, and especially in the GEMM case, it seems to be worse
+than GCC at handling hand-optimized. I will investigate that case and try to
+tailor the code so that clang is having a better time with it.</p>
+<p>For me, it's really weird that the GCC regression, apparently starting from
+GCC-5.4, has still not been fixed in GCC 7.1. I was thinking of dropping support
+for GCC-4.9 in order to go full C++14 support, but now I may have to reconsider
+my position. However, seeing that GCC is generally the best at handling
+optimized code (especially for GEMM), I may be able to do the transition, since
+the optimized code will be used in most cases.</p>
+<p>As for zapcc, although it is still the fastest compiler in debug mode, with the
+new speed of clang-4.0.1, its margin is quite small. Moreover, on optimized
+build, it's not as fast as GCC. If you use clang and can have access to zapcc,
+it's still quite a good option to save some time.</p>
+<p>Overall, I have been quite pleased by clang-4.0.1 and GCC-7.1, the most recent
+versions I have been testing. It seems that they did quite some good work.
+I will definitely run some more tests with them and try to adapt the code. I'm
+still considering whether I will drop support for some older compilers.</p>
+<p>I hope this comparison was interesting :) My next post will probably be about
+the difference in performance between my machine learning framework and other
+frameworks to train neural networks.</p>
+</div>
+</div>
+</div>
+<aside class="postpromonav"><nav><ul itemprop="keywords" class="tags">
+<li><a class="tag p-category" href="../../../categories/c%2B%2B.html" rel="tag">C++</a></li>
+<li><a class="tag p-category" href="../../../categories/c%2B%2B11.html" rel="tag">C++11</a></li>
+<li><a class="tag p-category" href="../../../categories/c%2B%2B14.html" rel="tag">C++14</a></li>
+<li><a class="tag p-category" href="../../../categories/clang.html" rel="tag">clang</a></li>
+<li><a class="tag p-category" href="../../../categories/compilers.html" rel="tag">Compilers</a></li>
+<li><a class="tag p-category" href="../../../categories/etl.html" rel="tag">etl</a></li>
+<li><a class="tag p-category" href="../../../categories/gcc.html" rel="tag">gcc</a></li>
+<li><a class="tag p-category" href="../../../categories/performance.html" rel="tag">Performance</a></li>
+<li><a class="tag p-category" href="../../../categories/projects.html" rel="tag">projects</a></li>
+</ul>
+<ul class="pager hidden-print">
+<li class="previous">
+<a href="expression-templates-library-etl-11.html" rel="prev" title="Expression Templates Library (ETL) 1.1">Previous post</a>
+</li>
+<li class="next">
+<a href="dll-blazing-fast-neural-network-library.html" rel="next" title="DLL: Blazing Fast Neural Network Library">Next post</a>
+</li>
+</ul></nav></aside><section class="comments hidden-print"><h2>Comments</h2>
+<div id="disqus_thread"></div>
+<script>
+        var disqus_shortname ="blogwichtounet",
+            disqus_url="http://baptiste-wicht.com/posts/2017/08/compiler-benchmark-gcc-clang-cpp-library-etl.html",
+        disqus_title="Compiler benchmark GCC and Clang on C++ library (ETL)",
+        disqus_identifier="cache/posts/2017/08/compiler-benchmark-gcc-clang-cpp-library-etl.html",
+        disqus_config = function () {
+            this.language = "en";
+        };
+        (function() {
+            var dsq = document.createElement('script'); dsq.async = true;
+            dsq.src = 'https://' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        })();
+    </script><noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a>
+</noscript>
+<a href="https://disqus.com" class="dsq-brlink" rel="nofollow">Comments powered by <span class="logo-disqus">Disqus</span></a>
+</section></article><script>var disqus_shortname="blogwichtounet";(function(){var a=document.createElement("script");a.async=true;a.src="https://"+disqus_shortname+".disqus.com/count.js";(document.getElementsByTagName("head")[0]||document.getElementsByTagName("body")[0]).appendChild(a)}());</script>
+</div> 
+</div>
+
+</div>
+
+
+
+<footer>
+Contents © 2017 <a href="/cdn-cgi/l/email-protection#e3818293978a909786948a808b97a3848e828a8fcd808c8e">Baptiste Wicht</a> - Powered by <a href="http://getnikola.com" rel="nofollow">Nikola</a> - License:
+<a rel="license" href="http://creativecommons.org/licenses/by/4.0/"><img alt="Creative Commons License" style="padding-left:5px;border-width:0" src="../../../assets/img/cc.png"></a>
+<ul class="footer_inline_ul">
+<li>
+<a href="compiler-benchmark-gcc-clang-cpp-library-etl.rst" id="sourcelink">Source</a>
+</li>
+</ul></footer><script src="/cdn-cgi/scripts/78d64697/cloudflare-static/email-decode.min.js"></script><script src="../../../assets/js/all-nocdn.js"></script>
+</body>
+</html>

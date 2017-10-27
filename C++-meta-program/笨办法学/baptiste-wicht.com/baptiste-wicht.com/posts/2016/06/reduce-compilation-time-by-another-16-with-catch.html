@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html prefix="og: http://ogp.me/ns# article: http://ogp.me/ns/article# " lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Reduce Catch tests compilation time by another 16% | Blog blog("Baptiste Wicht");</title>
+<script src="/cdn-cgi/apps/head/98vpnawSZZMscPn4oDND-ZgswjM.js"></script><link href="../../../assets/css/all-nocdn.css" rel="stylesheet" type="text/css">
+<meta name="theme-color" content="#5670d4">
+<meta name="generator" content="Nikola (getnikola.com)">
+<link rel="alternate" type="application/rss+xml" title="RSS" href="../../../rss.xml">
+<link rel="canonical" href="http://baptiste-wicht.com/posts/2016/06/reduce-compilation-time-by-another-16-with-catch.html">
+<!--[if lt IE 9]><script src="../../../assets/js/html5.js"></script><![endif]--><meta name="author" content="Baptiste Wicht">
+<link rel="prev" href="../05/speedup-compilation-by-13-by-simplifying-unit-test-with-catch.html" title="Speed up compilation by 13% by simplifying Catch unit tests" type="text/html">
+<link rel="next" href="eddic-124-new-boost-spirit-x3-parser-and-minor-cleanups.html" title="eddic 1.2.4: New Boost Spirit X3 parser and minor cleanups" type="text/html">
+<meta property="og:site_name" content='Blog blog("Baptiste Wicht");'>
+<meta property="og:title" content="Reduce Catch tests compilation time by another 16%">
+<meta property="og:url" content="http://baptiste-wicht.com/posts/2016/06/reduce-compilation-time-by-another-16-with-catch.html">
+<meta property="og:description" content="No, it's not the same post as two days! I've been able to reduce the compilation
+time of my test cases by another 16%!
+Two days ago, I posted an article about how I reduced the compilation time of my ">
+<meta property="og:type" content="article">
+<meta property="article:published_time" content="2016-06-01T07:28:36+02:00">
+<meta property="article:tag" content="Catch">
+<meta property="article:tag" content="Tests">
+<link href="../../../favicon.ico" rel="icon" type="image/x-icon">
+<link rel="publisher" href="https://plus.google.com/+BaptisteWicht">
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-2175227-7', 'auto');
+  var metas = document.getElementsByTagName('meta'), tagsList = [];
+  for (var i=0; i<metas.length; i++) {
+    if (metas[i].getAttribute('property') == 'article:tag') {
+      tagsList.push( metas[i].getAttribute('content'));
+    }
+  }
+  ga('set', 'dimension1', tagsList.join('|'));
+  ga('send', 'pageview');
+</script>
+</head>
+<body>
+
+<a href="#content" class="sr-only sr-only-focusable">Skip to main content</a>
+<div class="container-fluid">
+
+<div class="row">
+<div class="col-sm-3 col-lg-2">
+<nav class="navbar navbar-inverse navbar-fixed-side"><div class="navbar-header">
+<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+<span class="sr-only">Toggle navigation</span>
+<span class="icon-bar"></span>
+<span class="icon-bar"></span>
+<span class="icon-bar"></span>
+</button>
+<a class="navbar-brand" href="http://baptiste-wicht.com/">
+<span id="blog-title">Blog blog("Baptiste Wicht");</span>
+</a>
+</div>
+
+<div class="collapse navbar-collapse navbar-ex1-collapse">
+<ul class="nav navbar-nav">
+<li>
+<a href="../../../stories/about.html">About</a>
+</li>
+<li>
+<a href="../../../stories/publications.html">Publications</a>
+</li>
+<li>
+<a href="../../../stories/projects.html">Projects</a>
+</li>
+<li>
+<a href="../../../categories/index.html">Tags</a>
+</li>
+<li>
+<a href="../../../archive.html">Archives</a>
+</li>
+<li>
+<a href="http://feeds.feedburner.com/BaptisteWicht">RSS</a>
+</li>
+<li class="navbar-content">
+<h3>Related posts</h3>
+</li>
+<li><a href="../05/speedup-compilation-by-13-by-simplifying-unit-test-with-catch.html">Speed up compilation by 13% by simplifying Catch unit tests</a></li>
+<li><a href="../../2014/07/catch-powerful-yet-simple-cpp-test-framework.html">Catch: A powerful yet simple C++ test framework</a></li>
+<li><a href="../09/blazing-fast-unit-test-compilation-with-doctest-11.html">Blazing fast unit test compilation with doctest 1.1</a></li>
+<li><a href="../../2015/06/how-i-improved-a-bit-compile-time-of-etl.html">How I improved (a bit) compile time of ETL ?</a></li>
+<li><a href="../../2010/05/better-exception-handling-in-java-7-multicatch-and-final-rethrow.html">Better exception handling in Java 7 : Multicatch and final rethrow</a></li>
+<li><a href="../12/pvs-studio-on-cpp-library-review.html">PVS-Studio on C++ Library Review</a></li>
+<li class="navbar-block">
+<li class="wicht-navbar-right">
+<a target="_blank" title="Follow @wichtounet on Twitter" href="https://twitter.com/wichtounet">
+<img src="../../../assets/img/twitter.png" alt="Follow @wichtounet on Twitter"></a>
+</li>
+<li class="wicht-navbar-right">
+<a target="_blank" title="Follow +BaptisteWicht on Google+" href="https://plus.google.com/+BaptisteWicht">
+<img src="../../../assets/img/google_plus.png" alt="Follow +BaptisteWicht on Google+"></a>
+</li>
+</ul>
+</div>
+
+</nav>
+</div> 
+<div class="col-sm-9 col-lg-10">
+<div id="content"></div>
+<article class="post-text h-entry hentry postpage" itemscope="itemscope" itemtype="http://schema.org/Article"><header><h1 class="p-name entry-title" itemprop="headline name"><a href="#" class="u-url">Reduce Catch tests compilation time by another 16%</a></h1>
+<div class="metadata">
+<p class="byline author vcard"><span class="byline-name fn" itemprop="author">
+Baptiste Wicht
+</span></p>
+<p class="dateline"><a href="#" rel="bookmark"><time class="published dt-published" datetime="2016-06-01T07:28:36+02:00" itemprop="datePublished" title="2016-06-01 07:28">2016-06-01 07:28</time></a></p>
+<p class="commentline">
+<a href="reduce-compilation-time-by-another-16-with-catch.html#disqus_thread" data-disqus-identifier="cache/posts/2016/06/reduce-compilation-time-by-another-16-with-catch.html">Comments</a>
+</p>
+<p class="sourceline"><a href="reduce-compilation-time-by-another-16-with-catch.rst" class="sourcelink">Source</a></p>
+</div>
+</header><div class="e-content entry-content" itemprop="articleBody text">
+<div>
+<p>No, it's not the same post as two days! I've been able to reduce the compilation
+time of my test cases by another 16%!</p>
+<p>Two days ago, I posted an article about how <a class="reference external" href="http://baptiste-wicht.com/posts/2016/05/speedup-compilation-by-13-by-simplifying-unit-test-with-catch.html">I reduced the compilation time of my tests by 13%</a>, by bypassing the expression deduction from Catch. I came up with the macro <code class="cpp"><span class="n">REQUIRE_EQUALS</span></code>:</p>
+<pre class="code cpp"><a name="rest_code_85d1c9a457f5488ab2393ecfaee9227d-1"></a><span class="k">template</span><span class="o">&lt;</span><span class="k">typename</span> <span class="n">L</span><span class="p">,</span> <span class="k">typename</span> <span class="n">R</span><span class="o">&gt;</span>
+<a name="rest_code_85d1c9a457f5488ab2393ecfaee9227d-2"></a><span class="kt">void</span> <span class="n">evaluate_result</span><span class="p">(</span><span class="n">Catch</span><span class="o">::</span><span class="n">ResultBuilder</span><span class="o">&amp;&amp;</span> <span class="n">__result</span><span class="p">,</span> <span class="n">L</span> <span class="n">lhs</span><span class="p">,</span> <span class="n">R</span> <span class="n">rhs</span><span class="p">){</span>
+<a name="rest_code_85d1c9a457f5488ab2393ecfaee9227d-3"></a>    <span class="n">__result</span><span class="p">.</span><span class="n">setResultType</span><span class="p">(</span><span class="n">lhs</span> <span class="o">==</span> <span class="n">rhs</span><span class="p">);</span>
+<a name="rest_code_85d1c9a457f5488ab2393ecfaee9227d-4"></a>    <span class="n">__result</span><span class="p">.</span><span class="n">setLhs</span><span class="p">(</span><span class="n">Catch</span><span class="o">::</span><span class="n">toString</span><span class="p">(</span><span class="n">lhs</span><span class="p">));</span>
+<a name="rest_code_85d1c9a457f5488ab2393ecfaee9227d-5"></a>    <span class="n">__result</span><span class="p">.</span><span class="n">setRhs</span><span class="p">(</span><span class="n">Catch</span><span class="o">::</span><span class="n">toString</span><span class="p">(</span><span class="n">rhs</span><span class="p">));</span>
+<a name="rest_code_85d1c9a457f5488ab2393ecfaee9227d-6"></a>    <span class="n">__result</span><span class="p">.</span><span class="n">setOp</span><span class="p">(</span><span class="s">"=="</span><span class="p">);</span>
+<a name="rest_code_85d1c9a457f5488ab2393ecfaee9227d-7"></a>    <span class="n">__result</span><span class="p">.</span><span class="n">endExpression</span><span class="p">();</span>
+<a name="rest_code_85d1c9a457f5488ab2393ecfaee9227d-8"></a>    <span class="n">__result</span><span class="p">.</span><span class="n">react</span><span class="p">();</span>
+<a name="rest_code_85d1c9a457f5488ab2393ecfaee9227d-9"></a><span class="p">}</span>
+<a name="rest_code_85d1c9a457f5488ab2393ecfaee9227d-10"></a>
+<a name="rest_code_85d1c9a457f5488ab2393ecfaee9227d-11"></a><span class="cp">#define REQUIRE_EQUALS(lhs, rhs) \</span>
+<a name="rest_code_85d1c9a457f5488ab2393ecfaee9227d-12"></a><span class="cp">    evaluate_result(Catch::ResultBuilder( "REQUIRE", CATCH_INTERNAL_LINEINFO, #lhs " == " #rhs, Catch::ResultDisposition::Normal ), lhs, rhs);</span>
+</pre>
+<p>This has the advantage that the left and right hand sides are directly set, not
+deduced with templates and operator overloading. This still has exactly the same
+features has the original macro, but it is a bit less nice in the test code.
+I was quite happy with that optimization, but it turned out, I was not
+aggressive enough in my optimizations.</p>
+<p>Even though it seems simple, the macro is still bloated. There are two
+constructors calls: <code class="cpp"><span class="n">ResultBuilder</span></code> and <code class="cpp"><span class="n">SourceLineInfo</span></code> (hidden behind
+<code class="cpp"><span class="n">CATCH_INTERNAL_LINEINFO</span></code>). That means that if you test case has 100
+assertions, 200 constructor calls will need to be processed by the compiler.
+Considering that I have some test files with around 400 assertions, this is
+a lot of overhead for nothing. Moreover, two parameters have always the same
+value, no need to repeat them every time.</p>
+<p>Simplifying the macro to the minimum led me to this:</p>
+<pre class="code cpp"><a name="rest_code_7a8e153d687c46a58eab2758e22885cb-1"></a><span class="k">template</span><span class="o">&lt;</span><span class="k">typename</span> <span class="n">L</span><span class="p">,</span> <span class="k">typename</span> <span class="n">R</span><span class="o">&gt;</span>
+<a name="rest_code_7a8e153d687c46a58eab2758e22885cb-2"></a><span class="kt">void</span> <span class="n">evaluate_result</span><span class="p">(</span><span class="k">const</span> <span class="kt">char</span><span class="o">*</span> <span class="n">file</span><span class="p">,</span> <span class="n">std</span><span class="o">::</span><span class="kt">size_t</span> <span class="n">line</span><span class="p">,</span> <span class="k">const</span> <span class="kt">char</span><span class="o">*</span> <span class="n">exp</span><span class="p">,</span> <span class="n">L</span> <span class="n">lhs</span><span class="p">,</span> <span class="n">R</span> <span class="n">rhs</span><span class="p">){</span>
+<a name="rest_code_7a8e153d687c46a58eab2758e22885cb-3"></a>    <span class="n">Catch</span><span class="o">::</span><span class="n">ResultBuilder</span> <span class="n">result</span><span class="p">(</span><span class="s">"REQUIRE"</span><span class="p">,</span> <span class="p">{</span><span class="n">file</span><span class="p">,</span> <span class="n">line</span><span class="p">},</span> <span class="n">exp</span><span class="p">,</span> <span class="n">Catch</span><span class="o">::</span><span class="n">ResultDisposition</span><span class="o">::</span><span class="n">Flags</span><span class="o">::</span><span class="n">Normal</span><span class="p">);</span>
+<a name="rest_code_7a8e153d687c46a58eab2758e22885cb-4"></a>    <span class="n">result</span><span class="p">.</span><span class="n">setResultType</span><span class="p">(</span><span class="n">lhs</span> <span class="o">==</span> <span class="n">rhs</span><span class="p">);</span>
+<a name="rest_code_7a8e153d687c46a58eab2758e22885cb-5"></a>    <span class="n">result</span><span class="p">.</span><span class="n">setLhs</span><span class="p">(</span><span class="n">Catch</span><span class="o">::</span><span class="n">toString</span><span class="p">(</span><span class="n">lhs</span><span class="p">));</span>
+<a name="rest_code_7a8e153d687c46a58eab2758e22885cb-6"></a>    <span class="n">result</span><span class="p">.</span><span class="n">setRhs</span><span class="p">(</span><span class="n">Catch</span><span class="o">::</span><span class="n">toString</span><span class="p">(</span><span class="n">rhs</span><span class="p">));</span>
+<a name="rest_code_7a8e153d687c46a58eab2758e22885cb-7"></a>    <span class="n">result</span><span class="p">.</span><span class="n">setOp</span><span class="p">(</span><span class="s">"=="</span><span class="p">);</span>
+<a name="rest_code_7a8e153d687c46a58eab2758e22885cb-8"></a>    <span class="n">result</span><span class="p">.</span><span class="n">endExpression</span><span class="p">();</span>
+<a name="rest_code_7a8e153d687c46a58eab2758e22885cb-9"></a>    <span class="n">result</span><span class="p">.</span><span class="n">react</span><span class="p">();</span>
+<a name="rest_code_7a8e153d687c46a58eab2758e22885cb-10"></a><span class="p">}</span>
+<a name="rest_code_7a8e153d687c46a58eab2758e22885cb-11"></a>
+<a name="rest_code_7a8e153d687c46a58eab2758e22885cb-12"></a><span class="cp">#define REQUIRE_EQUALS(lhs, rhs) \</span>
+<a name="rest_code_7a8e153d687c46a58eab2758e22885cb-13"></a><span class="cp">    evaluate_result(__FILE__, __LINE__, #lhs " == " #rhs, lhs, rhs);</span>
+</pre>
+<p>The macro is now a simple function call. Even though the function is a template
+function, it will only be compiled for a few types (<code class="cpp"><span class="kt">double</span></code> and
+<code class="cpp"><span class="kt">float</span></code> in my case), whereas the code of the macro would be unconditionally
+compiled for each invocation.</p>
+<p>With this new macro and function, the compilation time went down from 664
+seconds to 554 seconds! This is <strong>more than 16% reduction in compilation
+time</strong>. When comparing against the original compilation time (without both
+optimizations) of 764 seconds, this is a 27% reduction! And there are absolutely
+no difference in features.</p>
+<p>This is a really great result, in my opinion. I don't think this can be cut down
+more. However, there is still some room for optimization regarding the includes
+that Catch need. Indeed, it is very bloated as well. A new test framework,
+<a class="reference external" href="https://github.com/onqtam/doctest">doctest</a> follows the same philosophy, but
+has much smaller include overhead. Once all the necessary features are in
+doctest, I may consider adapting my macros for it and using it in place of Catch
+is there is some substantial reduction in compilation time.</p>
+<p>If you want to take a look at the code, you can find the adapted code on <a class="reference external" href="https://github.com/wichtounet/etl/blob/master/test/include/fast_catch.hpp">Github</a>.</p>
+</div>
+</div>
+<aside class="postpromonav"><nav><ul itemprop="keywords" class="tags">
+<li><a class="tag p-category" href="../../../categories/catch.html" rel="tag">Catch</a></li>
+<li><a class="tag p-category" href="../../../categories/tests.html" rel="tag">Tests</a></li>
+</ul>
+<ul class="pager hidden-print">
+<li class="previous">
+<a href="../05/speedup-compilation-by-13-by-simplifying-unit-test-with-catch.html" rel="prev" title="Speed up compilation by 13% by simplifying Catch unit tests">Previous post</a>
+</li>
+<li class="next">
+<a href="eddic-124-new-boost-spirit-x3-parser-and-minor-cleanups.html" rel="next" title="eddic 1.2.4: New Boost Spirit X3 parser and minor cleanups">Next post</a>
+</li>
+</ul></nav></aside><section class="comments hidden-print"><h2>Comments</h2>
+<div id="disqus_thread"></div>
+<script>
+        var disqus_shortname ="blogwichtounet",
+            disqus_url="http://baptiste-wicht.com/posts/2016/06/reduce-compilation-time-by-another-16-with-catch.html",
+        disqus_title="Reduce Catch tests compilation time by another 16%",
+        disqus_identifier="cache/posts/2016/06/reduce-compilation-time-by-another-16-with-catch.html",
+        disqus_config = function () {
+            this.language = "en";
+        };
+        (function() {
+            var dsq = document.createElement('script'); dsq.async = true;
+            dsq.src = 'https://' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        })();
+    </script><noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a>
+</noscript>
+<a href="https://disqus.com" class="dsq-brlink" rel="nofollow">Comments powered by <span class="logo-disqus">Disqus</span></a>
+</section></article><script>var disqus_shortname="blogwichtounet";(function(){var a=document.createElement("script");a.async=true;a.src="https://"+disqus_shortname+".disqus.com/count.js";(document.getElementsByTagName("head")[0]||document.getElementsByTagName("body")[0]).appendChild(a)}());</script>
+</div> 
+</div>
+
+</div>
+
+
+
+<footer>
+Contents © 2017 <a href="/cdn-cgi/l/email-protection#aecccfdedac7dddacbd9c7cdc6daeec9c3cfc7c280cdc1c3">Baptiste Wicht</a> - Powered by <a href="http://getnikola.com" rel="nofollow">Nikola</a> - License:
+<a rel="license" href="http://creativecommons.org/licenses/by/4.0/"><img alt="Creative Commons License" style="padding-left:5px;border-width:0" src="../../../assets/img/cc.png"></a>
+<ul class="footer_inline_ul">
+<li>
+<a href="reduce-compilation-time-by-another-16-with-catch.rst" id="sourcelink">Source</a>
+</li>
+</ul></footer><script src="/cdn-cgi/scripts/78d64697/cloudflare-static/email-decode.min.js"></script><script src="../../../assets/js/all-nocdn.js"></script>
+</body>
+</html>

@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="utf-8"?>
+<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:dc="http://purl.org/dc/elements/1.1/"><channel><title>Blog blog("Baptiste Wicht"); (Posts about zabbix)</title><link>http://baptiste-wicht.com/</link><description></description><atom:link rel="self" type="application/rss+xml" href="http://baptiste-wicht.com/categories/zabbix.xml"></atom:link><language>en</language><lastBuildDate>Sun, 04 Jun 2017 20:17:44 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Zabbix - Low Level Discovery of cores, CPUs and Hard Disk</title><link>http://baptiste-wicht.com/posts/2013/12/zabbix-low-level-discovery-cores-cpus-hard-disk.html</link><dc:creator>Baptiste Wicht</dc:creator><description>&lt;div&gt;&lt;p&gt;&lt;a href="http://baptiste-wicht.com/wp-content/uploads/2013/12/Screenshot-from-2013-12-29-165743-e1388332859892.png"&gt;&lt;img src="http://baptiste-wicht.com/wp-content/uploads/2013/12/Screenshot-from-2013-12-29-165743-e1388332859892-300x151.png" alt="Zabbix SSD Status, configured with Low Level Discovery" width="300" height="151" class="size-medium wp-image-2644"&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;At home, I'm using Zabbix to monitor my servers, it has plenty of interesting features and can be extended a lot by using User Parameter.&lt;/p&gt;
+&lt;p&gt;In this post, I'm gonna talk about Low Level Discovery (LLD). If you are only interested in the final result, go the Conclusion section, you can download my template containing all the rules ;)&lt;/p&gt;
+&lt;h4&gt;Low Level Discovery (LLD)&lt;/h4&gt;
+
+&lt;p&gt;LLD is a feature to automatically discover some properties of the monitored host and create items, triggers and graphs.&lt;/p&gt;
+&lt;p&gt;By default, Zabbix support three types of item discovery:&lt;/p&gt;
+&lt;ul&gt;
+    &lt;li&gt;Mounted filesystems&lt;/li&gt;
+    &lt;li&gt;Network interface&lt;/li&gt;
+    &lt;li&gt;SNMP's OIDs&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;The first two are very useful, since they will give you by default, for instance, the free space of each mounted file system or the bandwith going in and out of each network interface. As I only monitor Linux servers, I don't use the last one, but it will eventually interest other people.&lt;/p&gt;
+&lt;p&gt;Another very interesting thing about this feature is that you can extend it by discovering more items. In this article, I will show how to discover CPUs, CPU Cores and Hard Disk.&lt;/p&gt;
+&lt;p&gt;The most important part of custom discovery is to create a script on the monitored machines that can "discover" something. It can be any executable, the only thing important is that it outputs data in the correct format. I have to say that the format is quite ugly, but that is probably not very important ;) Here is the output of my hard disk discovery script:&lt;/p&gt;
+&lt;pre class="code literal-block"&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt;
+&lt;span class="s2"&gt;"data"&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;
+    &lt;span class="p"&gt;{&lt;/span&gt;&lt;span class="s2"&gt;"{#DISKNAME}"&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;&lt;span class="s2"&gt;"/dev/sda"&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="s2"&gt;"{#SHORTDISKNAME}"&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;&lt;span class="s2"&gt;"sda"&lt;/span&gt;&lt;span class="p"&gt;},&lt;/span&gt;
+    &lt;span class="p"&gt;{&lt;/span&gt;&lt;span class="s2"&gt;"{#DISKNAME}"&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;&lt;span class="s2"&gt;"/dev/sdb"&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="s2"&gt;"{#SHORTDISKNAME}"&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;&lt;span class="s2"&gt;"sdb"&lt;/span&gt;&lt;span class="p"&gt;},&lt;/span&gt;
+    &lt;span class="p"&gt;{&lt;/span&gt;&lt;span class="s2"&gt;"{#DISKNAME}"&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;&lt;span class="s2"&gt;"/dev/sdc"&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="s2"&gt;"{#SHORTDISKNAME}"&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;&lt;span class="s2"&gt;"sdc"&lt;/span&gt;&lt;span class="p"&gt;},&lt;/span&gt;
+    &lt;span class="p"&gt;{&lt;/span&gt;&lt;span class="s2"&gt;"{#DISKNAME}"&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;&lt;span class="s2"&gt;"/dev/sdd"&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="s2"&gt;"{#SHORTDISKNAME}"&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;&lt;span class="s2"&gt;"sdd"&lt;/span&gt;&lt;span class="p"&gt;},&lt;/span&gt;
+    &lt;span class="p"&gt;{&lt;/span&gt;&lt;span class="s2"&gt;"{#DISKNAME}"&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;&lt;span class="s2"&gt;"/dev/sde"&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="s2"&gt;"{#SHORTDISKNAME}"&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;&lt;span class="s2"&gt;"sde"&lt;/span&gt;&lt;span class="p"&gt;},&lt;/span&gt;
+    &lt;span class="p"&gt;{&lt;/span&gt;&lt;span class="s2"&gt;"{#DISKNAME}"&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;&lt;span class="s2"&gt;"/dev/sdf"&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="s2"&gt;"{#SHORTDISKNAME}"&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;&lt;span class="s2"&gt;"sdf"&lt;/span&gt;&lt;span class="p"&gt;},&lt;/span&gt;
+    &lt;span class="p"&gt;{&lt;/span&gt;&lt;span class="s2"&gt;"{#DISKNAME}"&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;&lt;span class="s2"&gt;"/dev/sdg"&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="s2"&gt;"{#SHORTDISKNAME}"&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;&lt;span class="s2"&gt;"sdg"&lt;/span&gt;&lt;span class="p"&gt;},&lt;/span&gt;
+&lt;span class="p"&gt;]&lt;/span&gt;
+&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;/pre&gt;
+
+
+&lt;p&gt;You can have as many keys for each discovered items, but the format must remains the same. In the item, trigger and graph prototypes, you will then use {#DISKNAME} or {#SHORTDISKNAME} to use the discovered values. &lt;/p&gt;
+&lt;p&gt;Once you have created your scripts, you have to register it in the zabbix configuration as a user parameter. For instance, if you use the zabbix daemon, you need these lines in /etc/zabbix/zabbix_agentd.conf: &lt;/p&gt;
+&lt;pre class="code literal-block"&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="nv"&gt;EnableRemoteCommands&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="m"&gt;1&lt;/span&gt;
+...
+&lt;span class="nv"&gt;UnsafeUserParameters&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="m"&gt;1&lt;/span&gt;
+...
+&lt;span class="nv"&gt;UserParameter&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;discovery.hard_disk,/scripts/discover_hdd.sh
+&lt;/pre&gt;
+
+
+&lt;p&gt;Now, when you will create the discovery rule, you can use discovery.hard_disk as the key. &lt;/p&gt;
+&lt;p&gt;A discovery rule in itself is useful without prototypes, you can create three types of prototypes: &lt;/p&gt;
+&lt;ul&gt;
+    &lt;li&gt;Item Prototype: This will create a new item for each discovered entity&lt;/li&gt;
+    &lt;li&gt;Trigger Prototype: This will create a new trigger for each discovered entity. &lt;/li&gt;
+    &lt;li&gt;Graph Prototype: This will create a graph for each discovered entity. &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;The most useful are by far the item and trigger prototypes. The biggest problem with graphs is that you cannot create an aggregate graph of each discovered items. For instance, if you record the temperature of your CPU cores, you cannot automatically create a graph with the temperature of each discovered cores. For that, you have to create the graph in each host. Which makes, imho, graph prototypes pretty useless. Anyway...&lt;/p&gt;
+&lt;p&gt;In the next section, I'll show how I have created discovery rules for Hard Disk, CPU and CPU cores. &lt;/p&gt;
+&lt;h4&gt;Discover Hard Disk&lt;/h4&gt;
+
+&lt;p&gt;The discovery script is really simple: &lt;/p&gt;
+&lt;pre class="code literal-block"&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="ch"&gt;#!/bin/bash&lt;/span&gt;
+&lt;span class="nv"&gt;disks&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="sb"&gt;`&lt;/span&gt;ls -l /dev/sd* &lt;span class="p"&gt;|&lt;/span&gt; awk &lt;span class="s1"&gt;'{print $NF}'&lt;/span&gt; &lt;span class="p"&gt;|&lt;/span&gt; sed &lt;span class="s1"&gt;'s/[0-9]//g'&lt;/span&gt; &lt;span class="p"&gt;|&lt;/span&gt; uniq&lt;span class="sb"&gt;`&lt;/span&gt;
+&lt;span class="nb"&gt;echo&lt;/span&gt; &lt;span class="s2"&gt;"{"&lt;/span&gt;
+&lt;span class="nb"&gt;echo&lt;/span&gt; &lt;span class="s2"&gt;"\"data\":["&lt;/span&gt;
+&lt;span class="k"&gt;for&lt;/span&gt; disk in &lt;span class="nv"&gt;$disks&lt;/span&gt;
+&lt;span class="k"&gt;do&lt;/span&gt;
+    &lt;span class="nb"&gt;echo&lt;/span&gt; &lt;span class="s2"&gt;"    {\"{#DISKNAME}\":\"&lt;/span&gt;&lt;span class="nv"&gt;$disk&lt;/span&gt;&lt;span class="s2"&gt;\",\"{#SHORTDISKNAME}\":\"&lt;/span&gt;&lt;span class="si"&gt;${&lt;/span&gt;&lt;span class="nv"&gt;disk&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="nv"&gt;5&lt;/span&gt;&lt;span class="si"&gt;}&lt;/span&gt;&lt;span class="s2"&gt;\"},"&lt;/span&gt;
+&lt;span class="k"&gt;done&lt;/span&gt;
+&lt;span class="nb"&gt;echo&lt;/span&gt; &lt;span class="s2"&gt;"]"&lt;/span&gt;
+&lt;span class="nb"&gt;echo&lt;/span&gt; &lt;span class="s2"&gt;"}"&lt;/span&gt;
+&lt;/pre&gt;
+
+
+&lt;p&gt;It just lists all the /dev/sdX devices, remove the partition number and remove the duplicates, to have only the hard disk at the end. &lt;/p&gt;
+&lt;p&gt;I've created several item prototypes for each hard disk. Here are some examples using S.M.A.R.T. (you can download the template with all the items in the Conclusion section): &lt;/p&gt;
+&lt;ul&gt;
+    &lt;li&gt;Raw Read Error Rate&lt;/li&gt;
+    &lt;li&gt;Spin Up Time&lt;/li&gt;
+    &lt;li&gt;SSD Life Left&lt;/li&gt;
+    &lt;li&gt;Temperature&lt;/li&gt;
+    &lt;li&gt;...&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;You may notice that some of them only make sense for SSD (SSD Life Left) and some others do not make any sense for SSD (Spin Up Time). This is not a problem since they will just be marked as Not Supported by Zabbix. &lt;/p&gt;
+&lt;p&gt;All these datas are collected using the smartctl utility. &lt;/p&gt;
+&lt;p&gt;I've also created some trigger to indicate the coming failure of an hard disk: &lt;/p&gt;
+&lt;ul&gt;
+    &lt;li&gt;SSD Life Left too low&lt;/li&gt;
+    &lt;li&gt;Reallocated Sector Count too low&lt;/li&gt;
+    &lt;li&gt;...&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;I've just used the threshold reported by smartctl, they may be different from one disk manufacturers to another. I don't put a lot of faith on these values, since disk generally fail before going to threshold, but it could be a good indicator anyway. &lt;/p&gt;
+&lt;h4&gt;Discover CPUs&lt;/h4&gt;
+
+&lt;p&gt;Here is the script to discover CPUs: &lt;/p&gt;
+&lt;pre class="code literal-block"&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="ch"&gt;#!/bin/bash&lt;/span&gt;
+&lt;span class="nv"&gt;cpus&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="sb"&gt;`&lt;/span&gt;lscpu &lt;span class="p"&gt;|&lt;/span&gt; grep &lt;span class="s2"&gt;"CPU(s):"&lt;/span&gt; &lt;span class="p"&gt;|&lt;/span&gt; head -1 &lt;span class="p"&gt;|&lt;/span&gt; awk &lt;span class="s1"&gt;'{print $NF}'&lt;/span&gt;&lt;span class="sb"&gt;`&lt;/span&gt;
+&lt;span class="nv"&gt;cpus&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="k"&gt;$((&lt;/span&gt;&lt;span class="nv"&gt;$cpus&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="m"&gt;1&lt;/span&gt;&lt;span class="k"&gt;))&lt;/span&gt;
+&lt;span class="nb"&gt;echo&lt;/span&gt; &lt;span class="s2"&gt;"{"&lt;/span&gt;
+&lt;span class="nb"&gt;echo&lt;/span&gt; &lt;span class="s2"&gt;"\"data\":["&lt;/span&gt;
+&lt;span class="k"&gt;for&lt;/span&gt; cpu in &lt;span class="k"&gt;$(&lt;/span&gt;seq &lt;span class="m"&gt;0&lt;/span&gt; &lt;span class="nv"&gt;$cpus&lt;/span&gt;&lt;span class="k"&gt;)&lt;/span&gt;
+&lt;span class="k"&gt;do&lt;/span&gt;
+    &lt;span class="nb"&gt;echo&lt;/span&gt; &lt;span class="s2"&gt;"    {\"{#CPUID}\":\"&lt;/span&gt;&lt;span class="nv"&gt;$cpu&lt;/span&gt;&lt;span class="s2"&gt;\"},"&lt;/span&gt;
+&lt;span class="k"&gt;done&lt;/span&gt;
+&lt;span class="nb"&gt;echo&lt;/span&gt; &lt;span class="s2"&gt;"]"&lt;/span&gt;
+&lt;span class="nb"&gt;echo&lt;/span&gt; &lt;span class="s2"&gt;"}"&lt;/span&gt;
+&lt;/pre&gt;
+
+
+&lt;p&gt;It just uses lscpu and parses its output to find the number of CPU and then create an entry for each CPUs. &lt;/p&gt;
+&lt;p&gt;I just have one item for each CPU: The CPU Utilization. &lt;/p&gt;
+&lt;p&gt;I haven't created any trigger here. &lt;/p&gt;
+&lt;h4&gt;Discover CPU Cores&lt;/h4&gt;
+
+&lt;p&gt;Just before, we discovered the CPUs, but it is also interesting to discover the cores. If you don't have Hyperthreading, the result will be the same. It is especially interesting to get the temperature of each core. Here is the script: &lt;/p&gt;
+&lt;pre class="code literal-block"&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="ch"&gt;#!/bin/bash&lt;/span&gt;
+&lt;span class="nv"&gt;cores&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="sb"&gt;`&lt;/span&gt;lscpu &lt;span class="p"&gt;|&lt;/span&gt; grep &lt;span class="s2"&gt;"Core(s) per socket:"&lt;/span&gt; &lt;span class="p"&gt;|&lt;/span&gt; awk &lt;span class="s1"&gt;'{print $NF}'&lt;/span&gt;&lt;span class="sb"&gt;`&lt;/span&gt;
+&lt;span class="nv"&gt;cores&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="k"&gt;$((&lt;/span&gt;&lt;span class="nv"&gt;$cores&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="m"&gt;1&lt;/span&gt;&lt;span class="k"&gt;))&lt;/span&gt;
+&lt;span class="nb"&gt;echo&lt;/span&gt; &lt;span class="s2"&gt;"{"&lt;/span&gt;
+&lt;span class="nb"&gt;echo&lt;/span&gt; &lt;span class="s2"&gt;"\"data\":["&lt;/span&gt;
+&lt;span class="k"&gt;for&lt;/span&gt; core in &lt;span class="k"&gt;$(&lt;/span&gt;seq &lt;span class="m"&gt;0&lt;/span&gt; &lt;span class="nv"&gt;$cores&lt;/span&gt;&lt;span class="k"&gt;)&lt;/span&gt;
+&lt;span class="k"&gt;do&lt;/span&gt;
+    &lt;span class="nb"&gt;echo&lt;/span&gt; &lt;span class="s2"&gt;"    {\"{#COREID}\":\"&lt;/span&gt;&lt;span class="nv"&gt;$core&lt;/span&gt;&lt;span class="s2"&gt;\"},"&lt;/span&gt;
+&lt;span class="k"&gt;done&lt;/span&gt;
+&lt;span class="nb"&gt;echo&lt;/span&gt; &lt;span class="s2"&gt;"]"&lt;/span&gt;
+&lt;span class="nb"&gt;echo&lt;/span&gt; &lt;span class="s2"&gt;"}"&lt;/span&gt;
+&lt;/pre&gt;
+
+
+&lt;p&gt;It works in the same way as the previous script. &lt;/p&gt;
+&lt;p&gt;I've only created one item prototype, to get the temperature of each core with lm_sensors. &lt;/p&gt;
+&lt;h4&gt;Wrap-Up&lt;/h4&gt;
+
+&lt;p&gt;Here are all the UserParameter necessary to make the discovery and the items works: &lt;/p&gt;
+&lt;pre class="code literal-block"&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="c1"&gt;### System Temperature ###&lt;/span&gt;
+&lt;span class="nv"&gt;UserParameter&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;system.temperature.core&lt;span class="o"&gt;[&lt;/span&gt;*&lt;span class="o"&gt;]&lt;/span&gt;,sensors&lt;span class="p"&gt;|&lt;/span&gt;grep Core&lt;span class="se"&gt;\ &lt;/span&gt;&lt;span class="nv"&gt;$1&lt;/span&gt; &lt;span class="p"&gt;|&lt;/span&gt;cut -d &lt;span class="s2"&gt;"("&lt;/span&gt; -f &lt;span class="m"&gt;1&lt;/span&gt;&lt;span class="p"&gt;|&lt;/span&gt;cut -d &lt;span class="s2"&gt;"+"&lt;/span&gt; -f &lt;span class="m"&gt;2&lt;/span&gt;&lt;span class="p"&gt;|&lt;/span&gt;cut -c &lt;span class="m"&gt;1&lt;/span&gt;-4
+&lt;span class="c1"&gt;### DISK I/O###&lt;/span&gt;
+&lt;span class="nv"&gt;UserParameter&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;custom.vfs.dev.read.ops&lt;span class="o"&gt;[&lt;/span&gt;*&lt;span class="o"&gt;]&lt;/span&gt;,cat /proc/diskstats &lt;span class="p"&gt;|&lt;/span&gt; egrep &lt;span class="nv"&gt;$1&lt;/span&gt; &lt;span class="p"&gt;|&lt;/span&gt; head -1 &lt;span class="p"&gt;|&lt;/span&gt; awk &lt;span class="s1"&gt;'{print $$4}'&lt;/span&gt;
+&lt;span class="nv"&gt;UserParameter&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;custom.vfs.dev.read.ms&lt;span class="o"&gt;[&lt;/span&gt;*&lt;span class="o"&gt;]&lt;/span&gt;,cat /proc/diskstats &lt;span class="p"&gt;|&lt;/span&gt; egrep &lt;span class="nv"&gt;$1&lt;/span&gt; &lt;span class="p"&gt;|&lt;/span&gt; head -1 &lt;span class="p"&gt;|&lt;/span&gt; awk &lt;span class="s1"&gt;'{print $$7}'&lt;/span&gt;
+&lt;span class="nv"&gt;UserParameter&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;custom.vfs.dev.write.ops&lt;span class="o"&gt;[&lt;/span&gt;*&lt;span class="o"&gt;]&lt;/span&gt;,cat /proc/diskstats &lt;span class="p"&gt;|&lt;/span&gt; egrep &lt;span class="nv"&gt;$1&lt;/span&gt; &lt;span class="p"&gt;|&lt;/span&gt; head -1 &lt;span class="p"&gt;|&lt;/span&gt; awk &lt;span class="s1"&gt;'{print $$8}'&lt;/span&gt;
+&lt;span class="nv"&gt;UserParameter&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;custom.vfs.dev.write.ms&lt;span class="o"&gt;[&lt;/span&gt;*&lt;span class="o"&gt;]&lt;/span&gt;,cat /proc/diskstats &lt;span class="p"&gt;|&lt;/span&gt; egrep &lt;span class="nv"&gt;$1&lt;/span&gt; &lt;span class="p"&gt;|&lt;/span&gt; head -1 &lt;span class="p"&gt;|&lt;/span&gt; awk &lt;span class="s1"&gt;'{print $$11}'&lt;/span&gt;
+&lt;span class="nv"&gt;UserParameter&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;custom.vfs.dev.io.active&lt;span class="o"&gt;[&lt;/span&gt;*&lt;span class="o"&gt;]&lt;/span&gt;,cat /proc/diskstats &lt;span class="p"&gt;|&lt;/span&gt; egrep &lt;span class="nv"&gt;$1&lt;/span&gt; &lt;span class="p"&gt;|&lt;/span&gt; head -1 &lt;span class="p"&gt;|&lt;/span&gt; awk &lt;span class="s1"&gt;'{print $$12}'&lt;/span&gt;
+&lt;span class="nv"&gt;UserParameter&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;custom.vfs.dev.io.ms&lt;span class="o"&gt;[&lt;/span&gt;*&lt;span class="o"&gt;]&lt;/span&gt;,cat /proc/diskstats &lt;span class="p"&gt;|&lt;/span&gt; egrep &lt;span class="nv"&gt;$1&lt;/span&gt; &lt;span class="p"&gt;|&lt;/span&gt; head -1 y&lt;span class="p"&gt;|&lt;/span&gt; awk &lt;span class="s1"&gt;'{print $$13}'&lt;/span&gt;
+&lt;span class="nv"&gt;UserParameter&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;custom.vfs.dev.read.sectors&lt;span class="o"&gt;[&lt;/span&gt;*&lt;span class="o"&gt;]&lt;/span&gt;,cat /proc/diskstats &lt;span class="p"&gt;|&lt;/span&gt; egrep &lt;span class="nv"&gt;$1&lt;/span&gt; &lt;span class="p"&gt;|&lt;/span&gt; head -1 &lt;span class="p"&gt;|&lt;/span&gt; awk &lt;span class="s1"&gt;'{print $$6}'&lt;/span&gt;
+&lt;span class="nv"&gt;UserParameter&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;custom.vfs.dev.write.sectors&lt;span class="o"&gt;[&lt;/span&gt;*&lt;span class="o"&gt;]&lt;/span&gt;,cat /proc/diskstats &lt;span class="p"&gt;|&lt;/span&gt; egrep &lt;span class="nv"&gt;$1&lt;/span&gt; &lt;span class="p"&gt;|&lt;/span&gt; head -1 &lt;span class="p"&gt;|&lt;/span&gt; awk &lt;span class="s1"&gt;'{print $$10}'&lt;/span&gt;
+&lt;span class="nv"&gt;UserParameter&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;system.smartd_raw&lt;span class="o"&gt;[&lt;/span&gt;*&lt;span class="o"&gt;]&lt;/span&gt;,sudo smartctl -A &lt;span class="nv"&gt;$1&lt;/span&gt;&lt;span class="p"&gt;|&lt;/span&gt; egrep &lt;span class="nv"&gt;$2&lt;/span&gt;&lt;span class="p"&gt;|&lt;/span&gt; tail -1&lt;span class="p"&gt;|&lt;/span&gt; xargs&lt;span class="p"&gt;|&lt;/span&gt; awk &lt;span class="s1"&gt;'{print $$10}'&lt;/span&gt;
+&lt;span class="nv"&gt;UserParameter&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;system.smartd_value&lt;span class="o"&gt;[&lt;/span&gt;*&lt;span class="o"&gt;]&lt;/span&gt;,sudo smartctl -A &lt;span class="nv"&gt;$1&lt;/span&gt;&lt;span class="p"&gt;|&lt;/span&gt; egrep &lt;span class="nv"&gt;$2&lt;/span&gt;&lt;span class="p"&gt;|&lt;/span&gt; tail -1&lt;span class="p"&gt;|&lt;/span&gt; xargs&lt;span class="p"&gt;|&lt;/span&gt; awk &lt;span class="s1"&gt;'{print $$4}'&lt;/span&gt;
+&lt;span class="c1"&gt;### Discovery ###&lt;/span&gt;
+&lt;span class="nv"&gt;UserParameter&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;discovery.hard_disk,/scripts/discover_hdd.sh
+&lt;span class="nv"&gt;UserParameter&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;discovery.cpus,/scripts/discover_cpus.sh
+&lt;span class="nv"&gt;UserParameter&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;discovery.cores,/scripts/discover_cores.sh
+&lt;/pre&gt;
+
+
+&lt;p&gt;(it must be set in zabbix_agentd.conf)&lt;/p&gt;
+&lt;p&gt;You also need to give zabbix the right to use sudo with smartctl. For that, you have to edit your /etc/sudoers file and add this line: &lt;/p&gt;
+&lt;pre&gt;ALL ALL=(ALL)NOPASSWD: /usr/sbin/smartctl&lt;/pre&gt;
+
+&lt;h4&gt;Conclusion and Download&lt;/h4&gt;
+
+&lt;p&gt;I hope that this helps some people to use Low Level Discovery in their Zabbix Monitoring Installation. &lt;/p&gt;
+&lt;p&gt;LLD eases a lot the creation of multiple items discovery for hosts with different hardware or configuration. However, it has some problems for which I have not yet found a proper solution. First, you have to duplicate the client scripts on each host (or at least have them on a share available from each of them). Then, the configuration of each agent is also duplicated in the configuration of each host. The biggest problem I think is the fact that you cannot automatically create graph with the generated items of each discovered entities. For instance, I had to create a CPU Temperature graph in each of my host. If you have few hosts, like many, it is acceptable, but if you have hundreds of hosts, you just don't do it. &lt;/p&gt;
+&lt;p&gt;All the scripts and the template export file are available in the &lt;a href="https://github.com/wichtounet/zabbix-lld" title="zabbix-lld repository"&gt;zabbix-lld&lt;/a&gt; repository. For everything to work, you need the lscpu, lm_sensors and smartmontools utilities. &lt;/p&gt;
+&lt;p&gt;If you have any question or if something doesn't work (I don't offer any guarantee, but it should work on most recent Linux machines), don't hesitate to comment on this post.&lt;/p&gt;&lt;/div&gt;</description><category>Linux</category><category>Others</category><category>Server</category><category>zabbix</category><guid>http://baptiste-wicht.com/posts/2013/12/zabbix-low-level-discovery-cores-cpus-hard-disk.html</guid><pubDate>Mon, 30 Dec 2013 08:12:31 GMT</pubDate></item></channel></rss>

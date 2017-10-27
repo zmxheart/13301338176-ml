@@ -1,0 +1,442 @@
+<?xml version="1.0" encoding="utf-8"?>
+<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:dc="http://purl.org/dc/elements/1.1/"><channel><title>Blog blog("Baptiste Wicht"); (Posts about Home Automation)</title><link>http://baptiste-wicht.com/</link><description></description><atom:link rel="self" type="application/rss+xml" href="http://baptiste-wicht.com/categories/home-automation.xml"></atom:link><language>en</language><lastBuildDate>Sun, 04 Jun 2017 20:17:47 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Home Automation: Power Meter and Integration of Zwave into Domoticz</title><link>http://baptiste-wicht.com/posts/2017/04/home-automation-power-meter-integration-zwave-domoticz.html</link><dc:creator>Baptiste Wicht</dc:creator><description>&lt;div&gt;&lt;p&gt;I've improved a bit my home automation installation. It's been a while since
+the last upgrade, but unfortunately I cannot afford as many upgrades as I would
+like :P&lt;/p&gt;
+&lt;p&gt;For a long time I wanted to monitor the power consumption of a few of my
+appliances in my apartment. Especially my Linux servers so that I could try to
+improve the consumption and reduce my bill on the long run. Unfortunately, there
+are very few options for power meter in Switzerland due to the special type of
+plug we have. The only option I found is a Zwave power plug. For a while,
+I waited to see if I could find other options because Zwave devices are quite
+expensive and I would have rather preferred to stay with simpler and cheaper
+RF-433 appliances. Since I didn't find anything, I ordered a ZWave USB
+controller from  Aeon Labs (the generation 5). I also ordered two Aeon Labs
+Swiss Smart Plug with power meter.&lt;/p&gt;
+&lt;p&gt;Here is an image of the Aeon Labs key:&lt;/p&gt;
+&lt;img alt="Aeon Labs ZWave USB Key" class="align-center" src="http://baptiste-wicht.com/images/zwave_usb.jpg"&gt;
+&lt;p&gt;And of the power meter in usage:&lt;/p&gt;
+&lt;img alt="ZWave power meter" class="align-center" src="http://baptiste-wicht.com/images/power_meter.jpg"&gt;
+&lt;p&gt;Integration of ZWave into Domoticz was extremely easy. I just plugged the USB
+key, restarted Domoticz (seems necessary for it to pick the new tty) and added
+new hardware "OpenZWave USB" with the correct serial port. From there, there are
+two main ways to add new devices. The first is to remove the USB key and use the
+synchronization button on both the key and the device close to each other. The
+other way is to use the "Include Node" option on Domoticz and then press the
+synchronization button on the device to detect the new device. I used the second
+option since it seemed simpler and it worked perfectly. I did that for my two
+plugs and it worked fine. Directly after this, 5 new devices were added for each
+of the plug. One for the voltage, one for the current , two for the  usage (I
+don't know why there is two, but they are both reporting the same value) and one
+for the switch on/off. I was a bit afraid that only the On/Off part of the smart
+plug would work on Domoticz, but I had absolutely no problem.&lt;/p&gt;
+&lt;p&gt;Here is for instance the power usage of last 24 hours on my television system:&lt;/p&gt;
+&lt;img alt="Power usage on television system" class="align-center" src="http://baptiste-wicht.com/images/domoticz_power_usage.png"&gt;
+&lt;p&gt;For now, I haven't integrated this information on any rule, but I plan to
+monitor this information in the coming weeks and try to improve my consumption,
+especially for my servers. I also plan to purchase more of these plugs once my
+home automation budget can be upgraded.&lt;/p&gt;
+&lt;p&gt;On another note, I also purchased a Chacon wall remote switch working in RF-433.
+Although it is quite cheap, I'm very disappointed by the quality of this switch.
+I add to straighten myself the pins that are attached to the battery because
+there was no contact. After that, it worked correctly and it is able to work
+with the RFLink module.&lt;/p&gt;
+&lt;p&gt;I have to say that I'm quite satisfied with ZWave devices with this experience.
+Even though I still feel it is way too expensive, it is high quality and have
+a good finishing. I'll probably purchase more ZWave devices in the future. I'm
+especially interested in The Aeotec 6 in 1 sensor for temperature humidity,
+motion, light, UV and vibration. This would allow me to have much information in
+each room with only one sensor in place of several sensors in each room like
+I currently have.&lt;/p&gt;
+&lt;p&gt;I still have a few Milight Bulbs and LEDS to install with a secondary Milight
+bridge that I will install in the coming week, but I probably won't do a post
+about this.&lt;/p&gt;&lt;/div&gt;</description><category>Domoticz</category><category>Home Automation</category><category>Personal</category><category>projects</category><guid>http://baptiste-wicht.com/posts/2017/04/home-automation-power-meter-integration-zwave-domoticz.html</guid><pubDate>Sun, 23 Apr 2017 14:43:13 GMT</pubDate></item><item><title>Home Automation: First attempt at voice control with Jarvis</title><link>http://baptiste-wicht.com/posts/2017/02/home-automation-first-attempt-voice-control-jarvis.html</link><dc:creator>Baptiste Wicht</dc:creator><description>&lt;div&gt;&lt;p&gt;I have several devices in my home that can be controller via Domoticz, a few
+power outlets, a few lights (more are coming), my Kodi home theater. And I have
+a lot of sensors and information gathered by Domoticz. All of this is working
+quite well, but I have only a few actuators and intelligence (motion sensor,
+button and some automation via Lua script).&lt;/p&gt;
+&lt;p&gt;My next objective was to add voice control to my system. If I was living in
+United States or United Kingdom I would directly an Amazon Dot or even an Amazon
+Echo, but they are not available in Switzerland. I could have arranged for
+delivery, but if I want my system to be useful to several people, I need to have
+in French. It's the same problem with the Google Home system. So, no other way
+than custom solutions.&lt;/p&gt;
+&lt;p&gt;Since I had an extra Raspberry Pi 2, I based my system on this. I bought a Trust
+Mico microphone and a Trust Compact speakers and installed them on the Pi. Both
+peripherals are working quite well.&lt;/p&gt;
+&lt;p&gt;You can have a closer look at my microphone:&lt;/p&gt;
+&lt;img alt="Trust Mico microphone for Jarvis Home Automation Voice Control" class="align-center" src="http://baptiste-wicht.com/images/jarvis_mic.jpg"&gt;
+&lt;p&gt;and the complete installation:&lt;/p&gt;
+&lt;img alt="Jarvis Home Automation Voice Control around my TV" class="align-center" src="http://baptiste-wicht.com/images/jarvis_full.jpg"&gt;
+&lt;p&gt;The Raspberry Pi is on the bottom, the speakers below the TV, left and right and
+the microphone on the top right.&lt;/p&gt;
+&lt;p&gt;For the voice control software, I decided to go with Jarvis. It seems to me that
+this is the best suited software for this kind of project. Moreover, it supports
+French natively which seems good. I also tried Jasper, but this has been such
+a pain to install that I gave up.&lt;/p&gt;
+&lt;p&gt;Jarvis is reasonably easy to install if you have a recent Raspbian image. It
+took some time to install the dependencies, but in the end it was not difficult.
+The installation process has a step-by-step wizard help so it's really easy to
+configure everything.&lt;/p&gt;
+&lt;p&gt;However, even if it's easy to install, it's easy to configure correctly. The
+first thing is to configure the hotword to activate commands. There are several
+options, but I used snowboy which is offline and is made for hotword
+recognition. This worked quite well, you just have to train a model with the
+hotword to recognize the voice. After this, the problems started... You then
+have to configure audio for the commands themselves. There are 6 parameters for
+audio capture (noise levels to start and stop the capture, silence levels, ...)
+and no help to tune them. So basically, I tried a lot of combinations until
+I had something working reasonably well. When you are in debug mode, you can
+listen to what the system captured. These parameters are dependent on your
+environment and on your microphone and on your voice. I may be dumb but it took
+several hours and a lot of tries to get a configuration working. After this, you
+have to choose the engine for recognition of the commands. Unfortunately, all
+the good options are online so everything you'll say as commands after the
+hotword will be sent online. I first tried Bing, but I had very poor recognition
+rate. I then switched to wit.ai which gave me better results. In the end, I have
+about 60% recognition rate, which is not great at all, but at least some phrases
+are working almost all the time while others are always failing. Another problem
+I have with this is the large delay between commands and action. It takes almost
+five seconds between the end of my sentence and the time where the lights in my
+living room are tuned on or off by Jarvis via Domoticz.&lt;/p&gt;
+&lt;p&gt;So far, I'm a bit disappointed by the quality of the system, but maybe I was
+hoping for too much. I have been able to control a few of my appliances but not
+really reliably. Another thing I have realized is that when counting the
+Raspberry Pi, its enclosure the Microphone and the speakers, this system is more
+costly than an Amazon Dot and seem highly inferior (and is much less good
+looking).&lt;/p&gt;
+&lt;p&gt;I'll try to improve the current system with better configuration and commands in
+the coming days and I will maybe try another system for voice control. I still
+hope Amazon Alexa systems or Google Home are made available in
+France/Switzerland not too far in the future, since I believe these systems are
+a better solution than custom made systems, at least for now. Moreover, next
+month, I plan to integrate ZWave into my systems with a few sensors, complete
+the lighting installation and add new motion sensors. This should make it more
+useful. And hopefully, by this time, I should have a good voice control system,
+but I'm not too hopeful.&lt;/p&gt;
+&lt;p&gt;Don't hesitate to comment or contact me if you have questions about this
+installation or want to share experience about voice control in home automation.
+If you want more details about this, dont' hesitate to ask as well ;)&lt;/p&gt;&lt;/div&gt;</description><category>Home Automation</category><category>Personal</category><category>projects</category><guid>http://baptiste-wicht.com/posts/2017/02/home-automation-first-attempt-voice-control-jarvis.html</guid><pubDate>Tue, 14 Feb 2017 17:34:19 GMT</pubDate></item><item><title>Add Milight smart lights to my Domoticz home automation system</title><link>http://baptiste-wicht.com/posts/2017/01/add-milight-smart-lights-to-domoticz-home-automation-system.html</link><dc:creator>Baptiste Wicht</dc:creator><description>&lt;div&gt;&lt;p&gt;Recently, &lt;a class="reference external" href="http://baptiste-wicht.com/posts/2017/01/new-home-automation-system-with-domoticz.html#"&gt;I switched from my hand crafted home automation system to Domoticz&lt;/a&gt;.
+This allows me to easily integrate new smart devices and remote controllable
+peripherals without much effort. I plan to relate my effort in having fun
+controlling my home :)&lt;/p&gt;
+&lt;p&gt;I'm now able to control lights in two rooms with Domoticz. The most well-known
+smart bulbs are the Philips Hue. However, they are stupidly expensive. There are
+a lot of alternatives. I've ordered some Milight light bulbs and controller to
+test with Domoticz. I didn't order a lot of them because I wanted to make sure
+they would work with my system.
+Milight system is working over Wifi. There are several components to a Milight
+system:&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;The LED Light Bulbs with Red/Green/Blue/White channels&lt;/li&gt;
+&lt;li&gt;The Wifi Controller that is able to control 4 zones&lt;/li&gt;
+&lt;li&gt;An RGBW Controller for LED strip&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;The first two are necessary for any installation, the third is to control an
+RGBW LED strip. This list is not exhaustive, it's only the components that
+I have used. It is important to note that a single Wifi controller can only
+control 4 zones. There are also remotes, but I have not bought one since I plan
+to use them only from Domoticz and maybe smartphone.&lt;/p&gt;
+&lt;p&gt;The installation of the controller is relatively easy. You need to download the
+Milight 2.0 application on the Android Play Store (or the equivalent for IOS).
+Then, you can power on the Wifi Controller. It'll create a new Wifi on which you
+can then connect on your phone. Then, you can use the application on your phone
+to configure the device and make it connect to your home wireless network. Once,
+this is done, you can connect your phone back to your home network. You can then
+use the Milight application to configure your device. I highly recommend to set
+a static IP address to the controller. The way I did it is simply to set a fixed
+IP address on my DHCP server based on the MAC address of the MAC controller but
+you can simply do the configuration in the application or in the web interface
+of the controller (the user and password combination is admin:admin).&lt;/p&gt;
+&lt;p&gt;Here is the look of the controller (next to my RFLink):&lt;/p&gt;
+&lt;img alt="Milight wifi controller" class="align-center" src="http://baptiste-wicht.com/images/system.jpg"&gt;
+&lt;p&gt;(My phone is starting to die, hence the very bad quality of images)&lt;/p&gt;
+&lt;p&gt;You can then install your LED light bulbs. For, open first the remote on your
+Android Milight application. Then plug the light bulb without power first. Then
+power on the light and press once on one of the I buttons on one of the zones on
+the remote. This will link the LED to the selected zone on the controller. You
+can then control the light from your phone. Remember, only four zones and
+therefore four lights per controller.&lt;/p&gt;
+&lt;p&gt;The installation for a LED strip is not much complicated. You need to plug the
+4 wires (or 5 wires if your have an actual RGBW LED) into the corresponding
+inputs on the controller. Then, you power it and you can link it to a zone like
+a normal light bulb!&lt;/p&gt;
+&lt;img alt="LEDS in my Living Room controlled by Milight" class="align-center" src="http://baptiste-wicht.com/images/leds.jpg"&gt;
+&lt;p&gt;It works really well and directly without problems.&lt;/p&gt;
+&lt;p&gt;The last step is of course to configure your controller in Domoticz. It is
+really easy to do. You need to add a new hardware of each of the Milight
+controller. It is listed under the name "Limitless/AppLamp/Mi Light with
+LAN/WiFi interface". You then can set the IP address and the port by default is
+8899. Once you did configure the hardware, you'll see new devices appear in the
+Devices list. There will one device for each zone and one device to control all
+four zones at once. You can add the device you already configured as switches.
+From the Switches interface you can turn the lamp on and off and you can&lt;/p&gt;
+&lt;img alt="Domoticz Light Bulbs control" class="align-center" src="http://baptiste-wicht.com/images/domoticz_rgbw.png"&gt;
+&lt;p&gt;You can then put them on your floor plan or control them from your rules.&lt;/p&gt;
+&lt;p&gt;So far, I'm pretty satisfied with this Milight system. The Android application
+is of poor quality but aside from this is pretty good and the price is very
+fair. I'm also really satisfied with the Domoticz support. The only that is sad
+is that the Domoticz Android application does not support RGBW control of the
+lamps, only on and off, but that is already cool.&lt;/p&gt;
+&lt;p&gt;Now that all of this is working well, I've ordered a few more light bulbs to
+cover all my rooms and a few LED controller to control (and install first) the
+other LEDS that I have in mind.&lt;/p&gt;
+&lt;p&gt;On another note, I've also added a new outside temperature sensor outside my
+apartment. It is a very cheap Chinese sensor, bought on Ebay, based on the
+XT200 system that is working very well with RFLink.&lt;/p&gt;
+&lt;p&gt;The next step in my system is probably to integrate Voice Control, but I don't
+know exactly which way I'll go. I ordered a simple microphone that I intend to
+plug on my spare Raspberry Pi, but I don't know if the range will be enough to
+cover a room. Ideally, I would like to use an Amazon Dot, but they are not
+available in Switzerland. I'll probably write more on the subject once I've
+found an adequate solution. Another idea I've is to integrate support for ZWave
+via OpenZWave and then add a few more cool sensors that I haven't found on an
+cheaper system.&lt;/p&gt;
+&lt;p&gt;I hope this is interesting and don't hesitate if you have any question about my
+home automation project. You can expect a few more posts about this as soon as
+In improve it :)&lt;/p&gt;&lt;/div&gt;</description><category>Home Automation</category><category>Personal</category><category>projects</category><guid>http://baptiste-wicht.com/posts/2017/01/add-milight-smart-lights-to-domoticz-home-automation-system.html</guid><pubDate>Sun, 15 Jan 2017 21:00:25 GMT</pubDate></item><item><title>New home automation system with Domoticz</title><link>http://baptiste-wicht.com/posts/2017/01/new-home-automation-system-with-domoticz.html</link><dc:creator>Baptiste Wicht</dc:creator><description>&lt;div&gt;&lt;p&gt;As you may remember, I started going into Home Automation last year with a &lt;a class="reference external" href="http://baptiste-wicht.com/posts/2016/08/asgard-home-automation-project.html"&gt;C++ project, Asgard&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;Unfortunately, I haven't add the time to improve this project further and make
+it really useful and I have so many C++ projects already, so I decided to switch
+to using an existing project.&lt;/p&gt;
+&lt;div class="section" id="choice"&gt;
+&lt;h2&gt;Choice&lt;/h2&gt;
+&lt;p&gt;I needed a system that was at least able to handle everything my existing system
+does:&lt;/p&gt;
+&lt;ol class="arabic simple"&gt;
+&lt;li&gt;Control my RF-433 Temperature Sensors (Oregon Temperature Sensors)&lt;/li&gt;
+&lt;li&gt;Control my RF-433 Remote Button&lt;/li&gt;
+&lt;li&gt;Control my smart power outlets&lt;/li&gt;
+&lt;li&gt;Ping and wake-on-lan my different computers&lt;/li&gt;
+&lt;li&gt;Be installable on a Raspberry Pi&lt;/li&gt;
+&lt;li&gt;Control Skadi/Kodi Home Cinema&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;Of course, it also had to be open source and in a language that I can write
+without agonizing pain (no Ruby, no JavaScript, ideally no Python (I hate a lot
+of languages...)).&lt;/p&gt;
+&lt;p&gt;It's impressive the number of home automation projects that exist today. It's
+really a hot topic, more than I though. After a few hours of research, I've
+finally settled on Domoticz. It seemed that it could handle all my home
+automation devices that I already had. Domoticz is an open source home
+automation system. It's written mainly in C++, which is an advantage for me
+since I'll be able to work inside it if necessary. It has a quite modern HTML5
+interface. It has a lot of support for hardware and a lot of bridges for other
+controllers as well. One of the reason I chose it is also the floor-planner
+feature that looks really cool.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="section" id="installation"&gt;
+&lt;h2&gt;Installation&lt;/h2&gt;
+&lt;p&gt;First of all, I cleaned the hardware of my Raspberry Pi. I got rid of my
+breadboard and the components on it. Then, I put the Raspberry Pi on a nicer box
+that I had laying around. One problem with Domoticz is that it does not support
+directly RF433 devices, but need a controller in the middle. At first,
+I believed I could simply connect them through GPIO and lets Domoticz do the
+rest, but it's not possible. I ordered the different pieces for a RFLink
+controller at nodo-shops. It is running on a Arduino Mega and is connected to
+the Pi. The very big advantage is that they handle a lot of protocols directly,
+so you only have to read the serial port to get information on RF-433 events.&lt;/p&gt;
+&lt;p&gt;Here is how the current system look:&lt;/p&gt;
+&lt;img alt="Asgard automation system hardware" class="align-center" src="http://baptiste-wicht.com/images/home_automation_hardware.jpg"&gt;
+&lt;p&gt;The black box is the Arduino Mega with RFLink software while the Transparent is
+simply the Raspberry on which Domoticz is installed.&lt;/p&gt;
+&lt;p&gt;As for the installation of Domoticz, it's really simple. They also have images of
+Raspberry Pi directly, but since my Raspberry was already installed with
+Raspbian, I installed Domoticz on it directly. A simple matter of curl and bash:&lt;/p&gt;
+&lt;pre class="code bash"&gt;&lt;a name="rest_code_2f18ad65bc734bb0940e74ca0a51ffb5-1"&gt;&lt;/a&gt;sudo curl -L install.domoticz.com &lt;span class="p"&gt;|&lt;/span&gt; sudo bash
+&lt;/pre&gt;&lt;p&gt;After a few questions, your installation should be complete. You can browse your
+Domoticz installation at the IP of your Pi and at the given port.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="section" id="home-automation-with-domoticz"&gt;
+&lt;h2&gt;Home Automation with Domoticz&lt;/h2&gt;
+&lt;p&gt;There are several concepts in Domoticz that are important. At first, it seemed
+a bit weird to me, but in the end it works really well and you get used to it
+pretty fast.&lt;/p&gt;
+&lt;p&gt;The first concept is the hardware. It is not necessary hardware directly, but
+rather a driver to some piece of information of switches than a real hardware in
+my opinion. For instance, the RFLink Gateway is considered hardware as well as
+the Forecast weather API. Here is all the hardware I've configured:&lt;/p&gt;
+&lt;img alt="Domoticz Hardware Configuration" class="align-center" src="http://baptiste-wicht.com/images/domoticz_hardware.png"&gt;
+&lt;p&gt;I've got some sensors from the motherboard, the Kodi interaction, the driver to
+ping the different computers, the Forecast weather with Dark Sky and Weather
+Underground, the RFLink communication, the wake-on-lan and some dummies virtual
+switches.&lt;/p&gt;
+&lt;p&gt;On its own, an hardware is useless, but it can create devices that will be used
+for home automation. A device is sub device of a particular driver. In some
+cases, the devices will be created automatically. For instance, RF Link can
+create devices as soon as they are detected. For wake-on-lan, you have to
+configure MAC Addresses and they will be added as devices. And so on...&lt;/p&gt;
+&lt;p&gt;There are a lot of types of devices, also called switches. Some devices can do
+some actions, for instance the wake-on-lan devices, while others are information
+based such as ping or temperature sensors detected from the RFLink. For
+instance, here are my temperature sensors:&lt;/p&gt;
+&lt;img alt="Domoticz Temperature Sensors" class="align-center" src="http://baptiste-wicht.com/images/domoticz_temperature.png"&gt;
+&lt;p&gt;As for my hardware I already had, I haven't add too many issues with them. The
+Oregon Temperature Sensors worked out of the box without any issues as well my
+old RF433 Ninja Block temperature sensor. The smart power outlets have been
+pretty easy to use as well. The most problem I've add was with the remote
+buttons. It seems to many that it should be the easiest, but RFLink has a lot of
+problem with them, they are detected several times and are highly unreliable.
+Interestingly you can also change the icon of most device to a large variety of
+existing devices so that they would look more realistic.&lt;/p&gt;
+&lt;p&gt;Another feature I find pretty cool is the floor plan. You can create plans for
+each floor of your house and then create rooms inside and finally attach devices
+to each room and place inside the plan. Unfortunately, to draw the plan, you'll
+have to use an external tool. I've used floorplanner for this, but you may use
+any plan you have as long as you have an image.&lt;/p&gt;
+&lt;p&gt;Here is my floor plan with the devices (the scale is terribly off :P) :&lt;/p&gt;
+&lt;img alt="Domoticz Floor Plan" class="align-center" src="http://baptiste-wicht.com/images/domoticz_floorplan.png"&gt;
+&lt;p&gt;With that you can directly see the status of each of your sensors in each room.
+Moreover, you can also activate some devices directly from the floor plan as
+well :)&lt;/p&gt;
+&lt;p&gt;Normally, my Somfy blinds are supposed to work with the RFLink controller.
+I have managed to control my blinds but only when the RFLink was within 50
+centimeters of the Blinds, which is clearly not acceptable. I don't know from
+where the problem comes. It may come from my Blinds controller inside the wall
+or may come from bad antenna of the RFLink or from a bug in RFLink, so from now
+I cannot control my blinds.&lt;/p&gt;
+&lt;p&gt;I have several D-Link cameras at home. You can also add cameras to Domoticz, but
+don't expect a lot of support on this side. It's pretty poor indeed. The only
+useful you can do in Domoticz with Cameras is to take a screenshot from them.
+You cannot control the Camera or even have a decent video stream and cannot do
+motion detection directly. I hope that the Camera support will improve in the
+future. One thing that would be good is to add a view of the cameras in the
+floor plan, but it is not possible currently.&lt;/p&gt;
+&lt;p&gt;What I did is to use Zoneminder to manage the cameras and send alert to Domoticz
+when motion is detect with the REST API of Domoticz. Unfortunately that means
+two systems to manage the Cameras. Zoneminder is a very good piece of software,
+but one of the ugliest I've ever seen (even I can do a better web interface...)
+and quite obscure to configure. But the numbers of cameras it can handle and the
+capabilities to control the camera is very very powerful.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="section" id="events-and-actions"&gt;
+&lt;h2&gt;Events and actions&lt;/h2&gt;
+&lt;p&gt;No home automation system would be complete without an events and rules system.
+In Domoticz, you have several ways to create rules.&lt;/p&gt;
+&lt;p&gt;The first solution is to create group. A group is simply a set of switches that
+are all activated together. This is pretty limited, but can be useful. The
+second solution is a scene. A scene is activated by a device and can set several
+switches to on or off after the activation. The problem with this is that you
+have to listen for an action as activation, you cannot use an existing device or
+a rule with a value. For me, these two possibilities are way too limited and
+I don't really a reason to use them.&lt;/p&gt;
+&lt;p&gt;The best solution is to script an handler. For that, there are two ways, either
+you define visually your script with blocky, for instance:&lt;/p&gt;
+&lt;img alt="Domoticz Blockly Rule" class="align-center" src="http://baptiste-wicht.com/images/domoticz_blockly.png"&gt;
+&lt;p&gt;This seemed so cool that I wanted to do all my rules with that. Unfortunately,
+it is really limited. The main limitation is that you cannot nest if blocks. In
+fact the interface lets you do, but it doesn't work afterwards. The other
+limitation is that it has no notion of time. For instance, it's very hard to
+create an action if a computer is shutdown for more than 60 seconds. You can do
+it, but you end up creating virtual devices which are turned off after some
+delay and it gets really complicated really soon...&lt;/p&gt;
+&lt;p&gt;In the end, I used Lua script directly. These scripts have the information about
+the last values of each device and the last updated time as well. It's much
+easier with that to create powerful rules especially when you want a notion of
+time. There are plenty of examples on the Domoticz forum about very powerful
+rules that you can create. Unfortunately, there are some limitations. For
+instance, you cannot send several actions to the same device in the same script
+Moreover, you also have to decode the values of the sensors yourself. For
+instance, for a temperature and humidity sensor, you'll have to parse the values
+and extract the one you need by hand.&lt;/p&gt;
+&lt;p&gt;So far, I haven't created many rules, only four. The first rule is that with the
+push of one remote button I can power on my smart socket and turn on one of my
+computers in my office. Then, if both the computers on this smart sockets have
+been off for more than 60 seconds, the power is shut off on the smart socket.
+And I have done almost the same for my media center and TV in my living room.&lt;/p&gt;
+&lt;p&gt;In the future, I'll probably only use the Lua scripting capability. In my
+opinion, it's better to have all the scripts in the same language for
+maintainability reasons. Once my futures devices arrive, I'll have a few more
+rules to code.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="section" id="conclusion"&gt;
+&lt;h2&gt;Conclusion&lt;/h2&gt;
+&lt;p&gt;To wrap up, I'd say that I'm pretty satisfied with my new home automation system
+with Domoticz. It's not a perfect tool, but it has a lot of features and is
+working quite well in general. I would recommend you to try it if you want
+a good home automation system, fully featured and relatively easy to use.&lt;/p&gt;
+&lt;p&gt;I've several more things planned for this system. I plan to test a real motion
+sensor rather than rely only on the cameras which are focused on the doors and
+windows. I also plan to add an outdoor temperature sensor. And more
+interestingly, I'm going to try to integrate smart bulbs from Milight to be able
+to control my lights from the system. These are the shot term projects that
+I want to do, but I have many more ideas!&lt;/p&gt;
+&lt;p&gt;I'm also sure that there are some features from Domoticz that I have overlooked
+or not discovered.&lt;/p&gt;
+&lt;p&gt;I'll probably write more posts on Home Automation on the coming months.&lt;/p&gt;
+&lt;p&gt;For more information on Domoticz, you can consult
+&lt;a class="reference external" href="http://domoticz.com/"&gt;the official Domoticz website&lt;/a&gt;.&lt;/p&gt;
+&lt;/div&gt;&lt;/div&gt;</description><category>Home Automation</category><category>Personal</category><category>projects</category><guid>http://baptiste-wicht.com/posts/2017/01/new-home-automation-system-with-domoticz.html</guid><pubDate>Sun, 08 Jan 2017 15:08:42 GMT</pubDate></item><item><title>Asgard: Home Automation project</title><link>http://baptiste-wicht.com/posts/2016/08/asgard-home-automation-project.html</link><dc:creator>Baptiste Wicht</dc:creator><description>&lt;div&gt;&lt;p&gt;I have updated my asgard project to make it finally useful for me, so I figured
+I'd present the project now.&lt;/p&gt;
+&lt;p&gt;Asgard is my project of home automation based on a Raspberry Pi. I started this
+project after Ninja Blocks kickstarter company went down and I was left with
+useless sensors. So I figured why not have fun creating my own :P I know there
+are some other projects out there that are pretty good, but I wanted to do some
+more low level stuff for once, so what the hell.&lt;/p&gt;
+&lt;p&gt;Of course, everything is written in C++, no surprise here. The project is built
+upon a server / drivers architecture. The drivers and the server are talking via
+network sockets, so they can be on different machines.  The server is displaying
+the data it got on a web interface and also provide a way to trigger actions of
+drivers either from the web interface or through the integrated rules engine.
+The data are stored in a database, accessed with CPPSqlite3 (probably going to
+be replaced by sqlcpp11) and the web server is handled with mongoose (with a c++
+interface).&lt;/p&gt;
+&lt;p&gt;I must mention that most of the web part of the project was made by a student of
+mine, Stéphane Ly, who work on it as part of his study.&lt;/p&gt;
+&lt;p&gt;Here is a picture of the Raspberry Pi system (not very pretty ;) ):&lt;/p&gt;
+&lt;img alt="Asgard automation system hardware" class="align-center" src="http://baptiste-wicht.com/images/asgard_hardware.jpg"&gt;
+&lt;p&gt;I plan to try to fit at least some of it on a nicer box with nicer cables and
+such. Moreover, I also plan to add real antennas to the RF transmitter and
+receiver, but I haven't received them so far.&lt;/p&gt;
+&lt;div class="section" id="sensors"&gt;
+&lt;h2&gt;Sensors&lt;/h2&gt;
+&lt;p&gt;asgard support several sensors:&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;DHT11 Temperature/Humdity Sensor&lt;/li&gt;
+&lt;li&gt;WT450 Temperature/Humdity Sensor&lt;/li&gt;
+&lt;li&gt;RF Button&lt;/li&gt;
+&lt;li&gt;IR Remote&lt;/li&gt;
+&lt;li&gt;CPU Temperature Sensor&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;You can see the sensors data displayed on the web interface:&lt;/p&gt;
+&lt;img alt="Asgard automation system home page" class="align-center" src="http://baptiste-wicht.com/images/asgard_home.png"&gt;
+&lt;/div&gt;
+&lt;div class="section" id="actions"&gt;
+&lt;h2&gt;Actions&lt;/h2&gt;
+&lt;p&gt;There are currently a few actions provided by the drivers:&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;Wake-On-Lan a computer by its MAC Address&lt;/li&gt;
+&lt;li&gt;ITT-1500 smart plugs ON and OFF&lt;/li&gt;
+&lt;li&gt;Kodi actions: Pause / Play / Next / Previous on Kodi&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Here are the rules engine:&lt;/p&gt;
+&lt;img alt="Asgard automation system rules page" class="align-center" src="http://baptiste-wicht.com/images/asgard_rules.png"&gt;
+&lt;/div&gt;
+&lt;div class="section" id="my-home-automation"&gt;
+&lt;h2&gt;My home automation&lt;/h2&gt;
+&lt;p&gt;I'm currently using this system to monitor the temperature in my appartment.
+Nothing great so far because I don't have enough sensors yet. And now, I'm also
+using a wireless button to turn on my power socket, wait 2 seconds and then
+power on my Kodi Home Theater with wake on lan.&lt;/p&gt;
+&lt;p&gt;It's nothing fancy so far, but it's already better than what I had with Ninja
+Blocks, except for the ugly hardware ;).&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="section" id="future"&gt;
+&lt;h2&gt;Future&lt;/h2&gt;
+&lt;p&gt;There are still tons of work on the project and on integration in my home.&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;I'm really dissatisfied with the WT450 sensor, I've ordered new Oregon sensors to try to do better.&lt;/li&gt;
+&lt;li&gt;I've ordered a few new sensors: Door intrusion detector and motion detector&lt;/li&gt;
+&lt;li&gt;The rules system needs to be improve to support multiple conditions&lt;/li&gt;
+&lt;li&gt;I plan to add a simple state system to the asgard server&lt;/li&gt;
+&lt;li&gt;There are a lot of refactorings necessary in the code and&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;However, I don't know when I'll work on this again, my work on this project is
+pretty episodic to say the least.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="section" id="code"&gt;
+&lt;h2&gt;Code&lt;/h2&gt;
+&lt;p&gt;The code is, as always, available on Github. There are multiple repositories:
+&lt;a class="reference external" href="https://github.com/search?q=user%3Awichtounet+asgard"&gt;all asgard repositories&lt;/a&gt;.
+It's not that much code for now, about 2000 lines of code, but some of it may be
+useful. If you plan to use the system, keep in mind that it was never tested out
+of my environment and that there is no documentation so far, but don't hesitate
+to open Issues on Github if you have questions or post a comment here.&lt;/p&gt;
+&lt;/div&gt;&lt;/div&gt;</description><category>asgard</category><category>Home Automation</category><category>Personal</category><category>projects</category><guid>http://baptiste-wicht.com/posts/2016/08/asgard-home-automation-project.html</guid><pubDate>Sat, 27 Aug 2016 20:28:16 GMT</pubDate></item></channel></rss>

@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html prefix="og: http://ogp.me/ns# article: http://ogp.me/ns/article# " lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>GCC 4.7 vs CLang 3.1 on eddic | Blog blog("Baptiste Wicht");</title>
+<script src="/cdn-cgi/apps/head/98vpnawSZZMscPn4oDND-ZgswjM.js"></script><link href="../../../assets/css/all-nocdn.css" rel="stylesheet" type="text/css">
+<meta name="theme-color" content="#5670d4">
+<meta name="generator" content="Nikola (getnikola.com)">
+<link rel="alternate" type="application/rss+xml" title="RSS" href="../../../rss.xml">
+<link rel="canonical" href="http://baptiste-wicht.com/posts/2012/11/gcc-4-7-clang-3-1-eddic.html">
+<!--[if lt IE 9]><script src="../../../assets/js/html5.js"></script><![endif]--><meta name="author" content="Baptiste Wicht">
+<link rel="prev" href="eddic-compiler-1-1-4-graph-coloring-register-allocation.html" title="EDDI Compiler 1.1.4 – Graph Coloring Register Allocation" type="text/html">
+<link rel="next" href="cpp-benchmark-vector-vs-list.html" title="C++ benchmark - std::vector VS std::list" type="text/html">
+<meta property="og:site_name" content='Blog blog("Baptiste Wicht");'>
+<meta property="og:title" content="GCC 4.7 vs CLang 3.1 on eddic">
+<meta property="og:url" content="http://baptiste-wicht.com/posts/2012/11/gcc-4-7-clang-3-1-eddic.html">
+<meta property="og:description" content="google.load('visualization','1',{packages:['corechart']});
+
+Now that eddic can be compiled with CLang, I wanted to compare the differences in compilation time and in performance of the generated execu">
+<meta property="og:type" content="article">
+<meta property="article:published_time" content="2012-11-12T09:28:44+01:00">
+<meta property="article:tag" content="Benchmarks">
+<meta property="article:tag" content="clang">
+<meta property="article:tag" content="Compilers">
+<meta property="article:tag" content="EDDI">
+<meta property="article:tag" content="gcc">
+<meta property="article:tag" content="Performances">
+<link href="../../../favicon.ico" rel="icon" type="image/x-icon">
+<link rel="publisher" href="https://plus.google.com/+BaptisteWicht">
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-2175227-7', 'auto');
+  var metas = document.getElementsByTagName('meta'), tagsList = [];
+  for (var i=0; i<metas.length; i++) {
+    if (metas[i].getAttribute('property') == 'article:tag') {
+      tagsList.push( metas[i].getAttribute('content'));
+    }
+  }
+  ga('set', 'dimension1', tagsList.join('|'));
+  ga('send', 'pageview');
+</script>
+</head>
+<body>
+
+<a href="#content" class="sr-only sr-only-focusable">Skip to main content</a>
+<div class="container-fluid">
+
+<div class="row">
+<div class="col-sm-3 col-lg-2">
+<nav class="navbar navbar-inverse navbar-fixed-side"><div class="navbar-header">
+<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+<span class="sr-only">Toggle navigation</span>
+<span class="icon-bar"></span>
+<span class="icon-bar"></span>
+<span class="icon-bar"></span>
+</button>
+<a class="navbar-brand" href="http://baptiste-wicht.com/">
+<span id="blog-title">Blog blog("Baptiste Wicht");</span>
+</a>
+</div>
+
+<div class="collapse navbar-collapse navbar-ex1-collapse">
+<ul class="nav navbar-nav">
+<li>
+<a href="../../../stories/about.html">About</a>
+</li>
+<li>
+<a href="../../../stories/publications.html">Publications</a>
+</li>
+<li>
+<a href="../../../stories/projects.html">Projects</a>
+</li>
+<li>
+<a href="../../../categories/index.html">Tags</a>
+</li>
+<li>
+<a href="../../../archive.html">Archives</a>
+</li>
+<li>
+<a href="http://feeds.feedburner.com/BaptisteWicht">RSS</a>
+</li>
+<li class="navbar-content">
+<h3>Related posts</h3>
+</li>
+<li><a href="cpp-benchmark-vector-vs-list.html">C++ benchmark - std::vector VS std::list</a></li>
+<li><a href="../12/cpp-benchmark-vector-list-deque.html">C++ benchmark – std::vector VS std::list VS std::deque</a></li>
+<li><a href="../12/cpp-benchmark-std-list-boost-intrusive-list.html">C++ Benchmark - std::list VS boost::intrusive::list</a></li>
+<li><a href="../12/wordpress-plugin-google-visualization-charts.html">New WordPress Plugin - Google Visualization Charts</a></li>
+<li><a href="../../2017/05/cpp-containers-benchmark-vector-list-deque-plf-colony.html">C++ Containers Benchmark: vector/list/deque and plf::colony</a></li>
+<li><a href="integer-linear-time-sorting-algorithms.html">Integer Linear Time Sorting Algorithms</a></li>
+<li class="navbar-block">
+<li class="wicht-navbar-right">
+<a target="_blank" title="Follow @wichtounet on Twitter" href="https://twitter.com/wichtounet">
+<img src="../../../assets/img/twitter.png" alt="Follow @wichtounet on Twitter"></a>
+</li>
+<li class="wicht-navbar-right">
+<a target="_blank" title="Follow +BaptisteWicht on Google+" href="https://plus.google.com/+BaptisteWicht">
+<img src="../../../assets/img/google_plus.png" alt="Follow +BaptisteWicht on Google+"></a>
+</li>
+</ul>
+</div>
+
+</nav>
+</div> 
+<div class="col-sm-9 col-lg-10">
+<div id="content"></div>
+<article class="post-text h-entry hentry postpage" itemscope="itemscope" itemtype="http://schema.org/Article"><header><h1 class="p-name entry-title" itemprop="headline name"><a href="#" class="u-url">GCC 4.7 vs CLang 3.1 on eddic</a></h1>
+<div class="metadata">
+<p class="byline author vcard"><span class="byline-name fn" itemprop="author">
+Baptiste Wicht
+</span></p>
+<p class="dateline"><a href="#" rel="bookmark"><time class="published dt-published" datetime="2012-11-12T09:28:44+01:00" itemprop="datePublished" title="2012-11-12 09:28">2012-11-12 09:28</time></a></p>
+<p class="commentline">
+<a href="gcc-4-7-clang-3-1-eddic.html#disqus_thread" data-disqus-identifier="cache/posts/2012/11/gcc-4-7-clang-3-1-eddic.html">Comments</a>
+</p>
+<p class="sourceline"><a href="gcc-4-7-clang-3-1-eddic.wp" class="sourcelink">Source</a></p>
+</div>
+</header><div class="e-content entry-content" itemprop="articleBody text">
+<div>
+<script type="text/javascript" src="https://www.google.com/jsapi"></script><script type="text/javascript">google.load('visualization','1',{packages:['corechart']});</script><p><a href="http://www.baptiste-wicht.com/2012/11/eddic-compiles-with-clang-3-1/" title="eddic compiles with CLang 3.1">Now that eddic can be compiled with CLang</a>, I wanted to compare the differences in compilation time and in performance of the generated executable between those two compilers. The tests are done using GCC 4.7.2 and CLang 3.1 on Gentoo.
+</p>
+<h3>Compilation Time</h3>
+<p>The first thing that I tested has been the compilation time of the two compilers to compile eddic with different flags. I tested the compilation in debug mode and with -O2 and -O3.</p>
+<div id="graph_0" style="width: 400px; height: 300px;"></div>
+<p><input id="button_graph_0" type="button" value="Logarithmic scale"><script type="text/javascript">function draw_graph_0(){var graph=new google.visualization.ColumnChart(document.getElementById('graph_0'));var data=google.visualization.arrayToDataTable([['Options','GCC','CLang'],['-g',234.59,119.59],['-O2',273.02,178.22],['-O3',276.87,183.78],]);var options={title:"Compilation Time - Less is better",animation:{duration:1200,easing:"in"},width:'400px',height:'300px',hAxis:{title:"Options"},vAxis:{title:"Seconds",viewWindow:{min:0}}};graph.draw(data,options);var button=document.getElementById('button_graph_0');button.onclick=function(){if(options.vAxis.logScale){button.value="Logarithmic Scale";}else{button.value="Normal scale";}options.vAxis.logScale=!options.vAxis.logScale;graph.draw(data,options);};}</script></p>
+<p>The most interesting fact in these results is that CLang is much faster than GCC. It takes twice less times to compile eddic with CLang in debug mode than with GCC. The impact on optimizations on CLang's compilation is also more important than on GCC. For both compilers, -O3 does not seems to add a lot of overhead.</p>
+<h3>Runtime performance</h3>
+<p>Then, I tested the performance of the generated executable. I tested it on three things, the whole test suite and two test cases that I know are the slowest for the EDDI Compiler. For each case, I took the slowest value of 5 consecutive executions.</p>
+<div id="graph_1" style="width: 600px; height: 400px;"></div>
+<p><input id="button_graph_1" type="button" value="Logarithmic scale"><script type="text/javascript">function draw_graph_1(){var graph=new google.visualization.ColumnChart(document.getElementById('graph_1'));var data=google.visualization.arrayToDataTable([['Compiler','GCC -O2','GCC -O3','CLang -O2','CLang -O3'],['testsuite',6.58,6.59,6.74,6.58],['assembly',1.2,1.2,1.2,1.2],['linked_list',0.51,0.5,0.49,0.49],]);var options={title:"Runtime Performance - Less is better",animation:{duration:1200,easing:"in"},width:'600px',height:'400px',hAxis:{title:"Options"},vAxis:{title:"Seconds",viewWindow:{min:0}}};graph.draw(data,options);var button=document.getElementById('button_graph_1');button.onclick=function(){if(options.vAxis.logScale){button.value="Logarithmic Scale";}else{button.value="Normal scale";}options.vAxis.logScale=!options.vAxis.logScale;graph.draw(data,options);};}</script></p>
+<p>The difference are very small. In -02, GCC performs a bit better, but in -O3, the performance are equivalent. I was a bit disappointed by the results, because I thought that there would be higher differences. It seems that CLang is not as far from GCC that some people would like to say. It also certainly depends on the program being compiled.</p>
+<h3>Conclusion</h3>
+<p>It is clear that CLang is much faster than GCC to compile eddic. Moreover, the performance of the generated executable are almost similar.</p>
+<p>I will continue to use CLang as my development compiler and switches between the two when I'm doing performance benchmarking. I will try to update the benchmark once new versions of GCC / CLang are available.</p>
+<script type="text/javascript">function draw_visualization(){draw_graph_0();draw_graph_1();}google.setOnLoadCallback(draw_visualization);</script>
+</div>
+</div>
+<aside class="postpromonav"><nav><ul itemprop="keywords" class="tags">
+<li><a class="tag p-category" href="../../../categories/benchmarks.html" rel="tag">Benchmarks</a></li>
+<li><a class="tag p-category" href="../../../categories/clang.html" rel="tag">clang</a></li>
+<li><a class="tag p-category" href="../../../categories/compilers.html" rel="tag">Compilers</a></li>
+<li><a class="tag p-category" href="../../../categories/eddi.html" rel="tag">EDDI</a></li>
+<li><a class="tag p-category" href="../../../categories/gcc.html" rel="tag">gcc</a></li>
+<li><a class="tag p-category" href="../../../categories/performances.html" rel="tag">Performances</a></li>
+</ul>
+<ul class="pager hidden-print">
+<li class="previous">
+<a href="eddic-compiler-1-1-4-graph-coloring-register-allocation.html" rel="prev" title="EDDI Compiler 1.1.4 – Graph Coloring Register Allocation">Previous post</a>
+</li>
+<li class="next">
+<a href="cpp-benchmark-vector-vs-list.html" rel="next" title="C++ benchmark - std::vector VS std::list">Next post</a>
+</li>
+</ul></nav></aside><section class="comments hidden-print"><h2>Comments</h2>
+<div id="disqus_thread"></div>
+<script>
+        var disqus_shortname ="blogwichtounet",
+            disqus_url="http://baptiste-wicht.com/posts/2012/11/gcc-4-7-clang-3-1-eddic.html",
+        disqus_title="GCC 4.7 vs CLang 3.1 on eddic",
+        disqus_identifier="cache/posts/2012/11/gcc-4-7-clang-3-1-eddic.html",
+        disqus_config = function () {
+            this.language = "en";
+        };
+        (function() {
+            var dsq = document.createElement('script'); dsq.async = true;
+            dsq.src = 'https://' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        })();
+    </script><noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a>
+</noscript>
+<a href="https://disqus.com" class="dsq-brlink" rel="nofollow">Comments powered by <span class="logo-disqus">Disqus</span></a>
+</section></article><script>var disqus_shortname="blogwichtounet";(function(){var a=document.createElement("script");a.async=true;a.src="https://"+disqus_shortname+".disqus.com/count.js";(document.getElementsByTagName("head")[0]||document.getElementsByTagName("body")[0]).appendChild(a)}());</script>
+</div> 
+</div>
+
+</div>
+
+
+
+<footer>
+Contents © 2017 <a href="/cdn-cgi/l/email-protection#93f1f2e3e7fae0e7f6e4faf0fbe7d3f4fef2faffbdf0fcfe">Baptiste Wicht</a> - Powered by <a href="http://getnikola.com" rel="nofollow">Nikola</a> - License:
+<a rel="license" href="http://creativecommons.org/licenses/by/4.0/"><img alt="Creative Commons License" style="padding-left:5px;border-width:0" src="../../../assets/img/cc.png"></a>
+<ul class="footer_inline_ul">
+<li>
+<a href="gcc-4-7-clang-3-1-eddic.wp" id="sourcelink">Source</a>
+</li>
+</ul></footer><script src="/cdn-cgi/scripts/78d64697/cloudflare-static/email-decode.min.js"></script><script src="../../../assets/js/all-nocdn.js"></script>
+</body>
+</html>

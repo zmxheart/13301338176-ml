@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html prefix="og: http://ogp.me/ns# article: http://ogp.me/ns/article# " lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="description" content="Updates in Jenkins, pipelines, blue ocean, Github integration.">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Jenkins Declarative Pipeline and Awesome Github Integration | Blog blog("Baptiste Wicht");</title>
+<script src="/cdn-cgi/apps/head/98vpnawSZZMscPn4oDND-ZgswjM.js"></script><link href="../../../assets/css/all-nocdn.css" rel="stylesheet" type="text/css">
+<meta name="theme-color" content="#5670d4">
+<meta name="generator" content="Nikola (getnikola.com)">
+<link rel="alternate" type="application/rss+xml" title="RSS" href="../../../rss.xml">
+<link rel="canonical" href="http://baptiste-wicht.com/posts/2017/06/jenkins-declarative-pipeline-and-awesome-github-integration.html">
+<!--[if lt IE 9]><script src="../../../assets/js/html5.js"></script><![endif]--><meta name="author" content="Baptiste Wicht">
+<link rel="prev" href="../05/cpp-containers-benchmark-vector-list-deque-plf-colony.html" title="C++ Containers Benchmark: vector/list/deque and plf::colony" type="text/html">
+<link rel="next" href="jenkins-tip-send-notifications-fixed-builds-declarative-pipeline.html" title="Jenkins Tip: Send notifications on fixed builds in declarative pipeline" type="text/html">
+<meta property="og:site_name" content='Blog blog("Baptiste Wicht");'>
+<meta property="og:title" content="Jenkins Declarative Pipeline and Awesome Github Integration">
+<meta property="og:url" content="http://baptiste-wicht.com/posts/2017/06/jenkins-declarative-pipeline-and-awesome-github-integration.html">
+<meta property="og:description" content="Updates in Jenkins, pipelines, blue ocean, Github integration.">
+<meta property="og:type" content="article">
+<meta property="article:published_time" content="2017-06-04T20:52:10+02:00">
+<meta property="article:tag" content="Continuous Integration">
+<meta property="article:tag" content="Jenkins">
+<meta property="article:tag" content="Tools">
+<link href="../../../favicon.ico" rel="icon" type="image/x-icon">
+<link rel="publisher" href="https://plus.google.com/+BaptisteWicht">
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-2175227-7', 'auto');
+  var metas = document.getElementsByTagName('meta'), tagsList = [];
+  for (var i=0; i<metas.length; i++) {
+    if (metas[i].getAttribute('property') == 'article:tag') {
+      tagsList.push( metas[i].getAttribute('content'));
+    }
+  }
+  ga('set', 'dimension1', tagsList.join('|'));
+  ga('send', 'pageview');
+</script>
+</head>
+<body>
+
+<a href="#content" class="sr-only sr-only-focusable">Skip to main content</a>
+<div class="container-fluid">
+
+<div class="row">
+<div class="col-sm-3 col-lg-2">
+<nav class="navbar navbar-inverse navbar-fixed-side"><div class="navbar-header">
+<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+<span class="sr-only">Toggle navigation</span>
+<span class="icon-bar"></span>
+<span class="icon-bar"></span>
+<span class="icon-bar"></span>
+</button>
+<a class="navbar-brand" href="http://baptiste-wicht.com/">
+<span id="blog-title">Blog blog("Baptiste Wicht");</span>
+</a>
+</div>
+
+<div class="collapse navbar-collapse navbar-ex1-collapse">
+<ul class="nav navbar-nav">
+<li>
+<a href="../../../stories/about.html">About</a>
+</li>
+<li>
+<a href="../../../stories/publications.html">Publications</a>
+</li>
+<li>
+<a href="../../../stories/projects.html">Projects</a>
+</li>
+<li>
+<a href="../../../categories/index.html">Tags</a>
+</li>
+<li>
+<a href="../../../archive.html">Archives</a>
+</li>
+<li>
+<a href="http://feeds.feedburner.com/BaptisteWicht">RSS</a>
+</li>
+<li class="navbar-content">
+<h3>Related posts</h3>
+</li>
+<li><a href="jenkins-tip-send-notifications-fixed-builds-declarative-pipeline.html">Jenkins Tip: Send notifications on fixed builds in declarative pipeline</a></li>
+<li><a href="../../2016/12/cpp-compiler-benchmark-on-expression-templates-library-etl.html">C++ Compiler benchmark on Expression Templates Library (ETL)</a></li>
+<li><a href="../../2015/07/simulate-static_if-with-c11c14.html">Simulate static_if with C++11/C++14</a></li>
+<li><a href="../../2010/05/first-build-jtheque-sonar-2-0.html">First build of JTheque with Sonar 2.0</a></li>
+<li><a href="../../2015/05/sonar-cpp-community-plugin-review.html">Sonar C++ Community Plugin Review</a></li>
+<li><a href="../05/cpp-containers-benchmark-vector-list-deque-plf-colony.html">C++ Containers Benchmark: vector/list/deque and plf::colony</a></li>
+<li class="navbar-block">
+<li class="wicht-navbar-right">
+<a target="_blank" title="Follow @wichtounet on Twitter" href="https://twitter.com/wichtounet">
+<img src="../../../assets/img/twitter.png" alt="Follow @wichtounet on Twitter"></a>
+</li>
+<li class="wicht-navbar-right">
+<a target="_blank" title="Follow +BaptisteWicht on Google+" href="https://plus.google.com/+BaptisteWicht">
+<img src="../../../assets/img/google_plus.png" alt="Follow +BaptisteWicht on Google+"></a>
+</li>
+</ul>
+</div>
+
+</nav>
+</div> 
+<div class="col-sm-9 col-lg-10">
+<div id="content"></div>
+<article class="post-text h-entry hentry postpage" itemscope="itemscope" itemtype="http://schema.org/Article"><header><h1 class="p-name entry-title" itemprop="headline name"><a href="#" class="u-url">Jenkins Declarative Pipeline and Awesome Github Integration</a></h1>
+<div class="metadata">
+<p class="byline author vcard"><span class="byline-name fn" itemprop="author">
+Baptiste Wicht
+</span></p>
+<p class="dateline"><a href="#" rel="bookmark"><time class="published dt-published" datetime="2017-06-04T20:52:10+02:00" itemprop="datePublished" title="2017-06-04 20:52">2017-06-04 20:52</time></a></p>
+<p class="commentline">
+<a href="jenkins-declarative-pipeline-and-awesome-github-integration.html#disqus_thread" data-disqus-identifier="cache/posts/2017/06/jenkins-declarative-pipeline-and-awesome-github-integration.html">Comments</a>
+</p>
+<p class="sourceline"><a href="jenkins-declarative-pipeline-and-awesome-github-integration.rst" class="sourcelink">Source</a></p>
+</div>
+</header><div class="e-content entry-content" itemprop="articleBody text">
+<div>
+<p>This post is about some news about Jenkins and how I've updated my Jenkins
+usage. This may be a bit of an enthusiastic post ;)</p>
+<p>At the beginning of Jenkins, the best way to define the commands to be executed
+for your builds was simply to write the commands in the Jenkins interface. This
+worked quite well. Later on, Jenkins introduced the notion of Pipeline. Instead
+of a single set of commands to be executed, the build was defined in
+multi-stages pipeline of commands. This is defined as a Groovy script. One big
+advantage of this is that all the code for creating the build is inside the
+repository. This has the advantage that each build is reproducible. This enabled
+to define complex pipelines of commands for your builds. Moreover, this also
+allows to have a clean view of which steps are failing and which steps are
+taking how much of the time of the build. For instance, here it's a view of the
+pipeline steps for my DLL project:</p>
+<img alt="Jenkins stage view for DLL pipeline." class="align-center" src="../../../images/jenkins_pipeline_dll.png"><p>I think that's pretty cool :)</p>
+<p>They recently added a new feature, the declarative pipelines. Instead of
+scripting the Pipeline in Groovy, the new system uses its own syntax, completely
+declarative, to put blocks together and add ways of doing actions at specific
+points and setting environment and so on. I think the new syntax is much nicer
+than the Groovy scripted Pipeline way, so I started converting my scripts. I'll
+give an example in a few paragraphs. But first, I'd like to talk about Github
+integration. Before, every time I created a new project, I add to add it to
+Jenkins by creating a new project, updating the link to the Github project and
+a few things in order to add it. This is not so bad but what if you want to
+build on several branches and keep track of the status of the branches and maybe
+of the Pull Requests as well. All of this is now very simple. You can now
+declare the Github organizations (and users) you are of building projects from
+and the projects inside the organization will be automatically detected as long
+as they have a Jenkinsfile inside. That means that you'll never have to create
+a project yourself or handle branches. Indeed, all the created projects can now
+handle multiples. For instance, here is the status of the two current branches
+of my dll project:</p>
+<img alt="Jenkins branches for DLL Github project" class="align-center" src="../../../images/jenkins_github_branches.png"><p>It's maybe not the best example since one branch is failing and the other is
+unstable, but you can see that you can track the builds for each branch in
+a nice way.</p>
+<p>A very good feature of this integration is that Jenkins will now automatically
+marks commits on your Github with the status of your builds at no cost! For
+instance, here is the status on my ETL project after I configured on Jenkins and
+made the first builds:</p>
+<img alt="Jenkins marking commits in Github" class="align-center" src="../../../images/jenkins_github_integration_marks.png"><p>Pretty cool I think :)</p>
+<p>Another nice thing in Jenkins is the Blue Ocean interface. This is an
+alternative interface, especially well-suited for multi-branch projects and
+pipelines. It looks much more modern and I think it's quite good. Here are a few
+views of it:</p>
+<p>The Activity view for the last events of the project:</p>
+<img alt="Jenkins Blue Ocean Activity view for DLL project" class="align-center" src="../../../images/jenkins_blue_ocean_dll_activity.png"><p>The Branches view for the status of each branch:</p>
+<img alt="Jenkins Blue Ocean Branches view for DLL project" class="align-center" src="../../../images/jenkins_blue_ocean_dll_branches.png"><p>The view of the status of a build:</p>
+<img alt="Jenkins Blue Ocean view of a build for DLL project" class="align-center" src="../../../images/jenkins_blue_ocean_dll_build.png"><p>The status of the tests for a given build:</p>
+<img alt="Jenkins Blue Ocean view of a build tests for DLL project" class="align-center" src="../../../images/jenkins_blue_ocean_dll_build_tests.png"><p>It's likely that it won't appeal to everyone, but I think it's pretty nice.</p>
+<p>If we get back to the declarative Pipeline, here is the declarative pipeline for
+my Expression Templates Library (ETL) project:</p>
+<pre class="code groovy"><a name="rest_code_b5cc2ab00ac34619bb4ecd4021c3c749-1"></a><span class="n">pipeline</span> <span class="o">{</span>
+<a name="rest_code_b5cc2ab00ac34619bb4ecd4021c3c749-2"></a>    <span class="n">agent</span> <span class="n">any</span>
+<a name="rest_code_b5cc2ab00ac34619bb4ecd4021c3c749-3"></a>
+<a name="rest_code_b5cc2ab00ac34619bb4ecd4021c3c749-4"></a>    <span class="n">environment</span> <span class="o">{</span>
+<a name="rest_code_b5cc2ab00ac34619bb4ecd4021c3c749-5"></a>       <span class="n">CXX</span> <span class="o">=</span> <span class="s2">"g++-4.9.4"</span>
+<a name="rest_code_b5cc2ab00ac34619bb4ecd4021c3c749-6"></a>       <span class="n">LD</span> <span class="o">=</span> <span class="s2">"g++-4.9.4"</span>
+<a name="rest_code_b5cc2ab00ac34619bb4ecd4021c3c749-7"></a>       <span class="n">ETL_MKL</span> <span class="o">=</span> <span class="s1">'true'</span>
+<a name="rest_code_b5cc2ab00ac34619bb4ecd4021c3c749-8"></a>    <span class="o">}</span>
+<a name="rest_code_b5cc2ab00ac34619bb4ecd4021c3c749-9"></a>
+<a name="rest_code_b5cc2ab00ac34619bb4ecd4021c3c749-10"></a>    <span class="n">stages</span> <span class="o">{</span>
+<a name="rest_code_b5cc2ab00ac34619bb4ecd4021c3c749-11"></a>        <span class="n">stage</span> <span class="o">(</span><span class="s1">'git'</span><span class="o">){</span>
+<a name="rest_code_b5cc2ab00ac34619bb4ecd4021c3c749-12"></a>            <span class="n">steps</span> <span class="o">{</span>
+<a name="rest_code_b5cc2ab00ac34619bb4ecd4021c3c749-13"></a>                <span class="n">checkout</span><span class="o">([</span>
+<a name="rest_code_b5cc2ab00ac34619bb4ecd4021c3c749-14"></a>                    <span class="n">$class</span><span class="o">:</span> <span class="s1">'GitSCM'</span><span class="o">,</span>
+<a name="rest_code_b5cc2ab00ac34619bb4ecd4021c3c749-15"></a>                    <span class="nl">branches:</span> <span class="n">scm</span><span class="o">.</span><span class="na">branches</span><span class="o">,</span>
+<a name="rest_code_b5cc2ab00ac34619bb4ecd4021c3c749-16"></a>                    <span class="nl">doGenerateSubmoduleConfigurations:</span> <span class="kc">false</span><span class="o">,</span>
+<a name="rest_code_b5cc2ab00ac34619bb4ecd4021c3c749-17"></a>                    <span class="nl">extensions:</span> <span class="n">scm</span><span class="o">.</span><span class="na">extensions</span> <span class="o">+</span> <span class="o">[[</span><span class="n">$class</span><span class="o">:</span> <span class="s1">'SubmoduleOption'</span><span class="o">,</span> <span class="nl">disableSubmodules:</span> <span class="kc">false</span><span class="o">,</span> <span class="nl">recursiveSubmodules:</span> <span class="kc">true</span><span class="o">,</span> <span class="nl">reference:</span> <span class="s1">''</span><span class="o">,</span> <span class="nl">trackingSubmodules:</span> <span class="kc">false</span><span class="o">]],</span>
+<a name="rest_code_b5cc2ab00ac34619bb4ecd4021c3c749-18"></a>                    <span class="nl">submoduleCfg:</span> <span class="o">[],</span>
+<a name="rest_code_b5cc2ab00ac34619bb4ecd4021c3c749-19"></a>                    <span class="nl">userRemoteConfigs:</span> <span class="n">scm</span><span class="o">.</span><span class="na">userRemoteConfigs</span><span class="o">])</span>
+<a name="rest_code_b5cc2ab00ac34619bb4ecd4021c3c749-20"></a>            <span class="o">}</span>
+<a name="rest_code_b5cc2ab00ac34619bb4ecd4021c3c749-21"></a>        <span class="o">}</span>
+<a name="rest_code_b5cc2ab00ac34619bb4ecd4021c3c749-22"></a>
+<a name="rest_code_b5cc2ab00ac34619bb4ecd4021c3c749-23"></a>        <span class="n">stage</span> <span class="o">(</span><span class="s1">'pre-analysis'</span><span class="o">)</span> <span class="o">{</span>
+<a name="rest_code_b5cc2ab00ac34619bb4ecd4021c3c749-24"></a>            <span class="n">steps</span> <span class="o">{</span>
+<a name="rest_code_b5cc2ab00ac34619bb4ecd4021c3c749-25"></a>                <span class="n">sh</span> <span class="s1">'cppcheck --xml-version=2 -j3 --enable=all --std=c++11 `git ls-files "*.hpp" "*.cpp"` 2&gt; cppcheck_report.xml'</span>
+<a name="rest_code_b5cc2ab00ac34619bb4ecd4021c3c749-26"></a>                <span class="n">sh</span> <span class="s1">'sloccount --duplicates --wide --details include/etl test workbench &gt; sloccount.sc'</span>
+<a name="rest_code_b5cc2ab00ac34619bb4ecd4021c3c749-27"></a>                <span class="n">sh</span> <span class="s1">'cccc include/etl/*.hpp test/*.cpp workbench/*.cpp || true'</span>
+<a name="rest_code_b5cc2ab00ac34619bb4ecd4021c3c749-28"></a>            <span class="o">}</span>
+<a name="rest_code_b5cc2ab00ac34619bb4ecd4021c3c749-29"></a>        <span class="o">}</span>
+<a name="rest_code_b5cc2ab00ac34619bb4ecd4021c3c749-30"></a>
+<a name="rest_code_b5cc2ab00ac34619bb4ecd4021c3c749-31"></a>        <span class="n">stage</span> <span class="o">(</span><span class="s1">'build'</span><span class="o">){</span>
+<a name="rest_code_b5cc2ab00ac34619bb4ecd4021c3c749-32"></a>            <span class="n">steps</span> <span class="o">{</span>
+<a name="rest_code_b5cc2ab00ac34619bb4ecd4021c3c749-33"></a>                <span class="n">sh</span> <span class="s1">'make clean'</span>
+<a name="rest_code_b5cc2ab00ac34619bb4ecd4021c3c749-34"></a>                <span class="n">sh</span> <span class="s1">'make -j6 release'</span>
+<a name="rest_code_b5cc2ab00ac34619bb4ecd4021c3c749-35"></a>            <span class="o">}</span>
+<a name="rest_code_b5cc2ab00ac34619bb4ecd4021c3c749-36"></a>        <span class="o">}</span>
+<a name="rest_code_b5cc2ab00ac34619bb4ecd4021c3c749-37"></a>
+<a name="rest_code_b5cc2ab00ac34619bb4ecd4021c3c749-38"></a>        <span class="n">stage</span> <span class="o">(</span><span class="s1">'test'</span><span class="o">){</span>
+<a name="rest_code_b5cc2ab00ac34619bb4ecd4021c3c749-39"></a>            <span class="n">steps</span> <span class="o">{</span>
+<a name="rest_code_b5cc2ab00ac34619bb4ecd4021c3c749-40"></a>                <span class="n">sh</span> <span class="s1">'ETL_THREADS=-j6 ETL_GPP=g++-4.9.4 LD_LIBRARY_PATH=\"${LD_LIBRARY_PATH}:/opt/intel/mkl/lib/intel64:/opt/intel/lib/intel64\" ./scripts/test_runner.sh'</span>
+<a name="rest_code_b5cc2ab00ac34619bb4ecd4021c3c749-41"></a>                <span class="n">archive</span> <span class="s1">'catch_report.xml'</span>
+<a name="rest_code_b5cc2ab00ac34619bb4ecd4021c3c749-42"></a>                <span class="n">junit</span> <span class="s1">'catch_report.xml'</span>
+<a name="rest_code_b5cc2ab00ac34619bb4ecd4021c3c749-43"></a>            <span class="o">}</span>
+<a name="rest_code_b5cc2ab00ac34619bb4ecd4021c3c749-44"></a>        <span class="o">}</span>
+<a name="rest_code_b5cc2ab00ac34619bb4ecd4021c3c749-45"></a>
+<a name="rest_code_b5cc2ab00ac34619bb4ecd4021c3c749-46"></a>        <span class="n">stage</span> <span class="o">(</span><span class="s1">'sonar-master'</span><span class="o">){</span>
+<a name="rest_code_b5cc2ab00ac34619bb4ecd4021c3c749-47"></a>            <span class="n">when</span> <span class="o">{</span>
+<a name="rest_code_b5cc2ab00ac34619bb4ecd4021c3c749-48"></a>                <span class="n">branch</span> <span class="s1">'master'</span>
+<a name="rest_code_b5cc2ab00ac34619bb4ecd4021c3c749-49"></a>            <span class="o">}</span>
+<a name="rest_code_b5cc2ab00ac34619bb4ecd4021c3c749-50"></a>            <span class="n">steps</span> <span class="o">{</span>
+<a name="rest_code_b5cc2ab00ac34619bb4ecd4021c3c749-51"></a>                <span class="n">sh</span> <span class="s2">"/opt/sonar-runner/bin/sonar-runner"</span>
+<a name="rest_code_b5cc2ab00ac34619bb4ecd4021c3c749-52"></a>            <span class="o">}</span>
+<a name="rest_code_b5cc2ab00ac34619bb4ecd4021c3c749-53"></a>        <span class="o">}</span>
+<a name="rest_code_b5cc2ab00ac34619bb4ecd4021c3c749-54"></a>
+<a name="rest_code_b5cc2ab00ac34619bb4ecd4021c3c749-55"></a>        <span class="n">stage</span> <span class="o">(</span><span class="s1">'sonar-branch'</span><span class="o">){</span>
+<a name="rest_code_b5cc2ab00ac34619bb4ecd4021c3c749-56"></a>            <span class="n">when</span> <span class="o">{</span>
+<a name="rest_code_b5cc2ab00ac34619bb4ecd4021c3c749-57"></a>                <span class="n">not</span> <span class="o">{</span>
+<a name="rest_code_b5cc2ab00ac34619bb4ecd4021c3c749-58"></a>                    <span class="n">branch</span> <span class="s1">'master'</span>
+<a name="rest_code_b5cc2ab00ac34619bb4ecd4021c3c749-59"></a>                <span class="o">}</span>
+<a name="rest_code_b5cc2ab00ac34619bb4ecd4021c3c749-60"></a>            <span class="o">}</span>
+<a name="rest_code_b5cc2ab00ac34619bb4ecd4021c3c749-61"></a>            <span class="n">steps</span> <span class="o">{</span>
+<a name="rest_code_b5cc2ab00ac34619bb4ecd4021c3c749-62"></a>                <span class="n">sh</span> <span class="s2">"/opt/sonar-runner/bin/sonar-runner -Dsonar.branch=${env.BRANCH_NAME}"</span>
+<a name="rest_code_b5cc2ab00ac34619bb4ecd4021c3c749-63"></a>            <span class="o">}</span>
+<a name="rest_code_b5cc2ab00ac34619bb4ecd4021c3c749-64"></a>        <span class="o">}</span>
+<a name="rest_code_b5cc2ab00ac34619bb4ecd4021c3c749-65"></a>
+<a name="rest_code_b5cc2ab00ac34619bb4ecd4021c3c749-66"></a>        <span class="n">stage</span> <span class="o">(</span><span class="s1">'bench'</span><span class="o">){</span>
+<a name="rest_code_b5cc2ab00ac34619bb4ecd4021c3c749-67"></a>            <span class="n">steps</span> <span class="o">{</span>
+<a name="rest_code_b5cc2ab00ac34619bb4ecd4021c3c749-68"></a>                <span class="n">build</span> <span class="nl">job:</span> <span class="s1">'etl - benchmark'</span><span class="o">,</span> <span class="nl">wait:</span> <span class="kc">false</span>
+<a name="rest_code_b5cc2ab00ac34619bb4ecd4021c3c749-69"></a>            <span class="o">}</span>
+<a name="rest_code_b5cc2ab00ac34619bb4ecd4021c3c749-70"></a>        <span class="o">}</span>
+<a name="rest_code_b5cc2ab00ac34619bb4ecd4021c3c749-71"></a>    <span class="o">}</span>
+<a name="rest_code_b5cc2ab00ac34619bb4ecd4021c3c749-72"></a>
+<a name="rest_code_b5cc2ab00ac34619bb4ecd4021c3c749-73"></a>    <span class="n">post</span> <span class="o">{</span>
+<a name="rest_code_b5cc2ab00ac34619bb4ecd4021c3c749-74"></a>        <span class="n">always</span> <span class="o">{</span>
+<a name="rest_code_b5cc2ab00ac34619bb4ecd4021c3c749-75"></a>            <span class="n">step</span><span class="o">([</span><span class="n">$class</span><span class="o">:</span> <span class="s1">'Mailer'</span><span class="o">,</span>
+<a name="rest_code_b5cc2ab00ac34619bb4ecd4021c3c749-76"></a>                <span class="nl">notifyEveryUnstableBuild:</span> <span class="kc">true</span><span class="o">,</span>
+<a name="rest_code_b5cc2ab00ac34619bb4ecd4021c3c749-77"></a>                <span class="nl">recipients:</span> <span class="s2">"<a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="4b292a3b3f22383f2e653c2228233f0b2c262a222765282426">[email&#160;protected]</a>"</span><span class="o">,</span>
+<a name="rest_code_b5cc2ab00ac34619bb4ecd4021c3c749-78"></a>                <span class="nl">sendToIndividuals:</span> <span class="kc">true</span><span class="o">])</span>
+<a name="rest_code_b5cc2ab00ac34619bb4ecd4021c3c749-79"></a>        <span class="o">}</span>
+<a name="rest_code_b5cc2ab00ac34619bb4ecd4021c3c749-80"></a>    <span class="o">}</span>
+<a name="rest_code_b5cc2ab00ac34619bb4ecd4021c3c749-81"></a><span class="o">}</span>
+</pre>
+<p>There is nothing really fancy about, it's probably average. Moreover, since I'm
+not an expert on pipelines and I've just discovered declarative pipelines, it
+may not be optimal, but it works. As you'll see there are some problems
+I haven't been able to fix.</p>
+<p>The first part declares the environment variables for the build. Then, the
+multiple build stages are listed. The first stage checkout the code from the
+SCM. This ugly piece of code is here to allow to checkout the submodules. It is
+the only solution I have found so far. It's very ugly but it works. The second
+steps is simply some basic static analysis. The next step is the classical build
+step. Then, the tests are run. In that case, I'm using a script because the
+tests are compiled with several different sets of options and it was much easier
+to put that in a script that in the Pipeline. Moreover, that also means I can
+run them standalone. The variables in the line to run the script is another
+problem I haven't been able to fix so far. If I declare these variables in an
+environment block, they are not passed to the script for some reason, so I had
+to use this ugly line. The next two blocks are for Sonar analysis. If you start
+with Sonar, you can simply the second block that passed the branch information
+to Sonar. Unfortunately, Sonar is very limited in terms of Git branches. Each
+branch is considered as another totally different project. That means the false
+positives defined in the master branch will not be used in the second branch.
+Therefore, I kept a clean master and several different projects for the other
+branches. Once Sonar improves this branch handling stuff, if they ever do, I'll
+be able to get rid of one of these conditional stages. The last stage is simple
+running the benchmark job. Finally, the post block is using the Mailer plugin to
+send failed builds information. Again, there is a problem here since this does
+not send "Back to normal" information as it used to do before. I've asked this
+question on StackOverflow, but haven't received an answer so far. I'll post
+a better solution on this blog once I have one. If any of you have some
+solutions to these problems, don't hesitate to post in the comments below or to
+contact me on Github.</p>
+<p>Here it is. I really think Jenkins is getting even greater now with all this
+cool stuff and I advice you to try it out!</p>
+</div>
+</div>
+<aside class="postpromonav"><nav><ul itemprop="keywords" class="tags">
+<li><a class="tag p-category" href="../../../categories/continuous-integration.html" rel="tag">Continuous Integration</a></li>
+<li><a class="tag p-category" href="../../../categories/jenkins.html" rel="tag">Jenkins</a></li>
+<li><a class="tag p-category" href="../../../categories/tools.html" rel="tag">Tools</a></li>
+</ul>
+<ul class="pager hidden-print">
+<li class="previous">
+<a href="../05/cpp-containers-benchmark-vector-list-deque-plf-colony.html" rel="prev" title="C++ Containers Benchmark: vector/list/deque and plf::colony">Previous post</a>
+</li>
+<li class="next">
+<a href="jenkins-tip-send-notifications-fixed-builds-declarative-pipeline.html" rel="next" title="Jenkins Tip: Send notifications on fixed builds in declarative pipeline">Next post</a>
+</li>
+</ul></nav></aside><section class="comments hidden-print"><h2>Comments</h2>
+<div id="disqus_thread"></div>
+<script src="/cdn-cgi/scripts/78d64697/cloudflare-static/email-decode.min.js"></script><script>
+        var disqus_shortname ="blogwichtounet",
+            disqus_url="http://baptiste-wicht.com/posts/2017/06/jenkins-declarative-pipeline-and-awesome-github-integration.html",
+        disqus_title="Jenkins Declarative Pipeline and Awesome Github Integration",
+        disqus_identifier="cache/posts/2017/06/jenkins-declarative-pipeline-and-awesome-github-integration.html",
+        disqus_config = function () {
+            this.language = "en";
+        };
+        (function() {
+            var dsq = document.createElement('script'); dsq.async = true;
+            dsq.src = 'https://' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        })();
+    </script><noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a>
+</noscript>
+<a href="https://disqus.com" class="dsq-brlink" rel="nofollow">Comments powered by <span class="logo-disqus">Disqus</span></a>
+</section></article><script>var disqus_shortname="blogwichtounet";(function(){var a=document.createElement("script");a.async=true;a.src="https://"+disqus_shortname+".disqus.com/count.js";(document.getElementsByTagName("head")[0]||document.getElementsByTagName("body")[0]).appendChild(a)}());</script>
+</div> 
+</div>
+
+</div>
+
+
+
+<footer>
+Contents © 2017 <a href="/cdn-cgi/l/email-protection#88eae9f8fce1fbfcedffe1ebe0fcc8efe5e9e1e4a6ebe7e5">Baptiste Wicht</a> - Powered by <a href="http://getnikola.com" rel="nofollow">Nikola</a> - License:
+<a rel="license" href="http://creativecommons.org/licenses/by/4.0/"><img alt="Creative Commons License" style="padding-left:5px;border-width:0" src="../../../assets/img/cc.png"></a>
+<ul class="footer_inline_ul">
+<li>
+<a href="jenkins-declarative-pipeline-and-awesome-github-integration.rst" id="sourcelink">Source</a>
+</li>
+</ul></footer><script src="/cdn-cgi/scripts/78d64697/cloudflare-static/email-decode.min.js"></script><script src="../../../assets/js/all-nocdn.js"></script>
+</body>
+</html>

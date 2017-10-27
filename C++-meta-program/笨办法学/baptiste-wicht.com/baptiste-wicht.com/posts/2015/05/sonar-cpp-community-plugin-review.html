@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html prefix="og: http://ogp.me/ns# article: http://ogp.me/ns/article# " lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sonar C++ Community Plugin Review | Blog blog("Baptiste Wicht");</title>
+<script src="/cdn-cgi/apps/head/98vpnawSZZMscPn4oDND-ZgswjM.js"></script><link href="../../../assets/css/all-nocdn.css" rel="stylesheet" type="text/css">
+<meta name="theme-color" content="#5670d4">
+<meta name="generator" content="Nikola (getnikola.com)">
+<link rel="alternate" type="application/rss+xml" title="RSS" href="../../../rss.xml">
+<link rel="canonical" href="http://baptiste-wicht.com/posts/2015/05/sonar-cpp-community-plugin-review.html">
+<!--[if lt IE 9]><script src="../../../assets/js/html5.js"></script><![endif]--><meta name="author" content="Baptiste Wicht">
+<link rel="prev" href="../03/how-to-speed-up-raid-5-6-growing-with-mdadm.html" title="How to speed up RAID (5-6) growing with mdadm ?" type="text/html">
+<link rel="next" href="cpp17-fold-expressions.html" title="C++17 Fold Expressions" type="text/html">
+<meta property="og:site_name" content='Blog blog("Baptiste Wicht");'>
+<meta property="og:title" content="Sonar C++ Community Plugin Review">
+<meta property="og:url" content="http://baptiste-wicht.com/posts/2015/05/sonar-cpp-community-plugin-review.html">
+<meta property="og:description" content="It's been a long time since I have written on this blog. I have had quite a lot of work between my Ph.D and my teaching. I have several projects going on, I'll try to write updates on them later on.
+S">
+<meta property="og:type" content="article">
+<meta property="article:published_time" content="2015-05-14T17:09:59+02:00">
+<meta property="article:tag" content="C++">
+<meta property="article:tag" content="Review">
+<meta property="article:tag" content="Sonar">
+<meta property="article:tag" content="Tools">
+<link href="../../../favicon.ico" rel="icon" type="image/x-icon">
+<link rel="publisher" href="https://plus.google.com/+BaptisteWicht">
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-2175227-7', 'auto');
+  var metas = document.getElementsByTagName('meta'), tagsList = [];
+  for (var i=0; i<metas.length; i++) {
+    if (metas[i].getAttribute('property') == 'article:tag') {
+      tagsList.push( metas[i].getAttribute('content'));
+    }
+  }
+  ga('set', 'dimension1', tagsList.join('|'));
+  ga('send', 'pageview');
+</script>
+</head>
+<body>
+
+<a href="#content" class="sr-only sr-only-focusable">Skip to main content</a>
+<div class="container-fluid">
+
+<div class="row">
+<div class="col-sm-3 col-lg-2">
+<nav class="navbar navbar-inverse navbar-fixed-side"><div class="navbar-header">
+<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+<span class="sr-only">Toggle navigation</span>
+<span class="icon-bar"></span>
+<span class="icon-bar"></span>
+<span class="icon-bar"></span>
+</button>
+<a class="navbar-brand" href="http://baptiste-wicht.com/">
+<span id="blog-title">Blog blog("Baptiste Wicht");</span>
+</a>
+</div>
+
+<div class="collapse navbar-collapse navbar-ex1-collapse">
+<ul class="nav navbar-nav">
+<li>
+<a href="../../../stories/about.html">About</a>
+</li>
+<li>
+<a href="../../../stories/publications.html">Publications</a>
+</li>
+<li>
+<a href="../../../stories/projects.html">Projects</a>
+</li>
+<li>
+<a href="../../../categories/index.html">Tags</a>
+</li>
+<li>
+<a href="../../../archive.html">Archives</a>
+</li>
+<li>
+<a href="http://feeds.feedburner.com/BaptisteWicht">RSS</a>
+</li>
+<li class="navbar-content">
+<h3>Related posts</h3>
+</li>
+<li><a href="../../2014/10/sonarqube-inspections-for-cpp-projects.html">SonarQube inspections for C++ projects</a></li>
+<li><a href="../11/aggregator-plugin-display-global-metrics-in-sonarqube.html">Aggregator Plugin : Display global metrics in Sonarqube</a></li>
+<li><a href="../../2010/03/sonar-2-0-released.html">The version 2.0 of Sonar has been released</a></li>
+<li><a href="../../2010/05/sonar-2-1-has-been-released.html">Sonar 2.1 has been released</a></li>
+<li><a href="../../2010/05/first-build-jtheque-sonar-2-0.html">First build of JTheque with Sonar 2.0</a></li>
+<li><a href="../../2017/03/clang-tidy-static-analysis-integration-in-sonarqube.html">Use clang-tidy for static analysis and integration in Sonarqube</a></li>
+<li class="navbar-block">
+<li class="wicht-navbar-right">
+<a target="_blank" title="Follow @wichtounet on Twitter" href="https://twitter.com/wichtounet">
+<img src="../../../assets/img/twitter.png" alt="Follow @wichtounet on Twitter"></a>
+</li>
+<li class="wicht-navbar-right">
+<a target="_blank" title="Follow +BaptisteWicht on Google+" href="https://plus.google.com/+BaptisteWicht">
+<img src="../../../assets/img/google_plus.png" alt="Follow +BaptisteWicht on Google+"></a>
+</li>
+</ul>
+</div>
+
+</nav>
+</div> 
+<div class="col-sm-9 col-lg-10">
+<div id="content"></div>
+<article class="post-text h-entry hentry postpage" itemscope="itemscope" itemtype="http://schema.org/Article"><header><h1 class="p-name entry-title" itemprop="headline name"><a href="#" class="u-url">Sonar C++ Community Plugin Review</a></h1>
+<div class="metadata">
+<p class="byline author vcard"><span class="byline-name fn" itemprop="author">
+Baptiste Wicht
+</span></p>
+<p class="dateline"><a href="#" rel="bookmark"><time class="published dt-published" datetime="2015-05-14T17:09:59+02:00" itemprop="datePublished" title="2015-05-14 17:09">2015-05-14 17:09</time></a></p>
+<p class="commentline">
+<a href="sonar-cpp-community-plugin-review.html#disqus_thread" data-disqus-identifier="cache/posts/2015/05/sonar-cpp-community-plugin-review.html">Comments</a>
+</p>
+<p class="sourceline"><a href="sonar-cpp-community-plugin-review.rst" class="sourcelink">Source</a></p>
+</div>
+</header><div class="e-content entry-content" itemprop="articleBody text">
+<div>
+<p>It's been a long time since I have written on this blog. I have had quite a lot of work between my Ph.D and my teaching. I have several projects going on, I'll try to write updates on them later on.</p>
+<p>Some time ago, I wrote an article <cite>about the official C++ plugin for Sonar &lt;http://baptiste-wicht.com/posts/2014/10/sonarqube-inspections-for-cpp-projects.html&gt;</cite>. I was quite disappointed by the quality of a plugin. I was expecting more from an expensive official plugin.</p>
+<p>There is an open-source alternative to the commercial plugin: <cite>sonar-cxx-plugin &lt;https://github.com/wenns/sonar-cxx&gt;</cite>. I already tested it quite some time ago (a development version of the 0.9.1 version) and the results were quite bad. I'm using C++11 and C++14 in almost all of my projects and the support was quite bad at that time. Happily, this support has now gotten much better :) In this article, I'll talk about the version 0.9.2.</p>
+<div class="section" id="usage">
+<h2>Usage</h2>
+<p>The usage of this plugin is very easy, you don't need any complicated build wrapping techniques for it. You simply need to complete a <em>sonar-project.properties</em> file:</p>
+<pre class="literal-block">sonar.projectKey=etl
+sonar.projectName=etl
+sonar.projectVersion=1.0
+
+sonar.sourceEncoding=UTF-8
+sonar.sources=include,test,workbench
+sonar.language=c++
+</pre>
+<p>After that, you simply have to use <em>sonar-runner</em> as for any other Sonar project:</p>
+<blockquote>
+sonar-runner</blockquote>
+<p>And the analysis will be run.</p>
+<p>I haven't had any issues with the analysis. However, the plugin is not yet completely C++11/C++14 compatible, therefore I'm encountering a lot of parser errors during the analysis. When an error is encountered by the parser, the line is skipped and the parser goes to the next line. This means that the analysis of the line is incomplete, which may lead to false positives or to missing issues. This comes from that sonar-cxx uses its own parser, which is to on par with clang-compatible parsers for instance.</p>
+<p>Here is the Sonar summary of my ETL project:</p>
+<img alt="/images/sonar_summary.png" src="../../../images/sonar_summary.png">
+</div>
+<div class="section" id="inspections">
+<h2>Inspections</h2>
+<p>This plugin supports some inspections on itself. Nevertheless, you have to enable since it seems that most of them are disable by default. Code duplication is also automatically generated during the analysis:</p>
+<img alt="/images/sonar_duplicated.png" src="../../../images/sonar_duplicated.png"><p>The philosophy of this project is not to develop all inspections, but to integrate with other tools. For instance, cppcheck is already supported and the integration works perfectly. Here are the tools that sonar-cxx supports for quality analysis:</p>
+<ul class="simple">
+<li>cppcheck</li>
+<li>valgrind</li>
+<li>Vera++</li>
+<li>RATS</li>
+<li>PC-Lint</li>
+</ul>
+<p>I have only tested cppcheck for now. I plan to use valgrind running on my tests in the future. I don't plan to use the others.</p>
+<p>It should also be noted that the plugin supports compiler warnings coming from G++ and Visual Studio. I don't use this since I compile all my projects with -Werror.</p>
+<p>The biggest absent here is Clang, there is no support for its warnings, its static-analyzer or its advanced clang-tidy tool. If clang-tidy support does not come in the near future, I'm planning to try to add it myself, provided I find some time.</p>
+<p>You can have to some inspections on one of my project:</p>
+<img alt="/images/sonar_inspections.png" src="../../../images/sonar_inspections.png"><p>As with any Sonar projects, you have access to the Hotsposts view:</p>
+<img alt="/images/sonar_hotspots.png" src="../../../images/sonar_hotspots.png">
+</div>
+<div class="section" id="unit-tests-integration">
+<h2>Unit Tests Integration</h2>
+<p>I have been able to integrate my unit tests results inside Sonar. The plugin expects JUnit compatible format. Several of C++ unit test libraries already generates compatible format. In my case, I used Catch and it worked very well.</p>
+<p>What is even more interesting is the support for code coverage. You have to run your coverage-enabled executable and then use gcovr to generate an XML file that the plugin can read.</p>
+<p>This support works quite well. The only thing I haven't been able to make work is the execution time computation of the unit tests, but that is not something I really care about.</p>
+<p>Here are the coverage results for one of my files:</p>
+<img alt="/images/sonar_coverage.png" src="../../../images/sonar_coverage.png">
+</div>
+<div class="section" id="conclusion">
+<h2>Conclusion</h2>
+<p><strong>Pros</strong></p>
+<ul class="simple">
+<li>Support of a lot of external tools</li>
+<li>Very easy to use</li>
+<li>Duplicated code analysis</li>
+<li>Very good code coverage analysis integration</li>
+</ul>
+<p><strong>Cons</strong></p>
+<ul class="simple">
+<li>Too few integrated inspections</li>
+<li>Limited parsing of C++</li>
+<li>Not fully compatible with C++11/C++14</li>
+<li>False positives</li>
+<li>Not enough love for clang (compiler warnings, clang-tidy, tooling, static-analyzer, ...)</li>
+</ul>
+<p>The provided metrics are really good, the usage is quite simple and this plugin supports some external tools adding interesting inspections. Even if this plugin is not perfect, it is a very good way to do Continuous Quality Analysis of your C++ projects. I personally find it superior to the official plugin. The usage is more simple (no build-wrapper that does not work), it supports more external tools and supports JUnit reports. On the other hand, it has much less integrated inspections and rely more on external tools. Both have problems with modern C++ features.</p>
+<p>What I would really like in this plugin is the support of the clang-tidy analyzer (and other Clang analysis tools) and also complete C++11/C++14 support. I honestly think that the only way to fix the latter is to switch to Clang parsing with libtooling rather than developing an in-house parser, but that is not up to me.</p>
+<p>I will definitely continue to use this plugin to generate metrics for my C++ projects. I use it with Jenkins which launch the analysis every time I push to one my git repositories. This plugin definitely shows promises.</p>
+</div>
+</div>
+</div>
+<aside class="postpromonav"><nav><ul itemprop="keywords" class="tags">
+<li><a class="tag p-category" href="../../../categories/c%2B%2B.html" rel="tag">C++</a></li>
+<li><a class="tag p-category" href="../../../categories/review.html" rel="tag">Review</a></li>
+<li><a class="tag p-category" href="../../../categories/sonar.html" rel="tag">Sonar</a></li>
+<li><a class="tag p-category" href="../../../categories/tools.html" rel="tag">Tools</a></li>
+</ul>
+<ul class="pager hidden-print">
+<li class="previous">
+<a href="../03/how-to-speed-up-raid-5-6-growing-with-mdadm.html" rel="prev" title="How to speed up RAID (5-6) growing with mdadm ?">Previous post</a>
+</li>
+<li class="next">
+<a href="cpp17-fold-expressions.html" rel="next" title="C++17 Fold Expressions">Next post</a>
+</li>
+</ul></nav></aside><section class="comments hidden-print"><h2>Comments</h2>
+<div id="disqus_thread"></div>
+<script>
+        var disqus_shortname ="blogwichtounet",
+            disqus_url="http://baptiste-wicht.com/posts/2015/05/sonar-cpp-community-plugin-review.html",
+        disqus_title="Sonar C++ Community Plugin Review",
+        disqus_identifier="cache/posts/2015/05/sonar-cpp-community-plugin-review.html",
+        disqus_config = function () {
+            this.language = "en";
+        };
+        (function() {
+            var dsq = document.createElement('script'); dsq.async = true;
+            dsq.src = 'https://' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        })();
+    </script><noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a>
+</noscript>
+<a href="https://disqus.com" class="dsq-brlink" rel="nofollow">Comments powered by <span class="logo-disqus">Disqus</span></a>
+</section></article><script>var disqus_shortname="blogwichtounet";(function(){var a=document.createElement("script");a.async=true;a.src="https://"+disqus_shortname+".disqus.com/count.js";(document.getElementsByTagName("head")[0]||document.getElementsByTagName("body")[0]).appendChild(a)}());</script>
+</div> 
+</div>
+
+</div>
+
+
+
+<footer>
+Contents © 2017 <a href="/cdn-cgi/l/email-protection#ee8c8f9e9a879d9a8b99878d869aae89838f8782c08d8183">Baptiste Wicht</a> - Powered by <a href="http://getnikola.com" rel="nofollow">Nikola</a> - License:
+<a rel="license" href="http://creativecommons.org/licenses/by/4.0/"><img alt="Creative Commons License" style="padding-left:5px;border-width:0" src="../../../assets/img/cc.png"></a>
+<ul class="footer_inline_ul">
+<li>
+<a href="sonar-cpp-community-plugin-review.rst" id="sourcelink">Source</a>
+</li>
+</ul></footer><script src="/cdn-cgi/scripts/78d64697/cloudflare-static/email-decode.min.js"></script><script src="../../../assets/js/all-nocdn.js"></script>
+</body>
+</html>

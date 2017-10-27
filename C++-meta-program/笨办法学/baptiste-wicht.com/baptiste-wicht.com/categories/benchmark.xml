@@ -1,0 +1,309 @@
+<?xml version="1.0" encoding="utf-8"?>
+<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title>Blog blog("Baptiste Wicht"); (Posts about Benchmark)</title><link>http://baptiste-wicht.com/</link><description></description><atom:link type="application/rss+xml" href="http://baptiste-wicht.com/categories/benchmark.xml" rel="self"></atom:link><language>en</language><lastBuildDate>Sun, 01 Oct 2017 19:39:27 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>C++11 Performance tip: Update on when to use std::pow ?</title><link>http://baptiste-wicht.com/posts/2017/09/cpp11-performance-tip-update-when-to-use-std-pow.html</link><dc:creator>Baptiste Wicht</dc:creator><description>&lt;div&gt;&lt;p&gt;A few days ago, I published a post comparing the
+&lt;a class="reference external" href="https://baptiste-wicht.com/posts/2017/09/cpp11-performance-tip-when-to-use-std-pow.html"&gt;performance of std::pow against direct multiplications&lt;/a&gt;. When not compiling with -ffast-math, direct multiplication was significantly faster than &lt;code&gt;std::pow&lt;/code&gt;, around two orders of magnitude faster when comparing &lt;code&gt;x * x * x&lt;/code&gt; and &lt;code&gt;code:std::pow(x, 3)&lt;/code&gt;.
+One comment that I've got was to test for which &lt;code&gt;n&lt;/code&gt; is
+&lt;code&gt;code:std::pow(x, n)&lt;/code&gt; becoming faster than multiplying in a loop. Since
+std::pow is using a special algorithm to perform the computation rather than be
+simply loop-based multiplications, there may be a point after which it's more interesting to use the
+algorithm rather than a loop. So I decided to do the tests. You can also find
+the result in the original article, which I've updated.&lt;/p&gt;
+&lt;p&gt;First, our pow function:&lt;/p&gt;
+&lt;pre class="code c++"&gt;&lt;a name="rest_code_52b382b39caf497cb43a418034153a77-1"&gt;&lt;/a&gt;&lt;span class="kt"&gt;double&lt;/span&gt; &lt;span class="nf"&gt;my_pow&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="kt"&gt;double&lt;/span&gt; &lt;span class="n"&gt;x&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="kt"&gt;size_t&lt;/span&gt; &lt;span class="n"&gt;n&lt;/span&gt;&lt;span class="p"&gt;){&lt;/span&gt;
+&lt;a name="rest_code_52b382b39caf497cb43a418034153a77-2"&gt;&lt;/a&gt;    &lt;span class="kt"&gt;double&lt;/span&gt; &lt;span class="n"&gt;r&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mf"&gt;1.0&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;a name="rest_code_52b382b39caf497cb43a418034153a77-3"&gt;&lt;/a&gt;
+&lt;a name="rest_code_52b382b39caf497cb43a418034153a77-4"&gt;&lt;/a&gt;    &lt;span class="k"&gt;while&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;n&lt;/span&gt; &lt;span class="o"&gt;&amp;gt;&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;){&lt;/span&gt;
+&lt;a name="rest_code_52b382b39caf497cb43a418034153a77-5"&gt;&lt;/a&gt;        &lt;span class="n"&gt;r&lt;/span&gt; &lt;span class="o"&gt;*=&lt;/span&gt; &lt;span class="n"&gt;x&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;a name="rest_code_52b382b39caf497cb43a418034153a77-6"&gt;&lt;/a&gt;        &lt;span class="o"&gt;--&lt;/span&gt;&lt;span class="n"&gt;n&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;a name="rest_code_52b382b39caf497cb43a418034153a77-7"&gt;&lt;/a&gt;    &lt;span class="p"&gt;}&lt;/span&gt;
+&lt;a name="rest_code_52b382b39caf497cb43a418034153a77-8"&gt;&lt;/a&gt;
+&lt;a name="rest_code_52b382b39caf497cb43a418034153a77-9"&gt;&lt;/a&gt;    &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="n"&gt;r&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;a name="rest_code_52b382b39caf497cb43a418034153a77-10"&gt;&lt;/a&gt;&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;/pre&gt;&lt;p&gt;And now, let's see the performance. I've compiled my benchmark with GCC 4.9.3
+and running on my old Sandy Bridge processor. Here are the results for 1000
+calls to each functions:&lt;/p&gt;
+&lt;div id="graph_std_pow_my_pow_1" style="width: 700px; height: 400px;"&gt;&lt;/div&gt;&lt;p&gt;We can see that between &lt;code&gt;n=100&lt;/code&gt; and &lt;code&gt;n=110&lt;/code&gt;, &lt;code&gt;std::pow(x, n)&lt;/code&gt;
+starts to be faster than &lt;code&gt;my_pow(x, n)&lt;/code&gt;. At this point, you should only
+use &lt;code&gt;std::pow(x, n)&lt;/code&gt;.  Interestingly too, the time for &lt;code&gt;std::pow(x,
+n)&lt;/code&gt; is decreasing. Let's see how is the performance with higher range of
+&lt;code&gt;n&lt;/code&gt;:&lt;/p&gt;
+&lt;div id="graph_std_pow_my_pow_2" style="width: 700px; height: 400px;"&gt;&lt;/div&gt;&lt;p&gt;We can see that the pow function time still remains stable while our loop-based
+pow function still increases linearly. At &lt;code&gt;n=1000&lt;/code&gt;, &lt;code&gt;std::pow&lt;/code&gt; is
+one order of magnitude faster than &lt;code&gt;my_pow&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;Overall, if you do not care much about extreme accuracy, you may consider using
+you own pow function for small-ish (integer) &lt;code&gt;n&lt;/code&gt; values. After
+&lt;code&gt;n=100&lt;/code&gt;, it becomes more interesting to use &lt;code&gt;std::pow&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;If you want more results on the subject, you take a look at the
+&lt;a class="reference external" href="https://baptiste-wicht.com/posts/2017/09/cpp11-performance-tip-when-to-use-std-pow.html"&gt;original article&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;If you are interested in the code of this benchmark, it's available online:
+&lt;a class="reference external" href="https://github.com/wichtounet/articles/blob/master/src/bench_pow_my_pow.cpp"&gt;bench_pow_my_pow.cpp&lt;/a&gt;&lt;/p&gt;
+&lt;script type="text/javascript" src="https://www.google.com/jsapi"&gt;&lt;/script&gt;
+&lt;script type="text/javascript"&gt;google.load('visualization', '1.0', {'packages':['corechart']});&lt;/script&gt;
+&lt;script type="text/javascript"&gt;
+function draw_graph_pow_my_pow_1(){
+var data = google.visualization.arrayToDataTable([
+['n', 'my_pow(x, n)', 'std::pow(x, n)'],
+['10',   2,     127],
+['20',   17,     123],
+['30',   26,     127],
+['40',   36,     123],
+['50',   43,     123],
+['60',   55,     123],
+['70',   72,     123],
+['80',   85,     123],
+['90',   102,    126],
+['100',  114,    125],
+['110',  131,    115],
+['120',  144,    111],
+['130',  165,    111],
+['140',  173,    108],
+['150',  189,    107],
+['160',  202,    112],
+['170',  219,    106],
+['180',  232,    105],
+['190',  249,    108],
+['200',  261,    105],
+]);
+var graph = new google.visualization.LineChart(document.getElementById('graph_std_pow_my_pow_1'));
+var options = {curveType: "function",title: "std::pow(x, 2) (float)",animation: {duration:1200, easing:"in"},width: 700, height: 400,hAxis: {title:"Number of elements", slantedText:true},vAxis: {viewWindow: {min:0}, title:"us"}};
+graph.draw(data, options);
+}
+function draw_graph_pow_my_pow_2(){
+var data = google.visualization.arrayToDataTable([
+['n', 'my_pow(x, n)', 'std::pow(x, n)'],
+['100',  114,    125],
+['200',  261,    105],
+['300',  410,    104],
+['400',  558,    104],
+['500',  708,    104],
+['600',  855,    104],
+['700',  1002,   104],
+['800',  1148,   104],
+['900',  1300,   104],
+['1000', 1442,   104],
+]);
+var graph = new google.visualization.LineChart(document.getElementById('graph_std_pow_my_pow_2'));
+var options = {curveType: "function",title: "std::pow(x, 2) (float)",animation: {duration:1200, easing:"in"},width: 700, height: 400,hAxis: {title:"Number of elements", slantedText:true},vAxis: {viewWindow: {min:0}, title:"us"}};
+graph.draw(data, options);
+}
+function draw_all(){
+draw_graph_pow_my_pow_1();
+draw_graph_pow_my_pow_2();
+}
+google.setOnLoadCallback(draw_all);
+&lt;/script&gt;&lt;/div&gt;</description><category>Benchmark</category><category>C++</category><category>C++11</category><category>Performances</category><category>Tip</category><guid>http://baptiste-wicht.com/posts/2017/09/cpp11-performance-tip-update-when-to-use-std-pow.html</guid><pubDate>Fri, 22 Sep 2017 09:21:07 GMT</pubDate></item><item><title>C++11 Performance tip: When to use std::pow ?</title><link>http://baptiste-wicht.com/posts/2017/09/cpp11-performance-tip-when-to-use-std-pow.html</link><dc:creator>Baptiste Wicht</dc:creator><description>&lt;div&gt;&lt;p&gt;Update: I've added a new section for larger values of &lt;code&gt;n&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;Recently, I've been wondering about the performance of &lt;code&gt;std::pow(x, n)&lt;/code&gt;.
+I'm talking here about the case when &lt;code&gt;n&lt;/code&gt; is an integer. In the case when
+&lt;code&gt;n&lt;/code&gt; is not an integer, I believe, you should always use &lt;code&gt;std::pow&lt;/code&gt;
+or use another specialized library.&lt;/p&gt;
+&lt;p&gt;In case when n is an integer, you can actually replace it with the direct
+equivalent (for instance &lt;code&gt;std::pow(x, 3) = x * x x&lt;/code&gt;). If n is very large,
+you'd rather write a loop of course ;) In practice, we generally use powers of
+two and three much more often than power of 29, although that could happen. Of
+course, it especially make sense to wonder about this if the pow is used inside
+a loop. If you only use it once outside a loop, that won't be any difference on
+the overall performance.&lt;/p&gt;
+&lt;p&gt;Since I'm mostly interested in single precision performance (neural networks are
+only about single precision), the first benchmarks will be using &lt;code&gt;float&lt;/code&gt;.&lt;/p&gt;
+&lt;p class="more"&gt;&lt;a href="http://baptiste-wicht.com/posts/2017/09/cpp11-performance-tip-when-to-use-std-pow.html"&gt;Read more…&lt;/a&gt;&lt;/p&gt;&lt;/div&gt;</description><category>Benchmark</category><category>C++</category><category>C++11</category><category>Performances</category><category>Tip</category><guid>http://baptiste-wicht.com/posts/2017/09/cpp11-performance-tip-when-to-use-std-pow.html</guid><pubDate>Mon, 18 Sep 2017 05:50:44 GMT</pubDate></item><item><title>C++ Benchmark - std::list VS boost::intrusive::list</title><link>http://baptiste-wicht.com/posts/2012/12/cpp-benchmark-std-list-boost-intrusive-list.html</link><dc:creator>Baptiste Wicht</dc:creator><description>&lt;div&gt;&lt;script type="text/javascript" src="https://www.google.com/jsapi"&gt;&lt;/script&gt;
+
+&lt;script type="text/javascript"&gt;google.load('visualization','1',{packages:['corechart']});&lt;/script&gt;
+
+&lt;p&gt;Recently, we saw that the &lt;a title="C++ benchmark – std::vector VS std::list VS std::deque" href="http://www.baptiste-wicht.com/2012/12/cpp-benchmark-vector-list-deque/"&gt;std::list performance was not really good&lt;/a&gt; when it comes to searching it or iterating through it.In this post, we will see an alternative to the std::list: the boost::intrusive::list from the Boost C++ libraries. It is not a well known library but it can be useful in some specific cases. I will focus on how this implementation performs compared to an std::list.&lt;/p&gt;
+&lt;p&gt;An intrusive list does not store copies of the object but the objects itself. Because it stores the objects, it is necessary to add information to the object data structure directly to link them together, that is why it is called an intrusive list. This has a big advantage, the list does not have to allocate any memory at all to insert objects. In a std::list if you insert an object, a node object will be created containing a copy of the object, but not in an intrusive list where only the pointers to the next and to the previous element of the inserted object are updated. Another advantage is that if you have a reference to an object you can directly obtain an iterator to this object in O(1), an operation that would be in O(n) with a std::list. Iteration is faster because it needs less memory accesses.&lt;/p&gt;
+&lt;p&gt;On the other hand, an intrusive list has also several drawbacks. First of all, it is intrusive. It means that you have to change the definition of the type that is stored inside the intrusive list. Then, and it be very complicated, it is up to the developer to manage the life time of the objects. It means that it is up to you to allocate and deallocate memory for each objects that you want to put in your collection. For instance, if you store an object into an intrusive list and later delete this object without removing it from the list, you will have broken you list. It is also less safe because the container can be modified from outside simply by modifying the pointers directly inside the objects.&lt;/p&gt;
+&lt;p&gt;This article is not a tutorial for Boost intrusive collections, I will just focus on the performance aspect, if you want to learn how to use them, you can consult &lt;a href="http://www.boost.org/doc/libs/1_52_0/doc/html/intrusive.html" title="Boost Intrusive 1.52"&gt;the official documentation&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;A boost::intrusive::list can be configured in three mode:&lt;/p&gt;
+&lt;ol&gt;
+    &lt;li&gt;Normal mode: No special features&lt;/li&gt;
+    &lt;li&gt;Safe mode: The hook is initialized to a default safe state and the container check this state before inserting a value. The state of a removed node is also updated correctly. It can be used to detect programming errors. It implies a small performance overhead. This is the default mode.&lt;/li&gt;
+    &lt;li&gt;Auto unlink mode: When an object gets destructed it is automatically removed from the container. This mode has also the properties of the safe mode.&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;The mode is chosen at constant time by configuring the hook of the data type. In this article, all three mode will be tested. Here are the four types that will be tested:&lt;/p&gt;
+&lt;ul&gt;
+    &lt;li&gt;list : std::list&lt;/li&gt;
+    &lt;li&gt;normal_ilist : boost::intrusive::list in normal mode&lt;/li&gt;
+    &lt;li&gt;safe_ilist : boost::intrusive::list in safe mode&lt;/li&gt;
+    &lt;li&gt;auto_unlink_ilist : boost::intrusive::list in auto unlink mode&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;The data types are varying in size, they hold an array of longs and the size of the array varies to change the size of the data type. In each graph, the size of the data type is indicated. It is the size of the normal data type. The intrusive data types are always 16 bytes bigger than the normal data types.&lt;/p&gt;
+&lt;p&gt;In the graphs and in the text, &lt;em&gt;n&lt;/em&gt; is used to refer to the number of elements of the collection.&lt;/p&gt;
+&lt;p&gt;All the tests performed have been performed on an Intel Core i7 Q 820  @ 1.73GHz. The code has been compiled in 64 bits with GCC 4.7.2 with the given options: &lt;em&gt;-std=c++11 -O2 -fomit-frame-pointer -march=native&lt;/em&gt;&lt;/p&gt;
+&lt;p&gt;For each graph, the vertical axis represent the amount of time necessary to perform the operations, so the lower values are the better. The horizontal axis is always the number of elements of the collection. For some graph, the logarithmic scale could be clearer, a button is available after each graph to change the vertical scale to a logarithmic scale.&lt;/p&gt;
+&lt;p&gt;So let's see these data structures in practice.&lt;/p&gt;
+&lt;!--nextpage--&gt;
+
+&lt;h3&gt;Fill list&lt;/h3&gt;
+
+&lt;p&gt;The first test that is performed is how long does it take to fill each data structure. For the std::list, each value is entered directly. For the intrusive list variations, the data are entered into a vector and then pushed back to the intrusive list.&lt;/p&gt;
+&lt;p&gt;So, let's test them:&lt;/p&gt;
+&lt;div id="graph_0" style="width: 600px; height: 400px;"&gt;&lt;/div&gt;
+
+&lt;p&gt;&lt;input id="button_graph_0" type="button" value="Logarithmic scale"&gt;&lt;script type="text/javascript"&gt;function draw_graph_0(){var graph=new google.visualization.LineChart(document.getElementById('graph_0'));var data=google.visualization.arrayToDataTable([['x','auto_unlink_list','safe_list','normal_ilist','list'],['100000',265,261,491,2926],['200000',534,498,773,4717],['300000',1874,1841,1901,7201],['400000',2670,2657,2749,9696],['500000',3410,3447,3486,11608],['600000',4044,4095,4050,14024],['700000',4653,4549,4626,16750],['800000',5406,5320,5414,18568],['900000',5995,5926,6160,20880],['1000000',6806,6785,6784,22795],]);var options={curveType:"function",animation:{duration:1200,easing:"in"},title:"fill_back - Normal&amp;lt;8u&amp;gt;",width:'600px',height:'400px',hAxis:{title:"Number of elements",slantedText:true},vAxis:{title:"us",viewWindow:{min:0}}};graph.draw(data,options);var button=document.getElementById('button_graph_0');button.onclick=function(){if(options.vAxis.logScale){button.value="Logarithmic Scale";}else{button.value="Normal scale";}options.vAxis.logScale=!options.vAxis.logScale;graph.draw(data,options);};}&lt;/script&gt;&lt;/p&gt;
+&lt;p&gt;We can see that filling a list is about thrice slower than an intrusive version. This is quite logical because there are much less memory allocations in the case of the intrusive lists. The differences between the different intrusive versions are not very big. The normal version is the fastest, then the auto unlink and finally the safe version is the slowest.&lt;/p&gt;
+&lt;p&gt;If we increase the size of the data type a bit:&lt;/p&gt;
+&lt;div id="graph_1" style="width: 600px; height: 400px;"&gt;&lt;/div&gt;
+
+&lt;p&gt;&lt;input id="button_graph_1" type="button" value="Logarithmic scale"&gt;&lt;script type="text/javascript"&gt;function draw_graph_1(){var graph=new google.visualization.LineChart(document.getElementById('graph_1'));var data=google.visualization.arrayToDataTable([['x','auto_unlink_list','safe_list','normal_ilist','list'],['100000',850,894,967,2685],['200000',1760,1671,1747,5742],['300000',3987,3916,3970,8517],['400000',5257,5191,5238,10919],['500000',6561,6813,6661,13614],['600000',7943,8197,7954,15874],['700000',9251,9523,9049,18625],['800000',10463,10865,10417,21114],['900000',11736,11992,11734,23824],['1000000',13137,13423,13055,26555],]);var options={curveType:"function",animation:{duration:1200,easing:"in"},title:"fill_back - Normal&amp;lt;32u&amp;gt;",width:'600px',height:'400px',hAxis:{title:"Number of elements",slantedText:true},vAxis:{title:"us",viewWindow:{min:0}}};graph.draw(data,options);var button=document.getElementById('button_graph_1');button.onclick=function(){if(options.vAxis.logScale){button.value="Logarithmic Scale";}else{button.value="Normal scale";}options.vAxis.logScale=!options.vAxis.logScale;graph.draw(data,options);};}&lt;/script&gt;&lt;/p&gt;
+&lt;p&gt;The results remains more or less the same, but this time there is less difference between list and intrusive list.&lt;/p&gt;
+&lt;div id="graph_2" style="width: 600px; height: 400px;"&gt;&lt;/div&gt;
+
+&lt;p&gt;&lt;input id="button_graph_2" type="button" value="Logarithmic scale"&gt;&lt;script type="text/javascript"&gt;function draw_graph_2(){var graph=new google.visualization.LineChart(document.getElementById('graph_2'));var data=google.visualization.arrayToDataTable([['x','auto_unlink_list','safe_list','normal_ilist','list'],['100000',2131,2109,2923,39337],['200000',3834,3830,5792,90984],['300000',6454,6508,8604,138087],['400000',8499,8926,11614,185607],['500000',11068,10874,14455,230798],['600000',13009,13052,17307,275473],['700000',14965,15008,20593,326638],['800000',17082,17186,23109,372022],['900000',19283,19476,26182,415426],['1000000',21503,21569,29463,463462],]);var options={curveType:"function",animation:{duration:1200,easing:"in"},title:"fill_back - Normal&amp;lt;1024u&amp;gt;",width:'600px',height:'400px',hAxis:{title:"Number of elements",slantedText:true},vAxis:{title:"us",viewWindow:{min:0}}};graph.draw(data,options);var button=document.getElementById('button_graph_2');button.onclick=function(){if(options.vAxis.logScale){button.value="Logarithmic Scale";}else{button.value="Normal scale";}options.vAxis.logScale=!options.vAxis.logScale;graph.draw(data,options);};}&lt;/script&gt;&lt;/p&gt;
+&lt;p&gt;This time, the results are really different. The intrusive versions are twenty times faster than a standard list. This comes from dynamic allocations of large blocks that is very expensive. In the case of intrusive list, there are no memory allocations, just modifications of pointers, so it it is normal that for big blocks the difference is higher.&lt;/p&gt;
+&lt;p&gt;We can see that for push_back operations, the intrusive are clearly faster. For small data types, they can be up to three times faster. The difference can be much higher with very big data types. There are no big differences between the different versions of the intrusive lists. The normal mode is about 10% faster than the safe mode.&lt;/p&gt;
+&lt;!--nextpage--&gt;
+
+&lt;h3&gt;Destruction of list&lt;/h3&gt;
+
+&lt;p&gt;The second test is about the time necessary to destruct a collection. For a list, the list is simply allocated on the heap and destructed with delete operator. For an intrusive list, both the vector and the list are allocated on the heap. The time is computed to delete both the vector and the intrusive list.&lt;/p&gt;
+&lt;p&gt;Let's take a look at the results:&lt;/p&gt;
+&lt;div id="graph_3" style="width: 600px; height: 400px;"&gt;&lt;/div&gt;
+
+&lt;p&gt;&lt;input id="button_graph_3" type="button" value="Logarithmic scale"&gt;&lt;script type="text/javascript"&gt;function draw_graph_3(){var graph=new google.visualization.LineChart(document.getElementById('graph_3'));var data=google.visualization.arrayToDataTable([['x','auto_unlink_list','safe_list','normal_ilist','list'],['100000',298,283,0,2420],['200000',588,585,0,3132],['300000',1196,1217,1,4487],['400000',2180,2350,1,6478],['500000',3169,3098,1,7259],['600000',3975,3957,1,8609],['700000',4569,4798,1,10018],['800000',5189,5311,1,11501],['900000',5927,6022,1,13004],['1000000',6616,6592,1,14423],]);var options={curveType:"function",animation:{duration:1200,easing:"in"},title:"destruction - Normal&amp;lt;8u&amp;gt;",width:'600px',height:'400px',hAxis:{title:"Number of elements",slantedText:true},vAxis:{title:"us",viewWindow:{min:0}}};graph.draw(data,options);var button=document.getElementById('button_graph_3');button.onclick=function(){if(options.vAxis.logScale){button.value="Logarithmic Scale";}else{button.value="Normal scale";}options.vAxis.logScale=!options.vAxis.logScale;graph.draw(data,options);};}&lt;/script&gt;&lt;/p&gt;
+&lt;p&gt;The impressive result is that the normal mode is almost free. It is normal because the destructor of the objects does not do anything. Neither the list does anything about the state of the object after it has been removed. The other two intrusive versions performs the same and twice faster than a list.&lt;/p&gt;
+&lt;p&gt;Let's increase a bit the size:&lt;/p&gt;
+&lt;div id="graph_4" style="width: 600px; height: 400px;"&gt;&lt;/div&gt;
+
+&lt;p&gt;&lt;input id="button_graph_4" type="button" value="Logarithmic scale"&gt;&lt;script type="text/javascript"&gt;function draw_graph_4(){var graph=new google.visualization.LineChart(document.getElementById('graph_4'));var data=google.visualization.arrayToDataTable([['x','auto_unlink_list','safe_list','normal_ilist','list'],['100000',515,531,0,1490],['200000',1997,1964,0,3370],['300000',4022,3818,1,5585],['400000',5219,5456,1,7099],['500000',6693,6847,1,9054],['600000',7859,7984,1,11131],['700000',9456,9382,1,12248],['800000',10637,10493,1,14059],['900000',12433,11882,1,15933],['1000000',13646,13098,1,17434],]);var options={curveType:"function",animation:{duration:1200,easing:"in"},title:"destruction - Normal&amp;lt;32u&amp;gt;",width:'600px',height:'400px',hAxis:{title:"Number of elements",slantedText:true},vAxis:{title:"us",viewWindow:{min:0}}};graph.draw(data,options);var button=document.getElementById('button_graph_4');button.onclick=function(){if(options.vAxis.logScale){button.value="Logarithmic Scale";}else{button.value="Normal scale";}options.vAxis.logScale=!options.vAxis.logScale;graph.draw(data,options);};}&lt;/script&gt;&lt;/p&gt;
+&lt;p&gt;This time, the std::list version is getting closer to the auto unlink and safe versions. The auto unlink version is a bit slower than the safe version. The normal mode is still free.&lt;/p&gt;
+&lt;p&gt;Increasing it a bit again:&lt;/p&gt;
+&lt;div id="graph_5" style="width: 600px; height: 400px;"&gt;&lt;/div&gt;
+
+&lt;p&gt;&lt;input id="button_graph_5" type="button" value="Logarithmic scale"&gt;&lt;script type="text/javascript"&gt;function draw_graph_5(){var graph=new google.visualization.LineChart(document.getElementById('graph_5'));var data=google.visualization.arrayToDataTable([['x','auto_unlink_list','safe_list','normal_ilist','list'],['100000',4110,4158,1,4388],['200000',8357,8231,1,8949],['300000',12461,11871,1,12417],['400000',16097,16064,1,16249],['500000',19754,19990,1,19181],['600000',23724,24022,1,22019],['700000',28973,28421,2,24928],['800000',32638,32793,1,31896],['900000',37257,36320,1,35455],['1000000',40422,41037,1,39357],]);var options={curveType:"function",animation:{duration:1200,easing:"in"},title:"destruction - Normal&amp;lt;128u&amp;gt;",width:'600px',height:'400px',hAxis:{title:"Number of elements",slantedText:true},vAxis:{title:"us",viewWindow:{min:0}}};graph.draw(data,options);var button=document.getElementById('button_graph_5');button.onclick=function(){if(options.vAxis.logScale){button.value="Logarithmic Scale";}else{button.value="Normal scale";}options.vAxis.logScale=!options.vAxis.logScale;graph.draw(data,options);};}&lt;/script&gt;&lt;/p&gt;
+&lt;p&gt;We can see that the list is a small bit faster than the other two versions.&lt;/p&gt;
+&lt;p&gt;If we push the memory to its limit:&lt;/p&gt;
+&lt;div id="graph_6" style="width: 600px; height: 400px;"&gt;&lt;/div&gt;
+
+&lt;p&gt;&lt;input id="button_graph_6" type="button" value="Logarithmic scale"&gt;&lt;script type="text/javascript"&gt;function draw_graph_6(){var graph=new google.visualization.LineChart(document.getElementById('graph_6'));var data=google.visualization.arrayToDataTable([['x','auto_unlink_list','safe_list','normal_ilist','list'],['100000',2582,2689,1,5669],['200000',10506,10450,1,19719],['300000',16490,16429,1,33569],['400000',21521,21702,1,47179],['500000',27188,27217,1,59640],['600000',32507,32470,1,70116],['700000',37288,37344,1,81122],['800000',42825,42611,1,91972],['900000',48004,48315,1,104401],['1000000',53439,53988,1,114482],]);var options={curveType:"function",animation:{duration:1200,easing:"in"},title:"destruction - Normal&amp;lt;1024u&amp;gt;",width:'600px',height:'400px',hAxis:{title:"Number of elements",slantedText:true},vAxis:{title:"us",viewWindow:{min:0}}};graph.draw(data,options);var button=document.getElementById('button_graph_6');button.onclick=function(){if(options.vAxis.logScale){button.value="Logarithmic Scale";}else{button.value="Normal scale";}options.vAxis.logScale=!options.vAxis.logScale;graph.draw(data,options);};}&lt;/script&gt;&lt;/p&gt;
+&lt;p&gt;This time, the list is again slower. I'm not sure of why this happens, but it is certainly because of the memory allocator that has two allocate too many big blocks, which tends to be more costly than many small.&lt;/p&gt;
+&lt;p&gt;For the destruction, the normal mode proved its high strength, being totally free to destroy. The safe and auto unlink modes are proving much more expensive during destruction, but still quite a bit faster than a standard list.&lt;/p&gt;
+&lt;p&gt;It is also necessary to keep in mind that the destruction is generally not a common operation and is about 4 times faster than insertion. In practice, neither push_back nor destruction are critical in choosing a data structure.&lt;/p&gt;
+&lt;!--nextpage--&gt;
+
+&lt;h3&gt;Linear Search in a list&lt;/h3&gt;
+
+&lt;p&gt;The next operation that will benchmark is the linear search. The container is filled with all the numbers in [0, n] and shuffled. Then, each number in [0, n] is searched in the container with std::find that performs a simple linear search.&lt;/p&gt;
+&lt;p&gt;How do the different data structures perform:&lt;/p&gt;
+&lt;div id="graph_7" style="width: 600px; height: 400px;"&gt;&lt;/div&gt;
+
+&lt;p&gt;&lt;input id="button_graph_7" type="button" value="Logarithmic scale"&gt;&lt;script type="text/javascript"&gt;function draw_graph_7(){var graph=new google.visualization.LineChart(document.getElementById('graph_7'));var data=google.visualization.arrayToDataTable([['x','auto_unlink_list','safe_list','normal_ilist','list'],['1000',1213,1211,1200,1463],['2000',5715,5561,5931,6992],['3000',12451,11619,11608,14251],['4000',19338,20142,19208,24840],['5000',30147,30889,29863,40523],['6000',42941,44530,43289,59541],['7000',59717,62534,58851,80416],['8000',77519,78889,77188,104198],['9000',99738,99434,100375,135452],['10000',123829,123216,123506,169720],]);var options={curveType:"function",animation:{duration:1200,easing:"in"},title:"linear_search - Normal&amp;lt;8u&amp;gt;",width:'600px',height:'400px',hAxis:{title:"Number of elements",slantedText:true},vAxis:{title:"us",viewWindow:{min:0}}};graph.draw(data,options);var button=document.getElementById('button_graph_7');button.onclick=function(){if(options.vAxis.logScale){button.value="Logarithmic Scale";}else{button.value="Normal scale";}options.vAxis.logScale=!options.vAxis.logScale;graph.draw(data,options);};}&lt;/script&gt;&lt;/p&gt;
+&lt;p&gt;As expected, the intrusive list versions are faster than the standard list. The margin is about 40%. The intrusive versions have a better locality than the standard list because there is one less indirection.&lt;/p&gt;
+&lt;p&gt;Increasing the data type size:&lt;/p&gt;
+&lt;div id="graph_8" style="width: 600px; height: 400px;"&gt;&lt;/div&gt;
+
+&lt;p&gt;&lt;input id="button_graph_8" type="button" value="Logarithmic scale"&gt;&lt;script type="text/javascript"&gt;function draw_graph_8(){var graph=new google.visualization.LineChart(document.getElementById('graph_8'));var data=google.visualization.arrayToDataTable([['x','auto_unlink_list','safe_list','normal_ilist','list'],['1000',2901,2862,2940,2757],['2000',14258,14242,14413,18990],['3000',37327,37078,37387,48716],['4000',69310,68935,69152,86224],['5000',109444,110199,108283,134128],['6000',158570,158392,158398,202273],['7000',219949,220489,219070,266387],['8000',285885,289721,283485,342109],['9000',363603,361367,362935,424984],['10000',445068,451009,447940,525289],]);var options={curveType:"function",animation:{duration:1200,easing:"in"},title:"linear_search - Normal&amp;lt;128u&amp;gt;",width:'600px',height:'400px',hAxis:{title:"Number of elements",slantedText:true},vAxis:{title:"us",viewWindow:{min:0}}};graph.draw(data,options);var button=document.getElementById('button_graph_8');button.onclick=function(){if(options.vAxis.logScale){button.value="Logarithmic Scale";}else{button.value="Normal scale";}options.vAxis.logScale=!options.vAxis.logScale;graph.draw(data,options);};}&lt;/script&gt;&lt;/p&gt;
+&lt;p&gt;The margin has decreased a bit to about 15%. As the data object does not fit in cache we have higher cache misses rate.&lt;/p&gt;
+&lt;p&gt;If we increase it to the maximum:&lt;/p&gt;
+&lt;div id="graph_9" style="width: 600px; height: 400px;"&gt;&lt;/div&gt;
+
+&lt;p&gt;&lt;input id="button_graph_9" type="button" value="Logarithmic scale"&gt;&lt;script type="text/javascript"&gt;function draw_graph_9(){var graph=new google.visualization.LineChart(document.getElementById('graph_9'));var data=google.visualization.arrayToDataTable([['x','auto_unlink_list','safe_list','normal_ilist','list'],['1000',3517,3818,3487,3570],['2000',19342,18999,18875,22972],['3000',59722,59728,60953,60749],['4000',116755,118256,117172,123127],['5000',194630,195522,192977,204278],['6000',287911,287099,291353,296178],['7000',395506,404527,396043,413398],['8000',519636,527051,527183,549713],['9000',662320,669371,672484,693154],['10000',831052,828032,832995,859092],]);var options={curveType:"function",animation:{duration:1200,easing:"in"},title:"linear_search - Normal&amp;lt;1024u&amp;gt;",width:'600px',height:'400px',hAxis:{title:"Number of elements",slantedText:true},vAxis:{title:"us",viewWindow:{min:0}}};graph.draw(data,options);var button=document.getElementById('button_graph_9');button.onclick=function(){if(options.vAxis.logScale){button.value="Logarithmic Scale";}else{button.value="Normal scale";}options.vAxis.logScale=!options.vAxis.logScale;graph.draw(data,options);};}&lt;/script&gt;&lt;/p&gt;
+&lt;p&gt;Again, the margin decreased, to 3%.&lt;/p&gt;
+&lt;p&gt;For linear searching, the intrusive versions are clearly faster, however, not by a high advantage and this advantage tends to get lower with bigger data types. I would really have expected a more interesting result here. We will see with the next results if it gets better.&lt;/p&gt;
+&lt;!--nextpage--&gt;
+
+&lt;h3&gt;Iteration over a list&lt;/h3&gt;
+
+&lt;p&gt;This time, we will test the iteration over a whole collection. The iterate is done with the C++11 foreach loop (taking a reference) and the data is used to increment a counter (to make sure the loop is not optimized away.&lt;/p&gt;
+&lt;p&gt;Let's start with our small data type:&lt;/p&gt;
+&lt;div id="graph_10" style="width: 600px; height: 400px;"&gt;&lt;/div&gt;
+
+&lt;p&gt;&lt;input id="button_graph_10" type="button" value="Logarithmic scale"&gt;&lt;script type="text/javascript"&gt;function draw_graph_10(){var graph=new google.visualization.LineChart(document.getElementById('graph_10'));var data=google.visualization.arrayToDataTable([['x','auto_unlink_list','safe_list','normal_ilist','list'],['100000',204,202,209,276],['200000',430,404,439,715],['300000',967,956,1086,1969],['400000',1837,1826,1870,2672],['500000',2705,2668,2699,3130],['600000',3176,3110,3217,3815],['700000',3856,3678,3575,4363],['800000',4209,4090,4095,4860],['900000',4778,4334,4433,5511],['1000000',4934,4908,4656,5541],]);var options={curveType:"function",animation:{duration:1200,easing:"in"},title:"iterate - Normal&amp;lt;8u&amp;gt;",width:'600px',height:'400px',hAxis:{title:"Number of elements",slantedText:true},vAxis:{title:"us",viewWindow:{min:0}}};graph.draw(data,options);var button=document.getElementById('button_graph_10');button.onclick=function(){if(options.vAxis.logScale){button.value="Logarithmic Scale";}else{button.value="Normal scale";}options.vAxis.logScale=!options.vAxis.logScale;graph.draw(data,options);};}&lt;/script&gt;&lt;/p&gt;
+&lt;p&gt;The standard list is indeed slower than the other versions (by about 20%). Which is expected due to their better data locality. However, the results are not very stable (probably too fast, many things can intervene). I was expecting better results.&lt;/p&gt;
+&lt;p&gt;Let's go with a higher data type:&lt;/p&gt;
+&lt;div id="graph_11" style="width: 600px; height: 400px;"&gt;&lt;/div&gt;
+
+&lt;p&gt;&lt;input id="button_graph_11" type="button" value="Logarithmic scale"&gt;&lt;script type="text/javascript"&gt;function draw_graph_11(){var graph=new google.visualization.LineChart(document.getElementById('graph_11'));var data=google.visualization.arrayToDataTable([['x','auto_unlink_list','safe_list','normal_ilist','list'],['100000',3694,3635,3467,3830],['200000',6779,6766,6430,7070],['300000',9472,9819,9291,10270],['400000',12354,12322,12165,13588],['500000',15188,15270,15079,16725],['600000',18447,18246,17797,19875],['700000',20925,20578,20596,23256],['800000',23539,23780,23421,26451],['900000',26492,26237,25975,29785],['1000000',29757,29482,28681,32752],]);var options={curveType:"function",animation:{duration:1200,easing:"in"},title:"iterate - Normal&amp;lt;128u&amp;gt;",width:'600px',height:'400px',hAxis:{title:"Number of elements",slantedText:true},vAxis:{title:"us",viewWindow:{min:0}}};graph.draw(data,options);var button=document.getElementById('button_graph_11');button.onclick=function(){if(options.vAxis.logScale){button.value="Logarithmic Scale";}else{button.value="Normal scale";}options.vAxis.logScale=!options.vAxis.logScale;graph.draw(data,options);};}&lt;/script&gt;&lt;/p&gt;
+&lt;p&gt;This time, the results look better, but there are less difference between the standard list and the intrusive versions. The intrusive versions are faster by about 10%.&lt;/p&gt;
+&lt;p&gt;If we take a bigger data type:&lt;/p&gt;
+&lt;div id="graph_12" style="width: 600px; height: 400px;"&gt;&lt;/div&gt;
+
+&lt;p&gt;&lt;input id="button_graph_12" type="button" value="Logarithmic scale"&gt;&lt;script type="text/javascript"&gt;function draw_graph_12(){var graph=new google.visualization.LineChart(document.getElementById('graph_12'));var data=google.visualization.arrayToDataTable([['x','auto_unlink_list','safe_list','normal_ilist','list'],['100000',2797,2649,2496,5211],['200000',10148,10227,10199,10701],['300000',15379,15544,15458,15189],['400000',20181,20599,20213,20135],['500000',25481,25517,25381,25567],['600000',30407,30408,30326,29938],['700000',35187,35343,35498,34985],['800000',40094,39874,40172,40027],['900000',44875,45329,45314,44964],['1000000',49584,50143,50405,49737],]);var options={curveType:"function",animation:{duration:1200,easing:"in"},title:"iterate - Normal&amp;lt;1024u&amp;gt;",width:'600px',height:'400px',hAxis:{title:"Number of elements",slantedText:true},vAxis:{title:"us",viewWindow:{min:0}}};graph.draw(data,options);var button=document.getElementById('button_graph_12');button.onclick=function(){if(options.vAxis.logScale){button.value="Logarithmic Scale";}else{button.value="Normal scale";}options.vAxis.logScale=!options.vAxis.logScale;graph.draw(data,options);};}&lt;/script&gt;&lt;/p&gt;
+&lt;p&gt;This time, there is no more difference between the different versions.&lt;/p&gt;
+&lt;p&gt;Just like the results for linear search, the intrusive versions are faster but the difference is not huge. For very small data type, there is a gain of about 15 to 20 percent, but on very big data types, there is no more increase in performance. Again, I would have expected better results for the intrusive versions.&lt;/p&gt;
+&lt;!--nextpage--&gt;
+
+&lt;h3&gt;Write to elements of the list&lt;/h3&gt;
+
+&lt;p&gt;This test is almost the same as the previous one, but this time each element of the collection is modified by incrementing one of its field.&lt;/p&gt;
+&lt;p&gt;Let's see if the results are different this time.&lt;/p&gt;
+&lt;div id="graph_13" style="width: 600px; height: 400px;"&gt;&lt;/div&gt;
+
+&lt;p&gt;&lt;input id="button_graph_13" type="button" value="Logarithmic scale"&gt;&lt;script type="text/javascript"&gt;function draw_graph_13(){var graph=new google.visualization.LineChart(document.getElementById('graph_13'));var data=google.visualization.arrayToDataTable([['x','auto_unlink_list','safe_list','normal_ilist','list'],['100000',267,290,263,343],['200000',579,583,548,889],['300000',1111,1142,1114,2151],['400000',2155,2143,2146,3197],['500000',3193,3186,3163,4168],['600000',4016,3991,3978,5179],['700000',4727,4916,4717,6026],['800000',5560,5534,5440,6977],['900000',6125,6157,6064,7693],['1000000',6830,6920,6785,8613],]);var options={curveType:"function",animation:{duration:1200,easing:"in"},title:"write - Normal&amp;lt;8u&amp;gt;",width:'600px',height:'400px',hAxis:{title:"Number of elements",slantedText:true},vAxis:{title:"us",viewWindow:{min:0}}};graph.draw(data,options);var button=document.getElementById('button_graph_13');button.onclick=function(){if(options.vAxis.logScale){button.value="Logarithmic Scale";}else{button.value="Normal scale";}options.vAxis.logScale=!options.vAxis.logScale;graph.draw(data,options);};}&lt;/script&gt;&lt;/p&gt;
+&lt;p&gt;The results are more stable than before. We can see that the normal mode is leading the results by a bit less than 30%. Just like for iteration, there no real difference between the different modes.&lt;/p&gt;
+&lt;p&gt;Let's increase the data size by a bit:&lt;/p&gt;
+&lt;div id="graph_14" style="width: 600px; height: 400px;"&gt;&lt;/div&gt;
+
+&lt;p&gt;&lt;input id="button_graph_14" type="button" value="Logarithmic scale"&gt;&lt;script type="text/javascript"&gt;function draw_graph_14(){var graph=new google.visualization.LineChart(document.getElementById('graph_14'));var data=google.visualization.arrayToDataTable([['x','auto_unlink_list','safe_list','normal_ilist','list'],['100000',505,513,530,1069],['200000',1957,1991,2023,3222],['300000',4056,4053,4000,4806],['400000',5572,5493,5587,6408],['500000',6763,6798,6714,8578],['600000',8224,8142,8050,10037],['700000',9520,9622,9568,12272],['800000',10982,11451,10947,13818],['900000',12195,12305,12185,15103],['1000000',14043,13657,13775,17187],]);var options={curveType:"function",animation:{duration:1200,easing:"in"},title:"write - Normal&amp;lt;32u&amp;gt;",width:'600px',height:'400px',hAxis:{title:"Number of elements",slantedText:true},vAxis:{title:"us",viewWindow:{min:0}}};graph.draw(data,options);var button=document.getElementById('button_graph_14');button.onclick=function(){if(options.vAxis.logScale){button.value="Logarithmic Scale";}else{button.value="Normal scale";}options.vAxis.logScale=!options.vAxis.logScale;graph.draw(data,options);};}&lt;/script&gt;&lt;/p&gt;
+&lt;p&gt;The results are the same, still 30% better for the intrusive version.&lt;/p&gt;
+&lt;p&gt;Bigger data type again:&lt;/p&gt;
+&lt;div id="graph_15" style="width: 600px; height: 400px;"&gt;&lt;/div&gt;
+
+&lt;p&gt;&lt;input id="button_graph_15" type="button" value="Logarithmic scale"&gt;&lt;script type="text/javascript"&gt;function draw_graph_15(){var graph=new google.visualization.LineChart(document.getElementById('graph_15'));var data=google.visualization.arrayToDataTable([['x','auto_unlink_list','safe_list','normal_ilist','list'],['100000',3263,3415,3172,4444],['200000',9467,9434,9513,8855],['300000',13996,13888,14227,13379],['400000',18181,18458,18255,17684],['500000',22751,23292,22956,22067],['600000',27371,27511,27329,25995],['700000',31236,31389,31404,31164],['800000',35749,35970,36132,35224],['900000',39972,40684,40549,39786],['1000000',45119,45124,44840,43937],]);var options={curveType:"function",animation:{duration:1200,easing:"in"},title:"write - Normal&amp;lt;1024u&amp;gt;",width:'600px',height:'400px',hAxis:{title:"Number of elements",slantedText:true},vAxis:{title:"us",viewWindow:{min:0}}};graph.draw(data,options);var button=document.getElementById('button_graph_15');button.onclick=function(){if(options.vAxis.logScale){button.value="Logarithmic Scale";}else{button.value="Normal scale";}options.vAxis.logScale=!options.vAxis.logScale;graph.draw(data,options);};}&lt;/script&gt;&lt;/p&gt;
+&lt;p&gt;This time, the intrusive version is not faster anymore than the standard list.&lt;/p&gt;
+&lt;p&gt;We have seen that when write is made to the data, intrusive list are better than list. The margin is higher than when doing only iteration.&lt;/p&gt;
+&lt;!--nextpage--&gt;
+
+&lt;h3&gt;Reverse the list&lt;/h3&gt;
+
+&lt;p&gt;Let's test something more useful with a reverse operation. The reverse member function is used to reverse all the containers.&lt;/p&gt;
+&lt;p&gt;Let's see how they perform:&lt;/p&gt;
+&lt;div id="graph_16" style="width: 600px; height: 400px;"&gt;&lt;/div&gt;
+
+&lt;p&gt;&lt;input id="button_graph_16" type="button" value="Logarithmic scale"&gt;&lt;script type="text/javascript"&gt;function draw_graph_16(){var graph=new google.visualization.LineChart(document.getElementById('graph_16'));var data=google.visualization.arrayToDataTable([['x','auto_unlink_list','safe_list','normal_ilist','list'],['100000',366,410,390,372],['200000',761,892,758,867],['300000',1278,1354,1308,2062],['400000',2313,2348,2324,3083],['500000',3265,3297,3300,3994],['600000',4036,4171,4063,4890],['700000',4603,4575,4689,6052],['800000',5344,5241,5321,6682],['900000',6107,5912,6251,7623],['1000000',6725,6626,6663,8548],]);var options={curveType:"function",animation:{duration:1200,easing:"in"},title:"reverse - Normal&amp;lt;8u&amp;gt;",width:'600px',height:'400px',hAxis:{title:"Number of elements",slantedText:true},vAxis:{title:"us",viewWindow:{min:0}}};graph.draw(data,options);var button=document.getElementById('button_graph_16');button.onclick=function(){if(options.vAxis.logScale){button.value="Logarithmic Scale";}else{button.value="Normal scale";}options.vAxis.logScale=!options.vAxis.logScale;graph.draw(data,options);};}&lt;/script&gt;&lt;/p&gt;
+&lt;p&gt;The intrusive versions are about 25% faster than standard list. Even if reversal does not need to access the values, the pointers of the intrusive lists have a better locality than the one of a list that can be dispersed through memory.&lt;/p&gt;
+&lt;div id="graph_17" style="width: 600px; height: 400px;"&gt;&lt;/div&gt;
+
+&lt;p&gt;&lt;input id="button_graph_17" type="button" value="Logarithmic scale"&gt;&lt;script type="text/javascript"&gt;function draw_graph_17(){var graph=new google.visualization.LineChart(document.getElementById('graph_17'));var data=google.visualization.arrayToDataTable([['x','auto_unlink_list','safe_list','normal_ilist','list'],['100000',585,563,601,1057],['200000',1903,1902,2011,3043],['300000',4121,4041,4049,4671],['400000',5291,5352,5275,6504],['500000',6831,6711,6584,8273],['600000',7980,8113,8105,9900],['700000',9366,9216,9426,11612],['800000',10680,10622,10602,13377],['900000',11917,11908,11915,15140],['1000000',13442,13239,13268,16718],]);var options={curveType:"function",animation:{duration:1200,easing:"in"},title:"reverse - Normal&amp;lt;32u&amp;gt;",width:'600px',height:'400px',hAxis:{title:"Number of elements",slantedText:true},vAxis:{title:"us",viewWindow:{min:0}}};graph.draw(data,options);var button=document.getElementById('button_graph_17');button.onclick=function(){if(options.vAxis.logScale){button.value="Logarithmic Scale";}else{button.value="Normal scale";}options.vAxis.logScale=!options.vAxis.logScale;graph.draw(data,options);};}&lt;/script&gt;&lt;/p&gt;
+&lt;p&gt;The performance improved a bit, to 30% improvement for an intrusive list.&lt;/p&gt;
+&lt;p&gt;Let's see if this continue:&lt;/p&gt;
+&lt;div id="graph_18" style="width: 600px; height: 400px;"&gt;&lt;/div&gt;
+
+&lt;p&gt;&lt;input id="button_graph_18" type="button" value="Logarithmic scale"&gt;&lt;script type="text/javascript"&gt;function draw_graph_18(){var graph=new google.visualization.LineChart(document.getElementById('graph_18'));var data=google.visualization.arrayToDataTable([['x','auto_unlink_list','safe_list','normal_ilist','list'],['100000',2901,2901,2676,4562],['200000',5889,5942,5613,9059],['300000',8696,8618,8372,13501],['400000',11344,11597,11039,17985],['500000',14431,14123,13954,22546],['600000',17084,16955,16605,27246],['700000',19563,19795,19431,31866],['800000',22806,22428,22092,36645],['900000',25553,25283,25003,41025],['1000000',28049,28174,27590,45780],]);var options={curveType:"function",animation:{duration:1200,easing:"in"},title:"reverse - Normal&amp;lt;128u&amp;gt;",width:'600px',height:'400px',hAxis:{title:"Number of elements",slantedText:true},vAxis:{title:"us",viewWindow:{min:0}}};graph.draw(data,options);var button=document.getElementById('button_graph_18');button.onclick=function(){if(options.vAxis.logScale){button.value="Logarithmic Scale";}else{button.value="Normal scale";}options.vAxis.logScale=!options.vAxis.logScale;graph.draw(data,options);};}&lt;/script&gt;&lt;/p&gt;
+&lt;p&gt;It did, the intrusive list is more than 40% faster than the standard list !&lt;/p&gt;
+&lt;p&gt;What happens a bigger one:&lt;/p&gt;
+&lt;div id="graph_19" style="width: 600px; height: 400px;"&gt;&lt;/div&gt;
+
+&lt;p&gt;&lt;input id="button_graph_19" type="button" value="Logarithmic scale"&gt;&lt;script type="text/javascript"&gt;function draw_graph_19(){var graph=new google.visualization.LineChart(document.getElementById('graph_19'));var data=google.visualization.arrayToDataTable([['x','auto_unlink_list','safe_list','normal_ilist','list'],['100000',4723,4823,4585,4373],['200000',11566,11566,11842,8704],['300000',17471,17377,17587,12985],['400000',22778,22867,22866,17452],['500000',28548,28434,28837,21357],['600000',34005,34089,33913,25907],['700000',39189,39235,39284,30398],['800000',45186,44900,44838,34632],['900000',50337,50529,50677,38540],['1000000',56045,56026,56007,42867],]);var options={curveType:"function",animation:{duration:1200,easing:"in"},title:"reverse - Normal&amp;lt;1024u&amp;gt;",width:'600px',height:'400px',hAxis:{title:"Number of elements",slantedText:true},vAxis:{title:"us",viewWindow:{min:0}}};graph.draw(data,options);var button=document.getElementById('button_graph_19');button.onclick=function(){if(options.vAxis.logScale){button.value="Logarithmic Scale";}else{button.value="Normal scale";}options.vAxis.logScale=!options.vAxis.logScale;graph.draw(data,options);};}&lt;/script&gt;&lt;/p&gt;
+&lt;p&gt;The lines have been interchanged! This time the standard list is about 25% faster than the intrusive versions. This time, the better locality of the intrusive versions is not a gain but a loss.&lt;/p&gt;
+&lt;p&gt;It is logical that the margin decrease with very big objects during reversal. Indeed, each element is very close one to another, but the pairs of pointers are separated by the size of the data type. The bigger the data type, the higher distance between the pointers and so the worse spatial locality for the pointers. However, I do not explain why there is this big difference...&lt;/p&gt;
+&lt;p&gt;The performance of intrusive list are clearly interesting for reversing collection of small data types. However, it seems that for high data types, the standard list is faster.&lt;/p&gt;
+&lt;!--nextpage--&gt;
+
+&lt;h3&gt;Sort the list&lt;/h3&gt;
+
+&lt;p&gt;Let's continue with an even more interesting operation, sorting the list. All the versions are sorted with the sort member function.&lt;/p&gt;
+&lt;div id="graph_20" style="width: 600px; height: 400px;"&gt;&lt;/div&gt;
+
+&lt;p&gt;&lt;input id="button_graph_20" type="button" value="Logarithmic scale"&gt;&lt;script type="text/javascript"&gt;function draw_graph_20(){var graph=new google.visualization.LineChart(document.getElementById('graph_20'));var data=google.visualization.arrayToDataTable([['x','auto_unlink_list','safe_list','normal_ilist','list'],['100000',16314,16503,16364,24992],['200000',38251,37599,38206,62834],['300000',63573,63521,63878,112848],['400000',90236,88561,88996,168037],['500000',114442,114456,116137,236389],['600000',167279,165879,166617,324302],['700000',190762,190586,190292,377142],['800000',223884,223900,224622,477313],['900000',255248,252795,253070,540602],['1000000',287262,286842,288404,614163],]);var options={curveType:"function",animation:{duration:1200,easing:"in"},title:"sort - Normal&amp;lt;8u&amp;gt;",width:'600px',height:'400px',hAxis:{title:"Number of elements",slantedText:true},vAxis:{title:"ms",viewWindow:{min:0}}};graph.draw(data,options);var button=document.getElementById('button_graph_20');button.onclick=function(){if(options.vAxis.logScale){button.value="Logarithmic Scale";}else{button.value="Normal scale";}options.vAxis.logScale=!options.vAxis.logScale;graph.draw(data,options);};}&lt;/script&gt;&lt;/p&gt;
+&lt;p&gt;The intrusive versions are really interesting, being twice faster than a standard list.&lt;/p&gt;
+&lt;p&gt;Let's see with a see a higher data type:&lt;/p&gt;
+&lt;div id="graph_21" style="width: 600px; height: 400px;"&gt;&lt;/div&gt;
+
+&lt;p&gt;&lt;input id="button_graph_21" type="button" value="Logarithmic scale"&gt;&lt;script type="text/javascript"&gt;function draw_graph_21(){var graph=new google.visualization.LineChart(document.getElementById('graph_21'));var data=google.visualization.arrayToDataTable([['x','auto_unlink_list','safe_list','normal_ilist','list'],['100000',25335,25030,25318,31655],['200000',67224,65937,67185,80637],['300000',118284,116947,119686,139629],['400000',169014,165868,169723,194916],['500000',208261,208245,209291,248475],['600000',294572,287231,294284,339917],['700000',337154,332205,338323,389665],['800000',401654,393743,401249,461721],['900000',440058,434855,440984,506999],['1000000',494861,491360,497710,578176],]);var options={curveType:"function",animation:{duration:1200,easing:"in"},title:"sort - Normal&amp;lt;128u&amp;gt;",width:'600px',height:'400px',hAxis:{title:"Number of elements",slantedText:true},vAxis:{title:"ms",viewWindow:{min:0}}};graph.draw(data,options);var button=document.getElementById('button_graph_21');button.onclick=function(){if(options.vAxis.logScale){button.value="Logarithmic Scale";}else{button.value="Normal scale";}options.vAxis.logScale=!options.vAxis.logScale;graph.draw(data,options);};}&lt;/script&gt;&lt;/p&gt;
+&lt;p&gt;The difference is decreasing to about 20%.&lt;/p&gt;
+&lt;p&gt;Increasing it again:&lt;/p&gt;
+&lt;div id="graph_22" style="width: 600px; height: 400px;"&gt;&lt;/div&gt;
+
+&lt;p&gt;&lt;input id="button_graph_22" type="button" value="Logarithmic scale"&gt;&lt;script type="text/javascript"&gt;function draw_graph_22(){var graph=new google.visualization.LineChart(document.getElementById('graph_22'));var data=google.visualization.arrayToDataTable([['x','auto_unlink_list','safe_list','normal_ilist','list'],['100000',31568,33319,32201,40331],['200000',82407,85932,83987,97310],['300000',143651,150155,144553,163818],['400000',202050,209178,203821,232728],['500000',250514,256374,253415,289493],['600000',345760,351034,348564,391229],['700000',397848,402385,402371,454434],['800000',471832,479947,477681,538873],['900000',518542,527961,524002,596696],['1000000',583622,596696,591025,672353],]);var options={curveType:"function",animation:{duration:1200,easing:"in"},title:"sort - Normal&amp;lt;1024u&amp;gt;",width:'600px',height:'400px',hAxis:{title:"Number of elements",slantedText:true},vAxis:{title:"ms",viewWindow:{min:0}}};graph.draw(data,options);var button=document.getElementById('button_graph_22');button.onclick=function(){if(options.vAxis.logScale){button.value="Logarithmic Scale";}else{button.value="Normal scale";}options.vAxis.logScale=!options.vAxis.logScale;graph.draw(data,options);};}&lt;/script&gt;&lt;/p&gt;
+&lt;p&gt;It decreased again to 18%.&lt;/p&gt;
+&lt;p&gt;For sort operations, the intrusive versions are clearly interesting, especially for small data types.&lt;/p&gt;
+&lt;!--nextpage--&gt;
+
+&lt;h3&gt;Random insert into the list&lt;/h3&gt;
+
+&lt;p&gt;The last operation that we will test is the random insert. I have to say that this test is not fair. Indeed, in an intrusive list, from an object we can directly get an iterator and insert at a random position. For a standard list, we have to find the iterator by linear search. I think that it is still important because it is one of the advantages of an intrusive container.&lt;/p&gt;
+&lt;div id="graph_23" style="width: 600px; height: 400px;"&gt;&lt;/div&gt;
+
+&lt;p&gt;&lt;input id="button_graph_23" type="button" value="Logarithmic scale"&gt;&lt;script type="text/javascript"&gt;function draw_graph_23(){var graph=new google.visualization.LineChart(document.getElementById('graph_23'));var data=google.visualization.arrayToDataTable([['x','auto_unlink_ilist','safe_ilist','normal_ilist','list'],['10000',42,46,41,27729],['20000',49,66,45,48736],['30000',64,66,47,62440],['40000',54,53,48,75253],['50000',59,54,49,88493],['60000',67,49,63,104516],['70000',50,53,50,115514],['80000',55,50,50,128950],['90000',51,51,55,144367],['100000',52,52,76,152721],]);var options={curveType:"function",animation:{duration:1200,easing:"in"},title:"random_insert - Normal&amp;lt;8u&amp;gt;",width:'600px',height:'400px',hAxis:{title:"Number of elements",slantedText:true},vAxis:{title:"us",viewWindow:{min:0}}};graph.draw(data,options);var button=document.getElementById('button_graph_23');button.onclick=function(){if(options.vAxis.logScale){button.value="Logarithmic Scale";}else{button.value="Normal scale";}options.vAxis.logScale=!options.vAxis.logScale;graph.draw(data,options);};}&lt;/script&gt;&lt;/p&gt;
+&lt;p&gt;It is very clear that the performance are much better but it is logical because we are comparing something in O(1) versus something in O(n).&lt;/p&gt;
+&lt;h3&gt;Conclusion&lt;/h3&gt;
+
+&lt;p&gt;In conclusion, intrusive lists are almost always faster than a standard list. However, on my computer and with GCC, the difference is not always very important. It can brings about 20%-30% on some workloads but most likely around 15%. Even if not negligible, it is not a huge improvement. I would have thought that intrusive lists were faster by an higher margin. On some operations like sort, it is clearly more interesting. It has a better data locality than standard list.&lt;/p&gt;
+&lt;p&gt;It is also more interesting to fill the collection, because no memory allocation is involved. But of course, you need to take care of memory allocation by yourself, for example in a vector like here or by dynamically allocating the objects one after one. This has also a cost that is not counted in the benchmark.&lt;/p&gt;
+&lt;p&gt;If you really have to use a linked list and performance is critical, I advice you to use Boost intrusive list. If performance is not really critical, it is not perhaps not interesting because of the increased complexity.&lt;/p&gt;
+&lt;p&gt;There are situations when only intrusive lists can work. If you want the same object to be present in two different list, you can use boost intrusive list with several member hooks, which is not possible with standard list because only a copy is stored, not the object itself. The same is true for objects that are non-copyable, only intrusive list can handle them. And finally, with intrusive lists you can directly get an iterator to an object in O(1) if you have a reference to an object. For a standard list, you have to iterate through the list to find the object. Sometimes, it can be very useful.&lt;/p&gt;
+&lt;p&gt;If you are interested, the Boost documentation provides also a &lt;a href="http://www.boost.org/doc/libs/1_52_0/doc/html/intrusive/performance.html" title="Boost Intrusive Performance"&gt;performance benchmark for intrusive list&lt;/a&gt;, but it is very old (GCC 4.1.2). It is interesting to see that the results are better for intrusive lists than on my benchmark. I do not know if it comes from the processor, the memory or from the compiler.&lt;/p&gt;
+&lt;p&gt;I hope you found this benchmark interesting. If you have questions, comments, ideas or whatever to say about this benchmark, don't hesitate to comment. I would be glad to answer you :) The same if you find errors in this article. If you have different results, don't hesitate to comment as well.&lt;/p&gt;
+&lt;p&gt;The code source of the benchmark is available online: https://github.com/wichtounet/articles/blob/master/src/intrusive_list/bench.cpp&lt;/p&gt;
+&lt;script type="text/javascript"&gt;function draw_visualization(){draw_graph_0();draw_graph_1();draw_graph_2();draw_graph_3();draw_graph_4();draw_graph_5();draw_graph_6();draw_graph_7();draw_graph_8();draw_graph_9();draw_graph_10();draw_graph_11();draw_graph_12();draw_graph_13();draw_graph_14();draw_graph_15();draw_graph_16();draw_graph_17();draw_graph_18();draw_graph_19();draw_graph_20();draw_graph_21();draw_graph_22();draw_graph_23();} google.setOnLoadCallback(draw_visualization);&lt;/script&gt;&lt;/div&gt;</description><category>Benchmark</category><category>Boost</category><category>C++</category><category>C++11</category><category>Performances</category><guid>http://baptiste-wicht.com/posts/2012/12/cpp-benchmark-std-list-boost-intrusive-list.html</guid><pubDate>Wed, 12 Dec 2012 07:53:17 GMT</pubDate></item></channel></rss>

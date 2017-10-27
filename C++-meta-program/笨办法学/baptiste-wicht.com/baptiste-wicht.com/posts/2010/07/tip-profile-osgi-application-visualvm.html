@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html prefix="og: http://ogp.me/ns# article: http://ogp.me/ns/article# " lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Tip : Profile an OSGi application with VisualVM | Blog blog("Baptiste Wicht");</title>
+<script src="/cdn-cgi/apps/head/98vpnawSZZMscPn4oDND-ZgswjM.js"></script><link href="../../../assets/css/all-nocdn.css" rel="stylesheet" type="text/css">
+<meta name="theme-color" content="#5670d4">
+<meta name="generator" content="Nikola (getnikola.com)">
+<link rel="alternate" type="application/rss+xml" title="RSS" href="../../../rss.xml">
+<link rel="canonical" href="http://baptiste-wicht.com/posts/2010/07/tip-profile-osgi-application-visualvm.html">
+<!--[if lt IE 9]><script src="../../../assets/js/html5.js"></script><![endif]--><meta name="author" content="Baptiste Wicht">
+<link rel="prev" href="play-framework-template-engine.html" title="Play Framework - The template engine" type="text/html">
+<link rel="next" href="osgi-spring-dynamic-modules-hello-world.html" title="OSGI and Spring Dynamic Modules - Simple Hello World" type="text/html">
+<meta property="og:site_name" content='Blog blog("Baptiste Wicht");'>
+<meta property="og:title" content="Tip : Profile an OSGi application with VisualVM">
+<meta property="og:url" content="http://baptiste-wicht.com/posts/2010/07/tip-profile-osgi-application-visualvm.html">
+<meta property="og:description" content="When you develop applications and you've performance problems, it's really interesting to see what can cause this problems. And it that case, the profilers are the most useful tool. By example, we can">
+<meta property="og:type" content="article">
+<meta property="article:published_time" content="2010-07-20T07:01:28+02:00">
+<meta property="article:tag" content="Java">
+<meta property="article:tag" content="OSGi">
+<meta property="article:tag" content="Performances">
+<meta property="article:tag" content="Tips">
+<meta property="article:tag" content="Tools">
+<link href="../../../favicon.ico" rel="icon" type="image/x-icon">
+<link rel="publisher" href="https://plus.google.com/+BaptisteWicht">
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-2175227-7', 'auto');
+  var metas = document.getElementsByTagName('meta'), tagsList = [];
+  for (var i=0; i<metas.length; i++) {
+    if (metas[i].getAttribute('property') == 'article:tag') {
+      tagsList.push( metas[i].getAttribute('content'));
+    }
+  }
+  ga('set', 'dimension1', tagsList.join('|'));
+  ga('send', 'pageview');
+</script>
+</head>
+<body>
+
+<a href="#content" class="sr-only sr-only-focusable">Skip to main content</a>
+<div class="container-fluid">
+
+<div class="row">
+<div class="col-sm-3 col-lg-2">
+<nav class="navbar navbar-inverse navbar-fixed-side"><div class="navbar-header">
+<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+<span class="sr-only">Toggle navigation</span>
+<span class="icon-bar"></span>
+<span class="icon-bar"></span>
+<span class="icon-bar"></span>
+</button>
+<a class="navbar-brand" href="http://baptiste-wicht.com/">
+<span id="blog-title">Blog blog("Baptiste Wicht");</span>
+</a>
+</div>
+
+<div class="collapse navbar-collapse navbar-ex1-collapse">
+<ul class="nav navbar-nav">
+<li>
+<a href="../../../stories/about.html">About</a>
+</li>
+<li>
+<a href="../../../stories/publications.html">Publications</a>
+</li>
+<li>
+<a href="../../../stories/projects.html">Projects</a>
+</li>
+<li>
+<a href="../../../categories/index.html">Tags</a>
+</li>
+<li>
+<a href="../../../archive.html">Archives</a>
+</li>
+<li>
+<a href="http://feeds.feedburner.com/BaptisteWicht">RSS</a>
+</li>
+<li class="navbar-content">
+<h3>Related posts</h3>
+</li>
+<li><a href="../03/osgi-enterprise-4-2-available.html">OSGi 4.2 Entreprise Release is available !</a></li>
+<li><a href="modular-java-book-review.html">Modular Java – Book Review</a></li>
+<li><a href="profile-applications-java-visualvm.html">Profile your applications with Java VisualVM</a></li>
+<li><a href="osgi-hello-world-services.html">OSGi - Simple Hello World with services</a></li>
+<li><a href="discover-java-visualvm-1-3.html">Discover Java VisualVM 1.3</a></li>
+<li><a href="../03/jtheque-is-going-to-osgi.html">JTheque is going to OSGi</a></li>
+<li class="navbar-block">
+<li class="wicht-navbar-right">
+<a target="_blank" title="Follow @wichtounet on Twitter" href="https://twitter.com/wichtounet">
+<img src="../../../assets/img/twitter.png" alt="Follow @wichtounet on Twitter"></a>
+</li>
+<li class="wicht-navbar-right">
+<a target="_blank" title="Follow +BaptisteWicht on Google+" href="https://plus.google.com/+BaptisteWicht">
+<img src="../../../assets/img/google_plus.png" alt="Follow +BaptisteWicht on Google+"></a>
+</li>
+</ul>
+</div>
+
+</nav>
+</div> 
+<div class="col-sm-9 col-lg-10">
+<div id="content"></div>
+<article class="post-text h-entry hentry postpage" itemscope="itemscope" itemtype="http://schema.org/Article"><header><h1 class="p-name entry-title" itemprop="headline name"><a href="#" class="u-url">Tip : Profile an OSGi application with VisualVM</a></h1>
+<div class="metadata">
+<p class="byline author vcard"><span class="byline-name fn" itemprop="author">
+Baptiste Wicht
+</span></p>
+<p class="dateline"><a href="#" rel="bookmark"><time class="published dt-published" datetime="2010-07-20T07:01:28+02:00" itemprop="datePublished" title="2010-07-20 07:01">2010-07-20 07:01</time></a></p>
+<p class="commentline">
+<a href="tip-profile-osgi-application-visualvm.html#disqus_thread" data-disqus-identifier="cache/posts/2010/07/tip-profile-osgi-application-visualvm.html">Comments</a>
+</p>
+<p class="sourceline"><a href="tip-profile-osgi-application-visualvm.wp" class="sourcelink">Source</a></p>
+</div>
+</header><div class="e-content entry-content" itemprop="articleBody text">
+<div>
+<p>When you develop applications and you've performance problems, it's really interesting to see what can cause this problems. And it that case, the profilers are the most useful tool. By example, we can use VisualVM, packed by default with the Java Virtual Machine. For more information, you can read <a href="http://www.baptiste-wicht.com/2010/07/profile-applications-java-visualvm/">this introduction to Java VisualVM</a>. </p>
+<p>But, when you work with OSGi application, it's not as simple as a normal application. The profiler needs that its class can be found by the profiled classes, but with OSGi, the classloader are restricted by the framework and the classes of the profiler cannot be found. </p>
+
+<p>But there is a workaround using boot class path and boot delegation. You need to do 2 things. </p>
+<h5>1. Add the classes to the boot class-path </h5>
+<p>First of all, the classes of the profiler must be present in the application. For that, we use the boot class-path. You must add this library in the boot class-path : ${VISUALVM_HOME}/profiler3/lib/jfluid-server.jar. The boot class-path is configured using the -Xbootclasspath option, but if you just add this option : </p>
+<pre>-Xbootclasspath:${VISUALVM_HOME}/profiler3/lib/jfluid-server.jar</pre>
+<p>The classes of the JRE will not be found and you will get that kind of error : </p>
+<pre>Error occurred during initialization of VM
+java/lang/NoClassDefFoundError: java/lang/Object</pre>
+<p>So we need to keep the default boot class-path. To get this, just launch this program : </p>
+<pre class="code literal-block"><span></span><span class="kd">public</span> <span class="kd">class</span> <span class="nc">BootClassPath</span> <span class="o">{</span>
+    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="n">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">System</span><span class="o">.</span><span class="na">getProperty</span><span class="o">(</span><span class="s">"sun.boot.class.path"</span><span class="o">));</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</pre>
+<p>And it will give you the default boot class-path. Then, you just have to append it to the jar of VisualVM with ':'. By example, on my computer, it's the option I need : </p>
+<pre>-Xbootclasspath:/usr/lib/jvm/java-6-sun-1.6.0.20/lib/visualvm/profiler3/lib/jfluid-server.jar:/usr/lib/jvm/java-6-sun-1.6.0.20/jre/lib/resources.jar:/usr/lib/jvm/java-6-sun-1.6.0.20/jre/lib/rt.jar:/usr/lib/jvm/java-6-sun-1.6.0.20/jre/lib/sunrsasign.jar:/usr/lib/jvm/java-6-sun-1.6.0.20/jre/lib/jsse.jar:/usr/lib/jvm/java-6-sun-1.6.0.20/jre/lib/jce.jar:/usr/lib/jvm/java-6-sun-1.6.0.20/jre/lib/charsets.jar:/usr/lib/jvm/java-6-sun-1.6.0.20/jre/classes</pre>
+<h5>2. Add boot delegation to the OSGi framework</h5>
+<p>This is easier. Here you just have to said to the OSGi container, to made the classes of the profiler available to all bundles. For that, you need to add this property : </p>
+<pre>-Dorg.osgi.framework.bootdelegation=org.netbeans.lib.profiler,org.netbeans.lib.profiler.*</pre>
+<p>And normally, it's enough. But some OSGi containers, like Felix, doesn't take the command line properties in consideration in the framework depending on how you launch it. In my case, I embed the Felix Server in my application, so I need to explicitly add this property to the framework. For that, read the documentation of the containers to know how to add properties to the framework. </p>
+<p>Here we are. Hope this will be useful to someone. Personally, I lost a lot of time trying several configurations before finding this successful one.</p>
+</div>
+</div>
+<aside class="postpromonav"><nav><ul itemprop="keywords" class="tags">
+<li><a class="tag p-category" href="../../../categories/java.html" rel="tag">Java</a></li>
+<li><a class="tag p-category" href="../../../categories/osgi.html" rel="tag">OSGi</a></li>
+<li><a class="tag p-category" href="../../../categories/performances.html" rel="tag">Performances</a></li>
+<li><a class="tag p-category" href="../../../categories/tips.html" rel="tag">Tips</a></li>
+<li><a class="tag p-category" href="../../../categories/tools.html" rel="tag">Tools</a></li>
+</ul>
+<ul class="pager hidden-print">
+<li class="previous">
+<a href="play-framework-template-engine.html" rel="prev" title="Play Framework - The template engine">Previous post</a>
+</li>
+<li class="next">
+<a href="osgi-spring-dynamic-modules-hello-world.html" rel="next" title="OSGI and Spring Dynamic Modules - Simple Hello World">Next post</a>
+</li>
+</ul></nav></aside><section class="comments hidden-print"><h2>Comments</h2>
+<div id="disqus_thread"></div>
+<script>
+        var disqus_shortname ="blogwichtounet",
+            disqus_url="http://baptiste-wicht.com/posts/2010/07/tip-profile-osgi-application-visualvm.html",
+        disqus_title="Tip : Profile an OSGi application with VisualVM",
+        disqus_identifier="cache/posts/2010/07/tip-profile-osgi-application-visualvm.html",
+        disqus_config = function () {
+            this.language = "en";
+        };
+        (function() {
+            var dsq = document.createElement('script'); dsq.async = true;
+            dsq.src = 'https://' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        })();
+    </script><noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a>
+</noscript>
+<a href="https://disqus.com" class="dsq-brlink" rel="nofollow">Comments powered by <span class="logo-disqus">Disqus</span></a>
+</section></article><script>var disqus_shortname="blogwichtounet";(function(){var a=document.createElement("script");a.async=true;a.src="https://"+disqus_shortname+".disqus.com/count.js";(document.getElementsByTagName("head")[0]||document.getElementsByTagName("body")[0]).appendChild(a)}());</script>
+</div> 
+</div>
+
+</div>
+
+
+
+<footer>
+Contents © 2017 <a href="/cdn-cgi/l/email-protection#016360717568727564766862697541666c60686d2f626e6c">Baptiste Wicht</a> - Powered by <a href="http://getnikola.com" rel="nofollow">Nikola</a> - License:
+<a rel="license" href="http://creativecommons.org/licenses/by/4.0/"><img alt="Creative Commons License" style="padding-left:5px;border-width:0" src="../../../assets/img/cc.png"></a>
+<ul class="footer_inline_ul">
+<li>
+<a href="tip-profile-osgi-application-visualvm.wp" id="sourcelink">Source</a>
+</li>
+</ul></footer><script src="/cdn-cgi/scripts/78d64697/cloudflare-static/email-decode.min.js"></script><script src="../../../assets/js/all-nocdn.js"></script>
+</body>
+</html>

@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html prefix="og: http://ogp.me/ns# article: http://ogp.me/ns/article# " lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SonarQube inspections for C++ projects | Blog blog("Baptiste Wicht");</title>
+<script src="/cdn-cgi/apps/head/98vpnawSZZMscPn4oDND-ZgswjM.js"></script><link href="../../../assets/css/all-nocdn.css" rel="stylesheet" type="text/css">
+<meta name="theme-color" content="#5670d4">
+<meta name="generator" content="Nikola (getnikola.com)">
+<link rel="alternate" type="application/rss+xml" title="RSS" href="../../../rss.xml">
+<link rel="canonical" href="http://baptiste-wicht.com/posts/2014/10/sonarqube-inspections-for-cpp-projects.html">
+<!--[if lt IE 9]><script src="../../../assets/js/html5.js"></script><![endif]--><meta name="author" content="Baptiste Wicht">
+<link rel="prev" href="linux-tip-force-systemd-networkd-to-wait-for-dhcp.html" title="Linux tip: Force systemd networkd to wait for DHCP" type="text/html">
+<link rel="next" href="../../2015/03/named-optional-template-parameters-compile-time.html" title="Named Optional Template parameters to configure a class at compile-time" type="text/html">
+<meta property="og:site_name" content='Blog blog("Baptiste Wicht");'>
+<meta property="og:title" content="SonarQube inspections for C++ projects">
+<meta property="og:url" content="http://baptiste-wicht.com/posts/2014/10/sonarqube-inspections-for-cpp-projects.html">
+<meta property="og:description" content="Back in the days, when I used to develop in Java (I hadn't discovered the
+wonders of C++ :) ), I used Sonar a lot for my projects. Sonar is a great tool
+for quality inspections of a project. Sonar has">
+<meta property="og:type" content="article">
+<meta property="article:published_time" content="2014-10-05T14:55:46+02:00">
+<meta property="article:tag" content="C++">
+<meta property="article:tag" content="Review">
+<meta property="article:tag" content="Sonar">
+<meta property="article:tag" content="Tools">
+<link href="../../../favicon.ico" rel="icon" type="image/x-icon">
+<link rel="publisher" href="https://plus.google.com/+BaptisteWicht">
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-2175227-7', 'auto');
+  var metas = document.getElementsByTagName('meta'), tagsList = [];
+  for (var i=0; i<metas.length; i++) {
+    if (metas[i].getAttribute('property') == 'article:tag') {
+      tagsList.push( metas[i].getAttribute('content'));
+    }
+  }
+  ga('set', 'dimension1', tagsList.join('|'));
+  ga('send', 'pageview');
+</script>
+</head>
+<body>
+
+<a href="#content" class="sr-only sr-only-focusable">Skip to main content</a>
+<div class="container-fluid">
+
+<div class="row">
+<div class="col-sm-3 col-lg-2">
+<nav class="navbar navbar-inverse navbar-fixed-side"><div class="navbar-header">
+<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+<span class="sr-only">Toggle navigation</span>
+<span class="icon-bar"></span>
+<span class="icon-bar"></span>
+<span class="icon-bar"></span>
+</button>
+<a class="navbar-brand" href="http://baptiste-wicht.com/">
+<span id="blog-title">Blog blog("Baptiste Wicht");</span>
+</a>
+</div>
+
+<div class="collapse navbar-collapse navbar-ex1-collapse">
+<ul class="nav navbar-nav">
+<li>
+<a href="../../../stories/about.html">About</a>
+</li>
+<li>
+<a href="../../../stories/publications.html">Publications</a>
+</li>
+<li>
+<a href="../../../stories/projects.html">Projects</a>
+</li>
+<li>
+<a href="../../../categories/index.html">Tags</a>
+</li>
+<li>
+<a href="../../../archive.html">Archives</a>
+</li>
+<li>
+<a href="http://feeds.feedburner.com/BaptisteWicht">RSS</a>
+</li>
+<li class="navbar-content">
+<h3>Related posts</h3>
+</li>
+<li><a href="../../2015/05/sonar-cpp-community-plugin-review.html">Sonar C++ Community Plugin Review</a></li>
+<li><a href="../../2015/11/aggregator-plugin-display-global-metrics-in-sonarqube.html">Aggregator Plugin : Display global metrics in Sonarqube</a></li>
+<li><a href="../../2010/03/sonar-2-0-released.html">The version 2.0 of Sonar has been released</a></li>
+<li><a href="../../2010/05/sonar-2-1-has-been-released.html">Sonar 2.1 has been released</a></li>
+<li><a href="../../2010/05/first-build-jtheque-sonar-2-0.html">First build of JTheque with Sonar 2.0</a></li>
+<li><a href="../../2016/09/short-review-of-bullseye-coverage.html">Short review of Bullseye Coverage</a></li>
+<li class="navbar-block">
+<li class="wicht-navbar-right">
+<a target="_blank" title="Follow @wichtounet on Twitter" href="https://twitter.com/wichtounet">
+<img src="../../../assets/img/twitter.png" alt="Follow @wichtounet on Twitter"></a>
+</li>
+<li class="wicht-navbar-right">
+<a target="_blank" title="Follow +BaptisteWicht on Google+" href="https://plus.google.com/+BaptisteWicht">
+<img src="../../../assets/img/google_plus.png" alt="Follow +BaptisteWicht on Google+"></a>
+</li>
+</ul>
+</div>
+
+</nav>
+</div> 
+<div class="col-sm-9 col-lg-10">
+<div id="content"></div>
+<article class="post-text h-entry hentry postpage" itemscope="itemscope" itemtype="http://schema.org/Article"><header><h1 class="p-name entry-title" itemprop="headline name"><a href="#" class="u-url">SonarQube inspections for C++ projects</a></h1>
+<div class="metadata">
+<p class="byline author vcard"><span class="byline-name fn" itemprop="author">
+Baptiste Wicht
+</span></p>
+<p class="dateline"><a href="#" rel="bookmark"><time class="published dt-published" datetime="2014-10-05T14:55:46+02:00" itemprop="datePublished" title="2014-10-05 14:55">2014-10-05 14:55</time></a></p>
+<p class="commentline">
+<a href="sonarqube-inspections-for-cpp-projects.html#disqus_thread" data-disqus-identifier="cache/posts/2014/10/sonarqube-inspections-for-cpp-projects.html">Comments</a>
+</p>
+<p class="sourceline"><a href="sonarqube-inspections-for-cpp-projects.rst" class="sourcelink">Source</a></p>
+</div>
+</header><div class="e-content entry-content" itemprop="articleBody text">
+<div>
+<p>Back in the days, when I used to develop in Java (I hadn't discovered the
+wonders of C++ :) ), I used Sonar a lot for my projects. Sonar is a great tool
+for quality inspections of a project. Sonar has been made for Java and is mostly
+free and opensource (some plugins are commercial) to inspect Java projects.
+Unfortunately, this is not the case for C++ inspection. Indeed, the C++ plugin
+cost 7000 euros (more than 8500$). As I mostly work on C++ for opensource and
+school projects, I'm definitely not able to buy it. I wanted for a long time to
+test the commercial C++ plugin. For this article, sonarsource provided me with a
+short (very short) time license for the C++ plugin.</p>
+<p>There is also another option for C++ which is the C++ community plugin:
+<a class="reference external" href="https://github.com/wenns/sonar-cxx">https://github.com/wenns/sonar-cxx</a>. I have tested it some time ago, but I was
+not satisfied with it, I had several errors and had to use a dev version to make
+it work a bit. Moreover, the C++11 support is inexistant and management of
+parsing error is not really satisfying. But maybe it is good for you. This
+article will only focus on the commercial plugin.</p>
+<div class="section" id="usage">
+<h2>Usage</h2>
+<p>For each project that you want to analyze with Sonar, you have to create a
+sonar-project.properties files describing some basic information about your
+project.</p>
+<p>Then, there are two ways to inspect a C++ project. The first one and recommended
+one is to use the <em>build-wrapper</em> executable. It is a sub project that you have
+to download and install alongside Sonar. It works by wrapping the commands to
+your build systems:</p>
+<pre class="literal-block">build-wrapper make all
+</pre>
+<p>and this should generate enough informations for not having to fill each field
+in the project configuration. The, you have to use the <em>sonar-runner</em> program to
+upload to Sonar.</p>
+<p>I tried it on several projects and there seems to be a problem with the
+includes. It didn't include the header files in the Sonar inspections.</p>
+<p>I finally ended up using manual configuration of the Sonar project and the
+header files were included correctly. However, you normally have to include many
+information in the configuration including all macros for instance. For now, I
+haven't bothered generating them and it doesn't seem to impact too much the
+results.</p>
+<p>When I look in the log, it seems that there are still a lot of parsing errors.
+They seem mostly related to some compiler macro, especially the __has_feature__
+macro of clang. This is the same problem with the build-wrapper. When I don't
+use the build-wrapper I also have other problems with macros for unit testing.</p>
+<p>I also have other errors coming during the inspection, for instance:</p>
+<pre class="literal-block">error directive: This file requires compiler and library support for the ISO C++
+2011 standard. This support is currently experimental, and must be enabled with
+the -std=c++11 or -std=gnu++11 compiler options
+</pre>
+<p>I think it comes from the fact that I compile with std=c++1y and that Sonar
+does not support C++14.</p>
+</div>
+<div class="section" id="inspections">
+<h2>Inspections</h2>
+<p>Here is the results of inspection on my ETL project:</p>
+<img alt="/images/etl_dashboard.png" src="../../../images/etl_dashboard.png"><p>I really like the web interface of Sonar, it really sums well all the
+information and the various plugins play quite nice with each other. Moreover,
+when you check issues, you can see directly the source code very clearly. I
+really think this is the strong point of Sonar.</p>
+<p>Here is the Hotspots view for instance:</p>
+<img alt="/images/etl_dashboard.png" src="../../../images/etl_dashboard.png"><p>Or the Time Machine view:</p>
+<img alt="/images/etl_dashboard.png" src="../../../images/etl_dashboard.png"><p>The issues that are reported by Sonar are quite good. On this project there is a
+lot of them related to naming conventions because I don't follow the conventions
+configured by default. However, you can easily configure the inspections to give
+your own naming regex or simple enable/disable some inspections.</p>
+<p>There are some good inspections:</p>
+<ul class="simple">
+<li>Some missing explicit keyword</li>
+<li>Some commented block of code that can be removed</li>
+<li>An if-elseif construct that should have had a else</li>
+<li>Files with too high complexity</li>
+</ul>
+<p>However, there are also some important false positives. For instance:</p>
+<img alt="/images/etl_false_positive_1.png" src="../../../images/etl_false_positive_1.png"><p>In here, there are no reasons to output this issue since the operator is
+deleted. It proves that the C++11 support is rather incomplete. I have other
+false positives of the same kind for <em>= default</em> operators and constructors.
+Here is another example:</p>
+<img alt="/images/etl_false_positive_2.png" src="../../../images/etl_false_positive_2.png"><p>In this case, the varadic template support is mixed with the old ellipsis
+notation, making it again a lack of C++11 support. There are also other false
+positives for instance because of lambdas, but all of them were related to
+C++11.</p>
+</div>
+<div class="section" id="various">
+<h2>Various</h2>
+<p>If you don't think you have enough quality rules, you can also include the one
+from cppcheck simply by givin the path to cppcheck in sonar-project.properties.
+I think this is great, since it works all by itself. You can also create your
+own rule, but you'll have to use XPath for path.</p>
+<p>If you want, you can also include unit test reports inside Sonar. I haven't
+tested this support since they only support cppunit test reports and I use only
+Catch for my unit tests. It would have been great if JUnit format would have
+been supported since many tool support it.</p>
+<p>The last option that is supported by this plugin is the support of GCOV reports
+for code coverage information. I haven't been able to make it work, I had errors
+indicating that the source files were not found. I didn't figure this out. It
+may come from the fact that I used llvm and clang to generate the GCOV reports
+and not G++.</p>
+</div>
+<div class="section" id="conclusion">
+<h2>Conclusion</h2>
+<p>First, here are some pros and cons for the C++ support in SonarQube.</p>
+<p><strong>Pros</strong></p>
+<ul class="simple">
+<li>Good default inspections</li>
+<li>Great web interface.</li>
+<li>cppcheck very well integrated</li>
+<li>Issues are easily configurable</li>
+</ul>
+<p><strong>Cons</strong></p>
+<ul class="simple">
+<li>C++11 support is incomplete and no C++14 support</li>
+<li>build-wrapper support seems instable. It should be integrated directly into
+sonar.</li>
+<li>Unit tests support is limited to cppunit</li>
+<li>Haven't been able to make Code Coverage work</li>
+<li>Macro support not flexible enough</li>
+<li>Too expensive</li>
+<li>Quite complicated</li>
+<li>No support for other static analyzer than cppcheck</li>
+</ul>
+<p>The general web interface feeling is quite good, everything looks great and the
+report are really useful. However, the usage of the tool does not feel very
+professional. I had a lot more problems than I expected to use it. I was also
+really disappointed by the C++11. The syntax seems to be supported but not the
+language feature in the inspections, making the C++11 support completely
+useless. This is weird since they cite C+11 as supported. Moreover, there not
+yet any C++14 support, but this is less dramatic. It is also a bit sad that they
+limit the import to cppcheck and no other static analyzers and the same stands
+for cppunit.</p>
+<p>In my opinion, it is really an inferior product compared to the Java support.
+I was expecting more from a 8500 dollars product.</p>
+<p>For now, I won't probably use it anymore on my projects since all of them use at
+least C++11, but I will probably retry Sonar for C++ in the future hoping that
+it will become as the Sonar Java support.</p>
+</div>
+</div>
+</div>
+<aside class="postpromonav"><nav><ul itemprop="keywords" class="tags">
+<li><a class="tag p-category" href="../../../categories/c%2B%2B.html" rel="tag">C++</a></li>
+<li><a class="tag p-category" href="../../../categories/review.html" rel="tag">Review</a></li>
+<li><a class="tag p-category" href="../../../categories/sonar.html" rel="tag">Sonar</a></li>
+<li><a class="tag p-category" href="../../../categories/tools.html" rel="tag">Tools</a></li>
+</ul>
+<ul class="pager hidden-print">
+<li class="previous">
+<a href="linux-tip-force-systemd-networkd-to-wait-for-dhcp.html" rel="prev" title="Linux tip: Force systemd networkd to wait for DHCP">Previous post</a>
+</li>
+<li class="next">
+<a href="../../2015/03/named-optional-template-parameters-compile-time.html" rel="next" title="Named Optional Template parameters to configure a class at compile-time">Next post</a>
+</li>
+</ul></nav></aside><section class="comments hidden-print"><h2>Comments</h2>
+<div id="disqus_thread"></div>
+ <script>
+        var disqus_shortname ="blogwichtounet",
+            disqus_url="http://baptiste-wicht.com/posts/2014/10/sonarqube-inspections-for-cpp-projects.html",
+        disqus_title="SonarQube inspections for C++ projects",
+        disqus_identifier="cache/posts/2014/10/sonarqube-inspections-for-cpp-projects.html",
+        disqus_config = function () {
+            this.language = "en";
+        };
+        (function() {
+            var dsq = document.createElement('script'); dsq.async = true;
+            dsq.src = 'https://' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        })();
+    </script><noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a>
+</noscript>
+<a href="https://disqus.com" class="dsq-brlink" rel="nofollow">Comments powered by <span class="logo-disqus">Disqus</span></a>
+</section></article><script>var disqus_shortname="blogwichtounet";(function(){var a=document.createElement("script");a.async=true;a.src="https://"+disqus_shortname+".disqus.com/count.js";(document.getElementsByTagName("head")[0]||document.getElementsByTagName("body")[0]).appendChild(a)}());</script>
+</div> 
+</div>
+
+</div>
+
+
+
+<footer>
+Contents © 2017 <a href="/cdn-cgi/l/email-protection#b5d7d4c5c1dcc6c1d0c2dcd6ddc1f5d2d8d4dcd99bd6dad8">Baptiste Wicht</a> - Powered by <a href="http://getnikola.com" rel="nofollow">Nikola</a> - License:
+<a rel="license" href="http://creativecommons.org/licenses/by/4.0/"><img alt="Creative Commons License" style="padding-left:5px;border-width:0" src="../../../assets/img/cc.png"></a>
+<ul class="footer_inline_ul">
+<li>
+<a href="sonarqube-inspections-for-cpp-projects.rst" id="sourcelink">Source</a>
+</li>
+</ul></footer><script src="/cdn-cgi/scripts/78d64697/cloudflare-static/email-decode.min.js"></script><script src="../../../assets/js/all-nocdn.js"></script>
+</body>
+</html>

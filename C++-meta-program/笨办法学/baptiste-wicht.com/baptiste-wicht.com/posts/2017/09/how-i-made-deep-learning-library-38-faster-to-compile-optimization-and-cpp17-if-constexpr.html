@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html prefix="og: http://ogp.me/ns# article: http://ogp.me/ns/article# " lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="description" content="Explanation on how I made DLL library 38% faster to compile with optimizations and using C++17 if constexpr.">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>How I made my Deep Learning Library 38% faster to compile (Optimization and C++17 if constexpr) | Blog blog("Baptiste Wicht");</title>
+<script src="/cdn-cgi/apps/head/98vpnawSZZMscPn4oDND-ZgswjM.js"></script><link href="../../../assets/css/all-nocdn.css" rel="stylesheet" type="text/css">
+<meta name="theme-color" content="#5670d4">
+<meta name="generator" content="Nikola (getnikola.com)">
+<link rel="alternate" type="application/rss+xml" title="RSS" href="../../../rss.xml">
+<link rel="canonical" href="http://baptiste-wicht.com/posts/2017/09/how-i-made-deep-learning-library-38-faster-to-compile-optimization-and-cpp17-if-constexpr.html">
+<!--[if lt IE 9]><script src="../../../assets/js/html5.js"></script><![endif]--><meta name="author" content="Baptiste Wicht">
+<link rel="prev" href="cpp11-performance-tip-when-to-use-std-pow.html" title="C++11 Performance tip: When to use std::pow ?" type="text/html">
+<link rel="next" href="cpp11-performance-tip-update-when-to-use-std-pow.html" title="C++11 Performance tip: Update on when to use std::pow ?" type="text/html">
+<meta property="og:site_name" content='Blog blog("Baptiste Wicht");'>
+<meta property="og:title" content="How I made my Deep Learning Library 38% faster to compile (Optimizatio">
+<meta property="og:url" content="http://baptiste-wicht.com/posts/2017/09/how-i-made-deep-learning-library-38-faster-to-compile-optimization-and-cpp17-if-constexpr.html">
+<meta property="og:description" content="Explanation on how I made DLL library 38% faster to compile with optimizations and using C++17 if constexpr.">
+<meta property="og:type" content="article">
+<meta property="article:published_time" content="2017-09-21T19:44:34+02:00">
+<meta property="article:tag" content="C++">
+<meta property="article:tag" content="C++17">
+<meta property="article:tag" content="clang">
+<meta property="article:tag" content="Compilers">
+<meta property="article:tag" content="dll">
+<meta property="article:tag" content="etl">
+<meta property="article:tag" content="gcc">
+<meta property="article:tag" content="Performance">
+<meta property="article:tag" content="projects">
+<link href="../../../favicon.ico" rel="icon" type="image/x-icon">
+<link rel="publisher" href="https://plus.google.com/+BaptisteWicht">
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-2175227-7', 'auto');
+  var metas = document.getElementsByTagName('meta'), tagsList = [];
+  for (var i=0; i<metas.length; i++) {
+    if (metas[i].getAttribute('property') == 'article:tag') {
+      tagsList.push( metas[i].getAttribute('content'));
+    }
+  }
+  ga('set', 'dimension1', tagsList.join('|'));
+  ga('send', 'pageview');
+</script>
+</head>
+<body>
+
+<a href="#content" class="sr-only sr-only-focusable">Skip to main content</a>
+<div class="container-fluid">
+
+<div class="row">
+<div class="col-sm-3 col-lg-2">
+<nav class="navbar navbar-inverse navbar-fixed-side"><div class="navbar-header">
+<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+<span class="sr-only">Toggle navigation</span>
+<span class="icon-bar"></span>
+<span class="icon-bar"></span>
+<span class="icon-bar"></span>
+</button>
+<a class="navbar-brand" href="http://baptiste-wicht.com/">
+<span id="blog-title">Blog blog("Baptiste Wicht");</span>
+ </a>
+</div>
+
+<div class="collapse navbar-collapse navbar-ex1-collapse">
+<ul class="nav navbar-nav">
+<li>
+<a href="../../../stories/about.html">About</a>
+</li>
+<li>
+<a href="../../../stories/publications.html">Publications</a>
+</li>
+<li>
+<a href="../../../stories/projects.html">Projects</a>
+</li>
+<li>
+<a href="../../../categories/index.html">Tags</a>
+</li>
+<li>
+<a href="../../../archive.html">Archives</a>
+</li>
+<li>
+<a href="http://feeds.feedburner.com/BaptisteWicht">RSS</a>
+</li>
+<li class="navbar-content">
+<h3>Related posts</h3>
+</li>
+<li><a href="../08/compiler-benchmark-gcc-clang-cpp-library-etl.html">Compiler benchmark GCC and Clang on C++ library (ETL)</a></li>
+<li><a href="../03/partial-type-erasing-deep-learning-library-dll-improve-compilation-time.html">Partial type erasing in Deep Learning Library (DLL) to improve compilation time</a></li>
+<li><a href="../../2016/11/zapcc-a-faster-cpp-compiler.html">zapcc - a faster C++ compiler</a></li>
+<li><a href="../../2016/12/zapcc-cpp-compilation-speed-against-gcc-54-and-clang-39.html">zapcc C++ compilation speed against gcc 5.4 and clang 3.9</a></li>
+<li><a href="../03/release-zapcc-10-fast-cpp-compiler.html">Release of zapcc 1.0 - Fast C++ compiler</a></li>
+<li><a href="../../2016/09/blazing-fast-unit-test-compilation-with-doctest-11.html">Blazing fast unit test compilation with doctest 1.1</a></li>
+<li class="navbar-block">
+<li class="wicht-navbar-right">
+<a target="_blank" title="Follow @wichtounet on Twitter" href="https://twitter.com/wichtounet">
+<img src="../../../assets/img/twitter.png" alt="Follow @wichtounet on Twitter"></a>
+</li>
+<li class="wicht-navbar-right">
+<a target="_blank" title="Follow +BaptisteWicht on Google+" href="https://plus.google.com/+BaptisteWicht">
+<img src="../../../assets/img/google_plus.png" alt="Follow +BaptisteWicht on Google+"></a>
+</li>
+</ul>
+</div>
+
+</nav>
+</div> 
+<div class="col-sm-9 col-lg-10">
+<div id="content"></div>
+<article class="post-text h-entry hentry postpage" itemscope="itemscope" itemtype="http://schema.org/Article"><header><h1 class="p-name entry-title" itemprop="headline name"><a href="#" class="u-url">How I made my Deep Learning Library 38% faster to compile (Optimization and C++17 if constexpr)</a></h1>
+<div class="metadata">
+<p class="byline author vcard"><span class="byline-name fn" itemprop="author">
+Baptiste Wicht
+</span></p>
+<p class="dateline"><a href="#" rel="bookmark"><time class="published dt-published" datetime="2017-09-21T19:44:34+02:00" itemprop="datePublished" title="2017-09-21 19:44">2017-09-21 19:44</time></a></p>
+<p class="commentline">
+<a href="how-i-made-deep-learning-library-38-faster-to-compile-optimization-and-cpp17-if-constexpr.html#disqus_thread" data-disqus-identifier="cache/posts/2017/09/how-i-made-deep-learning-library-38-faster-to-compile-optimization-and-cpp17-if-constexpr.html">Comments</a>
+</p>
+<p class="sourceline"><a href="how-i-made-deep-learning-library-38-faster-to-compile-optimization-and-cpp17-if-constexpr.rst" class="sourcelink">Source</a></p>
+</div>
+</header><div class="e-content entry-content" itemprop="articleBody text">
+<div>
+<p>My Deep Learning Library (DLL) project is a C++ library for training and using
+artificial neural networks (you can take a look at
+<a class="reference external" href="https://baptiste-wicht.com/posts/2017/07/update-on-deep-learning-library-dll-dropout-batch-normalization-adaptive-learning-rates.html">this post about DLL</a>
+if you want more information).</p>
+<p>While I made a lot of effort to make it as fast as possible to train and run
+neural networks, the compilation time has been steadily going up and is becoming
+quite annoying. This library is heavily templated and all the matrix operations
+are done using my Expression Templates Library (ETL) which is more than
+template-heavy itself.</p>
+<p>In this post, I'll present two techniques with which I've been able to reduce
+the total compilation of the DLL unit tests by up to 38%.</p>
+
+<div class="section" id="reduce-overhead-of-expression-templates-library">
+<h2>Reduce overhead of Expression Templates Library</h2>
+<p>One of the feature I'm using a lot in ETL is that the implementation of each
+algorithm can be chosen in the code directly.</p>
+<p>For example, for a matrix multiplication, to force the vectorized
+implementation:</p>
+<pre class="code c++"><a name="rest_code_230cc1cba2e44c3ab13e125080f954d9-1"></a><span class="n">C</span> <span class="o">=</span> <span class="n">selected_helper</span><span class="p">(</span><span class="n">etl</span><span class="o">::</span><span class="n">gemm_impl</span><span class="o">::</span><span class="n">VEC</span><span class="p">,</span> <span class="n">A</span> <span class="o">*</span> <span class="n">B</span><span class="p">);</span>
+</pre>
+<p>This works great and simplifies a lot the testing and benchmarking of the
+application. Nevertheless, this complicates a lot the selection of the algorithm
+and incurs quite some overhead on compilation time. I've come to realize that
+for most usage of the library this is not necessary. This is something that
+should only be used by the tests and benchmark. Therefore, I disabled this
+behaviour by default and added a macro to enable this behaviour
+(<code>ETL_MANUAL_SELECT</code>). This simplifies a lot the code in the case the
+macro is not defined. In fact, it also greatly reduces the compilation time of
+ETL usages where manual selection is not enabled, basically all ETL usages. In
+one of my ETL examples, the compilation time has gone down from about 30 seconds
+to about 15 seconds. I was actually quite surprised by the impact of the change.
+Therefore, I updated DLL to see the difference with this new version of ETL.
+I tested the difference with GCC 7.1 and clang 3.9 with all the possible options
+from ETL. Nothing changed in DLL, only the ETL library was updated. Here are the
+results with DLL's unit tests:</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="26%">
+<col width="16%">
+<col width="19%">
+<col width="19%">
+<col width="21%">
+</colgroup>
+<thead valign="bottom"><tr>
+<th class="head">Compiler</th>
+<th class="head">GCC Debug</th>
+<th class="head">GCC Release</th>
+<th class="head">Clang Debug</th>
+<th class="head">Clang Release</th>
+</tr></thead>
+<tbody valign="top">
+<tr>
+<td>Base version</td>
+<td>560s</td>
+<td>1188s</td>
+<td>861s</td>
+<td>1179s</td>
+</tr>
+<tr>
+<td>Manual selection</td>
+<td>490s</td>
+<td>866s</td>
+<td>704s</td>
+<td>813s</td>
+</tr>
+<tr>
+<td>Improvement</td>
+<td>12.5%</td>
+<td>27.5%</td>
+<td>18%</td>
+<td>31%</td>
+</tr>
+</tbody>
+</table>
+<p>As you can see, the compilation time improvement are quite substantial :)</p>
+<p>I'm really happy with these results. With not that much changes in ETL, the
+compilation time of DLL has been nicely reduced.</p>
+</div>
+<div class="section" id="use-if-constexpr-for-algorithm-selection">
+<h2>Use if constexpr for algorithm selection</h2>
+<p>Since C++17 has been supported in compilers, I've been wanting to play around
+with <code>if constexpr</code>. Before, when necessary, I've been emulated if
+constexpr with SFINAE and a lambda, but it's really not nice code. However, it
+already helped me in the past, for instance
+<a class="reference external" href="https://baptiste-wicht.com/posts/2016/01/improve-dll-and-etl-compile-time-further.html">a single static_if reduced the compilation time of DLL by about 30%</a>.
+I'm trying not to abuse it in the code, I've reserved it for a very instances in
+DLL's code. However, <code>if constexpr</code> is much nicer than an emulated
+version. The only problem with it is that you need a really recent compiler for
+it. Especially with GCC, you need GCC 7.1 that has been available since May this
+year only. I'd rather not force too strong constraints on DLL requirements.</p>
+<p>Nevertheless, I've been annotating a lot of my <code>if</code> with constexpr
+annotations in the form of comments (<code>if /*constexpr*/</code>) so that I can
+switch back and forth to see the impact of C++17 <code>if constexpr</code> on my
+compilation time. Interestingly, only enabling C++17 as a compiler option made
+compilation slower by about 2%. Moreover, I've also found a few places in my
+code where C++17 was breaking. For instance, C++17 Ranges is adding a function
+<code>std::size(range)</code> that is ambiguous with <code>etl::size(matrix)</code> in
+some cases where ADL is concerned.</p>
+<p>Now that selection is much simpler in ETL, the complete selection can now be
+made constexpr and resolved at compile time.And therefore, all the branches can
+be resolved at compile time. Hopefully, this should avoid a lot of algorithms
+implementation to be instantiated.</p>
+<p>Here are the results I've obtained:</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="33%">
+<col width="14%">
+<col width="17%">
+<col width="17%">
+<col width="19%">
+</colgroup>
+<thead valign="bottom"><tr>
+<th class="head">Compiler</th>
+<th class="head">GCC Debug</th>
+<th class="head">GCC Release</th>
+<th class="head">Clang Debug</th>
+<th class="head">Clang Release</th>
+</tr></thead>
+<tbody valign="top">
+<tr>
+<td>Base version</td>
+<td>560s</td>
+<td>1188s</td>
+<td>861s</td>
+<td>1179s</td>
+</tr>
+<tr>
+<td>Manual selection</td>
+<td>490s</td>
+<td>866s</td>
+<td>704s</td>
+<td>813s</td>
+</tr>
+<tr>
+<td>C++17 if constexpr (ETL)</td>
+<td>444s</td>
+<td>767s</td>
+<td>663s</td>
+<td>731s</td>
+</tr>
+<tr>
+<td>Improvement</td>
+<td>10%</td>
+<td>11.5%</td>
+<td>6%</td>
+<td>10%</td>
+</tr>
+</tbody>
+</table>
+<p>By enabling C++17 and transforming some <code>if</code> into <code>if constexpr</code>,
+compilation time was reducing by up to 11.5%. It's pretty good, but I would have
+expected a bit more. Nevertheless, it's still an upgrade :) We can see that the
+impact is more important for release compilation. It makes sense since it should
+remove quite a lot of code hard to optimize.</p>
+<p>I've also started experimenting with <code>if constexpr</code> in DLL itself.
+Unfortunately, this didn't have as much effect as I wanted. Here are some
+preliminary results:</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="33%">
+<col width="14%">
+<col width="17%">
+<col width="17%">
+<col width="19%">
+</colgroup>
+<thead valign="bottom"><tr>
+<th class="head">Compiler</th>
+<th class="head">GCC Debug</th>
+<th class="head">GCC Release</th>
+<th class="head">Clang Debug</th>
+<th class="head">Clang Release</th>
+</tr></thead>
+<tbody valign="top">
+<tr>
+<td>Base version</td>
+<td>560s</td>
+<td>1188s</td>
+<td>861s</td>
+<td>1179s</td>
+</tr>
+<tr>
+<td>Manual selection</td>
+<td>490s</td>
+<td>866s</td>
+<td>704s</td>
+<td>813s</td>
+</tr>
+<tr>
+<td>C++17 if constexpr (ETL)</td>
+<td>444s</td>
+<td>767s</td>
+<td>663s</td>
+<td>731s</td>
+</tr>
+<tr>
+<td>C++17 if constexpr (DLL)</td>
+<td>434s</td>
+<td>765s</td>
+<td>658s</td>
+<td>725s</td>
+</tr>
+<tr>
+<td>Improvement</td>
+<td>2.3%</td>
+<td>0.3%</td>
+<td>0.75%</td>
+<td>1%</td>
+</tr>
+</tbody>
+</table>
+<p>As you can see, the improvements are pretty small, almost not significant in
+some cases. Nevertheless, I believe there is some improvements that is possible.
+I've got a few other cases that I plan to refactor to allow for more
+<code>if constexpr</code> action. I'll see about that in the coming months.</p>
+</div>
+<div class="section" id="conclusion">
+<h2>Conclusion</h2>
+<p>By disabling manual selection by default in my Expression Templates Library
+(ETL) and by making use of C++17 <code>if constexpr</code> feature, I've been able to
+reduce the compilation time of DLL's unit test suite by up to 38% in the best
+case.</p>
+<p>So far, only the improvements to ETL are online, the C++17 improvements are only
+present on the form of comments that I switch on and off when I do tests like
+that. I think I'm still gonna wait a bit until I enable C++17 for ETL, but it's
+probably gonna be enabled for ETL 1.3. And, by the way, the version 1.2 of ETL
+should soon be released.</p>
+<p>You can take a look at my libraries on Github:</p>
+<ul class="simple">
+<li><a class="reference external" href="https://github.com/wichtounet/etl">Expression Templates Library (ETL)</a></li>
+<li><a class="reference external" href="https://github.com/wichtounet/dll">Deep Learning Library (DLL)</a></li>
+</ul>
+<p>As ever, don't hesitate if you have any question or comment on the matter, to
+post a comment on this blog or on Github :)</p>
+</div>
+</div>
+</div>
+<aside class="postpromonav"><nav><ul itemprop="keywords" class="tags">
+<li><a class="tag p-category" href="../../../categories/c%2B%2B.html" rel="tag">C++</a></li>
+<li><a class="tag p-category" href="../../../categories/c%2B%2B17.html" rel="tag">C++17</a></li>
+<li><a class="tag p-category" href="../../../categories/clang.html" rel="tag">clang</a></li>
+<li><a class="tag p-category" href="../../../categories/compilers.html" rel="tag">Compilers</a></li>
+<li><a class="tag p-category" href="../../../categories/dll.html" rel="tag">dll</a></li>
+<li><a class="tag p-category" href="../../../categories/etl.html" rel="tag">etl</a></li>
+<li><a class="tag p-category" href="../../../categories/gcc.html" rel="tag">gcc</a></li>
+<li><a class="tag p-category" href="../../../categories/performance.html" rel="tag">Performance</a></li>
+<li><a class="tag p-category" href="../../../categories/projects.html" rel="tag">projects</a></li>
+</ul>
+<ul class="pager hidden-print">
+<li class="previous">
+<a href="cpp11-performance-tip-when-to-use-std-pow.html" rel="prev" title="C++11 Performance tip: When to use std::pow ?">Previous post</a>
+</li>
+<li class="next">
+<a href="cpp11-performance-tip-update-when-to-use-std-pow.html" rel="next" title="C++11 Performance tip: Update on when to use std::pow ?">Next post</a>
+</li>
+</ul></nav></aside><section class="comments hidden-print"><h2>Comments</h2>
+<div id="disqus_thread"></div>
+<script>
+        var disqus_shortname ="blogwichtounet",
+            disqus_url="http://baptiste-wicht.com/posts/2017/09/how-i-made-deep-learning-library-38-faster-to-compile-optimization-and-cpp17-if-constexpr.html",
+        disqus_title="How I made my Deep Learning Library 38% faster to compile (Optimization and C++17 if constexpr)",
+        disqus_identifier="cache/posts/2017/09/how-i-made-deep-learning-library-38-faster-to-compile-optimization-and-cpp17-if-constexpr.html",
+        disqus_config = function () {
+            this.language = "en";
+        };
+        (function() {
+            var dsq = document.createElement('script'); dsq.async = true;
+            dsq.src = 'https://' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        })();
+    </script><noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a>
+</noscript>
+<a href="https://disqus.com" class="dsq-brlink" rel="nofollow">Comments powered by <span class="logo-disqus">Disqus</span></a>
+</section></article><script>var disqus_shortname="blogwichtounet";(function(){var a=document.createElement("script");a.async=true;a.src="https://"+disqus_shortname+".disqus.com/count.js";(document.getElementsByTagName("head")[0]||document.getElementsByTagName("body")[0]).appendChild(a)}());</script>
+</div> 
+</div>
+
+</div>
+
+
+
+<footer>
+Contents © 2017 <a href="/cdn-cgi/l/email-protection#f3919283879a808796849a909b87b3949e929a9fdd909c9e">Baptiste Wicht</a> - Powered by <a href="http://getnikola.com" rel="nofollow">Nikola</a> - License:
+<a rel="license" href="http://creativecommons.org/licenses/by/4.0/"><img alt="Creative Commons License" style="padding-left:5px;border-width:0" src="../../../assets/img/cc.png"></a>
+<ul class="footer_inline_ul">
+<li>
+<a href="how-i-made-deep-learning-library-38-faster-to-compile-optimization-and-cpp17-if-constexpr.rst" id="sourcelink">Source</a>
+</li>
+</ul></footer><script src="/cdn-cgi/scripts/78d64697/cloudflare-static/email-decode.min.js"></script><script src="../../../assets/js/all-nocdn.js"></script>
+</body>
+</html>

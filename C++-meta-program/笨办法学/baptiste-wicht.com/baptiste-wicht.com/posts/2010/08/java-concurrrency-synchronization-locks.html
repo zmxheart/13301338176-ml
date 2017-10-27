@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html prefix="og: http://ogp.me/ns# article: http://ogp.me/ns/article# " lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Java Concurrency – Part 3 : Synchronization with intrinsic locks | Blog blog("Baptiste Wicht");</title>
+<script src="/cdn-cgi/apps/head/98vpnawSZZMscPn4oDND-ZgswjM.js"></script><link href="../../../assets/css/all-nocdn.css" rel="stylesheet" type="text/css">
+<meta name="theme-color" content="#5670d4">
+<meta name="generator" content="Nikola (getnikola.com)">
+<link rel="alternate" type="application/rss+xml" title="RSS" href="../../../rss.xml">
+<link rel="canonical" href="http://baptiste-wicht.com/posts/2010/08/java-concurrrency-synchronization-locks.html">
+<!--[if lt IE 9]><script src="../../../assets/js/html5.js"></script><![endif]--><meta name="author" content="Baptiste Wicht">
+<link rel="prev" href="file-copy-benchmark-updates-once-again.html" title="Java File Copy Benchmark Updates (once again)" type="text/html">
+<link rel="next" href="java-concurrency-part-4-semaphores.html" title="Java Concurrency - Part 4 : Semaphores" type="text/html">
+<meta property="og:site_name" content='Blog blog("Baptiste Wicht");'>
+<meta property="og:title" content="Java Concurrency – Part 3 : Synchronization with intrinsic locks">
+<meta property="og:url" content="http://baptiste-wicht.com/posts/2010/08/java-concurrrency-synchronization-locks.html">
+<meta property="og:description" content="create threads and manipulate them, it's time to go to most important things : synchronization.
+Synchronization is a way to make some code thread safe. A code that can be accessed by multiple threads ">
+<meta property="og:type" content="article">
+<meta property="article:published_time" content="2010-08-27T07:15:59+02:00">
+<meta property="article:tag" content="Concurrency">
+<meta property="article:tag" content="Java">
+<link href="../../../favicon.ico" rel="icon" type="image/x-icon">
+<link rel="publisher" href="https://plus.google.com/+BaptisteWicht">
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-2175227-7', 'auto');
+  var metas = document.getElementsByTagName('meta'), tagsList = [];
+  for (var i=0; i<metas.length; i++) {
+    if (metas[i].getAttribute('property') == 'article:tag') {
+      tagsList.push( metas[i].getAttribute('content'));
+    }
+  }
+  ga('set', 'dimension1', tagsList.join('|'));
+  ga('send', 'pageview');
+</script>
+</head>
+<body>
+
+<a href="#content" class="sr-only sr-only-focusable">Skip to main content</a>
+<div class="container-fluid">
+
+<div class="row">
+<div class="col-sm-3 col-lg-2">
+<nav class="navbar navbar-inverse navbar-fixed-side"><div class="navbar-header">
+<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+<span class="sr-only">Toggle navigation</span>
+<span class="icon-bar"></span>
+<span class="icon-bar"></span>
+<span class="icon-bar"></span>
+</button>
+<a class="navbar-brand" href="http://baptiste-wicht.com/">
+<span id="blog-title">Blog blog("Baptiste Wicht");</span>
+</a>
+</div>
+
+<div class="collapse navbar-collapse navbar-ex1-collapse">
+<ul class="nav navbar-nav">
+<li>
+<a href="../../../stories/about.html">About</a>
+</li>
+<li>
+<a href="../../../stories/publications.html">Publications</a>
+</li>
+<li>
+<a href="../../../stories/projects.html">Projects</a>
+</li>
+<li>
+<a href="../../../categories/index.html">Tags</a>
+</li>
+<li>
+<a href="../../../archive.html">Archives</a>
+</li>
+<li>
+<a href="http://feeds.feedburner.com/BaptisteWicht">RSS</a>
+</li>
+<li class="navbar-content">
+<h3>Related posts</h3>
+</li>
+<li><a href="../../2012/03/cp11-concurrency-tutorial-part-2-protect-shared-data.html">C++11 Concurrency Tutorial - Part 2 : Protect shared data</a></li>
+<li><a href="../../2012/04/c11-concurrency-tutorial-advanced-locking-and-condition-variables.html">C++11 Concurrency Tutorial - Part 3: Advanced locking and condition variables</a></li>
+<li><a href="../09/java-concurrency-part-5-monitors-locks-and-conditions.html">Java Concurrency - Part 5 : Monitors (Locks and Conditions)</a></li>
+<li><a href="../05/java-concurrency-part-1-threads.html">Java Concurrency - Part 1 : Threads</a></li>
+<li><a href="../09/java-concurrency-atomic-variables.html">Java Concurrency - Part 6 : Atomic Variables</a></li>
+<li><a href="../09/java-synchronization-mutual-exclusion-benchmark.html">Java Synchronization (Mutual Exclusion) Benchmark</a></li>
+<li class="navbar-block">
+<li class="wicht-navbar-right">
+<a target="_blank" title="Follow @wichtounet on Twitter" href="https://twitter.com/wichtounet">
+<img src="../../../assets/img/twitter.png" alt="Follow @wichtounet on Twitter"></a>
+</li>
+<li class="wicht-navbar-right">
+<a target="_blank" title="Follow +BaptisteWicht on Google+" href="https://plus.google.com/+BaptisteWicht">
+<img src="../../../assets/img/google_plus.png" alt="Follow +BaptisteWicht on Google+"></a>
+</li>
+</ul>
+</div>
+
+</nav>
+</div> 
+<div class="col-sm-9 col-lg-10">
+<div id="content"></div>
+<article class="post-text h-entry hentry postpage" itemscope="itemscope" itemtype="http://schema.org/Article"><header><h1 class="p-name entry-title" itemprop="headline name"><a href="#" class="u-url">Java Concurrency – Part 3 : Synchronization with intrinsic locks</a></h1>
+<div class="metadata">
+<p class="byline author vcard"><span class="byline-name fn" itemprop="author">
+Baptiste Wicht
+</span></p>
+<p class="dateline"><a href="#" rel="bookmark"><time class="published dt-published" datetime="2010-08-27T07:15:59+02:00" itemprop="datePublished" title="2010-08-27 07:15">2010-08-27 07:15</time></a></p>
+<p class="commentline">
+<a href="java-concurrrency-synchronization-locks.html#disqus_thread" data-disqus-identifier="cache/posts/2010/08/java-concurrrency-synchronization-locks.html">Comments</a>
+</p>
+<p class="sourceline"><a href="java-concurrrency-synchronization-locks.wp" class="sourcelink">Source</a></p>
+</div>
+</header><div class="e-content entry-content" itemprop="articleBody text">
+<div>
+<p><after learning how to title="Java Concurrency - Part 1 : Threads" href="http://www.baptiste-wicht.com/2010/05/java-concurrency-part-1-threads/" target="_blank">create threads and <a title="Java Concurrency - Part 2 : Manipulate threads" href="http://www.baptiste-wicht.com/2010/05/java-concurrency-part-2-manipulate-threads/" target="_blank">manipulate them</a>, it's time to go to most important things : synchronization.</after></p>
+<p>Synchronization is a way to make some code thread safe. A code that can be accessed by multiple threads must be made thread safe. Thread Safe describe some code that can be called from multiple threads without corrupting the state of the object or simply doing the thing the code must do in right order.</p>
+<p>For example, we can take this little class :</p>
+<pre class="code literal-block"><span></span><span class="kd">public</span> <span class="kd">class</span> <span class="nc">Example</span> <span class="o">{</span>
+    <span class="kd">private</span> <span class="kt">int</span> <span class="n">value</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span>    
+
+    <span class="kd">public</span> <span class="kt">int</span> <span class="nf">getNextValue</span><span class="o">(){</span>
+        <span class="k">return</span> <span class="n">value</span><span class="o">++;</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</pre>
+<p>It's really simple and works well with one thread, but absolutely not with multiple threads. An increment like this is not a simple action, but three actions :</p>
+<p></p>
+<ul>
+<li>Read the current value of "value"</li>
+<li>Add one to the current value</li>
+<li>Write that new value to "value"</li>
+</ul>
+<p>Normally, if you have two threads invoking the getNextValue(), you can think that the first will get 1 and the next will get 2, but it is possible that the two threads get the value 1. Imagine this situation :</p>
+<ul>
+<li>Thread 1 : read the value, get 0, add 1, so value = 1</li>
+<li>Thread 2 : read the value, get 0, add 1, so value = 1</li>
+<li>Thread 1 : write 1 to the field value and return 1</li>
+<li>Thread 2 : write 1 to the field value and return 1</li>
+</ul>
+<p>These situations come from what we call interleaving. Interleaving describe the possible situations of several threads executing some statements. Only for three operations and two threads, there is a lot of possible interleavings.</p>
+<p>So we must made the operations atomic to works with multiple threads. In Java, the first way to make that is to use a lock. All Java objects contains an intrinsic locks, we'll use that lock to make methods or statement atomic. When a thread has a lock, no other thread can acquire it and must wait for the first thread to release the lock. To acquire the lock, you have to use the synchronized keyword to automatically acquire and release a lock for a code. You can add the synchronized keyword to a method to acquire the lock before invoking the method and release it after the method execution. You can refactor the getNextValue() method using the synchronized keyword :</p>
+<pre class="code literal-block"><span></span><span class="kd">public</span> <span class="kd">class</span> <span class="nc">Example</span> <span class="o">{</span>
+    <span class="kd">private</span> <span class="kt">int</span> <span class="n">value</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span>    
+
+    <span class="kd">public</span> <span class="kd">synchronized</span> <span class="kt">int</span> <span class="nf">getNextValue</span><span class="o">(){</span>
+        <span class="k">return</span> <span class="n">value</span><span class="o">++;</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</pre>
+<p>With that, you have the guarantee that only thread can execute the method at the same time. The used lock is the intrinsic lock of the instance. If the method is static, the used lock is the Class object of Example. If you have two methods with the synchronized keyword, only one method of the two will be executed at the same time because the same lock is used for the two methods. You can also write it using a synchronized block :</p>
+<pre class="code literal-block"><span></span><span class="kd">public</span> <span class="kd">class</span> <span class="nc">Example</span> <span class="o">{</span>
+    <span class="kd">private</span> <span class="kt">int</span> <span class="n">value</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span>
+
+    <span class="kd">public</span> <span class="kt">int</span> <span class="nf">getNextValue</span><span class="o">()</span> <span class="o">{</span>
+        <span class="kd">synchronized</span> <span class="o">(</span><span class="k">this</span><span class="o">)</span> <span class="o">{</span>
+            <span class="k">return</span> <span class="n">value</span><span class="o">++;</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</pre>
+<p>This is exactly the same as using the synchronized keyword on the method signature. Using synchronized blocks, you can choose the lock to block on. By example, if you don't want to use the intrinsic lock of the current object but an other object, you can use an other object just as a lock :</p>
+<pre class="code literal-block"><span></span><span class="kd">public</span> <span class="kd">class</span> <span class="nc">Example</span> <span class="o">{</span>
+    <span class="kd">private</span> <span class="kt">int</span> <span class="n">value</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span>
+
+    <span class="kd">private</span> <span class="kd">final</span> <span class="n">Object</span> <span class="n">lock</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Object</span><span class="o">();</span>
+
+    <span class="kd">public</span> <span class="kt">int</span> <span class="nf">getNextValue</span><span class="o">()</span> <span class="o">{</span>
+        <span class="kd">synchronized</span> <span class="o">(</span><span class="n">lock</span><span class="o">)</span> <span class="o">{</span>
+            <span class="k">return</span> <span class="n">value</span><span class="o">++;</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</pre>
+<p>The result is the same but has one difference, the lock is internal to the object so no other code can use the lock. With complex classes, it not rare to use several locks to provide thread safety on the class.</p>
+<p>There is an other issue with multiple threads : the visibility of the variables. This seems when a change made by a thread is visible by an other thread. For performance improvements, the Java compiler and virtual machines can made some improvements using registers and cache. By default, you have no guarantee that a change made by a thread is visible to an other thread. To make a change visible to an other thread, you must use synchronized blocks to ensure visibility of the change. You must use synchronized blocks for the read and for the write of the shared values. You must make that for every read/write of a value shared between multiple threads.</p>
+<p>You can also use the volatile keyword on the field to ensure the visibility of read/write between multiple threads. The volatile keyword ensure only visibility, not atomicity. The synchronized blocks ensure visibility and atomicity. So you can use the volatile keyword on fields that doesn't need atomicity (if you make only read and write to the field without depending on the current value of the field by example).</p>
+<p>You can also note that this simple example can be solved using AtomicInteger, but that will be covered later in an other part of the posts.</p>
+<p>Pay attention that trying to solve thread safety on a problem can add new issues of deadlock. By example, if thread A owns the lock 1 and are waiting for the lock 2 and if lock 2 is acquired by thread B who waits on lock 1, there is a deadlock. Your program is dead. So you have to pay great attention to the locks.</p>
+<p>There is several rules that we must keep in mind when using locks :</p>
+<ol>
+<li>Every mutable fields shared between multiple threads must be guarded with a lock or made volatile, if you only need visibility</li>
+<li>Synchronize only the operations that must synchronized, this improve the performances. But don't synchronize too few operations. Try to keep the lock only for short operations.</li>
+<li>Always know which locks are acquired and when there are acquired and by which thread</li>
+<li>An immutable object is always thread safe</li>
+</ol>
+<p>Here we are, I hope that this post helps you to understand thread safety and how to achieve it using intrinsic locks. In the next posts, we'll see another synchronization methods.</p>
+</div>
+</div>
+<aside class="postpromonav"><nav><ul itemprop="keywords" class="tags">
+<li><a class="tag p-category" href="../../../categories/concurrency.html" rel="tag">Concurrency</a></li>
+<li><a class="tag p-category" href="../../../categories/java.html" rel="tag">Java</a></li>
+</ul>
+<ul class="pager hidden-print">
+<li class="previous">
+<a href="file-copy-benchmark-updates-once-again.html" rel="prev" title="Java File Copy Benchmark Updates (once again)">Previous post</a>
+</li>
+<li class="next">
+<a href="java-concurrency-part-4-semaphores.html" rel="next" title="Java Concurrency - Part 4 : Semaphores">Next post</a>
+</li>
+</ul></nav></aside><section class="comments hidden-print"><h2>Comments</h2>
+<div id="disqus_thread"></div>
+<script>
+        var disqus_shortname ="blogwichtounet",
+            disqus_url="http://baptiste-wicht.com/posts/2010/08/java-concurrrency-synchronization-locks.html",
+        disqus_title="Java Concurrency \u2013 Part 3 : Synchronization with intrinsic locks",
+        disqus_identifier="cache/posts/2010/08/java-concurrrency-synchronization-locks.html",
+        disqus_config = function () {
+            this.language = "en";
+        };
+        (function() {
+            var dsq = document.createElement('script'); dsq.async = true;
+            dsq.src = 'https://' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        })();
+    </script><noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a>
+</noscript>
+<a href="https://disqus.com" class="dsq-brlink" rel="nofollow">Comments powered by <span class="logo-disqus">Disqus</span></a>
+</section></article><script>var disqus_shortname="blogwichtounet";(function(){var a=document.createElement("script");a.async=true;a.src="https://"+disqus_shortname+".disqus.com/count.js";(document.getElementsByTagName("head")[0]||document.getElementsByTagName("body")[0]).appendChild(a)}());</script>
+</div> 
+</div>
+
+</div>
+
+
+
+<footer>
+Contents © 2017 <a href="/cdn-cgi/l/email-protection#107271606479636475677973786450777d71797c3e737f7d">Baptiste Wicht</a> - Powered by <a href="http://getnikola.com" rel="nofollow">Nikola</a> - License:
+<a rel="license" href="http://creativecommons.org/licenses/by/4.0/"><img alt="Creative Commons License" style="padding-left:5px;border-width:0" src="../../../assets/img/cc.png"></a>
+<ul class="footer_inline_ul">
+<li>
+<a href="java-concurrrency-synchronization-locks.wp" id="sourcelink">Source</a>
+</li>
+</ul></footer><script src="/cdn-cgi/scripts/78d64697/cloudflare-static/email-decode.min.js"></script><script src="../../../assets/js/all-nocdn.js"></script>
+</body>
+</html>

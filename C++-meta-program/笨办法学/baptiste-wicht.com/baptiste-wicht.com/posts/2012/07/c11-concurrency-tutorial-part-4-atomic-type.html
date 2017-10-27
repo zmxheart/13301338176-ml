@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html prefix="og: http://ogp.me/ns# article: http://ogp.me/ns/article# " lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>C++11 Concurrency Tutorial - Part 4: Atomic Types | Blog blog("Baptiste Wicht");</title>
+<script src="/cdn-cgi/apps/head/98vpnawSZZMscPn4oDND-ZgswjM.js"></script><link href="../../../assets/css/all-nocdn.css" rel="stylesheet" type="text/css">
+<meta name="theme-color" content="#5670d4">
+<meta name="generator" content="Nikola (getnikola.com)">
+<link rel="alternate" type="application/rss+xml" title="RSS" href="../../../rss.xml">
+<link rel="canonical" href="http://baptiste-wicht.com/posts/2012/07/c11-concurrency-tutorial-part-4-atomic-type.html">
+<!--[if lt IE 9]><script src="../../../assets/js/html5.js"></script><![endif]--><meta name="author" content="Baptiste Wicht">
+<link rel="prev" href="eddi-compiler-1-0-3-inlining-register-allocation.html" title="EDDI Compiler 1.0.3 - Inlining and register allocation" type="text/html">
+<link rel="next" href="manage-command-line-boost-program-options.html" title="Manage command-line options with Boost Program Options" type="text/html">
+<meta property="og:site_name" content='Blog blog("Baptiste Wicht");'>
+<meta property="og:title" content="C++11 Concurrency Tutorial - Part 4: Atomic Types">
+<meta property="og:url" content="http://baptiste-wicht.com/posts/2012/07/c11-concurrency-tutorial-part-4-atomic-type.html">
+<meta property="og:description" content="In the previous article, we saw advanced techniques about mutexes. In this post, we will continue to work on mutexes with more advanced techniques. We will also study another concurrency technique of ">
+<meta property="og:type" content="article">
+<meta property="article:published_time" content="2012-07-16T09:22:04+02:00">
+<meta property="article:tag" content="C++">
+<meta property="article:tag" content="C++11 Concurrency Tutorial">
+<meta property="article:tag" content="Concurrency">
+<meta property="article:tag" content="Performances">
+<link href="../../../favicon.ico" rel="icon" type="image/x-icon">
+<link rel="publisher" href="https://plus.google.com/+BaptisteWicht">
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-2175227-7', 'auto');
+  var metas = document.getElementsByTagName('meta'), tagsList = [];
+  for (var i=0; i<metas.length; i++) {
+    if (metas[i].getAttribute('property') == 'article:tag') {
+      tagsList.push( metas[i].getAttribute('content'));
+    }
+  }
+  ga('set', 'dimension1', tagsList.join('|'));
+  ga('send', 'pageview');
+</script>
+</head>
+<body>
+
+<a href="#content" class="sr-only sr-only-focusable">Skip to main content</a>
+<div class="container-fluid">
+
+<div class="row">
+<div class="col-sm-3 col-lg-2">
+<nav class="navbar navbar-inverse navbar-fixed-side"><div class="navbar-header">
+<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+<span class="sr-only">Toggle navigation</span>
+<span class="icon-bar"></span>
+<span class="icon-bar"></span>
+<span class="icon-bar"></span>
+</button>
+<a class="navbar-brand" href="http://baptiste-wicht.com/">
+<span id="blog-title">Blog blog("Baptiste Wicht");</span>
+</a>
+</div>
+
+<div class="collapse navbar-collapse navbar-ex1-collapse">
+<ul class="nav navbar-nav">
+<li>
+<a href="../../../stories/about.html">About</a>
+</li>
+<li>
+<a href="../../../stories/publications.html">Publications</a>
+</li>
+<li>
+<a href="../../../stories/projects.html">Projects</a>
+</li>
+<li>
+<a href="../../../categories/index.html">Tags</a>
+</li>
+<li>
+<a href="../../../archive.html">Archives</a>
+</li>
+<li>
+<a href="http://feeds.feedburner.com/BaptisteWicht">RSS</a>
+</li>
+<li class="navbar-content">
+<h3>Related posts</h3>
+</li>
+<li><a href="c11-synchronization-benchmark.html">C++11 Synchronization Benchmark</a></li>
+<li><a href="../../2010/09/java-concurrency-atomic-variables.html">Java Concurrency - Part 6 : Atomic Variables</a></li>
+<li><a href="../03/cp11-concurrency-tutorial-part-2-protect-shared-data.html">C++11 Concurrency Tutorial - Part 2 : Protect shared data</a></li>
+<li><a href="../04/c11-concurrency-tutorial-advanced-locking-and-condition-variables.html">C++11 Concurrency Tutorial - Part 3: Advanced locking and condition variables</a></li>
+<li><a href="../../2010/05/java-concurrency-part-1-threads.html">Java Concurrency - Part 1 : Threads</a></li>
+<li><a href="../../2017/09/cpp11-concurrency-tutorial-futures.html">C++11 Concurrency Tutorial - Part 5: Futures</a></li>
+<li class="navbar-block">
+<li class="wicht-navbar-right">
+<a target="_blank" title="Follow @wichtounet on Twitter" href="https://twitter.com/wichtounet">
+<img src="../../../assets/img/twitter.png" alt="Follow @wichtounet on Twitter"></a>
+</li>
+<li class="wicht-navbar-right">
+<a target="_blank" title="Follow +BaptisteWicht on Google+" href="https://plus.google.com/+BaptisteWicht">
+<img src="../../../assets/img/google_plus.png" alt="Follow +BaptisteWicht on Google+"></a>
+</li>
+</ul>
+</div>
+
+</nav>
+</div> 
+<div class="col-sm-9 col-lg-10">
+<div id="content"></div>
+<article class="post-text h-entry hentry postpage" itemscope="itemscope" itemtype="http://schema.org/Article"><header><h1 class="p-name entry-title" itemprop="headline name"><a href="#" class="u-url">C++11 Concurrency Tutorial - Part 4: Atomic Types</a></h1>
+<div class="metadata">
+<p class="byline author vcard"><span class="byline-name fn" itemprop="author">
+Baptiste Wicht
+</span></p>
+<p class="dateline"><a href="#" rel="bookmark"><time class="published dt-published" datetime="2012-07-16T09:22:04+02:00" itemprop="datePublished" title="2012-07-16 09:22">2012-07-16 09:22</time></a></p>
+<p class="commentline">
+<a href="c11-concurrency-tutorial-part-4-atomic-type.html#disqus_thread" data-disqus-identifier="cache/posts/2012/07/c11-concurrency-tutorial-part-4-atomic-type.html">Comments</a>
+</p>
+<p class="sourceline"><a href="c11-concurrency-tutorial-part-4-atomic-type.wp" class="sourcelink">Source</a></p>
+</div>
+</header><div class="e-content entry-content" itemprop="articleBody text">
+<div>
+<p>In the previous article, we saw advanced techniques about mutexes. In this post, we will continue to work on mutexes with more advanced techniques. We will also study another concurrency technique of the C++11 Concurrency Library: Atomic Types</p>
+<h4>Atomic Types</h4>
+<p>We will take, the example of a Counter:</p>
+<pre class="code literal-block"><span></span><span class="k">struct</span> <span class="n">Counter</span> <span class="p">{</span>
+    <span class="kt">int</span> <span class="n">value</span><span class="p">;</span>
+    
+    <span class="kt">void</span> <span class="nf">increment</span><span class="p">(){</span>
+        <span class="o">++</span><span class="n">value</span><span class="p">;</span>
+    <span class="p">}</span>
+    
+    <span class="kt">void</span> <span class="nf">decrement</span><span class="p">(){</span>
+        <span class="o">--</span><span class="n">value</span><span class="p">;</span>
+    <span class="p">}</span>
+    
+    <span class="kt">int</span> <span class="nf">get</span><span class="p">(){</span>
+        <span class="k">return</span> <span class="n">value</span>
+    <span class="p">}</span>
+<span class="p">};</span>
+</pre>
+<p>We already saw that this class was not safe at all to use in multithreaded environment. We also saw how to make if safe using mutexes. This time, we will see how to make it safe using atomic types. The main advantage of this technique is its performance. Indeed, in most cases, the std::atomic operations are implemented with lock-free operations that are much faster than locks. </p>
+<p>The C++11 Concurrency Library introduces Atomic Types as a template class: std::atomic<type>. You can use any Type you want with that template and the operations on that variable will be atomic and so thread-safe. It has to be taken into account that it is up to the library implementation to choose which syncronization mechanism is used to make the operations on that type atomic. On standard platforms for integral types like int, long, float, ... it will be some lock-free technique. If you want to make a big type (let's saw 2MB storage), you can use std::atomic as well, but mutexes will be used. In this case, there will be no performance advantage. </type></p>
+<p>The main functions that std::atomic provide are the store and load functions that atomically set and get the contents of the std::atomic. Another interesting function is exchange, that sets the atomic to a new value and returns the value held previously. Finally, there are also two functions compare_exchange_weak and compare_exchance_strong that performs atomic exchange only if the value is equal to the provided expected value. These two last functions can be used to implement lock-free algorithms. </p>
+<p>std::atomic is specialized for all integral types to provide member functions specific to integral (like operators ++, --, fetch_add, fetch_sub, ...). </p>
+<p>It is fairly easy to make the counter safe with std::atomic: </p>
+<pre class="code literal-block"><span></span><span class="cp">#include</span> <span class="cpf">&lt;atomic&gt;</span><span class="cp"></span>
+
+<span class="k">struct</span> <span class="n">AtomicCounter</span> <span class="p">{</span>
+    <span class="n">std</span><span class="o">::</span><span class="n">atomic</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span> <span class="n">value</span><span class="p">;</span>
+
+    <span class="kt">void</span> <span class="nf">increment</span><span class="p">(){</span>
+        <span class="o">++</span><span class="n">value</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="kt">void</span> <span class="nf">decrement</span><span class="p">(){</span>
+        <span class="o">--</span><span class="n">value</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="kt">int</span> <span class="nf">get</span><span class="p">(){</span>
+        <span class="k">return</span> <span class="n">value</span><span class="p">.</span><span class="n">load</span><span class="p">();</span>
+    <span class="p">}</span>
+<span class="p">};</span>
+</pre>
+<p>If you test this counter, you will see that the value is always the expected one. </p>
+<h4>Wrap-Up</h4>
+<p>In this article we saw a very elegant technique to perform atomic operations on any type. I advice you to use std::atomic any time you need to make atomic operations on a type, especially integral types. </p>
+<p>The source code for this article can be found <a href="https://github.com/wichtounet/articles/tree/master/src/threads/part4" title="Source of this article">on Github</a>.</p>
+<h4>Next</h4>
+<p>In the next post of this series, we will see how to use the Futures facility to perform asynchronous task.</p>
+</div>
+</div>
+<aside class="postpromonav"><nav><ul itemprop="keywords" class="tags">
+<li><a class="tag p-category" href="../../../categories/c%2B%2B.html" rel="tag">C++</a></li>
+<li><a class="tag p-category" href="../../../categories/c%2B%2B11-concurrency-tutorial.html" rel="tag">C++11 Concurrency Tutorial</a></li>
+<li><a class="tag p-category" href="../../../categories/concurrency.html" rel="tag">Concurrency</a></li>
+<li><a class="tag p-category" href="../../../categories/performances.html" rel="tag">Performances</a></li>
+</ul>
+<ul class="pager hidden-print">
+<li class="previous">
+<a href="eddi-compiler-1-0-3-inlining-register-allocation.html" rel="prev" title="EDDI Compiler 1.0.3 - Inlining and register allocation">Previous post</a>
+</li>
+<li class="next">
+<a href="manage-command-line-boost-program-options.html" rel="next" title="Manage command-line options with Boost Program Options">Next post</a>
+</li>
+</ul></nav></aside><section class="comments hidden-print"><h2>Comments</h2>
+<div id="disqus_thread"></div>
+<script>
+        var disqus_shortname ="blogwichtounet",
+            disqus_url="http://baptiste-wicht.com/posts/2012/07/c11-concurrency-tutorial-part-4-atomic-type.html",
+        disqus_title="C++11 Concurrency Tutorial - Part 4: Atomic Types",
+        disqus_identifier="cache/posts/2012/07/c11-concurrency-tutorial-part-4-atomic-type.html",
+        disqus_config = function () {
+            this.language = "en";
+        };
+        (function() {
+            var dsq = document.createElement('script'); dsq.async = true;
+            dsq.src = 'https://' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        })();
+    </script><noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a>
+</noscript>
+<a href="https://disqus.com" class="dsq-brlink" rel="nofollow">Comments powered by <span class="logo-disqus">Disqus</span></a>
+</section></article><script>var disqus_shortname="blogwichtounet";(function(){var a=document.createElement("script");a.async=true;a.src="https://"+disqus_shortname+".disqus.com/count.js";(document.getElementsByTagName("head")[0]||document.getElementsByTagName("body")[0]).appendChild(a)}());</script>
+</div> 
+</div>
+
+</div>
+
+
+
+<footer>
+Contents © 2017 <a href="/cdn-cgi/l/email-protection#75171405011c060110021c161d01351218141c195b161a18">Baptiste Wicht</a> - Powered by <a href="http://getnikola.com" rel="nofollow">Nikola</a> - License:
+<a rel="license" href="http://creativecommons.org/licenses/by/4.0/"><img alt="Creative Commons License" style="padding-left:5px;border-width:0" src="../../../assets/img/cc.png"></a>
+<ul class="footer_inline_ul">
+<li>
+<a href="c11-concurrency-tutorial-part-4-atomic-type.wp" id="sourcelink">Source</a>
+</li>
+</ul></footer><script src="/cdn-cgi/scripts/78d64697/cloudflare-static/email-decode.min.js"></script><script src="../../../assets/js/all-nocdn.js"></script>
+</body>
+</html>

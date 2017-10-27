@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html prefix="og: http://ogp.me/ns# article: http://ogp.me/ns/article# " lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Compiler Architecture refinements for eddic | Blog blog("Baptiste Wicht");</title>
+<script src="/cdn-cgi/apps/head/98vpnawSZZMscPn4oDND-ZgswjM.js"></script><link href="../../../assets/css/all-nocdn.css" rel="stylesheet" type="text/css">
+<meta name="theme-color" content="#5670d4">
+<meta name="generator" content="Nikola (getnikola.com)">
+<link rel="alternate" type="application/rss+xml" title="RSS" href="../../../rss.xml">
+<link rel="canonical" href="http://baptiste-wicht.com/posts/2012/05/compiler-architecture-refinements-eddic.html">
+<!--[if lt IE 9]><script src="../../../assets/js/html5.js"></script><![endif]--><meta name="author" content="Baptiste Wicht">
+<link rel="prev" href="../04/install-valgrind-on-gentoo-linux.html" title="Install Valgrind on Gentoo Linux" type="text/html">
+<link rel="next" href="advanced-compiler-design-and-implementation-book-review.html" title="Advanced Compiler Design and Implementation - Book Review" type="text/html">
+<meta property="og:site_name" content='Blog blog("Baptiste Wicht");'>
+<meta property="og:title" content="Compiler Architecture refinements for eddic">
+<meta property="og:url" content="http://baptiste-wicht.com/posts/2012/05/compiler-architecture-refinements-eddic.html">
+<meta property="og:description" content="The next version of eddic will see an improved compiler architecture. There are two new main changes in this version:
+
+    A better separation between the front end and the back end
+    A new intermed">
+<meta property="og:type" content="article">
+<meta property="article:published_time" content="2012-05-07T09:34:30+02:00">
+<meta property="article:tag" content="Assembly">
+<meta property="article:tag" content="Compilers">
+<meta property="article:tag" content="EDDI">
+<meta property="article:tag" content="Intel">
+<meta property="article:tag" content="Linux">
+<link href="../../../favicon.ico" rel="icon" type="image/x-icon">
+<link rel="publisher" href="https://plus.google.com/+BaptisteWicht">
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-2175227-7', 'auto');
+  var metas = document.getElementsByTagName('meta'), tagsList = [];
+  for (var i=0; i<metas.length; i++) {
+    if (metas[i].getAttribute('property') == 'article:tag') {
+      tagsList.push( metas[i].getAttribute('content'));
+    }
+  }
+  ga('set', 'dimension1', tagsList.join('|'));
+  ga('send', 'pageview');
+</script>
+</head>
+<body>
+
+<a href="#content" class="sr-only sr-only-focusable">Skip to main content</a>
+<div class="container-fluid">
+
+<div class="row">
+<div class="col-sm-3 col-lg-2">
+<nav class="navbar navbar-inverse navbar-fixed-side"><div class="navbar-header">
+<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+<span class="sr-only">Toggle navigation</span>
+<span class="icon-bar"></span>
+<span class="icon-bar"></span>
+<span class="icon-bar"></span>
+</button>
+<a class="navbar-brand" href="http://baptiste-wicht.com/">
+<span id="blog-title">Blog blog("Baptiste Wicht");</span>
+</a>
+</div>
+
+<div class="collapse navbar-collapse navbar-ex1-collapse">
+<ul class="nav navbar-nav">
+<li>
+<a href="../../../stories/about.html">About</a>
+</li>
+<li>
+<a href="../../../stories/publications.html">Publications</a>
+</li>
+<li>
+<a href="../../../stories/projects.html">Projects</a>
+ </li>
+<li>
+<a href="../../../categories/index.html">Tags</a>
+</li>
+<li>
+<a href="../../../archive.html">Archives</a>
+</li>
+<li>
+<a href="http://feeds.feedburner.com/BaptisteWicht">RSS</a>
+</li>
+<li class="navbar-content">
+<h3>Related posts</h3>
+</li>
+<li><a href="../03/eddic-0-9-1-enhanced-floating-point-support.html">EDDIC 0.9.1 - Enhanced floating point support</a></li>
+<li><a href="../../2011/11/eddi-compiler-0-6-1.html">EDDI Compiler 0.6.1 : Function return types</a></li>
+<li><a href="../../2011/11/eddic-0-5-1-better-assembly-generation-and-faster-parsing.html">eddic 0.5.1 : Better assembly generation and faster parsing</a></li>
+<li><a href="../01/eddic-0-7-compiler-model-optimizations.html">EDDIC 0.7 : New compilation model and optimizations</a></li>
+<li><a href="../11/eddic-compiler-1-1-4-graph-coloring-register-allocation.html">EDDI Compiler 1.1.4 – Graph Coloring Register Allocation</a></li>
+<li><a href="../07/eddi-compiler-1-0-2-better-pointer-support-new-optimizations.html">EDDI Compiler 1.0.2 – Better pointer support and Dead-Code Elimination</a></li>
+<li class="navbar-block">
+<li class="wicht-navbar-right">
+<a target="_blank" title="Follow @wichtounet on Twitter" href="https://twitter.com/wichtounet">
+<img src="../../../assets/img/twitter.png" alt="Follow @wichtounet on Twitter"></a>
+</li>
+<li class="wicht-navbar-right">
+<a target="_blank" title="Follow +BaptisteWicht on Google+" href="https://plus.google.com/+BaptisteWicht">
+<img src="../../../assets/img/google_plus.png" alt="Follow +BaptisteWicht on Google+"></a>
+</li>
+</ul>
+</div>
+
+</nav>
+</div> 
+<div class="col-sm-9 col-lg-10">
+<div id="content"></div>
+<article class="post-text h-entry hentry postpage" itemscope="itemscope" itemtype="http://schema.org/Article"><header><h1 class="p-name entry-title" itemprop="headline name"><a href="#" class="u-url">Compiler Architecture refinements for eddic</a></h1>
+<div class="metadata">
+<p class="byline author vcard"><span class="byline-name fn" itemprop="author">
+Baptiste Wicht
+</span></p>
+<p class="dateline"><a href="#" rel="bookmark"><time class="published dt-published" datetime="2012-05-07T09:34:30+02:00" itemprop="datePublished" title="2012-05-07 09:34">2012-05-07 09:34</time></a></p>
+<p class="commentline">
+<a href="compiler-architecture-refinements-eddic.html#disqus_thread" data-disqus-identifier="cache/posts/2012/05/compiler-architecture-refinements-eddic.html">Comments</a>
+</p>
+<p class="sourceline"><a href="compiler-architecture-refinements-eddic.wp" class="sourcelink">Source</a></p>
+</div>
+</header><div class="e-content entry-content" itemprop="articleBody text">
+<div>
+<p>The next version of eddic will see an <strong>improved compiler architecture</strong>. There are two new main changes in this version:</p>
+<ol>
+<li>A better separation between the front end and the back end</li>
+<li>A new intermediate representation to improve and ease code generation</li>
+</ol>
+<h4>Front end and Back End</h4>
+<p>First, the front and back ends have been clearly separated. The general compiler architecture is currently something like that:</p>
+<p><a href="http://www.baptiste-wicht.com/2012/05/compiler-architecture-refinements-eddic/general-architecture/" rel="attachment wp-att-1973"><img class="aligncenter size-full wp-image-1973" title="EDDI Compiler General Architecture" src="../../../wp-content/uploads/2012/05/general-architecture.svg" alt="EDDI Compiler General Architecture"></a></p>
+<p>The first part didn't change, but the Compiler was part was clearly separated between front and back ends:</p>
+<p><a href="http://www.baptiste-wicht.com/2012/05/compiler-architecture-refinements-eddic/compiler-architecture/" rel="attachment wp-att-1976"><img class="aligncenter size-full wp-image-1976" title="EDDI Compiler Architecture" src="../../../wp-content/uploads/2012/05/compiler-architecture.svg" alt="EDDI Compiler Architecture"></a></p>
+<p>The backend has no information about the source language. It only sees the intermediate representation provided by the front-end, named: Medium-Level Three Address Code (MTAC).</p>
+<p>There are several advantages to this model. The main one is that it is easy to add support for a new programming language to the compiler. Only the front end needs to be changed. The same can be achieved if a new output is necessary, for example output ARM assembly instead of Intel assembly.</p>
+<h4>New intermediate representation</h4>
+<p>In the previous versions of the compiler, the code generators were fairly complex. Indeed, they had to transform the MTAC intermediate representation directly into assembly. This process involves several things:</p>
+<ul>
+<li>instruction selection</li>
+<li>register allocation</li>
+<li>low-level optimization (replace a  mov rax, 0 with xor rax, rax for example)</li>
+<li>handle basic blocks management</li>
+</ul>
+<p>In this version, I decided to change it to a better architecture. This architecture uses a new intermediate representation: Low-Level Three Address Code (LTAC). As its name states, it is a low-level representation, close to assembly. In this  representation there are addresses, registers and abstracted instructions. This representation is platform independent (the differences between 32 and 64 bits are moved to the code generators). There are no more basic blocks here, only functions containing statements.</p>
+<p>The next figure presents the structure of the backend:</p>
+<p><a href="http://www.baptiste-wicht.com/2012/05/compiler-architecture-refinements-eddic/backend-architecture/" rel="attachment wp-att-1977"><img class="aligncenter size-full wp-image-1977" title="EDDI Compiler Backend architecture" src="../../../wp-content/uploads/2012/05/backend-architecture.svg" alt="EDDI Compiler Backend architecture"></a></p>
+<p>The compiler is responsible for transforming the MTAC Representation in LTAC Representation. It does not do any low-level optimization. The instruction selection is easier as it is platform independent. The peephole optimizer is responsible for the low-levels optimizations. In the 1.0 release, there would be only few things done at this level. In the future, I will try to invest some time to complete it to generate better assembly code. The optimizations are far simpler than the one done in the MTAC optimization engine. Indeed, a peephole optimizer is generally working only in a small window of instructions, like three or four instructions at a time. And finally, the code generators performs the instruction selection process and address resolving. It also has to translate symbolic registers into physical ones.</p>
+<h4>Conclusion</h4>
+<p>I hope that these refinements in the compiler architecture will allow the compiler to produce better code.</p>
+<p>The 1.0 version of the compiler will include another new features:</p>
+<ul>
+<li>Basic support for custom structures</li>
+<li>Global optimizations</li>
+<li>Some bug fixes found with the new set of unit tests</li>
+</ul>
+<p>As always, feel free to comment on the new architecture, the compiler itself, the project or whatever</p>
+</div>
+</div>
+<aside class="postpromonav"><nav><ul itemprop="keywords" class="tags">
+<li><a class="tag p-category" href="../../../categories/assembly.html" rel="tag">Assembly</a></li>
+<li><a class="tag p-category" href="../../../categories/compilers.html" rel="tag">Compilers</a></li>
+<li><a class="tag p-category" href="../../../categories/eddi.html" rel="tag">EDDI</a></li>
+ <li><a class="tag p-category" href="../../../categories/intel.html" rel="tag">Intel</a></li>
+<li><a class="tag p-category" href="../../../categories/linux.html" rel="tag">Linux</a></li>
+</ul>
+<ul class="pager hidden-print">
+<li class="previous">
+<a href="../04/install-valgrind-on-gentoo-linux.html" rel="prev" title="Install Valgrind on Gentoo Linux">Previous post</a>
+</li>
+<li class="next">
+<a href="advanced-compiler-design-and-implementation-book-review.html" rel="next" title="Advanced Compiler Design and Implementation - Book Review">Next post</a>
+</li>
+</ul></nav></aside><section class="comments hidden-print"><h2>Comments</h2>
+<div id="disqus_thread"></div>
+<script>
+        var disqus_shortname ="blogwichtounet",
+            disqus_url="http://baptiste-wicht.com/posts/2012/05/compiler-architecture-refinements-eddic.html",
+        disqus_title="Compiler Architecture refinements for eddic",
+        disqus_identifier="cache/posts/2012/05/compiler-architecture-refinements-eddic.html",
+        disqus_config = function () {
+            this.language = "en";
+        };
+        (function() {
+            var dsq = document.createElement('script'); dsq.async = true;
+            dsq.src = 'https://' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        })();
+    </script><noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a>
+</noscript>
+<a href="https://disqus.com" class="dsq-brlink" rel="nofollow">Comments powered by <span class="logo-disqus">Disqus</span></a>
+</section></article><script>var disqus_shortname="blogwichtounet";(function(){var a=document.createElement("script");a.async=true;a.src="https://"+disqus_shortname+".disqus.com/count.js";(document.getElementsByTagName("head")[0]||document.getElementsByTagName("body")[0]).appendChild(a)}());</script>
+</div> 
+</div>
+
+</div>
+
+
+
+<footer>
+Contents © 2017 <a href="/cdn-cgi/l/email-protection#a3c1c2d3d7cad0d7c6d4cac0cbd7e3c4cec2cacf8dc0ccce">Baptiste Wicht</a> - Powered by <a href="http://getnikola.com" rel="nofollow">Nikola</a> - License:
+<a rel="license" href="http://creativecommons.org/licenses/by/4.0/"><img alt="Creative Commons License" style="padding-left:5px;border-width:0" src="../../../assets/img/cc.png"></a>
+<ul class="footer_inline_ul">
+<li>
+<a href="compiler-architecture-refinements-eddic.wp" id="sourcelink">Source</a>
+</li>
+</ul></footer><script src="/cdn-cgi/scripts/78d64697/cloudflare-static/email-decode.min.js"></script><script src="../../../assets/js/all-nocdn.js"></script>
+</body>
+</html>

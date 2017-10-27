@@ -1,0 +1,226 @@
+<?xml version="1.0" encoding="utf-8"?>
+<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:dc="http://purl.org/dc/elements/1.1/"><channel><title>Blog blog("Baptiste Wicht"); (Posts about IntelliJ Idea)</title><link>http://baptiste-wicht.com/</link><description></description><atom:link rel="self" type="application/rss+xml" href="http://baptiste-wicht.com/categories/intellij-idea.xml"></atom:link><language>en</language><lastBuildDate>Sun, 04 Jun 2017 20:17:46 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>IntelliJ Idea 10 Early Acces Program is here</title><link>http://baptiste-wicht.com/posts/2010/07/intellij-idea-10-eap-is-here.html</link><dc:creator>Baptiste Wicht</dc:creator><description>&lt;div&gt;&lt;p&gt;Today, the &lt;strong&gt;Early Access Program&lt;/strong&gt; (EAP) has been opened for &lt;strong&gt;IntelliJ Idea 10&lt;/strong&gt;.&lt;/p&gt;
+&lt;p&gt;There is a lot of changes, here are some of them (the most interesting in my point of view) :&lt;/p&gt;
+&lt;ul&gt;
+    &lt;li&gt;&lt;strong&gt;Faster indexing speed&lt;/strong&gt;&lt;/li&gt;
+    &lt;li&gt;Java - &lt;strong&gt;Faster method usage search&lt;/strong&gt;&lt;/li&gt;
+    &lt;li&gt;Spring Web Services support&lt;/li&gt;
+    &lt;li&gt;Spring testing support&lt;/li&gt;
+    &lt;li&gt;New Spring live templates (patterns and frameworks)&lt;/li&gt;
+    &lt;li&gt;intelligent resources support (smart completion and warnings for resource types)&lt;/li&gt;
+    &lt;li&gt;&lt;strong&gt;Maven Refactorings&lt;/strong&gt;&lt;/li&gt;
+    &lt;li&gt;Maven pom.xml editor new features&lt;/li&gt;
+    &lt;li&gt;&lt;strong&gt;Maven Dependencies Diagram&lt;/strong&gt;&lt;/li&gt;
+    &lt;li&gt;Discover &amp;amp; download libraries from maven repositories even in plain java projects&lt;/li&gt;
+    &lt;li&gt;&lt;strong&gt;XML editing improvements&lt;/strong&gt; in IntelliJ IDEA X&lt;/li&gt;
+    &lt;li&gt;Git support improvements, including &lt;strong&gt;'Git Log' view&lt;/strong&gt;.&lt;/li&gt;
+    &lt;li&gt;Mercurial support&lt;/li&gt;
+    &lt;li&gt;Hibernate Criteria API supported&lt;/li&gt;
+    &lt;li&gt;JDBC Console UI revised&lt;/li&gt;
+    &lt;li&gt;Initial support for AspectJ and Spring Roo frameworks&lt;/li&gt;
+    &lt;li&gt;A lot of other interesting features&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;To consult the full list of new features, read &lt;a href="http://confluence.jetbrains.net/display/IDEADEV/IDEA+X+First+EAP+Release+Notes" target="_blank"&gt;the release notes&lt;/a&gt;. And if you want to test this version, &lt;a href="http://confluence.jetbrains.net/display/IDEADEV/IDEA+X+EAP" target="_blank"&gt;download it here&lt;/a&gt;.&lt;/p&gt;&lt;/div&gt;</description><category>IntelliJ Idea</category><category>Java</category><category>Releases</category><category>Tools</category><guid>http://baptiste-wicht.com/posts/2010/07/intellij-idea-10-eap-is-here.html</guid><pubDate>Wed, 28 Jul 2010 15:59:40 GMT</pubDate></item><item><title>IntelliJ Idea 9.0.3 is here !</title><link>http://baptiste-wicht.com/posts/2010/07/intellij-idea-9-0-3-is-here.html</link><dc:creator>Baptiste Wicht</dc:creator><description>&lt;div&gt;&lt;p&gt;A new version of IntelliJ Idea is available : &lt;strong&gt;IntelliJ Idea 9.0.3&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+    &lt;li&gt;A new UI for merging Subversion branches&lt;/li&gt;
+    &lt;li&gt;A new tool to store encrypted passwords for VCS, proxy server etc.&lt;/li&gt;
+    &lt;li&gt;A lot of bugfixes, more than 350&lt;/li&gt;
+    &lt;li&gt;The HTML editor comes with initial support for HTML 5&lt;/li&gt;
+    &lt;li&gt;The Flex debugger has been improved a lot&lt;/li&gt;
+    &lt;li&gt;This version supports now Grails 1.3.x&lt;/li&gt;
+    &lt;li&gt;Several little performance improvements in specific part (XHTML editing by example)&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;The &lt;a title="Idea 9.0.3 change notes" href="http://confluence.jetbrains.net/display/IDEADEV/IDEA+9.0.3+Release+Notes" target="_blank"&gt;change notes&lt;/a&gt; are available on the site of JetBrains.&lt;/p&gt;
+&lt;p&gt;You can &lt;a title="Download Idea 9.0.3" href="http://www.jetbrains.com/idea/download/" target="_blank"&gt;download it&lt;/a&gt; from now and install it manually or just launch Idea and the patch will be downloaded and applied.&lt;/p&gt;&lt;/div&gt;</description><category>IntelliJ Idea</category><category>Java</category><category>Releases</category><category>Tools</category><guid>http://baptiste-wicht.com/posts/2010/07/intellij-idea-9-0-3-is-here.html</guid><pubDate>Thu, 22 Jul 2010 03:04:42 GMT</pubDate></item><item><title>Tip : Integrate Play Framework in IntelliJ Idea</title><link>http://baptiste-wicht.com/posts/2010/07/integrate-play-framework-intellij-idea.html</link><dc:creator>Baptiste Wicht</dc:creator><description>&lt;div&gt;&lt;p&gt;After &lt;a target="_blank" href="http://www.baptiste-wicht.com/2010/07/getting-started-play-framework/"&gt;created a &lt;strong&gt;Play Framework&lt;/strong&gt; first application&lt;/a&gt;, it's time to integrate it in &lt;strong&gt;IntelliJ Idea&lt;/strong&gt;. &lt;/p&gt;
+&lt;p&gt;This is made really easy because, play provide a command to create the Iml module file for the project. You can use the command play idealize app_name to create a iml module file. &lt;/p&gt;
+&lt;p class="more"&gt;&lt;a href="http://baptiste-wicht.com/posts/2010/07/integrate-play-framework-intellij-idea.html"&gt;Read more…&lt;/a&gt;&lt;/p&gt;&lt;/div&gt;</description><category>IntelliJ Idea</category><category>Java</category><category>Play!</category><category>Tips</category><guid>http://baptiste-wicht.com/posts/2010/07/integrate-play-framework-intellij-idea.html</guid><pubDate>Tue, 06 Jul 2010 05:02:49 GMT</pubDate></item><item><title>JetBrains has released IntelliJ IDEA 9.0.2</title><link>http://baptiste-wicht.com/posts/2010/04/jetbrains-released-intellij-idea-9-0-2.html</link><dc:creator>Baptiste Wicht</dc:creator><description>&lt;div&gt;&lt;p&gt;IntelliJ Idea 9.0.2&lt;span style="font-weight: normal;"&gt; has just been released. &lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;This version includes these new features and improvements : &lt;/p&gt;
+&lt;ul&gt;
+    &lt;li&gt;View vertical indent guides&lt;/li&gt;
+    &lt;li&gt;New action "Show in Explorer" from the contextual menu&lt;/li&gt;
+    &lt;li&gt;The detection of the necessity of rebuild project indexes has been improved&lt;/li&gt;
+    &lt;li&gt;Some code samples have been added for Java, JavaScript and PHP&lt;/li&gt;
+    &lt;li&gt;The source can be directly attached to decompiled class file from the edit window&lt;/li&gt;
+    &lt;li&gt;The Java debugger supports autoboxing&lt;/li&gt;
+    &lt;li&gt;A diff tool for UML&lt;/li&gt;
+    &lt;li&gt;New consoles for SQL and HQL&lt;/li&gt;
+    &lt;li&gt;Improvements of the Spring configuration file editor view&lt;/li&gt;
+    &lt;li&gt;Improvements of the remote projects support&lt;/li&gt;
+    &lt;li&gt;Stacktrace folding for Groovy code&lt;/li&gt;
+    &lt;li&gt;Support of GWT 2.0 UIBinder&lt;/li&gt;
+    &lt;li&gt;Package Adobe AIR applications&lt;/li&gt;
+    &lt;li&gt;Better support of CSS3&lt;/li&gt;
+    &lt;li&gt;Tracking of Grails 1.2 Ivy dependencies&lt;/li&gt;
+    &lt;li&gt;Flex
+&lt;ul&gt;
+    &lt;li&gt;Live templates for Flex&lt;/li&gt;
+    &lt;li&gt;Parralel compilation of indenpendent Flex modules&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;/p&gt;&lt;/li&gt;
+    &lt;li&gt;PHP
+&lt;ul&gt;
+    &lt;li&gt;New options for code style programming&lt;/li&gt;
+    &lt;li&gt;New inspections&lt;/li&gt;
+    &lt;li&gt;New quickfixes and intentions&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+
+&lt;/ul&gt;
+
+&lt;p&gt;You can view the&lt;a href="http://confluence.jetbrains.net/display/IDEADEV/IDEA+9.0.2+Release+Notes"&gt; complete release notes  of this new version&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;There is no great new features, but the bug fixes and little enhancements make that version really interesting (like all new versions of IntelliJ IDEA).&lt;/p&gt;&lt;/div&gt;</description><category>IntelliJ Idea</category><category>Java</category><category>Releases</category><category>Tools</category><guid>http://baptiste-wicht.com/posts/2010/04/jetbrains-released-intellij-idea-9-0-2.html</guid><pubDate>Wed, 21 Apr 2010 14:34:30 GMT</pubDate></item><item><title>4 reasons i'm not using Osmorc anymore</title><link>http://baptiste-wicht.com/posts/2010/03/4-reasons-not-using-osmorc-anymore.html</link><dc:creator>Baptiste Wicht</dc:creator><description>&lt;div&gt;&lt;p&gt;After had many problems using Osmorc, the Intellij Idea plugin for OSGi support, i decided to no longer use it. Now, i make all manually.&lt;/p&gt;
+&lt;p&gt;I have several reasons to not be satisfied of this plugin.&lt;/p&gt;
+&lt;p&gt;First of all, this plugin display all the errors in OSGi configuration (Manifest, Activators and imports) but provide no way to quickly fix the problems by example by adding the imported package in the Import-Package Manifest Headers. Its a little disappointing when we are regular with Intellij Idea usage.&lt;/p&gt;
+&lt;p&gt;I find it really slow to launch OSGi Instances. Moreover, we cannot really control the osgi instance we launch. I hoped that we could at least manage the OSGi server using basic command line integration, but this is not possible.&lt;/p&gt;
+&lt;p&gt;When we make the project, all the OSGi modules are compiled and packaged and this could be a long process. During this process, when we have errors, the displayed messages aren't really understandable and there is no explanation on how to solve the problems.&lt;/p&gt;
+&lt;p&gt;And last but not least, the plugin is very unstable. I had a lot of errors using Osmorc. And i had also problem with the imports in Maven projects. All the imports we marked invalid and sometimes not recognized. Reimporting the maven projects solve occasionally the problems but it always reappears and make the compilation impossible.&lt;/p&gt;
+&lt;p&gt;I don't solved any of these problems and for that reasons i don't use Osmorc anymore.&lt;/p&gt;
+&lt;p&gt;I realized that this plugin doesn't offer me a lot of things and i could easily work without it.&lt;/p&gt;&lt;/div&gt;</description><category>IntelliJ Idea</category><category>Java</category><category>OSGi</category><guid>http://baptiste-wicht.com/posts/2010/03/4-reasons-not-using-osmorc-anymore.html</guid><pubDate>Sun, 28 Mar 2010 23:54:21 GMT</pubDate></item><item><title>Review of Jetbrains Intellij Idea 9 Ultimate Edition</title><link>http://baptiste-wicht.com/posts/2009/12/intellij-idea-9-review.html</link><dc:creator>Baptiste Wicht</dc:creator><description>&lt;div&gt;&lt;p&gt;Here is my review of the IDE Jetbrains Intellij Idea 9 Ultimate Edition.&lt;/p&gt;
+&lt;h4&gt;1. Introduction&lt;/h4&gt;
+
+&lt;p&gt;JetBrains just released the 9 version of Intellij Idea. This version is available in two editions :&lt;/p&gt;
+&lt;ul&gt;
+    &lt;li&gt;&lt;strong&gt;Community Edition&lt;/strong&gt; : Opensource version and free. Contains only the basic functionalities of the IDE.&lt;/li&gt;
+    &lt;li&gt;&lt;strong&gt;Ultimate Edition&lt;/strong&gt; : Complete commercial version of the IDE. I am going to introduce here this version.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;This IDE is principally made for Java development, but now supports also a lot of others languages : JavaScript/Flex, HTML/XHTML/CSS, XML/XSL, Ruby/JRuby, Groovy, SQL, FreeMarker/Velocity and PHP.&lt;/p&gt;
+&lt;p&gt;For Java Development, it supports numerous frameworks and technologies : JSP, JSF, EJB, AJAX, GWT, Struts, Struts 2, JBoss Seam, Spring, JPA/Hibernate, Web Services, Rails, Grails, Java ME MIDP/CLDC, Tapestry, Google App Engine, Android or OSGi.&lt;/p&gt;
+&lt;p&gt;I am going to introduce some of this news functionalités and give you my opinion about the different themes.&lt;/p&gt;
+&lt;p&gt;&lt;img alt="IntelliJ Idea 9 loading view" src="http://baptiste-wicht.com/wp-content/uploads/2009/12/splashscreen-300x224.png" title="IntelliJ Idea 9 loading view"&gt;&lt;/p&gt;
+&lt;h4&gt;2. Installation&lt;/h4&gt;
+
+&lt;p&gt;The installation is very easy. It's a common installer like all others instlallers you can found, with the basic operations : License, folder, shortcuts, start menu and finish. Nothing special about that.&lt;/p&gt;
+&lt;p&gt;Once installation is complete, we must enter the license and choose the modules to activate like it was already the case in the previous versions. précédentes versions.&lt;/p&gt;
+&lt;!--nextpage--&gt;
+
+&lt;h4&gt;3. General improvements&lt;/h4&gt;
+
+&lt;p&gt;The first thing we note is a real improvement of performance. More tasks are made in background. This is the case for indexing who launches at start but doesn't block the user interface. Thus, we can start work during indexation but some actions are not available, like refactorings.&lt;/p&gt;
+&lt;p&gt;&lt;img alt="Background indexing" src="http://baptiste-wicht.com/wp-content/uploads/2009/12/background-300x48.png" title="Background indexing"&gt;&lt;/p&gt;
+&lt;p&gt;We can also see that there is much less freeze of graphical interface who is also more reactive. The feedback of the different actions has been improved. It seems that we can see that an action has been launched or done and we're not to ask us if something happens or not, like that can happens with Idea 8.&lt;/p&gt;
+&lt;!--nextpage--&gt;
+
+&lt;h4&gt;4. User Interface&lt;/h4&gt;
+
+&lt;p&gt;As previously stated, the reactivity of the user interface has been greatly improved.&lt;/p&gt;
+&lt;p&gt;The views have not major changes, but we can still note that there is some interesting new functionalities.&lt;/p&gt;
+&lt;p&gt;First of all, we can now debug and launch directly from keyboard shortcuts :&lt;/p&gt;
+&lt;ul&gt;
+    &lt;li&gt;Alt+Shift+F9 : Open debbuging view&lt;/li&gt;
+    &lt;li&gt;Alt+Shift+F10 : Open launch view&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Here are these new views :&lt;/p&gt;
+&lt;p&gt;&lt;img alt="Quick Debug View" src="http://baptiste-wicht.com/wp-content/uploads/2009/12/debug.png" title="Quick Debug View"&gt;
+&lt;img alt="Quick Run View" src="http://baptiste-wicht.com/wp-content/uploads/2009/12/run.png" title="Quick Run View"&gt;&lt;/p&gt;
+&lt;p&gt;Then, we've also a new bookmarks management functionality. We can now put bookmarks in every portion of code, either class or lines of code. We've now there shortcuts :&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;F11 : Create a new bookmark at the selected item (file in project view or line of code in editor)&lt;/li&gt;
+&lt;li&gt;Shift + F11 : Show the bookmarks and enable the user to go to one bookmark.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;An example of bookmark on a line of code :&lt;/p&gt;
+&lt;p&gt;&lt;img alt="Bookmark on a line of code" src="http://baptiste-wicht.com/wp-content/uploads/2009/12/bookmark-300x21.png" title="Bookmark on a line of code"&gt;&lt;/p&gt;
+&lt;p&gt;And the view of bookmarks :&lt;/p&gt;
+&lt;p&gt;&lt;img alt="Bookmarks" src="http://baptiste-wicht.com/wp-content/uploads/2009/12/bookmarks-300x185.png" title="Bookmarks"&gt;&lt;/p&gt;
+&lt;p&gt;And last but not least, we can now copy files/directory from operating system and paste them in Idea and vice-versa. That is very practice but was not available in the previous versions.&lt;/p&gt;
+&lt;!--nextpage--&gt;
+
+&lt;h4&gt;5. Maven support&lt;/h4&gt;
+
+&lt;p&gt;The "Maven Projects" view has had little modifications. In the "Lifecycle" folder, only the main goals are displayed (clean, validate, compile, test, package, install, site et deploy) . I think it's a good thing, because we use especially these goals. Of course, we can display all the goals with an option in the tool bar.&lt;/p&gt;
+&lt;p&gt;Always in this view, we can now see the profiles (Maven 2 profiles) who are configured in settings.xml and go quickly to this settings.xml file. More than the profiles, we can now directly display the the dependencies of a project : Maven 2 :&lt;/p&gt;
+&lt;p&gt;&lt;img alt="Maven 2 project dependencies" src="http://baptiste-wicht.com/wp-content/uploads/2009/12/maven-dependencies-286x300.png" title="Maven 2 project dependencies"&gt;&lt;/p&gt;
+&lt;p&gt;We also have access to a dependency graph for a Maven module :&lt;/p&gt;
+&lt;p&gt;&lt;img alt="Maven 2 dependency graph" src="http://baptiste-wicht.com/wp-content/uploads/2009/12/maven-dependencies-300x134.png" title="Maven 2 dependency graph"&gt;&lt;/p&gt;
+&lt;p&gt;It is now possible to automatically reimport the Maven projects after a change in the pom.xml files.&lt;/p&gt;
+&lt;p&gt;For the reimport, we can now reimport only projects who have changes in their pom.xml or concerned by the others changes. More than this improvement, the speed of this operation has been improved by a factor of 3 or 4.&lt;/p&gt;
+&lt;!--nextpage--&gt;
+
+&lt;h4&gt;6. OSGI support&lt;/h4&gt;
+
+&lt;p&gt;From this version, Idea natively integrate an OSGi plugin, Osmorc. This plugin try to make easier the development of OSGi applications in Idea. I'll try to show you the main functionalities who are now integrated in Idea.&lt;/p&gt;
+&lt;p&gt;The first thing to do is to configure the project for OSGi. To do that, we just need to activate the OSGi facet for the necessary modules. Then (or before, as you want), we must configure the installed OSGi instances.&lt;/p&gt;
+&lt;p&gt;&lt;img alt="Configuration of installed OSGi instances" src="http://baptiste-wicht.com/wp-content/uploads/2009/12/osgi-settings-instance-300x174.png" title="Configuration of installed OSGi instances"&gt;&lt;/p&gt;
+&lt;p&gt;Then, we must configure the instance to use for the project :&lt;/p&gt;
+&lt;p&gt;&lt;img alt="Configure the OSGi instance for the project" src="http://baptiste-wicht.com/wp-content/uploads/2009/12/osgi-settings-instance-project-300x139.png" title="Configure the OSGi instance for the project"&gt;&lt;/p&gt;
+&lt;p&gt;We can then go to the creation of a simple OSGi project.&lt;/p&gt;
+&lt;p&gt;The first functionality to note is of course the code completion of the MANIFEST.MF entries :&lt;/p&gt;
+&lt;p&gt;&lt;img alt="OSGi Headers code completion" src="http://baptiste-wicht.com/wp-content/uploads/2009/12/osgi-completion-300x209.png" title="OSGi Headers code completion"&gt;&lt;/p&gt;
+&lt;p&gt;When you add the Import-Package header, we can use the classes of this package from the project without doing anything else.&lt;/p&gt;
+&lt;p&gt;But we can also define a Manifest file from Idea :&lt;/p&gt;
+&lt;p&gt;&lt;img alt="Manifest configuration" src="http://baptiste-wicht.com/wp-content/uploads/2009/12/osgi-manifest-300x122.png" title="Manifest configuration"&gt;&lt;/p&gt;
+&lt;p&gt;Et we continue with an activator :&lt;/p&gt;
+&lt;pre class="code literal-block"&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="kn"&gt;package&lt;/span&gt; &lt;span class="nn"&gt;com.pragprog.hello&lt;/span&gt;&lt;span class="o"&gt;;&lt;/span&gt;
+
+&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;org.osgi.framework.BundleActivator&lt;/span&gt;&lt;span class="o"&gt;;&lt;/span&gt;
+&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;org.osgi.framework.BundleContext&lt;/span&gt;&lt;span class="o"&gt;;&lt;/span&gt;
+
+&lt;span class="kd"&gt;public&lt;/span&gt; &lt;span class="kd"&gt;class&lt;/span&gt; &lt;span class="nc"&gt;HelloWorld&lt;/span&gt; &lt;span class="kd"&gt;implements&lt;/span&gt; &lt;span class="n"&gt;BundleActivator&lt;/span&gt;&lt;span class="o"&gt;{&lt;/span&gt;
+    &lt;span class="nd"&gt;@Override&lt;/span&gt;
+    &lt;span class="kd"&gt;public&lt;/span&gt; &lt;span class="kt"&gt;void&lt;/span&gt; &lt;span class="nf"&gt;start&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="n"&gt;BundleContext&lt;/span&gt; &lt;span class="n"&gt;bundleContext&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt; &lt;span class="kd"&gt;throws&lt;/span&gt; &lt;span class="n"&gt;Exception&lt;/span&gt; &lt;span class="o"&gt;{&lt;/span&gt;
+        &lt;span class="n"&gt;System&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="na"&gt;out&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="na"&gt;println&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="s"&gt;"I'm in OSGi :)"&lt;/span&gt;&lt;span class="o"&gt;);&lt;/span&gt;
+    &lt;span class="o"&gt;}&lt;/span&gt;
+
+    &lt;span class="nd"&gt;@Override&lt;/span&gt;
+    &lt;span class="kd"&gt;public&lt;/span&gt; &lt;span class="kt"&gt;void&lt;/span&gt; &lt;span class="nf"&gt;stop&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="n"&gt;BundleContext&lt;/span&gt; &lt;span class="n"&gt;bundleContext&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt; &lt;span class="kd"&gt;throws&lt;/span&gt; &lt;span class="n"&gt;Exception&lt;/span&gt; &lt;span class="o"&gt;{&lt;/span&gt;
+        &lt;span class="n"&gt;System&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="na"&gt;out&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="na"&gt;println&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="s"&gt;"I'm leaving OSGi :("&lt;/span&gt;&lt;span class="o"&gt;);&lt;/span&gt;
+    &lt;span class="o"&gt;}&lt;/span&gt;
+&lt;span class="o"&gt;}&lt;/span&gt;
+&lt;/pre&gt;
+
+
+&lt;p&gt;To finish, we create a new run configuration "OSGi bundles". For That, we just need to add the bundle to the list and in the "Parameters" tab to choose the good OSGi instance to run :&lt;/p&gt;
+&lt;p&gt;&lt;img alt="OSGi run configuration" src="http://baptiste-wicht.com/wp-content/uploads/2009/12/osgi-run-configuration-300x261.png" title="OSGi run configuration"&gt;&lt;/p&gt;
+&lt;p&gt;And we launch the configuration, that give us :&lt;/p&gt;
+&lt;p&gt;&lt;img alt="OSGi application" src="http://baptiste-wicht.com/wp-content/uploads/2009/12/osgi-run.png" title="OSGi run configuration"&gt;&lt;/p&gt;
+&lt;p&gt;But we cannot interact with the OSGi instance from Idea, that's not very practical. We cannot stop modules or either manage them from the console. But the OSGi development is still facilitated by Idea. But it would have been better to have something a bit more advanced.&lt;/p&gt;
+&lt;!--nextpage--&gt;
+
+&lt;h4&gt;7. PHP support&lt;/h4&gt;
+
+&lt;p&gt;Here is a functionality who's perhaps not interesting for everybody but that will be interesting for the Java developers who manages a PHP site or simply for the PHP developers. For me, who manages also a PHP website, it's a great news. Before that, i used other editors and IDE to edit my website, but now i can do everything from my favourite IDE.&lt;/p&gt;
+&lt;p&gt;First and of course, we have syntax highlighting of PHP files :&lt;/p&gt;
+&lt;p&gt;&lt;img alt="Syntax highlighting of PHP file" src="http://baptiste-wicht.com/wp-content/uploads/2009/12/php-color-300x238.png" title="Syntax highlighting of PHP file"&gt;&lt;/p&gt;
+&lt;p&gt;We also have automatic code completion for PHP functions :&lt;/p&gt;
+&lt;p&gt;&lt;img alt="Automatic Code Completion" src="http://baptiste-wicht.com/wp-content/uploads/2009/12/php-complete-300x161.png" title="Automatic Code Completion"&gt;&lt;/p&gt;
+&lt;p&gt;But the IDE make more than simple code completion. In fact, it discovers automatically the fields and methods from a class and fields and methods from the standard library. You can see this functionalities in the next images :&lt;/p&gt;
+&lt;p&gt;&lt;img alt="Contextual Code completion" src="http://baptiste-wicht.com/wp-content/uploads/2009/12/php-smart-300x213.png" title="Contextual Code Completion"&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img alt="Advanced Code completion" src="http://baptiste-wicht.com/wp-content/uploads/2009/12/php-smarter-300x292.png" title="Advanced Code Completion"&gt;&lt;/p&gt;
+&lt;p&gt;Moreover, Idea also supports PHPDcod documentation and make code completion based on PHPDoc :&lt;/p&gt;
+&lt;p&gt;&lt;img alt="Code Completion PHPDoc based" src="http://baptiste-wicht.com/wp-content/uploads/2009/12/php-phpdoc-300x226.png" title="Code Completion PHPDoc based"&gt;&lt;/p&gt;
+&lt;p&gt;We can also note that it's possible to do PHP Debugging and unit tests with PHPUnit. But this is out of the scope of this article.&lt;/p&gt;
+&lt;!--nextpage--&gt;
+
+&lt;h4&gt;8. Task management&lt;/h4&gt;
+
+&lt;p&gt;This functionnality isn't for me a major change, but it remains interesting. It enables the user to save state of view in a specified task.&lt;/p&gt;
+&lt;p&gt;A task save the current changelist, the open editions, the state of the project view, the run configurations and the breakpoints. If you work in two parts of a project, you can create two tasks and you have also the same properties when you switch from one to the other. And you can quickly commit only the changes of a task because of the decoupled changelists.&lt;/p&gt;
+&lt;p&gt;&lt;img alt="Task Creation" src="http://baptiste-wicht.com/wp-content/uploads/2009/12/task-create-300x192.png" title="Task Creation"&gt;&lt;/p&gt;
+&lt;p&gt;Then, it is possible to go to a specific task, who has for effect to save the state of the current task and restore the state of the task to open.&lt;/p&gt;
+&lt;p&gt;&lt;img alt="Open task" src="http://baptiste-wicht.com/wp-content/uploads/2009/12/task-open.png" title="Open task"&gt;&lt;/p&gt;
+&lt;p&gt;It's also possible to synchronize the different tasks with YouTrack or JIRA.&lt;/p&gt;
+&lt;!--nextpage--&gt;
+
+&lt;h4&gt;9. Miscellaneous&lt;/h4&gt;
+
+&lt;p&gt;More that these new big news, there is many other changes that i will not detail including :&lt;/p&gt;
+&lt;ul&gt;
+    &lt;li&gt;It is now possible to create a module from a Grails/Griffon project in the same way we can import project from Eclipse. We can also create Griffon/Grails modules or applications.&lt;/li&gt;
+    &lt;li&gt;There is now a Spell Checking inspection for the code and resources who is enabled by default in this new version.&lt;/li&gt;
+    &lt;li&gt;The public classes and methods who aren't used are not directly shaded like it was already the case for unused private fields and methods.&lt;/li&gt;
+    &lt;li&gt;Grails support improvement with Griffon and Gradle support&lt;/li&gt;
+    &lt;li&gt;Android support&lt;/li&gt;
+    &lt;li&gt;Flex support improvements&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;!--nextpage--&gt;
+
+&lt;h4&gt;10. Conclusion&lt;/h4&gt;
+
+&lt;p&gt;To conclude, JetBrains has one more times demonstrated its expertise in Java IDE presenting an excellent new version full of new functionalities and improvements that made the Java development even better.&lt;/p&gt;
+&lt;p&gt;The only thing i had to complain in this version, is the lack of documentation of OSGi plugin and the limitations of the latter.&lt;/p&gt;
+&lt;p&gt;You can download IntelliJ Idea 9 on the official site.&lt;/p&gt;&lt;/div&gt;</description><category>IntelliJ Idea</category><category>Java</category><category>Tools</category><guid>http://baptiste-wicht.com/posts/2009/12/intellij-idea-9-review.html</guid><pubDate>Mon, 14 Dec 2009 05:01:11 GMT</pubDate></item></channel></rss>

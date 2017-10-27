@@ -1,0 +1,899 @@
+<html prefix="og: http://ogp.me/ns# article: http://ogp.me/ns/article# " lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="description" content="Tutorials and short posts about programming, C++, Java, Assembly, Operating Systems Development, Compilers, ...">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Blog blog("Baptiste Wicht");</title>
+<script src="/cdn-cgi/apps/head/98vpnawSZZMscPn4oDND-ZgswjM.js"></script><link href="assets/css/all-nocdn.css" rel="stylesheet" type="text/css">
+<meta name="theme-color" content="#5670d4">
+<meta name="generator" content="Nikola (getnikola.com)">
+<link rel="alternate" type="application/rss+xml" title="RSS" href="rss.xml">
+<link rel="canonical" href="http://baptiste-wicht.com/index.html">
+<link rel="next" href="index-32.html" type="text/html">
+<!--[if lt IE 9]><script src="assets/js/html5.js"></script><![endif]--><link href="favicon.ico" rel="icon" type="image/x-icon">
+<link rel="publisher" href="https://plus.google.com/+BaptisteWicht">
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-2175227-7', 'auto');
+  var metas = document.getElementsByTagName('meta'), tagsList = [];
+  for (var i=0; i<metas.length; i++) {
+    if (metas[i].getAttribute('property') == 'article:tag') {
+      tagsList.push( metas[i].getAttribute('content'));
+    }
+  }
+  ga('set', 'dimension1', tagsList.join('|'));
+  ga('send', 'pageview');
+</script>
+</head>
+<body>
+
+<a href="#content" class="sr-only sr-only-focusable">Skip to main content</a>
+<div class="container-fluid">
+
+<div class="row">
+<div class="col-sm-3 col-lg-2">
+<nav class="navbar navbar-inverse navbar-fixed-side"><div class="navbar-header">
+<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+<span class="sr-only">Toggle navigation</span>
+<span class="icon-bar"></span>
+<span class="icon-bar"></span>
+<span class="icon-bar"></span>
+</button>
+<a class="navbar-brand" href="http://baptiste-wicht.com/">
+<span id="blog-title">Blog blog("Baptiste Wicht");</span>
+</a>
+</div>
+
+<div class="collapse navbar-collapse navbar-ex1-collapse">
+<ul class="nav navbar-nav">
+<li>
+<a href="stories/about.html">About</a>
+</li>
+<li>
+<a href="stories/publications.html">Publications</a>
+</li>
+<li>
+<a href="stories/projects.html">Projects</a>
+</li>
+<li>
+<a href="categories/index.html">Tags</a>
+</li>
+<li>
+<a href="archive.html">Archives</a>
+</li>
+<li>
+<a href="http://feeds.feedburner.com/BaptisteWicht">RSS</a>
+</li>
+<li class="navbar-content">
+<h3>Tags</h3>
+</li>
+<li class="navbar-empty">
+<div id="tag_cloud_left_container" style="line-height: 18px !important;"></div>
+</li>
+<li class="navbar-block">
+</li><li class="wicht-navbar-right">
+<a target="_blank" title="Follow @wichtounet on Twitter" href="https://twitter.com/wichtounet">
+<img src="assets/img/twitter.png" alt="Follow @wichtounet on Twitter"></a>
+</li>
+<li class="wicht-navbar-right">
+<a target="_blank" title="Follow +BaptisteWicht on Google+" href="https://plus.google.com/+BaptisteWicht">
+<img src="assets/img/google_plus.png" alt="Follow +BaptisteWicht on Google+"></a>
+</li>
+</ul>
+</div>
+
+</nav>
+</div> 
+<div class="col-sm-9 col-lg-10">
+<div id="content"></div>
+<article class="postbox h-entry post-text"><h1 class="p-name">
+<a href="posts/2017/10/dll-new-features-embeddings-and-merge-layers.html" class="u-url">DLL New Features: Embeddings and Merge layers</a>
+<br><small>  
+Posted: <time class="published dt-published" datetime="2017-10-17T19:50:40+02:00">2017-10-17 19:50</time></small>
+</h1>
+<hr>
+<div class="p-summary">
+<div>
+<p>I've just finished integrating new features into DLL, my deep learning library.
+I've added support for an embeddings layer, a group layer and a merge layer.
+This is not yet released, but available in the master branch.</p>
+<p>Embeddings are used more and more these days to learn dense representation of
+characters or word. An embedding layer in a neural network transform labels into
+a vector. It's generally used as the first layer of the network. The embedding
+are learned as part of the network.</p>
+<p>The merge layer allows to create branches in the network. The input is passed to
+each sub layer and then the output of each layer is concatenated to form the
+output of the merged layers. This can be very useful to use different
+convolutional filter sizes.</p>
+<p>The group layer is a simple utility to group layers together. This is mostly to
+use with merge layers to form several branches.</p>
+<p>I've put together a new example to use these features on text classification.
+The dataset is totally synthetic for now, but this can easily be reproduced with
+a normal text classification dataset. This kind of model is called a Character
+Convolutional Neural Network.</p>
+<p>Here is the code for example:</p>
+<pre class="code cpp"><a name="rest_code_6260278376ea46fa920f56df3fe99fae-1"></a><span class="k">constexpr</span> <span class="kt">size_t</span> <span class="n">embedding</span> <span class="o">=</span> <span class="mi">16</span><span class="p">;</span> <span class="c1">// The length of the embedding vector</span>
+<a name="rest_code_6260278376ea46fa920f56df3fe99fae-2"></a><span class="k">constexpr</span> <span class="kt">size_t</span> <span class="n">length</span> <span class="o">=</span> <span class="mi">15</span><span class="p">;</span>    <span class="c1">// The word (or sequence) length</span>
+<a name="rest_code_6260278376ea46fa920f56df3fe99fae-3"></a>
+<a name="rest_code_6260278376ea46fa920f56df3fe99fae-4"></a><span class="k">using</span> <span class="n">embedding_network_t</span> <span class="o">=</span> <span class="n">dll</span><span class="o">::</span><span class="n">dyn_network_desc</span><span class="o">&lt;</span>
+<a name="rest_code_6260278376ea46fa920f56df3fe99fae-5"></a>    <span class="n">dll</span><span class="o">::</span><span class="n">network_layers</span><span class="o">&lt;</span>
+<a name="rest_code_6260278376ea46fa920f56df3fe99fae-6"></a>        <span class="c1">// The embedding layer</span>
+<a name="rest_code_6260278376ea46fa920f56df3fe99fae-7"></a>        <span class="n">dll</span><span class="o">::</span><span class="n">embedding_layer</span><span class="o">&lt;</span><span class="mi">26</span><span class="p">,</span> <span class="n">length</span><span class="p">,</span> <span class="n">embedding</span><span class="o">&gt;</span>
+<a name="rest_code_6260278376ea46fa920f56df3fe99fae-8"></a>
+<a name="rest_code_6260278376ea46fa920f56df3fe99fae-9"></a>        <span class="c1">// The convolutional layers</span>
+<a name="rest_code_6260278376ea46fa920f56df3fe99fae-10"></a>        <span class="p">,</span> <span class="n">dll</span><span class="o">::</span><span class="n">merge_layer</span><span class="o">&lt;</span>
+<a name="rest_code_6260278376ea46fa920f56df3fe99fae-11"></a>            <span class="mi">0</span>
+<a name="rest_code_6260278376ea46fa920f56df3fe99fae-12"></a>            <span class="p">,</span> <span class="n">dll</span><span class="o">::</span><span class="n">group_layer</span><span class="o">&lt;</span>
+<a name="rest_code_6260278376ea46fa920f56df3fe99fae-13"></a>                  <span class="n">dll</span><span class="o">::</span><span class="n">conv_layer</span><span class="o">&lt;</span><span class="mi">1</span><span class="p">,</span> <span class="n">length</span><span class="p">,</span> <span class="n">embedding</span><span class="p">,</span> <span class="mi">16</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="n">embedding</span><span class="o">&gt;</span>
+<a name="rest_code_6260278376ea46fa920f56df3fe99fae-14"></a>                <span class="p">,</span> <span class="n">dll</span><span class="o">::</span><span class="n">mp_2d_layer</span><span class="o">&lt;</span><span class="mi">16</span><span class="p">,</span> <span class="n">length</span> <span class="o">-</span> <span class="mi">3</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">length</span> <span class="o">-</span> <span class="mi">3</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="o">&gt;</span>
+<a name="rest_code_6260278376ea46fa920f56df3fe99fae-15"></a>            <span class="o">&gt;</span>
+<a name="rest_code_6260278376ea46fa920f56df3fe99fae-16"></a>            <span class="p">,</span> <span class="n">dll</span><span class="o">::</span><span class="n">group_layer</span><span class="o">&lt;</span>
+<a name="rest_code_6260278376ea46fa920f56df3fe99fae-17"></a>                  <span class="n">dll</span><span class="o">::</span><span class="n">conv_layer</span><span class="o">&lt;</span><span class="mi">1</span><span class="p">,</span> <span class="n">length</span><span class="p">,</span> <span class="n">embedding</span><span class="p">,</span> <span class="mi">16</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="n">embedding</span><span class="o">&gt;</span>
+<a name="rest_code_6260278376ea46fa920f56df3fe99fae-18"></a>                <span class="p">,</span> <span class="n">dll</span><span class="o">::</span><span class="n">mp_2d_layer</span><span class="o">&lt;</span><span class="mi">16</span><span class="p">,</span> <span class="n">length</span> <span class="o">-</span> <span class="mi">4</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">length</span> <span class="o">-</span> <span class="mi">4</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="o">&gt;</span>
+<a name="rest_code_6260278376ea46fa920f56df3fe99fae-19"></a>            <span class="o">&gt;</span>
+<a name="rest_code_6260278376ea46fa920f56df3fe99fae-20"></a>            <span class="p">,</span> <span class="n">dll</span><span class="o">::</span><span class="n">group_layer</span><span class="o">&lt;</span>
+<a name="rest_code_6260278376ea46fa920f56df3fe99fae-21"></a>                  <span class="n">dll</span><span class="o">::</span><span class="n">conv_layer</span><span class="o">&lt;</span><span class="mi">1</span><span class="p">,</span> <span class="n">length</span><span class="p">,</span> <span class="n">embedding</span><span class="p">,</span> <span class="mi">16</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="n">embedding</span><span class="o">&gt;</span>
+<a name="rest_code_6260278376ea46fa920f56df3fe99fae-22"></a>                <span class="p">,</span> <span class="n">dll</span><span class="o">::</span><span class="n">mp_2d_layer</span><span class="o">&lt;</span><span class="mi">16</span><span class="p">,</span> <span class="n">length</span> <span class="o">-</span> <span class="mi">5</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">length</span> <span class="o">-</span> <span class="mi">5</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="o">&gt;</span>
+<a name="rest_code_6260278376ea46fa920f56df3fe99fae-23"></a>            <span class="o">&gt;</span>
+<a name="rest_code_6260278376ea46fa920f56df3fe99fae-24"></a>        <span class="o">&gt;</span>
+<a name="rest_code_6260278376ea46fa920f56df3fe99fae-25"></a>
+<a name="rest_code_6260278376ea46fa920f56df3fe99fae-26"></a>        <span class="c1">// The final softmax layer</span>
+<a name="rest_code_6260278376ea46fa920f56df3fe99fae-27"></a>        <span class="p">,</span> <span class="n">dll</span><span class="o">::</span><span class="n">dense_layer</span><span class="o">&lt;</span><span class="mi">48</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="n">dll</span><span class="o">::</span><span class="n">softmax</span><span class="o">&gt;</span>
+<a name="rest_code_6260278376ea46fa920f56df3fe99fae-28"></a>    <span class="o">&gt;</span>
+<a name="rest_code_6260278376ea46fa920f56df3fe99fae-29"></a>    <span class="p">,</span> <span class="n">dll</span><span class="o">::</span><span class="n">updater</span><span class="o">&lt;</span><span class="n">dll</span><span class="o">::</span><span class="n">updater_type</span><span class="o">::</span><span class="n">NADAM</span><span class="o">&gt;</span>     <span class="c1">// Nesterov Adam (NADAM)</span>
+<a name="rest_code_6260278376ea46fa920f56df3fe99fae-30"></a>    <span class="p">,</span> <span class="n">dll</span><span class="o">::</span><span class="n">batch_size</span><span class="o">&lt;</span><span class="mi">50</span><span class="o">&gt;</span>                        <span class="c1">// The mini-batch size</span>
+<a name="rest_code_6260278376ea46fa920f56df3fe99fae-31"></a>    <span class="p">,</span> <span class="n">dll</span><span class="o">::</span><span class="n">shuffle</span>                               <span class="c1">// Shuffle before each epoch</span>
+<a name="rest_code_6260278376ea46fa920f56df3fe99fae-32"></a><span class="o">&gt;::</span><span class="n">network_t</span><span class="p">;</span>
+<a name="rest_code_6260278376ea46fa920f56df3fe99fae-33"></a>
+<a name="rest_code_6260278376ea46fa920f56df3fe99fae-34"></a><span class="k">auto</span> <span class="n">net</span> <span class="o">=</span> <span class="n">std</span><span class="o">::</span><span class="n">make_unique</span><span class="o">&lt;</span><span class="n">embedding_network_t</span><span class="o">&gt;</span><span class="p">();</span>
+<a name="rest_code_6260278376ea46fa920f56df3fe99fae-35"></a>
+<a name="rest_code_6260278376ea46fa920f56df3fe99fae-36"></a><span class="c1">// Display the network and dataset</span>
+<a name="rest_code_6260278376ea46fa920f56df3fe99fae-37"></a><span class="n">net</span><span class="o">-&gt;</span><span class="n">display</span><span class="p">();</span>
+<a name="rest_code_6260278376ea46fa920f56df3fe99fae-38"></a>
+<a name="rest_code_6260278376ea46fa920f56df3fe99fae-39"></a><span class="c1">// Train the network for performance sake</span>
+<a name="rest_code_6260278376ea46fa920f56df3fe99fae-40"></a><span class="n">net</span><span class="o">-&gt;</span><span class="n">fine_tune</span><span class="p">(</span><span class="n">samples</span><span class="p">,</span> <span class="n">labels</span><span class="p">,</span> <span class="mi">50</span><span class="p">);</span>
+<a name="rest_code_6260278376ea46fa920f56df3fe99fae-41"></a>
+<a name="rest_code_6260278376ea46fa920f56df3fe99fae-42"></a><span class="c1">// Test the network on train set</span>
+<a name="rest_code_6260278376ea46fa920f56df3fe99fae-43"></a><span class="n">net</span><span class="o">-&gt;</span><span class="n">evaluate</span><span class="p">(</span><span class="n">samples</span><span class="p">,</span> <span class="n">labels</span><span class="p">);</span>
+</pre>
+<p>The network starts with an embedding layer. The embedding is then passed to
+three convolutional layers with different filter sizes, each followed by
+a pooling layer. The outputs of the three layers are merged at the end of the
+merge layer. Finally, a softmax layer is used for classification.</p>
+<p>This kind of model can be very powerful and is used regularly. These new
+features make for a much larger variety of models that can be build with the DLL
+library.</p>
+<p>The full code with the dataset generation can be found online:
+<a class="reference external" href="https://github.com/wichtounet/dll/blob/master/examples/src/char_cnn.cpp">char_cnn.cpp</a></p>
+<p>The next feature I want to focus on is recurrent neural networks. I'll probably
+try a single RNN layer first and then upgrade to multi-layers and LSTM and maybe
+GRU.</p>
+</div>
+</div>
+<a href="posts/2017/10/dll-new-features-embeddings-and-merge-layers.html#disqus_thread" data-disqus-identifier="cache/posts/2017/10/dll-new-features-embeddings-and-merge-layers.html">Comments</a>
+</article><article class="postbox h-entry post-text"><h1 class="p-name">
+<a href="posts/2017/10/i-successfully-defended-my-phd.html" class="u-url">I successfully defended my Ph.D.</a>
+<br><small>  
+Posted: <time class="published dt-published" datetime="2017-10-15T17:16:29+02:00">2017-10-15 17:16</time></small>
+</h1>
+<hr>
+<div class="p-summary">
+<div>
+<p>I'm happy to announce that I've successfully defended my thesis "Deep Learning
+Features for Image Processing". After four years, I've defended it officially in
+front of the thesis committed last Friday and then again two days ago I've
+successfully publicly defended in front of my friends, family and colleagues.</p>
+<p>I'm now a "Doctor of Philosophy in Computer Science :)</p>
+<p>I will update my thesis with the last comments in November and send the final
+version to the university. At which point, I'll publish it on this website as
+well.</p>
+</div>
+</div>
+<a href="posts/2017/10/i-successfully-defended-my-phd.html#disqus_thread" data-disqus-identifier="cache/posts/2017/10/i-successfully-defended-my-phd.html">Comments</a>
+</article><article class="postbox h-entry post-text"><h1 class="p-name">
+<a href="posts/2017/10/budgetwarrior-track-assets-portfolio-savings-rates-auto-completion.html" class="u-url">Budgetwarrior: Track assets and portfolio, savings rates and auto-completion</a>
+<br><small>  
+Posted: <time class="published dt-published" datetime="2017-10-12T19:40:14+02:00">2017-10-12 19:40</time></small>
+</h1>
+<hr>
+<div class="p-summary">
+<div>
+<p>This last month, I've been reading quite a few blogs about personal finance and
+I've decided to integrate more features into budgetwarrior. This post is about
+three new features that I've integrated. It's not yet a new release, so if you
+want to test this version, you'll have to compile it from the <em>master</em> branch on
+Git.</p>
+<p>As it was last time, the values on my screenshots have all been randomized.</p>
+<p>If you have several assets with different distributions, I believe it is a great
+value to have them all shown at the same time. Especially if you want to change
+the distribution of your portfolio or if you plan big changes in it.</p>
+<div class="section" id="track-assets">
+<h2>Track assets</h2>
+<p>The first feature I've added is a feature to precisely track each of your assets
+independently. And you can also track the allocation of your portfolio in terms
+of stocks, bonds and cash. The tool also lets you set the desired distribution
+of your assets and will compute the difference that you should make in order to
+comply to your desired distribution.</p>
+<p>First, you need to define all your asset classes (your accounts, funds, and
+stocks, ...) and their distribution with <code>budget asset add</code>. It also
+supports to set a currency. The default currency is now CHF, but you can set it
+in the configuration file, for instance <code>default_currency=USD</code>. You can
+see your assets using <code>budget asset</code>:</p>
+<img alt="View of your assets" src="images/budgetwarrior_assets.png"><p>You can then set the value of your assets using <code>budget asset value add</code>.
+The system will save all the values of your assets. For now, only the last value
+is used in the application to display. In the future, I plan to add new reports
+for evolution of the portfolio over time. You can see your current net worth
+with the <code>budget asset value</code>:</p>
+<img alt="View of your portfolio" src="images/budgetwarrior_asset_values.png"><p>The different currencies will all be converted to the default currency.</p>
+</div>
+<div class="section" id="savings-rate">
+<h2>Savings rate</h2>
+<p>The second change I did is to compute the savings rate of each month and year.
+The savings rate is simply the portion of your income that you are able to save
+each month. The savings rate for a year is simple the average of the savings
+rate of each month.</p>
+<p>The savings rate of the month can be seen with <code>budget overview month</code>:</p>
+<img alt="Savings rate of the month" src="images/budgetwarrior_savings_rate.png"><p>The saving rates of each month can also be seen in the overview of the year with
+<code>budget overview year</code>:</p>
+<img alt="Savings rate of the year" src="images/budgetwarrior_savings_rate_year.png"><p>This shows the savings rate of each month, the average of the year and the
+average of the current year up to the current month.</p>
+<p>The savings rate is a very important metric of your budget. In my case, it's
+currently way too low and made me realize I really need to save more. Any
+savings rate below 10% is too low. There are no rule as too much it should be,
+but I'd like to augment mine to at least 20% next year.</p>
+</div>
+<div class="section" id="auto-completion">
+<h2>Auto-completion</h2>
+<p>The last feature is mostly some quality-of-life improvement. Some of the inputs
+in the console can now be completed. It's not really auto-completion per se, but
+you can cycle through the list of possible values using the UP and DOWN.</p>
+<p>This makes it much easier to set some values such as asset names (in
+<code>budget asset value add</code> for instance), account names and objective types
+and sources. I'm trying to make the input of values easier.</p>
+</div>
+<div class="section" id="conclusion-2">
+<h2>Conclusion</h2>
+<p>I don't know exactly what else will be integrated in this feature, but I may
+already improve some visualization for asset values. If I learn something new
+about personal finance that I may integrate in the tool, I'll do it as well.</p>
+<p>If you are interested by the sources or want to install this version,
+you can download them on Github:
+<a class="reference external" href="https://github.com/wichtounet/budgetwarrior">budgetwarrior</a>.</p>
+<p>The new features are in the <em>master</em> branch.</p>
+<p>If you have a suggestion for a new features or you found a bug, please post an
+issue on Github, I'd be glad to help you.</p>
+<p>If you have any comment, don't hesitate to contact me, either by letting a
+comment on this post or by email.</p>
+</div>
+</div>
+</div>
+<a href="posts/2017/10/budgetwarrior-track-assets-portfolio-savings-rates-auto-completion.html#disqus_thread" data-disqus-identifier="cache/posts/2017/10/budgetwarrior-track-assets-portfolio-savings-rates-auto-completion.html">Comments</a>
+</article><article class="postbox h-entry post-text"><h1 class="p-name">
+<a href="posts/2017/10/deep-learning-library-10-fast-neural-network-library.html" class="u-url">Deep Learning Library 1.0 - Fast Neural Network Library</a>
+<br><small>  
+Posted: <time class="published dt-published" datetime="2017-10-07T15:42:16+02:00">2017-10-07 15:42</time></small>
+</h1>
+<hr>
+<div class="p-summary">
+<div>
+<img alt="DLL Logo" class="align-center" src="images/dll_logo.png"><p>I'm very happy to announce the release of the first version of Deep Learning
+Library (DLL) 1.0. DLL is a neural network library with a focus on speed and
+ease of use.</p>
+<p>I started working on this library about 4 years ago for my Ph.D. thesis.
+I needed a good library to train and use Restricted Boltzmann Machines (RBMs)
+and at this time there was no good support for it. Therefore, I decided to write
+my own. It now has very complete support for the RBM and the Convolutional RBM
+(CRBM) models. Stacks of RBMs (or Deep Belief Networks (DBNs)) can be pretrained
+using Contrastive Divergence and then either fine-tuned with mini-batch gradient
+descent or Conjugate Gradient or used as a feature extractor. Over the years,
+the library has been extended to handle Artificial Neural Networks (ANNs) and
+Convolutional Neural Networks (CNNs). The network is also able to train regular
+auto-encoders. Several advanced layers such as Dropout or Batch Normalization
+are also available as well as adaptive learning rates techniques such as
+Adadelta and Adam. The library also has integrated support for a few datasets:
+MNIST, CIFAR-10 and ImageNet.</p>
+<p>This library can be used using a C++ interface. The library is fully
+header-only. It requires a C++14 compiler, which means a minimum of clang 3.9 or
+GCC 6.3.</p>
+<p>In this post, I'm going to present a few examples on using the library and give
+some information about the performance of the library and the roadmap for the
+project.</p>
+<p class="more"><a href="posts/2017/10/deep-learning-library-10-fast-neural-network-library.html">Read more…</a></p>
+</div>
+</div>
+<a href="posts/2017/10/deep-learning-library-10-fast-neural-network-library.html#disqus_thread" data-disqus-identifier="cache/posts/2017/10/deep-learning-library-10-fast-neural-network-library.html">Comments</a>
+</article><article class="postbox h-entry post-text"><h1 class="p-name">
+<a href="posts/2017/10/expression-templates-library-etl-1-2-complete-gpu-support.html" class="u-url">Expression Templates Library (ETL) 1.2 - Complete GPU support</a>
+<br><small>  
+Posted: <time class="published dt-published" datetime="2017-10-02T10:49:02+02:00">2017-10-02 10:49</time></small>
+</h1>
+<hr>
+<div class="p-summary">
+<div>
+<img alt="ETL Logo" class="align-center" src="images/logo.png"><p>I'm happy to announce the version 1.2 of my Expression Templates Library (ETL):
+ETL 1.2, two months after <a class="reference external" href="https://baptiste-wicht.com/posts/2017/08/expression-templates-library-etl-11.html">I released the version 1.1</a>.
+This version features much better GPU Support, a few new features and a lot of
+changes in the internal code.</p>
+<div class="section" id="gpu-support">
+<h2>GPU Support</h2>
+<p>Before, only algorithms such as 4D convolution or matrix-matrix multiplication
+were computed in the GPU and lots of operations were causing copies between CPU
+and GPU version. Now, the support for basic operations has also been completed
+and therefore, expressions like this:</p>
+<pre class="code cpp"><a name="rest_code_e97eaba5087f47d0aee5f7ce1c6431bc-1"></a><span class="n">C</span> <span class="o">=</span> <span class="n">sigmoid</span><span class="p">(</span><span class="mf">2.0</span> <span class="o">*</span> <span class="p">(</span><span class="n">A</span> <span class="o">+</span> <span class="n">B</span><span class="p">))</span> <span class="o">/</span> <span class="n">sum</span><span class="p">(</span><span class="n">A</span><span class="p">)</span>
+</pre>
+<p>Can be computed entirely on GPU.</p>
+<p>Each matrix and vector containers have a secondary GPU memory space. During the
+execution, the status of both memory spaces is being managed and when necessary,
+copies are made between two spaces. In the best case, there should only be
+initial copies to the GPU and then everything should be done on the GPU. I've
+also considered using Unified Memory in place of this system, but this is
+a problem for fast matrix and I'd rather not have two different systems.</p>
+<p>If you have an expression such as <code>c = a + b * 2</code>, it can be entirely computed
+on GPU, however, it will be computed in two GPU operations such as:</p>
+<pre class="code cpp"><a name="rest_code_850c1f8548ae4ab89679a31d2e62b2d6-1"></a><span class="n">t1</span> <span class="o">=</span> <span class="n">b</span> <span class="o">*</span> <span class="mi">2</span>
+<a name="rest_code_850c1f8548ae4ab89679a31d2e62b2d6-2"></a><span class="n">c</span> <span class="o">=</span> <span class="n">a</span> <span class="o">+</span> <span class="n">t1</span>
+</pre>
+<p>This is not perfect in terms of performance but this will be done without any
+copies between CPU and GPU memory. I plan to improve this system with a bit more
+complex operations to avoid too many GPU operations, but there will always be
+more operations than in CPU where this can easily be done in one go.</p>
+<p>There are a few expressions that are not computable on the GPU, such as random
+generations. A few transformations are also not fully compatible with GPU.
+Moreover, if you access an element with operators <code>[]</code> or <code>()</code>, this
+will invalidate the GPU memory and force an update to the CPU memory.</p>
+<p>GPU operations are not implemented directly in ETL, there are coming from
+various libraries. ETL is using NVIDIA CUDNN, CUFFT and CUDNN for most
+algorithms. Moreover, for other operations, I've implemented a libraries with
+simple GPU operations: ETL-GPU-BLAS (EGBLAS). You can have a look at
+<a class="reference external" href="https://github.com/wichtounet/etl-gpu-blas">egblas</a> if you are interested.</p>
+<p>My Deep Learning Library (DLL) project is based on ETL and its performances are
+mostly dependent on ETL's performances. Now that ETL fully supports GPU, the
+GPU performance of DLL is much improved. You may remember a few weeks ago
+I posted <a class="reference external" href="https://baptiste-wicht.com/posts/2017/08/dll-blazing-fast-neural-network-library.html">very high CPU performance of DLL</a>.
+Now, I've run again the tests to see the GPU performance with DLL. Here is the
+performance for training a small CNN on the MNIST data set:</p>
+<img alt="Performances for training a Convolutional Neural Network on MNIST" class="align-center" src="images/etl_12_dll_gpu_mnist.png"><p>As you can see, the performances on GPU are now excellent. DLL's performances
+are on par with Tensorflow and Keras!</p>
+<p>The next results are for training a much larger CNN on ImageNet, with the time
+necessary to train a single batch:</p>
+<img alt="Performances for training a Convolutional Neural Network on Imagenet" class="align-center" src="images/etl_12_dll_gpu_imagenet.png"><p>Again, using the new version of ETL inside DLL has led to excellent performance.
+The framework is again on par with TensorFlow and Keras and faster than all the
+other frameworks. The large difference between DLL and Tensorflow and Keras is
+due to the inefficiency of reading the dataset in the two frameworks, so the
+performance of the three framework themselves are about the same.</p>
+</div>
+<div class="section" id="other-changes">
+<h2>Other Changes</h2>
+<p>The library also has a few other new features. Logarithms of base 2 and base 10
+are now supported in complement to the base e that was already available before.
+Categorical Cross Entropy (CCE) computation is also available now, the CCE loss
+and error can be computed for one or many samples. Convolutions have also been
+improved in that you can use mixed types in both the image and the kernel and
+different storage order as well. Nevertheless, the most optimized version
+remains the version with the same storage order and the same data type.</p>
+<p>I've also made a major change in the way implementations are selected for each
+operation. The tests and the benchmark are using a system to force the selection
+of an algorithm. This system is now disabled by default. This makes the
+compilation much faster by default. Since it's not necessary in most cases, this
+will help regular use cases of the library by compiling much faster.</p>
+<p>Overall, the support for complex numbers has been improved in ETL. There are
+more routines that are supported and <code>etl::complex</code> is better supported
+throughout the code. I'll still work on this in the future to make it totally
+complete.</p>
+<p>The internal code also has a few new changes. First, all traits have been
+rewritten to use variable templates instead of struct traits. This makes the
+code much nicer in my opinion. Moreover, I've started experimenting with C++17
+<code>if constexpr</code>. Most of the if conditions that can be transformed to if
+constexpr have been annotated with comments that I can quickly enable or disable
+so that I can test the impact of C++17, especially on compilation time.</p>
+<p>Finally, a few bugs have been fixed. ETL is now working better with parallel
+BLAS library. There should not be issues with double parallelization in ETL and
+BLAS. There was a slight bug in the Column-Major matrix-matrix multiplication
+kernel. Binary operations with different types in the left and right hand sides
+was also problematic with vectorization. The last bug was about GPU status in
+case ETL containers were moved.</p>
+</div>
+<div class="section" id="what-s-next">
+<h2>What's next ?</h2>
+<p>I don't yet know exactly on which features I'm going to focus for the next
+version of ETL. I plan to focus a bit more in the near future on Deep Learning
+Library (DLL) for which I should release the version 1.0 soon. I also plan to
+start support for Recurrent Neural Networks on it, so that will take me quite
+some time.</p>
+<p>Nevertheless, I'm still planning to consider the switch to C++17, since it is
+<a class="reference external" href="https://baptiste-wicht.com/posts/2017/09/how-i-made-deep-learning-library-38-faster-to-compile-optimization-and-cpp17-if-constexpr.html">a bit faster to compile ETL with if constexpr</a>. The next version of ETL will also probably have GPU-support for
+integers, at least in the cases that depend on the etl-gpu-blas library, which
+is the standard operators. I also plan to improve the support for complex
+numbers, especially in terms of performance and tests. Hopefully, I will have also time (and motivation)
+to start working on the sparse capabilities of ETL. It really needs much more
+unit tests and the performance should be improved as well.</p>
+</div>
+<div class="section" id="download-etl">
+<h2>Download ETL</h2>
+<p>You can download ETL <a class="reference external" href="https://github.com/wichtounet/etl">on Github</a>. If you
+only interested in the 1.2 version, you can look at the
+<a class="reference external" href="https://github.com/wichtounet/etl/releases">Releases pages</a> or clone the tag
+1.2. There are several branches:</p>
+<ul class="simple">
+<li>
+<em>master</em> Is the eternal development branch, may not always be stable</li>
+<li>
+<em>stable</em> Is a branch always pointing to the last tag, no development here</li>
+</ul>
+<p>For the future release, there always will tags pointing to the corresponding
+commits. You can also have access to previous releases on Github or via the
+release tags.</p>
+<p>The documentation is still a bit sparse. There are a few examples and the Wiki,
+but there still is work to be done. If you have questions on how to use or
+configure the library, please don't hesitate.</p>
+<p>Don't hesitate to comment this post if you have any comment on this library or
+any question. You can also open an Issue on Github if you have a problem using
+this library or propose a Pull Request if you have any contribution you'd like
+to make to the library.</p>
+<p>Hope this may be useful to some of you :)</p>
+</div>
+</div>
+</div>
+<a href="posts/2017/10/expression-templates-library-etl-1-2-complete-gpu-support.html#disqus_thread" data-disqus-identifier="cache/posts/2017/10/expression-templates-library-etl-1-2-complete-gpu-support.html">Comments</a>
+</article><article class="postbox h-entry post-text"><h1 class="p-name">
+<a href="posts/2017/09/cpp11-performance-tip-update-when-to-use-std-pow.html" class="u-url">C++11 Performance tip: Update on when to use std::pow ?</a>
+<br><small>  
+Posted: <time class="published dt-published" datetime="2017-09-22T11:21:07+02:00">2017-09-22 11:21</time></small>
+</h1>
+<hr>
+<div class="p-summary">
+<div>
+<p>A few days ago, I published a post comparing the
+<a class="reference external" href="https://baptiste-wicht.com/posts/2017/09/cpp11-performance-tip-when-to-use-std-pow.html">performance of std::pow against direct multiplications</a>. When not compiling with -ffast-math, direct multiplication was significantly faster than <code>std::pow</code>, around two orders of magnitude faster when comparing <code>x * x * x</code> and <code>code:std::pow(x, 3)</code>.
+One comment that I've got was to test for which <code>n</code> is
+<code>code:std::pow(x, n)</code> becoming faster than multiplying in a loop. Since
+std::pow is using a special algorithm to perform the computation rather than be
+simply loop-based multiplications, there may be a point after which it's more interesting to use the
+algorithm rather than a loop. So I decided to do the tests. You can also find
+the result in the original article, which I've updated.</p>
+<p>First, our pow function:</p>
+<pre class="code c++"><a name="rest_code_52b382b39caf497cb43a418034153a77-1"></a><span class="kt">double</span> <span class="nf">my_pow</span><span class="p">(</span><span class="kt">double</span> <span class="n">x</span><span class="p">,</span> <span class="kt">size_t</span> <span class="n">n</span><span class="p">){</span>
+<a name="rest_code_52b382b39caf497cb43a418034153a77-2"></a>    <span class="kt">double</span> <span class="n">r</span> <span class="o">=</span> <span class="mf">1.0</span><span class="p">;</span>
+<a name="rest_code_52b382b39caf497cb43a418034153a77-3"></a>
+<a name="rest_code_52b382b39caf497cb43a418034153a77-4"></a>    <span class="k">while</span><span class="p">(</span><span class="n">n</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">){</span>
+<a name="rest_code_52b382b39caf497cb43a418034153a77-5"></a>        <span class="n">r</span> <span class="o">*=</span> <span class="n">x</span><span class="p">;</span>
+<a name="rest_code_52b382b39caf497cb43a418034153a77-6"></a>        <span class="o">--</span><span class="n">n</span><span class="p">;</span>
+<a name="rest_code_52b382b39caf497cb43a418034153a77-7"></a>    <span class="p">}</span>
+<a name="rest_code_52b382b39caf497cb43a418034153a77-8"></a>
+<a name="rest_code_52b382b39caf497cb43a418034153a77-9"></a>    <span class="k">return</span> <span class="n">r</span><span class="p">;</span>
+<a name="rest_code_52b382b39caf497cb43a418034153a77-10"></a><span class="p">}</span>
+</pre>
+<p>And now, let's see the performance. I've compiled my benchmark with GCC 4.9.3
+and running on my old Sandy Bridge processor. Here are the results for 1000
+calls to each functions:</p>
+<div id="graph_std_pow_my_pow_1" style="width: 700px; height: 400px;"></div>
+<p>We can see that between <code>n=100</code> and <code>n=110</code>, <code>std::pow(x, n)</code>
+starts to be faster than <code>my_pow(x, n)</code>. At this point, you should only
+use <code>std::pow(x, n)</code>. Interestingly too, the time for <code>std::pow(x,
+n)</code> is decreasing. Let's see how is the performance with higher range of
+<code>n</code>:</p>
+<div id="graph_std_pow_my_pow_2" style="width: 700px; height: 400px;"></div>
+<p>We can see that the pow function time still remains stable while our loop-based
+pow function still increases linearly. At <code>n=1000</code>, <code>std::pow</code> is
+one order of magnitude faster than <code>my_pow</code>.</p>
+<p>Overall, if you do not care much about extreme accuracy, you may consider using
+you own pow function for small-ish (integer) <code>n</code> values. After
+<code>n=100</code>, it becomes more interesting to use <code>std::pow</code>.</p>
+<p>If you want more results on the subject, you take a look at the
+<a class="reference external" href="https://baptiste-wicht.com/posts/2017/09/cpp11-performance-tip-when-to-use-std-pow.html">original article</a>.</p>
+<p>If you are interested in the code of this benchmark, it's available online:
+<a class="reference external" href="https://github.com/wichtounet/articles/blob/master/src/bench_pow_my_pow.cpp">bench_pow_my_pow.cpp</a></p>
+<script type="text/javascript" src="https://www.google.com/jsapi"></script><script type="text/javascript">google.load('visualization', '1.0', {'packages':['corechart']});</script><script type="text/javascript">
+function draw_graph_pow_my_pow_1(){
+var data = google.visualization.arrayToDataTable([
+['n', 'my_pow(x, n)', 'std::pow(x, n)'],
+['10',   2,     127],
+['20',   17,     123],
+['30',   26,     127],
+['40',   36,     123],
+['50',   43,     123],
+['60',   55,     123],
+['70',   72,     123],
+['80',   85,     123],
+['90',   102,    126],
+['100',  114,    125],
+['110',  131,    115],
+['120',  144,    111],
+['130',  165,    111],
+['140',  173,    108],
+['150',  189,    107],
+['160',  202,    112],
+['170',  219,    106],
+['180',  232,    105],
+['190',  249,    108],
+['200',  261,    105],
+]);
+var graph = new google.visualization.LineChart(document.getElementById('graph_std_pow_my_pow_1'));
+var options = {curveType: "function",title: "std::pow(x, 2) (float)",animation: {duration:1200, easing:"in"},width: 700, height: 400,hAxis: {title:"Number of elements", slantedText:true},vAxis: {viewWindow: {min:0}, title:"us"}};
+graph.draw(data, options);
+}
+function draw_graph_pow_my_pow_2(){
+var data = google.visualization.arrayToDataTable([
+['n', 'my_pow(x, n)', 'std::pow(x, n)'],
+['100',  114,    125],
+['200',  261,    105],
+['300',  410,    104],
+['400',  558,    104],
+['500',  708,    104],
+['600',  855,    104],
+['700',  1002,   104],
+['800',  1148,   104],
+['900',  1300,   104],
+['1000', 1442,   104],
+]);
+var graph = new google.visualization.LineChart(document.getElementById('graph_std_pow_my_pow_2'));
+var options = {curveType: "function",title: "std::pow(x, 2) (float)",animation: {duration:1200, easing:"in"},width: 700, height: 400,hAxis: {title:"Number of elements", slantedText:true},vAxis: {viewWindow: {min:0}, title:"us"}};
+graph.draw(data, options);
+}
+function draw_all(){
+draw_graph_pow_my_pow_1();
+draw_graph_pow_my_pow_2();
+}
+google.setOnLoadCallback(draw_all);
+</script>
+</div>
+</div>
+<a href="posts/2017/09/cpp11-performance-tip-update-when-to-use-std-pow.html#disqus_thread" data-disqus-identifier="cache/posts/2017/09/cpp11-performance-tip-update-when-to-use-std-pow.html">Comments</a>
+</article><article class="postbox h-entry post-text"><h1 class="p-name">
+<a href="posts/2017/09/how-i-made-deep-learning-library-38-faster-to-compile-optimization-and-cpp17-if-constexpr.html" class="u-url">How I made my Deep Learning Library 38% faster to compile (Optimization and C++17 if constexpr)</a>
+<br><small>  
+Posted: <time class="published dt-published" datetime="2017-09-21T19:44:34+02:00">2017-09-21 19:44</time></small>
+</h1>
+<hr>
+<div class="p-summary">
+<div>
+<p>My Deep Learning Library (DLL) project is a C++ library for training and using
+artificial neural networks (you can take a look at
+<a class="reference external" href="https://baptiste-wicht.com/posts/2017/07/update-on-deep-learning-library-dll-dropout-batch-normalization-adaptive-learning-rates.html">this post about DLL</a>
+if you want more information).</p>
+<p>While I made a lot of effort to make it as fast as possible to train and run
+neural networks, the compilation time has been steadily going up and is becoming
+quite annoying. This library is heavily templated and all the matrix operations
+are done using my Expression Templates Library (ETL) which is more than
+template-heavy itself.</p>
+<p>In this post, I'll present two techniques with which I've been able to reduce
+the total compilation of the DLL unit tests by up to 38%.</p>
+<p class="more"><a href="posts/2017/09/how-i-made-deep-learning-library-38-faster-to-compile-optimization-and-cpp17-if-constexpr.html">Read more…</a></p>
+</div>
+</div>
+<a href="posts/2017/09/how-i-made-deep-learning-library-38-faster-to-compile-optimization-and-cpp17-if-constexpr.html#disqus_thread" data-disqus-identifier="cache/posts/2017/09/how-i-made-deep-learning-library-38-faster-to-compile-optimization-and-cpp17-if-constexpr.html">Comments</a>
+</article><article class="postbox h-entry post-text"><h1 class="p-name">
+<a href="posts/2017/09/cpp11-performance-tip-when-to-use-std-pow.html" class="u-url">C++11 Performance tip: When to use std::pow ?</a>
+<br><small>  
+Posted: <time class="published dt-published" datetime="2017-09-18T07:50:44+02:00">2017-09-18 07:50</time></small>
+</h1>
+<hr>
+<div class="p-summary">
+<div>
+<p>Update: I've added a new section for larger values of <code>n</code>.</p>
+<p>Recently, I've been wondering about the performance of <code>std::pow(x, n)</code>.
+I'm talking here about the case when <code>n</code> is an integer. In the case when
+<code>n</code> is not an integer, I believe, you should always use <code>std::pow</code>
+or use another specialized library.</p>
+<p>In case when n is an integer, you can actually replace it with the direct
+equivalent (for instance <code>std::pow(x, 3) = x * x x</code>). If n is very large,
+you'd rather write a loop of course ;) In practice, we generally use powers of
+two and three much more often than power of 29, although that could happen. Of
+course, it especially make sense to wonder about this if the pow is used inside
+a loop. If you only use it once outside a loop, that won't be any difference on
+the overall performance.</p>
+<p>Since I'm mostly interested in single precision performance (neural networks are
+only about single precision), the first benchmarks will be using <code>float</code>.</p>
+<p class="more"><a href="posts/2017/09/cpp11-performance-tip-when-to-use-std-pow.html">Read more…</a></p>
+</div>
+</div>
+<a href="posts/2017/09/cpp11-performance-tip-when-to-use-std-pow.html#disqus_thread" data-disqus-identifier="cache/posts/2017/09/cpp11-performance-tip-when-to-use-std-pow.html">Comments</a>
+</article><article class="postbox h-entry post-text"><h1 class="p-name">
+<a href="posts/2017/09/budgetwarrior-042-budget-summary-improved-fortune-reports.html" class="u-url">budgetwarrior 0.4.2 - Budget summary and improved fortune reports</a>
+<br><small>  
+Posted: <time class="published dt-published" datetime="2017-09-14T20:42:39+02:00">2017-09-14 20:42</time></small>
+</h1>
+<hr>
+<div class="p-summary">
+<div>
+<p>Almost three years ago, <a class="reference external" href="https://baptiste-wicht.com/posts/2014/09/budgetwarrior-041-expense-templates-and-year-projection.html">I published the version 0.4.1 of budgetwarrior</a>. Since then, I've been using this tool almost every day to manage my personal budget. This is the only tool I use to keep track of my expenses and earnings and it makes a great tool for me. I recently felt that it was missing a few features and added them and polished a few things as well and release a new version with all the new stuff. This new version is probably nothing fancy, but a nice upgrade of the tool.</p>
+<p>Don't pay too much attention to the values in the images since I've randomized
+all the data for the purpose of this post (new feature, by the way :P).</p>
+<div class="section" id="new-summary-view">
+<h2>New summary view</h2>
+<p>I've added a new report with <code>budget summary</code>:</p>
+<img alt="/images/budgetwarrior_042_summary.png" src="images/budgetwarrior_042_summary.png"><p>This view gives concise information about the current state of your accounts. It
+also gives information about your yearly and monthly objectives. Finally, it
+also gives information about the last two fortune values that you've set.
+I think this make a great kind of dashboard to view most of the information. If
+your terminal is large enough, the three parts will be shown side by side.</p>
+</div>
+<div class="section" id="improved-fortune-report">
+<h2>Improved fortune report</h2>
+<p>I've made a few improvements to the <code>budget fortune</code> view:</p>
+<img alt="/images/budgetwarrior_042_fortune.png" src="images/budgetwarrior_042_fortune.png"><p>It now display the time between the different fortune values and it compute the
+average savings (or avg losses) per day in each interval and in average from the
+beginning of the first value.</p>
+</div>
+<div class="section" id="various-changes">
+<h2>Various changes</h2>
+<p>The balance does not propagate over the years anymore. This should mainly change
+the behaviour of <code>budget overview</code>. I don't think it was very
+smart to propagate it all the time. The balance now starts at zero for each
+year. If you want the old system, you can use the multi_year_balance=true option
+in the .budgetrc configuration file.</p>
+<p>The recurring expenses do not use an internal configuration value. This does not
+change anything for the behaviour, but means that if you sync between different
+machines, it will avoid a lot of possible conflicts :)</p>
+<p>Fixed a few bugs with inconsistency between the different views and reports.
+Another bug that was fixed is that <code>budget report</code> was not always displaying the
+first month of the year correctly, this is now fixed.</p>
+<p>The graphs display in <code>budget report</code> are now automatically adapted to width of
+your terminal. Finally, the <code>budget overview</code> command also displays more
+information about the comparison with the previous month.</p>
+</div>
+<div class="section" id="installation">
+<h2>Installation</h2>
+<p>If you are on Gentoo, you can install it using layman:</p>
+<pre class="literal-block">layman -a wichtounet
+emerge -a budgetwarrior
+</pre>
+<p>If you are on Arch Linux, you can use this <a class="reference external" href="https://github.com/StreakyCobra/aur-budgetwarrior">AUR repository</a>.</p>
+<p>For other systems, you'll have to install from sources:</p>
+<pre class="literal-block">git clone --recursive git://github.com/wichtounet/budgetwarrior.git
+cd budgetwarrior
+make
+sudo make install
+</pre>
+</div>
+<div class="section" id="conclusion">
+<h2>Conclusion</h2>
+<p>A brief tutorial is available on Github: <a class="reference external" href="https://github.com/wichtounet/budgetwarrior/wiki/Start-tutorial">Starting guide</a>.</p>
+<p>If you are interested by the sources, you can download them on Github:
+<a class="reference external" href="https://github.com/wichtounet/budgetwarrior">budgetwarrior</a>.</p>
+<p>If you have any suggestion for a new feature or an improvement to the tool or
+you found a bug, please post an issue on Github, I'd be glad to help you. You
+can post a comment directly on this post :)</p>
+<p>If you have any other comment, don't hesitate to contact me, either by letting a
+comment on this post or by email.</p>
+<p>I hope that this application can be useful to some of you command-line adepts :)</p>
+</div>
+</div>
+</div>
+
+<a href="posts/2017/09/budgetwarrior-042-budget-summary-improved-fortune-reports.html#disqus_thread" data-disqus-identifier="cache/posts/2017/09/budgetwarrior-042-budget-summary-improved-fortune-reports.html">Comments</a>
+</article><article class="postbox h-entry post-text"><h1 class="p-name">
+<a href="posts/2017/09/cpp11-concurrency-tutorial-futures.html" class="u-url">C++11 Concurrency Tutorial - Part 5: Futures</a>
+<br><small>  
+Posted: <time class="published dt-published" datetime="2017-09-12T15:05:08+02:00">2017-09-12 15:05</time></small>
+</h1>
+<hr>
+<div class="p-summary">
+<div>
+<p>I've been recently reminded that a long time ago I was doing a series of
+tutorial on C++11 Concurrency. For some reason, I haven't continued these
+tutorials. The next post in the series was supposed to be about Futures, so I'm
+finally going to do it :)</p>
+<p>Here are the links to the current posts of the C++11 Concurrency Tutorial:</p>
+<ul class="simple">
+<li><a class="reference external" href="https://baptiste-wicht.com/posts/2012/03/cpp11-concurrency-part1-start-threads.html">Part 1: Start Threads</a></li>
+<li><a class="reference external" href="https://baptiste-wicht.com/posts/2012/03/cp11-concurrency-tutorial-part-2-protect-shared-data.html">Part 2: Protect Shared Data</a></li>
+<li><a class="reference external" href="https://baptiste-wicht.com/posts/2012/04/c11-concurrency-tutorial-advanced-locking-and-condition-variables.html">Part 3: Advanced Locking and condition variables</a></li>
+<li><a class="reference external" href="https://baptiste-wicht.com/posts/2012/07/c11-concurrency-tutorial-part-4-atomic-type.html">Part 4: Atomic Types</a></li>
+</ul>
+<p>In this post, we are going to talk about futures, more precisely
+<code>std::future&lt;T&gt;</code>. What is a future ? It's a very nice and simple mechanism
+to work with asynchronous tasks. It also has the advantage of decoupling you
+from the threads themselves, you can do multithreading without using
+<code>std::thread</code>. The future itself is a structure pointing to a result that
+will be computed in the future. How to create a future ? The simplest way is to
+use <code>std::async</code> that will create an asynchronous task and return
+a <code>std::future</code>.</p>
+<p>Let's start with the simplest of the examples:</p>
+<pre class="code c++"><a name="rest_code_a0b782c0e9794ea7a06f3cd7b84dc744-1"></a><span class="cp">#include</span> <span class="cpf">&lt;thread&gt;</span><span class="cp"></span>
+<a name="rest_code_a0b782c0e9794ea7a06f3cd7b84dc744-2"></a><span class="cp">#include</span> <span class="cpf">&lt;future&gt;</span><span class="cp"></span>
+<a name="rest_code_a0b782c0e9794ea7a06f3cd7b84dc744-3"></a><span class="cp">#include</span> <span class="cpf">&lt;iostream&gt;</span><span class="cp"></span>
+<a name="rest_code_a0b782c0e9794ea7a06f3cd7b84dc744-4"></a>
+<a name="rest_code_a0b782c0e9794ea7a06f3cd7b84dc744-5"></a><span class="kt">int</span> <span class="nf">main</span><span class="p">(){</span>
+<a name="rest_code_a0b782c0e9794ea7a06f3cd7b84dc744-6"></a>    <span class="k">auto</span> <span class="n">future</span> <span class="o">=</span> <span class="n">std</span><span class="o">::</span><span class="n">async</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">launch</span><span class="o">::</span><span class="n">async</span><span class="p">,</span> <span class="p">[](){</span>
+<a name="rest_code_a0b782c0e9794ea7a06f3cd7b84dc744-7"></a>        <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">"I'm a thread"</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+<a name="rest_code_a0b782c0e9794ea7a06f3cd7b84dc744-8"></a>    <span class="p">});</span>
+<a name="rest_code_a0b782c0e9794ea7a06f3cd7b84dc744-9"></a>
+<a name="rest_code_a0b782c0e9794ea7a06f3cd7b84dc744-10"></a>    <span class="n">future</span><span class="p">.</span><span class="n">get</span><span class="p">();</span>
+<a name="rest_code_a0b782c0e9794ea7a06f3cd7b84dc744-11"></a>
+<a name="rest_code_a0b782c0e9794ea7a06f3cd7b84dc744-12"></a>    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<a name="rest_code_a0b782c0e9794ea7a06f3cd7b84dc744-13"></a><span class="p">}</span>
+</pre>
+<p>Nothing really special here. <code>std::async</code> will execute the task that we
+give it (here a lambda) and return a <code>std::future</code>. Once you use the
+<code>get()</code> function on a future, it will wait until the result is available
+and return this result to you once it is. The <code>get()</code> function is then
+blocking. Since the lambda, is a void lambda, the returned future is of type
+<code>std::future&lt;void&gt;</code> and <code>get()</code> returns <code>void</code> as well. It is
+very important to know that you cannot call <code>get</code> several times on the
+same future. Once the result is consumed, you cannot consume it again! If you
+want to use the result several times, you need to store it yourself after you
+called <code>get()</code>.</p>
+<p>Let's see with something that returns a value and actually takes some time
+before returning it:</p>
+<pre class="code c++"><a name="rest_code_cda8edd43d0a4b09aaeb6f3081573610-1"></a><span class="cp">#include</span> <span class="cpf">&lt;thread&gt;</span><span class="cp"></span>
+<a name="rest_code_cda8edd43d0a4b09aaeb6f3081573610-2"></a><span class="cp">#include</span> <span class="cpf">&lt;future&gt;</span><span class="cp"></span>
+<a name="rest_code_cda8edd43d0a4b09aaeb6f3081573610-3"></a><span class="cp">#include</span> <span class="cpf">&lt;iostream&gt;</span><span class="cp"></span>
+<a name="rest_code_cda8edd43d0a4b09aaeb6f3081573610-4"></a><span class="cp">#include</span> <span class="cpf">&lt;chrono&gt;</span><span class="cp"></span>
+<a name="rest_code_cda8edd43d0a4b09aaeb6f3081573610-5"></a>
+<a name="rest_code_cda8edd43d0a4b09aaeb6f3081573610-6"></a><span class="kt">int</span> <span class="nf">main</span><span class="p">(){</span>
+<a name="rest_code_cda8edd43d0a4b09aaeb6f3081573610-7"></a>    <span class="k">auto</span> <span class="n">future</span> <span class="o">=</span> <span class="n">std</span><span class="o">::</span><span class="n">async</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">launch</span><span class="o">::</span><span class="n">async</span><span class="p">,</span> <span class="p">[](){</span>
+<a name="rest_code_cda8edd43d0a4b09aaeb6f3081573610-8"></a>        <span class="n">std</span><span class="o">::</span><span class="n">this_thread</span><span class="o">::</span><span class="n">sleep_for</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">chrono</span><span class="o">::</span><span class="n">seconds</span><span class="p">(</span><span class="mi">5</span><span class="p">));</span>
+<a name="rest_code_cda8edd43d0a4b09aaeb6f3081573610-9"></a>        <span class="k">return</span> <span class="mi">42</span><span class="p">;</span>
+<a name="rest_code_cda8edd43d0a4b09aaeb6f3081573610-10"></a>    <span class="p">});</span>
+<a name="rest_code_cda8edd43d0a4b09aaeb6f3081573610-11"></a>
+<a name="rest_code_cda8edd43d0a4b09aaeb6f3081573610-12"></a>    <span class="c1">// Do something else ?</span>
+<a name="rest_code_cda8edd43d0a4b09aaeb6f3081573610-13"></a>
+<a name="rest_code_cda8edd43d0a4b09aaeb6f3081573610-14"></a>    <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="n">future</span><span class="p">.</span><span class="n">get</span><span class="p">()</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+<a name="rest_code_cda8edd43d0a4b09aaeb6f3081573610-15"></a>
+<a name="rest_code_cda8edd43d0a4b09aaeb6f3081573610-16"></a>    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<a name="rest_code_cda8edd43d0a4b09aaeb6f3081573610-17"></a><span class="p">}</span>
+</pre>
+<p>This time, the future will be of the time <code>std::future&lt;int&gt;</code> and thus
+<code>get()</code> will also return an <code>int</code>. <code>std::async</code> will again
+launch a task in an asynchronous way and <code>future.get()</code> will wait for the
+answer. What is interesting, is that you can do something else before the call
+to future.</p>
+<p>But <code>get()</code> is not the only interesting function in <code>std::future</code>.
+You also have <code>wait()</code> which is almost the same as <code>get()</code> but does
+not consume the result. For instance, you can wait for several futures and then
+consume their result together. But, more interesting are the
+<code>wait_for(duration)</code> and <code>wait_until(timepoint)</code> functions. The
+first one wait for the result at most the given time and then returns and the
+second one wait for the result at most until the given time point. I think that
+<code>wait_for</code> is more useful in practices, so let's discuss it further.
+Finally, an interesting function is <code>bool valid()</code>. When you use
+<code>get()</code> on the future, it will consume the result, making <code>valid()
+returns :code:`false</code>. So, if you intend to check multiple times for a future,
+you should use <code>valid()</code> first.</p>
+<p>One possible scenario would be if you have several asynchronous tasks, which is
+a common scenario. You can imagine that you want to process the results as fast
+as possible, so you want to ask the futures for their result several times. If
+no result is available, maybe you want to do something else. Here is a possible
+implementation:</p>
+<pre class="code c++"><a name="rest_code_58242deea52649409e8e4766a5be6a65-1"></a><span class="cp">#include</span> <span class="cpf">&lt;thread&gt;</span><span class="cp"></span>
+<a name="rest_code_58242deea52649409e8e4766a5be6a65-2"></a><span class="cp">#include</span> <span class="cpf">&lt;future&gt;</span><span class="cp"></span>
+<a name="rest_code_58242deea52649409e8e4766a5be6a65-3"></a><span class="cp">#include</span> <span class="cpf">&lt;iostream&gt;</span><span class="cp"></span>
+<a name="rest_code_58242deea52649409e8e4766a5be6a65-4"></a><span class="cp">#include</span> <span class="cpf">&lt;chrono&gt;</span><span class="cp"></span>
+<a name="rest_code_58242deea52649409e8e4766a5be6a65-5"></a>
+<a name="rest_code_58242deea52649409e8e4766a5be6a65-6"></a><span class="kt">int</span> <span class="nf">main</span><span class="p">(){</span>
+<a name="rest_code_58242deea52649409e8e4766a5be6a65-7"></a>    <span class="k">auto</span> <span class="n">f1</span> <span class="o">=</span> <span class="n">std</span><span class="o">::</span><span class="n">async</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">launch</span><span class="o">::</span><span class="n">async</span><span class="p">,</span> <span class="p">[](){</span>
+<a name="rest_code_58242deea52649409e8e4766a5be6a65-8"></a>        <span class="n">std</span><span class="o">::</span><span class="n">this_thread</span><span class="o">::</span><span class="n">sleep_for</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">chrono</span><span class="o">::</span><span class="n">seconds</span><span class="p">(</span><span class="mi">9</span><span class="p">));</span>
+<a name="rest_code_58242deea52649409e8e4766a5be6a65-9"></a>        <span class="k">return</span> <span class="mi">42</span><span class="p">;</span>
+<a name="rest_code_58242deea52649409e8e4766a5be6a65-10"></a>    <span class="p">});</span>
+<a name="rest_code_58242deea52649409e8e4766a5be6a65-11"></a>
+<a name="rest_code_58242deea52649409e8e4766a5be6a65-12"></a>    <span class="k">auto</span> <span class="n">f2</span> <span class="o">=</span> <span class="n">std</span><span class="o">::</span><span class="n">async</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">launch</span><span class="o">::</span><span class="n">async</span><span class="p">,</span> <span class="p">[](){</span>
+<a name="rest_code_58242deea52649409e8e4766a5be6a65-13"></a>        <span class="n">std</span><span class="o">::</span><span class="n">this_thread</span><span class="o">::</span><span class="n">sleep_for</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">chrono</span><span class="o">::</span><span class="n">seconds</span><span class="p">(</span><span class="mi">3</span><span class="p">));</span>
+<a name="rest_code_58242deea52649409e8e4766a5be6a65-14"></a>        <span class="k">return</span> <span class="mi">13</span><span class="p">;</span>
+<a name="rest_code_58242deea52649409e8e4766a5be6a65-15"></a>    <span class="p">});</span>
+<a name="rest_code_58242deea52649409e8e4766a5be6a65-16"></a>
+<a name="rest_code_58242deea52649409e8e4766a5be6a65-17"></a>    <span class="k">auto</span> <span class="n">f3</span> <span class="o">=</span> <span class="n">std</span><span class="o">::</span><span class="n">async</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">launch</span><span class="o">::</span><span class="n">async</span><span class="p">,</span> <span class="p">[](){</span>
+<a name="rest_code_58242deea52649409e8e4766a5be6a65-18"></a>        <span class="n">std</span><span class="o">::</span><span class="n">this_thread</span><span class="o">::</span><span class="n">sleep_for</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">chrono</span><span class="o">::</span><span class="n">seconds</span><span class="p">(</span><span class="mi">6</span><span class="p">));</span>
+<a name="rest_code_58242deea52649409e8e4766a5be6a65-19"></a>        <span class="k">return</span> <span class="mi">666</span><span class="p">;</span>
+<a name="rest_code_58242deea52649409e8e4766a5be6a65-20"></a>    <span class="p">});</span>
+<a name="rest_code_58242deea52649409e8e4766a5be6a65-21"></a>
+<a name="rest_code_58242deea52649409e8e4766a5be6a65-22"></a>    <span class="k">auto</span> <span class="n">timeout</span> <span class="o">=</span> <span class="n">std</span><span class="o">::</span><span class="n">chrono</span><span class="o">::</span><span class="n">milliseconds</span><span class="p">(</span><span class="mi">10</span><span class="p">);</span>
+<a name="rest_code_58242deea52649409e8e4766a5be6a65-23"></a>
+<a name="rest_code_58242deea52649409e8e4766a5be6a65-24"></a>    <span class="k">while</span><span class="p">(</span><span class="n">f1</span><span class="p">.</span><span class="n">valid</span><span class="p">()</span> <span class="o">||</span> <span class="n">f2</span><span class="p">.</span><span class="n">valid</span><span class="p">()</span> <span class="o">||</span> <span class="n">f3</span><span class="p">.</span><span class="n">valid</span><span class="p">()){</span>
+<a name="rest_code_58242deea52649409e8e4766a5be6a65-25"></a>        <span class="k">if</span><span class="p">(</span><span class="n">f1</span><span class="p">.</span><span class="n">valid</span><span class="p">()</span> <span class="o">&amp;&amp;</span> <span class="n">f1</span><span class="p">.</span><span class="n">wait_for</span><span class="p">(</span><span class="n">timeout</span><span class="p">)</span> <span class="o">==</span> <span class="n">std</span><span class="o">::</span><span class="n">future_status</span><span class="o">::</span><span class="n">ready</span><span class="p">){</span>
+<a name="rest_code_58242deea52649409e8e4766a5be6a65-26"></a>            <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">"Task1 is done! "</span> <span class="o">&lt;&lt;</span> <span class="n">f1</span><span class="p">.</span><span class="n">get</span><span class="p">()</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+<a name="rest_code_58242deea52649409e8e4766a5be6a65-27"></a>        <span class="p">}</span>
+<a name="rest_code_58242deea52649409e8e4766a5be6a65-28"></a>
+<a name="rest_code_58242deea52649409e8e4766a5be6a65-29"></a>        <span class="k">if</span><span class="p">(</span><span class="n">f2</span><span class="p">.</span><span class="n">valid</span><span class="p">()</span> <span class="o">&amp;&amp;</span> <span class="n">f2</span><span class="p">.</span><span class="n">wait_for</span><span class="p">(</span><span class="n">timeout</span><span class="p">)</span> <span class="o">==</span> <span class="n">std</span><span class="o">::</span><span class="n">future_status</span><span class="o">::</span><span class="n">ready</span><span class="p">){</span>
+<a name="rest_code_58242deea52649409e8e4766a5be6a65-30"></a>            <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">"Task2 is done! "</span> <span class="o">&lt;&lt;</span> <span class="n">f2</span><span class="p">.</span><span class="n">get</span><span class="p">()</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+<a name="rest_code_58242deea52649409e8e4766a5be6a65-31"></a>        <span class="p">}</span>
+<a name="rest_code_58242deea52649409e8e4766a5be6a65-32"></a>
+<a name="rest_code_58242deea52649409e8e4766a5be6a65-33"></a>        <span class="k">if</span><span class="p">(</span><span class="n">f3</span><span class="p">.</span><span class="n">valid</span><span class="p">()</span> <span class="o">&amp;&amp;</span> <span class="n">f3</span><span class="p">.</span><span class="n">wait_for</span><span class="p">(</span><span class="n">timeout</span><span class="p">)</span> <span class="o">==</span> <span class="n">std</span><span class="o">::</span><span class="n">future_status</span><span class="o">::</span><span class="n">ready</span><span class="p">){</span>
+<a name="rest_code_58242deea52649409e8e4766a5be6a65-34"></a>            <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">"Task3 is done! "</span> <span class="o">&lt;&lt;</span> <span class="n">f3</span><span class="p">.</span><span class="n">get</span><span class="p">()</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+<a name="rest_code_58242deea52649409e8e4766a5be6a65-35"></a>        <span class="p">}</span>
+<a name="rest_code_58242deea52649409e8e4766a5be6a65-36"></a>
+<a name="rest_code_58242deea52649409e8e4766a5be6a65-37"></a>        <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">"I'm doing my own work!"</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+<a name="rest_code_58242deea52649409e8e4766a5be6a65-38"></a>        <span class="n">std</span><span class="o">::</span><span class="n">this_thread</span><span class="o">::</span><span class="n">sleep_for</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">chrono</span><span class="o">::</span><span class="n">seconds</span><span class="p">(</span><span class="mi">1</span><span class="p">));</span>
+<a name="rest_code_58242deea52649409e8e4766a5be6a65-39"></a>        <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">"I'm done with my own work!"</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+<a name="rest_code_58242deea52649409e8e4766a5be6a65-40"></a>    <span class="p">}</span>
+<a name="rest_code_58242deea52649409e8e4766a5be6a65-41"></a>
+<a name="rest_code_58242deea52649409e8e4766a5be6a65-42"></a>    <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">"Everything is done, let's go back to the tutorial"</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+<a name="rest_code_58242deea52649409e8e4766a5be6a65-43"></a>
+<a name="rest_code_58242deea52649409e8e4766a5be6a65-44"></a>    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<a name="rest_code_58242deea52649409e8e4766a5be6a65-45"></a><span class="p">}</span>
+</pre>
+<p>The three tasks are started asynchronously with <code>std::async</code> and the
+resulting <code>std::future</code> are stored. Then, as long as one of the tasks is
+not complete, we query each three task and try to process its result. If no
+result is available, we simply do something else. This example is important to
+understand, it covers pretty much every concept of the futures.</p>
+<p>One interesting thing that remains is that you can pass parameters to your task
+via <code>std::async</code>. Indeed, all the extra parameters that you pass to
+<code>std::async</code> will be passed to the task itself. Here is an example of
+spawning tasks in a loop with different parameters:</p>
+<pre class="code c++"><a name="rest_code_3b2147c682c04d7fa38a4eb06490bff7-1"></a><span class="cp">#include</span> <span class="cpf">&lt;thread&gt;</span><span class="cp"></span>
+<a name="rest_code_3b2147c682c04d7fa38a4eb06490bff7-2"></a><span class="cp">#include</span> <span class="cpf">&lt;future&gt;</span><span class="cp"></span>
+<a name="rest_code_3b2147c682c04d7fa38a4eb06490bff7-3"></a><span class="cp">#include</span> <span class="cpf">&lt;iostream&gt;</span><span class="cp"></span>
+<a name="rest_code_3b2147c682c04d7fa38a4eb06490bff7-4"></a><span class="cp">#include</span> <span class="cpf">&lt;chrono&gt;</span><span class="cp"></span>
+<a name="rest_code_3b2147c682c04d7fa38a4eb06490bff7-5"></a><span class="cp">#include</span> <span class="cpf">&lt;vector&gt;</span><span class="cp"></span>
+<a name="rest_code_3b2147c682c04d7fa38a4eb06490bff7-6"></a>
+<a name="rest_code_3b2147c682c04d7fa38a4eb06490bff7-7"></a><span class="kt">int</span> <span class="nf">main</span><span class="p">(){</span>
+<a name="rest_code_3b2147c682c04d7fa38a4eb06490bff7-8"></a>    <span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">future</span><span class="o">&lt;</span><span class="kt">size_t</span><span class="o">&gt;&gt;</span> <span class="n">futures</span><span class="p">;</span>
+<a name="rest_code_3b2147c682c04d7fa38a4eb06490bff7-9"></a>
+<a name="rest_code_3b2147c682c04d7fa38a4eb06490bff7-10"></a>    <span class="k">for</span> <span class="p">(</span><span class="kt">size_t</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="mi">10</span><span class="p">;</span> <span class="o">++</span><span class="n">i</span><span class="p">)</span> <span class="p">{</span>
+<a name="rest_code_3b2147c682c04d7fa38a4eb06490bff7-11"></a>        <span class="n">futures</span><span class="p">.</span><span class="n">emplace_back</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">async</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">launch</span><span class="o">::</span><span class="n">async</span><span class="p">,</span> <span class="p">[](</span><span class="kt">size_t</span> <span class="n">param</span><span class="p">){</span>
+<a name="rest_code_3b2147c682c04d7fa38a4eb06490bff7-12"></a>            <span class="n">std</span><span class="o">::</span><span class="n">this_thread</span><span class="o">::</span><span class="n">sleep_for</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">chrono</span><span class="o">::</span><span class="n">seconds</span><span class="p">(</span><span class="n">param</span><span class="p">));</span>
+<a name="rest_code_3b2147c682c04d7fa38a4eb06490bff7-13"></a>            <span class="k">return</span> <span class="n">param</span><span class="p">;</span>
+<a name="rest_code_3b2147c682c04d7fa38a4eb06490bff7-14"></a>        <span class="p">},</span> <span class="n">i</span><span class="p">));</span>
+<a name="rest_code_3b2147c682c04d7fa38a4eb06490bff7-15"></a>    <span class="p">}</span>
+<a name="rest_code_3b2147c682c04d7fa38a4eb06490bff7-16"></a>
+<a name="rest_code_3b2147c682c04d7fa38a4eb06490bff7-17"></a>    <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">"Start querying"</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+<a name="rest_code_3b2147c682c04d7fa38a4eb06490bff7-18"></a>
+<a name="rest_code_3b2147c682c04d7fa38a4eb06490bff7-19"></a>    <span class="k">for</span> <span class="p">(</span><span class="k">auto</span> <span class="o">&amp;</span><span class="nl">future</span> <span class="p">:</span> <span class="n">futures</span><span class="p">)</span> <span class="p">{</span>
+<a name="rest_code_3b2147c682c04d7fa38a4eb06490bff7-20"></a>      <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="n">future</span><span class="p">.</span><span class="n">get</span><span class="p">()</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+<a name="rest_code_3b2147c682c04d7fa38a4eb06490bff7-21"></a>    <span class="p">}</span>
+<a name="rest_code_3b2147c682c04d7fa38a4eb06490bff7-22"></a>
+<a name="rest_code_3b2147c682c04d7fa38a4eb06490bff7-23"></a>    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<a name="rest_code_3b2147c682c04d7fa38a4eb06490bff7-24"></a><span class="p">}</span>
+</pre>
+<p>Pretty practical :) All The created <code>std::future&lt;size_t&gt;</code> are stored in
+a <code>std::vector</code> and then are all queried for their result.</p>
+<p>Overall, I think <code>std::future</code> and <code>std::async</code> are great tool that
+can simplify your asynchronous code a lot. They allow you to make pretty
+advanced stuff while keeping the complexity of the code to a minimum.</p>
+<p>I hope this long-due post is going to be interesting to some of you :)
+The code for this post is available <a class="reference external" href="https://github.com/wichtounet/articles/tree/master/src/threads/part5">on Github</a></p>
+<p>I do not yet know if there will be a next installment in the series. I've
+covered pretty much everything that is available in C++11 for concurrency. I may
+cover the parallel algorithms of C++17 in a following post. If you have any
+suggestion for the next post, don't hesitate to post a comment or contact me
+directly by email.</p>
+</div>
+</div>
+<a href="posts/2017/09/cpp11-concurrency-tutorial-futures.html#disqus_thread" data-disqus-identifier="cache/posts/2017/09/cpp11-concurrency-tutorial-futures.html">Comments</a>
+</article><nav class="postindexpager"><ul class="pager">
+<li class="next">
+<a href="index-32.html" rel="next">Older posts</a>
+</li>
+</ul></nav><script>var disqus_shortname="blogwichtounet";(function(){var a=document.createElement("script");a.async=true;a.src="https://"+disqus_shortname+".disqus.com/count.js";(document.getElementsByTagName("head")[0]||document.getElementsByTagName("body")[0]).appendChild(a)}());</script>
+</div> 
+</div>
+
+</div>
+
+
+
+<footer>
+Contents © 2017 <a href="/cdn-cgi/l/email-protection#9efcffeeeaf7edeafbe9f7fdf6eadef9f3fff7f2b0fdf1f3">Baptiste Wicht</a> - Powered by <a href="http://getnikola.com" rel="nofollow">Nikola</a> - License:
+<a rel="license" href="http://creativecommons.org/licenses/by/4.0/"><img alt="Creative Commons License" style="padding-left:5px;border-width:0" src="assets/img/cc.png"></a>
+<ul class="footer_inline_ul"></ul></footer><script src="/cdn-cgi/scripts/78d64697/cloudflare-static/email-decode.min.js"></script><script src="assets/js/all-nocdn.js"></script><script type="text/javascript">
+      $(document).ready(function() {
+        $.getJSON("/assets/js/tx3_tag_cloud.json", function(data){
+            var items = [];
+            $.each(data, function(key, val){
+                var count = val[0];
+                var url = val[1];
+                var posts = val[2];
+
+                if(count > 9){
+                    items.push("<li data-weight='" + count + "'><a href='" + url + "'>" + key + "</a></li>");
+                }
+            });
+
+            $("<ul/>", {
+                "id": "tag_cloud_left",
+                html: items.join("")
+            }).appendTo("#tag_cloud_left_container");
+
+            $("#tag_cloud_left").tx3TagCloud({
+                multiplier: 0.8 // default multiplier is "1"
+            });
+        });
+      });
+    </script>
+</body>
+</html>

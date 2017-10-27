@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title>Blog blog("Baptiste Wicht"); (Posts about Tip)</title><link>http://baptiste-wicht.com/</link><description></description><atom:link type="application/rss+xml" href="http://baptiste-wicht.com/categories/tip.xml" rel="self"></atom:link><language>en</language><lastBuildDate>Sun, 01 Oct 2017 19:39:26 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>C++11 Performance tip: Update on when to use std::pow ?</title><link>http://baptiste-wicht.com/posts/2017/09/cpp11-performance-tip-update-when-to-use-std-pow.html</link><dc:creator>Baptiste Wicht</dc:creator><description>&lt;div&gt;&lt;p&gt;A few days ago, I published a post comparing the
+&lt;a class="reference external" href="https://baptiste-wicht.com/posts/2017/09/cpp11-performance-tip-when-to-use-std-pow.html"&gt;performance of std::pow against direct multiplications&lt;/a&gt;. When not compiling with -ffast-math, direct multiplication was significantly faster than &lt;code&gt;std::pow&lt;/code&gt;, around two orders of magnitude faster when comparing &lt;code&gt;x * x * x&lt;/code&gt; and &lt;code&gt;code:std::pow(x, 3)&lt;/code&gt;.
+One comment that I've got was to test for which &lt;code&gt;n&lt;/code&gt; is
+&lt;code&gt;code:std::pow(x, n)&lt;/code&gt; becoming faster than multiplying in a loop. Since
+std::pow is using a special algorithm to perform the computation rather than be
+simply loop-based multiplications, there may be a point after which it's more interesting to use the
+algorithm rather than a loop. So I decided to do the tests. You can also find
+the result in the original article, which I've updated.&lt;/p&gt;
+&lt;p&gt;First, our pow function:&lt;/p&gt;
+&lt;pre class="code c++"&gt;&lt;a name="rest_code_52b382b39caf497cb43a418034153a77-1"&gt;&lt;/a&gt;&lt;span class="kt"&gt;double&lt;/span&gt; &lt;span class="nf"&gt;my_pow&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="kt"&gt;double&lt;/span&gt; &lt;span class="n"&gt;x&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="kt"&gt;size_t&lt;/span&gt; &lt;span class="n"&gt;n&lt;/span&gt;&lt;span class="p"&gt;){&lt;/span&gt;
+&lt;a name="rest_code_52b382b39caf497cb43a418034153a77-2"&gt;&lt;/a&gt;    &lt;span class="kt"&gt;double&lt;/span&gt; &lt;span class="n"&gt;r&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mf"&gt;1.0&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;a name="rest_code_52b382b39caf497cb43a418034153a77-3"&gt;&lt;/a&gt;
+&lt;a name="rest_code_52b382b39caf497cb43a418034153a77-4"&gt;&lt;/a&gt;    &lt;span class="k"&gt;while&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;n&lt;/span&gt; &lt;span class="o"&gt;&amp;gt;&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;){&lt;/span&gt;
+&lt;a name="rest_code_52b382b39caf497cb43a418034153a77-5"&gt;&lt;/a&gt;        &lt;span class="n"&gt;r&lt;/span&gt; &lt;span class="o"&gt;*=&lt;/span&gt; &lt;span class="n"&gt;x&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;a name="rest_code_52b382b39caf497cb43a418034153a77-6"&gt;&lt;/a&gt;        &lt;span class="o"&gt;--&lt;/span&gt;&lt;span class="n"&gt;n&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;a name="rest_code_52b382b39caf497cb43a418034153a77-7"&gt;&lt;/a&gt;    &lt;span class="p"&gt;}&lt;/span&gt;
+&lt;a name="rest_code_52b382b39caf497cb43a418034153a77-8"&gt;&lt;/a&gt;
+&lt;a name="rest_code_52b382b39caf497cb43a418034153a77-9"&gt;&lt;/a&gt;    &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="n"&gt;r&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;a name="rest_code_52b382b39caf497cb43a418034153a77-10"&gt;&lt;/a&gt;&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;/pre&gt;&lt;p&gt;And now, let's see the performance. I've compiled my benchmark with GCC 4.9.3
+and running on my old Sandy Bridge processor. Here are the results for 1000
+calls to each functions:&lt;/p&gt;
+&lt;div id="graph_std_pow_my_pow_1" style="width: 700px; height: 400px;"&gt;&lt;/div&gt;&lt;p&gt;We can see that between &lt;code&gt;n=100&lt;/code&gt; and &lt;code&gt;n=110&lt;/code&gt;, &lt;code&gt;std::pow(x, n)&lt;/code&gt;
+starts to be faster than &lt;code&gt;my_pow(x, n)&lt;/code&gt;. At this point, you should only
+use &lt;code&gt;std::pow(x, n)&lt;/code&gt;.  Interestingly too, the time for &lt;code&gt;std::pow(x,
+n)&lt;/code&gt; is decreasing. Let's see how is the performance with higher range of
+&lt;code&gt;n&lt;/code&gt;:&lt;/p&gt;
+&lt;div id="graph_std_pow_my_pow_2" style="width: 700px; height: 400px;"&gt;&lt;/div&gt;&lt;p&gt;We can see that the pow function time still remains stable while our loop-based
+pow function still increases linearly. At &lt;code&gt;n=1000&lt;/code&gt;, &lt;code&gt;std::pow&lt;/code&gt; is
+one order of magnitude faster than &lt;code&gt;my_pow&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;Overall, if you do not care much about extreme accuracy, you may consider using
+you own pow function for small-ish (integer) &lt;code&gt;n&lt;/code&gt; values. After
+&lt;code&gt;n=100&lt;/code&gt;, it becomes more interesting to use &lt;code&gt;std::pow&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;If you want more results on the subject, you take a look at the
+&lt;a class="reference external" href="https://baptiste-wicht.com/posts/2017/09/cpp11-performance-tip-when-to-use-std-pow.html"&gt;original article&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;If you are interested in the code of this benchmark, it's available online:
+&lt;a class="reference external" href="https://github.com/wichtounet/articles/blob/master/src/bench_pow_my_pow.cpp"&gt;bench_pow_my_pow.cpp&lt;/a&gt;&lt;/p&gt;
+&lt;script type="text/javascript" src="https://www.google.com/jsapi"&gt;&lt;/script&gt;
+&lt;script type="text/javascript"&gt;google.load('visualization', '1.0', {'packages':['corechart']});&lt;/script&gt;
+&lt;script type="text/javascript"&gt;
+function draw_graph_pow_my_pow_1(){
+var data = google.visualization.arrayToDataTable([
+['n', 'my_pow(x, n)', 'std::pow(x, n)'],
+['10',   2,     127],
+['20',   17,     123],
+['30',   26,     127],
+['40',   36,     123],
+['50',   43,     123],
+['60',   55,     123],
+['70',   72,     123],
+['80',   85,     123],
+['90',   102,    126],
+['100',  114,    125],
+['110',  131,    115],
+['120',  144,    111],
+['130',  165,    111],
+['140',  173,    108],
+['150',  189,    107],
+['160',  202,    112],
+['170',  219,    106],
+['180',  232,    105],
+['190',  249,    108],
+['200',  261,    105],
+]);
+var graph = new google.visualization.LineChart(document.getElementById('graph_std_pow_my_pow_1'));
+var options = {curveType: "function",title: "std::pow(x, 2) (float)",animation: {duration:1200, easing:"in"},width: 700, height: 400,hAxis: {title:"Number of elements", slantedText:true},vAxis: {viewWindow: {min:0}, title:"us"}};
+graph.draw(data, options);
+}
+function draw_graph_pow_my_pow_2(){
+var data = google.visualization.arrayToDataTable([
+['n', 'my_pow(x, n)', 'std::pow(x, n)'],
+['100',  114,    125],
+['200',  261,    105],
+['300',  410,    104],
+['400',  558,    104],
+['500',  708,    104],
+['600',  855,    104],
+['700',  1002,   104],
+['800',  1148,   104],
+['900',  1300,   104],
+['1000', 1442,   104],
+]);
+var graph = new google.visualization.LineChart(document.getElementById('graph_std_pow_my_pow_2'));
+var options = {curveType: "function",title: "std::pow(x, 2) (float)",animation: {duration:1200, easing:"in"},width: 700, height: 400,hAxis: {title:"Number of elements", slantedText:true},vAxis: {viewWindow: {min:0}, title:"us"}};
+graph.draw(data, options);
+}
+function draw_all(){
+draw_graph_pow_my_pow_1();
+draw_graph_pow_my_pow_2();
+}
+google.setOnLoadCallback(draw_all);
+&lt;/script&gt;&lt;/div&gt;</description><category>Benchmark</category><category>C++</category><category>C++11</category><category>Performances</category><category>Tip</category><guid>http://baptiste-wicht.com/posts/2017/09/cpp11-performance-tip-update-when-to-use-std-pow.html</guid><pubDate>Fri, 22 Sep 2017 09:21:07 GMT</pubDate></item><item><title>C++11 Performance tip: When to use std::pow ?</title><link>http://baptiste-wicht.com/posts/2017/09/cpp11-performance-tip-when-to-use-std-pow.html</link><dc:creator>Baptiste Wicht</dc:creator><description>&lt;div&gt;&lt;p&gt;Update: I've added a new section for larger values of &lt;code&gt;n&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;Recently, I've been wondering about the performance of &lt;code&gt;std::pow(x, n)&lt;/code&gt;.
+I'm talking here about the case when &lt;code&gt;n&lt;/code&gt; is an integer. In the case when
+&lt;code&gt;n&lt;/code&gt; is not an integer, I believe, you should always use &lt;code&gt;std::pow&lt;/code&gt;
+or use another specialized library.&lt;/p&gt;
+&lt;p&gt;In case when n is an integer, you can actually replace it with the direct
+equivalent (for instance &lt;code&gt;std::pow(x, 3) = x * x x&lt;/code&gt;). If n is very large,
+you'd rather write a loop of course ;) In practice, we generally use powers of
+two and three much more often than power of 29, although that could happen. Of
+course, it especially make sense to wonder about this if the pow is used inside
+a loop. If you only use it once outside a loop, that won't be any difference on
+the overall performance.&lt;/p&gt;
+&lt;p&gt;Since I'm mostly interested in single precision performance (neural networks are
+only about single precision), the first benchmarks will be using &lt;code&gt;float&lt;/code&gt;.&lt;/p&gt;
+&lt;p class="more"&gt;&lt;a href="http://baptiste-wicht.com/posts/2017/09/cpp11-performance-tip-when-to-use-std-pow.html"&gt;Read more…&lt;/a&gt;&lt;/p&gt;&lt;/div&gt;</description><category>Benchmark</category><category>C++</category><category>C++11</category><category>Performances</category><category>Tip</category><guid>http://baptiste-wicht.com/posts/2017/09/cpp11-performance-tip-when-to-use-std-pow.html</guid><pubDate>Mon, 18 Sep 2017 05:50:44 GMT</pubDate></item></channel></rss>

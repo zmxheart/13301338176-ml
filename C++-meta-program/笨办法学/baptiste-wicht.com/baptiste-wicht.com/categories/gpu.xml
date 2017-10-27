@@ -1,0 +1,642 @@
+<?xml version="1.0" encoding="utf-8"?>
+<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Blog blog("Baptiste Wicht"); (Posts about GPU)</title><link>http://baptiste-wicht.com/</link><description></description><atom:link type="application/rss+xml" href="http://baptiste-wicht.com/categories/gpu.xml" rel="self"></atom:link><language>en</language><lastBuildDate>Sat, 07 Oct 2017 15:01:00 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Deep Learning Library 1.0 - Fast Neural Network Library</title><link>http://baptiste-wicht.com/posts/2017/10/deep-learning-library-10-fast-neural-network-library.html</link><dc:creator>Baptiste Wicht</dc:creator><description>&lt;div&gt;&lt;img alt="DLL Logo" class="align-center" src="http://baptiste-wicht.com/images/dll_logo.png"&gt;
+&lt;p&gt;I'm very happy to announce the release of the first version of Deep Learning
+Library (DLL) 1.0. DLL is a neural network library with a focus on speed and
+ease of use.&lt;/p&gt;
+&lt;p&gt;I started working on this library about 4 years ago for my Ph.D. thesis.
+I needed a good library to train and use Restricted Boltzmann Machines (RBMs)
+and at this time there was no good support for it. Therefore, I decided to write
+my own. It now has very complete support for the RBM and the Convolutional RBM
+(CRBM) models. Stacks of RBMs (or Deep Belief Networks (DBNs)) can be pretrained
+using Contrastive Divergence and then either fine-tuned with mini-batch gradient
+descent or Conjugate Gradient or used as a feature extractor. Over the years,
+the library has been extended to handle Artificial Neural Networks (ANNs) and
+Convolutional Neural Networks (CNNs). The network is also able to train regular
+auto-encoders. Several advanced layers such as Dropout or Batch Normalization
+are also available as well as adaptive learning rates techniques such as
+Adadelta and Adam. The library also has integrated support for a few datasets:
+MNIST, CIFAR-10 and ImageNet.&lt;/p&gt;
+&lt;p&gt;This library can be used using a C++ interface. The library is fully
+header-only. It requires a C++14 compiler, which means a minimum of clang 3.9 or
+GCC 6.3.&lt;/p&gt;
+&lt;p&gt;In this post, I'm going to present a few examples on using the library and give
+some information about the performance of the library and the roadmap for the
+project.&lt;/p&gt;
+&lt;p class="more"&gt;&lt;a href="http://baptiste-wicht.com/posts/2017/10/deep-learning-library-10-fast-neural-network-library.html"&gt;Read more…&lt;/a&gt;&lt;/p&gt;&lt;/div&gt;</description><category>C++</category><category>dll</category><category>etl</category><category>GPU</category><category>Machine Learning</category><category>Performances</category><guid>http://baptiste-wicht.com/posts/2017/10/deep-learning-library-10-fast-neural-network-library.html</guid><pubDate>Sat, 07 Oct 2017 13:42:16 GMT</pubDate></item><item><title>Expression Templates Library (ETL) 1.2 - Complete GPU support</title><link>http://baptiste-wicht.com/posts/2017/10/expression-templates-library-etl-1-2-complete-gpu-support.html</link><dc:creator>Baptiste Wicht</dc:creator><description>&lt;div&gt;&lt;img alt="ETL Logo" class="align-center" src="http://baptiste-wicht.com/images/logo.png"&gt;
+&lt;p&gt;I'm happy to announce the version 1.2 of my Expression Templates Library (ETL):
+ETL 1.2, two months after &lt;a class="reference external" href="https://baptiste-wicht.com/posts/2017/08/expression-templates-library-etl-11.html"&gt;I released the version 1.1&lt;/a&gt;.
+This version features much better GPU Support, a few new features and a lot of
+changes in the internal code.&lt;/p&gt;
+&lt;div class="section" id="gpu-support"&gt;
+&lt;h2&gt;GPU Support&lt;/h2&gt;
+&lt;p&gt;Before, only algorithms such as 4D convolution or matrix-matrix multiplication
+were computed in the GPU and lots of operations were causing copies between CPU
+and GPU version. Now, the support for basic operations has also been completed
+and therefore, expressions like this:&lt;/p&gt;
+&lt;pre class="code cpp"&gt;&lt;a name="rest_code_e97eaba5087f47d0aee5f7ce1c6431bc-1"&gt;&lt;/a&gt;&lt;span class="n"&gt;C&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;sigmoid&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mf"&gt;2.0&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;A&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="n"&gt;B&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt; &lt;span class="o"&gt;/&lt;/span&gt; &lt;span class="n"&gt;sum&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;A&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/pre&gt;&lt;p&gt;Can be computed entirely on GPU.&lt;/p&gt;
+&lt;p&gt;Each matrix and vector containers have a secondary GPU memory space.  During the
+execution, the status of both memory spaces is being managed and when necessary,
+copies are made between two spaces. In the best case, there should only be
+initial copies to the GPU and then everything should be done on the GPU. I've
+also considered using Unified Memory in place of this system, but this is
+a problem for fast matrix and I'd rather not have two different systems.&lt;/p&gt;
+&lt;p&gt;If you have an expression such as &lt;code&gt;c = a + b * 2&lt;/code&gt;, it can be entirely computed
+on GPU, however, it will be computed in two GPU operations such as:&lt;/p&gt;
+&lt;pre class="code cpp"&gt;&lt;a name="rest_code_850c1f8548ae4ab89679a31d2e62b2d6-1"&gt;&lt;/a&gt;&lt;span class="n"&gt;t1&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;b&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt; &lt;span class="mi"&gt;2&lt;/span&gt;
+&lt;a name="rest_code_850c1f8548ae4ab89679a31d2e62b2d6-2"&gt;&lt;/a&gt;&lt;span class="n"&gt;c&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;a&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="n"&gt;t1&lt;/span&gt;
+&lt;/pre&gt;&lt;p&gt;This is not perfect in terms of performance but this will be done without any
+copies between CPU and GPU memory. I plan to improve this system with a bit more
+complex operations to avoid too many GPU operations, but there will always be
+more operations than in CPU where this can easily be done in one go.&lt;/p&gt;
+&lt;p&gt;There are a few expressions that are not computable on the GPU, such as random
+generations. A few transformations are also not fully compatible with GPU.
+Moreover, if you access an element with operators &lt;code&gt;[]&lt;/code&gt; or &lt;code&gt;()&lt;/code&gt;, this
+will invalidate the GPU memory and force an update to the CPU memory.&lt;/p&gt;
+&lt;p&gt;GPU operations are not implemented directly in ETL, there are coming from
+various libraries. ETL is using NVIDIA CUDNN, CUFFT and CUDNN for most
+algorithms. Moreover, for other operations, I've implemented a libraries with
+simple GPU operations: ETL-GPU-BLAS (EGBLAS). You can have a look at
+&lt;a class="reference external" href="https://github.com/wichtounet/etl-gpu-blas"&gt;egblas&lt;/a&gt; if you are interested.&lt;/p&gt;
+&lt;p&gt;My Deep Learning Library (DLL) project is based on ETL and its performances are
+mostly dependent on ETL's performances. Now that ETL fully supports GPU, the
+GPU performance of DLL is much improved. You may remember a few weeks ago
+I posted &lt;a class="reference external" href="https://baptiste-wicht.com/posts/2017/08/dll-blazing-fast-neural-network-library.html"&gt;very high CPU performance of DLL&lt;/a&gt;.
+Now, I've run again the tests to see the GPU performance with DLL. Here is the
+performance for training a small CNN on the MNIST data set:&lt;/p&gt;
+&lt;img alt="Performances for training a Convolutional Neural Network on MNIST" class="align-center" src="http://baptiste-wicht.com/images/etl_12_dll_gpu_mnist.png"&gt;
+&lt;p&gt;As you can see, the performances on GPU are now excellent. DLL's performances
+are on par with Tensorflow and Keras!&lt;/p&gt;
+&lt;p&gt;The next results are for training a much larger CNN on ImageNet, with the time
+necessary to train a single batch:&lt;/p&gt;
+&lt;img alt="Performances for training a Convolutional Neural Network on Imagenet" class="align-center" src="http://baptiste-wicht.com/images/etl_12_dll_gpu_imagenet.png"&gt;
+&lt;p&gt;Again, using the new version of ETL inside DLL has led to excellent performance.
+The framework is again on par with TensorFlow and Keras and faster than all the
+other frameworks. The large difference between DLL and Tensorflow and Keras is
+due to the inefficiency of reading the dataset in the two frameworks, so the
+performance of the three framework themselves are about the same.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="section" id="other-changes"&gt;
+&lt;h2&gt;Other Changes&lt;/h2&gt;
+&lt;p&gt;The library also has a few other new features. Logarithms of base 2 and base 10
+are now supported in complement to the base e that was already available before.
+Categorical Cross Entropy (CCE) computation is also available now, the CCE loss
+and error can be computed for one or many samples. Convolutions have also been
+improved in that you can use mixed types in both the image and the kernel and
+different storage order as well. Nevertheless, the most optimized version
+remains the version with the same storage order and the same data type.&lt;/p&gt;
+&lt;p&gt;I've also made a major change in the way implementations are selected for each
+operation. The tests and the benchmark are using a system to force the selection
+of an algorithm. This system is now disabled by default. This makes the
+compilation much faster by default. Since it's not necessary in most cases, this
+will help regular use cases of the library by compiling much faster.&lt;/p&gt;
+&lt;p&gt;Overall, the support for complex numbers has been improved in ETL. There are
+more routines that are supported and &lt;code&gt;etl::complex&lt;/code&gt; is better supported
+throughout the code. I'll still work on this in the future to make it totally
+complete.&lt;/p&gt;
+&lt;p&gt;The internal code also has a few new changes. First, all traits have been
+rewritten to use variable templates instead of struct traits. This makes the
+code much nicer in my opinion. Moreover, I've started experimenting with C++17
+&lt;code&gt;if constexpr&lt;/code&gt;. Most of the if conditions that can be transformed to if
+constexpr have been annotated with comments that I can quickly enable or disable
+so that I can test the impact of C++17, especially on compilation time.&lt;/p&gt;
+&lt;p&gt;Finally, a few bugs have been fixed. ETL is now working better with parallel
+BLAS library. There should not be issues with double parallelization in ETL and
+BLAS. There was a slight bug in the Column-Major matrix-matrix multiplication
+kernel. Binary operations with different types in the left and right hand sides
+was also problematic with vectorization. The last bug was about GPU status in
+case ETL containers were moved.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="section" id="what-s-next"&gt;
+&lt;h2&gt;What's next ?&lt;/h2&gt;
+&lt;p&gt;I don't yet know exactly on which features I'm going to focus for the next
+version of ETL. I plan to focus a bit more in the near future on Deep Learning
+Library (DLL) for which I should release the version 1.0 soon. I also plan to
+start support for Recurrent Neural Networks on it, so that will take me quite
+some time.&lt;/p&gt;
+&lt;p&gt;Nevertheless, I'm still planning to consider the switch to C++17, since it is
+&lt;a class="reference external" href="https://baptiste-wicht.com/posts/2017/09/how-i-made-deep-learning-library-38-faster-to-compile-optimization-and-cpp17-if-constexpr.html"&gt;a bit faster to compile ETL with if constexpr&lt;/a&gt;. The next version of ETL will also probably have GPU-support for
+integers, at least in the cases that depend on the etl-gpu-blas library, which
+is the standard operators. I also plan to improve the support for complex
+numbers, especially in terms of performance and tests. Hopefully, I will have also time (and motivation)
+to start working on  the sparse capabilities of ETL. It really needs much more
+unit tests and the performance should be improved as well.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="section" id="download-etl"&gt;
+&lt;h2&gt;Download ETL&lt;/h2&gt;
+&lt;p&gt;You can download ETL &lt;a class="reference external" href="https://github.com/wichtounet/etl"&gt;on Github&lt;/a&gt;. If you
+only interested in the 1.2 version, you can look at the
+&lt;a class="reference external" href="https://github.com/wichtounet/etl/releases"&gt;Releases pages&lt;/a&gt; or clone the tag
+1.2. There are several branches:&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;&lt;em&gt;master&lt;/em&gt; Is the eternal development branch, may not always be stable&lt;/li&gt;
+&lt;li&gt;&lt;em&gt;stable&lt;/em&gt; Is a branch always pointing to the last tag, no development here&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;For the future release, there always will tags pointing to the corresponding
+commits. You can also have access to previous releases on Github or via the
+release tags.&lt;/p&gt;
+&lt;p&gt;The documentation is still a bit sparse. There are a few examples and the Wiki,
+but there still is work to be done. If you have questions on how to use or
+configure the library, please don't hesitate.&lt;/p&gt;
+&lt;p&gt;Don't hesitate to comment this post if you have any comment on this library or
+any question. You can also open an Issue on Github if you have a problem using
+this library or propose a Pull Request if you have any contribution you'd like
+to make to the library.&lt;/p&gt;
+&lt;p&gt;Hope this may be useful to some of you :)&lt;/p&gt;
+&lt;/div&gt;&lt;/div&gt;</description><category>C++</category><category>C++14</category><category>C++17</category><category>Compilers</category><category>dll</category><category>etl</category><category>GPU</category><category>Performance</category><category>projects</category><guid>http://baptiste-wicht.com/posts/2017/10/expression-templates-library-etl-1-2-complete-gpu-support.html</guid><pubDate>Mon, 02 Oct 2017 08:49:02 GMT</pubDate></item><item><title>DLL: Blazing Fast Neural Network Library</title><link>http://baptiste-wicht.com/posts/2017/08/dll-blazing-fast-neural-network-library.html</link><dc:creator>Baptiste Wicht</dc:creator><description>&lt;div&gt;&lt;p&gt;A few weeks ago, I talked about all
+&lt;a class="reference external" href="https://baptiste-wicht.com/posts/2017/07/update-on-deep-learning-library-dll-dropout-batch-normalization-adaptive-learning-rates.html"&gt;the new features of my Deep Learning Library (DLL)&lt;/a&gt;
+project. I've mentioned that, on several experiments, DLL was always
+significantly faster than some popular deep learning frameworks such as
+TensorFlow. I'll now go into more details into this comparison and provide all
+the results. So far, the paper we wrote about these results has not been
+published, so I'll not provide the paper directly yet.&lt;/p&gt;
+&lt;p&gt;For those that may not know, DLL is the project I've been developing to support
+my Ph.D. thesis. This is a neural network framework  that supports
+Fully-Connected Neural Network (FCNN), Convolutional Neural Network (CNN),
+Restricted Boltzmann Machine (RBM), Deep Belief Network (DBN), Convolutional RBM
+(CRBM) and Convolutional DBN (CDBN). It also supports a large variety of options
+such as Dropout, Batch Normalization and Adaptive Learning Rates. You can read
+read the
+&lt;a class="reference external" href="https://baptiste-wicht.com/posts/2017/07/update-on-deep-learning-library-dll-dropout-batch-normalization-adaptive-learning-rates.html"&gt;previous post&lt;/a&gt;
+if you want more information about the new features of the framework. And, as those of
+you that read my blog frequently may know, I'm a bit obsessed with performance
+optimization, so I've spent a considerable amount of time optimizing
+the performance of neural network training, on CPU. Since, at the beginning of my
+thesis, I had no access to GPU for training, I've focused on CPU. Although there
+is now support for GPU, the gains are not yet important enough.&lt;/p&gt;
+&lt;div class="section" id="evaluation"&gt;
+&lt;h2&gt;Evaluation&lt;/h2&gt;
+&lt;p&gt;To see how fast, or not, the library was, it was compared against five popular
+machine learning libraries:&lt;/p&gt;
+&lt;ol class="arabic simple"&gt;
+&lt;li&gt;Caffe, installed from sources&lt;/li&gt;
+&lt;li&gt;TensorFlow 1.0, from pip&lt;/li&gt;
+&lt;li&gt;Keras 2.0, from pip&lt;/li&gt;
+&lt;li&gt;Torch, installed from sources&lt;/li&gt;
+&lt;li&gt;DeepLearning4J 0.7, from Maven&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;I've run four different experiments with all these frameworks and compared the
+efficiency of each of them for training the same neural networks with the same
+options. In each case, the training or testing error have also been compared to
+ensure that each framework is doing roughly the same. I wont present here the
+details, but in each experiment DLL showed around the same accuracies as the
+other frameworks. I will only focus on the speed results in this article.&lt;/p&gt;
+&lt;p&gt;Each experiment is done once with only CPU and once with a GPU. For DLL, I only
+report the CPU time in both modes, since it's more stable and more optimized.&lt;/p&gt;
+&lt;p&gt;The code for the evaluation is available online on the
+&lt;a class="reference external" href="https://github.com/wichtounet/frameworks"&gt;Github repository of the frameworks project&lt;/a&gt;.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="section" id="mnist-fully-connected-neural-network"&gt;
+&lt;h2&gt;MNIST: Fully Connected Neural Network&lt;/h2&gt;
+&lt;p&gt;The first experiment is performed on The MNIST data set. It consists of 60'000
+grayscale images of size 28x28. The goal is to classify each image of a digit
+from 0 to 9. To solve this task, I trained a very small fully-connected neural
+network with 500 hidden units in the first layer, 250 in the second and 10 final
+hidden units (or output units) for classification. The first two layers are
+using the logistic sigmoid activation function and the last layer is using the
+softmax activation function. The network is trained for 50 epochs with a
+categorical cross entropy loss, with mini-batches of 100 images. Here are
+results of this experiment:&lt;/p&gt;
+&lt;div class="figure align-center"&gt;
+&lt;img alt="Training time performance for the different frameworks on the Fully-Connected Neural Network experiment, on MNIST." src="http://baptiste-wicht.com/images/dll_fcnn.png"&gt;
+&lt;p class="caption"&gt;Training time performance for the different frameworks on the Fully-Connected
+Neural Network experiment, on MNIST. All the times are in seconds.&lt;/p&gt;
+&lt;/div&gt;
+&lt;p&gt;In DLL mode, the DLL framework is the clear winner here! It's about 35% faster
+than TensorFlow and Keras which are coming at the second place. DLL is more than
+four times slower than DLL and the last two frameworks (Caffe and
+DeepLearning4J) are five times slower than DLL! Once we add a GPU to the system,
+the results are very different. Caffe is now the fastest framework, three times
+faster than DLL. DLL is less than two times slower than Keras and TensorFlow.
+Interestingly, DLL is still faster than Torch and DeepLearning4J.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="section" id="mnist-convolutional-neural-network"&gt;
+&lt;h2&gt;MNIST: Convolutional Neural Network&lt;/h2&gt;
+&lt;p&gt;Although a Fully-Connected Neural Network is an interesting tool, the trend now
+is to use Convolutional Neural Network which have proved very efficient at
+solving a lot of problems. The second experiment is also using the same data
+set. Again, it's a rather small network. The first layer is a convolutional
+layer with 8 5x5 kernels, followed by max pooling layer with 2x2 kernel. They
+are followed by one more convolutional layers with 8 5x5 kernels and a 2x2 max
+pooling layer. These first four layers are followed by two fully-connected
+layers, the first with 150 hidden units and the last one with 10 output units.
+The activation functions are the same as for the first network, as is the
+training procedure. This takes significantly longer to train than the first
+network because of the higher complexity of the convolutional layers compared to
+the fully-connected layers even though they have much less weights. The results
+are present in the next figure:&lt;/p&gt;
+&lt;div class="figure align-center"&gt;
+&lt;img alt="Training time performance for the different frameworks on the Convolutional Neural Network experiment, on MNIST." src="http://baptiste-wicht.com/images/dll_cnn.png"&gt;
+&lt;p class="caption"&gt;Training time performance for the different frameworks on the Convolutional
+Neural Network experiment, on MNIST. All the times are in seconds.&lt;/p&gt;
+&lt;/div&gt;
+&lt;p&gt;Again, on CPU, DLL is the clear winner, by a lot! It's already 3.6 times faster
+than the second frameworks Keras and TensorFlow, more than four times faster
+than Caffe and Torch and 8 times faster than DeepLearning4J that is proving very
+slow on this experiment. Once a GPU is added, Keras and TensorFlow are about
+twice faster than DLL. However, DLL is still faster than the other frameworks
+even though they are taking advantage of the GPU.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="section" id="cifar-10"&gt;
+&lt;h2&gt;CIFAR-10&lt;/h2&gt;
+&lt;p&gt;The second data set that is tested is the CIFAR-10 data set. It's an object
+recognition with 10 classes for classification. The training set is composed of
+50'000 colour images for 32x32 pixels. The network that is used for this data
+set is similar in architecture than the first network, but has more parameters.
+The first convolutional layer now has 12 5x5 kernels and the second
+convolutional layer has 24 3x3 kernels. The pooling layers are the same. The
+first fully-connected has 64 hidden units and the last one has 10 output units.
+The last layer again use a softmax activation function while the other layers
+are using Rectifier Linear Units (ReLU). The training is done in the same manner
+as for the two first networks. Unfortunately, it was not possible to train
+DeepLearning4J on this data set, even though there is official support for this
+data set. Since I've had no answer to my question regarding this issue, the
+results are simply removed from this experiment. It may not seem so but it's
+considerably longer to train this network because of the larger number of input
+channels and larger number of convolutional kernels in each layer. Let's get to
+the results now:&lt;/p&gt;
+&lt;div class="figure align-center"&gt;
+&lt;img alt="Training time performance for the different frameworks on the Convolutional Neural Network experiment, on CIFAR-10." src="http://baptiste-wicht.com/images/dll_cifar10.png"&gt;
+&lt;p class="caption"&gt;Training time performance for the different frameworks on the Convolutional
+Neural Network experiment, on CIFAR-10. All the times are in seconds.&lt;/p&gt;
+&lt;/div&gt;
+&lt;p&gt;DLL is still the fastest on CPU, but the margin is less than before. It's about
+40% faster than TensorFlow and Keras, twice faster than Torch and 2.6 times
+faster than Caffe. Once a GPU is added, DLL is about as fast as Torch but slower
+than the other three frameworks. TensorFlow and Keras are about four times
+faster than DLL while Caffe is about twice faster than DLL. We can see that
+with this larger network, the GPU becomes more interesting and that there is
+a smaller margin for improvements compared to the other frameworks.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="section" id="imagenet"&gt;
+&lt;h2&gt;ImageNet&lt;/h2&gt;
+&lt;p&gt;The last experiment is made on the ImageNet data set. I used the ILSVRC 2012
+subset, that consists "only" of about 1.2 million images for training. I've
+resized all the images to 256x256 pixels, this makes for 250 times more colour
+values than a MNIST image. This dimension and the number of images makes it
+impractical to keep the dataset in memory. The images must be loaded in batch
+from the disk. No random cropping or mirroring was performed. The network is
+much larger to solve this task. The network starts with 5 pairs of convolutional
+layers and max pooling layers. The convolutional layers have 3x3 kernels, 16 for
+the first two layers and 32 for the three following one. The five max pooling
+layers use 2x2 kernels. Each convolutional layer uses zero-padding so that their
+output features are the same dimensions as the input. They are followed by two
+fully-connected layer. The first one with 2048 hidden units and the last one
+with 1000 output units (one for each class). Except for the last layer, using
+softmax, the layers all uses ReLU. The network is trained with mini-batches of
+128 images (except for DeepLearning4J and Torch, which can only use 64 images on
+the amount of RAM available on my machine). To ease the comparison, I report the
+time necessary to train one batch of data (or two for DeepLearning4J and Torch).
+The results, presented in logarithmic scale because of DeepLearning4J disastrous
+results, are as follows:&lt;/p&gt;
+&lt;div class="figure align-center"&gt;
+&lt;img alt="Training time performance for the different frameworks on the Convolutional Neural Network experiment, on ImageNet." src="http://baptiste-wicht.com/images/dll_imagenet.png"&gt;
+&lt;p class="caption"&gt;Training time performance for the different frameworks on the Convolutional
+Neural Network experiment, on ImageNet. The times are the time necessary to
+train a batch of 128 images. All the times are in milliseconds.&lt;/p&gt;
+&lt;/div&gt;
+&lt;p&gt;For this final experiment, DLL is again significantly faster than all the other
+frameworks. It's about 40% faster than Keras, twice faster than TensorFlow and
+Caffe and more than three times faster than Torch. Although 40% may seem not
+that much, don't forget that this kind of training may take days, so it can save
+you a lot of time. All the frameworks are much faster than DeepLearning4J. Based
+on several posts on the internet, I suspect that this comes from the model of
+GPU I have been used (GTX 960), but all the other frameworks seem to handle this
+card pretty well.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="section" id="conclusion"&gt;
+&lt;h2&gt;Conclusion&lt;/h2&gt;
+&lt;p&gt;I hope this is not too much of a bragging post :P We can see that my efforts to
+make the code as fast as possible have paid :) As was shown in the experiments,
+my DLL framework is always the fastest framework when the neural network is
+trained on CPU. I'm quite pleased with the results since I've done a lot of work
+to optimize the speed as much as possible and since I'm competing with
+well-known libraries that have been developed by several persons.  Moreover, the
+accuracies of the trained networks is similar to that of the networks trained
+with the other frameworks. Even when the other frameworks are using GPU, the
+library still remains competitive, although never the fastest.&lt;/p&gt;
+&lt;p&gt;In the next step (I've no idea when I'll have the time though), I will want to
+focus on GPU speed. This will mostly come from a better support of the GPU in
+the ETL library on which DLL is based. I have many ideas to improve it a lot,
+but it will take me a lot of time.&lt;/p&gt;
+&lt;p&gt;If you want more information on the DLL library, you can have a look at
+&lt;a class="reference external" href="https://github.com/wichtounet/dll"&gt;its Github repository&lt;/a&gt; and especially at
+&lt;a class="reference external" href="https://github.com/wichtounet/dll/tree/master/examples/src"&gt;the few examples&lt;/a&gt;.
+You can also have a look at &lt;a class="reference external" href="https://baptiste-wicht.com/categories/dll.html"&gt;my posts about DLL&lt;/a&gt;.
+Finally, don't hesitate to comment or contact me through Github issues if you
+have comments or problems with this post, the library or anything ;)&lt;/p&gt;
+&lt;/div&gt;&lt;/div&gt;</description><category>C++</category><category>dll</category><category>etl</category><category>GPU</category><category>Machine Learning</category><category>projects</category><guid>http://baptiste-wicht.com/posts/2017/08/dll-blazing-fast-neural-network-library.html</guid><pubDate>Fri, 11 Aug 2017 09:09:14 GMT</pubDate></item><item><title>Expression Templates Library (ETL) 1.1</title><link>http://baptiste-wicht.com/posts/2017/08/expression-templates-library-etl-11.html</link><dc:creator>Baptiste Wicht</dc:creator><description>&lt;div&gt;&lt;img alt="ETL Logo" class="align-center" src="http://baptiste-wicht.com/images/logo.png"&gt;
+&lt;p&gt;It took me longer than I thought, but I'm glad to announce the release of the
+version 1.1 of my Expression Templates Library (ETL) project. This is a major
+new release with many improvements and new features. It's been almost one month
+since the last, and first, release (1.0) was released. I should have done some
+minor releases in the mean time, but at least now the library is in a good shape
+for major version.&lt;/p&gt;
+&lt;p&gt;It may be interesting to note that my machine learning framework (DLL), based on
+the ETL library, has shown to be faster than all the tested popular frameworks
+(Tensorflow, Keras, Caffee, Torch, DeepLearning4J) for training various neural
+networks on CPU. I'll post more details on another post on the coming weeks, but
+that shows that special attention to performance has been done in this library
+and that it is well adapted to machine learning.&lt;/p&gt;
+&lt;p&gt;For those of you that don't follow my blog, ETL is a library providing
+Expression Templates for computations on matrix and vector. For instance, if you
+have three matrices A, B and C you could write C++ code like this:&lt;/p&gt;
+&lt;pre class="code cpp"&gt;&lt;a name="rest_code_3560cf90c38844ddbcc372fbe5cf9afd-1"&gt;&lt;/a&gt;&lt;span class="n"&gt;C&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mf"&gt;2.0&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;A&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="n"&gt;B&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt; &lt;span class="o"&gt;/&lt;/span&gt; &lt;span class="n"&gt;sum&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;A&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/pre&gt;&lt;p&gt;Or given vectors b, v, h and a matrix W, you could write code like this:&lt;/p&gt;
+&lt;pre class="code cpp"&gt;&lt;a name="rest_code_cd5efbf4e37847a0b2d5f1aab4bcc6e8-1"&gt;&lt;/a&gt;&lt;span class="n"&gt;h&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;sigmoid&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;b&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="n"&gt;v&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt; &lt;span class="n"&gt;W&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/pre&gt;&lt;p&gt;The goal of such library is two-fold. First, this makes the expression more
+readable and as close to math as possible. And then, it allows the library to
+compute the expressions as fast as possible.  In the first case, the framework
+will compute the sum using a vectorized algorithm and then compute the overall
+expression using yet again vectorized code. The expression can also be computed
+in parallel if the matrices are big enough. In the second case, the
+vector-matrix multiplication will be computed first using either hand-code
+optimized vectorized or a BLAS routine (depending on configuration options).
+Then, all the expression will be executed using vectorized code.&lt;/p&gt;
+&lt;div class="section" id="features"&gt;
+&lt;h2&gt;Features&lt;/h2&gt;
+&lt;p&gt;Many new features have been integrated into the library.&lt;/p&gt;
+&lt;p&gt;The support for machine learning operations has been improved. There are now
+specific helpers for machine learning in the etl::ml namespace which have names
+that are standard to machine learning. A real transposed convolution has been
+implemented with support for padding and stride. Batched outer product and
+batched bias averaging are also now supported. The activation function support
+has also been improved and the derivatives have been reviewed. The pooling
+operators have also been improved with stride and padding support. Unrelated to
+machine learning, 2D and 3D pooling can also be done in higher dimensional
+matrix now.&lt;/p&gt;
+&lt;p&gt;New functions are also available for matrices and vectors. The support for
+square root has been improved with cubic root and inverse root. Support has also
+been added for floor and ceil. Moreover, comparison operators are now available
+as well as global functions such as approx_equals.&lt;/p&gt;
+&lt;p&gt;New reductions have also been added with support for absolute sum and mean
+(asum/asum) and for min_index and max_index, which returns the index of the
+minimum element, respectively the maximum. Finally, argmax can now be used to
+get the max index in each sub dimensions of a matrix. argmax on a vector is
+equivalent to max_index.&lt;/p&gt;
+&lt;p&gt;Support for shuffling has also been added. By default, shuffling a vector means
+shuffling all elements and shuffling a matrix means shuffling by shuffling the
+sub matrices (only the first dimension is shuffled), but shuffling a matrix as
+a vector is also possible. Shuffle of two vectors or two matrices in parallel,
+is also possible. In that case, the same permutation is applied to both
+containers. As a side note, all operations using random generation are also
+available with an addition parameter for the random generator, which can help to
+improve reproducibility or simply tune the random generator.&lt;/p&gt;
+&lt;p&gt;I've also included support for adapters matrices. There are adapters for
+hermitian matrices, symmetric matrices and lower and upper triangular matrices.
+For now, the framework does not take advantage of this information, this will be
+done later, but the framework guarantee the different constrain on the content.&lt;/p&gt;
+&lt;p&gt;There are also a few new more minor features. Maybe not so minor, matrices can
+now be sliced into sub matrices. With that a matrix can be divided into several
+sub matrices and modifying the sub matrices will modify the source matrix. The
+sub matrices are available in 2D, 3D and 4D for now. There are also some other
+ways of slicing matrix and vectors. It is possible to obtain a slice of its
+memory or obtain a slice of its first dimension. Another new feature is that it
+is now possible compute the cross product of vectors now. Matrices can be
+decomposed into their Q/R decomposition rather than only their PALU
+decomposition. Special support has been integrated for matrix and vectors of
+booleans. In that case, they support logical operators such as and, not and or.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="section" id="performance"&gt;
+&lt;h2&gt;Performance&lt;/h2&gt;
+&lt;p&gt;I've always considered the performance of this library to be a feature itself.
+I consider the library to be quite fast, especially its convolution support,
+even though there is still room for improvement. Therefore, many improvements
+have been made to the performance of the library since the last release. As said
+before, this library was used in a machine learning framework which then proved
+faster than most popular neural network frameworks on CPU. I'll present here
+the most important new improvements to performance, in no real particular order,
+every bit being important in my opinion.&lt;/p&gt;
+&lt;p&gt;First, several operations have been optimized to be faster.&lt;/p&gt;
+&lt;p&gt;Multiplication of matrices or matrices and vectors are now much faster if one of
+the matrix is transposed. Instead of performing the slow transposition,
+different kernels are used in order to maximize performance without doing any
+transposition, although sometimes transposition is performed when it is faster.
+This leads to very significant improvements, up to 10 times faster in the best
+case. This is performed for vectorized kernels and also for BLAS and CUBLAS
+calls. These new kernels are also directly used when matrices of different
+storage order are used. For instance, multiplying a column major matrix with
+a row major matrix and storing the result in a column major matrix is now much
+more efficient than before. Moreover, the performance of the transpose operation
+itself is also much faster than before.&lt;/p&gt;
+&lt;p&gt;A lot of machine learning operations have also been highly optimized. All the
+pooling and upsample operators are now parallelized and the most used kernel
+(2x2 pooling) is now more optimized. 4D convolution kernels (for machine
+learning) have been greatly improved. There are now very specialized vectorized
+kernels for classic kernel configurations (for instance 3x3 or 5x5) and the
+selection of implementations is now smarter than before. The support of padding
+is now much better than before for small amount of padding. Moreover, for small
+kernels the full convolution can now be evaluated using the valid convolution
+kernels directly with some padding, for much faster overall performance. The
+exponential operation is now vectorized which allows operations such as sigmoid
+or softmax to be much faster.&lt;/p&gt;
+&lt;p&gt;Matrices and vector are automatically using aligned memory. This means that
+vectorized code can use aligned operations, which may be slightly faster.
+Moreover, matrices and vectors are now padded to a multiple of the vector size.
+This allows to remove the final non-vectorized remainder loop from the
+vectorized code. This is only done for the end of matrices, when they are
+accessed in flat way. Contrary to some frameworks, inner dimensions of the
+matrix are not padded.  Finally, accesses to 3D and 4D matrices is now much
+faster than before.&lt;/p&gt;
+&lt;p&gt;Then, the parallelization feature of ETL has been completely reworked. Before,
+there was a thread pool for each algorithm that was parallelized. Now, there is
+a global thread engine with one thread pool. Since parallelization is not nested
+in ETL, this improves performance slightly by greatly diminishing the number of
+threads that are created throughout an application. Another big difference in
+parallel dispatching is that now it can detect good split based on alignment so
+that each split are aligned. This then allows the vectorization process to use
+aligned stores and loads instead of unaligned ones which may be faster on some
+processors.&lt;/p&gt;
+&lt;p&gt;Vectorization has also been greatly improved in ETL. Integer operations are now
+automatically vectorized on processors that support this. Before, only floating
+points operations were vectorized. The automatic vectorizer now is able to use
+non-temporal stores for very large operations. A non-temporal store bypasses the
+cache, thus gaining some time. Since very large matrices do not fit in cache
+anyway and the cache would end up being overwritten anyway, this is a net gain.
+Moreover, the alignment detection in the automatic vectorizer has also been
+improved. Support for Fused-Multiply-Add (FMA) operations has also been
+integrated in the algorithms that can make use of it (multiplications and
+convolutions). The matrix-matrix multiplications and vector-matrix
+multiplications now have highly optimized vectorized kernels. They also have
+versions for column-major matrices now.  I plan to reintegrate a version of the
+GEMM based on BLIS in the future but with more optimizations and support for all
+precisions and integers, For my version is still slower than the simple
+vectorized version. The sum and the dot product operations now also have
+specialized vectorized implementations. The min and max operations are now
+automatically-vectorized. Several others algorithms have also their own
+vectorized implementations.&lt;/p&gt;
+&lt;p&gt;Last, but not least, the GPU support has also been almost completely reworked.
+Now, several operations can be chained without any copies between GPU and CPU.
+Several new operations have also been added with support to GPU (convolutions,
+pooling, sigmoid, ReLU, ...). Moreover, to complement operations that are not
+available in any of the supported NVIDIA libraries, I've created a simple
+library that can be used to add a few more GPU operations.  Nevertheless a lot
+of operations are still missing and only algorithms are available not
+expressions (such as c = a + b * 1.0) that are entirely computed on CPU. I have
+plans to improve that further, probably for version 1.2. The different contexts
+necessary for NVIDIA library can now be cached (using an option from ETL),
+leading to much faster code. Only the main handle can be cached so far, I plan
+to try to cache all the descriptors, but I don't know yet when that will be
+ready. Finally, an option is also available to reuse GPU memory instead of
+directly releasing it to CUDA. This is using a custom memory pool and can save
+some time. Since this needs to be cleaned (by a call to etl::exit() or using
+ETL_PROLOGUE), this is only activated on demand.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="section" id="other-changes"&gt;
+&lt;h2&gt;Other changes&lt;/h2&gt;
+&lt;p&gt;There also have been a lot of refactorings in the code of the library. A lot of
+expressions now have less overhead and are specialized for performance.
+Moreover, temporary expressions have been totally reworked to be more simple and
+maintainable and easier to optimize in the future. It's also probably easier to
+add new expressions to the framework now, although that could be even more
+simple. There are also less duplicated code now in the different expressions.
+Especially, now there are now more SSE and AVX variants in the code. All the
+optimized algorithms are now using the vectorization system of the library.&lt;/p&gt;
+&lt;p&gt;I also tried my best to reduce the compilation time, based on the unit tests.
+This is still not great but better than before. For user code, the next version
+should be much faster to compile since I plan to disable forced selection of
+implementations by default and only enable it on demand.&lt;/p&gt;
+&lt;p&gt;Finally, there also was quite a few bug fixes. Most of them have been found by
+the use of the library in the Deep Learning Library (DLL) project. Some were
+very small edge cases. For instance, the transposition algorithm was not working
+on GPU on rectangular column major matrices. There also was a slight bug in the
+Q/R decomposition and in the pooling of 4D matrices.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="section" id="what-s-next"&gt;
+&lt;h2&gt;What's next ?&lt;/h2&gt;
+&lt;p&gt;Next time, I may do some minor release, but I don't yet have a complete plan.
+For the next major release (1.2 probably), here is what is planned:&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;Review the system for selection of algorithms to reduce compilation time&lt;/li&gt;
+&lt;li&gt;Review the GPU system to allow more complete support for standard operators&lt;/li&gt;
+&lt;li&gt;Switch to C++17: there are many improvements that could be done to the code with C++17 features&lt;/li&gt;
+&lt;li&gt;Add support for convolution on mixed types (float/double)&lt;/li&gt;
+&lt;li&gt;More tests for sparse matrix&lt;/li&gt;
+&lt;li&gt;More algorithms support for sparse matrix&lt;/li&gt;
+&lt;li&gt;Reduce the compilation time of the library in general&lt;/li&gt;
+&lt;li&gt;Reduce the compilation and execution time of the unit tests&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;These are pretty big changes, especially the first two, so maybe it'll be split
+into several releases. It will really depend on the time I have. As for C++17,
+I really want to try it and I have a lot of points that could profit from the
+switch, but that will means setting GCC 7.1 and Clang 3.9 as minimum
+requirement, which may not be reasonable for every user.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="section" id="download-etl"&gt;
+&lt;h2&gt;Download ETL&lt;/h2&gt;
+&lt;p&gt;You can download ETL &lt;a class="reference external" href="https://github.com/wichtounet/etl"&gt;on Github&lt;/a&gt;. If you
+only interested in the 1.1 version, you can look at the
+&lt;a class="reference external" href="https://github.com/wichtounet/etl/releases"&gt;Releases pages&lt;/a&gt; or clone the tag
+1.1. There are several branches:&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;&lt;em&gt;master&lt;/em&gt; Is the eternal development branch, may not always be stable&lt;/li&gt;
+&lt;li&gt;&lt;em&gt;stable&lt;/em&gt; Is a branch always pointing to the last tag, no development here&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;For the future release, there always will tags pointing to the corresponding
+commits. I'm not following the git flow way, I'd rather try to have a more
+linear history with one eternal development branch, rather than an useless
+develop branch or a load of other branches for releases.&lt;/p&gt;
+&lt;p&gt;The documentation is a bit sparse. There are a few examples and the Wiki, but
+there still is work to be done. If you have questions on how to use or configure
+the library, please don't hesitate.&lt;/p&gt;
+&lt;p&gt;Don't hesitate to comment this post if you have any comment on this library or
+any question. You can also open an Issue on Github if you have a problem using
+this library or propose a Pull Request if you have any contribution you'd like
+to make to the library.&lt;/p&gt;
+&lt;p&gt;Hope this may be useful to some of you :)&lt;/p&gt;
+&lt;/div&gt;&lt;/div&gt;</description><category>C++</category><category>C++14</category><category>C++17</category><category>Compilers</category><category>dll</category><category>etl</category><category>GPU</category><category>Performance</category><category>projects</category><guid>http://baptiste-wicht.com/posts/2017/08/expression-templates-library-etl-11.html</guid><pubDate>Fri, 04 Aug 2017 13:13:03 GMT</pubDate></item><item><title>Speed up TensorFlow inference by compiling it from source</title><link>http://baptiste-wicht.com/posts/2017/05/speed-up-tensorflow-inference-compiling-from-source.html</link><dc:creator>Baptiste Wicht</dc:creator><description>&lt;div&gt;&lt;p&gt;The most simple way to install TensorFlow is to work in a virtual Python
+environment and simply to use either the TensorFlow official packages in pip or
+use one of the official wheels for distributions.  There is one big problem with
+that technique and it's the fact that the binaries are precompiled so that they
+fit as many hardware configuration as possible. This is normal from Google since
+generating precompiled binaries for all the possible combinations of processor
+capabilities would be a nightmare. This is not a problem for GPU
+since the CUDA Libraries will take care of the difference from one graphics card
+to another. But it is a problem with CPU performance. Indeed, different
+processors have different capabilities. For instance, the vectorization
+capabilities are different from processor to processor (SSE, AVX, AVX2,
+AVX-512F, FMA, ...). All those options can make a significant difference in the
+performance of the programs. Although most of the machine learning training
+occurs on GPU most of the time, the inference is mostly done on the CPU.
+Therefore, it probably remains important to be as fast as possible on CPU.&lt;/p&gt;
+&lt;p&gt;So if you care about performance on CPU, you should install TensorFlow from
+sources directly yourself. This will allow compilation of the TensorFlow sources
+with -march=native which will enable all the hardware capabilities of machine on
+which you are compiling the library.&lt;/p&gt;
+&lt;p&gt;Depending on your problem, this may give you some nice speedup. In my case, on
+a very small Recurrent Neural Network, it made inference about 20% faster.  On
+a larger problem and depending on your processor, you may gain much more than
+that. If you are training on CPU, this may make a very large difference in total
+time.&lt;/p&gt;
+&lt;p&gt;Installing TensorFlow is sometimes a bit cumbersome. You'll likely have to
+compile Bazel from sources as well and depending on your processor, it may take
+a long time to finish. Nevertheless, I have successfully compiled TensorFlow
+from sources on several machines now without too many problems. Just pay close
+attention to the options you are setting while configuring TensorFlow, for
+instance CUDA configuration if you want GPU support.&lt;/p&gt;
+&lt;p&gt;I hope this little trick will help you gain some time :)&lt;/p&gt;
+&lt;p&gt;Here is the &lt;a class="reference external" href="https://www.tensorflow.org/install/install_sources"&gt;link to compile TensorFlow from source&lt;/a&gt;.&lt;/p&gt;&lt;/div&gt;</description><category>CPU</category><category>GPU</category><category>Intel</category><category>Machine Learning</category><category>Performance</category><category>tensorflow</category><guid>http://baptiste-wicht.com/posts/2017/05/speed-up-tensorflow-inference-compiling-from-source.html</guid><pubDate>Wed, 10 May 2017 12:18:33 GMT</pubDate></item><item><title>Update on Expression Templates Library (ETL)</title><link>http://baptiste-wicht.com/posts/2017/05/update-on-expression-templates-library-etl.html</link><dc:creator>Baptiste Wicht</dc:creator><description>&lt;div&gt;&lt;p&gt;It's been a while since I've &lt;a class="reference external" href="https://baptiste-wicht.com/posts/2016/09/expression-templates-library-etl-10.html"&gt;released the version 1.0 of ETL&lt;/a&gt;. There is some work to do before I release the next version, but I wanted to give you a quick update on what has been going on for ETL in the last months. There has been a lot of changes in the library and the next version will be a major update when I'm done with some refactorings and improvements.&lt;/p&gt;
+&lt;p&gt;Thanks to my thesis supervisor, the project now has a logo:&lt;/p&gt;
+&lt;img alt="ETL Logo" class="align-center" src="http://baptiste-wicht.com/images/logo.png"&gt;
+&lt;p&gt;There are quite a few new features, although probably nothing really major. The
+support for square root has been improved with cubic root and inverse root.
+Vectors can now be transformed using floor and ceil. Cross product of vector has
+been implemented as well. Batched outer product and batched bias averaging (for
+machine learning) are now supported. Reductions have also been improved with
+absolute sum and mean (asum/asum) support and min_index and max_index. argmax
+can now be used to get the max index in each sub dimensions. Matrix can now be
+decomposed into their Q/R decomposition rather than only their PALU
+decomposition. The matrices can now be sliced by getting only a sub part of the
+matrix. The pooling operators  have also been improved with stride and padding
+support. Matrices and vectors can also be shuffled. Moreover, a few adapters
+are now available for hermitian matrices, symmetric matrices and lower and upper
+matrices. So far the support for these adapters is not huge, but they are
+guaranteed to validate their constraints.&lt;/p&gt;
+&lt;p&gt;Several operations have been optimized for speed. All the pooling and upsample
+operators are now parallelized and the most used kernel (2x2 pooling) is now
+more optimized. 4D convolution kernels (for machine learning) have been greatly
+improved. There are now very specialized vectorized kernels for classic kernel
+configurations (for instance 3x3 or 5x5) and the selection of implementations is
+now smarter than before. The support of padding now much better than before for
+small amount of padding. Moreover, for small kernels the full convolution can
+now be evaluated using the valid convolution kernels directly with some padding,
+for much faster overall performance. Matrix-matrix multiplication with
+transposed matrices is now much faster when using BLAS kernels. Indeed, the
+transposition is not performed but handled inside the kernels. Moreover, the
+performance of the transposition itself is also much faster. Finally, accesses
+to 3D and 4D matrices is now much faster than before.&lt;/p&gt;
+&lt;p&gt;The parallelization feature of ETL has been completely reworked. Before, there
+was a thread pool for each algorithm that was parallelized. Now, there is
+a global thread engine with one thread pool. Since parallelization is not nested
+in ETL, this improves performance slightly by greatly diminishing the number of
+threads that are created throughout an application.&lt;/p&gt;
+&lt;p&gt;Vectorization has also been greatly improved in ETL. Integer operations are now
+automatically vectorized on processors that support this. The automatic
+vectorizer now is able to use non-temporal stores for very large operations.
+A non-temporal store bypasses the cache, thus gaining some time. Since very
+large matrices do not fit in cache, this is a net gain. Moreover, the alignment
+detection in the automatic vectorizer has also been improved. Support for
+Fused-Multiply-Add (FMA) operations has also been integrated in the algorithms
+that can make use of it. The matrix-matrix multiplications and vector-matrix
+multiplications now have optimized vectorized kernels. They also have versions
+for column-major matrices now. The old egblas version of the gemm, based on BLIS
+kernels, has been removed since it was only supporting double-precision and was
+not faster than the new vectorized algorithm. I plan to reintegrate a version of
+the GEMM based on BLIS in the future but with more optimizations and support for
+all precisions and integers. The sum and the dot product now also have
+specialized vectorized implementations. The min and max operations are now
+automatically-vectorized.&lt;/p&gt;
+&lt;p&gt;The GPU has also been almost completely reworked. Now, operations can be chained
+without any copies between GPU and CPU. Several new operations have also been
+added with support to GPU. Moreover, to complement operations that are not
+available in any of the supported NVIDIA libraries, I've created a simple
+library that can be used to add a few more GPU operations. Nevertheless a lot of
+operations are still missing and only algorithms are available not expressions
+(such as c = a + b * 1.0) that are entirely computed on CPU. I have plans to
+improve that further, but probably not before the version 1.2.&lt;/p&gt;
+&lt;p&gt;There also have been a lot of refactorings in the code of the library. A lot of
+expressions now have less overhead and are specialized for performance.
+Moreover, temporary expressions are currently being reworked in order to be more
+simple and maintainable and easier to optimize in the future.&lt;/p&gt;
+&lt;p&gt;Finally, there also was quite a few bug fixes. Most of them have been found by
+the use of the library in the Deep Learning Library (DLL) project.&lt;/p&gt;&lt;/div&gt;</description><category>C++</category><category>C++14</category><category>etl</category><category>GPU</category><category>Performance</category><category>projects</category><guid>http://baptiste-wicht.com/posts/2017/05/update-on-expression-templates-library-etl.html</guid><pubDate>Sat, 06 May 2017 19:31:48 GMT</pubDate></item></channel></rss>

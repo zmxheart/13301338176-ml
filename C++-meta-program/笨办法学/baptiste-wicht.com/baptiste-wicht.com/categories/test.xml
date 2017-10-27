@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:dc="http://purl.org/dc/elements/1.1/"><channel><title>Blog blog("Baptiste Wicht"); (Posts about test)</title><link>http://baptiste-wicht.com/</link><description></description><atom:link rel="self" type="application/rss+xml" href="http://baptiste-wicht.com/categories/test.xml"></atom:link><language>en</language><lastBuildDate>Sun, 04 Jun 2017 20:17:46 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Short review of Bullseye Coverage</title><link>http://baptiste-wicht.com/posts/2016/09/short-review-of-bullseye-coverage.html</link><dc:creator>Baptiste Wicht</dc:creator><description>&lt;div&gt;&lt;p&gt;&lt;a class="reference external" href="http://www.bullseye.com/"&gt;Bullseye&lt;/a&gt; is a commercial Code Coverage analyzer.
+It is fully-featured with an export to HTML, to XML and even a specific GUI to
+see the application.It costs about 800$, with a renewal fee of about 200$ per
+year.&lt;/p&gt;
+&lt;p&gt;I'm currently using gcov and passing the results to Sonar. This works well, but
+there are several problems. First, I need to use gcovr to generate the XML file,
+that means two tools. Then, gcov has no way to merge coverage reports. In my
+tests of ETL, I have seven different profiles being tested and I need the
+overall coverage report. lcov has a merge feature but it is slow as hell (it
+takes longer to merge the coverage files than to compile and run the complete
+test suite seven times...). For now, I'm using a C++ program that I wrote to
+combine the XML files or a Python script that does that, but neither are perfect
+and it needs maintenance. Finally, it's impossible to exclude some code from the
+coverage report (there is code that isn't meant to be executed (exceptional
+code)). For now, I'm using yet another C++ program  that I wrote to do this from
+comments in code.&lt;/p&gt;
+&lt;p&gt;Bullseye does have all these feature, so I got an evaluation license online and
+tried this tool and wrote a short review of it.&lt;/p&gt;
+&lt;div class="section" id="usage"&gt;
+&lt;h2&gt;Usage&lt;/h2&gt;
+&lt;p&gt;The usage is pretty simple. You put the coverage executables in your PATH
+variable and activate coverage globally. Then, we you compile, the compiler
+calls will be intercepted and a coverage file will be generated. When the
+compilation is done, run the program and the coverage measurements will be
+filled.&lt;/p&gt;
+&lt;p&gt;The coverage results can then be exported to HTML (or XML) or visualized using
+the CoverageBrowser tool:&lt;/p&gt;
+&lt;div class="figure align-center"&gt;
+&lt;img alt="Screenshot of Bullseye main coverage view" src="http://baptiste-wicht.com/images/bullseye_view.png"&gt;
+&lt;p class="caption"&gt;The main view of the Bullseye tool code coverage results&lt;/p&gt;
+&lt;/div&gt;
+&lt;p&gt;It's a pretty good view of the coverage result. You have a breakdown by folders,
+by file, by function and finally by condition. You can view directly the source
+code:&lt;/p&gt;
+&lt;div class="figure align-center"&gt;
+&lt;img alt="Screenshot of Bullseye source code coverage view" src="http://baptiste-wicht.com/images/bullseye_source_view.png"&gt;
+&lt;p class="caption"&gt;The source view of the Bullseye tool code coverage results&lt;/p&gt;
+&lt;/div&gt;
+&lt;p&gt;If you want to exclude some code from your coverage reports, you can use
+a pragma:&lt;/p&gt;
+&lt;pre class="code cpp"&gt;&lt;a name="rest_code_42cdf56fb9bc426fb70271b3b9456de9-1"&gt;&lt;/a&gt;&lt;span class="k"&gt;switch&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;n&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+&lt;a name="rest_code_42cdf56fb9bc426fb70271b3b9456de9-2"&gt;&lt;/a&gt;    &lt;span class="k"&gt;case&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt; &lt;span class="n"&gt;one&lt;/span&gt;&lt;span class="o"&gt;++&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt; &lt;span class="k"&gt;break&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;a name="rest_code_42cdf56fb9bc426fb70271b3b9456de9-3"&gt;&lt;/a&gt;    &lt;span class="k"&gt;case&lt;/span&gt; &lt;span class="mi"&gt;2&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt; &lt;span class="n"&gt;two&lt;/span&gt;&lt;span class="o"&gt;++&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt; &lt;span class="k"&gt;break&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;a name="rest_code_42cdf56fb9bc426fb70271b3b9456de9-4"&gt;&lt;/a&gt;    &lt;span class="k"&gt;case&lt;/span&gt; &lt;span class="mi"&gt;3&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt; &lt;span class="n"&gt;three&lt;/span&gt;&lt;span class="o"&gt;++&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt; &lt;span class="k"&gt;break&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;a name="rest_code_42cdf56fb9bc426fb70271b3b9456de9-5"&gt;&lt;/a&gt;    &lt;span class="cp"&gt;#pragma BullseyeCoverage off&lt;/span&gt;
+&lt;a name="rest_code_42cdf56fb9bc426fb70271b3b9456de9-6"&gt;&lt;/a&gt;    &lt;span class="k"&gt;default&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt; &lt;span class="n"&gt;abort&lt;/span&gt;&lt;span class="p"&gt;();&lt;/span&gt;
+&lt;a name="rest_code_42cdf56fb9bc426fb70271b3b9456de9-7"&gt;&lt;/a&gt;    &lt;span class="cp"&gt;#pragma BullseyeCoverage on&lt;/span&gt;
+&lt;a name="rest_code_42cdf56fb9bc426fb70271b3b9456de9-8"&gt;&lt;/a&gt;&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;/pre&gt;&lt;p&gt;So that the condition won't be set as uncovered.&lt;/p&gt;
+&lt;p&gt;As for the coverage, it's pretty straightforward. For example:&lt;/p&gt;
+&lt;pre class="code bash"&gt;&lt;a name="rest_code_bcfb49983da74725b6451048ebf7933f-1"&gt;&lt;/a&gt;covmerge -c -ffinal.cov sse.cov avx.cov
+&lt;/pre&gt;&lt;p&gt;and it's really fast. Unfortunately, the merging is only done at the function
+level, not at the statement or at the condition level. This is a bit
+disappointing, especially from a commercial tool. Nevertheless, it works well.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="section" id="conclusion"&gt;
+&lt;h2&gt;Conclusion&lt;/h2&gt;
+&lt;p&gt;To conclude, Bullseye seems to be a pretty good tool. It has more features than
+standard gcov coverage and all features are well integrated together. I have
+only covered the features I was interested in, there are plenty of other things
+you can look at on the &lt;a class="reference external" href="http://www.bullseye.com/"&gt;official website&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;However, if you don't need the extra features such as the visualizer (or use
+something like Sonar for this), or the merge or code excluding, it's probably
+not worth paying the price for it. In my case, since the merge is not better
+than my C++ tool (both do almost the same and my tool does some basic line
+coverage merging as well) and I don't need the visualizer, I won't pay the price
+for it. Moreover, they don't have student or open source licensing, therefore,
+I'll continue with my complicated toolchain :)&lt;/p&gt;
+&lt;/div&gt;&lt;/div&gt;</description><category>C++</category><category>coverage</category><category>test</category><category>Tools</category><guid>http://baptiste-wicht.com/posts/2016/09/short-review-of-bullseye-coverage.html</guid><pubDate>Fri, 16 Sep 2016 11:25:44 GMT</pubDate></item></channel></rss>

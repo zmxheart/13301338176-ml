@@ -1,0 +1,2277 @@
+<?xml version="1.0" encoding="utf-8"?>
+<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:dc="http://purl.org/dc/elements/1.1/" version="2.0"><channel><title>Blog blog("Baptiste Wicht"); (Posts about Performance)</title><link>http://baptiste-wicht.com/</link><description></description><atom:link type="application/rss+xml" href="http://baptiste-wicht.com/categories/performance.xml" rel="self"></atom:link><language>en</language><lastBuildDate>Sat, 07 Oct 2017 14:58:59 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Expression Templates Library (ETL) 1.2 - Complete GPU support</title><link>http://baptiste-wicht.com/posts/2017/10/expression-templates-library-etl-1-2-complete-gpu-support.html</link><dc:creator>Baptiste Wicht</dc:creator><description>&lt;div&gt;&lt;img alt="ETL Logo" class="align-center" src="http://baptiste-wicht.com/images/logo.png"&gt;
+&lt;p&gt;I'm happy to announce the version 1.2 of my Expression Templates Library (ETL):
+ETL 1.2, two months after &lt;a class="reference external" href="https://baptiste-wicht.com/posts/2017/08/expression-templates-library-etl-11.html"&gt;I released the version 1.1&lt;/a&gt;.
+This version features much better GPU Support, a few new features and a lot of
+changes in the internal code.&lt;/p&gt;
+&lt;div class="section" id="gpu-support"&gt;
+&lt;h2&gt;GPU Support&lt;/h2&gt;
+&lt;p&gt;Before, only algorithms such as 4D convolution or matrix-matrix multiplication
+were computed in the GPU and lots of operations were causing copies between CPU
+and GPU version. Now, the support for basic operations has also been completed
+and therefore, expressions like this:&lt;/p&gt;
+&lt;pre class="code cpp"&gt;&lt;a name="rest_code_e97eaba5087f47d0aee5f7ce1c6431bc-1"&gt;&lt;/a&gt;&lt;span class="n"&gt;C&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;sigmoid&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mf"&gt;2.0&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;A&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="n"&gt;B&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt; &lt;span class="o"&gt;/&lt;/span&gt; &lt;span class="n"&gt;sum&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;A&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/pre&gt;&lt;p&gt;Can be computed entirely on GPU.&lt;/p&gt;
+&lt;p&gt;Each matrix and vector containers have a secondary GPU memory space.  During the
+execution, the status of both memory spaces is being managed and when necessary,
+copies are made between two spaces. In the best case, there should only be
+initial copies to the GPU and then everything should be done on the GPU. I've
+also considered using Unified Memory in place of this system, but this is
+a problem for fast matrix and I'd rather not have two different systems.&lt;/p&gt;
+&lt;p&gt;If you have an expression such as &lt;code&gt;c = a + b * 2&lt;/code&gt;, it can be entirely computed
+on GPU, however, it will be computed in two GPU operations such as:&lt;/p&gt;
+&lt;pre class="code cpp"&gt;&lt;a name="rest_code_850c1f8548ae4ab89679a31d2e62b2d6-1"&gt;&lt;/a&gt;&lt;span class="n"&gt;t1&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;b&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt; &lt;span class="mi"&gt;2&lt;/span&gt;
+&lt;a name="rest_code_850c1f8548ae4ab89679a31d2e62b2d6-2"&gt;&lt;/a&gt;&lt;span class="n"&gt;c&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;a&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="n"&gt;t1&lt;/span&gt;
+&lt;/pre&gt;&lt;p&gt;This is not perfect in terms of performance but this will be done without any
+copies between CPU and GPU memory. I plan to improve this system with a bit more
+complex operations to avoid too many GPU operations, but there will always be
+more operations than in CPU where this can easily be done in one go.&lt;/p&gt;
+&lt;p&gt;There are a few expressions that are not computable on the GPU, such as random
+generations. A few transformations are also not fully compatible with GPU.
+Moreover, if you access an element with operators &lt;code&gt;[]&lt;/code&gt; or &lt;code&gt;()&lt;/code&gt;, this
+will invalidate the GPU memory and force an update to the CPU memory.&lt;/p&gt;
+&lt;p&gt;GPU operations are not implemented directly in ETL, there are coming from
+various libraries. ETL is using NVIDIA CUDNN, CUFFT and CUDNN for most
+algorithms. Moreover, for other operations, I've implemented a libraries with
+simple GPU operations: ETL-GPU-BLAS (EGBLAS). You can have a look at
+&lt;a class="reference external" href="https://github.com/wichtounet/etl-gpu-blas"&gt;egblas&lt;/a&gt; if you are interested.&lt;/p&gt;
+&lt;p&gt;My Deep Learning Library (DLL) project is based on ETL and its performances are
+mostly dependent on ETL's performances. Now that ETL fully supports GPU, the
+GPU performance of DLL is much improved. You may remember a few weeks ago
+I posted &lt;a class="reference external" href="https://baptiste-wicht.com/posts/2017/08/dll-blazing-fast-neural-network-library.html"&gt;very high CPU performance of DLL&lt;/a&gt;.
+Now, I've run again the tests to see the GPU performance with DLL. Here is the
+performance for training a small CNN on the MNIST data set:&lt;/p&gt;
+&lt;img alt="Performances for training a Convolutional Neural Network on MNIST" class="align-center" src="http://baptiste-wicht.com/images/etl_12_dll_gpu_mnist.png"&gt;
+&lt;p&gt;As you can see, the performances on GPU are now excellent. DLL's performances
+are on par with Tensorflow and Keras!&lt;/p&gt;
+&lt;p&gt;The next results are for training a much larger CNN on ImageNet, with the time
+necessary to train a single batch:&lt;/p&gt;
+&lt;img alt="Performances for training a Convolutional Neural Network on Imagenet" class="align-center" src="http://baptiste-wicht.com/images/etl_12_dll_gpu_imagenet.png"&gt;
+&lt;p&gt;Again, using the new version of ETL inside DLL has led to excellent performance.
+The framework is again on par with TensorFlow and Keras and faster than all the
+other frameworks. The large difference between DLL and Tensorflow and Keras is
+due to the inefficiency of reading the dataset in the two frameworks, so the
+performance of the three framework themselves are about the same.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="section" id="other-changes"&gt;
+&lt;h2&gt;Other Changes&lt;/h2&gt;
+&lt;p&gt;The library also has a few other new features. Logarithms of base 2 and base 10
+are now supported in complement to the base e that was already available before.
+Categorical Cross Entropy (CCE) computation is also available now, the CCE loss
+and error can be computed for one or many samples. Convolutions have also been
+improved in that you can use mixed types in both the image and the kernel and
+different storage order as well. Nevertheless, the most optimized version
+remains the version with the same storage order and the same data type.&lt;/p&gt;
+&lt;p&gt;I've also made a major change in the way implementations are selected for each
+operation. The tests and the benchmark are using a system to force the selection
+of an algorithm. This system is now disabled by default. This makes the
+compilation much faster by default. Since it's not necessary in most cases, this
+will help regular use cases of the library by compiling much faster.&lt;/p&gt;
+&lt;p&gt;Overall, the support for complex numbers has been improved in ETL. There are
+more routines that are supported and &lt;code&gt;etl::complex&lt;/code&gt; is better supported
+throughout the code. I'll still work on this in the future to make it totally
+complete.&lt;/p&gt;
+&lt;p&gt;The internal code also has a few new changes. First, all traits have been
+rewritten to use variable templates instead of struct traits. This makes the
+code much nicer in my opinion. Moreover, I've started experimenting with C++17
+&lt;code&gt;if constexpr&lt;/code&gt;. Most of the if conditions that can be transformed to if
+constexpr have been annotated with comments that I can quickly enable or disable
+so that I can test the impact of C++17, especially on compilation time.&lt;/p&gt;
+&lt;p&gt;Finally, a few bugs have been fixed. ETL is now working better with parallel
+BLAS library. There should not be issues with double parallelization in ETL and
+BLAS. There was a slight bug in the Column-Major matrix-matrix multiplication
+kernel. Binary operations with different types in the left and right hand sides
+was also problematic with vectorization. The last bug was about GPU status in
+case ETL containers were moved.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="section" id="what-s-next"&gt;
+&lt;h2&gt;What's next ?&lt;/h2&gt;
+&lt;p&gt;I don't yet know exactly on which features I'm going to focus for the next
+version of ETL. I plan to focus a bit more in the near future on Deep Learning
+Library (DLL) for which I should release the version 1.0 soon. I also plan to
+start support for Recurrent Neural Networks on it, so that will take me quite
+some time.&lt;/p&gt;
+&lt;p&gt;Nevertheless, I'm still planning to consider the switch to C++17, since it is
+&lt;a class="reference external" href="https://baptiste-wicht.com/posts/2017/09/how-i-made-deep-learning-library-38-faster-to-compile-optimization-and-cpp17-if-constexpr.html"&gt;a bit faster to compile ETL with if constexpr&lt;/a&gt;. The next version of ETL will also probably have GPU-support for
+integers, at least in the cases that depend on the etl-gpu-blas library, which
+is the standard operators. I also plan to improve the support for complex
+numbers, especially in terms of performance and tests. Hopefully, I will have also time (and motivation)
+to start working on  the sparse capabilities of ETL. It really needs much more
+unit tests and the performance should be improved as well.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="section" id="download-etl"&gt;
+&lt;h2&gt;Download ETL&lt;/h2&gt;
+&lt;p&gt;You can download ETL &lt;a class="reference external" href="https://github.com/wichtounet/etl"&gt;on Github&lt;/a&gt;. If you
+only interested in the 1.2 version, you can look at the
+&lt;a class="reference external" href="https://github.com/wichtounet/etl/releases"&gt;Releases pages&lt;/a&gt; or clone the tag
+1.2. There are several branches:&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;&lt;em&gt;master&lt;/em&gt; Is the eternal development branch, may not always be stable&lt;/li&gt;
+&lt;li&gt;&lt;em&gt;stable&lt;/em&gt; Is a branch always pointing to the last tag, no development here&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;For the future release, there always will tags pointing to the corresponding
+commits. You can also have access to previous releases on Github or via the
+release tags.&lt;/p&gt;
+&lt;p&gt;The documentation is still a bit sparse. There are a few examples and the Wiki,
+but there still is work to be done. If you have questions on how to use or
+configure the library, please don't hesitate.&lt;/p&gt;
+&lt;p&gt;Don't hesitate to comment this post if you have any comment on this library or
+any question. You can also open an Issue on Github if you have a problem using
+this library or propose a Pull Request if you have any contribution you'd like
+to make to the library.&lt;/p&gt;
+&lt;p&gt;Hope this may be useful to some of you :)&lt;/p&gt;
+&lt;/div&gt;&lt;/div&gt;</description><category>C++</category><category>C++14</category><category>C++17</category><category>Compilers</category><category>dll</category><category>etl</category><category>GPU</category><category>Performance</category><category>projects</category><guid>http://baptiste-wicht.com/posts/2017/10/expression-templates-library-etl-1-2-complete-gpu-support.html</guid><pubDate>Mon, 02 Oct 2017 08:49:02 GMT</pubDate></item><item><title>How I made my Deep Learning Library 38% faster to compile (Optimization and C++17 if constexpr)</title><link>http://baptiste-wicht.com/posts/2017/09/how-i-made-deep-learning-library-38-faster-to-compile-optimization-and-cpp17-if-constexpr.html</link><dc:creator>Baptiste Wicht</dc:creator><description>&lt;div&gt;&lt;p&gt;My Deep Learning Library (DLL) project is a C++ library for training and using
+artificial neural networks (you can take a look at
+&lt;a class="reference external" href="https://baptiste-wicht.com/posts/2017/07/update-on-deep-learning-library-dll-dropout-batch-normalization-adaptive-learning-rates.html"&gt;this post about DLL&lt;/a&gt;
+if you want more information).&lt;/p&gt;
+&lt;p&gt;While I made a lot of effort to make it as fast as possible to train and run
+neural networks, the compilation time has been steadily going up and is becoming
+quite annoying. This library is heavily templated and all the matrix operations
+are done using my Expression Templates Library (ETL) which is more than
+template-heavy itself.&lt;/p&gt;
+&lt;p&gt;In this post, I'll present two techniques with which I've been able to reduce
+the total compilation of the DLL unit tests by up to 38%.&lt;/p&gt;
+&lt;p class="more"&gt;&lt;a href="http://baptiste-wicht.com/posts/2017/09/how-i-made-deep-learning-library-38-faster-to-compile-optimization-and-cpp17-if-constexpr.html"&gt;Read more…&lt;/a&gt;&lt;/p&gt;&lt;/div&gt;</description><category>C++</category><category>C++17</category><category>clang</category><category>Compilers</category><category>dll</category><category>etl</category><category>gcc</category><category>Performance</category><category>projects</category><guid>http://baptiste-wicht.com/posts/2017/09/how-i-made-deep-learning-library-38-faster-to-compile-optimization-and-cpp17-if-constexpr.html</guid><pubDate>Thu, 21 Sep 2017 17:44:34 GMT</pubDate></item><item><title>Compiler benchmark GCC and Clang on C++ library (ETL)</title><link>http://baptiste-wicht.com/posts/2017/08/compiler-benchmark-gcc-clang-cpp-library-etl.html</link><dc:creator>Baptiste Wicht</dc:creator><description>&lt;div&gt;&lt;p&gt;It's been a while since I've done a benchmark of different compilers on C++
+code. Since I've recently
+&lt;a class="reference external" href="https://baptiste-wicht.com/posts/2017/08/expression-templates-library-etl-11.html"&gt;released the version 1.1 of my ETL project&lt;/a&gt;
+(an optimized matrix/vector computation library with expression templates), I've
+decided to use it as the base of my benchmark. It's a C++14 library with a lot
+of templates. I'm going to compile the full test suite (124 test cases). This is
+done directly on the last release (1.1) code. I'm going to compile once in debug
+mode and once in release_debug (release plus debug symbols and assertions) and
+record the times for each compiler. The tests were compiled with support for
+every option in ETL to account to maximal compilation time. Each compilation was
+made using four threads (make -j4). I'm also going to test a few of the
+benchmarks to see the difference in runtime performance between the code
+generated by each compiler. The benchmark will be compiled in release mode and
+its compilation time recorded as well.&lt;/p&gt;
+&lt;p&gt;I'm going to test the following compilers:&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;GCC-4.9.4&lt;/li&gt;
+&lt;li&gt;GCC-5.4.0&lt;/li&gt;
+&lt;li&gt;GCC-6.3.0&lt;/li&gt;
+&lt;li&gt;GCC-7.1.0&lt;/li&gt;
+&lt;li&gt;clang-3.9.1&lt;/li&gt;
+&lt;li&gt;clang-4.0.1&lt;/li&gt;
+&lt;li&gt;zapcc-1.0 (commercial, based on clang-5.0 trunk)&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;All have been installed directly using Portage (Gentoo package manager) except
+for clang-4.0.1 that has been installed from sources and zapcc since it does not
+have a Gentoo package. Since clang package on Gentoo does not support
+multislotting, I had to install one version from source and the other from the
+package manager. This is also the reason I'm testing less versions of clang,
+simply less practical.&lt;/p&gt;
+&lt;p&gt;For the purpose of these tests, the exact same options have been used throughout
+all the compilers. Normally, I use different options for clang than for GCC
+(mainly more aggressive vectorization options on clang). This may not lead to
+the best performance for each compiler, but allows for comparison between the
+results with defaults optimization level. Here are the main options used:&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;In debug mode: -g&lt;/li&gt;
+&lt;li&gt;In release_debug mode: -g -O2&lt;/li&gt;
+&lt;li&gt;In release mode: -g -O3 -DNDEBUG -fomit-frame-pointer&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;In each case, a lot of warnings are enabled and the ETL options are the same.&lt;/p&gt;
+&lt;p&gt;All the results have been gathered on a Gentoo machine running on Intel Core
+i7-2600 (Sandy Bridge...) @3.4GHz with 4 cores and 8 threads, 12Go of RAM and
+a SSD. I do my best to isolate as much as possible the benchmark from
+perturbations and that my benchmark code is quite sound, it may well be that
+some results are not totally accurate. Moreover, some of the benchmarks are
+using multithreading, which may add some noise and unpredictability. When I was
+not sure about the results, I ran the benchmarks several time to confirm them
+and overall I'm confident of the results.&lt;/p&gt;
+&lt;div class="section" id="compilation-time"&gt;
+&lt;h2&gt;Compilation Time&lt;/h2&gt;
+&lt;p&gt;Let's start with the results of the performance of the compilers themselves:&lt;/p&gt;
+&lt;table border="1" class="docutils"&gt;
+&lt;colgroup&gt;
+&lt;col width="31%"&gt;
+&lt;col width="15%"&gt;
+&lt;col width="31%"&gt;
+&lt;col width="23%"&gt;
+&lt;/colgroup&gt;
+&lt;thead valign="bottom"&gt;
+&lt;tr&gt;&lt;th class="head"&gt;Compiler&lt;/th&gt;
+&lt;th class="head"&gt;Debug&lt;/th&gt;
+&lt;th class="head"&gt;Release_Debug&lt;/th&gt;
+&lt;th class="head"&gt;Benchmark&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody valign="top"&gt;
+&lt;tr&gt;&lt;td&gt;g++-4.9.4&lt;/td&gt;
+&lt;td&gt;402s&lt;/td&gt;
+&lt;td&gt;616s&lt;/td&gt;
+&lt;td&gt;100s&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;g++-5.4.0&lt;/td&gt;
+&lt;td&gt;403s&lt;/td&gt;
+&lt;td&gt;642s&lt;/td&gt;
+&lt;td&gt;95s&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;g++-6.3.0&lt;/td&gt;
+&lt;td&gt;399s&lt;/td&gt;
+&lt;td&gt;683s&lt;/td&gt;
+&lt;td&gt;102s&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;g++-7.1.0&lt;/td&gt;
+&lt;td&gt;371s&lt;/td&gt;
+&lt;td&gt;650s&lt;/td&gt;
+&lt;td&gt;105s&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;clang++-3.9.1&lt;/td&gt;
+&lt;td&gt;380s&lt;/td&gt;
+&lt;td&gt;807s&lt;/td&gt;
+&lt;td&gt;106s&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;clang++-4.0.1&lt;/td&gt;
+&lt;td&gt;260s&lt;/td&gt;
+&lt;td&gt;718s&lt;/td&gt;
+&lt;td&gt;92s&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;zapcc++-1.0&lt;/td&gt;
+&lt;td&gt;221s&lt;/td&gt;
+&lt;td&gt;649s&lt;/td&gt;
+&lt;td&gt;108s&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;Note: For Release_Debug and Benchmark, I only use three threads with zapcc,
+because 12Go of RAM is not enough memory for four threads.&lt;/p&gt;
+&lt;p&gt;There are some very significant differences between the different compilers.
+Overall, clang-4.0.1 is by far the fastest free compiler for Debug mode. When
+the tests are compiled with optimizations however, clang is falling behind.
+It's quite impressive how clang-4.0.1 manages to be so much faster than
+clang-3.9.1 both in debug mode and release mode. Really great work by the clang
+team here! With these optimizations, clang-4.0.1 is almost on par with gcc-7.1
+in release mode.  For GCC, it seems that the cost of optimization has been going
+up quite significantly. However, GCC 7.1 seems to have made optimization faster
+and standard compilation much faster as well. If we take into account zapcc,
+it's the fastest compiler on debug mode, but it's slower than several gcc
+versions on release mode.&lt;/p&gt;
+&lt;p&gt;Overall, I'm quite impressed by the performance of clang-4.0.1 which seems
+really fast! I'll definitely make more tests with this new version of the
+compiler in the near future. It's also good to see that g++-7.1 also did make
+the build faster than gcc-6.3. However, the fastest gcc version for optimization
+is still gcc-4.9.4 which is already an old branch with low C++ standard support.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="section" id="runtime-performance"&gt;
+&lt;h2&gt;Runtime Performance&lt;/h2&gt;
+&lt;p&gt;Let's now take a look at the quality of the generated code. For some of the
+benchmarks, I've included two versions of the algorithm. &lt;em&gt;std&lt;/em&gt; is the most
+simple algorithm (the naive one) and &lt;em&gt;vec&lt;/em&gt; is the hand-crafted vectorized and
+optimized implementation. All the tests were done on single-precision floating
+points.&lt;/p&gt;
+&lt;div class="section" id="dot-product"&gt;
+&lt;h3&gt;Dot product&lt;/h3&gt;
+&lt;p&gt;The first benchmark that is run is to compute the dot product between two
+vectors. Let's look first at the naive version:&lt;/p&gt;
+&lt;table border="1" class="docutils"&gt;
+&lt;colgroup&gt;
+&lt;col width="13%"&gt;
+&lt;col width="8%"&gt;
+&lt;col width="8%"&gt;
+&lt;col width="8%"&gt;
+&lt;col width="7%"&gt;
+&lt;col width="8%"&gt;
+&lt;col width="8%"&gt;
+&lt;col width="8%"&gt;
+&lt;col width="8%"&gt;
+&lt;col width="8%"&gt;
+&lt;col width="8%"&gt;
+&lt;col width="8%"&gt;
+&lt;/colgroup&gt;
+&lt;thead valign="bottom"&gt;
+&lt;tr&gt;&lt;th class="head"&gt;dot (std)&lt;/th&gt;
+&lt;th class="head"&gt;100&lt;/th&gt;
+&lt;th class="head"&gt;500&lt;/th&gt;
+&lt;th class="head"&gt;1000&lt;/th&gt;
+&lt;th class="head"&gt;10000&lt;/th&gt;
+&lt;th class="head"&gt;100000&lt;/th&gt;
+&lt;th class="head"&gt;1000000&lt;/th&gt;
+&lt;th class="head"&gt;2000000&lt;/th&gt;
+&lt;th class="head"&gt;3000000&lt;/th&gt;
+&lt;th class="head"&gt;4000000&lt;/th&gt;
+&lt;th class="head"&gt;5000000&lt;/th&gt;
+&lt;th class="head"&gt;10000000&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody valign="top"&gt;
+&lt;tr&gt;&lt;td&gt;g++-4.9.4&lt;/td&gt;
+&lt;td&gt;64.96ns&lt;/td&gt;
+&lt;td&gt;97.12ns&lt;/td&gt;
+&lt;td&gt;126.07ns&lt;/td&gt;
+&lt;td&gt;1.89us&lt;/td&gt;
+&lt;td&gt;25.91us&lt;/td&gt;
+&lt;td&gt;326.49us&lt;/td&gt;
+&lt;td&gt;1.24ms&lt;/td&gt;
+&lt;td&gt;1.92ms&lt;/td&gt;
+&lt;td&gt;2.55ms&lt;/td&gt;
+&lt;td&gt;3.22ms&lt;/td&gt;
+&lt;td&gt;6.36ms&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;g++-5.4.0&lt;/td&gt;
+&lt;td&gt;72.96ns&lt;/td&gt;
+&lt;td&gt;101.62ns&lt;/td&gt;
+&lt;td&gt;127.89ns&lt;/td&gt;
+&lt;td&gt;1.90us&lt;/td&gt;
+&lt;td&gt;23.39us&lt;/td&gt;
+&lt;td&gt;357.63us&lt;/td&gt;
+&lt;td&gt;1.23ms&lt;/td&gt;
+&lt;td&gt;1.91ms&lt;/td&gt;
+&lt;td&gt;2.57ms&lt;/td&gt;
+&lt;td&gt;3.20ms&lt;/td&gt;
+&lt;td&gt;6.32ms&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;g++-6.3.0&lt;/td&gt;
+&lt;td&gt;73.31ns&lt;/td&gt;
+&lt;td&gt;102.88ns&lt;/td&gt;
+&lt;td&gt;130.16ns&lt;/td&gt;
+&lt;td&gt;1.89us&lt;/td&gt;
+&lt;td&gt;24.314us&lt;/td&gt;
+&lt;td&gt;339.13us&lt;/td&gt;
+&lt;td&gt;1.47ms&lt;/td&gt;
+&lt;td&gt;2.16ms&lt;/td&gt;
+&lt;td&gt;2.95ms&lt;/td&gt;
+&lt;td&gt;3.70ms&lt;/td&gt;
+&lt;td&gt;6.69ms&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;g++-7.1.0&lt;/td&gt;
+&lt;td&gt;70.20ns&lt;/td&gt;
+&lt;td&gt;104.09ns&lt;/td&gt;
+&lt;td&gt;130.98ns&lt;/td&gt;
+&lt;td&gt;1.90us&lt;/td&gt;
+&lt;td&gt;23.96us&lt;/td&gt;
+&lt;td&gt;281.47us&lt;/td&gt;
+&lt;td&gt;1.24ms&lt;/td&gt;
+&lt;td&gt;1.93ms&lt;/td&gt;
+&lt;td&gt;2.58ms&lt;/td&gt;
+&lt;td&gt;3.19ms&lt;/td&gt;
+&lt;td&gt;6.33ms&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;clang++-3.9.1&lt;/td&gt;
+&lt;td&gt;64.69ns&lt;/td&gt;
+&lt;td&gt;98.69ns&lt;/td&gt;
+&lt;td&gt;128.60ns&lt;/td&gt;
+&lt;td&gt;1.89us&lt;/td&gt;
+&lt;td&gt;23.33us&lt;/td&gt;
+&lt;td&gt;272.71us&lt;/td&gt;
+&lt;td&gt;1.24ms&lt;/td&gt;
+&lt;td&gt;1.91ms&lt;/td&gt;
+&lt;td&gt;2.56ms&lt;/td&gt;
+&lt;td&gt;3.19ms&lt;/td&gt;
+&lt;td&gt;6.37ms&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;clang++-4.0.1&lt;/td&gt;
+&lt;td&gt;60.31ns&lt;/td&gt;
+&lt;td&gt;96.34ns&lt;/td&gt;
+&lt;td&gt;128.90ns&lt;/td&gt;
+&lt;td&gt;1.89us&lt;/td&gt;
+&lt;td&gt;22.87us&lt;/td&gt;
+&lt;td&gt;270.21us&lt;/td&gt;
+&lt;td&gt;1.23ms&lt;/td&gt;
+&lt;td&gt;1.91ms&lt;/td&gt;
+&lt;td&gt;2.55ms&lt;/td&gt;
+&lt;td&gt;3.18ms&lt;/td&gt;
+&lt;td&gt;6.35ms&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;zapcc++-1.0&lt;/td&gt;
+&lt;td&gt;61.14ns&lt;/td&gt;
+&lt;td&gt;96.92ns&lt;/td&gt;
+&lt;td&gt;125.95ns&lt;/td&gt;
+&lt;td&gt;1.89us&lt;/td&gt;
+&lt;td&gt;23.84us&lt;/td&gt;
+&lt;td&gt;285.80us&lt;/td&gt;
+&lt;td&gt;1.24ms&lt;/td&gt;
+&lt;td&gt;1.92ms&lt;/td&gt;
+&lt;td&gt;2.55ms&lt;/td&gt;
+&lt;td&gt;3.16ms&lt;/td&gt;
+&lt;td&gt;6.34ms&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;The differences are not very significant between the different compilers. The
+clang-based compilers seem to be the compilers producing the fastest code.
+Interestingly, there seem to have been a big regression in gcc-6.3 for large
+containers, but that has been fixed in gcc-7.1.&lt;/p&gt;
+&lt;table border="1" class="docutils"&gt;
+&lt;colgroup&gt;
+&lt;col width="13%"&gt;
+&lt;col width="8%"&gt;
+&lt;col width="8%"&gt;
+&lt;col width="9%"&gt;
+&lt;col width="7%"&gt;
+&lt;col width="8%"&gt;
+&lt;col width="9%"&gt;
+&lt;col width="8%"&gt;
+&lt;col width="8%"&gt;
+&lt;col width="8%"&gt;
+&lt;col width="8%"&gt;
+&lt;col width="9%"&gt;
+&lt;/colgroup&gt;
+&lt;thead valign="bottom"&gt;
+&lt;tr&gt;&lt;th class="head"&gt;dot (vec)&lt;/th&gt;
+&lt;th class="head"&gt;100&lt;/th&gt;
+&lt;th class="head"&gt;500&lt;/th&gt;
+&lt;th class="head"&gt;1000&lt;/th&gt;
+&lt;th class="head"&gt;10000&lt;/th&gt;
+&lt;th class="head"&gt;100000&lt;/th&gt;
+&lt;th class="head"&gt;1000000&lt;/th&gt;
+&lt;th class="head"&gt;2000000&lt;/th&gt;
+&lt;th class="head"&gt;3000000&lt;/th&gt;
+&lt;th class="head"&gt;4000000&lt;/th&gt;
+&lt;th class="head"&gt;5000000&lt;/th&gt;
+&lt;th class="head"&gt;10000000&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody valign="top"&gt;
+&lt;tr&gt;&lt;td&gt;g++-4.9.4&lt;/td&gt;
+&lt;td&gt;48.34ns&lt;/td&gt;
+&lt;td&gt;80.53ns&lt;/td&gt;
+&lt;td&gt;114.97ns&lt;/td&gt;
+&lt;td&gt;1.72us&lt;/td&gt;
+&lt;td&gt;22.79us&lt;/td&gt;
+&lt;td&gt;354.20us&lt;/td&gt;
+&lt;td&gt;1.24ms&lt;/td&gt;
+&lt;td&gt;1.89ms&lt;/td&gt;
+&lt;td&gt;2.52ms&lt;/td&gt;
+&lt;td&gt;3.19ms&lt;/td&gt;
+&lt;td&gt;6.55ms&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;g++-5.4.0&lt;/td&gt;
+&lt;td&gt;47.16ns&lt;/td&gt;
+&lt;td&gt;77.70ns&lt;/td&gt;
+&lt;td&gt;113.66ns&lt;/td&gt;
+&lt;td&gt;1.72us&lt;/td&gt;
+&lt;td&gt;22.71us&lt;/td&gt;
+&lt;td&gt;363.86us&lt;/td&gt;
+&lt;td&gt;1.24ms&lt;/td&gt;
+&lt;td&gt;1.89ms&lt;/td&gt;
+&lt;td&gt;2.52ms&lt;/td&gt;
+&lt;td&gt;3.19ms&lt;/td&gt;
+&lt;td&gt;6.56ms&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;g++-6.3.0&lt;/td&gt;
+&lt;td&gt;46.39ns&lt;/td&gt;
+&lt;td&gt;77.67ns&lt;/td&gt;
+&lt;td&gt;116.28ns&lt;/td&gt;
+&lt;td&gt;1.74us&lt;/td&gt;
+&lt;td&gt;23.39us&lt;/td&gt;
+&lt;td&gt;452.44us&lt;/td&gt;
+&lt;td&gt;1.45ms&lt;/td&gt;
+&lt;td&gt;2.26ms&lt;/td&gt;
+&lt;td&gt;2.87ms&lt;/td&gt;
+&lt;td&gt;3.49ms&lt;/td&gt;
+&lt;td&gt;7.52ms&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;g++-7.1.0&lt;/td&gt;
+&lt;td&gt;49.70ns&lt;/td&gt;
+&lt;td&gt;80.40ns&lt;/td&gt;
+&lt;td&gt;115.77ns&lt;/td&gt;
+&lt;td&gt;1.71us&lt;/td&gt;
+&lt;td&gt;22.46us&lt;/td&gt;
+&lt;td&gt;355.16us&lt;/td&gt;
+&lt;td&gt;1.21ms&lt;/td&gt;
+&lt;td&gt;1.85ms&lt;/td&gt;
+&lt;td&gt;2.49ms&lt;/td&gt;
+&lt;td&gt;3.14ms&lt;/td&gt;
+&lt;td&gt;6.47ms&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;clang++-3.9.1&lt;/td&gt;
+&lt;td&gt;46.13ns&lt;/td&gt;
+&lt;td&gt;78.01ns&lt;/td&gt;
+&lt;td&gt;114.70ns&lt;/td&gt;
+&lt;td&gt;1.66us&lt;/td&gt;
+&lt;td&gt;22.82us&lt;/td&gt;
+&lt;td&gt;359.42us&lt;/td&gt;
+&lt;td&gt;1.24ms&lt;/td&gt;
+&lt;td&gt;1.88ms&lt;/td&gt;
+&lt;td&gt;2.53ms&lt;/td&gt;
+&lt;td&gt;3.16ms&lt;/td&gt;
+&lt;td&gt;6.50ms&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;clang++-4.0.1&lt;/td&gt;
+&lt;td&gt;45.59ns&lt;/td&gt;
+&lt;td&gt;74.90ns&lt;/td&gt;
+&lt;td&gt;111.29ns&lt;/td&gt;
+&lt;td&gt;1.57us&lt;/td&gt;
+&lt;td&gt;22.47us&lt;/td&gt;
+&lt;td&gt;351.31us&lt;/td&gt;
+&lt;td&gt;1.23ms&lt;/td&gt;
+&lt;td&gt;1.85ms&lt;/td&gt;
+&lt;td&gt;2.49ms&lt;/td&gt;
+&lt;td&gt;3.12ms&lt;/td&gt;
+&lt;td&gt;6.45ms&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;zapcc++-1.0&lt;/td&gt;
+&lt;td&gt;45.11ns&lt;/td&gt;
+&lt;td&gt;75.04ns&lt;/td&gt;
+&lt;td&gt;111.28ns&lt;/td&gt;
+&lt;td&gt;1.59us&lt;/td&gt;
+&lt;td&gt;22.46us&lt;/td&gt;
+&lt;td&gt;357.32us&lt;/td&gt;
+&lt;td&gt;1.25ms&lt;/td&gt;
+&lt;td&gt;1.89ms&lt;/td&gt;
+&lt;td&gt;2.53ms&lt;/td&gt;
+&lt;td&gt;3.15ms&lt;/td&gt;
+&lt;td&gt;6.47ms&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;If we look at the optimized version, the differences are even slower. Again, the
+clang-based compilers are producing the fastest executables, but are closely
+followed by gcc, except for gcc-6.3 in which we can still see the same
+regression as before.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="section" id="logistic-sigmoid"&gt;
+&lt;h3&gt;Logistic Sigmoid&lt;/h3&gt;
+&lt;p&gt;The next test is to check the performance of the sigmoid operation. In that
+case, the evaluator of the library will try to use parallelization and
+vectorization to compute it. Let's see how the different compilers fare:&lt;/p&gt;
+&lt;table border="1" class="docutils"&gt;
+&lt;colgroup&gt;
+&lt;col width="22%"&gt;
+&lt;col width="12%"&gt;
+&lt;col width="12%"&gt;
+&lt;col width="12%"&gt;
+&lt;col width="13%"&gt;
+&lt;col width="15%"&gt;
+&lt;col width="13%"&gt;
+&lt;/colgroup&gt;
+&lt;thead valign="bottom"&gt;
+&lt;tr&gt;&lt;th class="head"&gt;sigmoid&lt;/th&gt;
+&lt;th class="head"&gt;10&lt;/th&gt;
+&lt;th class="head"&gt;100&lt;/th&gt;
+&lt;th class="head"&gt;1000&lt;/th&gt;
+&lt;th class="head"&gt;10000&lt;/th&gt;
+&lt;th class="head"&gt;100000&lt;/th&gt;
+&lt;th class="head"&gt;1000000&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody valign="top"&gt;
+&lt;tr&gt;&lt;td&gt;g++-4.9.4&lt;/td&gt;
+&lt;td&gt;8.16us&lt;/td&gt;
+&lt;td&gt;5.23us&lt;/td&gt;
+&lt;td&gt;6.33us&lt;/td&gt;
+&lt;td&gt;29.56us&lt;/td&gt;
+&lt;td&gt;259.72us&lt;/td&gt;
+&lt;td&gt;2.78ms&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;g++-5.4.0&lt;/td&gt;
+&lt;td&gt;7.07us&lt;/td&gt;
+&lt;td&gt;5.08us&lt;/td&gt;
+&lt;td&gt;6.39us&lt;/td&gt;
+&lt;td&gt;29.44us&lt;/td&gt;
+&lt;td&gt;266.27us&lt;/td&gt;
+&lt;td&gt;2.96ms&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;g++-6.3.0&lt;/td&gt;
+&lt;td&gt;7.13us&lt;/td&gt;
+&lt;td&gt;5.32us&lt;/td&gt;
+&lt;td&gt;6.45us&lt;/td&gt;
+&lt;td&gt;28.99us&lt;/td&gt;
+&lt;td&gt;261.81us&lt;/td&gt;
+&lt;td&gt;2.86ms&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;g++-7.1.0&lt;/td&gt;
+&lt;td&gt;7.03us&lt;/td&gt;
+&lt;td&gt;5.09us&lt;/td&gt;
+&lt;td&gt;6.24us&lt;/td&gt;
+&lt;td&gt;28.61us&lt;/td&gt;
+&lt;td&gt;252.78us&lt;/td&gt;
+&lt;td&gt;2.71ms&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;clang++-3.9.1&lt;/td&gt;
+&lt;td&gt;7.30us&lt;/td&gt;
+&lt;td&gt;5.25us&lt;/td&gt;
+&lt;td&gt;6.57us&lt;/td&gt;
+&lt;td&gt;30.24us&lt;/td&gt;
+&lt;td&gt;256.75us&lt;/td&gt;
+&lt;td&gt;1.99ms&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;clang++-4.0.1&lt;/td&gt;
+&lt;td&gt;7.47us&lt;/td&gt;
+&lt;td&gt;5.14us&lt;/td&gt;
+&lt;td&gt;5.77us&lt;/td&gt;
+&lt;td&gt;26.03us&lt;/td&gt;
+&lt;td&gt;235.87us&lt;/td&gt;
+&lt;td&gt;1.81ms&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;zapcc++-1.0&lt;/td&gt;
+&lt;td&gt;7.51us&lt;/td&gt;
+&lt;td&gt;5.26us&lt;/td&gt;
+&lt;td&gt;6.48us&lt;/td&gt;
+&lt;td&gt;28.86us&lt;/td&gt;
+&lt;td&gt;258.31us&lt;/td&gt;
+&lt;td&gt;1.95ms&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;Interestingly, we can see that gcc-7.1 is the fastest for small vectors while
+clang-4.0 is the best for producing code for larger vectors. However, except for
+the biggest vector size, the difference is not really significantly. Apparently,
+there is a regression in zapcc (or clang-5.0) since it's slower than clang-4.0
+at the same level as clang-3.9.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="section" id="y-alpha-x-y-axpy"&gt;
+&lt;h3&gt;y = alpha * x + y (axpy)&lt;/h3&gt;
+&lt;p&gt;The third benchmark is the well-known axpy (y = alpha * x + y). This is entirely
+resolved by expressions templates in the library, no specific algorithm is used.
+Let's see the results:&lt;/p&gt;
+&lt;table border="1" class="docutils"&gt;
+&lt;colgroup&gt;
+&lt;col width="24%"&gt;
+&lt;col width="13%"&gt;
+&lt;col width="13%"&gt;
+&lt;col width="11%"&gt;
+&lt;col width="13%"&gt;
+&lt;col width="13%"&gt;
+&lt;col width="14%"&gt;
+&lt;/colgroup&gt;
+&lt;thead valign="bottom"&gt;
+&lt;tr&gt;&lt;th class="head"&gt;saxpy&lt;/th&gt;
+&lt;th class="head"&gt;10&lt;/th&gt;
+&lt;th class="head"&gt;100&lt;/th&gt;
+&lt;th class="head"&gt;1000&lt;/th&gt;
+&lt;th class="head"&gt;10000&lt;/th&gt;
+&lt;th class="head"&gt;100000&lt;/th&gt;
+&lt;th class="head"&gt;1000000&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody valign="top"&gt;
+&lt;tr&gt;&lt;td&gt;g++-4.9.4&lt;/td&gt;
+&lt;td&gt;38.1ns&lt;/td&gt;
+&lt;td&gt;61.6ns&lt;/td&gt;
+&lt;td&gt;374ns&lt;/td&gt;
+&lt;td&gt;3.65us&lt;/td&gt;
+&lt;td&gt;40.8us&lt;/td&gt;
+&lt;td&gt;518us&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;g++-5.4.0&lt;/td&gt;
+&lt;td&gt;35.0ns&lt;/td&gt;
+&lt;td&gt;58.1ns&lt;/td&gt;
+&lt;td&gt;383ns&lt;/td&gt;
+&lt;td&gt;3.87us&lt;/td&gt;
+&lt;td&gt;43.2us&lt;/td&gt;
+&lt;td&gt;479us&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;g++-6.3.0&lt;/td&gt;
+&lt;td&gt;34.3ns&lt;/td&gt;
+&lt;td&gt;59.4ns&lt;/td&gt;
+&lt;td&gt;371ns&lt;/td&gt;
+&lt;td&gt;3.57us&lt;/td&gt;
+&lt;td&gt;40.4us&lt;/td&gt;
+&lt;td&gt;452us&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;g++-7.1.0&lt;/td&gt;
+&lt;td&gt;34.8ns&lt;/td&gt;
+&lt;td&gt;59.7ns&lt;/td&gt;
+&lt;td&gt;399ns&lt;/td&gt;
+&lt;td&gt;3.78us&lt;/td&gt;
+&lt;td&gt;43.1us&lt;/td&gt;
+&lt;td&gt;547us&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;clang++-3.9.1&lt;/td&gt;
+&lt;td&gt;32.3ns&lt;/td&gt;
+&lt;td&gt;53.8ns&lt;/td&gt;
+&lt;td&gt;297ns&lt;/td&gt;
+&lt;td&gt;3.21us&lt;/td&gt;
+&lt;td&gt;38.3us&lt;/td&gt;
+&lt;td&gt;466us&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;clang++-4.0.1&lt;/td&gt;
+&lt;td&gt;32.4ns&lt;/td&gt;
+&lt;td&gt;59.8ns&lt;/td&gt;
+&lt;td&gt;296ns&lt;/td&gt;
+&lt;td&gt;3.31us&lt;/td&gt;
+&lt;td&gt;38.2us&lt;/td&gt;
+&lt;td&gt;475us&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;zapcc++-1.0&lt;/td&gt;
+&lt;td&gt;32.0ns&lt;/td&gt;
+&lt;td&gt;54.0ns&lt;/td&gt;
+&lt;td&gt;333ns&lt;/td&gt;
+&lt;td&gt;3.32us&lt;/td&gt;
+&lt;td&gt;38.7us&lt;/td&gt;
+&lt;td&gt;447us&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;Even on the biggest vector, this is a very fast operation, once vectorized and
+parallelized. At this speed, some of the differences observed may not be highly
+significant. Again clang-based versions are the fastest versions on this code,
+but by a small margin.  There also seems to be a slight regression in gcc-7.1,
+but again quite small.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="section" id="matrix-matrix-multiplication-gemm"&gt;
+&lt;h3&gt;Matrix Matrix multiplication (GEMM)&lt;/h3&gt;
+&lt;p&gt;The next benchmark is testing the performance of a Matrix-Matrix Multiplication,
+an operation known as GEMM in the BLAS nomenclature. In that case, we test both
+the naive and the optimized vectorized implementation. To save some horizontal
+space, I've split the tables in two.&lt;/p&gt;
+&lt;table border="1" class="docutils"&gt;
+&lt;colgroup&gt;
+&lt;col width="23%"&gt;
+&lt;col width="12%"&gt;
+&lt;col width="14%"&gt;
+&lt;col width="15%"&gt;
+&lt;col width="12%"&gt;
+&lt;col width="12%"&gt;
+&lt;col width="12%"&gt;
+&lt;/colgroup&gt;
+&lt;thead valign="bottom"&gt;
+&lt;tr&gt;&lt;th class="head"&gt;sgemm (std)&lt;/th&gt;
+&lt;th class="head"&gt;10&lt;/th&gt;
+&lt;th class="head"&gt;20&lt;/th&gt;
+&lt;th class="head"&gt;40&lt;/th&gt;
+&lt;th class="head"&gt;60&lt;/th&gt;
+&lt;th class="head"&gt;80&lt;/th&gt;
+&lt;th class="head"&gt;100&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody valign="top"&gt;
+&lt;tr&gt;&lt;td&gt;g++-4.9.4&lt;/td&gt;
+&lt;td&gt;7.04us&lt;/td&gt;
+&lt;td&gt;50.15us&lt;/td&gt;
+&lt;td&gt;356.42us&lt;/td&gt;
+&lt;td&gt;1.18ms&lt;/td&gt;
+&lt;td&gt;3.41ms&lt;/td&gt;
+&lt;td&gt;5.56ms&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;g++-5.4.0&lt;/td&gt;
+&lt;td&gt;8.14us&lt;/td&gt;
+&lt;td&gt;74.77us&lt;/td&gt;
+&lt;td&gt;513.64us&lt;/td&gt;
+&lt;td&gt;1.72ms&lt;/td&gt;
+&lt;td&gt;4.05ms&lt;/td&gt;
+&lt;td&gt;7.92ms&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;g++-6.3.0&lt;/td&gt;
+&lt;td&gt;8.03us&lt;/td&gt;
+&lt;td&gt;64.78us&lt;/td&gt;
+&lt;td&gt;504.41us&lt;/td&gt;
+&lt;td&gt;1.69ms&lt;/td&gt;
+&lt;td&gt;4.02ms&lt;/td&gt;
+&lt;td&gt;7.87ms&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;g++-7.1.0&lt;/td&gt;
+&lt;td&gt;7.95us&lt;/td&gt;
+&lt;td&gt;65.00us&lt;/td&gt;
+&lt;td&gt;508.84us&lt;/td&gt;
+&lt;td&gt;1.69ms&lt;/td&gt;
+&lt;td&gt;4.02ms&lt;/td&gt;
+&lt;td&gt;7.84ms&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;clang++-3.9.1&lt;/td&gt;
+&lt;td&gt;3.58us&lt;/td&gt;
+&lt;td&gt;28.59us&lt;/td&gt;
+&lt;td&gt;222.36us&lt;/td&gt;
+&lt;td&gt;0.73ms&lt;/td&gt;
+&lt;td&gt;1.77us&lt;/td&gt;
+&lt;td&gt;3.41ms&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;clang++-4.0.1&lt;/td&gt;
+&lt;td&gt;4.00us&lt;/td&gt;
+&lt;td&gt;25.47us&lt;/td&gt;
+&lt;td&gt;190.56us&lt;/td&gt;
+&lt;td&gt;0.61ms&lt;/td&gt;
+&lt;td&gt;1.45us&lt;/td&gt;
+&lt;td&gt;2.80ms&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;zapcc++-1.0&lt;/td&gt;
+&lt;td&gt;4.00us&lt;/td&gt;
+&lt;td&gt;25.38us&lt;/td&gt;
+&lt;td&gt;189.98us&lt;/td&gt;
+&lt;td&gt;0.60ms&lt;/td&gt;
+&lt;td&gt;1.43us&lt;/td&gt;
+&lt;td&gt;2.81ms&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;table border="1" class="docutils"&gt;
+&lt;colgroup&gt;
+&lt;col width="15%"&gt;
+&lt;col width="9%"&gt;
+&lt;col width="10%"&gt;
+&lt;col width="10%"&gt;
+&lt;col width="10%"&gt;
+&lt;col width="7%"&gt;
+&lt;col width="7%"&gt;
+&lt;col width="7%"&gt;
+&lt;col width="7%"&gt;
+&lt;col width="7%"&gt;
+&lt;col width="8%"&gt;
+&lt;/colgroup&gt;
+&lt;thead valign="bottom"&gt;
+&lt;tr&gt;&lt;th class="head"&gt;sgemm (std)&lt;/th&gt;
+&lt;th class="head"&gt;200&lt;/th&gt;
+&lt;th class="head"&gt;300&lt;/th&gt;
+&lt;th class="head"&gt;400&lt;/th&gt;
+&lt;th class="head"&gt;500&lt;/th&gt;
+&lt;th class="head"&gt;600&lt;/th&gt;
+&lt;th class="head"&gt;700&lt;/th&gt;
+&lt;th class="head"&gt;800&lt;/th&gt;
+&lt;th class="head"&gt;900&lt;/th&gt;
+&lt;th class="head"&gt;1000&lt;/th&gt;
+&lt;th class="head"&gt;1200&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody valign="top"&gt;
+&lt;tr&gt;&lt;td&gt;g++-4.9.4&lt;/td&gt;
+&lt;td&gt;44.16ms&lt;/td&gt;
+&lt;td&gt;148.88ms&lt;/td&gt;
+&lt;td&gt;455.81ms&lt;/td&gt;
+&lt;td&gt;687.96ms&lt;/td&gt;
+&lt;td&gt;1.47s&lt;/td&gt;
+&lt;td&gt;1.98s&lt;/td&gt;
+&lt;td&gt;2.81s&lt;/td&gt;
+&lt;td&gt;4.00s&lt;/td&gt;
+&lt;td&gt;5.91s&lt;/td&gt;
+&lt;td&gt;9.52s&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;g++-5.4.0&lt;/td&gt;
+&lt;td&gt;63.17ms&lt;/td&gt;
+&lt;td&gt;213.01ms&lt;/td&gt;
+&lt;td&gt;504.83ms&lt;/td&gt;
+&lt;td&gt;984.90ms&lt;/td&gt;
+&lt;td&gt;1.70s&lt;/td&gt;
+&lt;td&gt;2.70s&lt;/td&gt;
+&lt;td&gt;4.03s&lt;/td&gt;
+&lt;td&gt;5.74s&lt;/td&gt;
+&lt;td&gt;7.87s&lt;/td&gt;
+&lt;td&gt;14.905&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;g++-6.3.0&lt;/td&gt;
+&lt;td&gt;64.04ms&lt;/td&gt;
+&lt;td&gt;212.12ms&lt;/td&gt;
+&lt;td&gt;502.95ms&lt;/td&gt;
+&lt;td&gt;981.74ms&lt;/td&gt;
+&lt;td&gt;1.69s&lt;/td&gt;
+&lt;td&gt;2.69s&lt;/td&gt;
+&lt;td&gt;4.13s&lt;/td&gt;
+&lt;td&gt;5.85s&lt;/td&gt;
+&lt;td&gt;8.10s&lt;/td&gt;
+&lt;td&gt;14.08s&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;g++-7.1.0&lt;/td&gt;
+&lt;td&gt;62.57ms&lt;/td&gt;
+&lt;td&gt;210.72ms&lt;/td&gt;
+&lt;td&gt;499.68ms&lt;/td&gt;
+&lt;td&gt;974.94ms&lt;/td&gt;
+&lt;td&gt;1.68s&lt;/td&gt;
+&lt;td&gt;2.67s&lt;/td&gt;
+&lt;td&gt;3.99s&lt;/td&gt;
+&lt;td&gt;5.68s&lt;/td&gt;
+&lt;td&gt;7.85s&lt;/td&gt;
+&lt;td&gt;13.49s&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;clang++-3.9.1&lt;/td&gt;
+&lt;td&gt;27.48ms&lt;/td&gt;
+&lt;td&gt;90.85ms&lt;/td&gt;
+&lt;td&gt;219.34ms&lt;/td&gt;
+&lt;td&gt;419.53ms&lt;/td&gt;
+&lt;td&gt;0.72s&lt;/td&gt;
+&lt;td&gt;1.18s&lt;/td&gt;
+&lt;td&gt;1.90s&lt;/td&gt;
+&lt;td&gt;2.44s&lt;/td&gt;
+&lt;td&gt;3.36s&lt;/td&gt;
+&lt;td&gt;5.84s&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;clang++-4.0.1&lt;/td&gt;
+&lt;td&gt;22.01ms&lt;/td&gt;
+&lt;td&gt;73.90ms&lt;/td&gt;
+&lt;td&gt;175.02ms&lt;/td&gt;
+&lt;td&gt;340.70ms&lt;/td&gt;
+&lt;td&gt;0.58s&lt;/td&gt;
+&lt;td&gt;0.93s&lt;/td&gt;
+&lt;td&gt;1.40s&lt;/td&gt;
+&lt;td&gt;1.98s&lt;/td&gt;
+&lt;td&gt;2.79s&lt;/td&gt;
+&lt;td&gt;4.69s&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;zapcc++-1.0&lt;/td&gt;
+&lt;td&gt;22.33ms&lt;/td&gt;
+&lt;td&gt;75.80ms&lt;/td&gt;
+&lt;td&gt;181.27ms&lt;/td&gt;
+&lt;td&gt;359.13ms&lt;/td&gt;
+&lt;td&gt;0.63s&lt;/td&gt;
+&lt;td&gt;1.02s&lt;/td&gt;
+&lt;td&gt;1.52s&lt;/td&gt;
+&lt;td&gt;2.24s&lt;/td&gt;
+&lt;td&gt;3.21s&lt;/td&gt;
+&lt;td&gt;5.62s&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;This time, the differences between the different compilers are very significant.
+The clang compilers are leading the way by a large margin here, with clang-4.0
+being the fastest of them (by another nice margin). Indeed, clang-4.0.1 is
+producing code that is, on average, about twice faster than the code generated
+by the best GCC compiler. Very interestingly as well, we can see a huge
+regression starting from GCC-5.4 and that is still here in GCC-7.1. Indeed, the
+best GCC version, in the tested versions, is again GCC-4.9.4. Clang is really
+doing an excellent job of compiling the GEMM code.&lt;/p&gt;
+&lt;table border="1" class="docutils"&gt;
+&lt;colgroup&gt;
+&lt;col width="21%"&gt;
+&lt;col width="14%"&gt;
+&lt;col width="11%"&gt;
+&lt;col width="11%"&gt;
+&lt;col width="14%"&gt;
+&lt;col width="14%"&gt;
+&lt;col width="13%"&gt;
+&lt;/colgroup&gt;
+&lt;thead valign="bottom"&gt;
+&lt;tr&gt;&lt;th class="head"&gt;sgemm (vec)&lt;/th&gt;
+&lt;th class="head"&gt;10&lt;/th&gt;
+&lt;th class="head"&gt;20&lt;/th&gt;
+&lt;th class="head"&gt;40&lt;/th&gt;
+&lt;th class="head"&gt;60&lt;/th&gt;
+&lt;th class="head"&gt;80&lt;/th&gt;
+&lt;th class="head"&gt;100&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody valign="top"&gt;
+&lt;tr&gt;&lt;td&gt;g++-4.9.4&lt;/td&gt;
+&lt;td&gt;264.27ns&lt;/td&gt;
+&lt;td&gt;0.95us&lt;/td&gt;
+&lt;td&gt;3.28us&lt;/td&gt;
+&lt;td&gt;14.77us&lt;/td&gt;
+&lt;td&gt;23.50us&lt;/td&gt;
+&lt;td&gt;60.37us&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;g++-5.4.0&lt;/td&gt;
+&lt;td&gt;271.41ns&lt;/td&gt;
+&lt;td&gt;0.99us&lt;/td&gt;
+&lt;td&gt;3.31us&lt;/td&gt;
+&lt;td&gt;14.811us&lt;/td&gt;
+&lt;td&gt;24.116us&lt;/td&gt;
+&lt;td&gt;61.00us&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;g++-6.3.0&lt;/td&gt;
+&lt;td&gt;279.72ns&lt;/td&gt;
+&lt;td&gt;1.02us&lt;/td&gt;
+&lt;td&gt;3.27us&lt;/td&gt;
+&lt;td&gt;15.39us&lt;/td&gt;
+&lt;td&gt;24.29us&lt;/td&gt;
+&lt;td&gt;61.99us&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;g++-7.1.0&lt;/td&gt;
+&lt;td&gt;273.74ns&lt;/td&gt;
+&lt;td&gt;0.96us&lt;/td&gt;
+&lt;td&gt;3.81us&lt;/td&gt;
+&lt;td&gt;15.55us&lt;/td&gt;
+&lt;td&gt;31.35us&lt;/td&gt;
+&lt;td&gt;71.11us&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;clang++-3.9.1&lt;/td&gt;
+&lt;td&gt;296.67ns&lt;/td&gt;
+&lt;td&gt;1.34us&lt;/td&gt;
+&lt;td&gt;4.18us&lt;/td&gt;
+&lt;td&gt;19.93us&lt;/td&gt;
+&lt;td&gt;33.15us&lt;/td&gt;
+&lt;td&gt;82.60us&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;clang++-4.0.1&lt;/td&gt;
+&lt;td&gt;322.68ns&lt;/td&gt;
+&lt;td&gt;1.38us&lt;/td&gt;
+&lt;td&gt;4.17us&lt;/td&gt;
+&lt;td&gt;20.19us&lt;/td&gt;
+&lt;td&gt;34.17us&lt;/td&gt;
+&lt;td&gt;83.64us&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;zapcc++-1.0&lt;/td&gt;
+&lt;td&gt;307.49ns&lt;/td&gt;
+&lt;td&gt;1.41us&lt;/td&gt;
+&lt;td&gt;4.10us&lt;/td&gt;
+&lt;td&gt;19.72us&lt;/td&gt;
+&lt;td&gt;33.72us&lt;/td&gt;
+&lt;td&gt;84.80us&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;table border="1" class="docutils"&gt;
+&lt;colgroup&gt;
+&lt;col width="14%"&gt;
+&lt;col width="10%"&gt;
+&lt;col width="8%"&gt;
+&lt;col width="8%"&gt;
+&lt;col width="8%"&gt;
+&lt;col width="9%"&gt;
+&lt;col width="9%"&gt;
+&lt;col width="9%"&gt;
+&lt;col width="9%"&gt;
+&lt;col width="10%"&gt;
+&lt;col width="10%"&gt;
+&lt;/colgroup&gt;
+&lt;thead valign="bottom"&gt;
+&lt;tr&gt;&lt;th class="head"&gt;sgemm (vec)&lt;/th&gt;
+&lt;th class="head"&gt;200&lt;/th&gt;
+&lt;th class="head"&gt;300&lt;/th&gt;
+&lt;th class="head"&gt;400&lt;/th&gt;
+&lt;th class="head"&gt;500&lt;/th&gt;
+&lt;th class="head"&gt;600&lt;/th&gt;
+&lt;th class="head"&gt;700&lt;/th&gt;
+&lt;th class="head"&gt;800&lt;/th&gt;
+&lt;th class="head"&gt;900&lt;/th&gt;
+&lt;th class="head"&gt;1000&lt;/th&gt;
+&lt;th class="head"&gt;1200&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody valign="top"&gt;
+&lt;tr&gt;&lt;td&gt;g++-4.9.4&lt;/td&gt;
+&lt;td&gt;369.52us&lt;/td&gt;
+&lt;td&gt;1.62ms&lt;/td&gt;
+&lt;td&gt;2.91ms&lt;/td&gt;
+&lt;td&gt;7.17ms&lt;/td&gt;
+&lt;td&gt;11.74ms&lt;/td&gt;
+&lt;td&gt;22.91ms&lt;/td&gt;
+&lt;td&gt;34.82ms&lt;/td&gt;
+&lt;td&gt;51.67ms&lt;/td&gt;
+&lt;td&gt;64.36ms&lt;/td&gt;
+&lt;td&gt;111.15ms&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;g++-5.4.0&lt;/td&gt;
+&lt;td&gt;387.54us&lt;/td&gt;
+&lt;td&gt;1.60ms&lt;/td&gt;
+&lt;td&gt;2.97ms&lt;/td&gt;
+&lt;td&gt;7.36ms&lt;/td&gt;
+&lt;td&gt;12.11ms&lt;/td&gt;
+&lt;td&gt;24.37ms&lt;/td&gt;
+&lt;td&gt;35.37ms&lt;/td&gt;
+&lt;td&gt;52.27ms&lt;/td&gt;
+&lt;td&gt;65.72ms&lt;/td&gt;
+&lt;td&gt;112.74ms&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;g++-6.3.0&lt;/td&gt;
+&lt;td&gt;384.43us&lt;/td&gt;
+&lt;td&gt;1.74ms&lt;/td&gt;
+&lt;td&gt;3.12ms&lt;/td&gt;
+&lt;td&gt;7.16ms&lt;/td&gt;
+&lt;td&gt;12.44ms&lt;/td&gt;
+&lt;td&gt;24.15ms&lt;/td&gt;
+&lt;td&gt;34.87ms&lt;/td&gt;
+&lt;td&gt;52.59ms&lt;/td&gt;
+&lt;td&gt;70.074ms&lt;/td&gt;
+&lt;td&gt;119.22ms&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;g++-7.1.0&lt;/td&gt;
+&lt;td&gt;458.05us&lt;/td&gt;
+&lt;td&gt;1.81ms&lt;/td&gt;
+&lt;td&gt;3.44ms&lt;/td&gt;
+&lt;td&gt;7.86ms&lt;/td&gt;
+&lt;td&gt;13.43ms&lt;/td&gt;
+&lt;td&gt;24.70ms&lt;/td&gt;
+&lt;td&gt;36.54ms&lt;/td&gt;
+&lt;td&gt;53.47ms&lt;/td&gt;
+&lt;td&gt;66.87ms&lt;/td&gt;
+&lt;td&gt;117.25ms&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;clang++-3.9.1&lt;/td&gt;
+&lt;td&gt;494.52us&lt;/td&gt;
+&lt;td&gt;1.96ms&lt;/td&gt;
+&lt;td&gt;4.80ms&lt;/td&gt;
+&lt;td&gt;8.88ms&lt;/td&gt;
+&lt;td&gt;18.20ms&lt;/td&gt;
+&lt;td&gt;29.37ms&lt;/td&gt;
+&lt;td&gt;41.24ms&lt;/td&gt;
+&lt;td&gt;60.72ms&lt;/td&gt;
+&lt;td&gt;72.28ms&lt;/td&gt;
+&lt;td&gt;123.75ms&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;clang++-4.0.1&lt;/td&gt;
+&lt;td&gt;511.24us&lt;/td&gt;
+&lt;td&gt;2.04ms&lt;/td&gt;
+&lt;td&gt;4.11ms&lt;/td&gt;
+&lt;td&gt;9.46ms&lt;/td&gt;
+&lt;td&gt;15.34ms&lt;/td&gt;
+&lt;td&gt;27.23ms&lt;/td&gt;
+&lt;td&gt;38.27ms&lt;/td&gt;
+&lt;td&gt;58.14ms&lt;/td&gt;
+&lt;td&gt;72.78ms&lt;/td&gt;
+&lt;td&gt;128.60ms&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;zapcc++-1.0&lt;/td&gt;
+&lt;td&gt;492.28us&lt;/td&gt;
+&lt;td&gt;2.03ms&lt;/td&gt;
+&lt;td&gt;3.90ms&lt;/td&gt;
+&lt;td&gt;9.00ms&lt;/td&gt;
+&lt;td&gt;14.31ms&lt;/td&gt;
+&lt;td&gt;25.72ms&lt;/td&gt;
+&lt;td&gt;37.09ms&lt;/td&gt;
+&lt;td&gt;55.79ms&lt;/td&gt;
+&lt;td&gt;67.88ms&lt;/td&gt;
+&lt;td&gt;119.92ms&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;As for the optimized version, it seems that the two families are reversed.
+Indeed, GCC is doing a better job than clang here, and although the margin is
+not as big as before, it's still significant. We can still observe a small
+regression in GCC versions because the 4.9 version is again the fastest. As for
+clang versions, it seems that clang-5.0 (used in zapcc) has had some performance
+improvements for this case.&lt;/p&gt;
+&lt;p&gt;For this case of matrix-matrix multiplication, it's very impressive that the
+differences in the non-optimized code are so significant. And it's also
+impressive that each family of compilers has its own strength, clang being
+seemingly much better at handling unoptimized code while GCC is better at
+handling vectorized code.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="section" id="convolution-2d"&gt;
+&lt;h3&gt;Convolution (2D)&lt;/h3&gt;
+&lt;p&gt;The last benchmark that I considered is the case of the valid convolution on 2D
+images. The code is quite similar to the GEMM code but more complicated to
+optimized due to cache locality.&lt;/p&gt;
+&lt;table border="1" class="docutils"&gt;
+&lt;colgroup&gt;
+&lt;col width="19%"&gt;
+&lt;col width="9%"&gt;
+&lt;col width="9%"&gt;
+&lt;col width="9%"&gt;
+&lt;col width="9%"&gt;
+&lt;col width="9%"&gt;
+&lt;col width="9%"&gt;
+&lt;col width="10%"&gt;
+&lt;col width="10%"&gt;
+&lt;col width="10%"&gt;
+&lt;/colgroup&gt;
+&lt;thead valign="bottom"&gt;
+&lt;tr&gt;&lt;th class="head"&gt;sconv2_valid (std)&lt;/th&gt;
+&lt;th class="head"&gt;100x50&lt;/th&gt;
+&lt;th class="head"&gt;105x50&lt;/th&gt;
+&lt;th class="head"&gt;110x55&lt;/th&gt;
+&lt;th class="head"&gt;115x55&lt;/th&gt;
+&lt;th class="head"&gt;120x60&lt;/th&gt;
+&lt;th class="head"&gt;125x60&lt;/th&gt;
+&lt;th class="head"&gt;130x65&lt;/th&gt;
+&lt;th class="head"&gt;135x65&lt;/th&gt;
+&lt;th class="head"&gt;140x70&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody valign="top"&gt;
+&lt;tr&gt;&lt;td&gt;g++-4.9.4&lt;/td&gt;
+&lt;td&gt;27.93ms&lt;/td&gt;
+&lt;td&gt;33.68ms&lt;/td&gt;
+&lt;td&gt;40.62ms&lt;/td&gt;
+&lt;td&gt;48.23ms&lt;/td&gt;
+&lt;td&gt;57.27ms&lt;/td&gt;
+&lt;td&gt;67.02ms&lt;/td&gt;
+&lt;td&gt;78.45ms&lt;/td&gt;
+&lt;td&gt;92.53ms&lt;/td&gt;
+&lt;td&gt;105.08ms&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;g++-5.4.0&lt;/td&gt;
+&lt;td&gt;37.60ms&lt;/td&gt;
+&lt;td&gt;44.94ms&lt;/td&gt;
+&lt;td&gt;54.24ms&lt;/td&gt;
+&lt;td&gt;64.45ms&lt;/td&gt;
+&lt;td&gt;76.63ms&lt;/td&gt;
+&lt;td&gt;89.75ms&lt;/td&gt;
+&lt;td&gt;105.08ms&lt;/td&gt;
+&lt;td&gt;121.66ms&lt;/td&gt;
+&lt;td&gt;140.95ms&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;g++-6.3.0&lt;/td&gt;
+&lt;td&gt;37.10ms&lt;/td&gt;
+&lt;td&gt;44.99ms&lt;/td&gt;
+&lt;td&gt;54.34ms&lt;/td&gt;
+&lt;td&gt;64.54ms&lt;/td&gt;
+&lt;td&gt;76.54ms&lt;/td&gt;
+&lt;td&gt;89.87ms&lt;/td&gt;
+&lt;td&gt;105.35ms&lt;/td&gt;
+&lt;td&gt;121.94ms&lt;/td&gt;
+&lt;td&gt;141.20ms&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;g++-7.1.0&lt;/td&gt;
+&lt;td&gt;37.55ms&lt;/td&gt;
+&lt;td&gt;45.08ms&lt;/td&gt;
+&lt;td&gt;54.39ms&lt;/td&gt;
+&lt;td&gt;64.48ms&lt;/td&gt;
+&lt;td&gt;76.51ms&lt;/td&gt;
+&lt;td&gt;92.02ms&lt;/td&gt;
+&lt;td&gt;106.16ms&lt;/td&gt;
+&lt;td&gt;125.67ms&lt;/td&gt;
+&lt;td&gt;143.57ms&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;clang++-3.9.1&lt;/td&gt;
+&lt;td&gt;15.42ms&lt;/td&gt;
+&lt;td&gt;18.59ms&lt;/td&gt;
+&lt;td&gt;22.21ms&lt;/td&gt;
+&lt;td&gt;26.40ms&lt;/td&gt;
+&lt;td&gt;31.03ms&lt;/td&gt;
+&lt;td&gt;36.26ms&lt;/td&gt;
+&lt;td&gt;42.35ms&lt;/td&gt;
+&lt;td&gt;48.87ms&lt;/td&gt;
+&lt;td&gt;56.29ms&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;clang++-4.0.1&lt;/td&gt;
+&lt;td&gt;15.48ms&lt;/td&gt;
+&lt;td&gt;18.67ms&lt;/td&gt;
+&lt;td&gt;22.34ms&lt;/td&gt;
+&lt;td&gt;26.50ms&lt;/td&gt;
+&lt;td&gt;31.27ms&lt;/td&gt;
+&lt;td&gt;36.58ms&lt;/td&gt;
+&lt;td&gt;42.61ms&lt;/td&gt;
+&lt;td&gt;49.33ms&lt;/td&gt;
+&lt;td&gt;56.80ms&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;zapcc++-1.0&lt;/td&gt;
+&lt;td&gt;15.29ms&lt;/td&gt;
+&lt;td&gt;18.37ms&lt;/td&gt;
+&lt;td&gt;22.00ms&lt;/td&gt;
+&lt;td&gt;26.10ms&lt;/td&gt;
+&lt;td&gt;30.75ms&lt;/td&gt;
+&lt;td&gt;35.95ms&lt;/td&gt;
+&lt;td&gt;41.85ms&lt;/td&gt;
+&lt;td&gt;48.42ms&lt;/td&gt;
+&lt;td&gt;55.74ms&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;In that case, we can observe the same as for the GEMM. The clang-based versions
+are much producing significantly faster code than the GCC versions. Moreover, we
+can also observe the same large regression starting from GCC-5.4.&lt;/p&gt;
+&lt;table border="1" class="docutils"&gt;
+&lt;colgroup&gt;
+&lt;col width="21%"&gt;
+&lt;col width="11%"&gt;
+&lt;col width="9%"&gt;
+&lt;col width="9%"&gt;
+&lt;col width="9%"&gt;
+&lt;col width="9%"&gt;
+&lt;col width="9%"&gt;
+&lt;col width="9%"&gt;
+&lt;col width="9%"&gt;
+&lt;col width="9%"&gt;
+&lt;/colgroup&gt;
+&lt;thead valign="bottom"&gt;
+&lt;tr&gt;&lt;th class="head"&gt;sconv2_valid (vec)&lt;/th&gt;
+&lt;th class="head"&gt;100x50&lt;/th&gt;
+&lt;th class="head"&gt;105x50&lt;/th&gt;
+&lt;th class="head"&gt;110x55&lt;/th&gt;
+&lt;th class="head"&gt;115x55&lt;/th&gt;
+&lt;th class="head"&gt;120x60&lt;/th&gt;
+&lt;th class="head"&gt;125x60&lt;/th&gt;
+&lt;th class="head"&gt;130x65&lt;/th&gt;
+&lt;th class="head"&gt;135x65&lt;/th&gt;
+&lt;th class="head"&gt;140x70&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody valign="top"&gt;
+&lt;tr&gt;&lt;td&gt;g++-4.9.4&lt;/td&gt;
+&lt;td&gt;878.32us&lt;/td&gt;
+&lt;td&gt;1.07ms&lt;/td&gt;
+&lt;td&gt;1.20ms&lt;/td&gt;
+&lt;td&gt;1.68ms&lt;/td&gt;
+&lt;td&gt;2.04ms&lt;/td&gt;
+&lt;td&gt;2.06ms&lt;/td&gt;
+&lt;td&gt;2.54ms&lt;/td&gt;
+&lt;td&gt;3.20ms&lt;/td&gt;
+&lt;td&gt;4.14ms&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;g++-5.4.0&lt;/td&gt;
+&lt;td&gt;853.73us&lt;/td&gt;
+&lt;td&gt;1.03ms&lt;/td&gt;
+&lt;td&gt;1.15ms&lt;/td&gt;
+&lt;td&gt;1.36ms&lt;/td&gt;
+&lt;td&gt;1.76ms&lt;/td&gt;
+&lt;td&gt;2.05ms&lt;/td&gt;
+&lt;td&gt;2.44ms&lt;/td&gt;
+&lt;td&gt;2.91ms&lt;/td&gt;
+&lt;td&gt;3.13ms&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;g++-6.3.0&lt;/td&gt;
+&lt;td&gt;847.95us&lt;/td&gt;
+&lt;td&gt;1.02ms&lt;/td&gt;
+&lt;td&gt;1.14ms&lt;/td&gt;
+&lt;td&gt;1.35ms&lt;/td&gt;
+&lt;td&gt;1.74ms&lt;/td&gt;
+&lt;td&gt;1.98ms&lt;/td&gt;
+&lt;td&gt;2.43ms&lt;/td&gt;
+&lt;td&gt;2.90ms&lt;/td&gt;
+&lt;td&gt;3.12ms&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;g++-7.1.0&lt;/td&gt;
+&lt;td&gt;795.82us&lt;/td&gt;
+&lt;td&gt;0.93ms&lt;/td&gt;
+&lt;td&gt;1.05ms&lt;/td&gt;
+&lt;td&gt;1.24ms&lt;/td&gt;
+&lt;td&gt;1.60ms&lt;/td&gt;
+&lt;td&gt;1.77ms&lt;/td&gt;
+&lt;td&gt;2.20ms&lt;/td&gt;
+&lt;td&gt;2.69ms&lt;/td&gt;
+&lt;td&gt;2.81ms&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;clang++-3.9.1&lt;/td&gt;
+&lt;td&gt;782.46us&lt;/td&gt;
+&lt;td&gt;0.93ms&lt;/td&gt;
+&lt;td&gt;1.05ms&lt;/td&gt;
+&lt;td&gt;1.26ms&lt;/td&gt;
+&lt;td&gt;1.60ms&lt;/td&gt;
+&lt;td&gt;1.84ms&lt;/td&gt;
+&lt;td&gt;2.21ms&lt;/td&gt;
+&lt;td&gt;2.65ms&lt;/td&gt;
+&lt;td&gt;2.84ms&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;clang++-4.0.1&lt;/td&gt;
+&lt;td&gt;767.58us&lt;/td&gt;
+&lt;td&gt;0.92ms&lt;/td&gt;
+&lt;td&gt;1.04ms&lt;/td&gt;
+&lt;td&gt;1.25ms&lt;/td&gt;
+&lt;td&gt;1.59ms&lt;/td&gt;
+&lt;td&gt;1.83ms&lt;/td&gt;
+&lt;td&gt;2.20ms&lt;/td&gt;
+&lt;td&gt;2.62ms&lt;/td&gt;
+&lt;td&gt;2.83ms&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;zapcc++-1.0&lt;/td&gt;
+&lt;td&gt;782.49us&lt;/td&gt;
+&lt;td&gt;0.94ms&lt;/td&gt;
+&lt;td&gt;1.06ms&lt;/td&gt;
+&lt;td&gt;1.27ms&lt;/td&gt;
+&lt;td&gt;1.62ms&lt;/td&gt;
+&lt;td&gt;1.83ms&lt;/td&gt;
+&lt;td&gt;2.24ms&lt;/td&gt;
+&lt;td&gt;2.65ms&lt;/td&gt;
+&lt;td&gt;2.85ms&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;This time, clang manages to produce excellent results. Indeed, all the produced
+executables are significantly faster than the versions produced by GCC, except
+for GCC-7.1 which is producing similar results. The other versions of GCC are
+falling behind it seems. It seems that it was only for the GEMM that clang was
+having a lot of troubles handling the optimized code.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class="section" id="conclusion"&gt;
+&lt;h2&gt;Conclusion&lt;/h2&gt;
+&lt;p&gt;Clang seems to have recently done a lot of optimizations regarding compilation
+time. Indeed, clang-4.0.1 is much faster for compilation than clang-3.9.
+Although GCC-7.1 is faster than GCC-6.3, all the GCC versions are slower than
+GCC-4.9.4 which is the fastest at compiling code with optimizations. GCC-7.1 is
+the fastest GCC version for compiling code in debug mode.&lt;/p&gt;
+&lt;p&gt;In some cases, there is almost no difference between different compilers in the
+generated code. However, in more  complex algorithms such as the matrix-matrix
+multiplication or the two-dimensional convolution, the differences can be quite
+significant. In my tests, Clang have shown to be much better at compiling
+unoptimized code. However, and especially in the GEMM case, it seems to be worse
+than GCC at handling hand-optimized. I will investigate that case and try to
+tailor the code so that clang is having a better time with it.&lt;/p&gt;
+&lt;p&gt;For me, it's really weird that the GCC regression, apparently starting from
+GCC-5.4, has still not been fixed in GCC 7.1. I was thinking of dropping support
+for GCC-4.9 in order to go full C++14 support, but now I may have to reconsider
+my position. However, seeing that GCC is generally the best at handling
+optimized code (especially for GEMM), I may be able to do the transition, since
+the optimized code will be used in most cases.&lt;/p&gt;
+&lt;p&gt;As for zapcc, although it is still the fastest compiler in debug mode, with the
+new speed of clang-4.0.1, its margin is quite small. Moreover, on optimized
+build, it's not as fast as GCC. If you use clang and can have access to zapcc,
+it's still quite a good option to save some time.&lt;/p&gt;
+&lt;p&gt;Overall, I have been quite pleased by clang-4.0.1 and GCC-7.1, the most recent
+versions I have been testing. It seems that they did quite some good work.
+I will definitely run some more tests with them and try to adapt the code. I'm
+still considering whether I will drop support for some older compilers.&lt;/p&gt;
+&lt;p&gt;I hope this comparison was interesting :) My next post will probably be about
+the difference in performance between my machine learning framework and other
+frameworks to train neural networks.&lt;/p&gt;
+&lt;/div&gt;&lt;/div&gt;</description><category>C++</category><category>C++11</category><category>C++14</category><category>clang</category><category>Compilers</category><category>etl</category><category>gcc</category><category>Performance</category><category>projects</category><guid>http://baptiste-wicht.com/posts/2017/08/compiler-benchmark-gcc-clang-cpp-library-etl.html</guid><pubDate>Mon, 07 Aug 2017 07:16:21 GMT</pubDate></item><item><title>Expression Templates Library (ETL) 1.1</title><link>http://baptiste-wicht.com/posts/2017/08/expression-templates-library-etl-11.html</link><dc:creator>Baptiste Wicht</dc:creator><description>&lt;div&gt;&lt;img alt="ETL Logo" class="align-center" src="http://baptiste-wicht.com/images/logo.png"&gt;
+&lt;p&gt;It took me longer than I thought, but I'm glad to announce the release of the
+version 1.1 of my Expression Templates Library (ETL) project. This is a major
+new release with many improvements and new features. It's been almost one month
+since the last, and first, release (1.0) was released. I should have done some
+minor releases in the mean time, but at least now the library is in a good shape
+for major version.&lt;/p&gt;
+&lt;p&gt;It may be interesting to note that my machine learning framework (DLL), based on
+the ETL library, has shown to be faster than all the tested popular frameworks
+(Tensorflow, Keras, Caffee, Torch, DeepLearning4J) for training various neural
+networks on CPU. I'll post more details on another post on the coming weeks, but
+that shows that special attention to performance has been done in this library
+and that it is well adapted to machine learning.&lt;/p&gt;
+&lt;p&gt;For those of you that don't follow my blog, ETL is a library providing
+Expression Templates for computations on matrix and vector. For instance, if you
+have three matrices A, B and C you could write C++ code like this:&lt;/p&gt;
+&lt;pre class="code cpp"&gt;&lt;a name="rest_code_3560cf90c38844ddbcc372fbe5cf9afd-1"&gt;&lt;/a&gt;&lt;span class="n"&gt;C&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mf"&gt;2.0&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;A&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="n"&gt;B&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt; &lt;span class="o"&gt;/&lt;/span&gt; &lt;span class="n"&gt;sum&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;A&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/pre&gt;&lt;p&gt;Or given vectors b, v, h and a matrix W, you could write code like this:&lt;/p&gt;
+&lt;pre class="code cpp"&gt;&lt;a name="rest_code_cd5efbf4e37847a0b2d5f1aab4bcc6e8-1"&gt;&lt;/a&gt;&lt;span class="n"&gt;h&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;sigmoid&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;b&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="n"&gt;v&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt; &lt;span class="n"&gt;W&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/pre&gt;&lt;p&gt;The goal of such library is two-fold. First, this makes the expression more
+readable and as close to math as possible. And then, it allows the library to
+compute the expressions as fast as possible.  In the first case, the framework
+will compute the sum using a vectorized algorithm and then compute the overall
+expression using yet again vectorized code. The expression can also be computed
+in parallel if the matrices are big enough. In the second case, the
+vector-matrix multiplication will be computed first using either hand-code
+optimized vectorized or a BLAS routine (depending on configuration options).
+Then, all the expression will be executed using vectorized code.&lt;/p&gt;
+&lt;div class="section" id="features"&gt;
+&lt;h2&gt;Features&lt;/h2&gt;
+&lt;p&gt;Many new features have been integrated into the library.&lt;/p&gt;
+&lt;p&gt;The support for machine learning operations has been improved. There are now
+specific helpers for machine learning in the etl::ml namespace which have names
+that are standard to machine learning. A real transposed convolution has been
+implemented with support for padding and stride. Batched outer product and
+batched bias averaging are also now supported. The activation function support
+has also been improved and the derivatives have been reviewed. The pooling
+operators have also been improved with stride and padding support. Unrelated to
+machine learning, 2D and 3D pooling can also be done in higher dimensional
+matrix now.&lt;/p&gt;
+&lt;p&gt;New functions are also available for matrices and vectors. The support for
+square root has been improved with cubic root and inverse root. Support has also
+been added for floor and ceil. Moreover, comparison operators are now available
+as well as global functions such as approx_equals.&lt;/p&gt;
+&lt;p&gt;New reductions have also been added with support for absolute sum and mean
+(asum/asum) and for min_index and max_index, which returns the index of the
+minimum element, respectively the maximum. Finally, argmax can now be used to
+get the max index in each sub dimensions of a matrix. argmax on a vector is
+equivalent to max_index.&lt;/p&gt;
+&lt;p&gt;Support for shuffling has also been added. By default, shuffling a vector means
+shuffling all elements and shuffling a matrix means shuffling by shuffling the
+sub matrices (only the first dimension is shuffled), but shuffling a matrix as
+a vector is also possible. Shuffle of two vectors or two matrices in parallel,
+is also possible. In that case, the same permutation is applied to both
+containers. As a side note, all operations using random generation are also
+available with an addition parameter for the random generator, which can help to
+improve reproducibility or simply tune the random generator.&lt;/p&gt;
+&lt;p&gt;I've also included support for adapters matrices. There are adapters for
+hermitian matrices, symmetric matrices and lower and upper triangular matrices.
+For now, the framework does not take advantage of this information, this will be
+done later, but the framework guarantee the different constrain on the content.&lt;/p&gt;
+&lt;p&gt;There are also a few new more minor features. Maybe not so minor, matrices can
+now be sliced into sub matrices. With that a matrix can be divided into several
+sub matrices and modifying the sub matrices will modify the source matrix. The
+sub matrices are available in 2D, 3D and 4D for now. There are also some other
+ways of slicing matrix and vectors. It is possible to obtain a slice of its
+memory or obtain a slice of its first dimension. Another new feature is that it
+is now possible compute the cross product of vectors now. Matrices can be
+decomposed into their Q/R decomposition rather than only their PALU
+decomposition. Special support has been integrated for matrix and vectors of
+booleans. In that case, they support logical operators such as and, not and or.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="section" id="performance"&gt;
+&lt;h2&gt;Performance&lt;/h2&gt;
+&lt;p&gt;I've always considered the performance of this library to be a feature itself.
+I consider the library to be quite fast, especially its convolution support,
+even though there is still room for improvement. Therefore, many improvements
+have been made to the performance of the library since the last release. As said
+before, this library was used in a machine learning framework which then proved
+faster than most popular neural network frameworks on CPU. I'll present here
+the most important new improvements to performance, in no real particular order,
+every bit being important in my opinion.&lt;/p&gt;
+&lt;p&gt;First, several operations have been optimized to be faster.&lt;/p&gt;
+&lt;p&gt;Multiplication of matrices or matrices and vectors are now much faster if one of
+the matrix is transposed. Instead of performing the slow transposition,
+different kernels are used in order to maximize performance without doing any
+transposition, although sometimes transposition is performed when it is faster.
+This leads to very significant improvements, up to 10 times faster in the best
+case. This is performed for vectorized kernels and also for BLAS and CUBLAS
+calls. These new kernels are also directly used when matrices of different
+storage order are used. For instance, multiplying a column major matrix with
+a row major matrix and storing the result in a column major matrix is now much
+more efficient than before. Moreover, the performance of the transpose operation
+itself is also much faster than before.&lt;/p&gt;
+&lt;p&gt;A lot of machine learning operations have also been highly optimized. All the
+pooling and upsample operators are now parallelized and the most used kernel
+(2x2 pooling) is now more optimized. 4D convolution kernels (for machine
+learning) have been greatly improved. There are now very specialized vectorized
+kernels for classic kernel configurations (for instance 3x3 or 5x5) and the
+selection of implementations is now smarter than before. The support of padding
+is now much better than before for small amount of padding. Moreover, for small
+kernels the full convolution can now be evaluated using the valid convolution
+kernels directly with some padding, for much faster overall performance. The
+exponential operation is now vectorized which allows operations such as sigmoid
+or softmax to be much faster.&lt;/p&gt;
+&lt;p&gt;Matrices and vector are automatically using aligned memory. This means that
+vectorized code can use aligned operations, which may be slightly faster.
+Moreover, matrices and vectors are now padded to a multiple of the vector size.
+This allows to remove the final non-vectorized remainder loop from the
+vectorized code. This is only done for the end of matrices, when they are
+accessed in flat way. Contrary to some frameworks, inner dimensions of the
+matrix are not padded.  Finally, accesses to 3D and 4D matrices is now much
+faster than before.&lt;/p&gt;
+&lt;p&gt;Then, the parallelization feature of ETL has been completely reworked. Before,
+there was a thread pool for each algorithm that was parallelized. Now, there is
+a global thread engine with one thread pool. Since parallelization is not nested
+in ETL, this improves performance slightly by greatly diminishing the number of
+threads that are created throughout an application. Another big difference in
+parallel dispatching is that now it can detect good split based on alignment so
+that each split are aligned. This then allows the vectorization process to use
+aligned stores and loads instead of unaligned ones which may be faster on some
+processors.&lt;/p&gt;
+&lt;p&gt;Vectorization has also been greatly improved in ETL. Integer operations are now
+automatically vectorized on processors that support this. Before, only floating
+points operations were vectorized. The automatic vectorizer now is able to use
+non-temporal stores for very large operations. A non-temporal store bypasses the
+cache, thus gaining some time. Since very large matrices do not fit in cache
+anyway and the cache would end up being overwritten anyway, this is a net gain.
+Moreover, the alignment detection in the automatic vectorizer has also been
+improved. Support for Fused-Multiply-Add (FMA) operations has also been
+integrated in the algorithms that can make use of it (multiplications and
+convolutions). The matrix-matrix multiplications and vector-matrix
+multiplications now have highly optimized vectorized kernels. They also have
+versions for column-major matrices now.  I plan to reintegrate a version of the
+GEMM based on BLIS in the future but with more optimizations and support for all
+precisions and integers, For my version is still slower than the simple
+vectorized version. The sum and the dot product operations now also have
+specialized vectorized implementations. The min and max operations are now
+automatically-vectorized. Several others algorithms have also their own
+vectorized implementations.&lt;/p&gt;
+&lt;p&gt;Last, but not least, the GPU support has also been almost completely reworked.
+Now, several operations can be chained without any copies between GPU and CPU.
+Several new operations have also been added with support to GPU (convolutions,
+pooling, sigmoid, ReLU, ...). Moreover, to complement operations that are not
+available in any of the supported NVIDIA libraries, I've created a simple
+library that can be used to add a few more GPU operations.  Nevertheless a lot
+of operations are still missing and only algorithms are available not
+expressions (such as c = a + b * 1.0) that are entirely computed on CPU. I have
+plans to improve that further, probably for version 1.2. The different contexts
+necessary for NVIDIA library can now be cached (using an option from ETL),
+leading to much faster code. Only the main handle can be cached so far, I plan
+to try to cache all the descriptors, but I don't know yet when that will be
+ready. Finally, an option is also available to reuse GPU memory instead of
+directly releasing it to CUDA. This is using a custom memory pool and can save
+some time. Since this needs to be cleaned (by a call to etl::exit() or using
+ETL_PROLOGUE), this is only activated on demand.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="section" id="other-changes"&gt;
+&lt;h2&gt;Other changes&lt;/h2&gt;
+&lt;p&gt;There also have been a lot of refactorings in the code of the library. A lot of
+expressions now have less overhead and are specialized for performance.
+Moreover, temporary expressions have been totally reworked to be more simple and
+maintainable and easier to optimize in the future. It's also probably easier to
+add new expressions to the framework now, although that could be even more
+simple. There are also less duplicated code now in the different expressions.
+Especially, now there are now more SSE and AVX variants in the code. All the
+optimized algorithms are now using the vectorization system of the library.&lt;/p&gt;
+&lt;p&gt;I also tried my best to reduce the compilation time, based on the unit tests.
+This is still not great but better than before. For user code, the next version
+should be much faster to compile since I plan to disable forced selection of
+implementations by default and only enable it on demand.&lt;/p&gt;
+&lt;p&gt;Finally, there also was quite a few bug fixes. Most of them have been found by
+the use of the library in the Deep Learning Library (DLL) project. Some were
+very small edge cases. For instance, the transposition algorithm was not working
+on GPU on rectangular column major matrices. There also was a slight bug in the
+Q/R decomposition and in the pooling of 4D matrices.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="section" id="what-s-next"&gt;
+&lt;h2&gt;What's next ?&lt;/h2&gt;
+&lt;p&gt;Next time, I may do some minor release, but I don't yet have a complete plan.
+For the next major release (1.2 probably), here is what is planned:&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;Review the system for selection of algorithms to reduce compilation time&lt;/li&gt;
+&lt;li&gt;Review the GPU system to allow more complete support for standard operators&lt;/li&gt;
+&lt;li&gt;Switch to C++17: there are many improvements that could be done to the code with C++17 features&lt;/li&gt;
+&lt;li&gt;Add support for convolution on mixed types (float/double)&lt;/li&gt;
+&lt;li&gt;More tests for sparse matrix&lt;/li&gt;
+&lt;li&gt;More algorithms support for sparse matrix&lt;/li&gt;
+&lt;li&gt;Reduce the compilation time of the library in general&lt;/li&gt;
+&lt;li&gt;Reduce the compilation and execution time of the unit tests&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;These are pretty big changes, especially the first two, so maybe it'll be split
+into several releases. It will really depend on the time I have. As for C++17,
+I really want to try it and I have a lot of points that could profit from the
+switch, but that will means setting GCC 7.1 and Clang 3.9 as minimum
+requirement, which may not be reasonable for every user.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="section" id="download-etl"&gt;
+&lt;h2&gt;Download ETL&lt;/h2&gt;
+&lt;p&gt;You can download ETL &lt;a class="reference external" href="https://github.com/wichtounet/etl"&gt;on Github&lt;/a&gt;. If you
+only interested in the 1.1 version, you can look at the
+&lt;a class="reference external" href="https://github.com/wichtounet/etl/releases"&gt;Releases pages&lt;/a&gt; or clone the tag
+1.1. There are several branches:&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;&lt;em&gt;master&lt;/em&gt; Is the eternal development branch, may not always be stable&lt;/li&gt;
+&lt;li&gt;&lt;em&gt;stable&lt;/em&gt; Is a branch always pointing to the last tag, no development here&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;For the future release, there always will tags pointing to the corresponding
+commits. I'm not following the git flow way, I'd rather try to have a more
+linear history with one eternal development branch, rather than an useless
+develop branch or a load of other branches for releases.&lt;/p&gt;
+&lt;p&gt;The documentation is a bit sparse. There are a few examples and the Wiki, but
+there still is work to be done. If you have questions on how to use or configure
+the library, please don't hesitate.&lt;/p&gt;
+&lt;p&gt;Don't hesitate to comment this post if you have any comment on this library or
+any question. You can also open an Issue on Github if you have a problem using
+this library or propose a Pull Request if you have any contribution you'd like
+to make to the library.&lt;/p&gt;
+&lt;p&gt;Hope this may be useful to some of you :)&lt;/p&gt;
+&lt;/div&gt;&lt;/div&gt;</description><category>C++</category><category>C++14</category><category>C++17</category><category>Compilers</category><category>dll</category><category>etl</category><category>GPU</category><category>Performance</category><category>projects</category><guid>http://baptiste-wicht.com/posts/2017/08/expression-templates-library-etl-11.html</guid><pubDate>Fri, 04 Aug 2017 13:13:03 GMT</pubDate></item><item><title>Speed up TensorFlow inference by compiling it from source</title><link>http://baptiste-wicht.com/posts/2017/05/speed-up-tensorflow-inference-compiling-from-source.html</link><dc:creator>Baptiste Wicht</dc:creator><description>&lt;div&gt;&lt;p&gt;The most simple way to install TensorFlow is to work in a virtual Python
+environment and simply to use either the TensorFlow official packages in pip or
+use one of the official wheels for distributions.  There is one big problem with
+that technique and it's the fact that the binaries are precompiled so that they
+fit as many hardware configuration as possible. This is normal from Google since
+generating precompiled binaries for all the possible combinations of processor
+capabilities would be a nightmare. This is not a problem for GPU
+since the CUDA Libraries will take care of the difference from one graphics card
+to another. But it is a problem with CPU performance. Indeed, different
+processors have different capabilities. For instance, the vectorization
+capabilities are different from processor to processor (SSE, AVX, AVX2,
+AVX-512F, FMA, ...). All those options can make a significant difference in the
+performance of the programs. Although most of the machine learning training
+occurs on GPU most of the time, the inference is mostly done on the CPU.
+Therefore, it probably remains important to be as fast as possible on CPU.&lt;/p&gt;
+&lt;p&gt;So if you care about performance on CPU, you should install TensorFlow from
+sources directly yourself. This will allow compilation of the TensorFlow sources
+with -march=native which will enable all the hardware capabilities of machine on
+which you are compiling the library.&lt;/p&gt;
+&lt;p&gt;Depending on your problem, this may give you some nice speedup. In my case, on
+a very small Recurrent Neural Network, it made inference about 20% faster.  On
+a larger problem and depending on your processor, you may gain much more than
+that. If you are training on CPU, this may make a very large difference in total
+time.&lt;/p&gt;
+&lt;p&gt;Installing TensorFlow is sometimes a bit cumbersome. You'll likely have to
+compile Bazel from sources as well and depending on your processor, it may take
+a long time to finish. Nevertheless, I have successfully compiled TensorFlow
+from sources on several machines now without too many problems. Just pay close
+attention to the options you are setting while configuring TensorFlow, for
+instance CUDA configuration if you want GPU support.&lt;/p&gt;
+&lt;p&gt;I hope this little trick will help you gain some time :)&lt;/p&gt;
+&lt;p&gt;Here is the &lt;a class="reference external" href="https://www.tensorflow.org/install/install_sources"&gt;link to compile TensorFlow from source&lt;/a&gt;.&lt;/p&gt;&lt;/div&gt;</description><category>CPU</category><category>GPU</category><category>Intel</category><category>Machine Learning</category><category>Performance</category><category>tensorflow</category><guid>http://baptiste-wicht.com/posts/2017/05/speed-up-tensorflow-inference-compiling-from-source.html</guid><pubDate>Wed, 10 May 2017 12:18:33 GMT</pubDate></item><item><title>Update on Expression Templates Library (ETL)</title><link>http://baptiste-wicht.com/posts/2017/05/update-on-expression-templates-library-etl.html</link><dc:creator>Baptiste Wicht</dc:creator><description>&lt;div&gt;&lt;p&gt;It's been a while since I've &lt;a class="reference external" href="https://baptiste-wicht.com/posts/2016/09/expression-templates-library-etl-10.html"&gt;released the version 1.0 of ETL&lt;/a&gt;. There is some work to do before I release the next version, but I wanted to give you a quick update on what has been going on for ETL in the last months. There has been a lot of changes in the library and the next version will be a major update when I'm done with some refactorings and improvements.&lt;/p&gt;
+&lt;p&gt;Thanks to my thesis supervisor, the project now has a logo:&lt;/p&gt;
+&lt;img alt="ETL Logo" class="align-center" src="http://baptiste-wicht.com/images/logo.png"&gt;
+&lt;p&gt;There are quite a few new features, although probably nothing really major. The
+support for square root has been improved with cubic root and inverse root.
+Vectors can now be transformed using floor and ceil. Cross product of vector has
+been implemented as well. Batched outer product and batched bias averaging (for
+machine learning) are now supported. Reductions have also been improved with
+absolute sum and mean (asum/asum) support and min_index and max_index. argmax
+can now be used to get the max index in each sub dimensions. Matrix can now be
+decomposed into their Q/R decomposition rather than only their PALU
+decomposition. The matrices can now be sliced by getting only a sub part of the
+matrix. The pooling operators  have also been improved with stride and padding
+support. Matrices and vectors can also be shuffled. Moreover, a few adapters
+are now available for hermitian matrices, symmetric matrices and lower and upper
+matrices. So far the support for these adapters is not huge, but they are
+guaranteed to validate their constraints.&lt;/p&gt;
+&lt;p&gt;Several operations have been optimized for speed. All the pooling and upsample
+operators are now parallelized and the most used kernel (2x2 pooling) is now
+more optimized. 4D convolution kernels (for machine learning) have been greatly
+improved. There are now very specialized vectorized kernels for classic kernel
+configurations (for instance 3x3 or 5x5) and the selection of implementations is
+now smarter than before. The support of padding now much better than before for
+small amount of padding. Moreover, for small kernels the full convolution can
+now be evaluated using the valid convolution kernels directly with some padding,
+for much faster overall performance. Matrix-matrix multiplication with
+transposed matrices is now much faster when using BLAS kernels. Indeed, the
+transposition is not performed but handled inside the kernels. Moreover, the
+performance of the transposition itself is also much faster. Finally, accesses
+to 3D and 4D matrices is now much faster than before.&lt;/p&gt;
+&lt;p&gt;The parallelization feature of ETL has been completely reworked. Before, there
+was a thread pool for each algorithm that was parallelized. Now, there is
+a global thread engine with one thread pool. Since parallelization is not nested
+in ETL, this improves performance slightly by greatly diminishing the number of
+threads that are created throughout an application.&lt;/p&gt;
+&lt;p&gt;Vectorization has also been greatly improved in ETL. Integer operations are now
+automatically vectorized on processors that support this. The automatic
+vectorizer now is able to use non-temporal stores for very large operations.
+A non-temporal store bypasses the cache, thus gaining some time. Since very
+large matrices do not fit in cache, this is a net gain. Moreover, the alignment
+detection in the automatic vectorizer has also been improved. Support for
+Fused-Multiply-Add (FMA) operations has also been integrated in the algorithms
+that can make use of it. The matrix-matrix multiplications and vector-matrix
+multiplications now have optimized vectorized kernels. They also have versions
+for column-major matrices now. The old egblas version of the gemm, based on BLIS
+kernels, has been removed since it was only supporting double-precision and was
+not faster than the new vectorized algorithm. I plan to reintegrate a version of
+the GEMM based on BLIS in the future but with more optimizations and support for
+all precisions and integers. The sum and the dot product now also have
+specialized vectorized implementations. The min and max operations are now
+automatically-vectorized.&lt;/p&gt;
+&lt;p&gt;The GPU has also been almost completely reworked. Now, operations can be chained
+without any copies between GPU and CPU. Several new operations have also been
+added with support to GPU. Moreover, to complement operations that are not
+available in any of the supported NVIDIA libraries, I've created a simple
+library that can be used to add a few more GPU operations. Nevertheless a lot of
+operations are still missing and only algorithms are available not expressions
+(such as c = a + b * 1.0) that are entirely computed on CPU. I have plans to
+improve that further, but probably not before the version 1.2.&lt;/p&gt;
+&lt;p&gt;There also have been a lot of refactorings in the code of the library. A lot of
+expressions now have less overhead and are specialized for performance.
+Moreover, temporary expressions are currently being reworked in order to be more
+simple and maintainable and easier to optimize in the future.&lt;/p&gt;
+&lt;p&gt;Finally, there also was quite a few bug fixes. Most of them have been found by
+the use of the library in the Deep Learning Library (DLL) project.&lt;/p&gt;&lt;/div&gt;</description><category>C++</category><category>C++14</category><category>etl</category><category>GPU</category><category>Performance</category><category>projects</category><guid>http://baptiste-wicht.com/posts/2017/05/update-on-expression-templates-library-etl.html</guid><pubDate>Sat, 06 May 2017 19:31:48 GMT</pubDate></item><item><title>C++ Compiler benchmark on Expression Templates Library (ETL)</title><link>http://baptiste-wicht.com/posts/2016/12/cpp-compiler-benchmark-on-expression-templates-library-etl.html</link><dc:creator>Baptiste Wicht</dc:creator><description>&lt;div&gt;&lt;script src="https://code.jquery.com/jquery-3.1.1.min.js" integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"&gt;&lt;/script&gt;
+&lt;script src="https://code.highcharts.com/highcharts.js"&gt;&lt;/script&gt;
+&lt;script src="https://code.highcharts.com/modules/exporting.js"&gt;&lt;/script&gt;&lt;p&gt;In my Expression Templates Library (ETL) project, I have a lot of template heavy
+code that needs to run as fast as possible and that is quite intensive to
+compile. In this post, I'm going to compare the performance of a few of the
+kernels produced by different compilers. I've got GCC 5.4, GCC 6.20 and clang
+3.9. I also included zapcc which is based on clang 4.0.&lt;/p&gt;
+&lt;p&gt;These tests have been run on an Haswell processor. The automatic parallelization
+of ETL has been turned off for these tests.&lt;/p&gt;
+&lt;p&gt;Keep in mind that some of the diagrams are presented in logarithmic form.&lt;/p&gt;
+&lt;div class="section" id="vector-multiplication"&gt;
+&lt;h2&gt;Vector multiplication&lt;/h2&gt;
+&lt;p&gt;The first kernel is a very simple one, simple element-wise multiplication of two
+vectors. Nothing fancy here.&lt;/p&gt;
+&lt;div id="mul_container" style="min-width: 310px; height:400px; margin: 0 auto; "&gt;&lt;/div&gt;
+&lt;script&gt;
+$(function () {
+    Highcharts.chart('mul_container', {
+        chart: { type: 'column' },
+        title: { text: 'Element-wise Vector Multiplication' },
+        xAxis: {
+            categories: ['10', '100', '1000', '10000', '100000', '1000000']
+        },
+        yAxis: {
+            type: 'logarithmic',
+            title: { text: 'Time (us)' },
+            plotLines: [{
+                value: 0,
+                width: 1,
+                color: '#808080'
+            }]
+        },
+        tooltip: {valueSuffix: 'us'},
+        series: [
+        {
+            name: 'g++-5.4', data: [0.021, 0.040, 0.215, 2.07, 32.1, 403]
+        },
+        {
+            name: 'g++-6.2', data: [0.021, 0.037, 0.208, 2.17, 32.1, 376]
+        },
+        {
+            name: 'clang-3.9', data: [0.027, 0.045, 0.243, 2.43, 32.7, 389]
+        },
+        {
+            name: 'zapcc-4.0', data: [0.026, 0.047, 0.321, 2.5, 32.8, 411]
+        }
+        ]
+    });
+});
+&lt;/script&gt;&lt;p&gt;For small vectors, clang is significantly slower than gcc-5.4 and gcc6.2. On
+vectors from 100'000 elements, the speed is comparable for each compiler,
+depending on the memory bandwidth. Overall, gcc-6.2 produces the fastest code
+here. clang-4.0 is slightly slower than clang-3.9, but nothing dramatic.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="section" id="vector-exponentiation"&gt;
+&lt;h2&gt;Vector exponentiation&lt;/h2&gt;
+&lt;p&gt;The second kernel is computing the exponentials of each elements of a vector and
+storing them in another vector.&lt;/p&gt;
+&lt;div id="exp_container" style="min-width: 310px; height:400px; margin: 0 auto; "&gt;&lt;/div&gt;
+&lt;script&gt;
+$(function () {
+    Highcharts.chart('exp_container', {
+        chart: { type: 'column' },
+        title: { text: 'Element-wise Vector Exponentiation' },
+        xAxis: {
+            categories: ['10', '100', '1000', '10000', '100000', '1000000']
+        },
+        yAxis: {
+            type: 'logarithmic',
+            title: { text: 'Time (us)' },
+            plotLines: [{
+                value: 0,
+                width: 1,
+                color: '#808080'
+            }]
+        },
+        tooltip: {valueSuffix: 'us'},
+        series: [
+        {
+            name: 'g++-5.4', data: [0.0478, 0.137, 1.12, 9.79, 97.5, 959]
+        },
+        {
+            name: 'g++-6.2', data: [0.0474, 0.132, 1.11, 9.71, 97, 1000]
+        },
+        {
+            name: 'clang-3.9', data: [0.0492, 0.136, 0.959, 9.24, 92.9, 914]
+        },
+        {
+            name: 'zapcc-4.0', data: [0.0488, 0.142, 0.952, 9.25, 91.9, 915]
+        }
+        ]
+    });
+});
+&lt;/script&gt;&lt;p&gt;Interestingly, this time, clang versions are significantly faster for medium to
+large vectors, from 1000 elements and higher, by about 5%. There is no
+significant differences between the different versions of each compiler.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="section" id="matrix-matrix-multiplication"&gt;
+&lt;h2&gt;Matrix-Matrix Multiplication&lt;/h2&gt;
+&lt;p&gt;The next kernel I did benchmark with the matrix-matrix multiplication operation.
+In that case, the kernel is hand-unrolled and vectorized.&lt;/p&gt;
+&lt;div id="gemm_container_small" style="min-width: 310px; height:400px; margin: 0 auto; "&gt;&lt;/div&gt;
+&lt;div id="gemm_container_large" style="min-width: 310px; height:400px; margin: 0 auto; "&gt;&lt;/div&gt;
+&lt;script&gt;
+$(function () {
+    Highcharts.chart('gemm_container_small', {
+        chart: { type: 'column' },
+        title: { text: 'Matrix Matrix Multiplication (small)', },
+        xAxis: {
+            categories: ['10x10', '20x20', '40x40', '60x60', '80x80', '100x100']
+        },
+        yAxis: {
+            type: 'logarithmic',
+            title: { text: 'Time (us)' },
+            plotLines: [{
+                value: 0,
+                width: 1,
+                color: '#808080'
+            }]
+        },
+        tooltip: {valueSuffix: 'us'},
+        series: [
+        {
+            name: 'g++-5.4', data: [0.159, 0.815, 2.637, 13.849, 17.281, 78.903]
+        },
+        {
+            name: 'g++-6.2', data: [0.162, 0.802, 2.431, 13.531, 17.274, 74.02]
+        },
+        {
+            name: 'clang-3.9', data: [0.179, 1.218, 2.391, 14.981, 15.142, 61.548]
+        },
+        {
+            name: 'zapcc-4.0', data: [0.159, 0.836, 2.712, 13.426, 15.114, 62.241]
+        }
+        ]
+    });
+    Highcharts.chart('gemm_container_large', {
+        chart: { type: 'column' },
+        title: { text: 'Matrix Matrix Multiplication (large)', },
+        xAxis: {
+            categories: ['200x200', '300x300', '400x400', '500x500', '600x600', '700x700', '800x800', '900x900', '1000x1000']
+        },
+        yAxis: {
+            type: 'logarithmic',
+            title: { text: 'Time (us)' },
+            plotLines: [{
+                value: 0,
+                width: 1,
+                color: '#808080'
+            }]
+        },
+        tooltip: {valueSuffix: 'us'},
+        series: [
+        {
+            name: 'g++-5.4', data: [275.219, 1371, 1837, 5177, 6667, 14981, 17037, 31492, 32813]
+        },
+        {
+            name: 'g++-6.2', data: [267.776, 1362, 1808, 5297, 6859, 15166, 15664, 30666, 33067]
+        },
+        {
+            name: 'clang-3.9', data: [266.033, 1230, 1789, 4825, 6969, 14488, 15916, 30872, 33186]
+        },
+        {
+            name: 'zapcc-4.0', data: [267.806, 1237, 1820, 4909, 7035, 15191, 18193, 33127, 37346]
+        }
+        ]
+    });
+});
+&lt;/script&gt;&lt;p&gt;There are few differences between the compilers. The first thing is that for
+some sizes such as 80x80 and 100x100, clang is significantly faster than GCC, by
+more than 10%. The other interesting fact is that for large matrices
+zapcc-clang-4.0 is always slower than clang-3.9 which is itself on par with the
+two GCC versions. In my opinion, it comes from a regression in clang trunk but
+it could also come from zapcc itself.&lt;/p&gt;
+&lt;div id="std_gemm_container_large" style="min-width: 310px; height:400px; margin: 0 auto; "&gt;&lt;/div&gt;
+&lt;script&gt;
+$(function () {
+    Highcharts.chart('std_gemm_container_large', {
+        chart: { type: 'column' },
+        title: { text: 'Matrix Matrix Multiplication (naive)', },
+        xAxis: {
+            categories: ['200x200', '300x300', '400x400', '500x500', '600x600', '700x700', '800x800', '900x900', '1000x1000']
+        },
+        yAxis: {
+            type: 'logarithmic',
+            title: { text: 'Time (ms)' },
+            plotLines: [{
+                value: 0,
+                width: 1,
+                color: '#808080'
+            }]
+        },
+        tooltip: {valueSuffix: 'ms'},
+        series: [
+        {
+            name: 'g++-5.4', data: [1.195, 4.891, 10.467, 22.400, 33.399,
+            58.401, 77.150, 121.392, 148.469]
+        },
+        {
+            name: 'g++-6.2', data: [1.109, 4.540, 9.964, 21.359, 31.904,
+            55.282, 72.690, 113.52, 143.27]
+        },
+        {
+            name: 'clang-3.9', data: [0.893, 3.710, 7.287, 16.244, 23.920,
+            43.342, 56.771, 91.870, 112.309]
+        },
+        {
+            name: 'zapcc-4.0', data: [5.088, 16.909, 39.632, 77.194, 133.15,
+            214.539, 316.01, 447.715, 612.255]
+        }
+        ]
+    });
+});
+&lt;/script&gt;&lt;p&gt;The results are much more interesting here! First, there is a huge regression in
+clang-4.0 (or in zapcc for that matter). Indeed, it is up to 6 times slower than
+clang-3.9. Moreover, the clang-3.9 is always significantly faster than gcc-6.2.
+Finally, there is a small improvement in gcc-6.2 compared to gcc 5.4.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="section" id="fast-fourrier-transform"&gt;
+&lt;h2&gt;Fast-Fourrier Transform&lt;/h2&gt;
+&lt;p&gt;The following kernel is the performance of a hand-crafted Fast-Fourrier
+transform implementation.&lt;/p&gt;
+&lt;div id="fft_container" style="min-width: 310px; height:400px; margin: 0 auto; "&gt;&lt;/div&gt;
+&lt;script&gt;
+$(function () {
+    Highcharts.chart('fft_container', {
+        chart: { type: 'column' },
+        title: { text: 'Fast Fourrier Transform', },
+        xAxis: {
+            categories: ['100', '1000', '10000', '100000', '1000000']
+        },
+        yAxis: {
+            type: 'logarithmic',
+            title: { text: 'Time (us)' },
+            plotLines: [{
+                value: 0,
+                width: 1,
+                color: '#808080'
+            }]
+        },
+        tooltip: {valueSuffix: 'us'},
+        series: [
+        {
+            name: 'g++-5.4', data: [2.640, 27.515, 308.239, 3427.4, 41695.9]
+        },
+        {
+            name: 'g++-6.2', data: [2.578, 26.194, 298.97, 3348.82, 40783.8]
+        },
+        {
+            name: 'clang-3.9', data: [3.047, 30.514, 333.403, 3569.36,43860.6]
+        },
+        {
+            name: 'zapcc-4.0', data: [3.199,33.304,317.135,4025.18,48445.3]
+        }
+        ]
+    });
+});
+&lt;/script&gt;&lt;p&gt;On this benchmark, gcc-6.2 is the clear winner. It is significantly faster
+than clang-3.9 and clang-4.0. Moreover, gcc-6.2 is also faster than gcc-5.4.
+On the contrary, clang-4.0 is significantly slower than clang-3.9 except on one
+configuration (10000 elements).&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="section" id="d-convolution"&gt;
+&lt;h2&gt;1D Convolution&lt;/h2&gt;
+&lt;p&gt;This kernel is about computing the 1D valid convolution of two vectors.&lt;/p&gt;
+&lt;div id="conv1_container" style="min-width: 310px; height:400px; margin: 0 auto; "&gt;&lt;/div&gt;
+&lt;script&gt;
+$(function () {
+    Highcharts.chart('conv1_container', {
+        chart: { type: 'column' },
+        title: { text: '1D convolution (optimized)', },
+        xAxis: {
+            categories: ['1000x500', '2000x1000', '3000x1500', '4000x2000',
+            '5000x2500', '6000x3000', '7000x3500', '8000x4000', '9000x4500',
+            '10000x5000']
+        },
+        yAxis: {
+            type: 'logarithmic',
+            title: { text: 'Time (us)' },
+            plotLines: [{
+                value: 0,
+                width: 1,
+                color: '#808080'
+            }]
+        },
+        tooltip: {valueSuffix: 'us'},
+        series: [
+        {
+            name: 'g++-5.4', data: [11.710, 41.002, 91.201, 158.178,
+            248.985, 353.695, 486.676, 634.53, 867.101, 1082.62]
+        },
+        {
+            name: 'g++-6.2', data: [9.307, 40.921, 90.327, 158.734, 248.892,
+            354.582, 488.38, 636.899, 869.637, 1084.86]
+        },
+        {
+            name: 'clang-3.9', data: [13.404, 41.409, 95.094, 162.339,
+            256.143, 362.34, 498.66, 651.352, 886.465, 1092.24]
+        },
+        {
+            name: 'zapcc-4.0', data: [13.528, 40.886, 94.473, 159.917,
+            252.992, 356.63, 493.653, 640.348, 872.282, 1091.36]
+        }
+        ]
+    });
+});
+&lt;/script&gt;&lt;p&gt;While clang-4.0 is faster than clang-3.9, it is still slightly slower than both
+gcc versions. On the GCC side, there is not a lot of difference except on the
+1000x500 on which gcc-6.2 is 25% faster.&lt;/p&gt;
+&lt;p&gt;And here are the results with the naive implementation:&lt;/p&gt;
+&lt;div id="std_conv1_container" style="min-width: 310px; height:400px; margin: 0 auto; "&gt;&lt;/div&gt;
+&lt;script&gt;
+$(function () {
+    Highcharts.chart('std_conv1_container', {
+        chart: { type: 'column' },
+        title: { text: '1D convolution (naive)', },
+        xAxis: {
+            categories: ['1000x500', '2000x1000', '3000x1500', '4000x2000',
+            '5000x2500', '6000x3000', '7000x3500', '8000x4000', '9000x4500',
+            '10000x5000']
+        },
+        yAxis: {
+            type: 'logarithmic',
+            title: { text: 'Time (ms)' },
+            plotLines: [{
+                value: 0,
+                width: 1,
+                color: '#808080'
+            }]
+        },
+        tooltip: {valueSuffix: 'ms'},
+        series: [
+        {
+            name: 'g++-5.4', data: [0.350, 1.452, 3.260, 5.823, 9.116,
+            13.155, 17.922, 23.438, 29.705, 36.683]
+        },
+        {
+            name: 'g++-6.2', data: [0.350, 1.457, 3.262, 5.823, 9.120,
+            13.152, 17.922, 23.436, 29.687, 36.665]
+        },
+        {
+            name: 'clang-3.9', data: [0.216, 0.873, 1.974, 3.517, 5.501,
+            7.921, 10.793, 14.11, 17.867, 22.068]
+        },
+        {
+            name: 'zapcc-4.0', data: [0.215, 0.873, 1.972, 3.514, 5.501,
+            7.928, 10.799, 14.11, 17.879, 22.065]
+        }
+        ]
+    });
+});
+&lt;/script&gt;&lt;p&gt;Again, on the naive version, clang is much faster than GCC on the naive, by
+about 65%. This is a really large speedup.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="section" id="id1"&gt;
+&lt;h2&gt;2D Convolution&lt;/h2&gt;
+&lt;p&gt;This next kernel is computing the 2D valid convolution of two matrices&lt;/p&gt;
+&lt;div id="conv2_container" style="min-width: 310px; height:400px; margin: 0 auto; "&gt;&lt;/div&gt;
+&lt;script&gt;
+$(function () {
+    Highcharts.chart('conv2_container', {
+        chart: { type: 'column' },
+        title: { text: '2D Convolution (optimized)', },
+        xAxis: {
+            categories: ['100x50', '105x50', '110x55', '115x55', '120x60',
+            '125x60', '130x65', '135x65', '140x70']
+        },
+        yAxis: {
+            title: { text: 'Time (us)' },
+            plotLines: [{
+                value: 0,
+                width: 1,
+                color: '#808080'
+            }]
+        },
+        tooltip: {valueSuffix: 'us'},
+        series: [
+        {
+            name: 'g++-5.4', data: [327.399, 367.389, 441.457, 576.021,
+            762.268, 794, 994.06, 1261.71, 1360.57]
+        },
+        {
+            name: 'g++-6.2', data: [327.764, 367.379, 441.993, 572.241,
+            761.741, 784.605, 991.717, 1266.55, 1361.59]
+        },
+        {
+            name: 'clang-3.9', data: [330.199, 364.253, 443.483, 580.676,
+            763.772, 777.39, 1000.53, 1267.75, 1375.51]
+        },
+        {
+            name: 'zapcc-4.0', data: [339.358, 364.756, 443.807, 575.917,
+            761.248, 784.695, 992.29, 1265.04, 1367.33]
+        }
+        ]
+    });
+});
+&lt;/script&gt;&lt;p&gt;There is no clear difference between the compilers in this code. Every compiler
+here has up and down.&lt;/p&gt;
+&lt;p&gt;Let's look at the naive implementation of the 2D convolution (units are
+milliseconds here not microseconds):&lt;/p&gt;
+&lt;div id="std_conv2_container" style="min-width: 310px; height:400px; margin: 0 auto; "&gt;&lt;/div&gt;
+&lt;script&gt;
+$(function () {
+    Highcharts.chart('std_conv2_container', {
+        chart: { type: 'column' },
+        title: { text: '2D Convolution (naive)', },
+        xAxis: {
+            categories: ['100x50', '105x50', '110x55', '115x55', '120x60',
+            '125x60', '130x65', '135x65', '140x70']
+        },
+        yAxis: {
+            title: { text: 'Time (ms)' },
+            plotLines: [{
+                value: 0,
+                width: 1,
+                color: '#808080'
+            }]
+        },
+        tooltip: {valueSuffix: 'ms'},
+        series: [
+        {
+            name: 'g++-5.4', data: [9.501,11.458,13.888, 16.489, 19.634,
+            22.898, 27.012, 31.246, 36.269]
+        },
+        {
+            name: 'g++-6.2', data: [9.502, 11.464, 13.903, 16.484, 19.642,
+            22.994, 27.004, 31.248, 36.26]
+        },
+        {
+            name: 'clang-3.9', data: [5.880, 7.136, 8.610, 10.226, 12.164,
+            14.247, 17.024, 19.577, 22.510]
+        },
+        {
+            name: 'zapcc-4.0', data: [5.875, 7.091, 8.661, 10.241, 12.218,
+            14.302, 16.777, 19.424, 22.472]
+        }
+        ]
+    });
+});
+&lt;/script&gt;&lt;p&gt;This time the difference is very large! Indeed, clang versions are about 60%
+faster than the GCC versions! This is really impressive. Even though this does
+not comes close to the optimized. It seems the vectorizer of clang is much more
+efficient than the one from GCC.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="section" id="id2"&gt;
+&lt;h2&gt;4D Convolution&lt;/h2&gt;
+&lt;p&gt;The final kernel that I'm testing is the batched 4D convolutions that is used a
+lot in Deep Learning. This is not really a 4D convolution, but a large number
+of 2D convolutions applied on 4D tensors.&lt;/p&gt;
+&lt;div id="conv4_container" style="min-width: 310px; height:400px; margin: 0 auto; "&gt;&lt;/div&gt;
+&lt;script&gt;
+$(function () {
+    Highcharts.chart('conv4_container', {
+        chart: { type: 'column' },
+        title: { text: '4D Convolution', },
+        xAxis: {
+            categories: ['2x6x3x28x16', '2x6x3x28x16', '2x6x3x28x16',
+            '2x6x3x28x16', '2x6x3x28x16', '2x6x3x28x16', '2x6x3x28x16',
+            '2x6x3x28x16', '2x6x3x28x16']
+        },
+        yAxis: {
+            type: 'logarithmic',
+            title: { text: 'Time (ms)' },
+            plotLines: [{
+                value: 0,
+                width: 1,
+                color: '#808080'
+            }]
+        },
+        tooltip: {valueSuffix: 'ms'},
+        series: [
+        {
+            name: 'g++-5.4', data: [0.095, 0.402, 1.083, 2.237, 3.988,
+            6.474, 9.985, 14.132, 19.539]
+        },
+        {
+            name: 'g++-6.2', data: [0.089, 0.413, 1.081, 2.224, 3.990,
+            6.462, 9.815, 14.118, 19.612]
+        },
+        {
+            name: 'clang-3.9', data: [0.090, 0.416, 1.108, 2.277, 4.077,
+            6.587, 10.024, 14.359, 20.006]
+        },
+        {
+            name: 'zapcc-4.0', data: [0.088, 0.406, 1.080, 2.237, 3.987,
+            6.484, 9.827, 14.130, 19.569]
+        }
+        ]
+    });
+});
+&lt;/script&gt;&lt;p&gt;Again, there are very small differences between each version. The best versions
+are the most recent versions of the compiler gcc-6.2 and clang-4.0 on a tie.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="section" id="conclusion"&gt;
+&lt;h2&gt;Conclusion&lt;/h2&gt;
+&lt;p&gt;Overall, we can see two trends in these results. First, when working with
+highly-optimized code, the choice of compiler will not make a huge difference.
+On these kind of kernels, gcc-6.2 tend to perform faster than the other
+compilers, but only by a very slight margin, except in some cases. On the other
+hand, when working with naive implementations, clang versions really did perform
+much better than GCC. The clang compiled versions of the 1D and 2D convolutions
+are more than 60% faster than their GCC counter parts. This is really
+impressive. Overall, clang-4.0 seems to have several performance regressions,
+but since it's not still a work in progress, I would not be suprised if these
+regressions are not present in the final version. Since the clang-4.0 version is
+in fact the clang version used by zapcc, it's also possible that zapcc is
+introducing new performance regressions.&lt;/p&gt;
+&lt;p&gt;Overall, my advice would be to use GCC-6.2 (or 5.4) on hand-optimized kernels
+and clang when you have mostly naive implementations. However, keep in mind that
+at least for the example shown here, the naive version optimized by the compiler
+never comes close to the highly-optimized version.&lt;/p&gt;
+&lt;p&gt;As ever, takes this with a grain of salt, it's only been tested on one project
+and one machine, you may obtain very different results on other projects and on
+other processors.&lt;/p&gt;
+&lt;/div&gt;&lt;/div&gt;</description><category>C++</category><category>clang</category><category>Compilers</category><category>gcc</category><category>Performance</category><category>templates</category><guid>http://baptiste-wicht.com/posts/2016/12/cpp-compiler-benchmark-on-expression-templates-library-etl.html</guid><pubDate>Sun, 11 Dec 2016 13:17:30 GMT</pubDate></item><item><title>New design: Faster and mobile compatible</title><link>http://baptiste-wicht.com/posts/2016/11/new-design-faster-and-mobile-compatible.html</link><dc:creator>Baptiste Wicht</dc:creator><description>&lt;div&gt;&lt;p&gt;I've finally taken the time to improve the design of the website!&lt;/p&gt;
+&lt;p&gt;The site was becoming slower and slower, the design was not responsive at all
+and was an horror on mobile.&lt;/p&gt;
+&lt;p&gt;I've changed the design to focus more on content and removed superfluous things
+such as the Google profile or slow things such as the 3D tag cloud. Moreover,
+the design is now responsive again. It was a matter of removing a lot of bad
+things I did in the CSS. Instead of having a vertical and an horizontal bars,
+I now have only one vertical bar with both the navigation and a bit more
+information. With these changes, the design is now also working on mobile phone!
+It's about time.&lt;/p&gt;
+&lt;p&gt;Moreover, I've also spent quite some time working on the speed of the website.
+For this, I've bundled most of the JS and CSS files together and reduced them.
+Moreover, the static files are now hosted and cached by CloudFlare. I've also
+removed the 3D tag cloud which was quite slow. The Google API usage for the
+Google profile badge were also quite slow. Overall, the index page is now really
+fast. The article pages are also much faster but it's not perfect, especially
+because of Disqus that does tons of requests and redirects everywhere. I've also
+got rid of the Disqus ads which were really insignificant in the end. It may
+take a while for the ads to disappear according to Disqus.&lt;/p&gt;
+&lt;p&gt;I know that it's still not perfect, but I hope that user experience on the blog
+is now improved for all readers and now article can be read on mobile normally.
+I'll try to continue monitoring the speed and usability of the website to see if
+I can improve it further in the coming days.&lt;/p&gt;
+&lt;p&gt;If you have any issue on the updated website, don't hesitate to let me know
+either by commenting on this post or sending me an email (check the Contact
+page).&lt;/p&gt;&lt;/div&gt;</description><category>Performance</category><category>The site</category><category>Web</category><guid>http://baptiste-wicht.com/posts/2016/11/new-design-faster-and-mobile-compatible.html</guid><pubDate>Mon, 28 Nov 2016 06:55:48 GMT</pubDate></item><item><title>How I improved (a bit) compile time of ETL ?</title><link>http://baptiste-wicht.com/posts/2015/06/how-i-improved-a-bit-compile-time-of-etl.html</link><dc:creator>Baptiste Wicht</dc:creator><description>&lt;div&gt;&lt;p&gt;Recently I read several articles about C++ and compile time and I wondered if I could improve the compile time of my Expression Template Library (ETL) project. ETL is a header-only and template-heavy library. I'm not going to the change the design completely or to use type erasure techniques to reduce the compile time, ETL is all about performance.&lt;/p&gt;
+&lt;p&gt;As a disclaimer, don't expect fancy results from this post, I haven't been able to reduce compile time a lot, but I still wanted to share my experience.&lt;/p&gt;
+&lt;p&gt;I've used g++-4.9.2 to perform these tests.&lt;/p&gt;
+&lt;p&gt;I'm compiling the complete test suite (around 6900 source lines of codes in 36 files) in release mode. Each test file includes the ETL (around 10K SLOC). Each test is run with 8 threads (make -j8). For each result, I have run a complete build 5 times and taken the best result as the final result. Everything is run on a SSD and I have more than enough RAM to handle all the compilation in parallel.&lt;/p&gt;
+&lt;p&gt;The reference build time was 87.5 seconds.&lt;/p&gt;
+&lt;div class="section" id="compile-and-generate-dependency-files-at-the-same-time"&gt;
+&lt;h2&gt;Compile and generate dependency files at the same time&lt;/h2&gt;
+&lt;p&gt;To help write my makefiles, I'm using a set of functions that I have written. This includes automatic dependency generation using -MM -MT options of the compiler. Until now, I had two targets, one to compile the cpp file into the object file and another one to generate the dependency file. I recently saw that compilers were able to do both at the same time! Clang, G++ and the Intel compiler all have a -MD -MF options that lets you generate the dependency file at the same time you compile your file, saving you at least one read of the file.&lt;/p&gt;
+&lt;p&gt;My compilation rule in my makefile has now become:&lt;/p&gt;
+&lt;pre class="code makefile"&gt;&lt;a name="rest_code_f9f82a2528d84d9bbfcc601928acbaff-1"&gt;&lt;/a&gt;&lt;span class="nf"&gt;release/$(1)/%.cpp.o&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt; &lt;span class="k"&gt;$(&lt;/span&gt;1&lt;span class="k"&gt;)&lt;/span&gt;/%.&lt;span class="n"&gt;cpp&lt;/span&gt;
+&lt;a name="rest_code_f9f82a2528d84d9bbfcc601928acbaff-2"&gt;&lt;/a&gt;    @ mkdir -p release/&lt;span class="k"&gt;$(&lt;/span&gt;&lt;span class="m"&gt;1&lt;/span&gt;&lt;span class="k"&gt;)&lt;/span&gt;/
+&lt;a name="rest_code_f9f82a2528d84d9bbfcc601928acbaff-3"&gt;&lt;/a&gt;    &lt;span class="k"&gt;$(&lt;/span&gt;CXX&lt;span class="k"&gt;)&lt;/span&gt; &lt;span class="k"&gt;$(&lt;/span&gt;CXX_FLAGS&lt;span class="k"&gt;)&lt;/span&gt; &lt;span class="k"&gt;$(&lt;/span&gt;RELEASE_FLAGS&lt;span class="k"&gt;)&lt;/span&gt; &lt;span class="k"&gt;$(&lt;/span&gt;&lt;span class="m"&gt;2&lt;/span&gt;&lt;span class="k"&gt;)&lt;/span&gt; -MD -MF release/&lt;span class="k"&gt;$(&lt;/span&gt;&lt;span class="m"&gt;1&lt;/span&gt;&lt;span class="k"&gt;)&lt;/span&gt;/&lt;span class="nv"&gt;$$&lt;/span&gt;*.cpp.d -o release/&lt;span class="k"&gt;$(&lt;/span&gt;&lt;span class="m"&gt;1&lt;/span&gt;&lt;span class="k"&gt;)&lt;/span&gt;/&lt;span class="nv"&gt;$$&lt;/span&gt;*.cpp.o -c &lt;span class="k"&gt;$(&lt;/span&gt;&lt;span class="m"&gt;1&lt;/span&gt;&lt;span class="k"&gt;)&lt;/span&gt;/&lt;span class="nv"&gt;$$&lt;/span&gt;*.cpp
+&lt;a name="rest_code_f9f82a2528d84d9bbfcc601928acbaff-4"&gt;&lt;/a&gt;    @ sed -i -e &lt;span class="s1"&gt;'s@^\(.*\)\.o:@\1.d \1.o:@'&lt;/span&gt; release/&lt;span class="k"&gt;$(&lt;/span&gt;&lt;span class="m"&gt;1&lt;/span&gt;&lt;span class="k"&gt;)&lt;/span&gt;/&lt;span class="nv"&gt;$$&lt;/span&gt;*.cpp.d
+&lt;/pre&gt;&lt;p&gt;This reduced the compilation time to 86.8 seconds. Not that much reduction, but it still is quite nice to know that. I would have expected this to reduce more the compile time.&lt;/p&gt;
+&lt;div class="section" id="use-pragma-once"&gt;
+&lt;h3&gt;Use #pragma once&lt;/h3&gt;
+&lt;p&gt;Normally, I'm not a fan of #pragma since it is not standard, but for now ETL only supports three compilers and only very recent of them, so I have the guarantee that #pragma once is available, so what the hell!&lt;/p&gt;
+&lt;p&gt;I've replaced all the include guards by single #pragma once directives.&lt;/p&gt;
+&lt;p&gt;Again, the results are not impressive, this reduced the compile time to 86.2 seconds. I would only advise to use this if you are sure of the compilers you want to support and you need the extra time.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="section" id="avoid-iostream"&gt;
+&lt;h3&gt;Avoid &amp;lt;iostream&amp;gt;&lt;/h3&gt;
+&lt;p&gt;I've read that the &amp;lt;iostream&amp;gt; header was one of the slowest to compile of the STL. It is only one that is included several times in my headers only for stream operators and it turns out that there is a &amp;lt;iosfwd&amp;gt; header that forward declares a lot of things from the &amp;lt;iostream&amp;gt; and other I/O headers.&lt;/p&gt;
+&lt;p&gt;By replacing all &amp;lt;iostream&amp;gt; include by &amp;lt;iosfwd&amp;gt;, compile time has gone down to 84.1 seconds.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="section" id="conclusion"&gt;
+&lt;h3&gt;Conclusion&lt;/h3&gt;
+&lt;p&gt;By using the three techniques, I've reduced the compile time from 87.5 to 84.1 seconds. I would have honestly hoped for more improvements, but this is a already a good start.&lt;/p&gt;
+&lt;p&gt;As a side note, clang compile time is 45.2 seconds under the same conditions (was 46.2 seconds before the optimizations). It is really much faster :) I'm still using GCC a lot since in several cases, it does generate much better code and in average, the generated code if faster (on my benchmarks at least). I don't have the numbers for icc, but icc is definitely the slowest of the three. When I have it available (at work), I use for release build before running something. The generated executables are generally faster (I only use Intel processors) and sometimes the difference can be quite important.&lt;/p&gt;
+&lt;p&gt;If you have ideas to reduce further the compile time on this test case, I'd be glad to hear them and put them to the test.&lt;/p&gt;
+&lt;p&gt;I hope that this small experience would be helpful to some of you :)&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="section" id="other-techniques"&gt;
+&lt;h3&gt;Other techniques&lt;/h3&gt;
+&lt;p&gt;There are several other techniques that you can use to reduce compile time:&lt;/p&gt;
+&lt;ol class="arabic simple"&gt;
+&lt;li&gt;Precompiled Headers are supported by both Clang and GCC, altough not in a compatible. I haven't tested this in a while, but it is quite effective and a very interesting technique. The main problem with this is that is not standard and not compatible between compilers. But it probably is the most efficient techniques when you have lots of headers and lots of templates as in my case.&lt;/li&gt;
+&lt;li&gt;Unity builds can make full rebuild much faster. I personally don't like unity builds especially because it is only really good for full builds and you generally don't do full rebuilds that much (I know, I know, this is also the test done in this article :) ). Moreover, it also sucks at doing parallel builds.&lt;/li&gt;
+&lt;li&gt;Pimpl idioms and other type erasure techniques can reduce compile time a lot. If it is well done, it can be implemented without so much overhead.&lt;/li&gt;
+&lt;li&gt;Explicit instantiation of templates can also help, but only in the case of a user program. In the case of a library itself, you cannot do anything.&lt;/li&gt;
+&lt;li&gt;Reduce inclusions and use forward declarations, obviously...&lt;/li&gt;
+&lt;li&gt;Use tools like distcc (I very rarely use it) and ccache (I generally use it).&lt;/li&gt;
+&lt;li&gt;Update your compiler&lt;/li&gt;
+&lt;li&gt;Upgrade your computer ;)&lt;/li&gt;
+&lt;li&gt;...&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;/div&gt;</description><category>C++</category><category>Compilers</category><category>gcc</category><category>Performance</category><guid>http://baptiste-wicht.com/posts/2015/06/how-i-improved-a-bit-compile-time-of-etl.html</guid><pubDate>Tue, 16 Jun 2015 20:00:21 GMT</pubDate></item></channel></rss>

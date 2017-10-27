@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html prefix="og: http://ogp.me/ns# article: http://ogp.me/ns/article# " lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="description" content="New features in budgetwarrior: track assets and portfolio, savings rate and auto completion">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Budgetwarrior: Track assets and portfolio, savings rates and auto-completion | Blog blog("Baptiste Wicht");</title>
+<script src="/cdn-cgi/apps/head/98vpnawSZZMscPn4oDND-ZgswjM.js"></script><link href="../../../assets/css/all-nocdn.css" rel="stylesheet" type="text/css">
+<meta name="theme-color" content="#5670d4">
+<meta name="generator" content="Nikola (getnikola.com)">
+<link rel="alternate" type="application/rss+xml" title="RSS" href="../../../rss.xml">
+<link rel="canonical" href="http://baptiste-wicht.com/posts/2017/10/budgetwarrior-track-assets-portfolio-savings-rates-auto-completion.html">
+<!--[if lt IE 9]><script src="../../../assets/js/html5.js"></script><![endif]--><meta name="author" content="Baptiste Wicht">
+<link rel="prev" href="deep-learning-library-10-fast-neural-network-library.html" title="Deep Learning Library 1.0 - Fast Neural Network Library" type="text/html">
+<link rel="next" href="i-successfully-defended-my-phd.html" title="I successfully defended my Ph.D." type="text/html">
+<meta property="og:site_name" content='Blog blog("Baptiste Wicht");'>
+<meta property="og:title" content="Budgetwarrior: Track assets and portfolio, savings rates and auto-comp">
+<meta property="og:url" content="http://baptiste-wicht.com/posts/2017/10/budgetwarrior-track-assets-portfolio-savings-rates-auto-completion.html">
+<meta property="og:description" content="New features in budgetwarrior: track assets and portfolio, savings rate and auto completion">
+<meta property="og:type" content="article">
+<meta property="article:published_time" content="2017-10-12T19:40:14+02:00">
+<meta property="article:tag" content="budgetwarrior">
+<meta property="article:tag" content="C++">
+<meta property="article:tag" content="Linux">
+<link href="../../../favicon.ico" rel="icon" type="image/x-icon">
+<link rel="publisher" href="https://plus.google.com/+BaptisteWicht">
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-2175227-7', 'auto');
+  var metas = document.getElementsByTagName('meta'), tagsList = [];
+  for (var i=0; i<metas.length; i++) {
+    if (metas[i].getAttribute('property') == 'article:tag') {
+      tagsList.push( metas[i].getAttribute('content'));
+    }
+  }
+  ga('set', 'dimension1', tagsList.join('|'));
+  ga('send', 'pageview');
+</script>
+</head>
+<body>
+
+<a href="#content" class="sr-only sr-only-focusable">Skip to main content</a>
+<div class="container-fluid">
+
+<div class="row">
+<div class="col-sm-3 col-lg-2">
+<nav class="navbar navbar-inverse navbar-fixed-side"><div class="navbar-header">
+<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+<span class="sr-only">Toggle navigation</span>
+<span class="icon-bar"></span>
+<span class="icon-bar"></span>
+<span class="icon-bar"></span>
+</button>
+<a class="navbar-brand" href="http://baptiste-wicht.com/">
+<span id="blog-title">Blog blog("Baptiste Wicht");</span>
+</a>
+</div>
+
+<div class="collapse navbar-collapse navbar-ex1-collapse">
+<ul class="nav navbar-nav">
+<li>
+<a href="../../../stories/about.html">About</a>
+</li>
+<li>
+<a href="../../../stories/publications.html">Publications</a>
+</li>
+<li>
+<a href="../../../stories/projects.html">Projects</a>
+</li>
+<li>
+<a href="../../../categories/index.html">Tags</a>
+</li>
+<li>
+<a href="../../../archive.html">Archives</a>
+</li>
+<li>
+<a href="http://feeds.feedburner.com/BaptisteWicht">RSS</a>
+</li>
+<li class="navbar-content">
+<h3>Related posts</h3>
+</li>
+<li><a href="../09/budgetwarrior-042-budget-summary-improved-fortune-reports.html">budgetwarrior 0.4.2 - Budget summary and improved fortune reports</a></li>
+<li><a href="../../2014/02/budgetwarrior-0-3-0-objective-wish-management.html">budgetwarrior 0.3.0 - Objective and wish management</a></li>
+<li><a href="../../2013/08/budgetwarrior-command-line-personal-budgeting.html">budgetwarrior 0.1.0 - command-line personal budgeting tool</a></li>
+<li><a href="../../2014/09/budgetwarrior-041-expense-templates-and-year-projection.html">budgetwarrior 0.4.1 - Expense templates and year projection</a></li>
+<li><a href="../../2013/10/budgetwarrior-0-2-visual-reports-fortune-status-expenses-aggregates.html">budgetwarrior 0.2 - Visual reports, fortune status and expenses aggregates</a></li>
+<li><a href="../../2014/07/budgetwarrior-04-enhanced-wish-list-and-aggregate.html">budgetwarrior 0.4 - Enhanced wish list and aggregate</a></li>
+<li class="navbar-block">
+<li class="wicht-navbar-right">
+<a target="_blank" title="Follow @wichtounet on Twitter" href="https://twitter.com/wichtounet">
+<img src="../../../assets/img/twitter.png" alt="Follow @wichtounet on Twitter"></a>
+</li>
+<li class="wicht-navbar-right">
+<a target="_blank" title="Follow +BaptisteWicht on Google+" href="https://plus.google.com/+BaptisteWicht">
+<img src="../../../assets/img/google_plus.png" alt="Follow +BaptisteWicht on Google+"></a>
+</li>
+</ul>
+</div>
+
+</nav>
+</div> 
+<div class="col-sm-9 col-lg-10">
+<div id="content"></div>
+<article class="post-text h-entry hentry postpage" itemscope="itemscope" itemtype="http://schema.org/Article"><header><h1 class="p-name entry-title" itemprop="headline name"><a href="#" class="u-url">Budgetwarrior: Track assets and portfolio, savings rates and auto-completion</a></h1>
+<div class="metadata">
+<p class="byline author vcard"><span class="byline-name fn" itemprop="author">
+Baptiste Wicht
+</span></p>
+<p class="dateline"><a href="#" rel="bookmark"><time class="published dt-published" datetime="2017-10-12T19:40:14+02:00" itemprop="datePublished" title="2017-10-12 19:40">2017-10-12 19:40</time></a></p>
+<p class="commentline">
+<a href="budgetwarrior-track-assets-portfolio-savings-rates-auto-completion.html#disqus_thread" data-disqus-identifier="cache/posts/2017/10/budgetwarrior-track-assets-portfolio-savings-rates-auto-completion.html">Comments</a>
+</p>
+<p class="sourceline"><a href="budgetwarrior-track-assets-portfolio-savings-rates-auto-completion.rst" class="sourcelink">Source</a></p>
+</div>
+</header><div class="e-content entry-content" itemprop="articleBody text">
+<div>
+<p>This last month, I've been reading quite a few blogs about personal finance and
+I've decided to integrate more features into budgetwarrior. This post is about
+three new features that I've integrated. It's not yet a new release, so if you
+want to test this version, you'll have to compile it from the <em>master</em> branch on
+Git.</p>
+<p>As it was last time, the values on my screenshots have all been randomized.</p>
+<p>If you have several assets with different distributions, I believe it is a great
+value to have them all shown at the same time. Especially if you want to change
+the distribution of your portfolio or if you plan big changes in it.</p>
+<div class="section" id="track-assets">
+<h2>Track assets</h2>
+<p>The first feature I've added is a feature to precisely track each of your assets
+independently. And you can also track the allocation of your portfolio in terms
+of stocks, bonds and cash. The tool also lets you set the desired distribution
+of your assets and will compute the difference that you should make in order to
+comply to your desired distribution.</p>
+<p>First, you need to define all your asset classes (your accounts, funds, and
+stocks, ...) and their distribution with <code>budget asset add</code>. It also
+supports to set a currency. The default currency is now CHF, but you can set it
+in the configuration file, for instance <code>default_currency=USD</code>. You can
+see your assets using <code>budget asset</code>:</p>
+<img alt="View of your assets" src="../../../images/budgetwarrior_assets.png"><p>You can then set the value of your assets using <code>budget asset value add</code>.
+The system will save all the values of your assets. For now, only the last value
+is used in the application to display. In the future, I plan to add new reports
+for evolution of the portfolio over time. You can see your current net worth
+with the <code>budget asset value</code>:</p>
+<img alt="View of your portfolio" src="../../../images/budgetwarrior_asset_values.png"><p>The different currencies will all be converted to the default currency.</p>
+</div>
+<div class="section" id="savings-rate">
+<h2>Savings rate</h2>
+<p>The second change I did is to compute the savings rate of each month and year.
+The savings rate is simply the portion of your income that you are able to save
+each month. The savings rate for a year is simple the average of the savings
+rate of each month.</p>
+<p>The savings rate of the month can be seen with <code>budget overview month</code>:</p>
+<img alt="Savings rate of the month" src="../../../images/budgetwarrior_savings_rate.png"><p>The saving rates of each month can also be seen in the overview of the year with
+<code>budget overview year</code>:</p>
+<img alt="Savings rate of the year" src="../../../images/budgetwarrior_savings_rate_year.png"><p>This shows the savings rate of each month, the average of the year and the
+average of the current year up to the current month.</p>
+<p>The savings rate is a very important metric of your budget. In my case, it's
+currently way too low and made me realize I really need to save more. Any
+savings rate below 10% is too low. There are no rule as too much it should be,
+but I'd like to augment mine to at least 20% next year.</p>
+</div>
+<div class="section" id="auto-completion">
+<h2>Auto-completion</h2>
+<p>The last feature is mostly some quality-of-life improvement. Some of the inputs
+in the console can now be completed. It's not really auto-completion per se, but
+you can cycle through the list of possible values using the UP and DOWN.</p>
+<p>This makes it much easier to set some values such as asset names (in
+<code>budget asset value add</code> for instance), account names and objective types
+and sources. I'm trying to make the input of values easier.</p>
+</div>
+<div class="section" id="conclusion">
+<h2>Conclusion</h2>
+<p>I don't know exactly what else will be integrated in this feature, but I may
+already improve some visualization for asset values. If I learn something new
+about personal finance that I may integrate in the tool, I'll do it as well.</p>
+<p>If you are interested by the sources or want to install this version,
+you can download them on Github:
+<a class="reference external" href="https://github.com/wichtounet/budgetwarrior">budgetwarrior</a>.</p>
+<p>The new features are in the <em>master</em> branch.</p>
+<p>If you have a suggestion for a new features or you found a bug, please post an
+issue on Github, I'd be glad to help you.</p>
+<p>If you have any comment, don't hesitate to contact me, either by letting a
+comment on this post or by email.</p>
+</div>
+</div>
+</div>
+<aside class="postpromonav"><nav><ul itemprop="keywords" class="tags">
+<li><a class="tag p-category" href="../../../categories/budgetwarrior.html" rel="tag">budgetwarrior</a></li>
+<li><a class="tag p-category" href="../../../categories/c%2B%2B.html" rel="tag">C++</a></li>
+<li><a class="tag p-category" href="../../../categories/linux.html" rel="tag">Linux</a></li>
+</ul>
+<ul class="pager hidden-print">
+<li class="previous">
+<a href="deep-learning-library-10-fast-neural-network-library.html" rel="prev" title="Deep Learning Library 1.0 - Fast Neural Network Library">Previous post</a>
+</li>
+<li class="next">
+<a href="i-successfully-defended-my-phd.html" rel="next" title="I successfully defended my Ph.D.">Next post</a>
+</li>
+</ul></nav></aside><section class="comments hidden-print"><h2>Comments</h2>
+<div id="disqus_thread"></div>
+<script>
+        var disqus_shortname ="blogwichtounet",
+            disqus_url="http://baptiste-wicht.com/posts/2017/10/budgetwarrior-track-assets-portfolio-savings-rates-auto-completion.html",
+        disqus_title="Budgetwarrior: Track assets and portfolio, savings rates and auto-completion",
+        disqus_identifier="cache/posts/2017/10/budgetwarrior-track-assets-portfolio-savings-rates-auto-completion.html",
+        disqus_config = function () {
+            this.language = "en";
+        };
+        (function() {
+            var dsq = document.createElement('script'); dsq.async = true;
+            dsq.src = 'https://' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        })();
+    </script><noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a>
+</noscript>
+<a href="https://disqus.com" class="dsq-brlink" rel="nofollow">Comments powered by <span class="logo-disqus">Disqus</span></a>
+</section></article><script>var disqus_shortname="blogwichtounet";(function(){var a=document.createElement("script");a.async=true;a.src="https://"+disqus_shortname+".disqus.com/count.js";(document.getElementsByTagName("head")[0]||document.getElementsByTagName("body")[0]).appendChild(a)}());</script>
+</div> 
+</div>
+
+</div>
+
+
+
+<footer>
+Contents © 2017 <a href="/cdn-cgi/l/email-protection#67050617130e141302100e040f1327000a060e0b4904080a">Baptiste Wicht</a> - Powered by <a href="http://getnikola.com" rel="nofollow">Nikola</a> - License:
+<a rel="license" href="http://creativecommons.org/licenses/by/4.0/"><img alt="Creative Commons License" style="padding-left:5px;border-width:0" src="../../../assets/img/cc.png"></a>
+<ul class="footer_inline_ul">
+<li>
+<a href="budgetwarrior-track-assets-portfolio-savings-rates-auto-completion.rst" id="sourcelink">Source</a>
+</li>
+</ul></footer><script src="/cdn-cgi/scripts/78d64697/cloudflare-static/email-decode.min.js"></script><script src="../../../assets/js/all-nocdn.js"></script>
+</body>
+</html>

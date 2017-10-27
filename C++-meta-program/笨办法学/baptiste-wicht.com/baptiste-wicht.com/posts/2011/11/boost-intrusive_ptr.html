@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html prefix="og: http://ogp.me/ns# article: http://ogp.me/ns/article# " lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Boost intrusive_ptr : faster shared pointer | Blog blog("Baptiste Wicht");</title>
+<script src="/cdn-cgi/apps/head/98vpnawSZZMscPn4oDND-ZgswjM.js"></script><link href="../../../assets/css/all-nocdn.css" rel="stylesheet" type="text/css">
+<meta name="theme-color" content="#5670d4">
+<meta name="generator" content="Nikola (getnikola.com)">
+<link rel="alternate" type="application/rss+xml" title="RSS" href="../../../rss.xml">
+<link rel="canonical" href="http://baptiste-wicht.com/posts/2011/11/boost-intrusive_ptr.html">
+<!--[if lt IE 9]><script src="../../../assets/js/html5.js"></script><![endif]--><meta name="author" content="Baptiste Wicht">
+<link rel="prev" href="eddic-0-5-1-better-assembly-generation-and-faster-parsing.html" title="eddic 0.5.1 : Better assembly generation and faster parsing" type="text/html">
+<link rel="next" href="boost-1-48-0-has-been-released.html" title="Boost 1.48.0 has been released" type="text/html">
+<meta property="og:site_name" content='Blog blog("Baptiste Wicht");'>
+<meta property="og:title" content="Boost intrusive_ptr : faster shared pointer">
+<meta property="og:url" content="http://baptiste-wicht.com/posts/2011/11/boost-intrusive_ptr.html">
+<meta property="og:description" content="This post will present the Boost intrusive_ptr and its usage in C++ programming. 
+Recently, I took some time to optimize the parsing performances of the EDDI Compiler. The parsing phase creates a lot ">
+<meta property="og:type" content="article">
+<meta property="article:published_time" content="2011-11-14T08:40:41+01:00">
+<meta property="article:tag" content="Boost">
+<meta property="article:tag" content="C++">
+<meta property="article:tag" content="Performances">
+<link href="../../../favicon.ico" rel="icon" type="image/x-icon">
+<link rel="publisher" href="https://plus.google.com/+BaptisteWicht">
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-2175227-7', 'auto');
+  var metas = document.getElementsByTagName('meta'), tagsList = [];
+  for (var i=0; i<metas.length; i++) {
+    if (metas[i].getAttribute('property') == 'article:tag') {
+      tagsList.push( metas[i].getAttribute('content'));
+    }
+  }
+  ga('set', 'dimension1', tagsList.join('|'));
+  ga('send', 'pageview');
+</script>
+</head>
+<body>
+
+<a href="#content" class="sr-only sr-only-focusable">Skip to main content</a>
+<div class="container-fluid">
+
+<div class="row">
+<div class="col-sm-3 col-lg-2">
+<nav class="navbar navbar-inverse navbar-fixed-side"><div class="navbar-header">
+<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+<span class="sr-only">Toggle navigation</span>
+<span class="icon-bar"></span>
+<span class="icon-bar"></span>
+<span class="icon-bar"></span>
+</button>
+<a class="navbar-brand" href="http://baptiste-wicht.com/">
+<span id="blog-title">Blog blog("Baptiste Wicht");</span>
+</a>
+</div>
+
+<div class="collapse navbar-collapse navbar-ex1-collapse">
+<ul class="nav navbar-nav">
+<li>
+<a href="../../../stories/about.html">About</a>
+</li>
+<li>
+<a href="../../../stories/publications.html">Publications</a>
+</li>
+<li>
+<a href="../../../stories/projects.html">Projects</a>
+</li>
+<li>
+<a href="../../../categories/index.html">Tags</a>
+</li>
+<li>
+<a href="../../../archive.html">Archives</a>
+ </li>
+<li>
+<a href="http://feeds.feedburner.com/BaptisteWicht">RSS</a>
+</li>
+<li class="navbar-content">
+<h3>Related posts</h3>
+</li>
+<li><a href="boost-1-48-0-has-been-released.html">Boost 1.48.0 has been released </a></li>
+<li><a href="../../2012/07/eddi-compiler-1-1-0-member-functions.html">EDDI Compiler 1.1.0 - Member functions</a></li>
+<li><a href="eddic-0-5-1-better-assembly-generation-and-faster-parsing.html">eddic 0.5.1 : Better assembly generation and faster parsing</a></li>
+<li><a href="../../2012/01/boost-enable_if-handle-ambiguous-function-overload-void.html">Use Boost enable_if to handle ambiguous function overload return types</a></li>
+<li><a href="../../2012/03/cp11-concurrency-tutorial-part-2-protect-shared-data.html">C++11 Concurrency Tutorial - Part 2 : Protect shared data</a></li>
+<li><a href="../../2012/07/manage-command-line-boost-program-options.html">Manage command-line options with Boost Program Options</a></li>
+<li class="navbar-block">
+<li class="wicht-navbar-right">
+<a target="_blank" title="Follow @wichtounet on Twitter" href="https://twitter.com/wichtounet">
+<img src="../../../assets/img/twitter.png" alt="Follow @wichtounet on Twitter"></a>
+</li>
+<li class="wicht-navbar-right">
+<a target="_blank" title="Follow +BaptisteWicht on Google+" href="https://plus.google.com/+BaptisteWicht">
+<img src="../../../assets/img/google_plus.png" alt="Follow +BaptisteWicht on Google+"></a>
+</li>
+</ul>
+</div>
+
+</nav>
+</div> 
+<div class="col-sm-9 col-lg-10">
+<div id="content"></div>
+<article class="post-text h-entry hentry postpage" itemscope="itemscope" itemtype="http://schema.org/Article"><header><h1 class="p-name entry-title" itemprop="headline name"><a href="#" class="u-url">Boost intrusive_ptr : faster shared pointer</a></h1>
+<div class="metadata">
+<p class="byline author vcard"><span class="byline-name fn" itemprop="author">
+Baptiste Wicht
+</span></p>
+<p class="dateline"><a href="#" rel="bookmark"><time class="published dt-published" datetime="2011-11-14T08:40:41+01:00" itemprop="datePublished" title="2011-11-14 08:40">2011-11-14 08:40</time></a></p>
+<p class="commentline">
+<a href="boost-intrusive_ptr.html#disqus_thread" data-disqus-identifier="cache/posts/2011/11/boost-intrusive_ptr.html">Comments</a>
+</p>
+<p class="sourceline"><a href="boost-intrusive_ptr.wp" class="sourcelink">Source</a></p>
+</div>
+</header><div class="e-content entry-content" itemprop="articleBody text">
+<div>
+<p>This post will present the Boost intrusive_ptr and its usage in C++ programming. </p>
+<p>Recently, I took some time to optimize the parsing performances of the EDDI Compiler. The parsing phase creates a lot of nodes to fill the Abstract Syntax Tree. </p>
+<p>One of the way I found was to replace some shared_ptr by some intrusive_ptr of the Boost library. </p>
+<p>It's a faster alternative of shared_ptr. Like its name indicates, it's intrusive. The reference counter is included directely in the managed class, in the contrary of the shared_ptr where the reference counter has to be dynamically allocated to live aside the object. This leads to some performances improvement. Considering memory, the footprint of an intrusive_ptr is the same as the footprint of a raw pointer. This is not the case for the shared_ptr that have a pointer to the object, a pointer to the counter and the counter itself. </p>
+<p>For example, if you have a class X:</p>
+<pre class="code literal-block"><span></span><span class="k">class</span> <span class="nc">X</span> <span class="p">{</span>
+    <span class="n">std</span><span class="o">::</span><span class="n">string</span> <span class="n">name</span><span class="p">;</span>
+    <span class="kt">int</span> <span class="n">age</span><span class="p">;</span>
+<span class="p">};</span>
+</pre>
+<p>And you use it in your code using a shared_ptr : </p>
+<pre class="code literal-block"><span></span><span class="kt">void</span> <span class="nf">test</span><span class="p">(){</span>
+    <span class="n">std</span><span class="o">::</span><span class="n">shared_ptr</span><span class="o">&lt;</span><span class="n">X</span><span class="o">&gt;</span> <span class="n">x</span><span class="p">(</span><span class="k">new</span> <span class="n">X</span><span class="p">);</span>
+
+    <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="n">x</span><span class="o">-&gt;</span><span class="n">name</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+<span class="p">}</span>
+</pre>
+<p>and you want to use an intrusive_ptr, you have first to add a reference counter inside the X class : </p>
+<pre class="code literal-block"><span></span><span class="k">class</span> <span class="nc">X</span> <span class="p">{</span>
+    <span class="n">std</span><span class="o">::</span><span class="n">string</span> <span class="n">name</span><span class="p">;</span>
+    <span class="kt">int</span> <span class="n">age</span><span class="p">;</span>
+
+    <span class="kt">long</span> <span class="n">references</span><span class="p">;</span>
+    <span class="n">X</span><span class="p">()</span> <span class="o">:</span> <span class="n">references</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span> <span class="p">{}</span>
+<span class="p">};</span>
+</pre>
+<p>And you have to indicate to the intrusive_ptr where the reference counter can be found for this class : </p>
+<pre class="code literal-block"><span></span><span class="kr">inline</span> <span class="kt">void</span> <span class="nf">intrusive_ptr_add_ref</span><span class="p">(</span><span class="n">X</span><span class="o">*</span> <span class="n">x</span><span class="p">){</span>
+    <span class="o">++</span><span class="n">x</span><span class="o">-&gt;</span><span class="n">references</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="kr">inline</span> <span class="kt">void</span> <span class="nf">intrusive_ptr_release</span><span class="p">(</span><span class="n">X</span><span class="o">*</span> <span class="n">x</span><span class="p">){</span>
+    <span class="k">if</span><span class="p">(</span><span class="o">--</span><span class="n">x</span><span class="o">-&gt;</span><span class="n">references</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> 
+        <span class="k">delete</span> <span class="n">x</span><span class="p">;</span>
+<span class="p">}</span>
+</pre>
+<p>And finally you can use the intrusive_ptr to replace your shared_ptr : </p>
+<pre class="code literal-block"><span></span><span class="kt">void</span> <span class="nf">test</span><span class="p">(){</span>
+    <span class="n">boost</span><span class="o">::</span><span class="n">intrusive_ptr</span><span class="o">&lt;</span><span class="n">X</span><span class="o">&gt;</span> <span class="n">x</span><span class="p">(</span><span class="k">new</span> <span class="n">X</span><span class="p">);</span>
+
+    <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="n">x</span><span class="o">-&gt;</span><span class="n">name</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+<span class="p">}</span>
+</pre>
+<p>The smart pointer itself can be used exactly the same way as a shared_ptr. If you have several classes that are managed using an intrusive_ptr, you can use a function template to tell Boost that all the reference counter are at the same place : </p>
+<pre class="code literal-block"><span></span><span class="k">template</span><span class="o">&lt;</span><span class="k">typename</span> <span class="n">T</span><span class="o">&gt;</span>
+<span class="kr">inline</span> <span class="kt">void</span> <span class="n">intrusive_ptr_add_ref</span><span class="p">(</span><span class="n">T</span><span class="o">*</span> <span class="n">expr</span><span class="p">){</span>
+    <span class="o">++</span><span class="n">expr</span><span class="o">-&gt;</span><span class="n">references</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="k">template</span><span class="o">&lt;</span><span class="k">typename</span> <span class="n">T</span><span class="o">&gt;</span>
+<span class="kr">inline</span> <span class="kt">void</span> <span class="n">intrusive_ptr_release</span><span class="p">(</span><span class="n">T</span><span class="o">*</span> <span class="n">expr</span><span class="p">){</span>
+    <span class="k">if</span><span class="p">(</span><span class="o">--</span><span class="n">expr</span><span class="o">-&gt;</span><span class="n">references</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span>
+        <span class="k">delete</span> <span class="n">expr</span><span class="p">;</span>
+<span class="p">}</span>
+</pre>
+<p>As you can see, the pointer is very intrusive and needs some boilerplate code added to your application, but it can leads to some interesting improvements for classes very often dynamically allocated. </p>
+<p>There is another advantage in using intrusive_ptr. As the reference counter is stored into the object itself, you can create several intrusive_ptr to the same object without any problem. This is not the case when you use a shared_ptr. Indeed, if you create two shared_ptr to the same dynamically allocated object, they will both have a different references counter and at the end, you will end up with an object being deleted twice. </p>
+<p>Of course, there are not only advantages. First of all, you have to declare a field in every classes that you want to manage using an intrusive_ptr and you have to declare functions to manage the reference. Then there are some disadvantages when using this pointer type compared to a shared_ptr : </p>
+<ul>
+<li>It's impossible to create a weak_ptr from a intrusive_ptr</li>
+<li>Code redundancy, you have to copy the reference counter in every class that you want to use an intrusive_ptr with</li>
+<li>You have to provide a function for every types that has to be used with intrusive_ptr (only two functions if you use the template versions of the two functions)</li>
+</ul>
+<p>To conclude, the boost::intrusive_ptr can be a good replacement of std::shared_ptr in a performance critical application, but if you have no performances problem, do not use it because it makes your code less clear. If you are concerned by performances when using std::shared_ptr, consider also using std::make_shared to create your pointers, so that the reference counter and the object itself will be allocated at the same place and at the same time, resulting in better performances. Another case where it's interesting to use an intrusive_ptr is when dealing with libraries using a lot of raw pointers, because you can create several intrusive_ptr to the same raw pointer without any problem.</p>
+<p>For more information, you can consult <a href="http://www.boost.org/doc/libs/1_47_0/libs/smart_ptr/intrusive_ptr.html" title="Boost intrusive_ptr official documentation">the official documentation</a>.</p>
+</div>
+</div>
+<aside class="postpromonav"><nav><ul itemprop="keywords" class="tags">
+<li><a class="tag p-category" href="../../../categories/boost.html" rel="tag">Boost</a></li>
+<li><a class="tag p-category" href="../../../categories/c%2B%2B.html" rel="tag">C++</a></li>
+<li><a class="tag p-category" href="../../../categories/performances.html" rel="tag">Performances</a></li>
+</ul>
+<ul class="pager hidden-print">
+<li class="previous">
+<a href="eddic-0-5-1-better-assembly-generation-and-faster-parsing.html" rel="prev" title="eddic 0.5.1 : Better assembly generation and faster parsing">Previous post</a>
+</li>
+<li class="next">
+<a href="boost-1-48-0-has-been-released.html" rel="next" title="Boost 1.48.0 has been released">Next post</a>
+</li>
+</ul></nav></aside><section class="comments hidden-print"><h2>Comments</h2>
+<div id="disqus_thread"></div>
+<script>
+        var disqus_shortname ="blogwichtounet",
+            disqus_url="http://baptiste-wicht.com/posts/2011/11/boost-intrusive_ptr.html",
+        disqus_title="Boost intrusive_ptr : faster shared pointer",
+        disqus_identifier="cache/posts/2011/11/boost-intrusive_ptr.html",
+        disqus_config = function () {
+            this.language = "en";
+        };
+        (function() {
+            var dsq = document.createElement('script'); dsq.async = true;
+            dsq.src = 'https://' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        })();
+    </script><noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a>
+</noscript>
+<a href="https://disqus.com" class="dsq-brlink" rel="nofollow">Comments powered by <span class="logo-disqus">Disqus</span></a>
+</section></article><script>var disqus_shortname="blogwichtounet";(function(){var a=document.createElement("script");a.async=true;a.src="https://"+disqus_shortname+".disqus.com/count.js";(document.getElementsByTagName("head")[0]||document.getElementsByTagName("body")[0]).appendChild(a)}());</script>
+</div> 
+</div>
+
+</div>
+
+
+
+<footer>
+Contents © 2017 <a href="/cdn-cgi/l/email-protection#a3c1c2d3d7cad0d7c6d4cac0cbd7e3c4cec2cacf8dc0ccce">Baptiste Wicht</a> - Powered by <a href="http://getnikola.com" rel="nofollow">Nikola</a> - License:
+<a rel="license" href="http://creativecommons.org/licenses/by/4.0/"><img alt="Creative Commons License" style="padding-left:5px;border-width:0" src="../../../assets/img/cc.png"></a>
+<ul class="footer_inline_ul">
+<li>
+<a href="boost-intrusive_ptr.wp" id="sourcelink">Source</a>
+</li>
+</ul></footer><script src="/cdn-cgi/scripts/78d64697/cloudflare-static/email-decode.min.js"></script><script src="../../../assets/js/all-nocdn.js"></script>
+</body>
+</html>

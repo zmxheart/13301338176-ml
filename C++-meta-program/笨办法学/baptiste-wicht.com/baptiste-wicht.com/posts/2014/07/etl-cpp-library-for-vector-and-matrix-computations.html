@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html prefix="og: http://ogp.me/ns# article: http://ogp.me/ns/article# " lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ETL - C++ library for vector and matrix computations | Blog blog("Baptiste Wicht");</title>
+<script src="/cdn-cgi/apps/head/98vpnawSZZMscPn4oDND-ZgswjM.js"></script><link href="../../../assets/css/all-nocdn.css" rel="stylesheet" type="text/css">
+<meta name="theme-color" content="#5670d4">
+<meta name="generator" content="Nikola (getnikola.com)">
+<link rel="alternate" type="application/rss+xml" title="RSS" href="../../../rss.xml">
+<link rel="canonical" href="http://baptiste-wicht.com/posts/2014/07/etl-cpp-library-for-vector-and-matrix-computations.html">
+<!--[if lt IE 9]><script src="../../../assets/js/html5.js"></script><![endif]--><meta name="author" content="Baptiste Wicht">
+<link rel="prev" href="a-mutt-journey-my-mutt-configuration.html" title="A Mutt journey: Mutt configuration" type="text/html">
+<link rel="next" href="catch-powerful-yet-simple-cpp-test-framework.html" title="Catch: A powerful yet simple C++ test framework" type="text/html">
+<meta property="og:site_name" content='Blog blog("Baptiste Wicht");'>
+<meta property="og:title" content="ETL - C++ library for vector and matrix computations">
+<meta property="og:url" content="http://baptiste-wicht.com/posts/2014/07/etl-cpp-library-for-vector-and-matrix-computations.html">
+<meta property="og:description" content="When working on Machine Learning algorithms, I was in need of a simple library
+to ease working with vectors and matrix. This is the reason why I started
+developing ETL (Expression Template Library).
+E">
+<meta property="og:type" content="article">
+<meta property="article:published_time" content="2014-07-25T10:46:33+02:00">
+<meta property="article:tag" content="C++">
+<meta property="article:tag" content="C++11">
+<meta property="article:tag" content="C++14">
+<meta property="article:tag" content="Libraries">
+<link href="../../../favicon.ico" rel="icon" type="image/x-icon">
+<link rel="publisher" href="https://plus.google.com/+BaptisteWicht">
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-2175227-7', 'auto');
+  var metas = document.getElementsByTagName('meta'), tagsList = [];
+  for (var i=0; i<metas.length; i++) {
+    if (metas[i].getAttribute('property') == 'article:tag') {
+      tagsList.push( metas[i].getAttribute('content'));
+    }
+  }
+  ga('set', 'dimension1', tagsList.join('|'));
+  ga('send', 'pageview');
+</script>
+</head>
+<body>
+
+<a href="#content" class="sr-only sr-only-focusable">Skip to main content</a>
+<div class="container-fluid">
+
+<div class="row">
+<div class="col-sm-3 col-lg-2">
+<nav class="navbar navbar-inverse navbar-fixed-side"><div class="navbar-header">
+<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+<span class="sr-only">Toggle navigation</span>
+<span class="icon-bar"></span>
+<span class="icon-bar"></span>
+<span class="icon-bar"></span>
+</button>
+<a class="navbar-brand" href="http://baptiste-wicht.com/">
+<span id="blog-title">Blog blog("Baptiste Wicht");</span>
+</a>
+</div>
+
+<div class="collapse navbar-collapse navbar-ex1-collapse">
+<ul class="nav navbar-nav">
+<li>
+<a href="../../../stories/about.html">About</a>
+</li>
+<li>
+<a href="../../../stories/publications.html">Publications</a>
+</li>
+<li>
+<a href="../../../stories/projects.html">Projects</a>
+</li>
+<li>
+<a href="../../../categories/index.html">Tags</a>
+</li>
+<li>
+<a href="../../../archive.html">Archives</a>
+</li>
+<li>
+<a href="http://feeds.feedburner.com/BaptisteWicht">RSS</a>
+</li>
+<li class="navbar-content">
+<h3>Related posts</h3>
+</li>
+<li><a href="../../2016/09/expression-templates-library-etl-10.html">Expression Templates Library (ETL) 1.0</a></li>
+<li><a href="../../2017/08/expression-templates-library-etl-11.html">Expression Templates Library (ETL) 1.1</a></li>
+<li><a href="../../2017/05/update-on-expression-templates-library-etl.html">Update on Expression Templates Library (ETL)</a></li>
+<li><a href="../../2016/01/improve-dll-and-etl-compile-time-further.html">Improve DLL and ETL Compile Time further</a></li>
+<li><a href="../../2012/12/eddic-1-2-1-string-concatenation-and-vector.html">eddic 1.2.1 - string, concatenation and vector</a></li>
+<li><a href="../../2012/01/eddic-0-7-compiler-model-optimizations.html">EDDIC 0.7 : New compilation model and optimizations</a></li>
+<li class="navbar-block">
+<li class="wicht-navbar-right">
+<a target="_blank" title="Follow @wichtounet on Twitter" href="https://twitter.com/wichtounet">
+<img src="../../../assets/img/twitter.png" alt="Follow @wichtounet on Twitter"></a>
+</li>
+<li class="wicht-navbar-right">
+<a target="_blank" title="Follow +BaptisteWicht on Google+" href="https://plus.google.com/+BaptisteWicht">
+<img src="../../../assets/img/google_plus.png" alt="Follow +BaptisteWicht on Google+"></a>
+</li>
+</ul>
+</div>
+
+</nav>
+</div> 
+<div class="col-sm-9 col-lg-10">
+<div id="content"></div>
+<article class="post-text h-entry hentry postpage" itemscope="itemscope" itemtype="http://schema.org/Article"><header><h1 class="p-name entry-title" itemprop="headline name"><a href="#" class="u-url">ETL - C++ library for vector and matrix computations</a></h1>
+<div class="metadata">
+<p class="byline author vcard"><span class="byline-name fn" itemprop="author">
+Baptiste Wicht
+</span></p>
+<p class="dateline"><a href="#" rel="bookmark"><time class="published dt-published" datetime="2014-07-25T10:46:33+02:00" itemprop="datePublished" title="2014-07-25 10:46">2014-07-25 10:46</time></a></p>
+<p class="commentline">
+<a href="etl-cpp-library-for-vector-and-matrix-computations.html#disqus_thread" data-disqus-identifier="cache/posts/2014/07/etl-cpp-library-for-vector-and-matrix-computations.html">Comments</a>
+</p>
+<p class="sourceline"><a href="etl-cpp-library-for-vector-and-matrix-computations.rst" class="sourcelink">Source</a></p>
+</div>
+</header><div class="e-content entry-content" itemprop="articleBody text">
+<div>
+<p>When working on Machine Learning algorithms, I was in need of a simple library
+to ease working with vectors and matrix. This is the reason why I started
+developing ETL (Expression Template Library).</p>
+<p>ETL is a small header only library for C++ that provides vector and matrix
+classes with support for Expression Templates to perform very efficient
+operations on them.</p>
+<p>The library supports statically sized and dynamically sized vector and matrix
+structures with efficient element-wise operations. All the operations are
+implemented lazily with Expression Templates, they are only implemented once the
+expression is assigned to a concrete structure.</p>
+<div class="section" id="data-structures">
+<h2>Data structures</h2>
+<p>Several structures are available:</p>
+<ul class="simple">
+<li>
+<code>fast_vector&lt;T, Rows&gt;</code>: A vector of size Rows with elements of type T. This must
+be used when you know the size of the vector at compile-time.</li>
+<li>
+<code>dyn_vector&lt;T&gt;</code>: A vector with element of type T. The size of the vector can be
+set at runtime.</li>
+<li>
+<code>fast_matrix&lt;T, Rows,Columns&gt;</code>: A matrix of size Rows x Columns with elements of
+type T. This must be used when you know the size of the matrix at
+compile-time.</li>
+<li>
+<code>dyn_matrix&lt;T&gt;</code>: A matrix with element of type T. The size of the matrix can be
+set at runtime.</li>
+</ul>
+<p>All the structures are size-invariant, once set they cannot be grown or
+shrinked.</p>
+<p>In every operations that involves fast version of the structures, all the sizes
+are known at compile-time, this gives the compiler a lot of opportunities for
+optimization.</p>
+</div>
+<div class="section" id="element-wise-operations">
+<h2>Element-wise operations</h2>
+<p>Classic element-wise operations can be done on vector and matrix as if it was
+done on scalars. Matrices and vectors can also be added, subtracted, divided,
+... by scalars.</p>
+<p>Here is an example of what can be done:</p>
+<pre class="code cpp"><a name="rest_code_3be012be9b5445aab1fdc8edf668f3c6-1"></a><span class="n">etl</span><span class="o">::</span><span class="n">dyn_vector</span><span class="o">&lt;</span><span class="kt">double</span><span class="o">&gt;</span> <span class="n">a</span><span class="p">({</span><span class="mf">1.0</span><span class="p">,</span><span class="mf">2.0</span><span class="p">,</span><span class="mf">3.0</span><span class="p">});</span>
+<a name="rest_code_3be012be9b5445aab1fdc8edf668f3c6-2"></a><span class="n">etl</span><span class="o">::</span><span class="n">dyn_vector</span><span class="o">&lt;</span><span class="kt">double</span><span class="o">&gt;</span> <span class="n">b</span><span class="p">({</span><span class="mf">3.0</span><span class="p">,</span><span class="mf">2.0</span><span class="p">,</span><span class="mf">1.0</span><span class="p">});</span>
+<a name="rest_code_3be012be9b5445aab1fdc8edf668f3c6-3"></a>
+<a name="rest_code_3be012be9b5445aab1fdc8edf668f3c6-4"></a><span class="n">etl</span><span class="o">::</span><span class="n">dyn_vector</span><span class="o">&lt;</span><span class="kt">double</span><span class="o">&gt;</span> <span class="n">c</span><span class="p">(</span><span class="mf">1.4</span> <span class="o">*</span> <span class="p">(</span><span class="n">a</span> <span class="o">+</span> <span class="n">b</span><span class="p">)</span> <span class="o">/</span> <span class="n">b</span> <span class="o">+</span> <span class="n">b</span> <span class="o">+</span> <span class="n">a</span> <span class="o">/</span> <span class="mf">1.2</span><span class="p">);</span>
+</pre>
+<p>All the operations are only executed once the expression is evaluated to
+construct the dyn_vector. No temporaries are involved. This is as efficient as
+if a single for loop was used and each element was computed directly.</p>
+<p>You can easily assign the same value to a structure by using the operator = on
+it.</p>
+</div>
+<div class="section" id="unary-operators">
+<h2>Unary operators</h2>
+<p>Several unary operators are available. Each operation is performed on every
+element of the vector or the matrix.</p>
+<p>Available operators:</p>
+<ul class="simple">
+<li><code>log</code></li>
+<li><code>abs</code></li>
+<li><code>sign</code></li>
+<li><code>max/min</code></li>
+<li><code>sigmoid</code></li>
+<li>
+<code>noise</code>: Add standard normal noise to each element</li>
+<li>
+<code>logistic_noise</code>: Add normal noise of mean zero and variance sigmoid(x) to each
+element</li>
+<li><code>exp</code></li>
+<li><code>softplus</code></li>
+<li><code>bernoulli</code></li>
+</ul>
+<p>Several transformations are also available:</p>
+<ul class="simple">
+<li>
+<code>hflip</code>: Flip the vector or the matrix horizontally</li>
+<li>
+<code>vflip</code>: Flip the vector or the matrix vertically</li>
+<li>
+<code>fflip</code>: Flip the vector or the matrix horizontally and vertically. It is the
+equivalent of <code>hflip(vflip(x))</code>
+</li>
+<li>
+<code>dim/row/col</code>: Return a vector representing a sub part of a matrix (a row or a
+col)</li>
+<li>
+<code>reshape</code>: Interpret a vector as a matrix</li>
+</ul>
+<p>Again, all these operations are performed lazily, they are only executed when the
+expression is assigned to something.</p>
+</div>
+<div class="section" id="lazy-evaluation">
+<h2>Lazy evaluation</h2>
+<p>All binary and unary operations are applied lazily, only when they are assigned
+to a concrete vector or matrix class.</p>
+<p>The expression can be evaluated using the <code>s(x)</code> function that returns a
+concrete class (fast_vector,fast_matrix,dyn_vector,dyn_matrix) based on the
+expression.</p>
+</div>
+<div class="section" id="reduction">
+<h2>Reduction</h2>
+<p>Several reduction functions are available:</p>
+<ul class="simple">
+<li>sum: Return the sum of a vector or matrix</li>
+<li>mean: Return the sum of a vector or matrix</li>
+<li>dot: Return the dot product of two vector or matrices</li>
+</ul>
+</div>
+<div class="section" id="functions">
+<h2>Functions</h2>
+<p>The header <em>convolution.hpp</em> provides several convolution operations both in 1D
+(vector) and 2D (matrix). All the convolution are available in valid, full and
+same versions.</p>
+<p>The header <em>mutiplication.hpp</em> provides the matrix multiplication operation
+(<code>mmult</code>). For now on, only the naive algorithm is available. I'll
+probably add support for Strassen algorithm in the near future.</p>
+<p>It is possible to pass an expression rather than an data structure to functions.
+You have to keep in mind that expression are lazy, therefore if you pass a + b
+to a matrix multiplication, an addition will be run each time an element is
+accessed (n^3 times), therefore, it is rarely efficient.</p>
+</div>
+<div class="section" id="examples">
+<h2>Examples</h2>
+<p>Here are some examples of these operators (taken from my Machine Learning
+Library):</p>
+<pre class="code cpp"><a name="rest_code_dcce251ffbf343bfbb1a4772d3dc2fe7-1"></a><span class="n">h_a</span> <span class="o">=</span> <span class="n">sigmoid</span><span class="p">(</span><span class="n">b</span> <span class="o">+</span> <span class="n">mmul</span><span class="p">(</span><span class="n">reshape</span><span class="o">&lt;</span><span class="mi">1</span><span class="p">,</span> <span class="n">num_visible</span><span class="o">&gt;</span><span class="p">(</span><span class="n">v_a</span><span class="p">),</span> <span class="n">w</span><span class="p">,</span> <span class="n">t</span><span class="p">));</span>
+<a name="rest_code_dcce251ffbf343bfbb1a4772d3dc2fe7-2"></a><span class="n">h_s</span> <span class="o">=</span> <span class="n">bernoulli</span><span class="p">(</span><span class="n">h_a</span><span class="p">);</span>
+</pre>
+<pre class="code cpp"><a name="rest_code_1c1c0164a2974e0f867c21c4895e3306-1"></a><span class="n">h_a</span> <span class="o">=</span> <span class="n">min</span><span class="p">(</span><span class="n">max</span><span class="p">(</span><span class="n">b</span> <span class="o">+</span> <span class="n">mmul</span><span class="p">(</span><span class="n">reshape</span><span class="o">&lt;</span><span class="mi">1</span><span class="p">,</span> <span class="n">num_visible</span><span class="o">&gt;</span><span class="p">(</span><span class="n">v_a</span><span class="p">),</span> <span class="n">w</span><span class="p">,</span> <span class="n">t</span><span class="p">),</span> <span class="mf">0.0</span><span class="p">),</span> <span class="mf">6.0</span><span class="p">);</span>
+<a name="rest_code_1c1c0164a2974e0f867c21c4895e3306-2"></a><span class="n">h_s</span> <span class="o">=</span> <span class="n">ranged_noise</span><span class="p">(</span><span class="n">h_a</span><span class="p">,</span> <span class="mf">6.0</span><span class="p">);</span>
+</pre>
+<pre class="code cpp"><a name="rest_code_77d2f7641197405094ac1f1cf8ea09d8-1"></a><span class="n">weight</span> <span class="n">exp_sum</span> <span class="o">=</span> <span class="n">sum</span><span class="p">(</span><span class="n">exp</span><span class="p">(</span><span class="n">b</span> <span class="o">+</span> <span class="n">mmul</span><span class="p">(</span><span class="n">reshape</span><span class="o">&lt;</span><span class="mi">1</span><span class="p">,</span> <span class="n">num_visible</span><span class="o">&gt;</span><span class="p">(</span><span class="n">v_a</span><span class="p">),</span> <span class="n">w</span><span class="p">,</span> <span class="n">t</span><span class="p">)));</span>
+<a name="rest_code_77d2f7641197405094ac1f1cf8ea09d8-2"></a>
+<a name="rest_code_77d2f7641197405094ac1f1cf8ea09d8-3"></a><span class="n">h_a</span> <span class="o">=</span> <span class="n">exp</span><span class="p">(</span><span class="n">b</span> <span class="o">+</span> <span class="n">mmul</span><span class="p">(</span><span class="n">reshape</span><span class="o">&lt;</span><span class="mi">1</span><span class="p">,</span> <span class="n">num_visible</span><span class="o">&gt;</span><span class="p">(</span><span class="n">v_a</span><span class="p">),</span> <span class="n">w</span><span class="p">,</span> <span class="n">t</span><span class="p">))</span> <span class="o">/</span> <span class="n">exp_sum</span><span class="p">;</span>
+<a name="rest_code_77d2f7641197405094ac1f1cf8ea09d8-4"></a>
+<a name="rest_code_77d2f7641197405094ac1f1cf8ea09d8-5"></a><span class="k">auto</span> <span class="n">max</span> <span class="o">=</span> <span class="n">std</span><span class="o">::</span><span class="n">max_element</span><span class="p">(</span><span class="n">h_a</span><span class="p">.</span><span class="n">begin</span><span class="p">(),</span> <span class="n">h_a</span><span class="p">.</span><span class="n">end</span><span class="p">());</span>
+<a name="rest_code_77d2f7641197405094ac1f1cf8ea09d8-6"></a>
+<a name="rest_code_77d2f7641197405094ac1f1cf8ea09d8-7"></a><span class="n">h_s</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">;</span>
+<a name="rest_code_77d2f7641197405094ac1f1cf8ea09d8-8"></a><span class="n">h_s</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">distance</span><span class="p">(</span><span class="n">h_a</span><span class="p">.</span><span class="n">begin</span><span class="p">(),</span> <span class="n">max</span><span class="p">))</span> <span class="o">=</span> <span class="mf">1.0</span><span class="p">;</span>
+</pre>
+</div>
+<div class="section" id="conclusion">
+<h2>Conclusion</h2>
+<p>This library is available on Github: <a class="reference external" href="https://github.com/wichtounet/etl">etl</a>.
+It is licensed under MIT license.</p>
+<p>It is header-only, therefore you don't have to build it. However, it uses some
+recent C++14 stuff, you'll need a recent version of Clang or G++ to be able to
+use it.</p>
+<p>If you find an issue or have an idea to improve it, just post it on Github or
+as a comment here and I'll do my best to work on that. If you have any question
+on the usage of the library, I'd be glad to answer them.</p>
+</div>
+</div>
+</div>
+<aside class="postpromonav"><nav><ul itemprop="keywords" class="tags">
+<li><a class="tag p-category" href="../../../categories/c%2B%2B.html" rel="tag">C++</a></li>
+<li><a class="tag p-category" href="../../../categories/c%2B%2B11.html" rel="tag">C++11</a></li>
+<li><a class="tag p-category" href="../../../categories/c%2B%2B14.html" rel="tag">C++14</a></li>
+<li><a class="tag p-category" href="../../../categories/libraries.html" rel="tag">Libraries</a></li>
+</ul>
+<ul class="pager hidden-print">
+<li class="previous">
+<a href="a-mutt-journey-my-mutt-configuration.html" rel="prev" title="A Mutt journey: Mutt configuration">Previous post</a>
+</li>
+<li class="next">
+<a href="catch-powerful-yet-simple-cpp-test-framework.html" rel="next" title="Catch: A powerful yet simple C++ test framework">Next post</a>
+</li>
+</ul></nav></aside><section class="comments hidden-print"><h2>Comments</h2>
+ <div id="disqus_thread"></div>
+<script>
+        var disqus_shortname ="blogwichtounet",
+            disqus_url="http://baptiste-wicht.com/posts/2014/07/etl-cpp-library-for-vector-and-matrix-computations.html",
+        disqus_title="ETL - C++ library for vector and matrix computations",
+        disqus_identifier="cache/posts/2014/07/etl-cpp-library-for-vector-and-matrix-computations.html",
+        disqus_config = function () {
+            this.language = "en";
+        };
+        (function() {
+            var dsq = document.createElement('script'); dsq.async = true;
+            dsq.src = 'https://' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        })();
+    </script><noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a>
+</noscript>
+<a href="https://disqus.com" class="dsq-brlink" rel="nofollow">Comments powered by <span class="logo-disqus">Disqus</span></a>
+</section></article><script>var disqus_shortname="blogwichtounet";(function(){var a=document.createElement("script");a.async=true;a.src="https://"+disqus_shortname+".disqus.com/count.js";(document.getElementsByTagName("head")[0]||document.getElementsByTagName("body")[0]).appendChild(a)}());</script>
+</div> 
+</div>
+
+</div>
+
+
+
+<footer>
+Contents © 2017 <a href="/cdn-cgi/l/email-protection#a6c4c7d6d2cfd5d2c3d1cfc5ced2e6c1cbc7cfca88c5c9cb">Baptiste Wicht</a> - Powered by <a href="http://getnikola.com" rel="nofollow">Nikola</a> - License:
+<a rel="license" href="http://creativecommons.org/licenses/by/4.0/"><img alt="Creative Commons License" style="padding-left:5px;border-width:0" src="../../../assets/img/cc.png"></a>
+<ul class="footer_inline_ul">
+<li>
+<a href="etl-cpp-library-for-vector-and-matrix-computations.rst" id="sourcelink">Source</a>
+</li>
+</ul></footer><script src="/cdn-cgi/scripts/78d64697/cloudflare-static/email-decode.min.js"></script><script src="../../../assets/js/all-nocdn.js"></script>
+</body>
+</html>

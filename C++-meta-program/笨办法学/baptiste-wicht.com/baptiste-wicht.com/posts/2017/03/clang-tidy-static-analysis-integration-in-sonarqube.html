@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html prefix="og: http://ogp.me/ns# article: http://ogp.me/ns/article# " lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="description" content="This post describes the use of clang-tidy for static analysis and the ingration of the reports in Sonarqube">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Use clang-tidy for static analysis and integration in Sonarqube | Blog blog("Baptiste Wicht");</title>
+<script src="/cdn-cgi/apps/head/98vpnawSZZMscPn4oDND-ZgswjM.js"></script><link href="../../../assets/css/all-nocdn.css" rel="stylesheet" type="text/css">
+<meta name="theme-color" content="#5670d4">
+<meta name="generator" content="Nikola (getnikola.com)">
+<link rel="alternate" type="application/rss+xml" title="RSS" href="../../../rss.xml">
+<link rel="canonical" href="http://baptiste-wicht.com/posts/2017/03/clang-tidy-static-analysis-integration-in-sonarqube.html">
+<!--[if lt IE 9]><script src="../../../assets/js/html5.js"></script><![endif]--><meta name="author" content="Baptiste Wicht">
+<link rel="prev" href="disappointing-zapcc-performance-on-deep-learning-library-dll.html" title="Disappointing zapcc performance on Deep Learning Library (DLL)" type="text/html">
+<link rel="next" href="partial-type-erasing-deep-learning-library-dll-improve-compilation-time.html" title="Partial type erasing in Deep Learning Library (DLL) to improve compilation time" type="text/html">
+<meta property="og:site_name" content='Blog blog("Baptiste Wicht");'>
+<meta property="og:title" content="Use clang-tidy for static analysis and integration in Sonarqube">
+<meta property="og:url" content="http://baptiste-wicht.com/posts/2017/03/clang-tidy-static-analysis-integration-in-sonarqube.html">
+<meta property="og:description" content="This post describes the use of clang-tidy for static analysis and the ingration of the reports in Sonarqube">
+<meta property="og:type" content="article">
+<meta property="article:published_time" content="2017-03-11T09:54:00+01:00">
+<meta property="article:tag" content="C++">
+<meta property="article:tag" content="clang">
+<meta property="article:tag" content="projects">
+<meta property="article:tag" content="Sonar">
+<link href="../../../favicon.ico" rel="icon" type="image/x-icon">
+<link rel="publisher" href="https://plus.google.com/+BaptisteWicht">
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-2175227-7', 'auto');
+  var metas = document.getElementsByTagName('meta'), tagsList = [];
+  for (var i=0; i<metas.length; i++) {
+    if (metas[i].getAttribute('property') == 'article:tag') {
+      tagsList.push( metas[i].getAttribute('content'));
+    }
+  }
+  ga('set', 'dimension1', tagsList.join('|'));
+  ga('send', 'pageview');
+</script>
+</head>
+<body>
+
+<a href="#content" class="sr-only sr-only-focusable">Skip to main content</a>
+<div class="container-fluid">
+
+<div class="row">
+<div class="col-sm-3 col-lg-2">
+<nav class="navbar navbar-inverse navbar-fixed-side"><div class="navbar-header">
+<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+<span class="sr-only">Toggle navigation</span>
+<span class="icon-bar"></span>
+<span class="icon-bar"></span>
+<span class="icon-bar"></span>
+</button>
+<a class="navbar-brand" href="http://baptiste-wicht.com/">
+<span id="blog-title">Blog blog("Baptiste Wicht");</span>
+</a>
+</div>
+
+<div class="collapse navbar-collapse navbar-ex1-collapse">
+<ul class="nav navbar-nav">
+<li>
+<a href="../../../stories/about.html">About</a>
+</li>
+<li>
+<a href="../../../stories/publications.html">Publications</a>
+</li>
+<li>
+<a href="../../../stories/projects.html">Projects</a>
+</li>
+<li>
+<a href="../../../categories/index.html">Tags</a>
+</li>
+<li>
+<a href="../../../archive.html">Archives</a>
+</li>
+<li>
+<a href="http://feeds.feedburner.com/BaptisteWicht">RSS</a>
+</li>
+<li class="navbar-content">
+<h3>Related posts</h3>
+</li>
+<li><a href="../../2015/05/sonar-cpp-community-plugin-review.html">Sonar C++ Community Plugin Review</a></li>
+<li><a href="../../2016/12/pvs-studio-on-cpp-library-review.html">PVS-Studio on C++ Library Review</a></li>
+<li><a href="../../2014/10/sonarqube-inspections-for-cpp-projects.html">SonarQube inspections for C++ projects</a></li>
+<li><a href="../../2015/11/aggregator-plugin-display-global-metrics-in-sonarqube.html">Aggregator Plugin : Display global metrics in Sonarqube</a></li>
+<li><a href="../../2015/06/how-i-improved-a-bit-compile-time-of-etl.html">How I improved (a bit) compile time of ETL ?</a></li>
+<li><a href="../../2015/03/named-optional-template-parameters-compile-time.html">Named Optional Template parameters to configure a class at compile-time</a></li>
+<li class="navbar-block">
+<li class="wicht-navbar-right">
+<a target="_blank" title="Follow @wichtounet on Twitter" href="https://twitter.com/wichtounet">
+<img src="../../../assets/img/twitter.png" alt="Follow @wichtounet on Twitter"></a>
+</li>
+<li class="wicht-navbar-right">
+<a target="_blank" title="Follow +BaptisteWicht on Google+" href="https://plus.google.com/+BaptisteWicht">
+<img src="../../../assets/img/google_plus.png" alt="Follow +BaptisteWicht on Google+"></a>
+</li>
+</ul>
+</div>
+
+</nav>
+</div> 
+<div class="col-sm-9 col-lg-10">
+<div id="content"></div>
+<article class="post-text h-entry hentry postpage" itemscope="itemscope" itemtype="http://schema.org/Article"><header><h1 class="p-name entry-title" itemprop="headline name"><a href="#" class="u-url">Use clang-tidy for static analysis and integration in Sonarqube</a></h1>
+<div class="metadata">
+<p class="byline author vcard"><span class="byline-name fn" itemprop="author">
+Baptiste Wicht
+</span></p>
+<p class="dateline"><a href="#" rel="bookmark"><time class="published dt-published" datetime="2017-03-11T09:54:00+01:00" itemprop="datePublished" title="2017-03-11 09:54">2017-03-11 09:54</time></a></p>
+<p class="commentline">
+<a href="clang-tidy-static-analysis-integration-in-sonarqube.html#disqus_thread" data-disqus-identifier="cache/posts/2017/03/clang-tidy-static-analysis-integration-in-sonarqube.html">Comments</a>
+</p>
+<p class="sourceline"><a href="clang-tidy-static-analysis-integration-in-sonarqube.rst" class="sourcelink">Source</a></p>
+</div>
+</header><div class="e-content entry-content" itemprop="articleBody text">
+<div>
+<p>clang-tidy is an extensive linter C++. It provides a complete framework for
+analysis of C++ code. Some of the checks are very simple but some of them are
+very complete and most of the checks from the clang-static-analyzer are
+integrated into clang-tidy.</p>
+<div class="section" id="usage">
+<h2>Usage</h2>
+<p>If you want to see the list of checks available on clang-tidy, you can use the
+list-checks options:</p>
+<pre class="code text"><a name="rest_code_097a78d40f4046e993cb65035e8f026b-1"></a>clang-tidy -list-checks
+</pre>
+<p>You can then choose the tests you are interested in and perform an analysis of
+your code. For, it is highly recommended to use a Clang compilation database,
+you can have a look at Bear to generate this compilation database if you don't
+have it yet. The usage of clang-tidy, is pretty simple, you set the list of
+checks you want, the header on which you want to have warnings reported and the
+list of source files to analyse:</p>
+<pre class="code text"><a name="rest_code_5c3d2b46a40542d1a886b67a6cf0ce0f-1"></a>clang-tidy -checks='*' -header-filter="^include" -p . src/*.cpp
+</pre>
+<p>You'll very likely see a lot of warnings. And you will very likely see a lot of
+false positives and a lot of warnings you don't agree too. For insance, there
+are a lot of warnings from the CPP Core Guidelines and the Google Guidelines
+that I don't follow in my coding. You should not take the complete list of tests
+as rule, you should devise your own list of what you really want to fix in your
+code. If you want to disable one check X, you can use the - operation:</p>
+<pre class="code text"><a name="rest_code_cbbaba3d60ea4314a400a9f7c0c8fa08-1"></a>clang-tidy -checks='*,-X' -header-filter="^include" -p . src/*.cpp
+</pre>
+<p>You can also enable the checks one by one or parts of them with *:</p>
+<pre class="code text"><a name="rest_code_91ce81be43cc4b0ab4d00b1f298e655a-1"></a>clang-tidy -checks='google-*' -header-filter="^include" -p . src/*.cpp
+</pre>
+<p>One problem with the clang-tidy tool is that it is utterly slow, especially if
+you enable the clang-static-analyzer checks. Moreover, if you use it like it is
+set before, it will only use one thread for the complete set of files. This may
+not be an issue on small projects, but this will definitely be a big issue for
+large projects and template-heavy code (like my ETL project). You could create
+an implicit target into your Makefile to use it on each file independently and
+then use the -j option of make to make them in parallel, but it not really
+practical.</p>
+<p>For this, I just discovered that clang propose a Python script,
+run-clang-tidy.py that does it all for us! On Gentoo, it is installed at
+/usr/share/run-clang-tidy.py.</p>
+<pre class="code text"><a name="rest_code_42a80053a2734bd5bf4fa14d7825c424-1"></a>run-clang-tidy.py -checks='*' -header-filter="^include" -p . -j9
+</pre>
+<p>This will automatically run clang-tidy on each file from the compilation
+database and use 9 threads to perform the checks. This is definitely much
+faster. For me, this is the best way to run clang-tidy.</p>
+<p>One small point I don't like is that the script always print the list of enabled
+checks. For, this I changed this line in the script:</p>
+<pre class="code python"><a name="rest_code_fde3c156e5484523a31f93d4698c577b-1"></a><span class="n">invocation</span> <span class="o">=</span> <span class="p">[</span><span class="n">args</span><span class="o">.</span><span class="n">clang_tidy_binary</span><span class="p">,</span> <span class="s1">'-list-checks'</span><span class="p">]</span>
+</pre>
+<p>with:</p>
+<pre class="code python"><a name="rest_code_10fb77fb275a4f698765be87bf2e4395-1"></a><span class="n">invocation</span> <span class="o">=</span> <span class="p">[</span><span class="n">args</span><span class="o">.</span><span class="n">clang_tidy_binary</span><span class="p">]</span>
+</pre>
+<p>This makes it more quiet.</p>
+<p>One thing I didn't mention is that clang-tidy is able to fix some of the errors
+directly if you use the -fix option. Personally, I don't like this, but for
+a large code base and a carefully selected set of checks, this could be really
+useful. Note that not all the checks are automatically fixable by clang-tidy.</p>
+</div>
+<div class="section" id="results">
+<h2>Results</h2>
+<p>I have run clang-tidy on my cpp-utils library and here some interesting results.
+I have not run all the checks, here is the command I used:</p>
+<pre class="code text"><a name="rest_code_607905eaa8774e0aa00e4715eec695d6-1"></a>/usr/share/clang/run-clang-tidy.py -p . -header-filter '^include/cpp_utils' -checks='cert-*,cppcoreguidelines-*,google-*,llvm-*,misc-*,modernize-*,performance-*,readility-*,-cppcoreguidelines-pro-type-reinterpret-cast,-cppcoreguidelines-pro-bounds-pointer-arithmetic,-google-readability-namespace-comments,-llvm-namespace-comment,-llvm-include-order,-google-runtime-references' -j9 2&gt;/dev/null  | /usr/bin/zgrep -v "^clang-tidy"
+</pre>
+<p>Let's go over some warnings I got:</p>
+<pre class="code text"><a name="rest_code_4341cfb8f71949b4bf99d22fcd3d8ffa-1"></a>include/cpp_utils/assert.hpp:91:103: warning: consider replacing 'long' with 'int64' [google-runtime-int]
+<a name="rest_code_4341cfb8f71949b4bf99d22fcd3d8ffa-2"></a>void assertion_failed_msg(const CharT* expr, const char* msg, const char* function, const char* file, long line) {
+<a name="rest_code_4341cfb8f71949b4bf99d22fcd3d8ffa-3"></a>                                                                                                      ^
+</pre>
+<p>I got this one several times. It is indeed more portable to use <code>int64</code> rather than <code>long</code>.</p>
+<pre class="code text"><a name="rest_code_12d0bca3b5ed43f0a550dcef7b18a988-1"></a>include/cpp_utils/aligned_allocator.hpp:53:9: warning: use 'using' instead of 'typedef' [modernize-use-using]
+<a name="rest_code_12d0bca3b5ed43f0a550dcef7b18a988-2"></a>        typedef aligned_allocator&lt;U, A&gt; other;
+<a name="rest_code_12d0bca3b5ed43f0a550dcef7b18a988-3"></a>        ^
+</pre>
+<p>This one is part of the modernize checks, indicating that one should use
+<code>using</code> rather than a <code>typedef</code> and I completely agree.</p>
+<pre class="code cpp"><a name="rest_code_d0d13f55c06f47cd9c2992f049f1e972-1"></a><span class="n">include</span><span class="o">/</span><span class="n">cpp_utils</span><span class="o">/</span><span class="n">aligned_allocator</span><span class="p">.</span><span class="nl">hpp</span><span class="p">:</span><span class="mi">79</span><span class="o">:</span><span class="mi">5</span><span class="o">:</span> <span class="nl">warning</span><span class="p">:</span> <span class="n">use</span> <span class="err">'</span><span class="o">=</span> <span class="k">default</span><span class="err">'</span> <span class="n">to</span> <span class="n">define</span> <span class="n">a</span> <span class="n">trivial</span> <span class="k">default</span> <span class="n">constructor</span> <span class="p">[</span><span class="n">modernize</span><span class="o">-</span><span class="n">use</span><span class="o">-</span><span class="k">default</span><span class="p">]</span>
+<a name="rest_code_d0d13f55c06f47cd9c2992f049f1e972-2"></a>    <span class="n">aligned_allocator</span><span class="p">()</span> <span class="p">{}</span>
+<a name="rest_code_d0d13f55c06f47cd9c2992f049f1e972-3"></a>    <span class="o">^</span>
+<a name="rest_code_d0d13f55c06f47cd9c2992f049f1e972-4"></a>                        <span class="o">=</span> <span class="k">default</span><span class="p">;</span>
+</pre>
+<p>Another one from the modernize checks that I really like. This is completely
+true.</p>
+
+<p>I don't agree that every constructor with one argument should be explicit,
+sometimes you want implicit conversion. Nevertheless, this particular case is
+very interesting since it is variadic, it can have one template argument and as
+thus it can be implicitly converted from anything, which is pretty bad I think.</p>
+<pre class="code cpp"><a name="rest_code_41f1325a0f0a4bb3b426dfc8dec16a61-1"></a><span class="n">test</span><span class="o">/</span><span class="n">array_wrapper</span><span class="p">.</span><span class="nl">cpp</span><span class="p">:</span><span class="mi">15</span><span class="o">:</span><span class="mi">18</span><span class="o">:</span> <span class="nl">warning</span><span class="p">:</span> <span class="n">C</span><span class="o">-</span><span class="n">style</span> <span class="n">casts</span> <span class="n">are</span> <span class="n">discouraged</span><span class="p">;</span> <span class="n">use</span> <span class="k">reinterpret_cast</span> <span class="p">[</span><span class="n">google</span><span class="o">-</span><span class="n">readability</span><span class="o">-</span><span class="n">casting</span><span class="p">]</span>
+<a name="rest_code_41f1325a0f0a4bb3b426dfc8dec16a61-2"></a>    <span class="kt">float</span><span class="o">*</span> <span class="n">mem</span> <span class="o">=</span> <span class="p">(</span><span class="kt">float</span><span class="o">*</span><span class="p">)</span> <span class="n">malloc</span><span class="p">(</span><span class="k">sizeof</span><span class="p">(</span><span class="kt">float</span><span class="p">)</span> <span class="o">*</span> <span class="mi">8</span><span class="p">);</span>
+<a name="rest_code_41f1325a0f0a4bb3b426dfc8dec16a61-3"></a>                 <span class="o">^</span>
+<a name="rest_code_41f1325a0f0a4bb3b426dfc8dec16a61-4"></a>                 <span class="k">reinterpret_cast</span><span class="o">&lt;</span><span class="kt">float</span><span class="o">*&gt;</span><span class="p">(</span>         <span class="p">)</span>
+</pre>
+<p>On this one, I completely agree, C-style casts should be avoided and much
+clearer C++ style casts should be preferred.</p>
+<pre class="code cpp"><a name="rest_code_2363916daf3248c1a3c905bfdeb1ee5f-1"></a><span class="o">/</span><span class="n">home</span><span class="o">/</span><span class="n">wichtounet</span><span class="o">/</span><span class="n">dev</span><span class="o">/</span><span class="n">cpp_utils_test</span><span class="o">/</span><span class="n">include</span><span class="o">/</span><span class="n">cpp_utils</span><span class="o">/</span><span class="n">aligned_allocator</span><span class="p">.</span><span class="nl">hpp</span><span class="p">:</span><span class="mi">126</span><span class="o">:</span><span class="mi">19</span><span class="o">:</span> <span class="nl">warning</span><span class="p">:</span> <span class="n">thrown</span> <span class="n">exception</span> <span class="n">type</span> <span class="n">is</span> <span class="n">not</span> <span class="n">nothrow</span> <span class="n">copy</span> <span class="n">constructible</span> <span class="p">[</span><span class="n">cert</span><span class="o">-</span><span class="n">err60</span><span class="o">-</span><span class="n">cpp</span><span class="p">]</span>
+<a name="rest_code_2363916daf3248c1a3c905bfdeb1ee5f-2"></a>            <span class="k">throw</span> <span class="n">std</span><span class="o">::</span><span class="n">length_error</span><span class="p">(</span><span class="s">"aligned_allocator&lt;T&gt;::allocate() - Integer overflow."</span><span class="p">);</span>
+<a name="rest_code_2363916daf3248c1a3c905bfdeb1ee5f-3"></a>                  <span class="o">^</span>
+</pre>
+<p>This is one of the checks I don't agree with. Even though it makes sense to
+prefer exception that are nothrow copy constructible, they should be caught by
+const reference anyway. Moreover, this is here an exception from the standard
+library.</p>
+<pre class="code text"><a name="rest_code_a9b73a5c8cf8408093759d5ec4b4d46c-1"></a>/home/wichtounet/dev/cpp_utils_test/include/cpp_utils/aligned_allocator.hpp:141:40: warning: do not use const_cast [cppcoreguidelines-pro-type-const-cast]
+<a name="rest_code_a9b73a5c8cf8408093759d5ec4b4d46c-2"></a>        free((reinterpret_cast&lt;void**&gt;(const_cast&lt;std::remove_const_t&lt;T&gt;*&gt;(ptr)))[-1]);
+<a name="rest_code_a9b73a5c8cf8408093759d5ec4b4d46c-3"></a>                                       ^
+</pre>
+<p>In general, I agree that using const_cast should be avoided as much as possible.
+But there are some cases where they make sense. In this particular case, I don't
+modify the object itself but some memory before the object that is unrelated and
+I initialize myself.</p>
+<p>I also had a few false positives, but overall nothing too bad. I'm quite
+satisfied with the quality of the results. I'll fix these warnings in the coming
+week.</p>
+<p>Integration in Sonarqube</p>
+<p>The sonar-cxx plugin just integrated support for clang-tidy in main. You need
+to build the version yourself, the 0.9.8-SNAPSHOT version. You then can use
+something like this in your sonar-project.properties file:</p>
+<pre class="code text"><a name="rest_code_3b2c06213ac94d8bac9a28d7e67c5be0-1"></a>sonar.cxx.clangtidy.reportPath=clang-tidy-report
+</pre>
+<p>and sonar-cxx will parse the results and integrate the issues in your sonar
+report.</p>
+<p>Here is an example:</p>
+<img alt="/images/sonar-cxx-clang-tidy.png" src="../../../images/sonar-cxx-clang-tidy.png"><p>You can see two of the warnings from clang-tidy :)</p>
+<p>For now, I haven't integrate this in my Continuous Integration system because
+I'm still having issues with clang-tidy and the compilation database. Because
+the compilation contains absolute paths to the file and to the current
+directory, it cannot be shared directly between servers. I have to find a way to
+fix that so that clang-tidy can use on the other computer. I'll probably wait
+till the sonar-cxx 0.9.8 version is released before integrating all this in
+Sonarqube, but this is a great news for this plugin :)</p>
+</div>
+<div class="section" id="conclusion">
+<h2>Conclusion</h2>
+<p>clang-tidy is C++ linter that can analyze your code and checks for hundreds of
+problems in it. With it, I have found some very interesting problems in the code
+of my cpp_utils library. Moreover, you can now integrate it Sonarqube by using
+the sonar-cxx plugin. Since it is a bit slow, I'll probably not integrate it in
+my bigger projects, but I'll integrate at least in the cpp_utils library when
+sonar-cxx 0.9.8 will be released.</p>
+</div>
+</div>
+</div>
+<aside class="postpromonav"><nav><ul itemprop="keywords" class="tags">
+<li><a class="tag p-category" href="../../../categories/c%2B%2B.html" rel="tag">C++</a></li>
+<li><a class="tag p-category" href="../../../categories/clang.html" rel="tag">clang</a></li>
+<li><a class="tag p-category" href="../../../categories/projects.html" rel="tag">projects</a></li>
+<li><a class="tag p-category" href="../../../categories/sonar.html" rel="tag">Sonar</a></li>
+</ul>
+<ul class="pager hidden-print">
+<li class="previous">
+<a href="disappointing-zapcc-performance-on-deep-learning-library-dll.html" rel="prev" title="Disappointing zapcc performance on Deep Learning Library (DLL)">Previous post</a>
+</li>
+<li class="next">
+<a href="partial-type-erasing-deep-learning-library-dll-improve-compilation-time.html" rel="next" title="Partial type erasing in Deep Learning Library (DLL) to improve compilation time">Next post</a>
+</li>
+</ul></nav></aside><section class="comments hidden-print"><h2>Comments</h2>
+<div id="disqus_thread"></div>
+<script>
+        var disqus_shortname ="blogwichtounet",
+            disqus_url="http://baptiste-wicht.com/posts/2017/03/clang-tidy-static-analysis-integration-in-sonarqube.html",
+        disqus_title="Use clang-tidy for static analysis and integration in Sonarqube",
+        disqus_identifier="cache/posts/2017/03/clang-tidy-static-analysis-integration-in-sonarqube.html",
+        disqus_config = function () {
+            this.language = "en";
+        };
+        (function() {
+            var dsq = document.createElement('script'); dsq.async = true;
+            dsq.src = 'https://' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        })();
+    </script><noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a>
+</noscript>
+<a href="https://disqus.com" class="dsq-brlink" rel="nofollow">Comments powered by <span class="logo-disqus">Disqus</span></a>
+</section></article><script>var disqus_shortname="blogwichtounet";(function(){var a=document.createElement("script");a.async=true;a.src="https://"+disqus_shortname+".disqus.com/count.js";(document.getElementsByTagName("head")[0]||document.getElementsByTagName("body")[0]).appendChild(a)}());</script>
+</div> 
+</div>
+
+</div>
+
+
+
+<footer>
+Contents © 2017 <a href="/cdn-cgi/l/email-protection#ea888b9a9e83999e8f9d8389829eaa8d878b8386c4898587">Baptiste Wicht</a> - Powered by <a href="http://getnikola.com" rel="nofollow">Nikola</a> - License:
+<a rel="license" href="http://creativecommons.org/licenses/by/4.0/"><img alt="Creative Commons License" style="padding-left:5px;border-width:0" src="../../../assets/img/cc.png"></a>
+<ul class="footer_inline_ul">
+<li>
+<a href="clang-tidy-static-analysis-integration-in-sonarqube.rst" id="sourcelink">Source</a>
+</li>
+</ul></footer><script src="/cdn-cgi/scripts/78d64697/cloudflare-static/email-decode.min.js"></script><script src="../../../assets/js/all-nocdn.js"></script>
+</body>
+</html>
