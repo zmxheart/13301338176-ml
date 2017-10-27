@@ -1,3 +1,0 @@
-Yesterday I recompiled my Linux Kernel stripping it again and I found out that X.org was not working very anymore. Some windows were frozen and there was some troubles with the mouse. Another problem was that Google Chrome wouldn't display anything but blank pages. 
-
-The solution was easy: Do not disable the <strong>System V IPC</strong> option on the kernel.

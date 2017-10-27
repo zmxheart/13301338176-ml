@@ -1,9 +1,0 @@
-It's my pleasure to announce that I've finally released <strong>JTheque Core 2.1.0</strong> !
-
-The different services of the core are now separated using <strong>OSGi</strong>. With this separation, I've improved a lot the design of the core and the orthogonality of the different services. Each service is now an OSGi bundle. I've also refactored the implementation of all services. Several services have been completely rewritten. The majority of the bundles are now thread-safe.
-
-Now, to create modules for a JTheque application, you have to write an OSGi bundle representing the module. Then, you only have to use Spring to launch the module. This is done using <strong>Spring Dynamic Modules</strong>. The used OSGi container is <strong>Felix</strong>.
-
-Now that this version of the core is finalized, I'll updates the applications. First of all, JTheque Movies with the new version of the core.
-
-Fore more informations and to download JTheque Core, you can go on <a href="http://www.jtheque.com/jtheque-core">the description page</a>. If you want to try developing a module (or see how it is done), you can consult <a href="http://www.jtheque.com/jtheque-core/guides/develop-modular-application-jtheque-core-2-1-0">this starter guide</a>.

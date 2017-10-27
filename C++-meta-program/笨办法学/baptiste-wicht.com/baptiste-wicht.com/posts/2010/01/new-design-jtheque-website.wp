@@ -1,3 +1,0 @@
-I've made a new design for the JTheque web site : <a title="New design for JTheque Web site" href="New%20design%20for%20JTheque%20Web%20site" target="_self">http://jtheque.developpez.com/en</a>
-
-I took the same design than for my personal web site. The web site is still generated with Maven 2, but i use a custom maven skin to generate the site.

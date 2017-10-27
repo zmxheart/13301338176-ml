@@ -1,9 +1,0 @@
-From this morning, I was encoutering problems when scrolling in Kile editor using Gnome. When I scrolled, not all the lines were moving and the text was only correct when I clicked on them... 
-
-After some researches, I found that the solution was to use a different graphics system. You can do that in any Qt applicaitions using the graphics-system command line option. You can choose between raster and opengl. opengl is supposed to be the fastest one, but it is still experimental. In my case, I use raster that solve the scrolling problems and it doesn't change anything, which is fine. 
-
-So you can use this command-line to start Kile : 
-
-<pre>kile --graphicssystem raster</pre>
-
-And that will solve your scrolling problems if you encounter some. You can also use this tip to improve performances of Kile if you need. If you do, test with opengl and if it's not stable on your system, choose raster, that will improve the performance compared to the default graphics system.

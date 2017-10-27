@@ -1,7 +1,0 @@
-As you may have seen, my website had not CSS these last days. 
-
-This was due to a bug in the W3 Total Cache plugin of Wordpress. The minified CSS file wasn't accessible. When we tried to access it from the site, there was an error : "File param is missing"
-
-There is an easy solution to solve this problem. You just have to disable the "Rewrite URL structure" option on the Minify tab in the W3 Total Cache options. This will solve the problems. The only issue with this solution, is that you will not have fancy links for your CSS and JS minified files, but I think it's a really little problem comparing to the lack of CSS :)
-
-Hope this will be helpful to some of you.

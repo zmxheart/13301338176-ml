@@ -1,7 +1,0 @@
-I arrived yesterday to Berkeley, California.
-
-Just like I did my Bachelor thesis in Lawrence Berkeley National Laboratory (LBNL), I will do my Master Thesis there too. The thesis will last a bit less than a semester.
-
-During my Master Thesis I will try to use profiling samples from the Linux perf tools in GCC or Clang to optimize processor cache usage (avoid cache and page faults).
-
-I will try to publish some posts about that during the semester if I have time.

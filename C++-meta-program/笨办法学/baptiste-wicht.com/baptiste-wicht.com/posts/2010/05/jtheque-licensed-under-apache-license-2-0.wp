@@ -1,5 +1,0 @@
-I decided to change the licence of all the JTheque Projects (The Core, the Utils and all the applications) to <a href="http://www.apache.org/licenses/LICENSE-2.0.html">Apache Licence 2.0</a>. The current license was GNU GPL V3. 
-
-I wanted to remove the copyleft clause of the GPL License to make the use of JTheque more simple and more open. For me the copyleft is not really important, I need only the copyright clause. 
-
-So, all the next versions of one of the JTheque Projects will now be made available under the Terms of the Apache License 2.0.

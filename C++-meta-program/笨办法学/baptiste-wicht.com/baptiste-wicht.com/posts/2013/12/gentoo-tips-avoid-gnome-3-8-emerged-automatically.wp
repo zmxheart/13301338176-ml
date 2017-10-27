@@ -1,9 +1,0 @@
-Since Gnome 3.8 has been out in the portage tree, a lot of problems arise when you try to emerge something. If it was only when you update the system, it would be OK, but this arises every time you try to install something.
-
-For instance, if I try to update vim on my system, it tries to update empathy to version 3.8 and then pulls some other dependencies causing blocks and other USE problems. I personally don't think empathy should be emerged when emerging vim. Fortunately, you can disable this behavior by using emerge in this way:
-
-<pre>emerge --ignore-built-slot-operator-deps=y ...</pre>
-
-With that, when you emerge vim, it doesn't emerge Gnome 3.8. It is very useful if you want to stay with Gnome 3.6 for the moment.
-
-I already used this tip several times. I hope that this will be useful to other people.

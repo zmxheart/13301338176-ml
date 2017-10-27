@@ -1,3 +1,0 @@
-Just a little post to inform you that i'm currently migrating JTheque Core to OSGI / Spring Dynamic Modules. The core will be fractioned into several bundles. The JTheque Modules will also be OSGi bundles.
-
-It will increase the modularity of the different services of the Core. And it will also be a more standard way to develop modules. And last but not least, it's an opportunity for me to learn OSGi and Spring Dm.
