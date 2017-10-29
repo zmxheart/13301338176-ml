@@ -27,6 +27,12 @@ now_ms(void)
 class Base1
 {
 public:
+
+
+   void modifying(int value)
+    {
+    }
+
     ~Base1() // note: virtual
     {
         std::cout << "Calling ~Base1()" << std::endl;
@@ -43,7 +49,7 @@ public:
     {
         m_array = new int[length];
     }
- 
+
     ~Derived1() // note: virtual
     {
         std::cout << "Calling ~Derived1()" << std::endl;
@@ -55,6 +61,11 @@ public:
 class Base
 {
 public:
+
+    void modifying(int value)
+    {
+    }
+
     virtual ~Base() // 
     {
         std::cout << "Calling ~Base()" << std::endl;
@@ -88,6 +99,7 @@ int test(int size) {
 
     Derived *derived = new Derived(10);
     Base *base = derived;
+    base->modifying(size);
     delete base;
     return 0;
 
@@ -98,6 +110,7 @@ int test(int size) {
 int test1(int size) {
 
     Derived1 *derived1 = new Derived1(10);
+    derived1->modifying(size);
     delete derived1;
     return 0;
 
