@@ -1,0 +1,901 @@
+Calling ~Derived()
+Calling ~Base()
+time (1)   was 0.130615  
+Calling ~Derived()
+Calling ~Base()
+time  (2)  was 0.0161133  
+Calling ~Derived()
+Calling ~Base()
+time (1)   was 0.013916  
+Calling ~Derived()
+Calling ~Base()
+time  (2)  was 0.0134277  
+Calling ~Derived()
+Calling ~Base()
+time (1)   was 0.0129395  
+Calling ~Derived()
+Calling ~Base()
+time  (2)  was 0.0119629  
+Calling ~Derived()
+Calling ~Base()
+time (1)   was 0.0119629  
+Calling ~Derived()
+Calling ~Base()
+time  (2)  was 0.012207  
+Calling ~Derived()
+Calling ~Base()
+time (1)   was 0.012207  
+Calling ~Derived()
+Calling ~Base()
+time  (2)  was 0.0119629  
+Calling ~Derived()
+Calling ~Base()
+time (1)   was 0.0119629  
+Calling ~Derived()
+Calling ~Base()
+time  (2)  was 0.0117188  
+Calling ~Derived()
+Calling ~Base()
+time (1)   was 0.012207  
+Calling ~Derived()
+Calling ~Base()
+time  (2)  was 0.0119629  
+Calling ~Derived()
+Calling ~Base()
+time (1)   was 0.012207  
+Calling ~Derived()
+Calling ~Base()
+time  (2)  was 0.0119629  
+Calling ~Derived()
+Calling ~Base()
+time (1)   was 0.012207  
+Calling ~Derived()
+Calling ~Base()
+time  (2)  was 0.0117188  
+Calling ~Derived()
+Calling ~Base()
+time (1)   was 0.0119629  
+Calling ~Derived()
+Calling ~Base()
+time  (2)  was 0.0119629  
+Calling ~Derived()
+Calling ~Base()
+time (1)   was 0.012207  
+Calling ~Derived()
+Calling ~Base()
+time  (2)  was 0.0117188  
+Calling ~Derived()
+Calling ~Base()
+time (1)   was 0.0119629  
+Calling ~Derived()
+Calling ~Base()
+time  (2)  was 0.0117188  
+Calling ~Derived()
+Calling ~Base()
+time (1)   was 0.0119629  
+Calling ~Derived()
+Calling ~Base()
+time  (2)  was 0.0119629  
+Calling ~Derived()
+Calling ~Base()
+time (1)   was 0.012207  
+Calling ~Derived()
+Calling ~Base()
+time  (2)  was 0.0119629  
+Calling ~Derived()
+Calling ~Base()
+time (1)   was 0.0119629  
+Calling ~Derived()
+Calling ~Base()
+time  (2)  was 0.0117188  
+Calling ~Derived()
+Calling ~Base()
+time (1)   was 0.0119629  
+Calling ~Derived()
+Calling ~Base()
+time  (2)  was 0.0117188  
+Calling ~Derived()
+Calling ~Base()
+time (1)   was 0.0117188  
+Calling ~Derived()
+Calling ~Base()
+time  (2)  was 0.0119629  
+Calling ~Derived()
+Calling ~Base()
+time (1)   was 0.0119629  
+Calling ~Derived()
+Calling ~Base()
+time  (2)  was 0.0117188  
+Calling ~Derived()
+Calling ~Base()
+time (1)   was 0.0119629  
+Calling ~Derived()
+Calling ~Base()
+time  (2)  was 0.0117188  
+Calling ~Derived()
+Calling ~Base()
+time (1)   was 0.0117188  
+Calling ~Derived()
+Calling ~Base()
+time  (2)  was 0.0117188  
+Calling ~Derived()
+Calling ~Base()
+time (1)   was 0.0119629  
+Calling ~Derived()
+Calling ~Base()
+time  (2)  was 0.0117188  
+Calling ~Derived()
+Calling ~Base()
+time (1)   was 0.012207  
+Calling ~Derived()
+Calling ~Base()
+time  (2)  was 0.0119629  
+Calling ~Derived()
+Calling ~Base()
+time (1)   was 0.0119629  
+Calling ~Derived()
+Calling ~Base()
+time  (2)  was 0.0117188  
+Calling ~Derived()
+Calling ~Base()
+time (1)   was 0.0119629  
+Calling ~Derived()
+Calling ~Base()
+time  (2)  was 0.0119629  
+Calling ~Derived()
+Calling ~Base()
+time (1)   was 0.0119629  
+Calling ~Derived()
+Calling ~Base()
+time  (2)  was 0.0117188  
+Calling ~Derived()
+Calling ~Base()
+time (1)   was 0.0119629  
+Calling ~Derived()
+Calling ~Base()
+time  (2)  was 0.0117188  
+Calling ~Derived()
+Calling ~Base()
+time (1)   was 0.013916  
+Calling ~Derived()
+Calling ~Base()
+time  (2)  was 0.0187988  
+Calling ~Derived()
+Calling ~Base()
+time (1)   was 0.0224609  
+Calling ~Derived()
+Calling ~Base()
+time  (2)  was 0.0124512  
+Calling ~Derived()
+Calling ~Base()
+time (1)   was 0.012207  
+Calling ~Derived()
+Calling ~Base()
+time  (2)  was 0.0119629  
+Calling ~Derived()
+Calling ~Base()
+time (1)   was 0.0119629  
+Calling ~Derived()
+Calling ~Base()
+time  (2)  was 0.0119629  
+Calling ~Derived()
+Calling ~Base()
+time (1)   was 0.0119629  
+Calling ~Derived()
+Calling ~Base()
+time  (2)  was 0.0117188  
+Calling ~Derived()
+Calling ~Base()
+time (1)   was 0.0117188  
+Calling ~Derived()
+Calling ~Base()
+time  (2)  was 0.0117188  
+Calling ~Derived()
+Calling ~Base()
+time (1)   was 0.0117188  
+Calling ~Derived()
+Calling ~Base()
+time  (2)  was 0.0117188  
+Calling ~Derived()
+Calling ~Base()
+time (1)   was 0.052002  
+Calling ~Derived()
+Calling ~Base()
+time  (2)  was 0.0134277  
+Calling ~Derived()
+Calling ~Base()
+time (1)   was 0.0124512  
+Calling ~Derived()
+Calling ~Base()
+time  (2)  was 0.012207  
+Calling ~Derived()
+Calling ~Base()
+time (1)   was 0.012207  
+Calling ~Derived()
+Calling ~Base()
+time  (2)  was 0.0119629  
+Calling ~Derived()
+Calling ~Base()
+time (1)   was 0.0119629  
+Calling ~Derived()
+Calling ~Base()
+time  (2)  was 0.0117188  
+Calling ~Derived()
+Calling ~Base()
+time (1)   was 0.012207  
+Calling ~Derived()
+Calling ~Base()
+time  (2)  was 0.0119629  
+Calling ~Derived()
+Calling ~Base()
+time (1)   was 0.0119629  
+Calling ~Derived()
+Calling ~Base()
+time  (2)  was 0.0119629  
+Calling ~Derived()
+Calling ~Base()
+time (1)   was 0.0117188  
+Calling ~Derived()
+Calling ~Base()
+time  (2)  was 0.0117188  
+Calling ~Derived()
+Calling ~Base()
+time (1)   was 0.0119629  
+Calling ~Derived()
+Calling ~Base()
+time  (2)  was 0.0117188  
+Calling ~Derived()
+Calling ~Base()
+time (1)   was 0.0117188  
+Calling ~Derived()
+Calling ~Base()
+time  (2)  was 0.0117188  
+Calling ~Derived()
+Calling ~Base()
+time (1)   was 0.0119629  
+Calling ~Derived()
+Calling ~Base()
+time  (2)  was 0.0117188  
+Calling ~Derived()
+Calling ~Base()
+time (1)   was 0.0119629  
+Calling ~Derived()
+Calling ~Base()
+time  (2)  was 0.0117188  
+Calling ~Derived()
+Calling ~Base()
+time (1)   was 0.0119629  
+Calling ~Derived()
+Calling ~Base()
+time  (2)  was 0.0114746  
+Calling ~Derived()
+Calling ~Base()
+time (1)   was 0.0119629  
+Calling ~Derived()
+Calling ~Base()
+time  (2)  was 0.0117188  
+Calling ~Derived()
+Calling ~Base()
+time (1)   was 0.0117188  
+Calling ~Derived()
+Calling ~Base()
+time  (2)  was 0.0119629  
+Calling ~Derived()
+Calling ~Base()
+time (1)   was 0.0119629  
+Calling ~Derived()
+Calling ~Base()
+time  (2)  was 0.0119629  
+Calling ~Derived()
+Calling ~Base()
+time (1)   was 0.0119629  
+Calling ~Derived()
+Calling ~Base()
+time  (2)  was 0.0119629  
+Calling ~Derived()
+Calling ~Base()
+time (1)   was 0.0119629  
+Calling ~Derived()
+Calling ~Base()
+time  (2)  was 0.0119629  
+Calling ~Derived()
+Calling ~Base()
+time (1)   was 0.012207  
+Calling ~Derived()
+Calling ~Base()
+time  (2)  was 0.0119629  
+Calling ~Derived()
+Calling ~Base()
+time (1)   was 0.0119629  
+Calling ~Derived()
+Calling ~Base()
+time  (2)  was 0.0119629  
+Calling ~Derived()
+Calling ~Base()
+time (1)   was 0.0119629  
+Calling ~Derived()
+Calling ~Base()
+time  (2)  was 0.0114746  
+Calling ~Derived()
+Calling ~Base()
+time (1)   was 0.0117188  
+Calling ~Derived()
+Calling ~Base()
+time  (2)  was 0.0117188  
+Calling ~Derived()
+Calling ~Base()
+time (1)   was 0.0117188  
+Calling ~Derived()
+Calling ~Base()
+time  (2)  was 0.0117188  
+Calling ~Derived()
+Calling ~Base()
+time (1)   was 0.0119629  
+Calling ~Derived()
+Calling ~Base()
+time  (2)  was 0.0117188  
+Calling ~Derived()
+Calling ~Base()
+time (1)   was 0.0119629  
+Calling ~Derived()
+Calling ~Base()
+time  (2)  was 0.0117188  
+Calling ~Derived()
+Calling ~Base()
+time (1)   was 0.0119629  
+Calling ~Derived()
+Calling ~Base()
+time  (2)  was 0.0117188  
+Calling ~Derived()
+Calling ~Base()
+time (1)   was 0.0117188  
+Calling ~Derived()
+Calling ~Base()
+time  (2)  was 0.0117188  
+Calling ~Derived()
+Calling ~Base()
+time (1)   was 0.012207  
+Calling ~Derived()
+Calling ~Base()
+time  (2)  was 0.0117188  
+Calling ~Derived()
+Calling ~Base()
+time (1)   was 0.0119629  
+Calling ~Derived()
+Calling ~Base()
+time  (2)  was 0.0117188  
+Calling ~Derived()
+Calling ~Base()
+time (1)   was 0.0117188  
+Calling ~Derived()
+Calling ~Base()
+time  (2)  was 0.0119629  
+Calling ~Derived()
+Calling ~Base()
+time (1)   was 0.0119629  
+Calling ~Derived()
+Calling ~Base()
+time  (2)  was 0.0119629  
+Calling ~Derived()
+Calling ~Base()
+time (1)   was 0.0119629  
+Calling ~Derived()
+Calling ~Base()
+time  (2)  was 0.0117188  
+Calling ~Derived()
+Calling ~Base()
+time (1)   was 0.0119629  
+Calling ~Derived()
+Calling ~Base()
+time  (2)  was 0.0117188  
+Calling ~Derived()
+Calling ~Base()
+time (1)   was 0.0119629  
+Calling ~Derived()
+Calling ~Base()
+time  (2)  was 0.0117188  
+Calling ~Derived()
+Calling ~Base()
+time (1)   was 0.0227051  
+Calling ~Derived()
+Calling ~Base()
+time  (2)  was 0.0136719  
+Calling ~Derived()
+Calling ~Base()
+time (1)   was 0.0124512  
+Calling ~Derived()
+Calling ~Base()
+time  (2)  was 0.012207  
+Calling ~Derived()
+Calling ~Base()
+time (1)   was 0.012207  
+Calling ~Derived()
+Calling ~Base()
+time  (2)  was 0.012207  
+Calling ~Derived()
+Calling ~Base()
+time (1)   was 0.012207  
+Calling ~Derived()
+Calling ~Base()
+time  (2)  was 0.0119629  
+Calling ~Derived()
+Calling ~Base()
+time (1)   was 0.0119629  
+Calling ~Derived()
+Calling ~Base()
+time  (2)  was 0.0119629  
+Calling ~Derived()
+Calling ~Base()
+time (1)   was 0.0119629  
+Calling ~Derived()
+Calling ~Base()
+time  (2)  was 0.0119629  
+Calling ~Derived()
+Calling ~Base()
+time (1)   was 0.012207  
+Calling ~Derived()
+Calling ~Base()
+time  (2)  was 0.0119629  
+Calling ~Derived()
+Calling ~Base()
+time (1)   was 0.0119629  
+Calling ~Derived()
+Calling ~Base()
+time  (2)  was 0.0119629  
+Calling ~Derived()
+Calling ~Base()
+time (1)   was 0.0119629  
+Calling ~Derived()
+Calling ~Base()
+time  (2)  was 0.0117188  
+Calling ~Derived()
+Calling ~Base()
+time (1)   was 0.0119629  
+Calling ~Derived()
+Calling ~Base()
+time  (2)  was 0.0119629  
+Calling ~Derived()
+Calling ~Base()
+time (1)   was 0.0119629  
+Calling ~Derived()
+Calling ~Base()
+time  (2)  was 0.0117188  
+Calling ~Derived()
+Calling ~Base()
+time (1)   was 0.0117188  
+Calling ~Derived()
+Calling ~Base()
+time  (2)  was 0.0119629  
+Calling ~Derived()
+Calling ~Base()
+time (1)   was 0.0117188  
+Calling ~Derived()
+Calling ~Base()
+time  (2)  was 0.0117188  
+Calling ~Derived()
+Calling ~Base()
+time (1)   was 0.0119629  
+Calling ~Derived()
+Calling ~Base()
+time  (2)  was 0.0117188  
+Calling ~Derived()
+Calling ~Base()
+time (1)   was 0.0119629  
+Calling ~Derived()
+Calling ~Base()
+time  (2)  was 0.0114746  
+Calling ~Derived()
+Calling ~Base()
+time (1)   was 0.0119629  
+Calling ~Derived()
+Calling ~Base()
+time  (2)  was 0.0119629  
+Calling ~Derived()
+Calling ~Base()
+time (1)   was 0.0119629  
+Calling ~Derived()
+Calling ~Base()
+time  (2)  was 0.0117188  
+Calling ~Derived()
+Calling ~Base()
+time (1)   was 0.0119629  
+Calling ~Derived()
+Calling ~Base()
+time  (2)  was 0.0119629  
+Calling ~Derived()
+Calling ~Base()
+time (1)   was 0.0119629  
+Calling ~Derived()
+Calling ~Base()
+time  (2)  was 0.0119629  
+Calling ~Derived()
+Calling ~Base()
+time (1)   was 0.0119629  
+Calling ~Derived()
+Calling ~Base()
+time  (2)  was 0.0119629  
+Calling ~Derived()
+Calling ~Base()
+time (1)   was 0.012207  
+Calling ~Derived()
+Calling ~Base()
+time  (2)  was 0.0119629  
+Calling ~Derived()
+Calling ~Base()
+time (1)   was 0.0117188  
+Calling ~Derived()
+Calling ~Base()
+time  (2)  was 0.0119629  
+Calling ~Derived()
+Calling ~Base()
+time (1)   was 0.0119629  
+Calling ~Derived()
+Calling ~Base()
+time  (2)  was 0.0117188  
+Calling ~Derived()
+Calling ~Base()
+time (1)   was 0.0119629  
+Calling ~Derived()
+Calling ~Base()
+time  (2)  was 0.0119629  
+Calling ~Derived()
+Calling ~Base()
+time (1)   was 0.0119629  
+Calling ~Derived()
+Calling ~Base()
+time  (2)  was 0.0117188  
+Calling ~Derived()
+Calling ~Base()
+time (1)   was 0.0119629  
+Calling ~Derived()
+Calling ~Base()
+time  (2)  was 0.0117188  
+Calling ~Derived()
+Calling ~Base()
+time (1)   was 0.0117188  
+Calling ~Derived()
+Calling ~Base()
+time  (2)  was 0.0119629  
+Calling ~Derived()
+Calling ~Base()
+time (1)   was 0.0119629  
+Calling ~Derived()
+Calling ~Base()
+time  (2)  was 0.0119629  
+Calling ~Derived()
+Calling ~Base()
+time (1)   was 0.0117188  
+Calling ~Derived()
+Calling ~Base()
+time  (2)  was 0.0119629  
+Calling ~Derived()
+Calling ~Base()
+time (1)   was 0.0119629  
+Calling ~Derived()
+Calling ~Base()
+time  (2)  was 0.0117188  
+Calling ~Derived()
+Calling ~Base()
+time (1)   was 0.0119629  
+Calling ~Derived()
+Calling ~Base()
+time  (2)  was 0.0117188  
+Calling ~Derived()
+Calling ~Base()
+time (1)   was 0.0117188  
+Calling ~Derived()
+Calling ~Base()
+time  (2)  was 0.0117188  
+Calling ~Derived()
+Calling ~Base()
+time (1)   was 0.0117188  
+Calling ~Derived()
+Calling ~Base()
+time  (2)  was 0.0119629  
+Calling ~Derived()
+Calling ~Base()
+time (1)   was 0.0117188  
+Calling ~Derived()
+Calling ~Base()
+time  (2)  was 0.0214844  
+  ========================================== 
+Calling ~Derived()
+Calling ~Base()
+time   was 0.0119629  
+Calling ~Derived()
+Calling ~Base()
+time   was 0.0119629  
+Calling ~Derived()
+Calling ~Base()
+time   was 0.0119629  
+Calling ~Derived()
+Calling ~Base()
+time   was 0.0119629  
+Calling ~Derived()
+Calling ~Base()
+time   was 0.0117188  
+Calling ~Derived()
+Calling ~Base()
+time   was 0.0114746  
+Calling ~Derived()
+Calling ~Base()
+time   was 0.0117188  
+Calling ~Derived()
+Calling ~Base()
+time   was 0.0114746  
+Calling ~Derived()
+Calling ~Base()
+time   was 0.0117188  
+Calling ~Derived()
+Calling ~Base()
+time   was 0.0114746  
+Calling ~Derived()
+Calling ~Base()
+time   was 0.0117188  
+Calling ~Derived()
+Calling ~Base()
+time   was 0.0117188  
+Calling ~Derived()
+Calling ~Base()
+time   was 0.0114746  
+Calling ~Derived()
+Calling ~Base()
+time   was 0.0114746  
+Calling ~Derived()
+Calling ~Base()
+time   was 0.0117188  
+Calling ~Derived()
+Calling ~Base()
+time   was 0.0117188  
+Calling ~Derived()
+Calling ~Base()
+time   was 0.0117188  
+Calling ~Derived()
+Calling ~Base()
+time   was 0.0117188  
+Calling ~Derived()
+Calling ~Base()
+time   was 0.0114746  
+Calling ~Derived()
+Calling ~Base()
+time   was 0.0117188  
+Calling ~Derived()
+Calling ~Base()
+time   was 0.0117188  
+Calling ~Derived()
+Calling ~Base()
+time   was 0.0114746  
+Calling ~Derived()
+Calling ~Base()
+time   was 0.0114746  
+Calling ~Derived()
+Calling ~Base()
+time   was 0.0117188  
+Calling ~Derived()
+Calling ~Base()
+time   was 0.0114746  
+Calling ~Derived()
+Calling ~Base()
+time   was 0.0114746  
+Calling ~Derived()
+Calling ~Base()
+time   was 0.0117188  
+Calling ~Derived()
+Calling ~Base()
+time   was 0.0117188  
+Calling ~Derived()
+Calling ~Base()
+time   was 0.0114746  
+Calling ~Derived()
+Calling ~Base()
+time   was 0.0114746  
+Calling ~Derived()
+Calling ~Base()
+time   was 0.0117188  
+Calling ~Derived()
+Calling ~Base()
+time   was 0.0114746  
+Calling ~Derived()
+Calling ~Base()
+time   was 0.0117188  
+Calling ~Derived()
+Calling ~Base()
+time   was 0.0117188  
+Calling ~Derived()
+Calling ~Base()
+time   was 0.0114746  
+Calling ~Derived()
+Calling ~Base()
+time   was 0.0117188  
+Calling ~Derived()
+Calling ~Base()
+time   was 0.0114746  
+Calling ~Derived()
+Calling ~Base()
+time   was 0.0117188  
+Calling ~Derived()
+Calling ~Base()
+time   was 0.0114746  
+Calling ~Derived()
+Calling ~Base()
+time   was 0.0114746  
+Calling ~Derived()
+Calling ~Base()
+time   was 0.0114746  
+Calling ~Derived()
+Calling ~Base()
+time   was 0.0117188  
+Calling ~Derived()
+Calling ~Base()
+time   was 0.0114746  
+Calling ~Derived()
+Calling ~Base()
+time   was 0.0117188  
+Calling ~Derived()
+Calling ~Base()
+time   was 0.0114746  
+Calling ~Derived()
+Calling ~Base()
+time   was 0.0117188  
+Calling ~Derived()
+Calling ~Base()
+time   was 0.0114746  
+Calling ~Derived()
+Calling ~Base()
+time   was 0.0117188  
+Calling ~Derived()
+Calling ~Base()
+time   was 0.0114746  
+Calling ~Derived()
+Calling ~Base()
+time   was 0.0114746  
+Calling ~Derived()
+Calling ~Base()
+time   was 0.0117188  
+Calling ~Derived()
+Calling ~Base()
+time   was 0.0117188  
+Calling ~Derived()
+Calling ~Base()
+time   was 0.0117188  
+Calling ~Derived()
+Calling ~Base()
+time   was 0.0114746  
+Calling ~Derived()
+Calling ~Base()
+time   was 0.0117188  
+Calling ~Derived()
+Calling ~Base()
+time   was 0.0114746  
+Calling ~Derived()
+Calling ~Base()
+time   was 0.0117188  
+Calling ~Derived()
+Calling ~Base()
+time   was 0.0119629  
+Calling ~Derived()
+Calling ~Base()
+time   was 0.0117188  
+Calling ~Derived()
+Calling ~Base()
+time   was 0.0114746  
+Calling ~Derived()
+Calling ~Base()
+time   was 0.0119629  
+Calling ~Derived()
+Calling ~Base()
+time   was 0.0124512  
+Calling ~Derived()
+Calling ~Base()
+time   was 0.0114746  
+Calling ~Derived()
+Calling ~Base()
+time   was 0.0117188  
+Calling ~Derived()
+Calling ~Base()
+time   was 0.0114746  
+Calling ~Derived()
+Calling ~Base()
+time   was 0.0117188  
+Calling ~Derived()
+Calling ~Base()
+time   was 0.0117188  
+Calling ~Derived()
+Calling ~Base()
+time   was 0.0114746  
+Calling ~Derived()
+Calling ~Base()
+time   was 0.0209961  
+Calling ~Derived()
+Calling ~Base()
+time   was 0.0119629  
+Calling ~Derived()
+Calling ~Base()
+time   was 0.0119629  
+Calling ~Derived()
+Calling ~Base()
+time   was 0.0117188  
+Calling ~Derived()
+Calling ~Base()
+time   was 0.0117188  
+Calling ~Derived()
+Calling ~Base()
+time   was 0.0114746  
+Calling ~Derived()
+Calling ~Base()
+time   was 0.0117188  
+Calling ~Derived()
+Calling ~Base()
+time   was 0.0117188  
+Calling ~Derived()
+Calling ~Base()
+time   was 0.0114746  
+Calling ~Derived()
+Calling ~Base()
+time   was 0.0117188  
+Calling ~Derived()
+Calling ~Base()
+time   was 0.0114746  
+Calling ~Derived()
+Calling ~Base()
+time   was 0.0117188  
+Calling ~Derived()
+Calling ~Base()
+time   was 0.0114746  
+Calling ~Derived()
+Calling ~Base()
+time   was 0.0114746  
+Calling ~Derived()
+Calling ~Base()
+time   was 0.0114746  
+Calling ~Derived()
+Calling ~Base()
+time   was 0.0114746  
+Calling ~Derived()
+Calling ~Base()
+time   was 0.0114746  
+Calling ~Derived()
+Calling ~Base()
+time   was 0.0117188  
+Calling ~Derived()
+Calling ~Base()
+time   was 0.0114746  
+Calling ~Derived()
+Calling ~Base()
+time   was 0.0114746  
+Calling ~Derived()
+Calling ~Base()
+time   was 0.0114746  
+Calling ~Derived()
+Calling ~Base()
+time   was 0.0117188  
+Calling ~Derived()
+Calling ~Base()
+time   was 0.0114746  
+Calling ~Derived()
+Calling ~Base()
+time   was 0.0117188  
+Calling ~Derived()
+Calling ~Base()
+time   was 0.0117188  
+Calling ~Derived()
+Calling ~Base()
+time   was 0.0117188  
+Calling ~Derived()
+Calling ~Base()
+time   was 0.0114746  
+Calling ~Derived()
+Calling ~Base()
+time   was 0.0114746  
+Calling ~Derived()
+Calling ~Base()
+time   was 0.0117188  
+Calling ~Derived()
+Calling ~Base()
+time   was 0.0114746  
+Calling ~Derived()
+Calling ~Base()
+time   was 0.0114746  
+Calling ~Derived()
+Calling ~Base()
+time   was 0.0114746  

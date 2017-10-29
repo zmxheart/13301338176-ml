@@ -1,0 +1,8 @@
+g++ -Wall -g -pg -o test3  test3.cpp  -std=c++11 
+
+valgrind --tool=memcheck ./test3
+
+valgrind  --leak-check=full  --tool=memcheck ./test3
+
+
+gprof test3 | less
