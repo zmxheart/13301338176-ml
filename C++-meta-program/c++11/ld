@@ -1,0 +1,2 @@
+haijunz@haijunz-HP-Z230-SFF-Workstation:/media/haijunz/27a263b4-e313-4b58-a422-0201e4cb11ed/13301338176-ml/C++-meta-program/c++11$ ls -l /usr/bin/ld
+lrwxrwxrwx 1 root root 20  9月  7 09:43 /usr/bin/ld -> /etc/alternatives/ld

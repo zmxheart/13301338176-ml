@@ -1,0 +1,9 @@
+ g++ -o 1 Singleton.cpp  -std=c++11  -lboost_system
+g++ -o 1 ThreadSingleton.cpp  -std=c++11  -lboost_system   -lboost_thread
+
+
+
+-std=c++11   -pthread -lstdc++  -v
+
+
+clang++ -std=c++11 -stdlib=libc++ newFile.cpp
