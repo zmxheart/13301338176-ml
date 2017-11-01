@@ -1,0 +1,46 @@
+Explicit instantiation definition
+An explicit instantiation definition is an instantiation of a template specialization or its members.
+
+Read syntax diagramSkip visual syntax diagram
+Explicit instantiation definition syntax
+
+>>-template--template_declaration------------------------------><
+
+Here is an example of explicit instantiation definition:
+
+template<class T> class Array { void mf(); };
+template class Array<char>;       /* explicit instantiation definition */
+template void Array<int>::mf();   /* explicit instantiation definition */
+
+template<class T> void sort(Array<T>& v) { }
+template void sort(Array<char>&); /* explicit instantiation definition */
+
+namespace N {
+   template<class T> void f(T&) { }
+}
+
+template void N::f<int>(int&);
+// The explicit instantiation definition is in namespace N.
+
+int* p = 0;
+template<class T> T g(T = &p);
+template char g(char);           /* explicit instantiation definition */
+
+template <class T> class X {
+   private:
+      T v(T arg) { return arg; };
+};
+
+template int X<int>::v(int);    /* explicit instantiation definition */
+
+template<class T> T g(T val) { return val;}
+template<class T> void Array<T>::mf() { }
+
+An explicit instantiation definition of a template is in the same namespace where you define the template.
+
+Access checking rules do not apply to the arguments in the explicit instantiation definitions. Template arguments in an explicit instantiation definition can be private types or objects. In this example, you can use the explicit instantiation definition template int X<int>::v(int) even though the member function is declared to be private.
+
+The compiler does not use default arguments when you explicitly instantiate a template. In this example, you can use the explicit instantiation definition template char g(char) even though the default argument is an address of the type int.
+Note: You cannot use the inline or C++11constexprC++11 specifier in an explicit instantiation of a function template or a member function of a class template.
+C++11 begins
+

@@ -1,0 +1,59 @@
+You can provide an explicit instantiation declaration for a template specialization if an explicit instantiation definition of the template exists in other translation units or later in the same file. If one translation unit contains the explicit instantiation definition, other translation units can use the specialization without having the specialization instantiated multiple times. The following example demonstrates this concept:
+
+//sample1.h:
+template<typename T, T val>
+union A{
+   T func();
+};
+extern template union A<int, 55>;
+
+template<class T, T val>
+T A<T,val>::func(void){
+   return val;
+}
+
+//sampleA.C"
+#include "sample1.h"
+
+template union A<int,55>;
+
+//sampleB.C:
+#include "sample1.h"
+
+int main(void){
+   return A<int, 55>().func();
+}
+
+sampleB.C uses the explicit instantiation definition of A<int, 55>().func()in sampleA.C.
+
+If an explicit instantiation declaration of a function or class is declared, but there is no corresponding explicit instantiation definition anywhere in the program, the compiler issues an error message. See the following example:
+
+// sample2.C
+template <typename T, T val>
+struct A{
+   virtual T func();
+   virtual T bar();
+}
+
+extern template int A<int,55>::func();
+
+template <class T, T val>
+T A<T,val>::func(void){
+   return val;
+}
+
+template <class T, T val>
+T A<T,val>::bar(void){
+   return val;
+}
+
+int main(void){
+   return A<int,55>().bar();
+}
+
+When you use explicit instantiation declaration, pay attention to the following restrictions:
+
+    You can name a static class member in an explicit instantiation declaration, but you cannot name a static function because a static function cannot be accessed by name in other translation units.
+    The explicit instantiation declaration of a class is not equivalent to the explicit instantiation declaration of each of its members.
+
+
